@@ -1092,7 +1092,19 @@ class InvadeActionService
                 continue;
             }
 
-            $op += ($unit->power_defense * (int)$units[$unit->slot]);
+            $powerDefense = $unit->power_defense
+
+            // Race perk
+            $mountainsDpRatio = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'dp_mountains_inclusive');
+
+            if($mountainsDpRatio > 0) {
+                $mountainLandPercentage = ($dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion)) * 100;
+                $dpFromMountains = $mountainLandPercentage / $mountainsDpRatio;
+
+                $powerDefense += min($dpFromMountains, 3); // TODO: Get this from race perk
+            }
+
+            $op += ($powerDefense * (int)$units[$unit->slot]);
         }
 
         return $op;
