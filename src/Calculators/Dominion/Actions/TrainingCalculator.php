@@ -37,10 +37,16 @@ class TrainingCalculator
         $costsPerUnit = [];
         $wizardCostMultiplier = $this->getWizardCostMultiplier($dominion);
 
+
         // Values
         $spyPlatinumCost = 500;
-        $wizardPlatinumCost = (int)ceil(500 * $wizardCostMultiplier);
-        $archmagePlatinumCost = (int)ceil(1000 * $wizardCostMultiplier);
+        $wizardPlatinumCost = 500;
+        $archmagePlatinumCost = 1000;
+
+        $archmagePlatinumCost += $dominion->race->getPerkMultiplier('archmage_cost');
+
+        $wizardPlatinumCost = (int)ceil($wizardPlatinumCost * $wizardCostMultiplier);
+        $archmagePlatinumCost = (int)ceil($archmagePlatinumCost * $wizardCostMultiplier);
 
         $units = $dominion->race->units;
 
