@@ -1092,7 +1092,7 @@ class InvadeActionService
                 continue;
             }
 
-            $powerDefense = $unit->power_defense
+            $powerDefense = $unit->power_defense;
 
             // Race perk
             $mountainsDpRatio = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'dp_mountains_inclusive');
