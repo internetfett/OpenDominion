@@ -1046,7 +1046,19 @@ class InvadeActionService
                 continue;
             }
 
-            $op += ($unit->power_offense * (int)$units[$unit->slot]);
+            $powerOffense = $unit->power_offense;
+
+            // Race perk
+            $rawWizardRatioOp = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'op_raw_wizard_ratio');
+
+            if($rawWizardRatioOp > 0) {
+                $wizardRawRatio = $this->militaryCalculator->getWizardRatioRaw($dominion);
+                $opFromWizardRatio = $wizardRawRatio * $rawWizardRatioOp;
+
+                $powerOffense += min($opFromWizardRatio, 3); // TODO: Get this from race perk
+            }
+
+            $op += ($powerOffense * (int)$units[$unit->slot]);
         }
 
         return $op;
