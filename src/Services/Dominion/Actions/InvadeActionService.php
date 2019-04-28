@@ -1098,7 +1098,7 @@ class InvadeActionService
             $mountainsDpRatio = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'dp_mountains_inclusive');
 
             if($mountainsDpRatio > 0) {
-                $mountainLandPercentage = ($dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion)) * 100;
+                $mountainLandPercentage = ($dominion->{'land_mountain'} / $this->landCalculator->getTotalLand($dominion)) * 100;
                 $dpFromMountains = $mountainLandPercentage / $mountainsDpRatio;
 
                 $powerDefense += min($dpFromMountains, 3); // TODO: Get this from race perk
