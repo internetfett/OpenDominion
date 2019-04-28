@@ -37,7 +37,6 @@ class TrainingCalculator
         $costsPerUnit = [];
         $wizardCostMultiplier = $this->getWizardCostMultiplier($dominion);
 
-
         // Values
         $spyPlatinumCost = 500;
         $wizardPlatinumCost = 500;
