@@ -193,7 +193,7 @@ class SpellHelper
                 'key' => 'defensive_frenzy',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Halfling','Sacred Order']),
+                'races' => collect(['Halfling']),
             ],
             [
                 'name' => 'Warsong',
