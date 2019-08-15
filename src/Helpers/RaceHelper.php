@@ -116,6 +116,10 @@ TROLL;
 <p>They are always on the offensive, increasing their number by reanimating fallen enemies.</p>
 UNDEAD;
 
+
+        $descriptions['beastfolk'] = <<<BEASTFOLK
+<p>Arcane magic has given life to the beasts of the forest. They have awoken with an unending rage.</p>
+BEASTFOLK;
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {

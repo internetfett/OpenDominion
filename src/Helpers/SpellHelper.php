@@ -153,7 +153,7 @@ class SpellHelper
                 'key' => 'killing_rage',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Goblin']),
+                'races' => collect(['Goblin', 'Beastfolk']),
             ],
             [
                 'name' => 'Alchemist Flame',
