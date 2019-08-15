@@ -14,25 +14,26 @@ units:
       defense: 0
     perks:
       reduce_combat_losses: 1
+      staggered_conversion: 40;1,100;4 # slot 1 and 2 below 65%, slot 3 above
   - name: Monk
     cost:
       platinum: 280
       ore: 30
     power:
       offense: 0
-      defense: 3
+      defense: 5
     perks:
       reduce_combat_losses: 1
   - name: Fanatic
     cost:
-      platinum: 800
-      ore: 80
+      platinum: 600
+      ore: 0
       mana: 500
     power:
-      offense: 4
-      defense: 4
+      offense: 3
+      defense: 0
     perks:
-      fixed_casualties: 50
+      fixed_casualties: 100
       staggered_conversion: 40;1,100;4 # slot 1 and 2 below 65%, slot 3 above
   - name: Paladin
     cost:
