@@ -16,11 +16,11 @@ units:
       reduce_combat_losses: 1
   - name: Monk
     cost:
-      platinum: 280
-      ore: 30
+      platinum: 350
+      ore: 40
     power:
       offense: 0
-      defense: 5
+      defense: 4
     perks:
       reduce_combat_losses: 1
   - name: Fanatic
