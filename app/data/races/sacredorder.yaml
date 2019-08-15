@@ -1,0 +1,46 @@
+name: Sacred Order
+alignment: good
+home_land_type: plain
+perks:
+  food_production: 5
+units:
+  - name: Anointed
+    cost:
+      platinum: 320
+      ore: 25
+    power:
+      offense: 4
+      defense: 0
+    perks:
+      fewer_casualties: 50
+  - name: Monk
+    cost:
+      platinum: 275
+      ore: 15
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      reduce_combat_losses: 1
+  - name: Fanatic
+    cost:
+      platinum: 800
+      ore: 80
+      mana: 500
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      fixed_casualties: 50
+      staggered_conversion: 100;1,100;4 # slot 1  below 65%, slot 3 above
+  - name: Paladin
+    cost:
+      platinum: 1400
+      ore: 120
+      mana: 1400
+    power:
+      offense: 7
+      defense: 3
+    perks:
+      faster_return: 3
+      fewer_casualties: 50

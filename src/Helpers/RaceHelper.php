@@ -116,10 +116,14 @@ TROLL;
 <p>They are always on the offensive, increasing their number by reanimating fallen enemies.</p>
 UNDEAD;
 
-
         $descriptions['beastfolk'] = <<<BEASTFOLK
 <p>Arcane magic has given life to the beasts of the forest. They have awoken with an unending rage.</p>
 BEASTFOLK;
+
+        $descriptions['sacredorder'] = <<<SACREDORDER
+<p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
+SACREDORDER;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
