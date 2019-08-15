@@ -8,15 +8,17 @@ perks:
 units:
   - name: Boarman
     cost:
-      platinum: 300
-      ore: 15
+      platinum: 275
+      ore: 25
     power:
       offense: 3
       defense: 0
+    perks:
+      fewer_casualties_offense: -25
   - name: Ram
     cost:
-      platinum: 400
-      ore: 10
+      platinum: 350
+      ore: 25
     power:
       offense: 0
       defense: 4
