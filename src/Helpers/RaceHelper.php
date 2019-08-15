@@ -120,7 +120,7 @@ UNDEAD;
 <p>Arcane magic has given life to the beasts of the forest. They have awoken with an unending rage.</p>
 BEASTFOLK;
 
-        $descriptions['sacredorder'] = <<<SACREDORDER
+        $descriptions['sacred order'] = <<<SACREDORDER
 <p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
 SACREDORDER;
 
