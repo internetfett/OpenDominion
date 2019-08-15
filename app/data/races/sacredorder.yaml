@@ -12,7 +12,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      fewer_casualties: 50
+      reduce_combat_losses: 1
   - name: Monk
     cost:
       platinum: 280
@@ -43,4 +43,5 @@ units:
       defense: 3
     perks:
       faster_return: 3
-      fewer_casualties: 50
+      counts_as_wizard_offense: 0.1
+      counts_as_wizard_offense: 0.1
