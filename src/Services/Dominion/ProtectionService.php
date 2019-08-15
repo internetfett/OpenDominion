@@ -7,7 +7,7 @@ use OpenDominion\Models\Dominion;
 
 class ProtectionService
 {
-    public const PROTECTION_DURATION_IN_HOURS = 72; // todo: move to config?
+    public const PROTECTION_DURATION_IN_HOURS = 18; // Changed to 18 for Arena
 
     /**
      * Returns the Dominion's 'under protection' start date.
