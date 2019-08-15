@@ -14,7 +14,7 @@ units:
       defense: 0
     perks:
       reduce_combat_losses: 1
-      staggered_conversion: 100;4
+      staggered_conversion: 75;2,100;4
   - name: Monk
     cost:
       platinum: 280
