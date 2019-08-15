@@ -1,0 +1,44 @@
+name: Beastfolk
+alignment: evil
+home_land_type: forest
+perks:
+  lumber_production: 20
+  extra_barren_max_population: 20
+  invest_bonus: 10
+units:
+  - name: Boarman
+    cost:
+      platinum: 300
+      ore: 15
+    power:
+      offense: 3
+      defense: 0
+  - name: Ram
+    cost:
+      platinum: 400
+      ore: 10
+    power:
+      offense: 0
+      defense: 4
+  - name: Goat Witch
+    cost:
+      platinum: 1100
+      ore: 0
+    power:
+      offense: 1
+      defense: 3
+    perks:
+      offense_from_land: plains,20,5 # land type, ratio%, max
+      defense_from_land: forest,20,5 # land type, ratio%, max
+      counts_as_wizard_offense: 0.2
+      counts_as_wizard_defense: 0.2
+  - name: Minotaur
+    cost:
+      platinum: 1200
+      ore: 100
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      offense_from_land: plains,10,10 # land type, ratio%, max
+      defense_from_land: forest,10,10 # land type, ratio%, max
