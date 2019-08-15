@@ -4,12 +4,12 @@ home_land_type: plain
 perks:
   food_production: 5
 units:
-  - name: Anointed
+  - name: Initiate
     cost:
       platinum: 320
       ore: 25
     power:
-      offense: 4
+      offense: 3.5
       defense: 0
     perks:
       fewer_casualties: 50
@@ -19,7 +19,7 @@ units:
       ore: 15
     power:
       offense: 0
-      defense: 3
+      defense: 3.5
     perks:
       reduce_combat_losses: 1
   - name: Fanatic
@@ -32,7 +32,7 @@ units:
       defense: 4
     perks:
       fixed_casualties: 50
-      staggered_conversion: 100;1,100;4 # slot 1  below 65%, slot 3 above
+      staggered_conversion: 50;12,100;4 # slot 1 and 2 below 65%, slot 3 above
   - name: Paladin
     cost:
       platinum: 1400
