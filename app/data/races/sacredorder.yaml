@@ -14,7 +14,7 @@ units:
       defense: 0
     perks:
       reduce_combat_losses: 1
-      staggered_conversion: 40;1,100;4 # slot 1 and 2 below 65%, slot 3 above
+      staggered_conversion: 100;4
   - name: Monk
     cost:
       platinum: 280
@@ -37,12 +37,12 @@ units:
       staggered_conversion: 40;1,100;4 # slot 1 and 2 below 65%, slot 3 above
   - name: Paladin
     cost:
-      platinum: 1400
-      ore: 120
+      platinum: 1200
+      ore: 100
       mana: 1400
     power:
       offense: 7
-      defense: 3
+      defense: 2
     perks:
       faster_return: 3
       counts_as_wizard_offense: 0.1
