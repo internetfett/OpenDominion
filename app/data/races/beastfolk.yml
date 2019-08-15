@@ -42,5 +42,5 @@ units:
       offense: 3
       defense: 1
     perks:
-      offense_from_land: plain,10,10 # land type, ratio%, max
-      defense_from_land: forest,10,10 # land type, ratio%, max
+      offense_from_land: plain,20,10 # land type, ratio%, max
+      defense_from_land: forest,20,10 # land type, ratio%, max
