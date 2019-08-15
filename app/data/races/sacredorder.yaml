@@ -25,7 +25,7 @@ units:
       reduce_combat_losses: 1
   - name: Fanatic
     cost:
-      platinum: 600
+      platinum: 400
       ore: 0
       mana: 500
     power:
