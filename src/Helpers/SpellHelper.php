@@ -201,7 +201,7 @@ class SpellHelper
                 'key' => 'warsong',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Sylvan','Sacred Order']),
+                'races' => collect(['Sylvan','Sacred Order','Nomad']),
             ],
             [
                 'name' => 'Regeneration',

@@ -96,8 +96,8 @@ LIZARDFOLK;
 LYCANTHROPE;
 
         $descriptions['nomad'] = <<<NOMAD
-<p>Descendants of Humans, these folk have been exiled from the kingdom long ago and went their own way.</p>
-<p>Acclimated to the desert life, these traveling Nomads teamed up with the evil races out of spite towards the Humans and their allies.</p>
+<p>Forever wandering the plains, Nomads are Humans who have rejected sedentary culture.</p>
+<p>Very similar to Humans except for the masterful Horse Archers.</p>
 NOMAD;
 
         $descriptions['nox'] = <<<NOX
