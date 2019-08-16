@@ -28,8 +28,6 @@ units:
     power:
       offense: 2
       defense: 6
-    perks:
-      fewer_casualties: 25
   - name: Horse Archer
     cost:
       platinum: 1275
