@@ -32,8 +32,8 @@ units:
     perks:
       offense_from_land: plain,20,10 # land type, ratio%, max
       defense_from_land: forest,20,10 # land type, ratio%, max
-      counts_as_wizard_offense: 0.2
-      counts_as_wizard_defense: 0.2
+      counts_as_wizard_offense: 0.25
+      counts_as_wizard_defense: 0.10
   - name: Minotaur
     cost:
       platinum: 1200
