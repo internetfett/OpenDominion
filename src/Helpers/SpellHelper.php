@@ -169,7 +169,7 @@ class SpellHelper
                 'key' => 'erosion',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Lizardfolk', 'Merfolk']),
+                'races' => collect(['Lizardfolk', 'Merfolk', 'Spirit']),
             ],
             [
                 'name' => 'Blizzard',
@@ -217,7 +217,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Lycanthrope', 'Spirit', 'Undead']),
+                'races' => collect(['Lycanthrope', 'Undead']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
