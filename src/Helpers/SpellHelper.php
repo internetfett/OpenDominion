@@ -235,6 +235,14 @@ class SpellHelper
                 'duration' => 12,
                 'races' => collect(['Nox']),
             ],
+            [
+                'name' => 'Campaign',
+                'description' => '+15% land generated for successful attack',
+                'key' => 'campaign',
+                'mana_cost' => 6,
+                'duration' => 1,
+                'races' => collect(['Nomad']),
+            ],
         ]);
     }
 
