@@ -237,9 +237,9 @@ class SpellHelper
             ],
             [
                 'name' => 'Campaign',
-                'description' => '+15% land generated for successful attack',
+                'description' => '+15% land generated for successful attack (lasts 1 hour)',
                 'key' => 'campaign',
-                'mana_cost' => 6,
+                'mana_cost' => 5,
                 'duration' => 1,
                 'races' => collect(['Nomad']),
             ],

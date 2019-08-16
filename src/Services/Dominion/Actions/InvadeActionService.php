@@ -723,6 +723,13 @@ class InvadeActionService
             }
 
             $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
+
+            // Add 20% to generated if Nomad spell Campaign is enabled.
+            if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
+            {
+                $landGenerated *= 1.2;
+            }
+
             $landGained = ($landConquered + $landGenerated);
 
             if (!isset($landGainedPerLandType["land_{$landType}"])) {
