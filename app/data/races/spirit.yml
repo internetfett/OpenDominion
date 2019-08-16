@@ -48,4 +48,4 @@ units:
       defense: 10
     perks:
       fixed_casualties: 0
-      staggered_conversion: 75;4 
+      staggered_conversion: 75;3,85;4
