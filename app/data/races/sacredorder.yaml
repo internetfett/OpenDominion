@@ -46,3 +46,4 @@ units:
       faster_return: 3
       counts_as_wizard_offense: 0.1
       counts_as_wizard_defense: 0.1
+      staggered_conversion: 100;6,100;6

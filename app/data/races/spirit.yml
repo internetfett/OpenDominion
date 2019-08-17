@@ -16,6 +16,7 @@ units:
     perks:
       fixed_casualties: 0
       fewer_casualties: 100
+      immortal: 1
       staggered_conversion: 40;1,85;2 
   - name: Banshee
     need_boat: false
@@ -28,6 +29,7 @@ units:
     perks:
       fixed_casualties: 0
       fewer_casualties: 100
+      immortal: 1
       staggered_conversion: 75;2,85;3 
   - name: Phantom
     need_boat: false
@@ -40,6 +42,7 @@ units:
     perks:
       fixed_casualties: 0
       fewer_casualties: 100
+      immortal: 1
       staggered_conversion: 75;3,85;4 
   - name: Spectre
     need_boat: false
@@ -52,4 +55,5 @@ units:
     perks:
       fixed_casualties: 0
       fewer_casualties: 100
+      immortal: 1
       staggered_conversion: 75;3,85;4
