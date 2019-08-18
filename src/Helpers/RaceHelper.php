@@ -125,7 +125,7 @@ BEASTFOLK;
 SACREDORDER;
 
 
-        $descriptions['sacred order'] = <<<VOID
+        $descriptions['void'] = <<<VOID
 <p>Nothing is known about the void.</p>
 VOID;
 
