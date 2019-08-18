@@ -9,7 +9,7 @@ perks:
 units:
   - name: Fallen
     cost:
-      platinum: 100
+      platinum: 80
       ore: 80
     power:
       offense: 2
@@ -19,7 +19,7 @@ units:
   - name: Shadow
     cost:
       platinum: 80
-      ore: 100
+      ore: 80
     power:
       offense: 0
       defense: 2
@@ -30,6 +30,8 @@ units:
     power:
       offense: 0
       defense: 5
+    perks:
+      man_production: 10
   - name: Nightmare
     cost:
       platinum: 400
@@ -39,4 +41,3 @@ units:
       defense: 3
     perks:
       faster_return: 2
-      conversion: 1

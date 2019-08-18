@@ -102,6 +102,9 @@ class UnitHelper
             'sink_boats_defense' => 'Sinks boats when defending.',
             'sink_boats_offense' => 'Sinks boats when attacking.',
 
+            // Dreki
+            'mana_production' => 'Each unit generates %s mana per hour.',
+
             // Misc
             'faster_return' => 'Returns %s hours faster from battle.',
         ];
