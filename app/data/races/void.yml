@@ -4,7 +4,6 @@ home_land_type: swamp
 perks:
   food_consumption: -100
   extra_barren_max_population: 30
-  construction_cost: 25
 units:
   - name: Fallen
     cost:
