@@ -126,7 +126,7 @@ SACREDORDER;
 
 
         $descriptions['void'] = <<<VOID
-<p>Nothing is known about the void.</p>
+<p>Nothing is known about the Void except they tend to leave most of their lands barren.</p>
 VOID;
 
         $key = strtolower($race->name);
