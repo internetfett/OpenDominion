@@ -277,7 +277,7 @@ class CasualtiesCalculator
     public function getOffensiveCasualtiesReductionFromShrines(Dominion $dominion): float
     {
         // Values (percentage)
-        $casualtyReductionPerShrine = 4;
+        $casualtyReductionPerShrine = 5.5;
         $maxCasualtyReductionFromShrines = 80;
 
         return min(
