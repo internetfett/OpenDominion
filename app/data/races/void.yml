@@ -34,5 +34,3 @@ units:
     power:
       offense: 5
       defense: 3
-    perks:
-      conversion: 40;1
