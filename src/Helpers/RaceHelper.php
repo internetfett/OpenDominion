@@ -128,9 +128,9 @@ SACREDORDER;
 <p>Nothing is known about the Void except that they emerge from deep, abandoned mines and tend to leave their lands barren.</p>
 VOID;
 
-        $descriptions['dragon'] = <<<VOID
+        $descriptions['dragon'] = <<<DRAGON
 <p>Dragons!</p>
-VOID;
+DRAGON;
 
         $key = strtolower($race->name);
 
