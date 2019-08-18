@@ -1,6 +1,6 @@
 name: Void
 alignment: evil
-home_land_type: swamp
+home_land_type: mountains
 perks:
   food_consumption: -100
   extra_barren_max_population: 30
