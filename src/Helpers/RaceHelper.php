@@ -304,6 +304,11 @@ VOID;
                 $negativeBenefit = false;
                 $description = 'Wizard strength';
                 break;
+            case 'cannot_construct':
+                $negativeBenefit = false;
+                $description = 'Cannot construct buildings';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }

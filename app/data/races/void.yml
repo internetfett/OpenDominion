@@ -4,7 +4,7 @@ home_land_type: mountain
 perks:
   food_consumption: -100
   extra_barren_max_population: 30
-  construction_cost: 25
+  cannot_construct: 1
 units:
   - name: Fallen
     cost:
@@ -13,8 +13,6 @@ units:
     power:
       offense: 2
       defense: 0
-    perks:
-      faster_return: 2
   - name: Shadow
     cost:
       platinum: 80
@@ -40,5 +38,3 @@ units:
     power:
       offense: 5
       defense: 3
-    perks:
-      faster_return: 2
