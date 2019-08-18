@@ -137,7 +137,7 @@ class SpellHelper
                 'key' => 'crusade',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Human']),
+                'races' => collect(['Human','Dragon']),
             ],
             [
                 'name' => 'Miner\'s Sight',
@@ -244,7 +244,7 @@ class SpellHelper
                 'races' => collect(['Nomad']),
             ],
             [
-                'name' => 'Void',
+                'name' => '',
                 'description' => 'Void units walk through Walls.',
                 'key' => 'unknown',
                 'mana_cost' => 5,
