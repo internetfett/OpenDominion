@@ -31,7 +31,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      man_production: 10
+      mana_production: 10
   - name: Nightmare
     cost:
       platinum: 400
