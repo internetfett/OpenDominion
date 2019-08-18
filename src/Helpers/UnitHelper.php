@@ -42,11 +42,11 @@ class UnitHelper
     {
 
         $helpStrings = [
-            'draftees' => 'Basic military unit.<br><br>Used for exploring and training other units.',
-            'unit1' => '',
-            'unit2' => '',
-            'unit3' => '',
-            'unit4' => '',
+            'draftees' => 'Basic military unit. Provides 1 DP.<br><br>Used for exploring and training other units.',
+            'unit1' => 'Specialist unit.',
+            'unit2' => 'Specialist unit.',
+            'unit3' => 'Elite unit.',
+            'unit4' => 'Elite unit.',
             'spies' => 'Used for espionage.',
             'wizards' => 'Used for casting offensive spells.',
             'archmages' => 'Used for casting offensive spells.<br><br>Immortal and twice as strong as regular wizards.',
@@ -65,12 +65,12 @@ class UnitHelper
             'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
-            'defense_vs_goblin' => 'Defense increased by %s against goblins.',
-            'offense_vs_goblin' => 'Offense increased by %s against goblins.',
-            'defense_vs_kobold' => 'Defense increased by %s against kobolds.',
-            'offense_vs_kobold' => 'Offense increased by %s against kobolds.',
-            'defense_vs_wood_elf' => 'Defense increased by %s against wood elves.',
-            'offense_vs_wood_elf' => 'Offense increased by %s against wood elves.',
+            'defense_vs_goblin' => 'Defense increased by %s against Goblins.',
+            'offense_vs_goblin' => 'Offense increased by %s against Goblins.',
+            'defense_vs_kobold' => 'Defense increased by %s against Kobolds.',
+            'offense_vs_kobold' => 'Offense increased by %s against Kobolds.',
+            'defense_vs_wood_elf' => 'Defense increased by %s against Wood Elves.',
+            'offense_vs_wood_elf' => 'Offense increased by %s against Wood Elves.',
 
             'offense_staggered_land_range' => 'Offense increased by %2$s against dominions %1$s%%+ of your size.',
 
