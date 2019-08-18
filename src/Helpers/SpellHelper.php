@@ -243,6 +243,14 @@ class SpellHelper
                 'duration' => 1,
                 'races' => collect(['Nomad']),
             ],
+            [
+                'name' => 'Void',
+                'description' => 'Unknown',
+                'key' => 'unknown',
+                'mana_cost' => 5,
+                'duration' => 24,
+                'races' => collect(['Void']),
+            ],
         ]);
     }
 

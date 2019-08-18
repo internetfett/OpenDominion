@@ -124,6 +124,11 @@ BEASTFOLK;
 <p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
 SACREDORDER;
 
+
+        $descriptions['sacred order'] = <<<VOID
+<p>Nothing is known about the void.</p>
+VOID;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
