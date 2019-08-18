@@ -245,10 +245,10 @@ class SpellHelper
             ],
             [
                 'name' => 'Void',
-                'description' => 'Unknown',
+                'description' => 'Void units walk through Walls.',
                 'key' => 'unknown',
                 'mana_cost' => 5,
-                'duration' => 24,
+                'duration' => 12,
                 'races' => collect(['Void']),
             ],
         ]);

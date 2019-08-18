@@ -135,7 +135,17 @@ class MilitaryCalculator
         $multiplier += $dominion->race->getPerkMultiplier('offense');
 
         // Improvement: Forges
+
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forges');
+
+        // Add Walls to OP mods if Voidwrath is on.
+        if ($this->spellCalculator->isSpellActive($dominion, 'voidwrath')) {
+        {
+            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
+        }
+
+
+
 
         // Racial Spell
         // todo
@@ -295,6 +305,12 @@ class MilitaryCalculator
 
         // Improvement: Walls
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
+
+        // Remove own walls if Voidwrath is on.
+        if ($this->spellCalculator->isSpellActive($dominion, 'voidwrath')) {
+        {
+            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
+        }
 
         // Spell: Howling (+10%)
         // todo

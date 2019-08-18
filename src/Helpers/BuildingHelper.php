@@ -6,29 +6,37 @@ use OpenDominion\Models\Race;
 
 class BuildingHelper
 {
+
     public function getBuildingTypes(): array
     {
-        return [
-            'home',
-            'alchemy',
-            'farm',
-            'smithy',
-            'masonry',
-            'ore_mine',
-            'gryphon_nest',
-            'tower',
-            'wizard_guild',
-            'temple',
-            'diamond_mine',
-            'school',
-            'lumberyard',
-            'forest_haven',
-            'factory',
-            'guard_tower',
-            'shrine',
-            'barracks',
-            'dock',
-        ];
+        if($dominion->race->name == 'Void')
+        {
+            return [];
+        }
+        else
+        {
+            return [
+                'home',
+                'alchemy',
+                'farm',
+                'smithy',
+                'masonry',
+                'ore_mine',
+                'gryphon_nest',
+                'tower',
+                'wizard_guild',
+                'temple',
+                'diamond_mine',
+                'school',
+                'lumberyard',
+                'forest_haven',
+                'factory',
+                'guard_tower',
+                'shrine',
+                'barracks',
+                'dock',
+            ];
+        }
     }
 
     public function getBuildingTypesByRace(Race $race = null): array

@@ -5,7 +5,6 @@ perks:
   food_consumption: -100
   extra_barren_max_population: 30
   construction_cost: 25
-  mana_production: 20
 units:
   - name: Fallen
     cost:
@@ -23,6 +22,8 @@ units:
     power:
       offense: 0
       defense: 2
+    perks:
+      mana_production: 0.2
   - name: Vision
     cost:
       platinum: 250
@@ -31,7 +32,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      mana_production: 10
+      mana_production: 0.5
   - name: Nightmare
     cost:
       platinum: 400
