@@ -40,18 +40,18 @@ class UnitHelper
 
     public function getUnitHelpString(string $unitType, Race $race): ?string
     {
-/*
+
         $helpStrings = [
             'draftees' => 'Basic military unit.<br><br>Used for exploring and training other units.',
-            'unit1' => 'Offensive specialist.',
-            'unit2' => 'Defensive specialist.',
-            'unit3' => 'Defensive elite.',
-            'unit4' => 'Offensive elite.',
+            'unit1' => '',
+            'unit2' => '',
+            'unit3' => '',
+            'unit4' => '',
             'spies' => 'Used for espionage.',
             'wizards' => 'Used for casting offensive spells.',
             'archmages' => 'Used for casting offensive spells.<br><br>Immortal and twice as strong as regular wizards.',
         ];
-*/
+
         // todo: refactor this. very inefficient
         $perkTypeStrings = [
             // Conversions
