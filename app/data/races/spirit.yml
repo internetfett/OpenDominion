@@ -47,7 +47,7 @@ units:
   - name: Spectre
     need_boat: false
     cost:
-      platinum: 2500
+      platinum: 4000
       ore: 0
     power:
       offense: 10

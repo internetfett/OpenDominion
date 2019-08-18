@@ -1,0 +1,41 @@
+name: Void
+alignment: evil
+home_land_type: swamp
+perks:
+ food_consumption: -100
+ extra_barren_max_population: 30
+ construction_cost: 25
+
+units:
+	- name: Fallen
+	cost:
+		platinum: 100
+		ore: 100
+	power:
+		offense: 2
+		defense: 0
+	- name: Shadow
+	cost:
+		platinum: 80
+		ore: 80
+	power:
+		offense: 0
+		defense: 2
+	- name: Vision
+		cost:
+			platinum: 250
+			ore: 800
+		power:
+			offense: 0
+			defense: 5
+	- name: Nightmare
+		cost:
+			platinum: 400
+			ore: 1000
+		power:
+			offense: 5
+			defense: 3
+    perks:
+      conversion: 75;1
+
+
