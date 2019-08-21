@@ -8,6 +8,7 @@ perks:
   wizard_strength: -50
   food_consumption: -50
   boat_capacity: 70
+  platinum_production: -15
 units:
   - name: Soldier Ant
     need_boat: true

@@ -225,6 +225,10 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'boat capacity';
                 break;
+            case 'platinum_production':
+                $negativeBenefit = false;
+                $description = 'platinum production';
+                break;
             default:
                 return '';
         }
@@ -329,6 +333,11 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'Increased boat capacity';
                 $valueType = ' units/boat';
+                break;
+            case 'platinum_production':
+                $negativeBenefit = false;
+                $description = 'Platinum production';
+                $booleanValue = false;
                 break;
             default:
                 return null;
