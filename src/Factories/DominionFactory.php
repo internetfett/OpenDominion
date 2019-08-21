@@ -37,7 +37,7 @@ class DominionFactory
 
         // todo: get starting values from config
 
-        $startingBuildings = $this->getStartingBuildings();
+        $startingBuildings = $this->getStartingBuildings($race);
 
         $startingLand = $this->getStartingLand(
             $race,
@@ -174,7 +174,7 @@ class DominionFactory
      *
      * @return array
      */
-    protected function getStartingBuildings(): array
+    protected function getStartingBuildings($race): array
     {
         if((bool)$race->getPerkValue('cannot_construct'))
         {
