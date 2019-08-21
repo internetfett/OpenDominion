@@ -76,7 +76,7 @@ class DominionFactory
             'name' => $dominionName,
             'prestige' => 250,
 
-            'peasants' => 1300,
+            'peasants' => $startingResources['peasants'],
             'peasants_last_hour' => 0,
 
             'draft_rate' => 10,
