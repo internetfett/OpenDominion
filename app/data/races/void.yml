@@ -3,7 +3,8 @@ alignment: evil
 home_land_type: mountain
 perks:
   food_consumption: -100
-  extra_barren_max_population: 30
+  platinum_production: 20
+  extra_barren_max_population: 40
   cannot_construct: 1
 units:
   - name: Fallen
