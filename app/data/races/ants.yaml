@@ -4,7 +4,7 @@ home_land_type: forest
 perks:
   max_population: 100
   construction_cost: -20
-  spy_strength: -50
+  spy_strength: -30
   wizard_strength: -50
   food_consumption: -50
   boat_capacity: 70
@@ -37,7 +37,7 @@ units:
       offense: 2
       defense: 3
     perks:
-      offense_vs_wood_elf: 0.5
+      offense_from_building: forest_haven,10,1 # building type, ratio%, max
   - name: Flying Ant
     need_boat: false
     cost:
@@ -47,4 +47,4 @@ units:
       offense: 4
       defense: 0
     perks:
-      offense_vs_wood_elf: 0.5
+      offense_from_building: forest_haven,10,1 # building type, ratio%, max
