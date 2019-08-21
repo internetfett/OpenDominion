@@ -79,11 +79,8 @@ class InvadeActionService
      */
 
     $units_per_boat = 30;
-    if($dominion->race->getPerkValue('boat_capacity') !== 0)
-    {
-        $units_per_boat += (int)$dominion->race->getPerkValue('boat_capacity');
-    }
-
+    $units_per_boat += intval($dominion->race->getPerkValue('boat_capacity'));
+    
     protected const UNITS_PER_BOAT = $units_per_boat;
 
     /** @var BuildingCalculator */
