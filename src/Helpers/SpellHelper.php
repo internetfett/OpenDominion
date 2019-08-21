@@ -251,16 +251,16 @@ class SpellHelper
                 'duration' => 12,
                 'races' => collect(['Ants']),
             ],
-            /*
+            
             [
-                'name' => 'Void',
-                'description' => 'Void units walk through Walls.',
+                'name' => '𒁍𒀕𒀚𒀽𒂒𒂒',
+                'description' => 'Unknown',
                 'key' => 'unknown',
                 'mana_cost' => 5,
                 'duration' => 12,
                 'races' => collect(['Void']),
             ],
-            */
+            
         ]);
     }
 
