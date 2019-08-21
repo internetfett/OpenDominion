@@ -21,16 +21,16 @@ units:
   - name: Wyvern
     need_boat: false
     cost:
-      platinum: 4000
+      platinum: 1680
     power:
-      offense: 2
+      offense: 0
       defense: 10
     perks:
       fewer_casualties: 25
   - name: Lesser Dragon
     need_boat: false
     cost:
-      platinum: 6000
+      platinum: 1680
     power:
       offense: 10
       defense: 4

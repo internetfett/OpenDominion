@@ -16,7 +16,7 @@ units:
   - name: Shadow
     cost:
       platinum: 80
-      ore: 80
+      ore: 0
     power:
       offense: 0
       defense: 2
@@ -25,7 +25,7 @@ units:
   - name: Vision
     cost:
       platinum: 250
-      ore: 800
+      ore: 0
     power:
       offense: 0
       defense: 5
@@ -34,7 +34,7 @@ units:
   - name: Nightmare
     cost:
       platinum: 400
-      ore: 1000
+      ore: 0
     power:
       offense: 5
       defense: 3
