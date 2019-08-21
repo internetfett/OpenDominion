@@ -19,9 +19,11 @@ class InvadeCalculationService
      * @var int How many units can fit in a single boat
      */
 #    $units_per_boat = 30;
-#    $units_per_boat += $dominion->race->getPerkValue('boat_capacity');
+ #   $units_per_boat += $dominion->race->getPerkValue('boat_capacity');
 
-    protected const UNITS_PER_BOAT = 20 + $dominion->race->getPerkValue('boat_capacity');
+  #  protected const UNITS_PER_BOAT = $units_per_boat;
+
+    protected const UNITS_PER_BOAT = 100;
 
     /** @var BuildingCalculator */
     //protected $buildingCalculator;
