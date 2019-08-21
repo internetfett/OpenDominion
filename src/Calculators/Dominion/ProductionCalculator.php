@@ -314,7 +314,7 @@ class ProductionCalculator
         $lumber += ($dominion->building_lumberyard * $lumberPerLumberyard);
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
-        $mana += $dominion->getUnitPerkProductionBonus('lumber_production');
+        $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
 
         return $lumber;
     }
