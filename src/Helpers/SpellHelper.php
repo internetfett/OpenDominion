@@ -253,7 +253,7 @@ class SpellHelper
             ],
             
             [
-                'name' => '𒁍𒀕𒀚𒀽𒂒𒂒',
+                'name' => '𒉡𒌋𒆷',
                 'description' => 'Unknown',
                 'key' => 'unknown',
                 'mana_cost' => 5,
