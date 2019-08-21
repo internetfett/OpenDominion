@@ -45,6 +45,26 @@ class DominionFactory
             $startingBuildings
         );
 
+        if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
+        {
+            $startingResources['platinum'] = 200000;
+            $startingResources['lumber'] = 0;
+            $startingResources['food'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['peasants'] = 1000;
+            $startingResources['unit2'] = 500;
+        }
+        else
+        {
+            $startingResources['platinum'] = 100000;
+            $startingResources['lumber'] = 15000;
+            $startingResources['food'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['peasants'] = 1300;
+            $startingResources['unit2'] = 150;
+
+        }
+
         return Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
@@ -64,12 +84,12 @@ class DominionFactory
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
-            'resource_platinum' => 100000,
-            'resource_food' => 15000,
-            'resource_lumber' => 15000,
+            'resource_platinum' => $startingResources['platinum'],
+            'resource_food' =>  $startingResources['food'],
+            'resource_lumber' => $startingResources['lumber'],
             'resource_mana' => 0,
             'resource_ore' => 0,
-            'resource_gems' => 10000,
+            'resource_gems' => $startingResources['gems'],
             'resource_tech' => 0,
             'resource_boats' => 0,
 
@@ -82,7 +102,7 @@ class DominionFactory
 
             'military_draftees' => 100,
             'military_unit1' => 0,
-            'military_unit2' => 150,
+            'military_unit2' => $startingResources['unit2'],
             'military_unit3' => 0,
             'military_unit4' => 0,
             'military_spies' => 25,
@@ -158,7 +178,7 @@ class DominionFactory
      */
     protected function getStartingBarrenLand($race): array
     {
-         if((bool)$race->getPerkValue('cannot_construct'))
+        if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
         {
             return [
                 'plain' => 0,

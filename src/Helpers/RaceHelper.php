@@ -125,7 +125,13 @@ BEASTFOLK;
 SACREDORDER;
 
         $descriptions['void'] = <<<VOID
-<p>Nothing is known about the Void except that they emerge from deep, abandoned mines and tend to leave their lands barren.</p>
+<p>Nothing is known about the Void except that they emerge from deep, abandoned mines high up in the mountains.</p>
+<hr />
+<ul>
+<li>Starting resources consist of 200,000 plat and 0 lumber and food.</p>
+<li>Start with 500 Shadows.</li>
+<li>All peasants (including unemployed) produce 2.7 plat/hr raw.</li>
+</ul>
 VOID;
 
         $descriptions['dragon'] = <<<DRAGON

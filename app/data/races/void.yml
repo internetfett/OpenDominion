@@ -23,7 +23,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      mana_production: 0.2
+      mana_production: 0.5
   - name: Vision
     cost:
       platinum: 620
@@ -32,7 +32,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      mana_production: 0.5
+      mana_production: 1
   - name: Nightmare
     need_boat: false
     cost:
