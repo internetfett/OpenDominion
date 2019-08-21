@@ -4,7 +4,6 @@ home_land_type: forest
 perks:
   max_population: 100
   construction_cost: -15
-  boat_capacity: 70
   spy_strength: -50
   wizard_strength: -50
 units:
