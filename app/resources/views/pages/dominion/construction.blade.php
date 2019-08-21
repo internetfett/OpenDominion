@@ -3,6 +3,7 @@
 @section('page-header', 'Construction')
 
 @section('content')
+@if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -40,9 +41,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
                             <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Build</button>
-                        @endif
                         <div class="pull-right">
                             You have {{ number_format($landCalculator->getTotalLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalLand($selectedDominion)) }} of land.
                         </div>
@@ -69,4 +68,5 @@
         </div>
 
     </div>
+@endif
 @endsection
