@@ -9,18 +9,18 @@ units:
   - name: Fallen
     need_boat: false
     cost:
-      platinum: 100
+      platinum: 200
       ore: 0
     power:
-      offense: 2
+      offense: 3
       defense: 0
   - name: Shadow
     cost:
-      platinum: 80
+      platinum: 200
       ore: 0
     power:
       offense: 0
-      defense: 2
+      defense: 3
     perks:
       mana_production: 0.2
   - name: Vision
