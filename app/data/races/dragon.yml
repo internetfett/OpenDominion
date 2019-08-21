@@ -5,7 +5,6 @@ perks:
     max_population: 10
     platinum_production: 10
     food_consumption: 25
-    offense: 10
 units:
   - name: Wyrm
     need_boat: false

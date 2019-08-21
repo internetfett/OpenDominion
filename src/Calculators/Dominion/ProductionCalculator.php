@@ -80,6 +80,8 @@ class ProductionCalculator
         // Peasant Tax
         $platinum += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
 
+        // Race specialty: Void peasants
+
         // Spell: Alchemist Flame
         if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame')) {
             $platinumPerAlchemy += $spellAlchemistFlameAlchemyBonus;
