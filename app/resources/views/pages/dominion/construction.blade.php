@@ -73,7 +73,17 @@
 
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
-                Void cannot construct buildings.
+                <p>𒄩𒍑𒉣</p>
+                <p style="opacity:0.8;">𒄩𒍑𒉣</p>
+                <p style="opacity:0.6;">𒄩𒍑𒉣</p>
+                <p style="opacity:0.4;">𒄩𒍑𒉣</p>
+                <p style="opacity:0.2;">𒄩𒍑𒉣</p>
+                <p>Void cannot construct buildings.</p>
+                <p style="opacity:0.2;">𒄩𒍑𒉣</p>
+                <p style="opacity:0.4;">𒄩𒍑𒉣</p>
+                <p style="opacity:0.6;">𒄩𒍑𒉣</p>
+                <p style="opacity:0.8;">𒄩𒍑𒉣</p>
+                <p>𒄩𒍑𒉣</p>
             </div>
 
         </div>
