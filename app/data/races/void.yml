@@ -7,6 +7,7 @@ perks:
   cannot_construct: 1
 units:
   - name: Fallen
+    need_boat: false
     cost:
       platinum: 100
       ore: 0
@@ -32,6 +33,7 @@ units:
     perks:
       mana_production: 0.5
   - name: Nightmare
+    need_boat: false
     cost:
       platinum: 400
       ore: 0

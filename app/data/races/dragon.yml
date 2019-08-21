@@ -19,7 +19,7 @@ units:
     power:
       defense: 4
   - name: Wyvern
-    need_boat: false
+    need_boat: true
     cost:
       platinum: 1680
     power:
