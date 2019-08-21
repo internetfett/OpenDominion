@@ -22,7 +22,7 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 1
+      defense: 2
     perks:
       lumber_production: 0.1
   - name: Giant Ant
