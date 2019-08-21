@@ -69,6 +69,15 @@
 
     </div>
 @else 
-<div>Void cannot build.</div>
+    <div class="row">
+
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                Void cannot construct buildings.
+            </div>
+
+        </div>
+
+    </div>
 @endif
 @endsection
