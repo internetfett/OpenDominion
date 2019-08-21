@@ -73,17 +73,12 @@ class TrainingCalculator
                     $ore = $units[$unitSlot]->cost_ore;
 
                     if ($platinum > 0) {
-                        if ($dominion->race->name !== 'Void') {
-                            $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion));
-                        }
+                        $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
 
                     if ($ore > 0) {
                         $cost['ore'] = $ore;
-
-                        if ($dominion->race->name !== 'Gnome' and $dominion->race->name !== 'Void') {
-                            $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
-                        }
+                        $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
 
                     $cost['draftees'] = 1;
