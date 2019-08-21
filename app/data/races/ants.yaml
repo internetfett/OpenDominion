@@ -4,6 +4,7 @@ home_land_type: forest
 perks:
   max_population: 100
   construction_cost: -15
+  boat_capacity: 70
 units:
   - name: Soldier Ant
     need_boat: true
@@ -20,7 +21,7 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 2
+      defense: 1
     perks:
       lumber_production: 0.1
   - name: Giant Ant
@@ -36,7 +37,7 @@ units:
   - name: Flying Ant
     need_boat: false
     cost:
-      platinum: 400
+      platinum: 500
       ore: 0
     power:
       offense: 4

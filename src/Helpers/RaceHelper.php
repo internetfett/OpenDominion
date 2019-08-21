@@ -217,6 +217,10 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'wizard strength';
                 break;
+            case 'boat_capacity':
+                $negativeBenefit = false;
+                $description = 'boat capacity';
+                break;
             default:
                 return '';
         }
