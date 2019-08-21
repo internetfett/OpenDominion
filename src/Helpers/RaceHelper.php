@@ -217,9 +217,13 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'wizard strength';
                 break;
+            case 'cannot_construct':
+                $negativeBenefit = true;
+                $description = 'cannot_construct';
+                break;
             case 'boat_capacity':
                 $negativeBenefit = false;
-                $description = 'boat_capacity cost';
+                $description = 'boat capacity';
                 break;
             default:
                 return '';
@@ -320,6 +324,10 @@ ANTS;
                 $negativeBenefit = true;
                 $description = 'Cannot construct buildings';
                 $booleanValue = true;
+                break;
+            case 'boat_capacity':
+                $negativeBenefit = false;
+                $description = 'Increased boat capacity';
                 break;
             default:
                 return null;
