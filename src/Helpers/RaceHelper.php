@@ -132,6 +132,11 @@ VOID;
 <p>Dragons!</p>
 DRAGON;
 
+
+        $descriptions['ants'] = <<<ANTS
+<p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size. Their units are weak but they are both numerous and belligerent.</p>
+ANTS;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
