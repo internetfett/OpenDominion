@@ -219,7 +219,7 @@ ANTS;
                 break;
             case 'boat_capacity':
                 $negativeBenefit = false;
-                $description = 'boat capacity';
+                $description = 'boat_capacity cost';
                 break;
             default:
                 return '';
