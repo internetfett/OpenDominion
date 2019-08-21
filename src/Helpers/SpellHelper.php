@@ -244,13 +244,23 @@ class SpellHelper
                 'races' => collect(['Nomad']),
             ],
             [
-                'name' => '',
+                'name' => 'Swarming',
+                'description' => 'Double draft rate (2% of peasants instead of 1%)',
+                'key' => 'campaign',
+                'mana_cost' => 3.5,
+                'duration' => 12,
+                'races' => collect(['Ant']),
+            ],
+            /*
+            [
+                'name' => 'Void',
                 'description' => 'Void units walk through Walls.',
                 'key' => 'unknown',
                 'mana_cost' => 5,
                 'duration' => 12,
                 'races' => collect(['Void']),
             ],
+            */
         ]);
     }
 

@@ -2,7 +2,6 @@ name: Spirit
 alignment: good
 home_land_type: water
 perks:
-  max_population: 15
   food_consumption: -100
 units:
   - name: Wisp

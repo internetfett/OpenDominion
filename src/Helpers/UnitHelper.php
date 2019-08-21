@@ -104,6 +104,7 @@ class UnitHelper
 
             // Dreki
             'mana_production' => 'Each unit generates %s mana per hour.',
+            'lumber_production' => 'Each unit collects %s lumber per hour.',
 
             // Misc
             'faster_return' => 'Returns %s hours faster from battle.',

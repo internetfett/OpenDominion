@@ -314,6 +314,11 @@ class PopulationCalculator
         // Values (percentages)
         $growthFactor = 1;
 
+        // Racial Spell: Swarming (Ants)
+        if ($this->spellCalculator->isSpellActive($dominion, 'swarming')) {
+            $growthFactor = 2;
+        }
+
         if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate) {
             $draftees += round(($dominion->peasants * ($growthFactor / 100)));
         }

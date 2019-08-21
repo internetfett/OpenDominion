@@ -1,0 +1,45 @@
+name: Ants
+alignment: good
+home_land_type: forest
+perks:
+  max_population: 100
+  construction_cost: -15
+units:
+  - name: Soldier Ant
+    need_boat: true
+    cost:
+      platinum: 100
+      ore: 0
+    power:
+      offense: 1
+      defense: 0
+  - name: Worker Ant
+    need_boat: true
+    cost:
+      platinum: 120
+      ore: 0
+    power:
+      offense: 0
+      defense: 2
+    perks:
+      lumber_production: 0.1
+  - name: Giant Ant
+    need_boat: true
+    cost:
+      platinum: 500
+      ore: 0
+    power:
+      offense: 2
+      defense: 3
+    perks:
+      offense_vs_wood_elf: 0.5
+  - name: Flying Ant
+    need_boat: false
+    cost:
+      platinum: 400
+      ore: 0
+    power:
+      offense: 4
+      defense: 0
+    perks:
+      offense_vs_wood_elf: 0.5
