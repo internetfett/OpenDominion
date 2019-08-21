@@ -328,6 +328,7 @@ ANTS;
             case 'boat_capacity':
                 $negativeBenefit = false;
                 $description = 'Increased boat capacity';
+                $valueType = ' units/boat';
                 break;
             default:
                 return null;
