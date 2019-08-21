@@ -176,12 +176,24 @@ class DominionFactory
      */
     protected function getStartingBuildings(): array
     {
-        return [
-            'home' => 10,
-            'alchemy' => 30,
-            'farm' => 30,
-            'lumberyard' => 20,
-        ];
+        if($selectedDominion->race->getPerkValue('cannot_construct') == 1)
+        {
+            return [
+                'home' => 0,
+                'alchemy' => 0,
+                'farm' => 0,
+                'lumberyard' => 0,
+            ]; 
+        }
+        else
+        {
+            return [
+                'home' => 10,
+                'alchemy' => 30,
+                'farm' => 30,
+                'lumberyard' => 20,
+            ];            
+        }
     }
 
     /**
