@@ -3,9 +3,10 @@ alignment: good
 home_land_type: forest
 perks:
   max_population: 100
-  construction_cost: -15
+  construction_cost: -20
   spy_strength: -50
   wizard_strength: -50
+  food_consumption: -50
   boat_capacity: 70
 units:
   - name: Soldier Ant
@@ -25,7 +26,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      lumber_production: 0.1
+      lumber_production: 0.5
   - name: Giant Ant
     need_boat: true
     cost:

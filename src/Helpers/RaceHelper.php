@@ -218,8 +218,8 @@ ANTS;
                 $description = 'wizard strength';
                 break;
             case 'cannot_construct':
-                $negativeBenefit = true;
-                $description = 'cannot_construct';
+                $negativeBenefit = false;
+                $description = 'difficulty: cannot construct buildings';
                 break;
             case 'boat_capacity':
                 $negativeBenefit = false;
