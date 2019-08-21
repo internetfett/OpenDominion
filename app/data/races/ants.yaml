@@ -4,6 +4,7 @@ home_land_type: forest
 perks:
   max_population: 100
   construction_cost: -15
+  boat_capacity: 70
 units:
   - name: Soldier Ant
     need_boat: true
