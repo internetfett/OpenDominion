@@ -68,5 +68,7 @@
         </div>
 
     </div>
+@else 
+<div>Void cannot build.</div>
 @endif
 @endsection
