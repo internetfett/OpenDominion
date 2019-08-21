@@ -41,7 +41,7 @@ class DominionFactory
 
         $startingLand = $this->getStartingLand(
             $race,
-            $this->getStartingBarrenLand(),
+            $this->getStartingBarrenLand($race),
             $startingBuildings
         );
 
@@ -156,17 +156,32 @@ class DominionFactory
      *
      * @return array
      */
-    protected function getStartingBarrenLand(): array
+    protected function getStartingBarrenLand($race): array
     {
-        return [
-            'plain' => 40,
-            'mountain' => 20,
-            'swamp' => 20,
-            'cavern' => 20,
-            'forest' => 20,
-            'hill' => 20,
-            'water' => 20,
-        ];
+         if((bool)$race->getPerkValue('cannot_construct'))
+        {
+            return [
+                'plain' => 0,
+                'mountain' => 250,
+                'swamp' => 0,
+                'cavern' => 0,
+                'forest' => 0,
+                'hill' => 0,
+                'water' => 0,
+            ];
+        }
+        else
+        {      
+            return [
+                'plain' => 40,
+                'mountain' => 20,
+                'swamp' => 20,
+                'cavern' => 20,
+                'forest' => 20,
+                'hill' => 20,
+                'water' => 20,
+            ];
+        }
     }
 
     /**
