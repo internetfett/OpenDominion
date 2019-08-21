@@ -6,6 +6,7 @@ perks:
   construction_cost: -15
   spy_strength: -50
   wizard_strength: -50
+  boat_capacity: 70
 units:
   - name: Soldier Ant
     need_boat: true
