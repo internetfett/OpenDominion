@@ -176,7 +176,7 @@ class DominionFactory
      */
     protected function getStartingBuildings(): array
     {
-        if($race->getPerkValue('cannot_construct') == 1)
+        if((bool)$selectedDominion->race->getPerkValue('cannot_construct'))
         {
             return [
                 'home' => 0,
