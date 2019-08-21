@@ -249,7 +249,7 @@ class SpellHelper
                 'key' => 'campaign',
                 'mana_cost' => 3.5,
                 'duration' => 12,
-                'races' => collect(['Ant']),
+                'races' => collect(['Ants']),
             ],
             /*
             [
