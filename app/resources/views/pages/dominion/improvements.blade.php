@@ -56,11 +56,12 @@
                             <select name="resource" class="form-control">
                                 @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                                 <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
-                                @endif
+                                @else
                                 <option value="platinum" {{ $selectedResource === 'platinum' ? 'selected' : ''}}>Platinum</option>
                                 <option value="lumber" {{ $selectedResource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
                                 <option value="ore" {{ $selectedResource  === 'ore' ? 'selected' : ''}}>Ore</option>
                                 <option value="gems" {{ $selectedResource  === 'gems' ? 'selected' : ''}}>Gems</option>
+                                @endif
                             </select>
                         </div>
 
@@ -81,8 +82,15 @@
                 </div>
                 <div class="box-body">
                     <p>Invest resources in your castle to improve certain parts of your dominion. Improving processes <b>instantly</b>.</p>
+
+                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
+                    <p>Each mana is worth 6 investment points.</p>
+                    <p>You have {{ number_format($selectedDominion->resource_mana) }} mana.</p>
+                    @else
                     <p>Resources are converted to points. Each gem is worth 12 points, lumber and ore are worth 2 points and platinum is worth 1 point.</p>
                     <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_lumber) }} lumber, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->resource_gems) }} {{ str_plural('gem', $selectedDominion->resource_gems) }}.</p>
+                    @endif
+
                 </div>
             </div>
         </div>
