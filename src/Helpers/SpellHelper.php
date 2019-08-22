@@ -246,7 +246,7 @@ class SpellHelper
             [
                 'name' => 'Swarming',
                 'description' => 'Double draft rate (2% of peasants instead of 1%)',
-                'key' => 'campaign',
+                'key' => 'swarming',
                 'mana_cost' => 3.5,
                 'duration' => 12,
                 'races' => collect(['Ants']),
