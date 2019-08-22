@@ -23,7 +23,7 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad input.');
         }
 
-        if (!\in_array($resource, ['platinum', 'lumber', 'ore', 'gems'], true)) {
+        if (!\in_array($resource, ['platinum', 'lumber', 'ore', 'gems','mana'], true)) {
             throw new GameException('Investment aborted due to bad resource type.');
         }
 
@@ -102,6 +102,7 @@ class ImproveActionService
             'platinum' => 1,
             'lumber' => 2,
             'ore' => 2,
+            'mana' => 4,
             'gems' => 12,
         ];
     }
