@@ -7,6 +7,7 @@ perks:
   extra_barren_max_population: 40
   cannot_construct: 1
   can_invest_mana: 1
+  population_growth: 40
 units:
   - name: Fallen
     need_boat: false

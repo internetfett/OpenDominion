@@ -239,6 +239,10 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'can invest mana in castle';
                 break;
+            case 'population_growth':
+                $negativeBenefit = false;
+                $description = 'population growth rate';
+                break;
             default:
                 return '';
         }
@@ -353,6 +357,10 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'Can invest mana in castle';
                 $booleanValue = true;
+                break;
+            case 'population_growth':
+                $negativeBenefit = false;
+                $description = 'Population growth rate';
                 break;
             default:
                 return null;
