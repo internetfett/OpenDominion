@@ -58,6 +58,7 @@
                                     <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
                                 @endif
                                 <option value="platinum" {{ $selectedResource === 'platinum' ? 'selected' : ''}}>Platinum</option>
+                                <option value="lumber" {{ $selectedResource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
                                 <option value="ore" {{ $selectedResource  === 'ore' ? 'selected' : ''}}>Ore</option>
                                 <option value="gems" {{ $selectedResource  === 'gems' ? 'selected' : ''}}>Gems</option>
                             </select>
