@@ -6,6 +6,7 @@ perks:
   platinum_production: 20
   extra_barren_max_population: 40
   cannot_construct: 1
+  can_invest_mana: 1
 units:
   - name: Fallen
     need_boat: false

@@ -235,6 +235,10 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'platinum production';
                 break;
+            case 'can_invest_mana':
+                $negativeBenefit = false;
+                $description = 'can invest mana in castle';
+                break;
             default:
                 return '';
         }
@@ -344,6 +348,11 @@ ANTS;
                 $negativeBenefit = false;
                 $description = 'Platinum production';
                 $booleanValue = false;
+                break;
+            case 'can_invest_mana':
+                $negativeBenefit = false;
+                $description = 'Can invest mana in castle';
+                $booleanValue = true;
                 break;
             default:
                 return null;
