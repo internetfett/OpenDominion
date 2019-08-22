@@ -1306,6 +1306,10 @@ class InvadeActionService
             ($templeMaxDpReduction / 100)
         );
 
+        if ($this->spellCalculator->isSpellActive($target, 'voidspell')) {
+            $dpMultiplierReduction = 0;
+        }
+
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost')) {
             $ignoreDraftees = true;
         }
