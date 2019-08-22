@@ -54,7 +54,9 @@
                     <div class="box-footer">
                         <div class="pull-right">
                             <select name="resource" class="form-control">
+                                @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                                 <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
+                                @endif
                                 <option value="platinum" {{ $selectedResource === 'platinum' ? 'selected' : ''}}>Platinum</option>
                                 <option value="lumber" {{ $selectedResource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
                                 <option value="ore" {{ $selectedResource  === 'ore' ? 'selected' : ''}}>Ore</option>
