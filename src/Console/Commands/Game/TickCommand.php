@@ -30,12 +30,22 @@ class TickCommand extends Command implements CommandInterface
     /**
      * {@inheritdoc}
      */
+#    public function handle(): void
+#    {
+#        $this->tickService->tickHourly();
+#
+#        if (now()->hour === 0) {
+#            $this->tickService->tickDaily();
+#        }
+#    }
+
     public function handle(): void
     {
         $this->tickService->tickHourly();
-
-        if (now()->hour === 0) {
+        if (now()->hour === 0 && now()->minute < 15) {
             $this->tickService->tickDaily();
         }
     }
+
+
 }
