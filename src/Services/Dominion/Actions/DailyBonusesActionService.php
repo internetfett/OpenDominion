@@ -53,7 +53,8 @@ class DailyBonusesActionService
             throw new GameException('You already claimed your land bonus for today.');
         }
 
-        $landGained = 20;
+#        $landGained = 20;
+        $landGained = rand(1,200) == 1 ? 100 : rand(10, 40);
         $attribute = ('land_' . $dominion->race->home_land_type);
         $dominion->increment($attribute, $landGained);
         $dominion->daily_land = true;
