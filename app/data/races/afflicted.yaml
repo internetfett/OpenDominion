@@ -31,7 +31,6 @@ units:
       offense: -2
       defense: 5
     perk:
-      conversion: 2
       conversion: 4
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
