@@ -138,10 +138,14 @@ VOID;
 <p>Dragons!</p>
 DRAGON;
 
-
         $descriptions['ants'] = <<<ANTS
 <p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size. Their units are weak but they are both numerous and belligerent.</p>
 ANTS;
+
+
+        $descriptions['simian'] = <<<SIMIAN
+<p>Monkey see, monkey do.</p>
+SIMIAN;
 
         $key = strtolower($race->name);
 
