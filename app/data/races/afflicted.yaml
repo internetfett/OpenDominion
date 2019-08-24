@@ -12,7 +12,7 @@ units:
     power:
       offense: 2
       defense: 0
-    perk:
+    perks:
       conversion: 1
   - name: Pest Rat
     need_boat: true
@@ -30,7 +30,7 @@ units:
     power:
       offense: -2
       defense: 5
-    perk:
+    perks:
       conversion: 4
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
