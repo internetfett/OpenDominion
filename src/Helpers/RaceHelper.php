@@ -143,8 +143,8 @@ DRAGON;
 ANTS;
 
 
-        $descriptions['simian'] = <<<AFFLICTED
-<p>Vile.</p>
+        $descriptions['afflicted'] = <<<AFFLICTED
+<p>The Afflicted are an unholy alliance of foul beasts and misfits.</p>
 AFFLICTED;
 
         $key = strtolower($race->name);
