@@ -1,0 +1,45 @@
+name: Afflicted
+alignment: evil
+home_land_type: hill
+perks:
+  max_population:
+units:
+  - name: Zombie
+    need_boat: true
+    cost:
+      platinum: 200
+      ore: 0
+    power:
+      offense: 2
+      defense: 0
+    perk:
+      conversion: 1
+  - name: Pest Rat
+    need_boat: true
+    cost:
+      platinum: 300
+      ore: 0
+    power:
+      offense: 0
+      defense: 3
+  - name: Necromancer
+    need_boat: true
+    cost:
+      platinum: 1000
+      ore: 0
+    power:
+      offense: -2
+      defense: 5
+    perk:
+      conversion: 2
+      conversion: 4
+      counts_as_wizard_offense: 0.25
+      counts_as_wizard_defense: 0.25
+  - name: Reaper
+    need_boat: true
+    cost:
+      platinum: 1500
+      ore: 0
+    power:
+      offense: 8
+      defense: -2
