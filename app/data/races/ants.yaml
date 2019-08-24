@@ -14,7 +14,7 @@ units:
   - name: Soldier Ant
     need_boat: true
     cost:
-      platinum: 100
+      platinum: 75
       ore: 0
     power:
       offense: 1
@@ -22,7 +22,7 @@ units:
   - name: Worker Ant
     need_boat: true
     cost:
-      platinum: 120
+      platinum: 100
       ore: 0
     power:
       offense: 0
@@ -32,20 +32,20 @@ units:
   - name: Giant Ant
     need_boat: true
     cost:
-      platinum: 500
+      platinum: 200
       ore: 0
     power:
-      offense: 2
+      offense: 1
       defense: 3
     perks:
-      offense_from_building: forest_haven,10,1 # building type, ratio%, max
+      offense_from_building: forest_haven,20,1 # building type, ratio%, max
   - name: Flying Ant
     need_boat: false
     cost:
-      platinum: 500
+      platinum: 200
       ore: 0
     power:
-      offense: 4
+      offense: 2.5
       defense: 0
     perks:
-      offense_from_building: forest_haven,10,1 # building type, ratio%, max
+      offense_from_building: forest_haven,20,1 # building type, ratio%, max

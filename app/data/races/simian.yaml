@@ -1,0 +1,41 @@
+name: Simian
+alignment: evil
+home_land_type: forest
+perks:
+  population_growth: 20
+  archmage_cost: 1000
+units:
+  - name: Chimpanzee
+    need_boat: true
+    cost:
+      platinum: 300
+      ore: 0
+    power:
+      offense: 3
+      defense: 0
+  - name: Orangutang
+    need_boat: true
+    cost:
+      platinum: 100
+      ore: 0
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      lumber_production: 0.5
+  - name: Gorilla
+    need_boat: true
+    cost:
+      platinum: 1000
+      ore: 0
+    power:
+      offense: 3
+      defense: 6
+  - name: Yeti
+    need_boat: true
+    cost:
+      platinum: 2000
+      ore: 0
+    power:
+      offense: 8
+      defense: -2
