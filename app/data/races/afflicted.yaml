@@ -2,7 +2,7 @@ name: Afflicted
 alignment: evil
 home_land_type: hill
 perks:
-  max_population:
+  max_population: 5
 units:
   - name: Zombie
     need_boat: true
@@ -38,7 +38,9 @@ units:
     need_boat: true
     cost:
       platinum: 1500
-      ore: 0
+      ore: 110
     power:
       offense: 8
       defense: -2
+    perks:
+      immortal_except_vs: spirit

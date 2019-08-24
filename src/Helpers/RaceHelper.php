@@ -144,7 +144,7 @@ ANTS;
 
 
         $descriptions['afflicted'] = <<<AFFLICTED
-<p>The Afflicted are an unholy alliance of foul beasts and misfits.</p>
+<p>The Afflicted are an unholy alliance of foul beasts and misfits. Barely able to act as one, the Afflicted are in a constant power struggle.</p>
 AFFLICTED;
 
         $key = strtolower($race->name);
