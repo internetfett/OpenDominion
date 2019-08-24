@@ -143,9 +143,9 @@ DRAGON;
 ANTS;
 
 
-        $descriptions['simian'] = <<<SIMIAN
-<p>Monkey see, monkey do.</p>
-SIMIAN;
+        $descriptions['simian'] = <<<AFFLICTED
+<p>Vile.</p>
+AFFLICTED;
 
         $key = strtolower($race->name);
 
