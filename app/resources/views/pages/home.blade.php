@@ -100,7 +100,7 @@
         <div class="col-sm-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Welcome to OpenDominion!</h3>
+                    <h3 class="box-title">Welcome to OpenDominion Arena!</h3>
                 </div>
                 <div class="box-body">
                     <p>OpenDominion Arena is a clone and fork of <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, which is a free online text-based strategy game in a medieval fantasy setting. You control a dominion and your goal is to become the largest dominion in the current round.</p>
@@ -126,7 +126,7 @@
         </div>
 
         <div class="col-sm-3">
-            <img src="{{ asset('assets/app/images/elf.png') }}" class="img-responsive" alt="">
+            <img src="{{ asset('henry-hustava-j_Ch0mwBNds-unsplash.resized.jpg') }}" class="img-responsive" alt="">
         </div>
 
     </div>
