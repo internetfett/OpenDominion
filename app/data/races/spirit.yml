@@ -31,7 +31,7 @@ units:
   - name: Phantom
     need_boat: false
     cost:
-      platinum: 1300
+      platinum: 1600
       ore: 0
     power:
       offense: 4
@@ -44,7 +44,7 @@ units:
   - name: Spectre
     need_boat: false
     cost:
-      platinum: 10000
+      platinum: 12000
       ore: 0
     power:
       offense: 10

@@ -1,0 +1,49 @@
+name: Templars
+alignment: good
+home_land_type: plains
+perks:
+  gem_production: 5
+units:
+  - name: Crusader
+    need_boat: true
+    cost:
+      platinum: 350
+      ore: 35
+    power:
+      offense: 3
+      defense: 0
+    perks:
+      faster_return: 3
+  - name: Monk
+    need_boat: true
+    cost:
+      platinum: 0
+      ore: 0
+    power:
+      offense: 0
+      defense: 1
+    perks:
+      reduce_combat_losses: 1
+      mana_production: 0.01
+  - name: Pikemen
+    need_boat: true
+    cost:
+      platinum: 900
+      ore: 90
+    power:
+      offense: 0
+      defense: 5
+    perks:
+      defense_from_land: plain,100,10
+  - name: Paladin
+    cost:
+      platinum: 1200
+      ore: 100
+    power:
+      offense: 4
+      defense: 3
+    perks:
+      faster_return: 3
+      counts_as_wizard_offense: 0.1
+      counts_as_wizard_defense: 0.1
+      offense_staggered_land_range: 75;1,80;1.5,85;2,90;2.5,95;3
