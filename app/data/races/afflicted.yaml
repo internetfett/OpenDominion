@@ -29,7 +29,7 @@ units:
       platinum: 1000
       ore: 10
     power:
-      offense: -2
+      offense: -1
       defense: 5
     perks:
       conversion: 4
@@ -38,8 +38,8 @@ units:
   - name: Reaper
     need_boat: true
     cost:
-      platinum: 1500
-      ore: 110
+      platinum: 1100
+      ore: 100
     power:
       offense: 8
       defense: -2
