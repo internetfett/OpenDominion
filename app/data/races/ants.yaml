@@ -38,14 +38,14 @@ units:
       offense: 1
       defense: 3
     perks:
-      offense_from_building: forest_haven,20,1 # building type, ratio%, max
+      offense_from_building: forest_haven,10,2 # building type, ratio%, max
   - name: Flying Ant
     need_boat: false
     cost:
       platinum: 200
       ore: 0
     power:
-      offense: 2.5
+      offense: 2
       defense: 0
     perks:
-      offense_from_building: forest_haven,20,1 # building type, ratio%, max
+      offense_from_building: forest_haven,10,2 # building type, ratio%, max
