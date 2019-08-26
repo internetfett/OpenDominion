@@ -33,8 +33,6 @@ units:
     power:
       offense: 0
       defense: 5
-    perks:
-      defense_from_land: plain,100,10
   - name: Paladin
     cost:
       platinum: 1200
