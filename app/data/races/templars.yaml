@@ -1,6 +1,6 @@
 name: Templars
 alignment: good
-home_land_type: plain
+home_land_type: hill
 perks:
   gem_production: 5
 units:

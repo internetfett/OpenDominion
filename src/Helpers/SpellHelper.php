@@ -137,7 +137,7 @@ class SpellHelper
                 'key' => 'crusade',
                 'mana_cost' => 5,
                 'duration' => 12,
-                'races' => collect(['Human','Dragon']),
+                'races' => collect(['Human','Dragon','Templars']),
             ],
             [
                 'name' => 'Miner\'s Sight',

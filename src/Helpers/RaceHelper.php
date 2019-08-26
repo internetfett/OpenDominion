@@ -142,10 +142,13 @@ DRAGON;
 <p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size. Their units are weak but they are both numerous and belligerent.</p>
 ANTS;
 
-
         $descriptions['afflicted'] = <<<AFFLICTED
 <p>The Afflicted are an unholy alliance of foul beasts and misfits. Barely able to act as one, the Afflicted are in a constant power struggle.</p>
 AFFLICTED;
+
+        $descriptions['templars'] = <<<TEMPLARS
+<p>Another off-shoot from Humans, the Templars are a small pious community taking up residence in the hills.</p>
+TEMPLARS;
 
         $key = strtolower($race->name);
 
