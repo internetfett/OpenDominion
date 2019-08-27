@@ -59,7 +59,7 @@ class DominionFactory
             $startingResources['platinum'] = 100000;
             $startingResources['lumber'] = 15000;
             $startingResources['food'] = 0;
-            $startingResources['gems'] = 0;
+            $startingResources['gems'] = 10000;
             $startingResources['peasants'] = 1300;
             $startingResources['unit2'] = 150;
 
