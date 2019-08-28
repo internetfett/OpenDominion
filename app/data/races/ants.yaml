@@ -14,7 +14,7 @@ units:
   - name: Soldier Ant
     need_boat: true
     cost:
-      platinum: 60
+      platinum: 50
       ore: 0
     power:
       offense: 1
@@ -22,7 +22,7 @@ units:
   - name: Worker Ant
     need_boat: true
     cost:
-      platinum: 80
+      platinum: 75
       ore: 0
     power:
       offense: 0
