@@ -2,8 +2,8 @@ name: Afflicted
 alignment: evil
 home_land_type: hill
 perks:
-  max_population: 5
-  population_growth: -10
+  max_population: 10
+  population_growth: -5
 units:
   - name: Zombie
     need_boat: true
