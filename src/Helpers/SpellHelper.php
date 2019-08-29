@@ -136,7 +136,7 @@ class SpellHelper
                 'description' => '+5% offensive power and allows you to kill Spirit/Undead',
                 'key' => 'crusade',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Human','Dragon','Templars']),
             ],
             [
@@ -144,7 +144,7 @@ class SpellHelper
                 'description' => '+20% ore production (not cumulative with Mining Strength)',
                 'key' => 'miners_sight',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Dwarf', 'Gnome']),
             ],
             [
@@ -152,7 +152,7 @@ class SpellHelper
                 'description' => '+10% offensive power',
                 'key' => 'killing_rage',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Goblin', 'Beastfolk']),
             ],
             [
@@ -160,7 +160,7 @@ class SpellHelper
                 'description' => '+15 alchemy platinum production',
                 'key' => 'alchemist_flame',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Firewalker']),
             ],
             [
@@ -168,7 +168,7 @@ class SpellHelper
                 'description' => '20% of captured land re-zoned into water',
                 'key' => 'erosion',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Lizardfolk', 'Merfolk', 'Spirit']),
             ],
             [
@@ -176,7 +176,7 @@ class SpellHelper
                 'description' => '+15% defensive strength (not cumulative with Ares Call)',
                 'key' => 'blizzard',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Icekin']),
             ],
             [
@@ -184,7 +184,7 @@ class SpellHelper
                 'description' => 'Enemy draftees do not participate in battle',
                 'key' => 'unholy_ghost',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Dark Elf']),
             ],
             [
@@ -192,7 +192,7 @@ class SpellHelper
                 'description' => '+20% defensive strength (not cumulative with Ares Call)',
                 'key' => 'defensive_frenzy',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Halfling']),
             ],
             [
@@ -200,7 +200,7 @@ class SpellHelper
                 'description' => '+10% offensive power',
                 'key' => 'warsong',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Sylvan','Sacred Order']),
             ],
             [
@@ -216,7 +216,7 @@ class SpellHelper
                 'description' => '+50% conversion rate',
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Lycanthrope', 'Undead']),
             ],
             [
@@ -224,7 +224,7 @@ class SpellHelper
                 'description' => '+20% food production (not cumulative with Gaia\'s Watch), +10% lumber production',
                 'key' => 'gaias_blessing',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Wood Elf']),
             ],
             [
@@ -232,7 +232,7 @@ class SpellHelper
                 'description' => '+5% offensive power',
                 'key' => 'nightfall',
                 'mana_cost' => 5,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Nox']),
             ],
             [
@@ -240,7 +240,7 @@ class SpellHelper
                 'description' => '+15% land generated for successful attack (lasts 1 hour)',
                 'key' => 'campaign',
                 'mana_cost' => 5,
-                'duration' => 1,
+                'duration' => 1*4,
                 'races' => collect(['Nomad']),
             ],
             [
@@ -248,7 +248,7 @@ class SpellHelper
                 'description' => 'Double draft rate (2% of peasants instead of 1%)',
                 'key' => 'swarming',
                 'mana_cost' => 3,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Ants']),
             ],
             
@@ -257,7 +257,7 @@ class SpellHelper
                 'description' => 'Void defensive modifiers immune to Temples.',
                 'key' => 'voidspell',
                 'mana_cost' => 4,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Void']),
             ],
             

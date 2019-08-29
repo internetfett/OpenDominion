@@ -84,7 +84,7 @@
                     <p>Invest resources in your castle to improve certain parts of your dominion. Improving processes <b>instantly</b>.</p>
 
                     @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
-                    <p>Each mana is worth 6 investment points.</p>
+                    <p>Each mana is worth 4 investment points.</p>
                     <p>You have {{ number_format($selectedDominion->resource_mana) }} mana.</p>
                     @else
                     <p>Resources are converted to points. Each gem is worth 12 points, lumber and ore are worth 2 points and platinum is worth 1 point.</p>
