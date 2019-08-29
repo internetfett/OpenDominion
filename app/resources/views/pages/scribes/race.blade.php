@@ -30,7 +30,8 @@
                             @endphp
                             <p>
                                 <strong>{{ $racialSpell['name'] }}</strong>: {{ $racialSpell['description'] }}<br>
-                                <strong>Cost:</strong> {{ $racialSpell['mana_cost']}}x
+                                <strong>Cost:</strong> {{ $racialSpell['mana_cost']}}x<br>
+                                <strong>Duration:</strong> {{ $racialSpell['duration']}} hours<br>
                             </p>
                         </div>
                     </div>

@@ -201,7 +201,7 @@ class SpellHelper
                 'key' => 'warsong',
                 'mana_cost' => 5,
                 'duration' => 12*4,
-                'races' => collect(['Sylvan','Sacred Order']),
+                'races' => collect(['Sylvan']),
             ],
             [
                 'name' => 'Regeneration',
@@ -225,7 +225,7 @@ class SpellHelper
                 'key' => 'gaias_blessing',
                 'mana_cost' => 5,
                 'duration' => 12*4,
-                'races' => collect(['Wood Elf']),
+                'races' => collect(['Wood Elf','Sacred Order']),
             ],
             [
                 'name' => 'Nightfall',
