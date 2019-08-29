@@ -29,7 +29,7 @@
                                 $racialSpell = $spellHelper->getRacialSelfSpell($race);
                             @endphp
                             <p>
-                                <strong>{{ $racialSpell['name'] }}</strong>: {{ $racialSpell['description'] }}
+                                <strong>{{ $racialSpell['name'] }}</strong>: {{ $racialSpell['description'] }} (Cost: {{ $racialSpell['mana_cost']}} x)
                             </p>
                         </div>
                     </div>
