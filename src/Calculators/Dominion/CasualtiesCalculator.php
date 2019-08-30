@@ -28,12 +28,13 @@ class CasualtiesCalculator
      * @param SpellCalculator $spellCalculator
      * @param UnitHelper $unitHelper
      */
-    public function __construct(LandCalculator $landCalculator, PopulationCalculator $populationCalculator, SpellCalculator $spellCalculator, UnitHelper $unitHelper)
+    public function __construct(LandCalculator $landCalculator, PopulationCalculator $populationCalculator, SpellCalculator $spellCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->unitHelper = $unitHelper;
         $this->populationCalculator = $populationCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
