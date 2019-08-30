@@ -24,10 +24,11 @@ class TrainingCalculator
      * @param LandCalculator $landCalculator
      * @param UnitHelper $unitHelper
      */
-    public function __construct(LandCalculator $landCalculator, UnitHelper $unitHelper)
+    public function __construct(LandCalculator $landCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->unitHelper = $unitHelper;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -153,7 +154,7 @@ class TrainingCalculator
         {
             $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
         }
-        
+
         // todo: Master of Resources Tech
 
         return (1 + $multiplier);
