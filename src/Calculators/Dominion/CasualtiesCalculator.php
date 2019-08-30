@@ -222,6 +222,9 @@ class CasualtiesCalculator
             // Spells
             $nonUnitBonusMultiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'regeneration', $spellRegeneration);
 
+            // Infirmary
+            $nonUnitBonusMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
+
             // Cap at -80% and apply to multiplier (additive)
             $multiplier -= min(0.8, $nonUnitBonusMultiplier);
 
