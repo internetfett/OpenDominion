@@ -27,6 +27,8 @@ $factory->define(\OpenDominion\Models\Dominion::class, function (Faker $faker) {
         'improvement_forges' => 0,
         'improvement_walls' => 0,
         'improvement_harbor' => 0,
+        'improvement_armory' => 0,
+        'improvement_infirmary' => 0,
         'military_draftees' => 100,
         'military_unit1' => 0,
         'military_unit2' => 150,
