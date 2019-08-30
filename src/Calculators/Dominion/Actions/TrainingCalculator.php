@@ -5,7 +5,7 @@ namespace OpenDominion\Calculators\Dominion\Actions;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Calculators\Dominion\improvementCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 class TrainingCalculator
 {
