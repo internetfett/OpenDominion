@@ -5,7 +5,7 @@ namespace OpenDominion\Calculators\Dominion\Actions;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Calculators\Dominion\Actions\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 class TrainingCalculator
 {
@@ -14,6 +14,9 @@ class TrainingCalculator
 
     /** @var UnitHelper */
     protected $unitHelper;
+
+    /** @var ImprovementCalculator */
+    protected $ImprovementCalculator;
 
     /**
      * TrainingCalculator constructor.
