@@ -55,6 +55,8 @@ class ImprovementCalculator
             'forges' => 30,
             'walls' => 30,
             'harbor' => 40,
+            'armory' => 40, # Reduces training costs.
+            'infirmary' => 30, # Reduces casualties
         ];
 
         return (($maximumPercentages[$improvementType] / 100) ?: null);
@@ -77,6 +79,8 @@ class ImprovementCalculator
             'forges' => 7500,
             'walls' => 7500,
             'harbor' => 5000,
+            'armory' => 7500,
+            'infirmary' => 7500,
         ];
 
         return ($coefficients[$improvementType] ?: null);
