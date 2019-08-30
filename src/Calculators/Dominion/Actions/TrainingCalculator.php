@@ -144,6 +144,9 @@ class TrainingCalculator
             ($smithiesReductionMax / 100)
         );
 
+        // Armory
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
+
         // todo: Master of Resources Tech
 
         return (1 + $multiplier);
