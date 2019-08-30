@@ -100,6 +100,9 @@ class CasualtiesCalculator
             // Spells
             $nonUnitBonusMultiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'regeneration', $spellRegeneration);
 
+            // Infirmary
+            $nonUnitBonusMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
+
             // todo: Tech (eg Tactical Battle)
 
             // todo: Wonders
