@@ -145,7 +145,7 @@ class TrainingCalculator
         );
 
         // Armory
-        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
+        $multiplier -= $dominion->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
 
         // todo: Master of Resources Tech
 
