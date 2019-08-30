@@ -13,6 +13,8 @@ class ImprovementHelper
             'forges',
             'walls',
             'harbor',
+            'armory',
+            'infirmary',
         ];
     }
 
@@ -25,6 +27,8 @@ class ImprovementHelper
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
+            'armory' => '-%s%% unit training costs',
+            'infirmary' => '-%s%% fewer casualties',
         ];
 
         return $ratingStrings[$improvementType] ?: null;
@@ -39,6 +43,8 @@ class ImprovementHelper
             'forges' => 'Improvements to your forges increase your offensive power.<br><br>Max +30% base forges.',
             'walls' => 'Improvements to your walls increase your defensive power.<br><br>Max +30% base walls.',
             'harbor' => 'Improvements to your harbor improve your food production, boat production and boat protection.<br><br>Max +40% base harbor.',
+            'armory' => 'Improvements to your armory reduces the cost of training military units.<br><br>Max -40% cost.',
+            'informary' => 'Improvements to your infirmary reduces casualties suffered in battle.<br><br>Max -40% casualties.',
         ];
 
         return $helpStrings[$improvementType] ?: null;
