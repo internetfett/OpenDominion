@@ -16,7 +16,7 @@ class TrainingCalculator
     protected $unitHelper;
 
     /** @var ImprovementCalculator */
-    protected $ImprovementCalculator;
+    protected $improvementCalculator;
 
     /**
      * TrainingCalculator constructor.
