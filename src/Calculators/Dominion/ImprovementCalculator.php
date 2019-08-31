@@ -55,7 +55,7 @@ class ImprovementCalculator
             'forges' => 30,
             'walls' => 30,
             'harbor' => 40,
-            'armory' => 40, # Reduces training costs.
+            'armory' => 20, # Reduces training costs.
             'infirmary' => 30, # Reduces casualties
         ];
 
@@ -79,8 +79,8 @@ class ImprovementCalculator
             'forges' => 7500,
             'walls' => 7500,
             'harbor' => 5000,
-            'armory' => 7500,
-            'infirmary' => 7500,
+            'armory' => 4000,
+            'infirmary' => 4000,
         ];
 
         return ($coefficients[$improvementType] ?: null);

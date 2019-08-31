@@ -157,6 +157,9 @@ class TrainingCalculator
 
         // todo: Master of Resources Tech
 
+        // Cap $multiplier at -50%
+        $multiplier = max($multiplier, -50);
+
         return (1 + $multiplier);
     }
 
