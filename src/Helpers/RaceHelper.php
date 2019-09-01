@@ -14,13 +14,11 @@ class RaceHelper
 
         // Good races
 
-        // new
         $descriptions['dwarf'] = <<<DWARF
 <p>Dwarves are a short and ill-tempered race well-known for their majestic beards, their love of ale and tireless labour. Their spirited chants and songs echo long into the night as they hollow out entire mountains for their ore.</p>
 <p>Dwarven mines are the most productive in the lands, producing a steady flow of ore used to fortify their great cities, and craft legendary Dwarven armour for their military forces.</p>
 DWARF;
 
-        // new
         $descriptions['firewalker'] = <<<FIREWALKER
 <p>The first Firewalker erupted into existence from the smouldering ashes of a greedy scientist that had sought to enrich himself with forbidden alchemical practices, combining chemistry and pyromancy to forge platinum from the earth itself.</p>
 <p>Turning entire networks of caverns into vast furnaces where they live as one flame, Firewalker alchemies enhanced by pyromantic magics are the most productive in the lands, and their populations spread like wildfire wherever they ignite.</p>
