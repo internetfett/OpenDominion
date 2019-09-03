@@ -6,7 +6,7 @@ perks:
   extra_barren_max_population: 20
   invest_bonus: 10
   cannot_improve_castle: 1
-  cannot_construct: 1
+#  cannot_construct: 1
 units:
   - name: Boarman
     cost:
