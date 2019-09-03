@@ -6,7 +6,7 @@
     <div class="box">
         <div class="box-body">
             @if ($dominions->isEmpty())
-                <p>Welcome to OpenDominion.</p>
+                <p>Welcome to OpenDominion Arena.</p>
                 <p>To start playing, please register in a round below.</p>
             @else
                 <p>Welcome back, {{ Auth::user()->display_name }}.</p>
