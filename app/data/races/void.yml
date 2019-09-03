@@ -3,7 +3,7 @@ alignment: evil
 home_land_type: mountain
 perks:
   food_consumption: -100
-  platinum_production: 20
+#  platinum_production: -20
   extra_barren_max_population: 25
   cannot_construct: 1
   can_invest_mana: 1
