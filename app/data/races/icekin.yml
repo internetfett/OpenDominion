@@ -31,8 +31,8 @@ units:
       defense: 3
     perks:
       defense_from_land: mountain,20,3 # land type, ratio%, max
-      counts_as_wizard_offense: 0.1
-      counts_as_wizard_defense: 0.1
+      counts_as_wizard_offense: 0.2
+      counts_as_wizard_defense: 0.2
   - name: Ice Elemental
     cost:
       platinum: 1100
