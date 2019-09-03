@@ -4,7 +4,7 @@ home_land_type: mountain
 perks:
   food_consumption: -50
   lumber_production: -10
-  archmage_cost: -175
+  archmage_cost: -150
 units:
   - name: Icebeast
     cost:
@@ -24,13 +24,15 @@ units:
       reduce_combat_losses: 1
   - name: FrostMage # Leave the space out, for nostalgic reasons
     cost:
-      platinum: 850
+      platinum: 1000
       ore: 100
     power:
       offense: 3
       defense: 3
     perks:
       defense_from_land: mountain,20,3 # land type, ratio%, max
+      counts_as_wizard_offense: 0.1
+      counts_as_wizard_defense: 0.1
   - name: Ice Elemental
     cost:
       platinum: 1100
