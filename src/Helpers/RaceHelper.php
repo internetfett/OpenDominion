@@ -248,6 +248,10 @@ TEMPLARS;
                 $negativeBenefit = false;
                 $description = 'population growth rate';
                 break;
+            case 'cannot_improve_castle':
+                $negativeBenefit = false;
+                $description = 'cannot use castle improvements';
+                break;
             default:
                 return '';
         }
@@ -367,6 +371,11 @@ TEMPLARS;
                 $negativeBenefit = false;
                 $description = 'Population growth rate';
                 break;
+          case 'cannot_improve_castle':
+                $negativeBenefit = false;
+                $description = 'Cannot use castle improvements';
+                $booleanValue = true;
+                break;                
             default:
                 return null;
         }
