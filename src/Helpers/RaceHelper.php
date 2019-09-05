@@ -150,8 +150,8 @@ TEMPLARS;
 
 
         $descriptions['growth'] = <<<GROWTH
-<p>The growth is a semi-sention tissue which grew from Nox cemetaries deep in the swamplands.</p>
-<p>Attempts at communication have failed.</p>
+<p>The growth is believed to originate from ancient Nox cemetaries, deep in the swamp lands.</p>
+<p>Attempts at communication have failed. It shows no signs of sentience.</p>
 GROWTH;
 
         $key = strtolower($race->name);

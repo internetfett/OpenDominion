@@ -271,7 +271,7 @@ class SpellHelper
                 'key' => 'woven_nerves',
                 'mana_cost' => 1,
                 'duration' => 1*4,
-                'races' => collect(['growth']),
+                'races' => collect(['Growth']),
             ],
 
         ]);
