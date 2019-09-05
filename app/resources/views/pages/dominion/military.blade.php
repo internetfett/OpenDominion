@@ -75,7 +75,7 @@
                                             <td class="text-center">
                                                 {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
                                             </td>
-                                        @else
+                                        @elseif ($selectedDominion->race->name !== 'Growth')
                                             <td class="text-center">&nbsp;</td>
                                             <td class="text-center">
                                                 {{ number_format($selectedDominion->{'military_' . $unitType}) }}
