@@ -4,7 +4,7 @@
 
 @section('content')
 
-@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_production') = -100)
+@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->name = 'Void' or  $selectedDominion->race->name = 'Spirit')
 
     <div class="row">
 
@@ -274,7 +274,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-9">
                 <div class="box box-primary">
-                    <p>Due to starvation, you cannot invade when you are out of food.</p>
+                    <p>Due to starvation, you cannot invade until you have more food.</p>
                     <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
                 </div>
             </div>
