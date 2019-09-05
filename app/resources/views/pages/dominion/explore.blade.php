@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-@elif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
 
     <div class="row">
 

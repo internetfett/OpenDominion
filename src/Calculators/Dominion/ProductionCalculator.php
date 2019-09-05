@@ -185,7 +185,7 @@ class ProductionCalculator
 
 
         // Unit Perk Production Bonus (Growth Unit)
-        $mana += $dominion->getUnitPerkProductionBonus('food_production');
+        $food += $dominion->getUnitPerkProductionBonus('food_production');
 
         return $food;
     }
