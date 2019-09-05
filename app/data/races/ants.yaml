@@ -10,6 +10,7 @@ perks:
   boat_capacity: 70
   platinum_production: -15
   population_growth: 100
+  explore_cost: 25
 units:
   - name: Soldier Ant
     need_boat: true
