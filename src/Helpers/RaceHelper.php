@@ -148,6 +148,12 @@ AFFLICTED;
 <p>Another off-shoot from Humans, the Templars are a small pious community taking up residence in the hills.</p>
 TEMPLARS;
 
+
+        $descriptions['growth'] = <<<GROWTH
+<p>The growth is a semi-sention tissue which grew from Nox cemetaries deep in the swamplands.</p>
+<p>Attempts at communication have failed.</p>
+GROWTH;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
@@ -251,6 +257,14 @@ TEMPLARS;
             case 'cannot_improve_castle':
                 $negativeBenefit = false;
                 $description = 'cannot use castle improvements';
+                break;
+            case 'cannot_explore':
+                $negativeBenefit = false;
+                $description = 'cannot explore';
+                break;
+            case 'cannot_invade':
+                $negativeBenefit = false;
+                $description = 'cannot explore';
                 break;
             default:
                 return '';
@@ -372,10 +386,20 @@ TEMPLARS;
                 $description = 'Population growth rate';
                 break;
           case 'cannot_improve_castle':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'Cannot use castle improvements';
                 $booleanValue = true;
-                break;                
+                break;
+          case 'cannot_explore':
+                $negativeBenefit = true;
+                $description = 'Cannot explore';
+                $booleanValue = true;
+                break;
+          case 'cannot_invade':
+                $negativeBenefit = true;
+                $description = 'Cannot invade';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }
