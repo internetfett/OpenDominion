@@ -4,7 +4,7 @@
 
 @section('content')
 
-@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -100)
+@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
 
     <div class="row">
 
