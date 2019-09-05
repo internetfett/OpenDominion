@@ -27,7 +27,7 @@ units:
       defense: 1
     perks:
       counts_as_spy_offense: 0.01
-      counts_as_spy_offense: 0.01
+      counts_as_spy_defense: 0.01
   - name: Abscess
     cost:
       platinum: 0
@@ -36,7 +36,7 @@ units:
       offense: 0
       defense: 2
     perks:
-        mana_production: 0.5
+        mana_production: 0.01
   - name: Ulcer
     cost:
       platinum: 0
@@ -44,6 +44,3 @@ units:
     power:
       offense: 2
       defense: 1
-    perks:
-      offense_from_land: plain,20,5 # land type, ratio%, max
-      defense_from_land: forest,20,5 # land type, ratio%, max
