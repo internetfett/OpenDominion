@@ -108,7 +108,7 @@ class SpellHelper
                 'description' => 'Shows you the dominion upon receiving offensive spells or spy ops',
                 'key' => 'surreal_perception',
                 'mana_cost' => 4,
-                'duration' => 8*4 * $this->militaryCalculator->getWizardRatio($target, 'defense'),
+                'duration' => 8*4,# * $this->militaryCalculator->getWizardRatio($target, 'defense'),
             ],
 //            [
 //                'name' => 'Energy Mirror',
