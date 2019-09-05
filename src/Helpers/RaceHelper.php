@@ -274,6 +274,10 @@ GROWTH;
                 $negativeBenefit = false;
                 $description = 'cannot train wizards';
                 break;
+            case 'explore_cost':
+                $negativeBenefit = false;
+                $description = 'cost of exploration';
+                break;
             default:
                 return '';
         }
@@ -417,6 +421,10 @@ GROWTH;
                 $negativeBenefit = true;
                 $description = 'Cannot train wizards';
                 $booleanValue = true;
+                break;
+          case 'explore_cost':
+                $negativeBenefit = true;
+                $description = 'Cost of exploration';
                 break;
             default:
                 return null;

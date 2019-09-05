@@ -225,7 +225,7 @@
                     <p>
                       @if ($selectedDominion->race->name == 'Growth')
                         <b>Growth</b><br>
-                        Organisms:
+                        Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
                         Cells: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                         @if ($selectedDominion->peasants_last_hour < 0)
                             <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last hour)</span>
