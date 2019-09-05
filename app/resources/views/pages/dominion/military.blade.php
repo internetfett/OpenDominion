@@ -75,7 +75,7 @@
                                             <td class="text-center">
                                                 {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
                                             </td>
-                                        @elseif ($selectedDominion->race->name !== 'Growth')
+                                        @else
                                             <td class="text-center">&nbsp;</td>
                                             <td class="text-center">
                                                 {{ number_format($selectedDominion->{'military_' . $unitType}) }}
@@ -115,7 +115,11 @@
                                             {{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}
                                         </td>
                                         <td class="text-center">
+                                          @if ($selectedDominion->race->name == 'Growth' and in_array($unitType, ['military_spies', 'military_wizards', 'military_archmages']))
+                                            <em>Cannot be trained</em>
+                                          @else
                                             <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                          @endif
                                         </td>
                                     </tr>
                                 @endforeach
