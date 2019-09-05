@@ -183,6 +183,10 @@ class ProductionCalculator
         // Building: Dock
         $food += ($dominion->building_dock * $foodPerDock);
 
+
+        // Unit Perk Production Bonus (Growth Unit)
+        $mana += $dominion->getUnitPerkProductionBonus('food_production');
+
         return $food;
     }
 

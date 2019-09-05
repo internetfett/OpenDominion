@@ -1,6 +1,6 @@
 name: Growth
 alignment: evil
-home_land_type: plain
+home_land_type: swamp
 perks:
   cannot_improve_castle: 1
   cannot_construct: 1
@@ -37,6 +37,7 @@ units:
       defense: 2
     perks:
         mana_production: 0.01
+        food_production: 0.10
   - name: Ulcer
     cost:
       platinum: 0

@@ -4,7 +4,17 @@
 
 @section('content')
 
-@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+
+@if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <p>Your race is not able to obtain land by exploring.</p>
+                <p>Grow your <a href="{{ route('dominion.military') }}">military power</a> and <a href="{{ route('dominion.invade') }}">invade other dominions</a>.</p>
+            </div>
+        </div>
+    </div>
+@elif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
 
     <div class="row">
 
