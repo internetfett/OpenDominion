@@ -352,7 +352,18 @@ class CasualtiesCalculator
             );
         }
 
-        return array_filter($casualties);
+        $casualties = array(
+          'peasants' = 0,
+          'unit1' = 0,
+          'unit2' = 0,
+          'unit3' = 0,
+          'unit4' = 0,
+          'spies' = 0,
+          'wizards' = 0,
+          'archmage' = 0
+        );
+
+      return array_filter($casualties);
     }
 
     /**
