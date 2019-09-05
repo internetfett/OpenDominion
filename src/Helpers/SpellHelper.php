@@ -69,7 +69,7 @@ class SpellHelper
                 'description' => '+10% food production',
                 'key' => 'gaias_watch',
                 'mana_cost' => 2,
-                'duration' => floor(12*4 * (1 + $this->militaryCalculator->getWizardRatio($target, 'defense') / 10)),
+                'duration' => 12*4,# * (1 + $this->militaryCalculator->getWizardRatio($target, 'defense') / 10)),
             ],
             [
                 'name' => 'Ares\' Call',
