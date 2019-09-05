@@ -265,6 +265,15 @@ class SpellHelper
                 'races' => collect(['Void']),
             ],
 
+            [
+                'name' => 'Woven Nerves',
+                'description' => 'Enables invasion by forming a temporary intelligence. (NYI)',
+                'key' => 'woven_nerves',
+                'mana_cost' => 1,
+                'duration' => 1*4,
+                'races' => collect(['growth']),
+            ],
+
         ]);
     }
 
