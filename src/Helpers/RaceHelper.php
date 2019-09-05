@@ -274,6 +274,10 @@ GROWTH;
                 $negativeBenefit = false;
                 $description = 'cannot train wizards';
                 break;
+            case 'cannot_train_archmages':
+                $negativeBenefit = false;
+                $description = 'cannot train Arch Mages';
+                break;
             case 'explore_cost':
                 $negativeBenefit = false;
                 $description = 'cost of exploration';
@@ -420,6 +424,11 @@ GROWTH;
           case 'cannot_train_wizards':
                 $negativeBenefit = true;
                 $description = 'Cannot train wizards';
+                $booleanValue = true;
+                break;
+          case 'cannot_train_archmages':
+                $negativeBenefit = true;
+                $description = 'Cannot train Arch Mages';
                 $booleanValue = true;
                 break;
           case 'explore_cost':

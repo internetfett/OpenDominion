@@ -115,8 +115,12 @@
                                             {{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}
                                         </td>
                                         <td class="text-center">
-                                          @if ($selectedDominion->race->name == 'Growth' and in_array($unitType, ['spies', 'wizards', 'archmages']))
-                                            <em>Cannot be trained</em>
+                                          @if ($selectedDominion->race->getPerkValue('cannot_train_spies') and $unitType == 'spies')
+                                            &mdash;
+                                          @elseif ($selectedDominion->race->getPerkValue('cannot_train_wizards') and $unitType == 'wizards')
+                                            &mdash;
+                                          @elseif ($selectedDominion->race->getPerkValue('cannot_train_archmages') and $unitType == 'archmages')
+                                            &mdash;
                                           @else
                                             <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                           @endif
