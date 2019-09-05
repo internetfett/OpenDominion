@@ -7,6 +7,7 @@ use OpenDominion\Models\Race;
 
 # For WPA-based duration bonus
 use OpenDominion\Models\Dominion;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class SpellHelper
 {
