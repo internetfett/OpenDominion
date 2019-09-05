@@ -87,6 +87,7 @@
             <div class="col-sm-12 col-md-9">
                 <div class="box box-primary">
                     <p>Due to starvation, you cannot explore when you are out of food.</p>
+                    <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
                 </div>
             </div>
         </div>

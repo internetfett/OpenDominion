@@ -3,6 +3,9 @@
 @section('page-header', 'Invade')
 
 @section('content')
+
+@if ($selectedDominion->resource_food > 0)
+
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -266,6 +269,18 @@
         </div>
 
     </div>
+
+    @else
+        <div class="row">
+            <div class="col-sm-12 col-md-9">
+                <div class="box box-primary">
+                    <p>Due to starvation, you cannot explore when you are out of food.</p>
+                    <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
 @endsection
 
 @push('page-styles')
@@ -374,7 +389,7 @@
                         $boatCapacityPerk = $selectedDominion->race->getPerkValue('boat_capacity');
                         if ($boatCapacityPerk) $boatCapacity += $boatCapacityPerk;
                     @endphp
-    
+
                     var boatCapacity = {{ $boatCapacity }};
                     invadingForceBoats = Math.ceil(invadingForceBoats / boatCapacity);
 
