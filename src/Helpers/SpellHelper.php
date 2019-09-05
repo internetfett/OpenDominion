@@ -5,10 +5,6 @@ namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
 
-# For WPA-based duration bonus
-#use OpenDominion\Models\Dominion;
-#use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-
 class SpellHelper
 {
     public function getSpellInfo(string $spellKey, Race $race): array
@@ -69,7 +65,7 @@ class SpellHelper
                 'description' => '+10% food production',
                 'key' => 'gaias_watch',
                 'mana_cost' => 2,
-                'duration' => 12*4,# * (1 + $this->militaryCalculator->getWizardRatio($target, 'defense') / 10)),
+                'duration' => 12*4,
             ],
             [
                 'name' => 'Ares\' Call',
