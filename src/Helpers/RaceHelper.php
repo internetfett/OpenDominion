@@ -266,6 +266,14 @@ GROWTH;
                 $negativeBenefit = false;
                 $description = 'cannot explore';
                 break;
+            case 'cannot_train_spies':
+                $negativeBenefit = false;
+                $description = 'cannot train spies';
+                break;
+            case 'cannot_train_wizards':
+                $negativeBenefit = false;
+                $description = 'cannot train wizards';
+                break;
             default:
                 return '';
         }
@@ -398,6 +406,16 @@ GROWTH;
           case 'cannot_invade':
                 $negativeBenefit = true;
                 $description = 'Cannot invade';
+                $booleanValue = true;
+                break;
+          case 'cannot_train_spies':
+                $negativeBenefit = true;
+                $description = 'Cannot train spies';
+                $booleanValue = true;
+                break;
+          case 'cannot_train_wizards':
+                $negativeBenefit = true;
+                $description = 'Cannot train wizards';
                 $booleanValue = true;
                 break;
             default:
