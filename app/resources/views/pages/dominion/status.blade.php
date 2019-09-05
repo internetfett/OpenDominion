@@ -38,7 +38,11 @@
                                         <td>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</td>
                                     </tr>
                                     <tr>
+                                      @if ($selectedDominion->race->name == 'Growth')
+                                        <td>Cells:</td>
+                                      @else
                                         <td>Peasants:</td>
+                                      @endif
                                         <td>{{ number_format($selectedDominion->peasants) }}</td>
                                     </tr>
                                     <tr>
