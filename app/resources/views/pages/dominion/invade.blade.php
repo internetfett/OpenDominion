@@ -4,7 +4,7 @@
 
 @section('content')
 
-@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->name = 'Void' or  $selectedDominion->race->name = 'Spirit')
+@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->name('food_production') == -100)
 
     <div class="row">
 
