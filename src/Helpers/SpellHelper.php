@@ -5,6 +5,9 @@ namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
 
+# For WPA-based duration bonus
+use OpenDominion\Models\Dominion;
+
 class SpellHelper
 {
     public function getSpellInfo(string $spellKey, Race $race): array
@@ -65,7 +68,7 @@ class SpellHelper
                 'description' => '+10% food production',
                 'key' => 'gaias_watch',
                 'mana_cost' => 2,
-                'duration' => 12*4,
+                'duration' => floor(12*4 * (1 + $this->militaryCalculator->getWizardRatio($target, 'defense') / 10)),
             ],
             [
                 'name' => 'Ares\' Call',
@@ -108,7 +111,7 @@ class SpellHelper
                 'description' => 'Shows you the dominion upon receiving offensive spells or spy ops',
                 'key' => 'surreal_perception',
                 'mana_cost' => 4,
-                'duration' => 8*4,
+                'duration' => 8*4 * $this->militaryCalculator->getWizardRatio($target, 'defense'),
             ],
 //            [
 //                'name' => 'Energy Mirror',
@@ -251,7 +254,7 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Ants']),
             ],
-            
+
             [
                 'name' => '𒉡𒌋𒆷',
                 'description' => 'Void defensive modifiers immune to Temples.',
@@ -260,7 +263,7 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Void']),
             ],
-            
+
         ]);
     }
 
