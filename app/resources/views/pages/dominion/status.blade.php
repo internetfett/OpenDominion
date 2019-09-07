@@ -149,23 +149,27 @@
                                         <td>{{ $selectedDominion->race->units->get(3)->name }}:</td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 4)) }}</td>
                                     </tr>
-                                    @if(!(bool)$selectedDominion->race->getPerkValue('cannot_train_spies'))
+
+                                    @if ((bool)$selectedDominion->race->getPerkValue('cannot_train_spies') == False)
                                     <tr>
                                         <td>Spies:</td>
                                         <td>{{ number_format($selectedDominion->military_spies) }}</td>
                                     </tr>
                                     @endif
-                                    @if(!(bool)$selectedDominion->race->getPerkValue('cannot_train_wizards')
+
+                                    @if ((bool)$selectedDominion->race->getPerkValue('cannot_train_wizards') == False)
                                     <tr>
                                         <td>Wizards:</td>
                                         <td>{{ number_format($selectedDominion->military_wizards) }}</td>
                                     </tr>
                                     @endif
-                                    @if(!(bool)$selectedDominion->race->getPerkValue('cannot_train_archmages')
+
+                                    @if ((bool)$selectedDominion->race->getPerkValue('cannot_train_archmages') == False)
                                     <tr>
                                         <td>ArchMages:</td>
                                         <td>{{ number_format($selectedDominion->military_archmages) }}</td>
                                     @endif
+
                                     </tr>
                                 </tbody>
                             </table>
