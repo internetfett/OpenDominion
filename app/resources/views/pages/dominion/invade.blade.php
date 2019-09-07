@@ -4,7 +4,7 @@
 
 @section('content')
 
-@if ($selectedDominion->race == 'Growth' and !(bool)$selectedDominion->spellCalculator->isSpellActive($dominion, 'ambush'))
+@if ($selectedDominion->race == 'Growth' and !(bool)$selectedDominion->spellCalculator->isSpellActive($selectedDominion, 'ambush'))
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
