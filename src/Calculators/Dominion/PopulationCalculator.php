@@ -246,6 +246,12 @@ class PopulationCalculator
         // Growth
         $birth += (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * ($growthFactor / 100));
 
+        // No growth if food <= 0.
+        if()
+        {
+          $birth = 0;
+        }
+
         return $birth;
     }
 

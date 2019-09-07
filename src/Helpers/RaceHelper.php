@@ -124,7 +124,7 @@ UNDEAD;
 <li>Wizard Strength increased by 2 x Swamp % (<em>Tower</em>).</li>
 <li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
 <li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
-<li>Food and Boat production increased by 5 x Water % (<em>Keep</em>).</li>
+<li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
 <li>Spy Strength increased by Caverns %.</li>
 BEASTFOLK;
 

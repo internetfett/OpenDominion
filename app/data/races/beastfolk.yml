@@ -3,18 +3,8 @@ alignment: good
 home_land_type: forest
 perks:
   lumber_production: 20
-  extra_barren_max_population: 20
+  extra_barren_max_population: 10
   cannot_improve_castle: 1
-
-# Land benefits:
-# Forest % = +Population%
-# Hill % = +DP%
-# Mountain = +Plat%
-# Plains % = +OP%
-# Swamp % = +(Wizard Strength)x2
-# Water = +(Boat production, Food production)x5
-# Cavern = +(Spy Strength)
-
 units:
   - name: Boarman
     cost:
@@ -23,8 +13,6 @@ units:
     power:
       offense: 3
       defense: 0
-    perks:
-      fewer_casualties_offense: -25
   - name: Ram
     cost:
       platinum: 350
@@ -37,13 +25,13 @@ units:
       platinum: 1100
       ore: 0
     power:
-      offense: 1
-      defense: 3
+      offense: 2
+      defense: 5
     perks:
-      offense_from_land: plain,20,5 # land type, ratio%, max
-      defense_from_land: forest,20,5 # land type, ratio%, max
+      offense_from_land: plain,10,3 # land type, ratio%, max
+      defense_from_land: forest,10,3 # land type, ratio%, max
       counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.10
+      counts_as_wizard_defense: 0.25
   - name: Minotaur
     cost:
       platinum: 1200
@@ -52,5 +40,5 @@ units:
       offense: 4
       defense: 1
     perks:
-      offense_from_land: plain,20,5 # land type, ratio%, max
-      defense_from_land: forest,20,5 # land type, ratio%, max
+      offense_from_land: plain,10,3 # land type, ratio%, max
+      defense_from_land: forest,10,3 # land type, ratio%, max
