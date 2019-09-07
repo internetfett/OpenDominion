@@ -117,12 +117,13 @@ UNDEAD;
         $descriptions['beastfolk'] = <<<BEASTFOLK
 <p>Arcane magic has given life to the beasts of the forest. They have awoken with an unending rage.</p>
 <hr />
+<p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
 <ul>
 <li>Platinum production increased by Mountains % (<em>Science</em>).</li>
 <li>Max population increased by Forest % (<em>Keep</em>).</li>
-<li>Wizard Strength increased by 2 x Plains % (<em>Tower</em>).</li>
+<li>Wizard Strength increased by 2 x Swamp % (<em>Tower</em>).</li>
 <li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
-<li>Offensive Power increased by Plains % (<em>Forges</em>).</li>
+<li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
 <li>Food and Boat production increased by 5 x Water % (<em>Keep</em>).</li>
 <li>Spy Strength increased by Caverns %.</li>
 BEASTFOLK;

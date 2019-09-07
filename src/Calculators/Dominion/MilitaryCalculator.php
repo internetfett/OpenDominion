@@ -137,10 +137,10 @@ class MilitaryCalculator
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forges');
 
-        // Beastfolk: Mountains
+        // Beastfolk: Plains
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 1 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 0.2 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Racial Spell
