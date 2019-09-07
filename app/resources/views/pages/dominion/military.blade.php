@@ -132,9 +132,19 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Train</button>
+                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                          @if ($selectedDominion->race->name == 'Growth')
+                          Mutate
+                          @else
+                          Train
+                          @endif
+                        </button>
                         <div class="pull-right">
+                          @if ($selectedDominion->race->name == 'Growth')
+                            You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> amoeba available to mutate.
+                          @else
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ str_plural('draftee', $selectedDominion->military_draftees) }} available to train.
+                          @endif
                         </div>
                     </div>
                 </form>
@@ -149,8 +159,13 @@
                     <a href="{{ route('dominion.advisors.military') }}" class="pull-right">Military Advisor</a>
                 </div>
                 <div class="box-body">
+                    @if ($selectedDominion->race->name == 'Growth')
+                    <p>Here you can mutate your amoeba into military units. Mutating Abscess and Blisters take <b>9 hours</b> to process, while mutating Cysts and Ulcers take <b>12 hours</b>.</p>
+                    <p>You have {{ number_format($selectedDominion->military_draftees) }} amoeba.</p>
+                    @else
                     <p>Here you can train your draftees into stronger military units. Training specialist units take <b>9 hours</b> to process, while training your other units take <b>12 hours</b>.</p>
                     <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->military_draftees) }} {{ str_plural('draftee', $selectedDominion->military_draftees) }}.</p>
+                    @endif
                     <p>You may also <a href="{{ route('dominion.military.release') }}">release your troops</a> if you wish.</p>
                 </div>
             </div>
@@ -174,7 +189,7 @@
                         <tbody>
                             <tr>
                               @if ($selectedDominion->race->name == 'Growth')
-                                <td class="text-center">Cells:</td>
+                                <td class="text-center">Cells</td>
                               @else
                                 <td class="text-center">Peasants</td>
                               @endif
@@ -197,7 +212,11 @@
 
             <div class="box">
                 <div class="box-header with-border">
+                  @if ($selectedDominion->race->name == 'Growth')
+                    <h3 class="box-title">Amoeba</h3>
+                  @else
                     <h3 class="box-title">Draftees</h3>
+                  @endif
                 </div>
                 <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                     @csrf
@@ -209,7 +228,11 @@
                             </colgroup>
                             <tbody>
                                 <tr>
+                                    @if ($selectedDominion->race->name == 'Growth')
+                                    <td class="text-center">Amoeba Generation:</td>
+                                    @else
                                     <td class="text-center">Draft Rate:</td>
+                                    @endif
                                     <td class="text-center">
                                         <input type="number" name="draft_rate" class="form-control text-center"
                                                style="display: inline-block; width: 80px;" placeholder="0" min="0"
