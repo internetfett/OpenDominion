@@ -22,6 +22,9 @@ class ProductionCalculator
     /** @var GuardMembershipService */
     private $guardMembershipService;
 
+    /** @var LandCalculator */
+    protected $landCalculator;
+
     /**
      * ProductionCalculator constructor.
      *
@@ -36,13 +39,15 @@ class ProductionCalculator
         PopulationCalculator $populationCalculator,
         PrestigeCalculator $prestigeCalculator,
         SpellCalculator $spellCalculator,
-        GuardMembershipService $guardMembershipService)
+        GuardMembershipService $guardMembershipService,
+        LandCalculator $landCalculator)
     {
         $this->improvementCalculator = $improvementCalculator;
         $this->populationCalculator = $populationCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
+        $this->landCalculator = $landCalculator;
     }
 
     //<editor-fold desc="Platinum">
