@@ -4,11 +4,11 @@
 
 @section('content')
 
-@if ($selectedDominion->race == 'Growth' and !(bool)$selectedDominion->spellCalculator->isSpellActive($selectedDominion, 'ambush'))
+@if ($selectedDominion->race == 'Growth' and !(bool)$selectedDominion->spellCalculator->isSpellActive($selectedDominion, 'woven_nerves'))
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
-            <p>You must <a href="{{ route('dominion.magic') }}">weave the nerves</a> before invading.</p>
+            <p><a href="{{ route('dominion.magic') }}">Nerves must be woven</a> before invading.</p>
         </div>
     </div>
 </div>
