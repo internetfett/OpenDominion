@@ -153,7 +153,7 @@ class SpellHelper
                 'key' => 'killing_rage',
                 'mana_cost' => 5,
                 'duration' => 12*4,
-                'races' => collect(['Goblin', 'Beastfolk']),
+                'races' => collect(['Goblin']),
             ],
             [
                 'name' => 'Alchemist Flame',
@@ -270,6 +270,14 @@ class SpellHelper
                 'races' => collect(['Growth']),
             ],
 
+            [
+                'name' => 'Ambush',
+                'description' => 'Removes 0.5% of target\'s raw defensive power.',
+                'key' => 'ambush',
+                'mana_cost' => 1,
+                'duration' => 1*4,
+                'races' => collect(['Beastfolk']),
+            ],
         ]);
     }
 

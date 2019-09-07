@@ -45,7 +45,8 @@ class DominionFactory
             $startingBuildings
         );
 
-        if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
+
+        if((bool)$race->getPerkValue('cannot_construct'))
         {
           if($race->name == 'Void')
           {
@@ -96,6 +97,13 @@ class DominionFactory
             $startingResources['spies'] = 25;
             $startingResources['wizards'] = 25;
             $startingResources['archmages'] = 0;
+        }
+
+        // For cannot_construct races, replace Gems with Platinum.
+        if((bool)$race->getPerkValue('cannot_improve_castle'))
+        {
+          $startingResources['platinum'] = $startingResources['gems'] * 2;
+          $startingResources['gems'] = 0;
         }
 
         return Dominion::create([
@@ -215,6 +223,8 @@ class DominionFactory
     {
         if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
         {
+          if($race->name == 'Void')
+          {
             return [
                 'plain' => 0,
                 'mountain' => 250,
@@ -224,6 +234,19 @@ class DominionFactory
                 'hill' => 0,
                 'water' => 0,
             ];
+          }
+          elseif($race->name == 'Growth')
+          {
+            return [
+                'plain' => 0,
+                'mountain' => 0,
+                'swamp' => 250,
+                'cavern' => 0,
+                'forest' => 0,
+                'hill' => 0,
+                'water' => 0,
+            ];
+          }
         }
         else
         {

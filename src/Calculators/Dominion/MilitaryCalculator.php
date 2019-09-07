@@ -226,7 +226,8 @@ class MilitaryCalculator
         string $opposingForceRaceName = null,
         float $landRatio = null,
         array $units = null,
-        bool $ignoreDraftees = false): float
+        bool $ignoreDraftees = false,
+        bool $isAmbush = false): float
     {
         $dp = 0;
 
@@ -265,6 +266,12 @@ class MilitaryCalculator
             ($dominion->peasants * $forestHavenDpPerPeasant),
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
+
+        // Beastfolk: Ambush (reduce raw DP by 0.5%)
+        if($isAmbush)
+        {
+          $dp = $dp * (1 - 0.5/100);
+        }
 
         return max(
             $dp,
