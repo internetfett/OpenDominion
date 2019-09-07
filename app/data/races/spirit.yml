@@ -15,7 +15,7 @@ units:
       defense: 2
     perks:
       immortal: 1
-      staggered_conversion: 40;1,85;2 
+      staggered_conversion: 40;1,85;2
   - name: Banshee
     need_boat: false
     cost:
@@ -26,7 +26,7 @@ units:
       defense: 3
     perks:
       immortal: 1
-      staggered_conversion: 75;2,85;3 
+      staggered_conversion: 75;2,85;3
       offense_from_building: alchemy,40,2 # building type, ratio%, max
       defense_from_building: alchemy,40,2 # building type, ratio%, max
   - name: Phantom
@@ -40,8 +40,8 @@ units:
     perks:
       immortal: 1
       staggered_conversion: 75;3,85;4
-      offense_from_building: alchemy,10,3 # building type, ratio%, max
-      defense_from_building: alchemy,10,3 # building type, ratio%, max
+      offense_from_building: alchemy,20,2 # building type, ratio%, max
+      defense_from_building: alchemy,20,2 # building type, ratio%, max
   - name: Spectre
     need_boat: false
     cost:
@@ -52,4 +52,4 @@ units:
       defense: 10
     perks:
       immortal: 1
-      staggered_conversion: 75;3,85;4
+      staggered_conversion: 85;3,100;4
