@@ -3,6 +3,15 @@
 @section('page-header', 'Improvements')
 
 @section('content')
+@if ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <p>Your race does not have a castle and therefore cannot use castle improvements.</p>
+            </div>
+        </div>
+    </div>
+@else
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -96,4 +105,5 @@
         </div>
 
     </div>
+@endif
 @endsection
