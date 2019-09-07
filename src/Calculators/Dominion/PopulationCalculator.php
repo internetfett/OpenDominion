@@ -241,16 +241,19 @@ class PopulationCalculator
         $birth = 0;
 
         // Values (percentages)
-        $growthFactor = 3;
+
+        // Growth only if food > 0.
+        if($dominion->resource_food > 0)
+        {
+          $growthFactor = 3;
+        }
+        else
+        {
+          $growthFactor = 3;
+        }
 
         // Growth
         $birth += (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * ($growthFactor / 100));
-
-        // No growth if food <= 0.
-#        if()
-#        {
-#          $birth = 0;
-#        }
 
         return $birth;
     }

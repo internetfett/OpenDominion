@@ -2,7 +2,6 @@ name: Beastfolk
 alignment: good
 home_land_type: forest
 perks:
-  lumber_production: 20
   extra_barren_max_population: 10
   cannot_improve_castle: 1
 units:
@@ -15,30 +14,30 @@ units:
       defense: 0
   - name: Ram
     cost:
-      platinum: 350
+      platinum: 325
       ore: 25
     power:
       offense: 0
       defense: 4
   - name: Goat Witch
     cost:
-      platinum: 1100
+      platinum: 1150
       ore: 0
     power:
       offense: 2
       defense: 5
     perks:
-      offense_from_land: plain,10,3 # land type, ratio%, max
-      defense_from_land: forest,10,3 # land type, ratio%, max
+      offense_from_land: plain,15,3 # land type, ratio%, max
+      defense_from_land: forest,15,3 # land type, ratio%, max
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Minotaur
     cost:
       platinum: 1200
-      ore: 100
+      ore: 90
     power:
       offense: 4
       defense: 1
     perks:
-      offense_from_land: plain,10,3 # land type, ratio%, max
-      defense_from_land: forest,10,3 # land type, ratio%, max
+      offense_from_land: plain,15,3 # land type, ratio%, max
+      defense_from_land: forest,15,3 # land type, ratio%, max
