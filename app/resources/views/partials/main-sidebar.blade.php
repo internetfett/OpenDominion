@@ -35,10 +35,24 @@
                 </li>
 
                 <li class="header">DOMINION</li>
+
+                <!-- Hide Construct Buildings from cannot_explore races -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_explore'))
                 <li class="{{ Route::is('dominion.explore') ? 'active' : null }}"><a href="{{ route('dominion.explore') }}"><i class="fa fa-search fa-fw"></i> <span>Explore Land</span></a></li>
+                @endif
+
+                <!-- Hide Construct Buildings from cannot_construct races -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
                 <li class="{{ Route::is('dominion.construct') ? 'active' : null }}"><a href="{{ route('dominion.construct') }}"><i class="fa fa-home fa-fw"></i> <span>Construct Buildings</span></a></li>
+                @endif
+
                 <li class="{{ Route::is('dominion.rezone') ? 'active' : null }}"><a href="{{ route('dominion.rezone') }}"><i class="fa fa-refresh fa-fw"></i> <span>Re-zone Land</span></a></li>
+
+                <!-- Hide Castle from cannot_improve_castle races -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
                 <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}"><a href="{{ route('dominion.improvements') }}"><i class="fa fa-arrow-up fa-fw"></i> <span>Improvements</span></a></li>
+                @endif
+
                 <li class="{{ Route::is('dominion.bank') ? 'active' : null }}"><a href="{{ route('dominion.bank') }}"><i class="fa fa-money fa-fw"></i> <span>National Bank</span></a></li>
 
                 <li class="header">BLACK OPS</li>
