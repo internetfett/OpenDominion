@@ -47,22 +47,70 @@ class DominionFactory
 
         if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
         {
+          if($race->name == 'Void')
+          {
             $startingResources['platinum'] = 200000;
             $startingResources['lumber'] = 0;
             $startingResources['food'] = 0;
             $startingResources['gems'] = 0;
             $startingResources['peasants'] = 1000;
+            $startingResources['unit1'] = 0;
             $startingResources['unit2'] = 500;
-        }
+            $startingResources['unit3'] = 0;
+            $startingResources['unit4'] = 0;
+            $startingResources['draftees'] = 100;
+            $startingResources['spies'] = 25;
+            $startingResources['wizards'] = 25;
+            $startingResources['archmages'] = 0;
+          }
+          elseif($race->name == 'Beastfolk')
+          {
+            $startingResources['platinum'] = 200000;
+            $startingResources['lumber'] = 0;
+            $startingResources['food'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['peasants'] = 1300;
+            $startingResources['unit1'] = 0;
+            $startingResources['unit2'] = 500;
+            $startingResources['unit3'] = 0;
+            $startingResources['unit4'] = 0;
+            $startingResources['draftees'] = 100;
+            $startingResources['spies'] = 25;
+            $startingResources['wizards'] = 25;
+            $startingResources['archmages'] = 0;
+          }
+          elseif($race->name == 'Growth')
+          {
+            $startingResources['platinum'] = 200000;
+            $startingResources['lumber'] = 0;
+            $startingResources['food'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['peasants'] = 2000;
+            $startingResources['unit1'] = rand(0,200);
+            $startingResources['unit2'] = rand(0,200);
+            $startingResources['unit3'] = rand(0,200);
+            $startingResources['unit4'] = rand(0,200);
+            $startingResources['draftees'] = rand(100,1000);
+            $startingResources['spies'] = 0;
+            $startingResources['wizards'] = 0;
+            $startingResources['archmages'] = 0;
+          }
+        // Default
         else
         {
             $startingResources['platinum'] = 100000;
             $startingResources['lumber'] = 15000;
-            $startingResources['food'] = 0;
+            $startingResources['food'] = 15000;
             $startingResources['gems'] = 10000;
             $startingResources['peasants'] = 1300;
+            $startingResources['unit1'] = 0;
             $startingResources['unit2'] = 150;
-
+            $startingResources['unit3'] = 0;
+            $startingResources['unit4'] = 0;
+            $startingResources['draftees'] = 100;
+            $startingResources['spies'] = 25;
+            $startingResources['wizards'] = 25;
+            $startingResources['archmages'] = 0;
         }
 
         return Dominion::create([
@@ -102,14 +150,14 @@ class DominionFactory
             'improvement_armory' => 0,
             'improvement_infirmary' => 0,
 
-            'military_draftees' => 100,
-            'military_unit1' => 0,
+            'military_draftees' => $startingResources['draftees'],
+            'military_unit1' => $startingResources['unit1'],
             'military_unit2' => $startingResources['unit2'],
-            'military_unit3' => 0,
-            'military_unit4' => 0,
-            'military_spies' => 25,
-            'military_wizards' => 25,
-            'military_archmages' => 0,
+            'military_unit3' => $startingResources['unit3'],
+            'military_unit4' => $startingResources['unit4'],
+            'military_spies' => $startingResources['spies'],
+            'military_wizards' => $startingResources['wizards'],
+            'military_archmages' => $startingResources['archmages'],
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
@@ -193,7 +241,7 @@ class DominionFactory
             ];
         }
         else
-        {      
+        {
             return [
                 'plain' => 40,
                 'mountain' => 20,
@@ -220,7 +268,7 @@ class DominionFactory
                 'alchemy' => 0,
                 'farm' => 0,
                 'lumberyard' => 0,
-            ]; 
+            ];
         }
         else
         {
@@ -229,7 +277,7 @@ class DominionFactory
                 'alchemy' => 30,
                 'farm' => 30,
                 'lumberyard' => 20,
-            ];            
+            ];
         }
     }
 

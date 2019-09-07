@@ -173,7 +173,11 @@
                         </thead>
                         <tbody>
                             <tr>
+                              @if ($selectedDominion->race->name == 'Growth')
+                                <td class="text-center">Cells:</td>
+                              @else
                                 <td class="text-center">Peasants</td>
+                              @endif
                                 <td class="text-center">
                                     {{ number_format($selectedDominion->peasants) }}
                                     ({{ number_format($populationCalculator->getPopulationPeasantPercentage($selectedDominion), 2) }}%)

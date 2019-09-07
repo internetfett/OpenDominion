@@ -55,7 +55,11 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                      @if ($race->name == 'Growth')
+                                        <td>Cells:</td>
+                                      @else
                                         <td>Peasants:</td>
+                                      @endif
                                         <td>{{ number_format($infoOp->data['peasants']) }}</td>
                                     </tr>
                                     <tr>

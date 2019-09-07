@@ -4,9 +4,17 @@ home_land_type: forest
 perks:
   lumber_production: 20
   extra_barren_max_population: 20
-  invest_bonus: 10
   cannot_improve_castle: 1
-#  cannot_construct: 1
+
+# Land benefits:
+# Forest % = +Population%
+# Hill % = +DP%
+# Mountain = +Plat%
+# Plains % = +OP%
+# Swamp % = +(Wizard Strength)x2
+# Water = +(Boat production, Food production)x5
+# Cavern = +(Spy Strength)
+
 units:
   - name: Boarman
     cost:

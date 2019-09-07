@@ -256,7 +256,11 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                      @if ($selectedDominion->race->name == 'Growth')
+                                        <td>Cells:</td>
+                                      @else
                                         <td>Peasant Population:</td>
+                                      @endif
                                         <td>
                                             <strong>{{ number_format($selectedDominion->peasants) }}</strong>
                                             <small class="text-muted">({{ number_format((($selectedDominion->peasants / $populationCalculator->getPopulation($selectedDominion)) * 100), 2) }}%)</small>

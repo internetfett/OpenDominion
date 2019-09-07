@@ -35,7 +35,11 @@
             <div class="row">
                 <div class="col-xs-3">
                     <div class="row">
+                        @if($selectedDominion->race == 'Growth')
                         <div class="col-lg-6"><b>Peasants:</b></div>
+                        @else
+                        <div class="col-lg-6"><b>Peasants:</b></div>
+                        @endif
                         <div class="col-lg-6">{{ number_format($selectedDominion->peasants) }}</div>
                     </div>
                 </div>
