@@ -68,7 +68,7 @@
         </div>
 
     </div>
-@else 
+@elseif ($selectedDominion->race->name == 'Void')
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
@@ -86,5 +86,13 @@
             </div>
         </div>
     </div>
+@else
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <p>Your race is not able to construct buildings.</p>
+        </div>
+    </div>
+</div>
 @endif
 @endsection
