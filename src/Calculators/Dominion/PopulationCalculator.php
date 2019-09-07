@@ -190,6 +190,12 @@ class PopulationCalculator
         // Tech: Urban Mastery or Construction
         // todo
 
+        // Beastfolk: Forest
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += 1 * ($dominion->{"land_forest"} / $this->landCalculator->getTotalLand($dominion));
+        }
+
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 

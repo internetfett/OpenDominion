@@ -144,7 +144,10 @@ class ProductionCalculator
         }
 
         // Beastfolk:
-        $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
+        }
 
         // Tech: Treasure Hunt or Banker's Foresight
         // todo
@@ -233,6 +236,12 @@ class ProductionCalculator
 
         // Tech: Farmer's Growth
         // todo
+
+        // Beastfolk water
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
+        }
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
@@ -686,6 +695,12 @@ class ProductionCalculator
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
+
+        // Beastfolk water
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
+        }
 
         return (1 + $multiplier);
     }
