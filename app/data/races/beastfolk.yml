@@ -24,8 +24,8 @@ units:
       platinum: 1150
       ore: 0
     power:
-      offense: 2
-      defense: 5
+      offense: 1
+      defense: 3
     perks:
       offense_from_land: plain,15,3 # land type, ratio%, max
       defense_from_land: forest,15,3 # land type, ratio%, max

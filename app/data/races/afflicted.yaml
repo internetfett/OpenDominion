@@ -26,7 +26,7 @@ units:
   - name: Necromancer
     need_boat: true
     cost:
-      platinum: 1000
+      platinum: 900
       ore: 10
     power:
       offense: -1
@@ -38,7 +38,7 @@ units:
   - name: Reaper
     need_boat: true
     cost:
-      platinum: 1100
+      platinum: 950
       ore: 100
     power:
       offense: 8
