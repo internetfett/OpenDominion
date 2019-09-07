@@ -4,6 +4,7 @@ home_land_type: forest
 perks:
   extra_barren_max_population: 10
   cannot_improve_castle: 1
+  cannot_train_archmages: 1
 units:
   - name: Boarman
     cost:
