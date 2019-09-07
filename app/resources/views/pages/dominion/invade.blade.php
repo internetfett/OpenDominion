@@ -4,7 +4,7 @@
 
 @section('content')
 
-@if ($selectedDominion->race == 'Growth')
+@if ($selectedDominion->race->name == 'Growth' and !(bool)$selectedDominion->spellCalculator->isSpellActive($selectedDominion, 'woven_nerves'))
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
