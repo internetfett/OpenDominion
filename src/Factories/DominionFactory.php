@@ -80,6 +80,7 @@ class DominionFactory
             $startingResources['archmages'] = 0;
           }
         // Default
+        }
         else
         {
             $startingResources['platinum'] = 100000;
