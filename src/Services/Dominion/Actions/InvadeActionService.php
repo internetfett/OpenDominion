@@ -855,7 +855,7 @@ class InvadeActionService
         $totalConverts = min($totalConvertingUnits * $conversionMultiplier, $totalDefensiveCasualties * 2) * $landRatio;
 
         // Racial: Apply reduce_conversions
-        $totalConverts = $totalConverts * (1 - $target->race->getPerkValue('reduce_conversions'));
+        $totalConverts = $totalConverts * (1 + $reduceConversions);
 
         foreach ($unitsWithConversionPerk as $unit) {
             $conversionPerk = $unit->getPerkValue('conversion');
