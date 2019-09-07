@@ -63,29 +63,13 @@ class DominionFactory
             $startingResources['wizards'] = 25;
             $startingResources['archmages'] = 0;
           }
-          elseif($race->name == 'Beastfolk')
-          {
-            $startingResources['platinum'] = 200000;
-            $startingResources['lumber'] = 0;
-            $startingResources['food'] = 0;
-            $startingResources['gems'] = 0;
-            $startingResources['peasants'] = 1300;
-            $startingResources['unit1'] = 0;
-            $startingResources['unit2'] = 500;
-            $startingResources['unit3'] = 0;
-            $startingResources['unit4'] = 0;
-            $startingResources['draftees'] = 100;
-            $startingResources['spies'] = 25;
-            $startingResources['wizards'] = 25;
-            $startingResources['archmages'] = 0;
-          }
           elseif($race->name == 'Growth')
           {
             $startingResources['platinum'] = 200000;
             $startingResources['lumber'] = 0;
             $startingResources['food'] = 0;
             $startingResources['gems'] = 0;
-            $startingResources['peasants'] = 2000;
+            $startingResources['peasants'] = rand(1500,2000);
             $startingResources['unit1'] = rand(0,200);
             $startingResources['unit2'] = rand(0,200);
             $startingResources['unit3'] = rand(0,200);
