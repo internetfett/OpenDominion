@@ -139,7 +139,7 @@ class ProductionCalculator
         }
 
         // Beastfolk:
-        $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion)
+        $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
 
         // Tech: Treasure Hunt or Banker's Foresight
         // todo
