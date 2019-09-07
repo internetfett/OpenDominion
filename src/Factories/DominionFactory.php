@@ -102,7 +102,7 @@ class DominionFactory
         // For cannot_construct races, replace Gems with Platinum.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
         {
-          $startingResources['platinum'] = $startingResources['gems'] * 2;
+          $startingResources['platinum'] += $startingResources['gems'] * 2;
           $startingResources['gems'] = 0;
         }
 
