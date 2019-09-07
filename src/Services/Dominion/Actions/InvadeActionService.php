@@ -241,9 +241,11 @@ class InvadeActionService
             $this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units);
 
+
+
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target);
-            $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties);
+            $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
             $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits);
@@ -794,7 +796,8 @@ class InvadeActionService
         Dominion $dominion,
         float $landRatio,
         array $units,
-        int $totalDefensiveCasualties
+        int $totalDefensiveCasualties,
+        int $reduceConversions
     ): array {
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
@@ -809,6 +812,7 @@ class InvadeActionService
 
         $conversionBaseMultiplier = 0.06;
         $spellParasiticHungerMultiplier = 0.5;
+
 
         $conversionMultiplier = (
             $conversionBaseMultiplier *
@@ -849,6 +853,9 @@ class InvadeActionService
         }
 
         $totalConverts = min($totalConvertingUnits * $conversionMultiplier, $totalDefensiveCasualties * 2) * $landRatio;
+
+        // Racial: Apply reduce_conversions
+        $totalConverts = $totalConverts * (1 - $target->race->getPerkValue('reduce_conversions'));
 
         foreach ($unitsWithConversionPerk as $unit) {
             $conversionPerk = $unit->getPerkValue('conversion');

@@ -299,6 +299,10 @@ GROWTH;
                 $negativeBenefit = false;
                 $description = 'cost of exploration';
                 break;
+            case 'reduce_conversions':
+                $negativeBenefit = true;
+                $description = 'reduced conversions';
+                break;
             default:
                 return '';
         }
@@ -451,6 +455,10 @@ GROWTH;
           case 'explore_cost':
                 $negativeBenefit = true;
                 $description = 'Cost of exploration';
+                break;
+            case 'reduce_conversions':
+                $negativeBenefit = true;
+                $description = 'Reduced conversions';
                 break;
             default:
                 return null;

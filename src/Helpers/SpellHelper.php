@@ -262,11 +262,11 @@ class SpellHelper
             ],
 
             [
-                'name' => 'Woven Nerves',
-                'description' => 'Enables invasion by forming a temporary intelligence. (NYI)',
-                'key' => 'woven_nerves',
-                'mana_cost' => 1,
-                'duration' => 1*4,
+                'name' => 'Ganglia',
+                'description' => 'Triples amoeba production',
+                'key' => 'ganglia',
+                'mana_cost' => 4,
+                'duration' => 12*4,
                 'races' => collect(['Growth']),
             ],
 

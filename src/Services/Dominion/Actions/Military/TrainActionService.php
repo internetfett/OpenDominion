@@ -146,6 +146,7 @@ class TrainActionService
                 //       locations need unit name overrides
                 $overridePluralUnitNames = [
                     'shaman' => 'shamans',
+                    'abscess' => 'abscesses'
                 ];
 
                 $amountLabel = number_format($amount);

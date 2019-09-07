@@ -4,15 +4,7 @@
 
 @section('content')
 
-@if ($selectedDominion->race->name == 'Growth' and !(bool)$spellCalculator->isSpellActive($selectedDominion, 'midas_touch'))
-<div class="row">
-    <div class="col-sm-12 col-md-9">
-        <div class="box box-primary">
-            <p><a href="{{ route('dominion.magic') }}">Nerves must be woven</a> before invading.</p>
-        </div>
-    </div>
-</div>
-@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
 
     <div class="row">
 
