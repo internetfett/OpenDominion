@@ -162,6 +162,13 @@ TEMPLARS;
         $descriptions['growth'] = <<<GROWTH
 <p>The growth is believed to originate from ancient Nox cemetaries, deep in the swamp lands.</p>
 <p>Attempts at communication have failed. It shows no signs of sentience.</p>
+<hr>
+<p>Starting resources are randomised:</p>
+<ul>
+<li>Between 0 and 200 of each unit type.</li>
+<li>Between 100 and 1,000 cells (draftees).</li>
+<li>Between 5,000 and 20,000 food.</li>
+</ul>
 GROWTH;
 
         $key = strtolower($race->name);

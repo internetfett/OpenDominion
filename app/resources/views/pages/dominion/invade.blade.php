@@ -4,7 +4,15 @@
 
 @section('content')
 
-@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+@if ($selectedDominion->race == 'Growth' and !(bool)$selectedDominion->spellCalculator->isSpellActive($dominion, 'ambush'))
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <p>You must <a href="{{ route('dominion.magic') }}">weave the nerves</a> before invading.</p>
+        </div>
+    </div>
+</div>
+@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
 
     <div class="row">
 

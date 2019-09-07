@@ -272,7 +272,7 @@ class SpellHelper
 
             [
                 'name' => 'Ambush',
-                'description' => 'For every 10% Forest, removes 1% of target\'s raw defensive power (max -5%).',
+                'description' => 'For every 10% Forest, removes 1% of target\'s raw defensive power (max 5% reduction).',
                 'key' => 'ambush',
                 'mana_cost' => 1,
                 'duration' => 1*4,

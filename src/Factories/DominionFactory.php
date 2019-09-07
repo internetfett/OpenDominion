@@ -66,9 +66,9 @@ class DominionFactory
           }
           elseif($race->name == 'Growth')
           {
-            $startingResources['platinum'] = 200000;
+            $startingResources['platinum'] = 0;
             $startingResources['lumber'] = 0;
-            $startingResources['food'] = 15000;
+            $startingResources['food'] = rand(5000,20000);;
             $startingResources['gems'] = 0;
             $startingResources['peasants'] = rand(1500,2000);
             $startingResources['unit1'] = rand(0,200);
