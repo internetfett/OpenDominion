@@ -272,10 +272,11 @@ class SpellHelper
 
             [
                 'name' => 'Ambush',
-                'description' => 'Removes 0.5% of target\'s raw defensive power.',
+                'description' => 'For every 10% Forest, removes 1% of target\'s raw defensive power (max -5%).',
                 'key' => 'ambush',
                 'mana_cost' => 1,
                 'duration' => 1*4,
+                'cooldown' => 36*4,
                 'races' => collect(['Beastfolk']),
             ],
         ]);
