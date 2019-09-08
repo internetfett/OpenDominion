@@ -14,7 +14,7 @@ units:
       defense: 0
     perks:
       faster_return: 3
-  - name: Monk
+  - name: Follower
     need_boat: true
     cost:
       platinum: 0
