@@ -41,7 +41,7 @@
                                     <th class="text-center">Barren</th>
                                     <th class="text-center">Exploring</th>
                                     <th class="text-center">Explore For</th>
-                                    @if()
+                                    @if ($selectedDominion->race->name == 'Beastfolk')
                                     <th class="text-center">Bonus</th>
                                     @endif
                                 </tr>
