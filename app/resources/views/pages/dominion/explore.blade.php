@@ -69,8 +69,9 @@
                                         </td>
                                         @if ($selectedDominion->race->name == 'Beastfolk')
                                         <td>
+                                          Bonus from {{ $landType }}.
                                           @if($landType == 'Plain')
-                                          Plains give 
+                                          Plains give
                                               +{{ 0.2 *  $landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType}} Offensive Power
                                           @endif
                                         </td>
