@@ -29,7 +29,7 @@
                                             <option></option>
                                             @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
                                                 <option value="{{ $dominion->id }}" data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}" data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
-                                                    {{ $dominion->name }} (#{{ $dominion->realm->number }})
+                                                    {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }} 
                                                 </option>
                                             @endforeach
                                         </select>
