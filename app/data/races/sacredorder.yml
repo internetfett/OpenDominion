@@ -3,6 +3,8 @@ alignment: good
 home_land_type: plain
 perks:
   food_production: 5
+  population_growth: -5
+  max_population: -5
 units:
   - name: Martyr
     cost:
