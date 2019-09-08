@@ -41,6 +41,9 @@
                                     <th class="text-center">Barren</th>
                                     <th class="text-center">Exploring</th>
                                     <th class="text-center">Explore For</th>
+                                    @if()
+                                    <th class="text-center">Bonus</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>

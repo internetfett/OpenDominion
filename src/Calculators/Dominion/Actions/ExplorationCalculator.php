@@ -42,7 +42,11 @@ class ExplorationCalculator
         if ($totalLand < 300) {
             $platinum += -(3 * (300 - $totalLand));
         } else {
-            $platinum += (3 * (($totalLand - 300) ** 1.09));
+            #$platinum += (3 * (($totalLand - 300) ** 1.09));
+            // Yami's formula.
+            $exponent = ($totalLand ** 0.019) / 1.05));
+            $exponent = clamp($exponent, 1.09, 1.119);
+            $platinum += (3 * (($totalLand - 300) ** $exponent));
         }
 
         $platinum += 1000;
