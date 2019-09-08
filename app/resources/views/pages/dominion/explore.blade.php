@@ -69,9 +69,20 @@
                                         </td>
                                         @if ($selectedDominion->race->name == 'Beastfolk')
                                         <td>
-                                          Bonus from {{ $landType }}
                                           @if($landType == 'plain')
-                                              +{{ 0.2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Offensive Power
+                                              +{{ 100 * 0.2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Offensive Power
+                                          @elsef($landType == 'mountain')
+                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Platinum Production
+                                          @elsef($landType == 'swamp')
+                                              +{{ 100 * 2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Wizard Strength
+                                          @elsef($landType == 'cavern')
+                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Spy Strength
+                                          @elsef($landType == 'forest')
+                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Max Population
+                                          @elsef($landType == 'hill')
+                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Defensive Power
+                                          @elsef($landType == 'water')
+                                              +{{ 100 * 5 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }} Food and Boat Production
                                           @endif
                                         </td>
                                         @endif
