@@ -70,19 +70,19 @@
                                         @if ($selectedDominion->race->name == 'Beastfolk')
                                         <td>
                                           @if($landType == 'plain')
-                                              +{{ 100 * 0.2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Offensive Power
+                                              +{{ round(100 * 0.2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Offensive Power
                                           @elseif($landType == 'mountain')
-                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Platinum Production
+                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Platinum Production
                                           @elseif($landType == 'swamp')
-                                              +{{ 100 * 2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Wizard Strength
+                                              +{{ round(100 * 2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Wizard Strength
                                           @elseif($landType == 'cavern')
-                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Spy Strength
+                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Spy Strength
                                           @elseif($landType == 'forest')
-                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Max Population
+                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Max Population
                                           @elseif($landType == 'hill')
-                                              +{{ 100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Defensive Power
+                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Defensive Power
                                           @elseif($landType == 'water')
-                                              +{{ 100 * 5 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) }}% Food and Boat Production
+                                              +{{ round(100 * 5 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Food and Boat Production
                                           @endif
                                         </td>
                                         @endif
