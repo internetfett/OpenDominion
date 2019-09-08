@@ -130,6 +130,8 @@ BEASTFOLK;
 
         $descriptions['sacred order'] = <<<SACREDORDER
 <p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
+<p>Monks are responsible for providing stable defenses, while Fanatics are seen both defending the holy land and conquering more, strengthened by Shrines to the Divines.</p>
+<p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors.</p>
 SACREDORDER;
 
         $descriptions['void'] = <<<VOID
