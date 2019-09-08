@@ -67,6 +67,13 @@
                                         <td class="text-center">
                                             <input type="number" name="explore[land_{{ $landType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $explorationCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('explore.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
+                                        @if ($selectedDominion->race->name == 'Beastfolk')
+                                        <td>
+                                          @if($landType == 'plain')
+                                              +{{ 0.2 *  $landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType}} Offensive Power
+                                          @endif
+                                        </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>
