@@ -127,7 +127,7 @@ class TrainActionService
 
             $dominion->decrement('resource_food', $totalCosts['food']);
             $dominion->decrement('resource_mana', $totalCosts['mana']);
-            $dominion->decrement('resource_gems', $totalCosts['gems']);
+            $dominion->decrement('resource_gems', $totalCosts['gem']);
             $dominion->decrement('resource_lumber', $totalCosts['lumber']);
             $dominion->decrement('prestige', $totalCosts['prestige']);
             $dominion->decrement('boats', $totalCosts['boat']);
