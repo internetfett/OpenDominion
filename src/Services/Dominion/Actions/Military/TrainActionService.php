@@ -87,15 +87,15 @@ class TrainActionService
         }
 
         if (($totalCosts['platinum'] > $dominion->resource_platinum) ||
-            ($totalCosts['ore'] > $dominion->resource_ore ||
+            ($totalCosts['ore'] > $dominion->resource_ore) ||
 
             // New unit cost resources
-            ($totalCosts['food'] > $dominion->resource_food ||
-            ($totalCosts['mana'] > $dominion->resource_mana ||
-            ($totalCosts['gem'] > $dominion->resource_gem ||
-            ($totalCosts['lumber'] > $dominion->resource_lumber ||
-            ($totalCosts['prestige'] > $dominion->prestige ||
-            ($totalCosts['boat'] > $dominion->boats
+            ($totalCosts['food'] > $dominion->resource_food) ||
+            ($totalCosts['mana'] > $dominion->resource_mana) ||
+            ($totalCosts['gem'] > $dominion->resource_gem) ||
+            ($totalCosts['lumber'] > $dominion->resource_lumber) ||
+            ($totalCosts['prestige'] > $dominion->prestige) ||
+            ($totalCosts['boat'] > $dominion->boats)
           )) {
             throw new GameException('Training aborted due to lack of economical resources');
         }
