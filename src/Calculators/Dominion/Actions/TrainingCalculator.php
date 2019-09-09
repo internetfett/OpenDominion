@@ -124,6 +124,9 @@ class TrainingCalculator
                         $cost['boat'] = $boat;
                         $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
+
+                    $cost['draftees'] = 1;
+                    
                     break;
             }
 
