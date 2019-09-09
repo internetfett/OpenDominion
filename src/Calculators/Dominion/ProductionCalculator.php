@@ -291,6 +291,11 @@ class ProductionCalculator
         // Values (percentages)
         $foodDecay = 1;
 
+        // Racial Spell: Metabolism (Growth)
+        if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
+            $foodDecay = $foodDecay / 2;
+        }
+
         $decay += ($dominion->resource_food * ($foodDecay / 100));
 
         return $decay;

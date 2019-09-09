@@ -18,6 +18,7 @@ units:
     cost:
       platinum: 0
       ore: 0
+      food: 100
     power:
       offense: 1
       defense: 0
@@ -28,6 +29,7 @@ units:
     cost:
       platinum: 0
       ore: 0
+      food: 200
     power:
       offense: 0
       defense: 1
@@ -38,6 +40,7 @@ units:
     cost:
       platinum: 0
       ore: 0
+      food: 400
     power:
       offense: 0
       defense: 2
@@ -49,6 +52,7 @@ units:
     cost:
       platinum: 0
       ore: 0
+      food: 500
     power:
       offense: 2
       defense: 1

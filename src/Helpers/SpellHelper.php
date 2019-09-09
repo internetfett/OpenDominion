@@ -262,9 +262,9 @@ class SpellHelper
             ],
 
             [
-                'name' => 'Ganglia',
-                'description' => 'Triples amoeba production',
-                'key' => 'ganglia',
+                'name' => 'Metabolism',
+                'description' => '-50% food rot.',
+                'key' => 'metabolism',
                 'mana_cost' => 4,
                 'duration' => 12*4,
                 'races' => collect(['Growth']),

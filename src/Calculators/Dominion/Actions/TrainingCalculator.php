@@ -86,6 +86,11 @@ class TrainingCalculator
                         $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
 
+                    if ($food > 0) {
+                        $cost['food'] = $ore;
+                        $cost['food'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
+                    }
+
                     $cost['draftees'] = 1;
 
                     break;
