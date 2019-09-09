@@ -153,7 +153,7 @@ class TrainingCalculator
             'mana' => 'resource_mana',
             'gem' => 'resource_gems',
             'lumber' => 'resource_lumber',
-            'prestige' => 'resource_prestige',
+            'prestige' => 'prestige',
             'boat' => 'resource_boats',
         ];
 
