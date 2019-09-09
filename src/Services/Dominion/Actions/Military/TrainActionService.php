@@ -64,6 +64,15 @@ class TrainActionService
             'ore' => 0,
             'draftees' => 0,
             'wizards' => 0,
+
+            //New unit cost resources
+            'food' => 0,
+            'mana' => 0,
+            'gem' => 0,
+            'lumber' => 0,
+            'prestige' => 0,
+            'boat' => 0,
+
         ];
 
         $unitsToTrain = [];
