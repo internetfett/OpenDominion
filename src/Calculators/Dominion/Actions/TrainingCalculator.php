@@ -151,10 +151,10 @@ class TrainingCalculator
 
             'food' => 'resource_food',
             'mana' => 'resource_mana',
-            'gem' => 'resource_gem',
+            'gem' => 'resource_gems',
             'lumber' => 'resource_lumber',
             'prestige' => 'resource_prestige',
-            'boat' => 'resource_boat',
+            'boat' => 'resource_boats',
         ];
 
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);
