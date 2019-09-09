@@ -25,7 +25,7 @@ units:
     perks:
       reduce_combat_losses: 1
       mana_production: 0.01
-  - name: Pikemen
+  - name: Pikeman
     need_boat: true
     cost:
       platinum: 900

@@ -175,7 +175,17 @@ class TrainActionService
                 //       locations need unit name overrides
                 $overridePluralUnitNames = [
                     'shaman' => 'shamans',
-                    'abscess' => 'abscesses'
+                    'abscess' => 'abscesses',
+                    'werewolf' => 'werewolves',
+                    'snow witch' => 'snow witches',
+                    'lich' => 'liches',
+                    'progeny' => 'progenies',
+                    'fallen' => 'fallen',
+                    'goat witch' => 'goat witches',
+                    'phoenix' => 'phoenix',
+                    'master thief' => 'master thieves',
+                    'cavalry' => 'cavalries',
+                    'pikeman' => 'pikemen'
                 ];
 
                 $amountLabel = number_format($amount);
