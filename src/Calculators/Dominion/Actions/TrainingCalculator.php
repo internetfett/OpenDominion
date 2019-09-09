@@ -77,7 +77,7 @@ class TrainingCalculator
                     $platinum = $units[$unitSlot]->cost_platinum;
                     $ore = $units[$unitSlot]->cost_ore;
 
-
+                    // New unit cost resources
                     $food = $units[$unitSlot]->cost_food;
                     $mana = $units[$unitSlot]->cost_mana;
                     $gem = $units[$unitSlot]->cost_gem;
@@ -97,12 +97,12 @@ class TrainingCalculator
                     // FOOD cost for units
                     if ($food > 0) {
                         $cost['food'] = $food;
-                        $cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion));
+                        #$cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // MANA cost for units
                     if ($mana > 0) {
                         $cost['mana'] = $mana;
-                        $cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion));
+                        #$cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // GEM cost for units
                     if ($gem > 0) {
