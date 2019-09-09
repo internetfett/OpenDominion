@@ -165,10 +165,15 @@ class TrainingCalculator
             $trainableByCost = [];
 
             foreach ($costs as $type => $value) {
-                var_dump($costs);
+
                 if($value == Null)
                 {
-                  $value = 0;
+                  echo '<pre>';
+                  echo "\n".'$value is NULL';
+                  echo "\n".'$costs is' . var_dump($costs);
+                  echo "\n".'$value is ' . var_dump($value);
+                  echo '</pre>';
+                  $value = 1;
                 }
                 $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
             }
