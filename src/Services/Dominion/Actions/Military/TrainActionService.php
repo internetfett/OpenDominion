@@ -122,6 +122,16 @@ class TrainActionService
             $dominion->decrement('resource_ore', $totalCosts['ore']);
             $dominion->decrement('military_draftees', $totalCosts['draftees']);
             $dominion->decrement('military_wizards', $totalCosts['wizards']);
+
+            // New unit cost resources.
+
+            $dominion->decrement('resource_food', $totalCosts['food']);
+            $dominion->decrement('resource_mana', $totalCosts['mana']);
+            $dominion->decrement('resource_gems', $totalCosts['gems']);
+            $dominion->decrement('resource_lumber', $totalCosts['lumber']);
+            $dominion->decrement('prestige', $totalCosts['prestige']);
+            $dominion->decrement('boats', $totalCosts['boat']);
+
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
             // Specialists train in 9 hours
