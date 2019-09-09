@@ -20,6 +20,17 @@ class CreateUnitsTable extends Migration
             $table->string('name');
             $table->integer('cost_platinum');
             $table->integer('cost_ore');
+
+
+            // New unit cost resources
+            $table->integer('cost_food');
+            $table->integer('cost_mana');
+            $table->integer('cost_gem');
+            $table->integer('cost_lumber');
+            $table->integer('cost_prestige');
+            $table->integer('cost_boat');
+
+
             $table->float('power_offense');
             $table->float('power_defense');
             $table->boolean('need_boat')->default(true);

@@ -32,6 +32,18 @@ class Unit extends AbstractModel
         'power_offense' => 'float',
         'power_defense' => 'float',
         'need_boat' => 'boolean',
+        // Unit food cost
+        'cost_food' => 'integer',
+        // Unit mana cost
+        'cost_mana' => 'integer',
+        // Unit gem cost
+        'cost_gem' => 'integer',
+        // Unit lumber cost
+        'cost_lumber' => 'integer',
+        // Unit prestige cost
+        'cost_prestige' => 'integer',
+        // Unit boat cost
+        'cost_boat' => 'integer',
     ];
 
     public function perks()

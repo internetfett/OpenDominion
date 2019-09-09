@@ -96,6 +96,31 @@
                                     if ($unit->cost_ore > 0) {
                                         $unitCostString .= (', ' . number_format($unit->cost_ore) . 'r');
                                     }
+
+                                    if ($unit->cost_food > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_food) . 'f');
+                                    }
+
+                                    if ($unit->cost_mana > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_mana) . 'm');
+                                    }
+
+                                    if ($unit->cost_gem > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_gem) . 'g');
+                                    }
+
+                                    if ($unit->cost_lumber > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_lumber) . 'l');
+                                    }
+
+                                    if ($unit->cost_prestige > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_prestige) . 'pstg');
+                                    }
+
+                                    if ($unit->cost_boat > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_boat) . 'b');
+                                    }
+
                                 @endphp
                                 <tr>
                                     <td>
