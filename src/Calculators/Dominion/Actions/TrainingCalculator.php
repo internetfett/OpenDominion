@@ -166,6 +166,7 @@ class TrainingCalculator
 
             foreach ($costs as $type => $value) {
 
+                /* Pray we never need this again.
                 if($value == Null)
                 {
                   echo '<pre>';
@@ -175,6 +176,7 @@ class TrainingCalculator
                   echo '</pre>';
                   $value = 1;
                 }
+                */
                 $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
             }
 
