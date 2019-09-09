@@ -90,6 +90,10 @@
                                                 $labelParts = [];
 
                                                 foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
+
+                                                  if($value > 0)
+                                                  {
+
                                                     switch ($costType) {
                                                         case 'platinum':
                                                             $labelParts[] = "{$value}p";
@@ -127,17 +131,15 @@
                                                             $labelParts[] = "{$value} boat";
                                                             break;
 
-
-
-
-
                                                         case 'wizards':
                                                             $labelParts[] = 'Wizard';
                                                             break;
 
                                                         default:
                                                             break;
-                                                    }
+                                                        }
+
+                                                    } #ENDIF
                                                 }
 
                                                 echo implode(', ', $labelParts);
