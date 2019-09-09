@@ -76,6 +76,7 @@ class TrainingCalculator
 
                     $platinum = $units[$unitSlot]->cost_platinum;
                     $ore = $units[$unitSlot]->cost_ore;
+                    $food = $units[$unitSlot]->cost_food;
 
                     if ($platinum > 0) {
                         $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion));
@@ -86,6 +87,7 @@ class TrainingCalculator
                         $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
 
+                    // Food cost for units
                     if ($food > 0) {
                         $cost['food'] = $ore;
                         $cost['food'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
