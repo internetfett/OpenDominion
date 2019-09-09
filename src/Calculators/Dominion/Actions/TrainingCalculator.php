@@ -165,7 +165,7 @@ class TrainingCalculator
             $trainableByCost = [];
 
             foreach ($costs as $type => $value) {
-              if($value == 0)
+              if($value == 0 or $value == Null)
               {
                 $value == 1;
               }
