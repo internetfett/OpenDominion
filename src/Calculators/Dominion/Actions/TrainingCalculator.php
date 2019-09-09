@@ -97,12 +97,12 @@ class TrainingCalculator
                     // FOOD cost for units
                     if ($food > 0) {
                         $cost['food'] = $food;
-                        #$cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion));
+                        $cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // MANA cost for units
                     if ($mana > 0) {
                         $cost['mana'] = $mana;
-                        #$cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion));
+                        $cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // GEM cost for units
                     if ($gem > 0) {
@@ -110,17 +110,17 @@ class TrainingCalculator
                         $cost['gem'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // LUMBER cost for units
-                    if ($food > 0) {
+                    if ($lumber > 0) {
                         $cost['lumber'] = $lumber;
                         $cost['lumber'] = (int)ceil($lumber * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // PRESTIGE cost for units
-                    if ($food > 0) {
+                    if ($prestige > 0) {
                         $cost['prestige'] = $prestige;
                         $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
                     // BOAT cost for units
-                    if ($food > 0) {
+                    if ($boat > 0) {
                         $cost['boat'] = $boat;
                         $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
