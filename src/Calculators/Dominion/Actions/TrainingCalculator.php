@@ -168,7 +168,7 @@ class TrainingCalculator
                 var_dump($costs);
                 if($value == Null)
                 {
-                  $value = 1;
+                  $value = 0;
                 }
                 $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
             }
