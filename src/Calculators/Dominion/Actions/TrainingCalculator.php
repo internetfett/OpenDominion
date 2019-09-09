@@ -146,6 +146,15 @@ class TrainingCalculator
             'ore' => 'resource_ore',
             'draftees' => 'military_draftees',
             'wizards' => 'military_wizards',
+
+            //New unit cost resources
+
+            'food' => 'resource_food',
+            'mana' => 'resource_mana',
+            'gem' => 'resource_gem',
+            'lumber' => 'resource_lumber',
+            'prestige' => 'resource_prestige',
+            'boat' => 'resource_boat',
         ];
 
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);
