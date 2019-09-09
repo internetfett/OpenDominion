@@ -130,7 +130,7 @@ class TrainActionService
             $dominion->decrement('resource_gems', $totalCosts['gem']);
             $dominion->decrement('resource_lumber', $totalCosts['lumber']);
             $dominion->decrement('prestige', $totalCosts['prestige']);
-            $dominion->decrement('boats', $totalCosts['boat']);
+            $dominion->decrement('resource_boats', $totalCosts['boat']);
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
