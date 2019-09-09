@@ -167,8 +167,6 @@ class TrainingCalculator
             foreach ($costs as $type => $value) {
               if($value == 0 or $value == Null)
               {
-                echo "THIS IS THE VALUE:" . $value;
-                var_dump($value);
                 $value = 1;
               }
                 $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);

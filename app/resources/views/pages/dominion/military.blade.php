@@ -99,6 +99,38 @@
                                                             $labelParts[] = "{$value}r";
                                                             break;
 
+                                                        case 'ore':
+                                                            $labelParts[] = "{$value}r";
+                                                            break;
+
+                                                        case 'food':
+                                                            $labelParts[] = "{$value}f";
+                                                            break;
+
+                                                        case 'mana':
+                                                            $labelParts[] = "{$value}m";
+                                                            break;
+
+                                                        case 'gem':
+                                                            $labelParts[] = "{$value}g";
+                                                            break;
+
+                                                        case 'lumber':
+                                                            $labelParts[] = "{$value}l";
+                                                            break;
+
+                                                        case 'prestige':
+                                                            $labelParts[] = "{$value} Prestige";
+                                                            break;
+
+                                                        case 'boat':
+                                                            $labelParts[] = "{$value} boat";
+                                                            break;
+
+
+
+
+
                                                         case 'wizards':
                                                             $labelParts[] = 'Wizard';
                                                             break;
