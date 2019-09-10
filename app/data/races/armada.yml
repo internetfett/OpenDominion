@@ -6,7 +6,7 @@ perks:
   food_production: 10
   max_population: -10
 units:
-  - name: Sailor
+  - name: Ensign
     need_boat: true
     cost:
       platinum: 350
@@ -14,7 +14,7 @@ units:
     power:
       offense: 3
       defense: 3
-  - name: Commander
+  - name: Commodore
     need_boat: true
     cost:
       platinum: 1200

@@ -279,6 +279,15 @@ class SpellHelper
                 'cooldown' => 36*4,
                 'races' => collect(['Beastfolk']),
             ],
+
+            [
+                'name' => 'Coastal Cannons',
+                'description' => '+1% Defensive Power for every 1% Water.',
+                'key' => 'coastal_cannons',
+                'mana_cost' => 6,
+                'duration' => 12*4,
+                'races' => collect(['Armada']),
+            ],
         ]);
     }
 

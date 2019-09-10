@@ -175,9 +175,9 @@ GROWTH;
 
 
         $descriptions['armada'] = <<<ARMADA
-<p>The Armada traces its origin to Human naval forces aimed at taking care of increasing piracy.</p>
+<p>The Armada, originally The Imperial Armada, traces its origin to Human naval forces aimed at taking care of increasing piracy and worrying signs of an Orcish navy.</p>
 <p>They were given a great deal of autonomy in order to solve problems in a manner and with an efficiency normal human bureaucracy would not permit.</p>
-<p>With increased self-governance, the Armada gradually grow into its own faction and now controls its own seafaring dominions.</p>
+<p>With increased self-governance, the Armada gradually grow into its own faction of the Empire and now controls its own seafaring dominions.</p>
 ARMADA;
 
         $key = strtolower($race->name);
