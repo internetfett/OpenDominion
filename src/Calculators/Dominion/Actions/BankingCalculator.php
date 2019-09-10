@@ -49,11 +49,11 @@ class BankingCalculator
 
         // Get racial bonus
         $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
-        $resources['resource_platinum']['buy'] *= (1 + $bonus);
-        $resources['resource_lumber']['buy'] *= (1 + $bonus);
-        $resources['resource_ore']['buy'] *= (1 + $bonus);
-        $resources['resource_gems']['buy'] *= (1 + $bonus);
-        $resources['resource_food']['buy'] *= (1 + $bonus);
+#        $resources['resource_platinum']['buy'] *= (1 + $bonus);
+#        $resources['resource_lumber']['buy'] *= (1 + $bonus);
+#        $resources['resource_ore']['buy'] *= (1 + $bonus);
+#        $resources['resource_gems']['buy'] *= (1 + $bonus);
+#        $resources['resource_food']['buy'] *= (1 + $bonus);
 
 
         $resources['resource_platinum']['sell'] *= (1 + $bonus);
