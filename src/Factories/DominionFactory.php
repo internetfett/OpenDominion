@@ -82,6 +82,22 @@ class DominionFactory
           }
         // Default
         }
+        elseif($race->name == 'Growth')
+        {
+          $startingResources['platinum'] = 100000;
+          $startingResources['lumber'] = 15000;
+          $startingResources['food'] = 15000;
+          $startingResources['gems'] = 10000;
+          $startingResources['peasants'] = 1300;
+          $startingResources['unit1'] = 100;
+          $startingResources['unit2'] = 10;
+          $startingResources['unit3'] = 0;
+          $startingResources['unit4'] = 0;
+          $startingResources['draftees'] = 100;
+          $startingResources['spies'] = 25;
+          $startingResources['wizards'] = 25;
+          $startingResources['archmages'] = 0;
+        }
         else
         {
             $startingResources['platinum'] = 100000;
