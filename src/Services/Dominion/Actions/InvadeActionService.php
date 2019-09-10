@@ -357,35 +357,41 @@ class InvadeActionService
         $attackerPrestigeChange = 0;
         $targetPrestigeChange = 0;
 
-        if ($isOverwhelmed) {
+        if ($isOverwhelmed or (!$isInvasionSuccessful && $range < 50)) {
             $attackerPrestigeChange = ($dominion->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 100));
-
-        } elseif ($isInvasionSuccessful && ($range >= 75)) {
-            $attackerPrestigeChange = (int)round(min(
-                (($target->prestige * (static::PRESTIGE_CHANGE_PERCENTAGE / 100)) + static::PRESTIGE_CHANGE_ADD), // Gained through invading
-                (($dominion->prestige * (static::PRESTIGE_CAP_PERCENTAGE / 100)) + static::PRESTIGE_CHANGE_ADD) // But capped by depending on your current prestige
-            ));
+        }
+        elseif ($isInvasionSuccessful && ($range >= 75))
+        {
+#            $attackerPrestigeChange = (int)round(min(
+#                (($target->prestige * (static::PRESTIGE_CHANGE_PERCENTAGE / 100)) + static::PRESTIGE_CHANGE_ADD), // Gained through invading
+#                (($dominion->prestige * (static::PRESTIGE_CAP_PERCENTAGE / 100)) + static::PRESTIGE_CHANGE_ADD) // But capped by depending on your current prestige
+#            ));
             $targetPrestigeChange = (int)round(($target->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 100)));
+
+            $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($range / 100) / 10)));
 
             // Reduce attacker prestige gain if the target was hit recently
             $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
 
             if ($recentlyInvadedCount === 1) {
-                $attackerPrestigeChange *= 0.75;
+                $attackerPrestigeChange *= 0.9;
             } elseif ($recentlyInvadedCount === 2) {
-                $attackerPrestigeChange *= 0.5;
+                $attackerPrestigeChange *= 0.6;
             } elseif ($recentlyInvadedCount === 3) {
-                $attackerPrestigeChange *= 0.25;
-            } elseif ($recentlyInvadedCount === 4) {
-                $attackerPrestigeChange *= -0.25;
-            } elseif ($recentlyInvadedCount >= 5) {
-                $attackerPrestigeChange *= -0.5;
+                $attackerPrestigeChange *= 0.3;
+            } elseif ($recentlyInvadedCount >= 4) {
+                $attackerPrestigeChange *= 0.1;
             }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
 
             // todo: if wat war, increase $attackerPrestigeChange by +15%
         }
+        elseif ($isInvasionSuccessful && ($range < 60))
+        {
+          $attackerPrestigeChange = $dominion->prestige * (0 + ($recentlyInvadedCount / 100) +  ((100 - $range) / 100 / 100));
+        }
+
 
         if ($attackerPrestigeChange !== 0) {
             if (!$isInvasionSuccessful) {
