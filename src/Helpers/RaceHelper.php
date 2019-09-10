@@ -173,6 +173,13 @@ TEMPLARS;
 </ul>
 GROWTH;
 
+
+        $descriptions['armada'] = <<<ARMADA
+<p>The Armada traces its origin to Human naval forces aimed at taking care of increasing piracy.</p>
+<p>They were given a great deal of autonomy in order to solve problems in a manner and with an efficiency normal human bureaucracy would not permit.</p>
+<p>With increased self-governance, the Armada gradually grow into its own faction and now controls its own seafaring dominions.</p>
+ARMADA;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
@@ -304,6 +311,10 @@ GROWTH;
             case 'reduce_conversions':
                 $negativeBenefit = false;
                 $description = 'reduced conversions';
+                break;
+            case 'exchange_bonus':
+                $negativeBenefit = false;
+                $description = 'better exchange rates';
                 break;
             default:
                 return '';
@@ -461,6 +472,10 @@ GROWTH;
             case 'reduce_conversions':
                 $negativeBenefit = false;
                 $description = 'Reduced conversions';
+                break;
+            case 'exchange_bonus':
+                $negativeBenefit = false;
+                $description = 'Better exchange rates';
                 break;
             default:
                 return null;

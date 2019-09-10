@@ -1,0 +1,47 @@
+name: Armada
+alignment: good
+home_land_type: water
+perks:
+  exchange_bonus: 25
+  food_production: 10
+units:
+  - name: Sailor
+    need_boat: true
+    cost:
+      platinum: 300
+      ore: 0
+    power:
+      offense: 2
+      defense: 2
+  - name: Bosun
+    need_boat: true
+    cost:
+      platinum: 300
+      ore: 0
+    power:
+      offense: 4
+      defense: 4
+  - name: Oreclad
+    need_boat: false
+    cost:
+      platinum: 5000
+      ore: 15000
+      boat: 1
+      lumber: 10000
+    power:
+      offense: 0
+      defense: 100
+    perks:
+      fewer_casualties: 80
+  - name: Siege Ship
+    need_boat: false
+    cost:
+      platinum: 15000
+      ore: 1000
+      boat: 1
+      lumber: 10000
+    power:
+      offense: 100
+      defense: 10
+    perks:
+      fewer_casualties: 80
