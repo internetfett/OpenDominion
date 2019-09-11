@@ -15,8 +15,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="apple-mobile-web-app-title" content="OpenDominion Arena">
-    <meta name="application-name" content="OpenDominion Arena">
+    <meta name="apple-mobile-web-app-title" content="OD Arena">
+    <meta name="application-name" content="OD Arena">
     <meta name="theme-color" content="#ffffff">
 
     @include('partials.styles')

@@ -32,13 +32,13 @@
 
                 <!-- Race -->
                 <div class="form-group">
-                    <label for="race" class="col-sm-3 control-label">Race</label>
+                    <label for="race" class="col-sm-3 control-label">Faction</label>
                     <div class="col-sm-9">
                         <div class="row">
 
                             <div class="col-xs-12">
                                 <div class="text-center">
-                                    <strong>Good Aligned Races</strong>
+                                    <strong>Commonwealth Factions</strong>
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'good'; }) as $race)
@@ -70,7 +70,7 @@
 
                             <div class="col-xs-12">
                                 <div class="text-center">
-                                    <strong>Evil Aligned Races</strong>
+                                    <strong>Empire Factions</strong>
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'evil'; }) as $race)

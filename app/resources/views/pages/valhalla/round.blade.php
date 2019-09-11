@@ -49,7 +49,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <b>Rankings by Race</b>
+                    <b>Rankings by Faction</b>
                 </div>
             </div>
             <div class="row">

@@ -32,7 +32,7 @@
                                 <th class="text-center">#</th>
                                 <th>Dominion</th>
                                 <th class="text-center">Realm</th>
-                                <th class="text-center">Race</th>
+                                <th class="text-center">Faction</th>
                                 <th class="text-center">{{ ucfirst($type) }}</th>
                                 <th class="text-center">Change</th>
                             </tr>

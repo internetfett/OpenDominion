@@ -10,8 +10,8 @@
     <link rel="author" href="{{ asset('humans.txt') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <meta property="og:title" content="OpenDominion">
-    <meta property="og:description" content="OpenDominion is a free online text-based multiplayer strategy game in a medieval fantasy setting. Take control over your dominion with land, buildings, and your army, and compete against other players for a spot in the leaderboards!" />
+    <meta property="og:title" content="OD Arena">
+    <meta property="og:description" content="OD Arena is a free text-based strategic game in a medieval fantasy setting. Control a dominion and fight to become the largest!" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ config('app.url') }}" />
     <meta property="og:image" content="{{ asset('assets/app/images/opendominion.png') }}" />
@@ -23,8 +23,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="apple-mobile-web-app-title" content="OpenDominion Arena">
-    <meta name="application-name" content="OpenDominion Arena">
+    <meta name="apple-mobile-web-app-title" content="OD Arena">
+    <meta name="application-name" content="OD Arena">
     <meta name="theme-color" content="#ffffff">
 
     @include('partials.styles')
@@ -46,7 +46,7 @@
 
                 <!-- Navbar Header -->
                 <div class="navbar-header">
-                    <a href="{{ url('') }}" class="navbar-brand">Open<b>Dominion</b></a>
+                    <a href="{{ url('') }}" class="navbar-brand">OD<b>Arena</b></a>
                     <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                         <i class="fa fa-bars"></i>
                     </button>

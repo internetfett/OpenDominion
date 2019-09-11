@@ -43,7 +43,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th class="text-center">Realm</th>
-                                    <th class="text-center">Race</th>
+                                    <th class="text-center">Faction</th>
                                     <th class="text-center">Round</th>
                                 </tr>
                             </thead>
