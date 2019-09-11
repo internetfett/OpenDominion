@@ -72,7 +72,7 @@ class InvadeActionService
     /**
      * @var float Base prestige % change for both parties when invading
      */
-    protected const PRESTIGE_CHANGE_PERCENTAGE = 5.0;
+    protected const PRESTIGE_CHANGE_PERCENTAGE = 8.5;
 
     /**
      * @var int How many units can fit in a single boat

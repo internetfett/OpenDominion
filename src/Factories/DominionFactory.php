@@ -68,12 +68,12 @@ class DominionFactory
           {
             $startingResources['platinum'] = 0;
             $startingResources['lumber'] = 0;
-            $startingResources['food'] = rand(20000,40000);
+            $startingResources['food'] = rand(30000,45000);
             $startingResources['gems'] = 0;
             $startingResources['peasants'] = rand(1500,2000);
             $startingResources['unit1'] = rand(0,200);
             $startingResources['unit2'] = rand(0,200);
-            $startingResources['unit3'] = rand(0,200);
+            $startingResources['unit3'] = rand(50,300);
             $startingResources['unit4'] = rand(0,200);
             $startingResources['draftees'] = rand(100,1000);
             $startingResources['spies'] = 0;
@@ -82,7 +82,7 @@ class DominionFactory
           }
         // Default
         }
-        elseif($race->name == 'Growth')
+        elseif($race->name == 'Armada')
         {
           $startingResources['platinum'] = 100000;
           $startingResources['lumber'] = 15000;

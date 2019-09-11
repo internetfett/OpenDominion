@@ -70,7 +70,7 @@
                                             <td>{{ $infoOp->data['ruler_name'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Race:</td>
+                                            <td>Faction:</td>
                                             <td>{{ $race->name }}</td>
                                         </tr>
                                         <tr>

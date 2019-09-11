@@ -30,7 +30,7 @@
                                         <td>{{ $selectedDominion->ruler_name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Race:</td>
+                                        <td>Faction:</td>
                                         <td>{{ $selectedDominion->race->name }}</td>
                                     </tr>
                                     <tr>

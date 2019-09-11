@@ -44,7 +44,7 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>Race Perk</th>
+                                <th>Faction Perk</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
