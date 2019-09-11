@@ -97,27 +97,27 @@
 
                                                     switch ($costType) {
                                                         case 'platinum':
-                                                            $labelParts[] = number_format($value) . 'p';
+                                                            $labelParts[] = number_format($value) . 'plat.';
                                                             break;
 
                                                         case 'ore':
-                                                            $labelParts[] = number_format($value) . 'r';
+                                                            $labelParts[] = number_format($value) . 'ore';
                                                             break;
 
                                                         case 'food':
-                                                            $labelParts[] =  number_format($value) . 'f';
+                                                            $labelParts[] =  number_format($value) . 'food';
                                                             break;
 
                                                         case 'mana':
-                                                            $labelParts[] =  number_format($value) . 'm';
-                                                            break;
-
-                                                        case 'gem':
-                                                            $labelParts[] =  number_format($value) . 'g';
+                                                            $labelParts[] =  number_format($value) . 'mana';
                                                             break;
 
                                                         case 'lumber':
-                                                            $labelParts[] =  number_format($value) . 'l';
+                                                            $labelParts[] =  number_format($value) . 'lmbr.';
+                                                            break;
+
+                                                        case 'gem':
+                                                            $labelParts[] =  number_format($value) . str_plural('gem'. $value);
                                                             break;
 
                                                         case 'prestige':
