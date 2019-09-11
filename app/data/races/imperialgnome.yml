@@ -5,7 +5,7 @@ perks:
   max_population: -10
   food_consumption: -15
   gem_production: 10
-  guard_tax: 0
+  guard_tax_exemption: 1
 units:
   - name: Hammer Troop
     need_boat: true

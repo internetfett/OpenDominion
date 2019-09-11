@@ -315,7 +315,7 @@ IMPERIALGNOME;
                 $negativeBenefit = false;
                 $description = 'better exchange rates';
                 break;
-            case 'guard_tax':
+            case 'guard_tax_exemption':
                 $negativeBenefit = false;
                 $description = 'No guard platinum tax';
                 break;
@@ -480,7 +480,7 @@ IMPERIALGNOME;
                 $negativeBenefit = false;
                 $description = 'Better exchange rates';
                 break;
-            case 'guard_tax':
+            case 'guard_tax_exemption':
                 $negativeBenefit = false;
                 $description = 'Exempt from guard platinum tax';
                 $booleanValue = true;
