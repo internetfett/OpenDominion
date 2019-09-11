@@ -18,6 +18,9 @@ class ImproveActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    SpellCalculator $spellCalculator;
+    $this->spellCalculator = $spellCalculator;
+
     public function improve(Dominion $dominion, string $resource, array $data): array
     {
         $this->guardLockedDominion($dominion);
