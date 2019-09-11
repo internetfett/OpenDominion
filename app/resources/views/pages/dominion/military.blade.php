@@ -101,35 +101,31 @@
                                                             break;
 
                                                         case 'ore':
-                                                            $labelParts[] = "{$value}r";
-                                                            break;
-
-                                                        case 'ore':
-                                                            $labelParts[] = "{$value}r";
+                                                            $labelParts[] = number_format($value) . 'r';
                                                             break;
 
                                                         case 'food':
-                                                            $labelParts[] = "{$value}f";
+                                                            $labelParts[] =  number_format($value) . 'f';
                                                             break;
 
                                                         case 'mana':
-                                                            $labelParts[] = "{$value}m";
+                                                            $labelParts[] =  number_format($value) . 'm';
                                                             break;
 
                                                         case 'gem':
-                                                            $labelParts[] = "{$value}g";
+                                                            $labelParts[] =  number_format($value) . 'g';
                                                             break;
 
                                                         case 'lumber':
-                                                            $labelParts[] = "{$value}l";
+                                                            $labelParts[] =  number_format($value) . 'l';
                                                             break;
 
                                                         case 'prestige':
-                                                            $labelParts[] = "{$value} Prestige";
+                                                            $labelParts[] =  number_format($value) . 'Prestige';
                                                             break;
 
                                                         case 'boat':
-                                                            $labelParts[] = "{$value} boat";
+                                                            $labelParts[] =  number_format($value) . str_plural('boat'. $value);
                                                             break;
 
                                                         case 'wizards':
@@ -143,7 +139,7 @@
                                                     } #ENDIF
                                                 }
 
-                                                echo implode(', ', $labelParts);
+                                                echo implode(',<br>', $labelParts);
                                             @endphp
                                         </td>
                                         <td class="text-center">
