@@ -97,7 +97,7 @@
 
                                                     switch ($costType) {
                                                         case 'platinum':
-                                                            $labelParts[] = number_format($value) . ' plat.';
+                                                            $labelParts[] = number_format($value) . ' platinum';
                                                             break;
 
                                                         case 'ore':
@@ -113,7 +113,7 @@
                                                             break;
 
                                                         case 'lumber':
-                                                            $labelParts[] =  number_format($value) . ' lmbr.';
+                                                            $labelParts[] =  number_format($value) . ' lumber';
                                                             break;
 
                                                         case 'gem':
@@ -129,7 +129,7 @@
                                                             break;
 
                                                         case 'wizards':
-                                                            $labelParts[] = 'Wizard';
+                                                            $labelParts[] = '1 Wizard';
                                                             break;
 
                                                         default:
