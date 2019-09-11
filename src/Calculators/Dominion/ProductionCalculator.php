@@ -125,7 +125,15 @@ class ProductionCalculator
 
         // Values (percentages)
         $spellMidasTouch = 10;
-        $guardTax = -2;
+
+        if(getPerkValue('guard_tax_exemption'))
+        {
+          $guardTax = 0;
+        }
+        else {
+          $guardTax = -2;
+        }
+
 //        $techBankersForesight = 5;
 //        $techTreasureHunt = 12.5;
 

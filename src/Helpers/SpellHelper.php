@@ -288,6 +288,16 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Armada']),
             ],
+
+            [
+                'name' => 'Spiral Architecture',
+                'description' => '+10% value for investments into castle improvements when active.',
+                'key' => 'spiral_architecture',
+                'mana_cost' => 4,
+                'duration' => 12*4,
+                'races' => collect(['Imperial Gnome']),
+            ],
+
         ]);
     }
 

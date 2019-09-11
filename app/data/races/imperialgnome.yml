@@ -6,6 +6,7 @@ perks:
   food_consumption: -15
   gem_production: 10
   guard_tax_exemption: 1
+  extra_barren_max_population: 5
 units:
   - name: Hammer Troop
     need_boat: true
@@ -20,31 +21,31 @@ units:
     cost:
       platinum: 500
       ore: 200
-      gem: 2
+      gem: 1
     power:
       offense: 5
       defense: 5
     perks:
-      fewer_casualties: 50
+        reduce_combat_losses: 1
   - name: Catapult
     cost:
       platinum: 15000
-      ore: 1000
-      lumber: 15000
+      ore: 8000
+      lumber: 8000
     power:
       offense: 0
       defense: 300
     perks:
-      fewer_casualties: 65
-  - name: Winged Machine
+      fewer_casualties: 50
+  - name: Airship
     need_boat: true
     cost:
       platinum: 4000
-      ore: 2500
+      ore: 1250
       lumber: 6000
       gem: 100
     power:
       offense: 120
-      defense: 10
+      defense: 20
     perks:
-      fewer_casualties: 65
+      fewer_casualties: 75
