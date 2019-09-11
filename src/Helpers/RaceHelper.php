@@ -174,7 +174,7 @@ AFFLICTED;
 GROWTH;
 
 
-        $descriptions['imperialgnome'] = <<<IMPERIALGNOME
+        $descriptions['imperial gnome'] = <<<IMPERIALGNOME
 <p>Distressed by the failed attempt to create an Orcish Navy, the Emperor exploited the largest weakness found in Gnomes: their greed.</p>
 <p>By promising them gems and ore, the Emperor convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
 IMPERIALGNOME;
