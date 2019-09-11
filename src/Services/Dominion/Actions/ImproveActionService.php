@@ -7,9 +7,16 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+// ODA
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class ImproveActionService
 {
     use DominionGuardsTrait;
+
+    // ODA
+    /** @var SpellCalculator */
+    protected $spellCalculator;
 
     public function improve(Dominion $dominion, string $resource, array $data): array
     {
