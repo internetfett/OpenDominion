@@ -91,34 +91,34 @@
                         <tbody>
                             @foreach ($race->units as $unit)
                                 @php
-                                    $unitCostString = (number_format($unit->cost_platinum) . 'p');
+                                    $unitCostString = (number_format($unit->cost_platinum) . ' platinum');
 
                                     if ($unit->cost_ore > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_ore) . 'r');
-                                    }
-
-                                    if ($unit->cost_food > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_food) . 'f');
-                                    }
-
-                                    if ($unit->cost_mana > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_mana) . 'm');
-                                    }
-
-                                    if ($unit->cost_gem > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_gem) . 'g');
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_ore) . ' ore');
                                     }
 
                                     if ($unit->cost_lumber > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_lumber) . 'l');
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_lumber) . ' lumber');
+                                    }
+
+                                    if ($unit->cost_food > 0) {
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_food) . ' food');
+                                    }
+
+                                    if ($unit->cost_mana > 0) {
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_mana) . ' mana');
+                                    }
+
+                                    if ($unit->cost_gem > 0) {
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_gem) . ' gem');
                                     }
 
                                     if ($unit->cost_prestige > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_prestige) . 'pstg');
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_prestige) . ' Prestige');
                                     }
 
                                     if ($unit->cost_boat > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_boat) . 'b');
+                                        $unitCostString .= ('<br>' . number_format($unit->cost_boat) . ' boat');
                                     }
 
                                 @endphp
