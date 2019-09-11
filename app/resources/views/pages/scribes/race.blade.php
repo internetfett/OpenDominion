@@ -94,31 +94,31 @@
                                     $unitCostString = (number_format($unit->cost_platinum) . ' platinum');
 
                                     if ($unit->cost_ore > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_ore) . ' ore');
+                                        $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');
                                     }
 
                                     if ($unit->cost_lumber > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_lumber) . ' lumber');
+                                        $unitCostString .= (', ' . number_format($unit->cost_lumber) . ' lumber');
                                     }
 
                                     if ($unit->cost_food > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_food) . ' food');
+                                        $unitCostString .= (', ' . number_format($unit->cost_food) . ' food');
                                     }
 
                                     if ($unit->cost_mana > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_mana) . ' mana');
+                                        $unitCostString .= (', ' . number_format($unit->cost_mana) . ' mana');
                                     }
 
                                     if ($unit->cost_gem > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_gem) . ' gem');
+                                        $unitCostString .= (', ' . number_format($unit->cost_gem) . ' gem');
                                     }
 
                                     if ($unit->cost_prestige > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_prestige) . ' Prestige');
+                                        $unitCostString .= (', ' . number_format($unit->cost_prestige) . ' Prestige');
                                     }
 
                                     if ($unit->cost_boat > 0) {
-                                        $unitCostString .= ('<br>' . number_format($unit->cost_boat) . ' boat');
+                                        $unitCostString .= (', ' . number_format($unit->cost_boat) . ' boat');
                                     }
 
                                 @endphp
