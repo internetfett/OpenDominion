@@ -12,7 +12,7 @@ class RaceHelper
     {
         $descriptions = [];
 
-        // Good races
+        // COMMONWEALTH
 
         $descriptions['dwarf'] = <<<DWARF
 <p>Dwarves are a short and ill-tempered race well-known for their majestic beards, their love of ale and tireless labour. Their spirited chants and songs echo long into the night as they hollow out entire mountains for their ore.</p>
@@ -34,13 +34,11 @@ GNOME;
 <p>Fiercely loyal to family and friends, they will defend their homeland with surprising fortitude.</p>
 HALFLING;
 
-        // new
         $descriptions['human'] = <<<HUMAN
 <p>Among the youngest of the races, the Human empire rose swiftly and against the odds. Humans proved to be not only capable warriors, but also skilled smiths, clever engineers and above all, adaptable. Their homeland destroyed by the forces of Evil decades ago, Humans seek to rebuild and avenge their fallen brothers.</p>
 <p>Humans are generally proficient in everything they set their mind to, though they are masters of no single discipline.</p>
 HUMAN;
 
-        // new
         $descriptions['merfolk'] = <<<MERFOLK
 <p>An aquatic race that lives in beautiful coral reefs where food is plentiful, Merfolk are the benevolent guardians of the great oceans.</p>
 <p>Though typically peaceful, Merfolk are legendary for their wrath when angered, summoning terrors of the deep to destroy entire naval fleets with the thrashing tentacles of ravenous krakens. The chilling and alluring call of the psiren might be the last thing you ever hear... before you're snatched from your ship and dragged down to the bottom of the cold, dark sea.</p>
@@ -48,7 +46,7 @@ MERFOLK;
 
         $descriptions['spirit'] = <<<SPIRIT
 <p>Ethereal and incorporeal - barely real - beings.</p>
-<p>Deadly, without ever dying.</p>
+<p>Deadly, without death.</p>
 SPIRIT;
 
         $descriptions['sylvan'] = <<<SYLVAN
@@ -56,27 +54,59 @@ SPIRIT;
 <p>Their affinity for nature makes them excellent at exploration, and highly proficient spellcasters.</p>
 SYLVAN;
 
-        // new
         $descriptions['wood elf'] = <<<WOODELF
 <p>Graceful, slender and eerily beautiful, the Wood Elves are among the eldest of the races and keenly attuned with the natural world, seeking to protect their forests from the forces of evil.</p>
 <p>Though peaceful by nature, Wood Elves are a versatile race, proficient in combat with their deadly archers and magically gifted druids that draw power from the very forest itself, and backed up by powerful wizards and skilled spies that excel at covert ops.</p>
 WOODELF;
 
-        // Evil races
+        $descriptions['beastfolk'] = <<<BEASTFOLK
+<p>Arcane magic has given life to the beasts of the forest, which have been seen building villages in the forests of the Commonwealth.</p>
+<p>Beastfolk take shelter in the forests and excel at fighting on the open plains.</a>
+<hr />
+<p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
+<ul>
+<li>Platinum production increased by Mountains % (<em>Science</em>).</li>
+<li>Max population increased by Forest % (<em>Keep</em>).</li>
+<li>Wizard Strength increased by 2 x Swamp % (<em>Tower</em>).</li>
+<li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
+<li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
+<li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
+<li>Spy Strength increased by Caverns %.</li>
+BEASTFOLK;
 
-        // new
+$descriptions['ants'] = <<<ANTS
+<p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size.</p>
+<p>Their units are weak, but they are both numerous and belligerent.</p>
+ANTS;
+
+        $descriptions['sacred order'] = <<<SACREDORDER
+<p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
+<p>Monks are responsible for providing stable defenses, while Fanatics are seen both defending the holy land and conquering more, strengthened by Shrines to the Divines.</p>
+<p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors.</p>
+SACREDORDER;
+
+$descriptions['templars'] = <<<TEMPLARS
+<p>Another off-shoot from Humans, the Templars are a small, pious community taking up residence in the hills.</p>
+TEMPLARS;
+
+$descriptions['armada'] = <<<ARMADA
+<p>The Commonwealth Armada traces its origin to Human naval forces aimed at taking care of increasing piracy and worrying signs of an Imperial navy.</p>
+<p>They were given a great deal of autonomy in order to face challenges in a manner and with an efficiency normal human bureaucracy would not permit.</p>
+<p>With increased self-governance, the Armada gradually grow into its own faction of the Empire and now controls its own seafaring dominions.</p>
+ARMADA;
+
+        // EMPIRE
+
         $descriptions['dark elf'] = <<<DARKELF
 <p>With ashen skin, inky-black eyes and bat-like features, Dark Elves are the cave-dwelling distant cousins of the majestic Wood Elves. Corrupted long ago by the whispered promises of power from fallen demons, the Dark Elves are a cruel species who thrive on torment... be it the torment of their enemies, or even their own kin.</p>
 <p>Dark Elves have black magic coursing through their veins. Capable of calling down a rain of fire and lightning upon their enemies, they are a terrifying force to reckon with - and that's before they even set foot on the battlefield.</p>
 DARKELF;
 
-        // new
         $descriptions['goblin'] = <<<GOBLIN
 <p>Small in stature but great in number, Goblins are a vicious and single-minded breed that prefer to take down their enemies with overwhelming numbers - and then steal all the shinies.</p>
 <p>Goblin populations can grow quickly out of control if left unchecked, and these short, green and ugly wretches have been known to completely ransack well-fortified castles in their relentless pursuit of gems, gems and more gems.</p>
 GOBLIN;
 
-        // new
         $descriptions['icekin'] = <<<ICEKIN
 <p>Slow, lumbering elementals of frost and stone, Icekin emerged from the snow-capped mountains as a counterweight to unnatural the pyromancy experiments that created the Firewalkers.</p>
 <p>Their creeping cold expands ever outwards, insistent, transforming the lands around them with a white permafrost and hijacking the weather with seemingly never-ending blizzards. Icekin can become an immense military threat once they become well fortified.</p>
@@ -87,7 +117,6 @@ ICEKIN;
 <p>Lizardfolk are highly proficient at both performing and countering espionage operations, and make for excellent incursions on unsuspecting targets.</p>
 LIZARDFOLK;
 
-        // new
         $descriptions['lycanthrope'] = <<<LYCANTHROPE
 <p>Once thought to be an ancient curse that transformed men into wolves under the light of a full moon, little is understood about the Lycanthropic affliction. But one thing's for certain: once bitten, you'll never be the same again.</p>
 <p>Capable of agonising transformations into half-beast monsters, Lycanthropes are a hardy and fast-growing race, turning their enemies into werewolves and regenerating non-lethal wounds mid-combat.</p>
@@ -103,7 +132,6 @@ NOMAD;
 <p>Nox can be found in the deepest darkness where even Dark Elves won't dare to trespass.</p>
 NOX;
 
-        // new
         $descriptions['troll'] = <<<TROLL
 <p>Hard to kill, and even harder to look at without screaming, Trolls are the hideously ugly but tremendously powerful genetic dead end of an ancient elven race.</p>
 <p>Trolls are notoriously bloodthirsty. What they lack in subtlety they more than make up for in gratuitous violence. It is not uncommon to see fully-armoured soldiers being punted up sixty feet into the air during Troll invasions. <em>[Urg smash!]</em></p>
@@ -114,28 +142,9 @@ TROLL;
 <p>They are always on the offensive, increasing their number by reanimating fallen enemies.</p>
 UNDEAD;
 
-        $descriptions['beastfolk'] = <<<BEASTFOLK
-<p>Arcane magic has given life to the beasts of the forest. They have awoken with an unending rage.</p>
-<hr />
-<p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
-<ul>
-<li>Platinum production increased by Mountains % (<em>Science</em>).</li>
-<li>Max population increased by Forest % (<em>Keep</em>).</li>
-<li>Wizard Strength increased by 2 x Swamp % (<em>Tower</em>).</li>
-<li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
-<li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
-<li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
-<li>Spy Strength increased by Caverns %.</li>
-BEASTFOLK;
-
-        $descriptions['sacred order'] = <<<SACREDORDER
-<p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
-<p>Monks are responsible for providing stable defenses, while Fanatics are seen both defending the holy land and conquering more, strengthened by Shrines to the Divines.</p>
-<p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors.</p>
-SACREDORDER;
-
         $descriptions['void'] = <<<VOID
 <p>Nothing is known about the Void except that they emerge from deep, abandoned mines high up in the mountains.</p>
+<p>For reasons not yet laid bare, the Void has aligned with the Emperor. For now.</p>
 <hr />
 <ul>
 <li>Starting resources consist of 200,000 plat and 0 lumber and food.</p>
@@ -145,40 +154,30 @@ SACREDORDER;
 VOID;
 
         $descriptions['dragon'] = <<<DRAGON
-<p>Dragons!</p>
+<p>Dragons of old have returned from beyond the Unending Sea.</p>
 DRAGON;
-
-        $descriptions['ants'] = <<<ANTS
-<p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size. Their units are weak but they are both numerous and belligerent.</p>
-ANTS;
 
         $descriptions['afflicted'] = <<<AFFLICTED
 <p>The Afflicted are an unholy alliance of foul beasts and misfits. Barely able to act as one, the Afflicted are in a constant power struggle.</p>
 AFFLICTED;
 
-        $descriptions['templars'] = <<<TEMPLARS
-<p>Another off-shoot from Humans, the Templars are a small pious community taking up residence in the hills.</p>
-TEMPLARS;
-
-
         $descriptions['growth'] = <<<GROWTH
-<p>The growth is believed to originate from ancient Nox cemetaries, deep in the swamp lands.</p>
+<p>The growth is believed to originate from ancient Nox burial grounds, deep in the swamp lands.</p>
 <p>Attempts at communication have failed. It shows no signs of sentience.</p>
 <hr>
 <p>Starting resources are randomised:</p>
 <ul>
 <li>Between 0 and 200 of each unit type.</li>
 <li>Between 100 and 1,000 cells (draftees).</li>
-<li>Between 5,000 and 20,000 food.</li>
+<li>Between 30,000 and 45,000 food.</li>
 </ul>
 GROWTH;
 
 
-        $descriptions['armada'] = <<<ARMADA
-<p>The Armada, originally The Imperial Armada, traces its origin to Human naval forces aimed at taking care of increasing piracy and worrying signs of an Orcish navy.</p>
-<p>They were given a great deal of autonomy in order to solve problems in a manner and with an efficiency normal human bureaucracy would not permit.</p>
-<p>With increased self-governance, the Armada gradually grow into its own faction of the Empire and now controls its own seafaring dominions.</p>
-ARMADA;
+        $descriptions['imperialgnome'] = <<<IMPERIALGNOME
+<p>Distressed by the failed attempt to create an Orcish Navy, the Emperor exploited the largest weakness found in Gnomes: their greed.</p>
+<p>By promising them gems and ore, the Emperor convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
+IMPERIALGNOME;
 
         $key = strtolower($race->name);
 
@@ -315,6 +314,10 @@ ARMADA;
             case 'exchange_bonus':
                 $negativeBenefit = false;
                 $description = 'better exchange rates';
+                break;
+            case 'guard_tax':
+                $negativeBenefit = false;
+                $description = 'No guard platinum tax';
                 break;
             default:
                 return '';
@@ -476,6 +479,10 @@ ARMADA;
             case 'exchange_bonus':
                 $negativeBenefit = false;
                 $description = 'Better exchange rates';
+                break;
+            case 'guard_tax':
+                $negativeBenefit = false;
+                $description = 'Exempt from guard platinum tax';
                 break;
             default:
                 return null;

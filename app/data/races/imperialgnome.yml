@@ -1,0 +1,50 @@
+name: Imperial Gnome
+alignment: evil
+home_land_type: mountain
+perks:
+  max_population: -10
+  food_consumption: -15
+  gem_production: 10
+  guard_tax: 0
+units:
+  - name: Hammer Troop
+    need_boat: true
+    cost:
+      platinum: 300
+      ore: 100
+    power:
+      offense: 3
+      defense: 0
+  - name: Automaton
+    need_boat: true
+    cost:
+      platinum: 500
+      ore: 200
+      gem: 2
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      fewer_casualties: 50
+  - name: Catapult
+    cost:
+      platinum: 15000
+      ore: 1000
+      lumber: 15000
+    power:
+      offense: 0
+      defense: 300
+    perks:
+      fewer_casualties: 65
+  - name: Winged Machine
+    need_boat: true
+    cost:
+      platinum: 4000
+      ore: 2500
+      lumber: 6000
+      gem: 100
+    power:
+      offense: 120
+      defense: 10
+    perks:
+      fewer_casualties: 65

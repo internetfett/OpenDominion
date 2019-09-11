@@ -28,8 +28,8 @@ units:
       offense: 1
       defense: 3
     perks:
-      offense_from_land: plain,15,3 # land type, ratio%, max
-      defense_from_land: forest,15,3 # land type, ratio%, max
+      offense_from_land: plain,10,3 # land type, ratio%, max
+      defense_from_land: forest,10,3 # land type, ratio%, max
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Minotaur
@@ -40,5 +40,5 @@ units:
       offense: 4
       defense: 1
     perks:
-      offense_from_land: plain,15,3 # land type, ratio%, max
-      defense_from_land: forest,15,3 # land type, ratio%, max
+      offense_from_land: plain,10,3 # land type, ratio%, max
+      defense_from_land: forest,10,3 # land type, ratio%, max
