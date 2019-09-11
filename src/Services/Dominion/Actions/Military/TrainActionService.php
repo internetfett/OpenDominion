@@ -101,7 +101,7 @@ class TrainActionService
             // New unit cost resources
             ($totalCosts['food'] > $dominion->resource_food) ||
             ($totalCosts['mana'] > $dominion->resource_mana) ||
-            ($totalCosts['gem'] > $dominion->resource_gem) ||
+            ($totalCosts['gem'] > $dominion->resource_gems) ||
             ($totalCosts['lumber'] > $dominion->resource_lumber) ||
             ($totalCosts['prestige'] > $dominion->prestige) ||
             ($totalCosts['boat'] > $dominion->boats)
