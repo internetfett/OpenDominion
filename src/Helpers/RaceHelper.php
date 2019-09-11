@@ -92,7 +92,7 @@ TEMPLARS;
 $descriptions['armada'] = <<<ARMADA
 <p>The Commonwealth Armada traces its origin to Human naval forces aimed at taking care of increasing piracy and worrying signs of an Imperial navy.</p>
 <p>They were given a great deal of autonomy in order to face challenges in a manner and with an efficiency normal human bureaucracy would not permit.</p>
-<p>With increased self-governance, the Armada gradually grow into its own faction of the Empire and now controls its own seafaring dominions.</p>
+<p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
 ARMADA;
 
         // EMPIRE
