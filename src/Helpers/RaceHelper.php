@@ -483,6 +483,7 @@ IMPERIALGNOME;
             case 'guard_tax':
                 $negativeBenefit = false;
                 $description = 'Exempt from guard platinum tax';
+                $booleanValue = true;
                 break;
             default:
                 return null;
