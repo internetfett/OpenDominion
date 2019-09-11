@@ -126,7 +126,7 @@ class ProductionCalculator
         // Values (percentages)
         $spellMidasTouch = 10;
 
-        if(getPerkValue('guard_tax_exemption'))
+        if($dominion->race->getPerkValue('guard_tax_exemption'))
         {
           $guardTax = 0;
         }
