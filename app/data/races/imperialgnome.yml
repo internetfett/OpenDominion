@@ -38,7 +38,7 @@ units:
     perks:
       fewer_casualties: 50
   - name: Airship
-    need_boat: true
+    need_boat: false
     cost:
       platinum: 4000
       ore: 1250
