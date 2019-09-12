@@ -282,7 +282,7 @@ class SpellHelper
 
             [
                 'name' => 'Coastal Cannons',
-                'description' => '+1% Defensive Power for every 1% Water.',
+                'description' => '+1% Defensive Power for every 1% Water. Max +20%. Not cumulative with Ares Call.',
                 'key' => 'coastal_cannons',
                 'mana_cost' => 5,
                 'duration' => 12*4,
