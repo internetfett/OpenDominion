@@ -315,18 +315,16 @@ class MilitaryCalculator
         // Beastfolk: Hills
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 1 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 1 * ($dominion->{'land_hill'} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Spell: Howling (+10%)
         // todo
 
         // Spell: Coastal Cannons
-        $multiplierFromCoastal Cannons
-
         if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
         {
-          $multiplierFromCoastalCannons = $dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion);
+          $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
           $multiplier += $multiplierFromCoastalCannons;
         }
 
