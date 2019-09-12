@@ -95,6 +95,14 @@ class TrainActionService
             $unitsToTrain[$unitType] = $amountToTrain;
         }
 
+        if(isset($unitsToTrain))
+        {
+          die('<p>$unitsToTrain is set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
+        }
+        else {
+          die('<p>$unitsToTrain is not set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
+        }
+
         if (
             ($totalCosts['platinum'] > $dominion->resource_platinum) ||
             ($totalCosts['ore'] > $dominion->resource_ore) ||
@@ -110,13 +118,7 @@ class TrainActionService
             throw new GameException('Training aborted due to lack of resources.');
         }
 
-        if(isset($unitsToTrain))
-        {
-          die('<p>$unitsToTrain is set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
-        }
-        else {
-          die('<p>$unitsToTrain is not set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
-        }
+
 
 
           // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
