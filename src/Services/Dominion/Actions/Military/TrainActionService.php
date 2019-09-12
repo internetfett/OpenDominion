@@ -158,7 +158,7 @@ class TrainActionService
             and (
                   ($dominion->military_unit3 + $dominion->military_unit4) +
                   ($unit3toBeTrained + $unit4toBeTrained) +
-                  ($queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
+                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
 
                   // If all the above is greater than Docks*2
                   > ($dominion->building_dock * 2))
