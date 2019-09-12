@@ -137,10 +137,18 @@ class TrainActionService
           {
             $unit3toBeTrained = intval($unitsToTrain['unit3']);
           }
+          else
+          {
+            $unit3toBeTrained = 0;
+          }
 
           if(isset($unitsToTrain['unit4']))
           {
             $unit4toBeTrained = intval($unitsToTrain['unit4']);
+          }
+          else
+          {
+            $unit4toBeTrained = 0;
           }
 
           // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
