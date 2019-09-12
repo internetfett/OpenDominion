@@ -110,7 +110,7 @@ class TrainActionService
             throw new GameException('Training aborted due to lack of resources.');
         }
 
-        if(isset($unitsToTrain['unit3']))
+        if(isset($unitsToTrain))
         {
           throw new GameException('$unitsToTrain[\'unit3\'] is set. <pre>' . print_r($unitsToTrain) . '</pre>');
         }
