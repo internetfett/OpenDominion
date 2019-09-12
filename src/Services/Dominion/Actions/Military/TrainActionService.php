@@ -112,10 +112,10 @@ class TrainActionService
 
         if(isset($unitsToTrain))
         {
-          die('<p>$unitsToTrain[\'unit3\'] is set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
+          die('<p>$unitsToTrain is set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
         }
         else {
-          die('<p>$unitsToTrain[\'unit3\'] is not set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
+          die('<p>$unitsToTrain is not set.</p><pre>' . print_r($unitsToTrain) . '</pre>');
         }
 
 
