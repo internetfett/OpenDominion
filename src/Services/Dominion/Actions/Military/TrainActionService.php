@@ -112,12 +112,12 @@ class TrainActionService
 
         if(isset($unitsToTrain))
         {
-          throw new GameException('$unitsToTrain is set. <pre>' . print_r($unitsToTrain) . '</pre>');
+          throw new GameException('$unitsToTrain is set. <pre>' . var_dump($unitsToTrain) . '</pre>');
         }
         else {
           throw new GameException('$unitsToTrain is not set. <pre>' . print_r($unitsToTrain) . '</pre>');
         }
-/*
+
 
           // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
           // ARMADA: Max 2 Boats per Dock (+ Harbour)
@@ -131,7 +131,7 @@ class TrainActionService
             throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
           }
 
-*/
+
         if ($totalCosts['draftees'] > $dominion->military_draftees) {
             throw new GameException('Training aborted due to lack of draftees');
         }
