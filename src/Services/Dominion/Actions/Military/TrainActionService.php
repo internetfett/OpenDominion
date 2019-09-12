@@ -124,7 +124,7 @@ class TrainActionService
         {
           throw new GameException('Training failed due to insufficient prestige.');
         }
-        if($totalCosts['boat'] > $dominion->boats)
+        if($totalCosts['boat'] > $dominion->resource_boats)
         {
           throw new GameException('Training failed due to insufficient boats.');
         }
