@@ -169,8 +169,8 @@ class TrainActionService
                   ($unit3toBeTrained + $unit4toBeTrained) +
                   ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
 
-                  // If all the above is greater than Docks*2
-                  > ($dominion->building_dock * 2))
+                  // If all the above is greater than Docks*2*Harbor
+                  > ($dominion->building_dock * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor'))))
           {
             throw new GameException('You cannot control that many ships. Max 2 ships per Dock. Increased by Harbor.');
           }
@@ -182,8 +182,8 @@ class TrainActionService
                   ($unit3toBeTrained + $unit4toBeTrained) +
                   ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
 
-                  // If all the above is greater than Docks*2
-                  > ($dominion->building_factory * 2))
+                  // If all the above is greater than Factories*2*Science
+                  > ($dominion->building_dock * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science'))))
           {
             throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
           }
