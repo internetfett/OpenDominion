@@ -132,8 +132,16 @@ class TrainActionService
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
 
-          $unit3toBeTrained = intval($unitsToTrain['unit3']);
-          $unit4toBeTrained = intval($unitsToTrain['unit4']);
+          // Wonky workaround.
+          if(isset($unitsToTrain['unit3']))
+          {
+            $unit3toBeTrained = intval($unitsToTrain['unit3']);
+          }
+
+          if(isset($unitsToTrain['unit4']))
+          {
+            $unit4toBeTrained = intval($unitsToTrain['unit4']);
+          }
 
           // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
           // ARMADA: Max 2 Boats per Dock (+ Harbour)
