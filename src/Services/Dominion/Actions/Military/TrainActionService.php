@@ -118,8 +118,8 @@ class TrainActionService
 
 
 
-        if(isset($unitsToTrain['unit3']) and isset($unitsToTrain['unit4']))
-        {          
+        if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
+        {
           // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
           // ARMADA: Max 2 Boats per Dock (+ Harbour)
           if ($dominion->race->name == 'Armada' and (($dominion->military_unit3 + $dominion->military_unit4) + ($unitsToTrain['unit3'] + $unitsToTrain['unit4'])) > ($dominion->building->docks * 2))
