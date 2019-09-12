@@ -158,7 +158,7 @@ class TrainActionService
             throw new GameException('You cannot control that many ships. Max 2 ships per Dock. Increased by Harbor.');
           }
           // IMPERIAL GNOME: Max 2 Machines per Factory (+ Science)
-          if ($dominion->race->name == 'Imperial Gnome' and (CURRENT_AMOUNT_OF_SHIPS + NEW_SHIPS) > (FACTORIES * (SCIENCE * 2) * 2))
+          if ($dominion->race->name == 'Imperial Gnome' and (($dominion->military_unit3 + $dominion->military_unit4) + ($unit3toBeTrained + $unit4toBeTrained)) > ($dominion->building_factory * 2))
           {
             throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
           }
