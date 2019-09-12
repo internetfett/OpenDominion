@@ -327,6 +327,9 @@ class MilitaryCalculator
           $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
           $multiplier += $multiplierFromCoastalCannons;
         }
+        else {
+          $multiplierFromCoastalCannons = 0;
+        }
 
 
         // Spell: Blizzard (+15%)
