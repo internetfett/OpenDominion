@@ -321,6 +321,16 @@ class MilitaryCalculator
         // Spell: Howling (+10%)
         // todo
 
+        // Spell: Coastal Cannons
+        $multiplierFromCoastal Cannons
+
+        if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
+        {
+          $multiplierFromCoastalCannons = $dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion);
+          $multiplier += $multiplierFromCoastalCannons;
+        }
+
+
         // Spell: Blizzard (+15%)
         $multiplierFromBlizzard = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'blizzard', $spellBlizzard);
         $multiplier += $multiplierFromBlizzard;
@@ -330,7 +340,7 @@ class MilitaryCalculator
         $multiplier += $multiplierFromFrenzy;
 
         // Spell: Ares' Call (+10%)
-        if($multiplierFromBlizzard == 0 && $multiplierFromFrenzy == 0) {
+        if($multiplierFromBlizzard == 0 && $multiplierFromFrenzy == 0 and $multiplierFromCoastalCannons == 0) {
             $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'ares_call',
                 $spellAresCall);
         }
