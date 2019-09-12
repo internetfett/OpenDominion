@@ -23,7 +23,7 @@ units:
       ore: 200
       gem: 1
     power:
-      offense: 5
+      offense: 4
       defense: 5
     perks:
         reduce_combat_losses: 1
