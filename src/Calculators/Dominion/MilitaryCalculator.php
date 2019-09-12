@@ -325,7 +325,7 @@ class MilitaryCalculator
         if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
         {
           $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
-          $multiplier += $multiplierFromCoastalCannons;
+          $multiplier += min($multiplierFromCoastalCannons,0.20);
         }
         else {
           $multiplierFromCoastalCannons = 0;
