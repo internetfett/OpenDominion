@@ -112,7 +112,7 @@ class TrainActionService
 
         if(isset($unitsToTrain))
         {
-          throw new GameException('$unitsToTrain is set.');
+          throw new GameException('$unitsToTrain is set.' . var_dump($unitsToTrain));
         }
         else {
           throw new GameException('$unitsToTrain is not set.');
