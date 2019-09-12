@@ -101,22 +101,38 @@ class TrainActionService
         }
 
 
-        if (
-            ($totalCosts['platinum'] > $dominion->resource_platinum) ||
-            ($totalCosts['ore'] > $dominion->resource_ore) ||
-            // New unit cost resources
-#           ($totalCosts['food'] > $dominion->resource_food) ||
-            ($totalCosts['mana'] > $dominion->resource_mana) ||
-            ($totalCosts['gem'] > $dominion->resource_gems) ||
-            ($totalCosts['lumber'] > $dominion->resource_lumber) ||
-            ($totalCosts['prestige'] > $dominion->prestige) ||
-            ($totalCosts['boat'] > $dominion->boats)
-            )
+        if($totalCosts['platinum'] > $dominion->resource_platinum)
         {
-            throw new GameException('Training aborted due to lack of resources.');
+          throw new GameException('Training failed due to insufficient platinum.');
         }
-
-
+        if($totalCosts['ore'] > $dominion->resource_ore)
+        {
+          throw new GameException('Training failed due to insufficient ore.')
+        }
+        if($totalCosts['food'] > $dominion->resource_food)
+        {
+          throw new GameException('Training failed due to insufficient food.')
+        }
+        if($totalCosts['mana'] > $dominion->resource_mana)
+        {
+          throw new GameException('Training failed due to insufficient mana.')
+        }
+        if($totalCosts['gem'] > $dominion->resource_gems)
+        {
+          throw new GameException('Training failed due to insufficient gems.')
+        }
+        if($totalCosts['lumber'] > $dominion->resource_lumber)
+        {
+          throw new GameException('Training failed due to insufficient lumber.')
+        }
+        if($totalCosts['prestige'] > $dominion->prestige)
+        {
+          throw new GameException('Training failed due to insufficient prestige.')
+        }
+        if($totalCosts['boat'] > $dominion->boats)
+        {
+          throw new GameException('Training failed due to insufficient boats.')
+        }
 
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
