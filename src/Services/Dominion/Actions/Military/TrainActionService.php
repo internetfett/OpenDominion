@@ -12,6 +12,9 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use Throwable;
 
+// For Armada and Imperial Gnomes
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+
 class TrainActionService
 {
     use DominionGuardsTrait;
@@ -25,14 +28,20 @@ class TrainActionService
     /** @var UnitHelper */
     protected $unitHelper;
 
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
+
     /**
      * TrainActionService constructor.
      */
-    public function __construct()
+    public function __construct(ImprovementCalculator $improvementCalculator)
     {
         $this->queueService = app(QueueService::class);
         $this->trainingCalculator = app(TrainingCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
+
+
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -166,7 +175,15 @@ class TrainActionService
             throw new GameException('You cannot control that many ships. Max 2 ships per Dock. Increased by Harbor.');
           }
           // IMPERIAL GNOME: Max 2 Machines per Factory (+ Science)
-          if ($dominion->race->name == 'Imperial Gnome' and (($dominion->military_unit3 + $dominion->military_unit4) + ($unit3toBeTrained + $unit4toBeTrained)) > ($dominion->building_factory * 2))
+          if (
+            $dominion->race->name == 'Imperial Gnome'
+            and (
+                  ($dominion->military_unit3 + $dominion->military_unit4) +
+                  ($unit3toBeTrained + $unit4toBeTrained) +
+                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
+
+                  // If all the above is greater than Docks*2
+                  > ($dominion->building_factory * 2))
           {
             throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
           }
