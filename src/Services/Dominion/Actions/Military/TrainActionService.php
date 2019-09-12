@@ -112,7 +112,11 @@ class TrainActionService
 
         if(isset($unitsToTrain))
         {
-          var_dump($$unitsToTrain);
+          echo "IT IS SET!!!";
+          var_dump($unitsToTrain);
+        }
+        else {
+          var_dump($unitsToTrain);
         }
 /*
 
