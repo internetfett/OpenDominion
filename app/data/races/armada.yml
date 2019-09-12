@@ -18,8 +18,8 @@ units:
   - name: Commodore
     need_boat: true
     cost:
-      platinum: 1200
-      ore: 20
+      platinum: 800
+      ore: 25
     power:
       offense: 5
       defense: 4

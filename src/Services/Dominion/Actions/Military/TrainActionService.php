@@ -106,7 +106,23 @@ class TrainActionService
             ($totalCosts['prestige'] > $dominion->prestige) ||
             ($totalCosts['boat'] > $dominion->boats)
           ) {
-            throw new GameException('Training aborted due to lack of economical resources');
+            throw new GameException('Training aborted due to lack of resources.');
+        }
+
+        // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
+        if($unitsToTrain['military_unit3'] > 0 or $unitsToTrain['military_unit4'] > 0)
+        {
+          // ARMADA: Max 2 Boats per Dock (+ Harbour)
+          if ($dominion->race->name == 'Armada' and (($dominions->military_unit3 + $dominions->military_unit4) + ($unitsToTrain['military_unit3'] + $unitsToTrain['military_unit4'])) > ($dominions->building->docks * /*(HARBOR * 1 ) * */ 2))
+          {
+            throw new GameException('You cannot control that many ships. Max 2 ships per Dock. Increased by Harbor.');
+          }
+          // IMPERIAL GNOME: Max 2 Machines per Factory (+ Science)
+          if ($dominion->race->name == 'Imperial Gnome' and (CURRENT_AMOUNT_OF_SHIPS + NEW_SHIPS) > (FACTORIES * (SCIENCE * 2) * 2))
+          {
+            throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
+          }
+
         }
 
         if ($totalCosts['draftees'] > $dominion->military_draftees) {
