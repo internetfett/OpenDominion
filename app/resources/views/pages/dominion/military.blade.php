@@ -241,13 +241,10 @@
                 </div>
             </div>
 
+            @if ($selectedDominion->race->name !== 'Growth')
             <div class="box">
                 <div class="box-header with-border">
-                  @if ($selectedDominion->race->name == 'Growth')
-                    <h3 class="box-title">Amoeba</h3>
-                  @else
                     <h3 class="box-title">Draftees</h3>
-                  @endif
                 </div>
                 <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                     @csrf
@@ -259,7 +256,6 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    @if ($selectedDominion->race->name !== 'Growth')
                                     <td class="text-center">Draft Rate:</td>
                                     <td class="text-center">
                                         <input type="number" name="draft_rate" class="form-control text-center"
@@ -268,7 +264,6 @@
                                                value="{{ $selectedDominion->draft_rate }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         %
                                     </td>
-                                    @endif
                                 </tr>
                             </tbody>
                         </table>
@@ -280,6 +275,7 @@
                     </div>
                 </form>
             </div>
+            @endif
 
         </div>
 
