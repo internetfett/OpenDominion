@@ -183,7 +183,7 @@ class TrainActionService
                   ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
 
                   // If all the above is greater than Factories*2*Science
-                  > ($dominion->building_dock * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science'))))
+                  > ($dominion->building_factory * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science'))))
           {
             throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
           }
