@@ -102,27 +102,27 @@ class TrainingCalculator
                     // MANA cost for units
                     if ($mana > 0) {
                         $cost['mana'] = $mana;
-                        $cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
+                        $cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion, 'mana'));
                     }
                     // GEM cost for units
                     if ($gem > 0) {
                         $cost['gem'] = $gem;
-                        $cost['gem'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
+                        $cost['gem'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion, 'gem'));
                     }
                     // LUMBER cost for units
                     if ($lumber > 0) {
                         $cost['lumber'] = $lumber;
-                        $cost['lumber'] = (int)ceil($lumber * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
+                        $cost['lumber'] = (int)ceil($lumber * $this->getSpecialistEliteCostMultiplier($dominion, 'lumber'));
                     }
                     // PRESTIGE cost for units
                     if ($prestige > 0) {
                         $cost['prestige'] = $prestige;
-                        $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
+                        $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion, 'prestige'));
                     }
                     // BOAT cost for units
                     if ($boat > 0) {
                         $cost['boat'] = $boat;
-                        $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
+                        $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion, 'boat'));
                     }
 
                     $cost['draftees'] = 1;
