@@ -206,7 +206,7 @@ class TrainingCalculator
         );
 
         // Start multiplier back to zero if Ore and a Gnomish race.
-        if($resourceType == 'ore' and !in_array($dominion->race->name, $exemptRaces))
+        if($resourceType == 'ore' and in_array($dominion->race->name, $exemptRaces))
         {
           $multiplier = 0;
         }
