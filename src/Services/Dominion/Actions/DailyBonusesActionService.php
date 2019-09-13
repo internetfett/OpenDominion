@@ -24,18 +24,35 @@ class DailyBonusesActionService
             throw new GameException('You already claimed your platinum bonus for today.');
         }
 
-        $platinumGained = $dominion->peasants * 4;
-        $dominion->increment('resource_platinum', $platinumGained);
+        if($dominion->race->name == 'Growth')
+        {
+          $resourceType = 'resource_food';
+        }
+        elseif($dominion->race->name == 'Gnome' or $dominion->race->name == 'Imperial Gnome')
+        {
+          $resourceType = 'resource_food';
+        }
+        elseif($dominion->race->name == 'Void')
+        {
+          $resourceType = 'resource_mana';
+        }
+        else
+        {
+          $resourceType = 'resource_platinum';
+        }
+
+        $bonusAmount = $dominion->peasants * 4;
+        $dominion->increment($resourceType, $bonusAmount);
         $dominion->daily_platinum = true;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_DAILY_BONUS]);
 
         return [
             'message' => sprintf(
-                'You gain %s platinum.',
-                number_format($platinumGained)
+                'You gain %s ' . str_replace('resource_', '', $resourceType) . '.',
+                number_format($bonusAmount)
             ),
             'data' => [
-                'platinumGained' => $platinumGained,
+                'bonusAmount' => $bonusAmount,
             ],
         ];
     }
