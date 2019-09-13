@@ -19,8 +19,8 @@ units:
   - name: Automaton
     need_boat: true
     cost:
-      platinum: 500
-      ore: 200
+      platinum: 450
+      ore: 100
       gem: 1
     power:
       offense: 4

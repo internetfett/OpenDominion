@@ -86,47 +86,41 @@ class TrainingCalculator
                     $boat = $units[$unitSlot]->cost_boat;
 
                     if ($platinum > 0) {
-                        $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion));
+                        $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion, 'platinum'));
                     }
 
                     if ($ore > 0) {
                         $cost['ore'] = $ore;
-                        $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion));
+                        $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
                     }
 
-                    // FOOD cost for units
+                    // FOOD cost for units - Not affected by Smithies
                     if ($food > 0) {
                         $cost['food'] = $food;
-                        $cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
-                    // MANA cost for units
+                    // MANA cost for units - Not affected by Smithies
                     if ($mana > 0) {
                         $cost['mana'] = $mana;
-                        $cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
-                    // GEM cost for units
+                    // GEM cost for units - Not affected by Smithies
                     if ($gem > 0) {
                         $cost['gem'] = $gem;
-                        $cost['gem'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
-                    // LUMBER cost for units
+                    // LUMBER cost for units - Not affected by Smithies
                     if ($lumber > 0) {
                         $cost['lumber'] = $lumber;
-                        $cost['lumber'] = (int)ceil($lumber * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
-                    // PRESTIGE cost for units
+                    // PRESTIGE cost for units - Not affected by Smithies
                     if ($prestige > 0) {
                         $cost['prestige'] = $prestige;
-                        $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
-                    // BOAT cost for units
+                    // BOAT cost for units - Not affected by Smithies
                     if ($boat > 0) {
                         $cost['boat'] = $boat;
-                        $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion));
                     }
 
                     $cost['draftees'] = 1;
-                    
+
                     break;
             }
 
@@ -195,7 +189,7 @@ class TrainingCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getSpecialistEliteCostMultiplier(Dominion $dominion): float
+    public function getSpecialistEliteCostMultiplier(Dominion $dominion, string $resourceType): float
     {
         $multiplier = 0;
 
@@ -204,10 +198,18 @@ class TrainingCalculator
         $smithiesReductionMax = 36;
 
         // Smithies
+        $exemptRaces = array('Gnome', 'Imperial Gnome');
+
         $multiplier -= min(
             (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),
             ($smithiesReductionMax / 100)
         );
+
+        // Start multiplier back to zero if Ore and a Gnomish race.
+        if($resourceType == 'ore' and !in_array($dominion->race->name, $exemptRaces))
+        {
+          $multiplier = 0;
+        }
 
         // Armory
         if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
