@@ -259,11 +259,8 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    @if ($selectedDominion->race->name == 'Growth')
-                                    <td class="text-center">Amoeba Generation:</td>
-                                    @else
+                                    @if ($selectedDominion->race->name !== 'Growth')
                                     <td class="text-center">Draft Rate:</td>
-                                    @endif
                                     <td class="text-center">
                                         <input type="number" name="draft_rate" class="form-control text-center"
                                                style="display: inline-block; width: 80px;" placeholder="0" min="0"
@@ -271,6 +268,7 @@
                                                value="{{ $selectedDominion->draft_rate }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         %
                                     </td>
+                                    @endif
                                 </tr>
                             </tbody>
                         </table>

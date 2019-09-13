@@ -63,12 +63,13 @@ class DominionFactory
             $startingResources['spies'] = 25;
             $startingResources['wizards'] = 25;
             $startingResources['archmages'] = 0;
+            $startingResources['draft_rate'] = 10;
           }
           elseif($race->name == 'Growth')
           {
             $startingResources['platinum'] = 0;
             $startingResources['lumber'] = 0;
-            $startingResources['food'] = rand(30000,45000);
+            $startingResources['food'] = rand(400000,650000);
             $startingResources['gems'] = 0;
             $startingResources['peasants'] = rand(1500,2000);
             $startingResources['unit1'] = rand(0,200);
@@ -79,6 +80,7 @@ class DominionFactory
             $startingResources['spies'] = 0;
             $startingResources['wizards'] = 0;
             $startingResources['archmages'] = 0;
+            $startingResources['draft_rate'] = 100;
           }
         // Default
         }
@@ -97,6 +99,7 @@ class DominionFactory
           $startingResources['spies'] = 25;
           $startingResources['wizards'] = 25;
           $startingResources['archmages'] = 0;
+          $startingResources['draft_rate'] = 10;
         }
         else
         {
@@ -113,6 +116,7 @@ class DominionFactory
             $startingResources['spies'] = 25;
             $startingResources['wizards'] = 25;
             $startingResources['archmages'] = 0;
+            $startingResources['draft_rate'] = 10;
         }
 
         // For cannot_construct races, replace Gems with Platinum.
@@ -136,7 +140,7 @@ class DominionFactory
             'peasants' => $startingResources['peasants'],
             'peasants_last_hour' => 0,
 
-            'draft_rate' => 10,
+            'draft_rate' => $startingResources['draft_rate'],
             'morale' => 100,
             'spy_strength' => 100,
             'wizard_strength' => 100,
