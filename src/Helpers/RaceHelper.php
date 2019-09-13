@@ -95,6 +95,14 @@ $descriptions['armada'] = <<<ARMADA
 <p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
 ARMADA;
 
+
+$descriptions['norse'] = <<<NORSE
+<h1>UNFINISHED - DO NOT SELECT</h1>
+<p>Rarely before have the Norse ventured south for anything other than trade.</p>
+<p>The emergence of the Empire has forced even these northern stalwarts to pick a side, joining the Commonwealth.</p>
+<p>They are fierce warriors, into death and beyond.</p>
+NORSE;
+
         // EMPIRE
 
         $descriptions['dark elf'] = <<<DARKELF
