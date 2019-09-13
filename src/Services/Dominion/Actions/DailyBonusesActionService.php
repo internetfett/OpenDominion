@@ -27,21 +27,25 @@ class DailyBonusesActionService
         if($dominion->race->name == 'Growth')
         {
           $resourceType = 'resource_food';
+          $amountModifier = 1;
         }
         elseif($dominion->race->name == 'Gnome' or $dominion->race->name == 'Imperial Gnome')
         {
           $resourceType = 'resource_food';
+          $amountModifier = 1;
         }
         elseif($dominion->race->name == 'Void')
         {
           $resourceType = 'resource_mana';
+          $amountModifier = 1;
         }
         else
         {
           $resourceType = 'resource_platinum';
+          $amountModifier = 1;
         }
 
-        $bonusAmount = $dominion->peasants * 4;
+        $bonusAmount = $dominion->peasants * 4 * $amountModifier;
         $dominion->increment($resourceType, $bonusAmount);
         $dominion->daily_platinum = true;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_DAILY_BONUS]);

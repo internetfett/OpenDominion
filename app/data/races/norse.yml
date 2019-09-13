@@ -1,0 +1,49 @@
+name: Norse
+alignment: good
+home_land_type: plain
+perks:
+  exchange_bonus: 10
+  lumber_production: 10
+units:
+  - name: Berserk
+    need_boat: true
+    cost:
+      platinum: 350
+      ore: 10
+    power:
+      offense: 4
+      defense: 0
+      afterlife_norse: 1
+  - name: Norn
+    cost:
+      platinum: 300
+      ore: 50
+      mana: 20
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      immortal: 1
+  - name: Einherjar
+    need_boat: true
+    cost:
+      platinum: 0
+      ore: 0
+      mana: 2000
+      champion: 1
+    power:
+      offense: 10
+      defense: 0
+    perks:
+      fewer_casualties: 80
+  - name: Valkyrja
+    need_boat: false
+    cost:
+      platinum: 1000
+      ore: 200
+      mana: 1000
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      immortal: 1
