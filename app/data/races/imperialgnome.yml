@@ -12,7 +12,7 @@ units:
     need_boat: true
     cost:
       platinum: 300
-      ore: 100
+      ore: 50
     power:
       offense: 3
       defense: 0
