@@ -27,7 +27,7 @@ units:
     need_boat: false
     cost:
       platinum: 3000
-      ore: 7500
+      ore: 10000
       boat: 1
       lumber: 2500
     power:

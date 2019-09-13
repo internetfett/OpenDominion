@@ -212,11 +212,15 @@ class TrainingCalculator
         }
 
         // Armory
-        if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
-        {
-            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
-        }
+        $exemptResourceTypes = array('mana','food','lumber','gem','boat','prestige');
 
+        if(!in_array($resourceType,$exemptResourceTypes))
+        {
+          if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
+          {
+              $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
+          }
+        }
         // todo: Master of Resources Tech
 
         // Cap $multiplier at -50%
