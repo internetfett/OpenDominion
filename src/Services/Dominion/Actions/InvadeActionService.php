@@ -389,7 +389,7 @@ class InvadeActionService
         }
         elseif ($isInvasionSuccessful && ($range < 60))
         {
-          $attackerPrestigeChange = $dominion prestige * (0 + ($recentlyInvadedCount / 100) +  ((100 - $range) / 100 / 100));
+          $attackerPrestigeChange = $dominion->prestige * (0 + ($recentlyInvadedCount / 100) +  ((100 - $range) / 100 / 100));
         }
 
 

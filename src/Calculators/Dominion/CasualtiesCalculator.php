@@ -203,6 +203,14 @@ class CasualtiesCalculator
             if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $attacker->race->name, $slot)) {
                 $multiplier = 0;
             }
+
+            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')) {
+                // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
+
+                $multiplier = 0;
+
+            }
+
         }
 
         if ($multiplier !== 0) {

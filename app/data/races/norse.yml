@@ -5,7 +5,7 @@ perks:
   exchange_bonus: 10
   lumber_production: 10
 units:
-  - name: Berserk
+  - name: Berserkir
     need_boat: true
     cost:
       platinum: 350
@@ -23,7 +23,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      immortal: 1
+      true_immortal: 1
   - name: Einherjar
     need_boat: true
     cost:
@@ -46,4 +46,4 @@ units:
       offense: 5
       defense: 5
     perks:
-      immortal: 1
+      true_immortal: 1
