@@ -25,6 +25,17 @@ units:
       defense: 3
     perks:
       true_immortal: 1
+  - name: Valkyrja
+    need_boat: false
+    cost:
+      platinum: 1000
+      ore: 200
+      mana: 500
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      true_immortal: 1
   - name: Einherjar
     need_boat: true
     cost:
@@ -35,16 +46,5 @@ units:
     power:
       offense: 8
       defense: 0
-    perks:
-      true_immortal: 1
-  - name: Valkyrja
-    need_boat: false
-    cost:
-      platinum: 1000
-      ore: 200
-      mana: 500
-    power:
-      offense: 5
-      defense: 5
     perks:
       true_immortal: 1
