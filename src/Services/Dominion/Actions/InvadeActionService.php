@@ -1354,19 +1354,23 @@ class InvadeActionService
         // Void: Spell (remove DP reduction from Temples)
         if ($this->spellCalculator->isSpellActive($target, 'voidspell'))
         {
-            $dpMultiplierReduction = 0;
+          $dpMultiplierReduction = 0;
         }
 
         // Dark Elf: Unholy Ghost (ignore draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
         {
-            $ignoreDraftees = true;
+          $ignoreDraftees = true;
         }
 
         // Beastfolk: Ambush (reduce raw DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'ambush'))
         {
-            $isAmbush = true;
+          $isAmbush = true;
+        }
+        else
+        {
+          $isAmbush = false;
         }
 
         return $this->militaryCalculator->getDefensivePower($target, $dominion->race->name, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
