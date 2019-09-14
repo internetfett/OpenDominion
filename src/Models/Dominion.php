@@ -34,6 +34,8 @@ use OpenDominion\Services\Dominion\SelectorService;
  * @property int $resource_gems
  * @property int $resource_tech
  * @property float $resource_boats
+ * @property int $resource_champion
+ * @property int $resource_soul
  * @property int $improvement_science
  * @property int $improvement_keep
  * @property int $improvement_towers
@@ -117,6 +119,10 @@ class Dominion extends AbstractModel
         'resource_gems' => 'integer',
         'resource_tech' => 'integer',
         'resource_boats' => 'float',
+        # New resources
+        'resource_champion' => 'integer',
+        'resource_soul' => 'integer',
+        # End new resources
         'improvement_science' => 'integer',
         'improvement_keep' => 'integer',
         'improvement_towers' => 'integer',

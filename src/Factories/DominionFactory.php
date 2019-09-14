@@ -171,6 +171,11 @@ class DominionFactory
             'resource_tech' => 0,
             'resource_boats' => 0,
 
+            # New resources
+            'resource_champion' => 0,
+            'resource_soul' => 0,
+            # End new resources
+
             'improvement_science' => 0,
             'improvement_keep' => 0,
             'improvement_towers' => 0,

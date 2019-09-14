@@ -251,7 +251,7 @@ class InvadeActionService
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
-            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits);
+            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties);
 
             $this->handleMoraleChanges($dominion, $target);
             $this->handleLandGrabs($dominion, $target);
@@ -932,7 +932,7 @@ class InvadeActionService
         return $convertedUnits;
     }
 
-    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units): void
+    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties): void
     {
         // todo: just hobgoblin plunder atm, need a refactor later to take into
         //       account more post-combat unit-perk-related stuff
@@ -948,7 +948,8 @@ class InvadeActionService
 
         // todo: refactor this hardcoded hacky mess
         // Check if we sent hobbos out
-        if (($dominion->race->name === 'Goblin') && isset($units[3]) && ($units[3] > 0)) {
+        if (($dominion->race->name === 'Goblin') && isset($units[3]) && ($units[3] > 0))
+        {
             $hobbos = $units[3];
             $totalUnitsSent = array_sum($units);
 
@@ -981,6 +982,19 @@ class InvadeActionService
                     'resource_gems' => $plunderGems,
                 ]
             );
+        }
+        // Norse champion
+        if ($dominion->race->name == 'Norse')
+        {
+          $champions = UNITS_LOST;
+          $dominion->increment('resource_champion', $champions);
+        }
+
+        // Demon soul collection
+        if ($dominion->race->name == 'Demon')
+        {
+          $souls = $totalDefensiveCasualties;
+          $dominion->increment('resource_soul', $souls);
         }
     }
 
