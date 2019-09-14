@@ -198,9 +198,14 @@ class InvadeActionService
                 throw new RuntimeException('Nice try, but you cannot invade cross-round');
             }
 
-            if ($dominion->realm->id === $target->realm->id) {
-                throw new RuntimeException('Nice try, but you cannot invade your realmies');
+            // Commonwealth (good) cannot invade in-realm
+            if($dominion->realm->alignment == 'good' and $dominion->realm->alignment == $target->realm->alignment)
+            {
+              if ($dominion->realm->id === $target->realm->id) {
+                  throw new RuntimeException('You may not invade other dominions of the Commonwealth.');
+              }
             }
+
 
             // Sanitize input
             $units = array_map('intval', array_filter($units));

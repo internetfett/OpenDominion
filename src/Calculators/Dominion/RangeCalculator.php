@@ -171,8 +171,17 @@ class RangeCalculator
             ->get()
             ->filter(function ($dominion) use ($self) {
                 return (
-                    ($dominion->realm->id !== $self->realm->id) &&
+
+                    # Not in the same realm; and
+                    if($dominion->race->alignment == 'good')
+                    {
+                      ($dominion->realm->id !== $self->realm->id) &&
+                    }
+
+                    # Is in range; and
                     $this->isInRange($self, $dominion) &&
+
+                    # Is not in protection;
                     !$this->protectionService->isUnderProtection($dominion)
                 );
             })
