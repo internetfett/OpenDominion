@@ -121,6 +121,14 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_boat) . ' boat');
                                     }
 
+                                    if ($unit->cost_champion > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Champion');
+                                    }
+
+                                    if ($unit->cost_soul > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Soul');
+                                    }
+
                                 @endphp
                                 <tr>
                                     <td>

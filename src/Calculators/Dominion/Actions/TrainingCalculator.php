@@ -84,6 +84,8 @@ class TrainingCalculator
                     $lumber = $units[$unitSlot]->cost_lumber;
                     $prestige = $units[$unitSlot]->cost_prestige;
                     $boat = $units[$unitSlot]->cost_boat;
+                    $champion = $units[$unitSlot]->cost_champion;
+                    $soul = $units[$unitSlot]->cost_soul;
 
                     if ($platinum > 0) {
                         $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion, 'platinum'));
@@ -119,10 +121,23 @@ class TrainingCalculator
                         $cost['prestige'] = $prestige;
                         $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion, 'prestige'));
                     }
+
                     // BOAT cost for units
                     if ($boat > 0) {
                         $cost['boat'] = $boat;
                         $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion, 'boat'));
+                    }
+
+                    // CHAMPION cost for units
+                    if ($champion > 0) {
+                        $cost['champion'] = $champion;
+                        $cost['champion'] = (int)ceil($champion * $this->getSpecialistEliteCostMultiplier($dominion, 'champion'));
+                    }
+
+                    // SOUL cost for units
+                    if ($soul > 0) {
+                        $cost['soul'] = $soul;
+                        $cost['soul'] = (int)ceil($soul * $this->getSpecialistEliteCostMultiplier($dominion, 'soul'));
                     }
 
                     $cost['draftees'] = 1;
@@ -203,23 +218,28 @@ class TrainingCalculator
         $smithiesReduction = 2;
         $smithiesReductionMax = 36;
 
+        // Never discount these resources.
+        $exemptResourceTypes = array('mana','food','lumber','gem','boat','prestige','champion','soul');
+
         // Smithies
         $exemptRaces = array('Gnome', 'Imperial Gnome');
 
-        $multiplier -= min(
-            (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),
-            ($smithiesReductionMax / 100)
-        );
-
-        // Start multiplier back to zero if Ore and a Gnomish race.
-        if($resourceType == 'ore' and in_array($dominion->race->name, $exemptRaces))
+        # Apply smithies to non-exempt resources (to platinum and ore)
+        if(!in_array($resourceType,$exemptResourceTypes))
         {
-          $multiplier = 0;
+          $multiplier -= min(
+              (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),
+              ($smithiesReductionMax / 100)
+          );
+
+          // Start multiplier back to zero if Ore and a Gnomish race.
+          if($resourceType == 'ore' and in_array($dominion->race->name, $exemptRaces))
+          {
+            $multiplier = 0;
+          }
+
         }
-
         // Armory
-        $exemptResourceTypes = array('mana','food','lumber','gem','boat','prestige');
-
         if(!in_array($resourceType,$exemptResourceTypes))
         {
           if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)

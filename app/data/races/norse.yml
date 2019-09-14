@@ -36,7 +36,7 @@ units:
       offense: 10
       defense: 0
     perks:
-      fewer_casualties: 80
+      true_immortal: 1
   - name: Valkyrja
     need_boat: false
     cost:

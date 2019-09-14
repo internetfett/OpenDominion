@@ -44,6 +44,10 @@ class Unit extends AbstractModel
         'cost_prestige' => 'integer',
         // Unit boat cost
         'cost_boat' => 'integer',
+        // Unit champion cost
+        'cost_champion' => 'integer',
+        // Unit soul cost
+        'cost_soul' => 'integer',
     ];
 
     public function perks()
