@@ -31,7 +31,7 @@ class DailyBonusesActionService
         }
         elseif($dominion->race->name == 'Gnome' or $dominion->race->name == 'Imperial Gnome')
         {
-          $resourceType = 'resource_food';
+          $resourceType = 'resource_ore';
           $amountModifier = 1;
         }
         elseif($dominion->race->name == 'Void')
