@@ -139,13 +139,13 @@ class TrainActionService
         {
           throw new GameException('Training failed due to insufficient boats.');
         }
-        if($totalCosts['champion'] > $dominion->resource_boats)
+        if($totalCosts['champion'] > $dominion->resource_champion)
         {
           throw new GameException('You do not have enough Champions.');
         }
-        if($totalCosts['soul'] > $dominion->resource_boats)
+        if($totalCosts['soul'] > $dominion->resource_soul)
         {
-          throw new GameException('Insufficient souls.');
+          throw new GameException('Insufficient souls. Collect more souls.');
         }
 
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))

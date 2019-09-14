@@ -265,7 +265,7 @@ class UnitHelper
     {
       if ($souls > 0)
       {
-        $result = 'Taking the souls of the fallen enemy soldiers, you gain ' . number_format($souls) . 'souls.';
+        $result = 'Taking the souls of the fallen enemy soldiers, you gain ' . number_format($souls) . ' souls.';
       }
       else {
         $result = 'You do not collect any souls.';
