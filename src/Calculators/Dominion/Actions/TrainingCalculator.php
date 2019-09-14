@@ -175,6 +175,8 @@ class TrainingCalculator
             'lumber' => 'resource_lumber',
             'prestige' => 'prestige',
             'boat' => 'resource_boats',
+            'champion' => 'resource_champion',
+            'soul' => 'resource_soul',
         ];
 
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);
