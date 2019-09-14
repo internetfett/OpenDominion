@@ -244,7 +244,7 @@
 
                             @if (isset($event->data['attacker']['champion']) && $event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
-                                  {{ $unitHelper->getSoulCollectionString($event->data['attacker']['champion']['champions']) }}
+                                  {{ $unitHelper->getChampionsString($event->data['attacker']['champion']['champions']) }}
                                 </p>
                             @endif
 
