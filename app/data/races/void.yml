@@ -13,15 +13,17 @@ units:
   - name: Fallen
     need_boat: false
     cost:
-      platinum: 200
+      platinum: 100
       ore: 0
+      mana: 200
     power:
       offense: 3
       defense: 0
   - name: Shadow
     cost:
-      platinum: 200
+      platinum: 100
       ore: 0
+      mana: 200
     power:
       offense: 0
       defense: 3
@@ -29,8 +31,9 @@ units:
       mana_production: 0.5
   - name: Vision
     cost:
-      platinum: 620
+      platinum: 400
       ore: 0
+      mana: 300
     power:
       offense: 0
       defense: 5
@@ -39,8 +42,9 @@ units:
   - name: Nightmare
     need_boat: false
     cost:
-      platinum: 650
+      platinum: 400
       ore: 0
+      mana: 400
     power:
       offense: 5
       defense: 3
