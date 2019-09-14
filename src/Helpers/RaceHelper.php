@@ -152,7 +152,7 @@ UNDEAD;
 
         $descriptions['void'] = <<<VOID
 <p>Nothing is known about the Void except that they emerge from deep, abandoned mines high up in the mountains.</p>
-<p>For reasons not yet laid bare, the Void has aligned with the Emperor. For now.</p>
+<p>For reasons not yet laid bare, the Void has aligned with the Empire. For now. Rumours say not even the Empress knows why.</p>
 <hr />
 <ul>
 <li>Starting resources consist of 200,000 plat and 0 lumber and food.</p>
@@ -181,11 +181,16 @@ AFFLICTED;
 </ul>
 GROWTH;
 
-
         $descriptions['imperial gnome'] = <<<IMPERIALGNOME
-<p>Distressed by the failed attempt to create an Orcish Navy, the Emperor exploited the largest weakness found in Gnomes: their greed.</p>
-<p>By promising them gems and ore, the Emperor convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
+<p>Distressed by the failed attempt to create an Orcish Navy, the Empress exploited the largest weakness found in Gnomes: their greed.</p>
+<p>By promising them gems and ore, the Empress convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
 IMPERIALGNOME;
+
+        $descriptions['demon'] = <<<DEMON
+<p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
+<p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
+DEMON;
+
 
         $key = strtolower($race->name);
 
