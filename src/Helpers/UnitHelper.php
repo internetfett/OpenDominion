@@ -260,14 +260,30 @@ class UnitHelper
         return $result;
     }
 
+    # Norse champions
+    public function getChampionsString(int $champions): string
+    {
+      if ($champions > 0)
+      {
+        $result = . number_format($champions) . ' of your brave fallen soldiers have become legendary champions.';
+      }
+      else
+      {
+        $result = 'No legendary champions arose from this battle.';
+      }
+
+        return $result;
+    }
+
     # Demon Soul collection
     public function getSoulCollectionString(int $souls): string
     {
       if ($souls > 0)
       {
-        $result = 'Taking the souls of the fallen enemy soldiers, you gain ' . number_format($souls) . ' souls.';
+        $result = 'By slaying enemy soldiers, you collect ' . number_format($souls) . ' souls.';
       }
-      else {
+      else
+      {
         $result = 'You do not collect any souls.';
       }
 

@@ -209,7 +209,7 @@ class InvadeActionService
             // Cannot invade yourself
             if ($dominion->id == $target->id)
             {
-              throw new RuntimeException('You cannot invade yourself.');              
+              throw new RuntimeException('You cannot invade yourself.');
             }
 
             // Sanitize input
@@ -991,7 +991,13 @@ class InvadeActionService
         // Norse champion
         if ($dominion->race->name == 'Norse')
         {
-          $champions = UNITS_LOST;
+
+          $champions = 0;
+          foreach($event->data['attacker']['unitsLost'] as $unitSlot => $amount)
+          {
+            $champions += (int)floor($amount);
+          }
+          $this->invasionResult['attacker']['champion']['champions'] = $champions;
           $dominion->increment('resource_champion', $champions);
         }
 
