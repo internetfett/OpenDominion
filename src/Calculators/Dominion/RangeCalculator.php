@@ -166,28 +166,58 @@ class RangeCalculator
     public function getDominionsInRange(Dominion $self): Collection
     {
         // todo: this doesn't belong here since it touches the db. Move to RangeService?
-        return $self->round->dominions()
-            ->with(['realm', 'round'])
-            ->get()
-            ->filter(function ($dominion) use ($self) {
-                return (
 
-                    # Not in the same realm; and
-                    if($dominion->race->alignment == 'good')
-                    {
+        if($dominion->race->alignment == 'evil')
+        {
+
+          return $self->round->dominions()
+              ->with(['realm', 'round'])
+              ->get()
+              ->filter(function ($dominion) use ($self) {
+                  return (
+
+                      # Not in the same realm; and
+                      #($dominion->realm->id !== $self->realm->id) &&
+
+                      # Is in range; and
+                      $this->isInRange($self, $dominion) &&
+
+                      # Is not in protection;
+                      !$this->protectionService->isUnderProtection($dominion)
+                  );
+              })
+              ->sortByDesc(function ($dominion) {
+                  return $this->landCalculator->getTotalLand($dominion);
+              })
+              ->values();
+
+        }
+        else
+        {
+
+          return $self->round->dominions()
+              ->with(['realm', 'round'])
+              ->get()
+              ->filter(function ($dominion) use ($self) {
+                  return (
+
+                      # Not in the same realm; and
                       ($dominion->realm->id !== $self->realm->id) &&
-                    }
 
-                    # Is in range; and
-                    $this->isInRange($self, $dominion) &&
+                      # Is in range; and
+                      $this->isInRange($self, $dominion) &&
 
-                    # Is not in protection;
-                    !$this->protectionService->isUnderProtection($dominion)
-                );
-            })
-            ->sortByDesc(function ($dominion) {
-                return $this->landCalculator->getTotalLand($dominion);
-            })
-            ->values();
+                      # Is not in protection;
+                      !$this->protectionService->isUnderProtection($dominion)
+                  );
+              })
+              ->sortByDesc(function ($dominion) {
+                  return $this->landCalculator->getTotalLand($dominion);
+              })
+              ->values();
+
+        }
+
+
     }
 }
