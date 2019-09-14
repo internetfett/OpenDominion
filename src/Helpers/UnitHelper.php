@@ -265,7 +265,7 @@ class UnitHelper
     {
       if ($champions > 0)
       {
-        $result = . number_format($champions) . ' of your brave fallen soldiers have become legendary champions.';
+        $result = number_format($champions) . ' of your brave fallen soldiers have become legendary champions.';
       }
       else
       {
