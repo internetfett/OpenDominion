@@ -81,6 +81,8 @@ class TrainActionService
             'lumber' => 0,
             'prestige' => 0,
             'boat' => 0,
+            'champion' => 0,
+            'soul' => 0,
 
         ];
 
@@ -136,6 +138,14 @@ class TrainActionService
         if($totalCosts['boat'] > $dominion->resource_boats)
         {
           throw new GameException('Training failed due to insufficient boats.');
+        }
+        if($totalCosts['champion'] > $dominion->resource_boats)
+        {
+          throw new GameException('You do not have enough Champions.');
+        }
+        if($totalCosts['soul'] > $dominion->resource_boats)
+        {
+          throw new GameException('Insufficient souls.');
         }
 
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
@@ -212,6 +222,8 @@ class TrainActionService
             $dominion->decrement('resource_lumber', $totalCosts['lumber']);
             $dominion->decrement('prestige', $totalCosts['prestige']);
             $dominion->decrement('resource_boats', $totalCosts['boat']);
+            $dominion->decrement('resource_champion', $totalCosts['champion']);
+            $dominion->decrement('resource_soul', $totalCosts['soul']);
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
@@ -295,7 +307,7 @@ class TrainActionService
 
             $costType = str_singular($costType);
 #            if (!\in_array($costType, ['platinum', 'ore'], true)) {
-            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat'], true)) {
+            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul'], true)) {
 
                 $costType = str_plural($costType, $cost);
             }

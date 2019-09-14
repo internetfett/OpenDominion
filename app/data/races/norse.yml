@@ -30,10 +30,10 @@ units:
     cost:
       platinum: 0
       ore: 0
-      mana: 2000
+      mana: 1000
       champion: 1
     power:
-      offense: 10
+      offense: 8
       defense: 0
     perks:
       true_immortal: 1
@@ -42,7 +42,7 @@ units:
     cost:
       platinum: 1000
       ore: 200
-      mana: 1000
+      mana: 500
     power:
       offense: 5
       defense: 5
