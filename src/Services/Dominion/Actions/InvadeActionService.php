@@ -246,8 +246,6 @@ class InvadeActionService
             $this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units);
 
-
-
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target);
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));

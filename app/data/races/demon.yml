@@ -1,0 +1,46 @@
+name: Demon
+alignment: evil
+home_land_type: cavern
+perks:
+  food_consumption: -25
+units:
+  - name: Hellhound
+    need_boat: true
+    cost:
+      platinum: 500
+      ore: 0
+    power:
+      offense: 4
+      defense: 2
+  - name: Tormentor
+    need_boat: true
+    cost:
+      platinum: 100
+      ore: 100
+      prestige: 1
+    power:
+      offense: 4
+      defense: 4
+  - name: Abomination
+    need_boat: true
+    cost:
+      platinum: 1000
+      food: 2000
+      soul: 4
+      gem: 5
+    power:
+      offense: 8
+      defense: 8
+  - name: Archdemon
+    need_boat: true
+    cost:
+      platinum: 1666
+      mana: 1000
+      soul: 1
+      gem: 10
+    power:
+      offense: 6
+      defense: 3
+    perks:
+      immortal_except_vs: sacred order
+      immortal_except_vs: templar
