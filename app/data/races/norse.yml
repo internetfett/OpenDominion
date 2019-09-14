@@ -5,7 +5,7 @@ perks:
   exchange_bonus: 10
   lumber_production: 10
 units:
-  - name: Berserkir
+  - name: Berserk
     need_boat: true
     cost:
       platinum: 350

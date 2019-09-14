@@ -278,7 +278,11 @@ class TrainActionService
                     'phoenix' => 'phoenix',
                     'master thief' => 'master thieves',
                     'cavalry' => 'cavalries',
-                    'pikeman' => 'pikemen'
+                    'pikeman' => 'pikemen',
+                    'norn' => 'nornir',
+                    'berserk' => 'berserkir',
+                    'valkyrja' => 'valkyrjur',
+                    'einherjar' => 'einherjar'
                 ];
 
                 $amountLabel = number_format($amount);

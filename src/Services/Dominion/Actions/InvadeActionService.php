@@ -256,7 +256,7 @@ class InvadeActionService
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
-            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties);
+            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $survivingUnits);
 
             $this->handleMoraleChanges($dominion, $target);
             $this->handleLandGrabs($dominion, $target);
@@ -525,6 +525,8 @@ class InvadeActionService
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->decrement("military_unit{$slot}", $amount);
 
+                $attackerUnitsDiedInBattle += $amount;
+
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
             }
         }
@@ -537,6 +539,8 @@ class InvadeActionService
                 $survivingUnits[$slot] -= $offensiveUnitsLost[$slot];
             }
         }
+
+        $survivingUnits['unitsDiedInBattle'] = $attackerUnitsDiedInBattle;
 
         return $survivingUnits;
     }
@@ -937,7 +941,7 @@ class InvadeActionService
         return $convertedUnits;
     }
 
-    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties): void
+    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties, array $survivingUnits): void
     {
         // todo: just hobgoblin plunder atm, need a refactor later to take into
         //       account more post-combat unit-perk-related stuff
@@ -991,12 +995,7 @@ class InvadeActionService
         // Norse champion
         if ($dominion->race->name == 'Norse')
         {
-
-          $champions = 0;
-          foreach($event->data['attacker']['unitsLost'] as $unitSlot => $amount)
-          {
-            $champions += (int)floor($amount);
-          }
+          $champions = $survivingUnits['attackerUnitsDiedInBattle'];
           $this->invasionResult['attacker']['champion']['champions'] = $champions;
           $dominion->increment('resource_champion', $champions);
         }
