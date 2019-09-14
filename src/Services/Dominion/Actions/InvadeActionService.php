@@ -305,7 +305,7 @@ class InvadeActionService
 
         if ($this->invasionResult['result']['success']) {
             $message = sprintf(
-                'Your army fights valiantly, and defeats the forces of %s (#%s), conquering %s new acres of land! During the invasion, your troops also discovered %s acres of land.',
+                'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! During the invasion, your troops also discovered %s acres of land.',
                 $target->name,
                 $target->realm->number,
                 number_format(array_sum($this->invasionResult['attacker']['landConquered'])),
@@ -374,6 +374,7 @@ class InvadeActionService
             $targetPrestigeChange = (int)round(($target->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 200)));
 
             $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($range / 100) / 10)));
+            $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
             // Reduce attacker prestige gain if the target was hit recently
             $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
@@ -389,6 +390,15 @@ class InvadeActionService
             }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
+
+            # In-realm Invasion: No prestige gains or losses
+            /*
+            if($dominion->realm->id == $target->realm->id)
+            {
+              $attackerPrestigeChange = 0;
+              $targetPrestigeChange = 0;
+            }
+            */
 
             // todo: if wat war, increase $attackerPrestigeChange by +15%
         }
@@ -793,6 +803,15 @@ class InvadeActionService
         if ($range < 75) {
             $moraleChange += max(round((((($range / 100) - 0.4) * 100) / 7) - 5), -5);
         }
+
+        # In-realm Invasion: -20% morale
+        /*
+        if($dominion->realm->id == $target->realm->id)
+        {
+          $moraleChange = -20;
+        }
+        */
+
         $dominion->increment('morale', $moraleChange);
     }
 
@@ -867,6 +886,14 @@ class InvadeActionService
 
         // Racial: Apply reduce_conversions
         $totalConverts = $totalConverts * (1 - ($reduceConversions / 100));
+
+        # In-realm Invasion: -90% converts
+        /*
+        if($dominion->realm->id == $target->realm->id)
+        {
+          $totalConverts = $totalConverts * (1 - 90/100);
+        }
+        */
 
         foreach ($unitsWithConversionPerk as $unit) {
             $conversionPerk = $unit->getPerkValue('conversion');
@@ -1339,6 +1366,6 @@ class InvadeActionService
             $isAmbush = true;
         }
 
-        return $this->militaryCalculator->getDefensivePower($target, $dominion->race->name, null, null, $dpMultiplierReduction, $ignoreDraftees);
+        return $this->militaryCalculator->getDefensivePower($target, $dominion->race->name, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
     }
 }
