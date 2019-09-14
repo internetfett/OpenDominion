@@ -221,6 +221,7 @@ class MilitaryCalculator
      * @param float|null $landRatio
      * @param array|null $units
      * @param bool $ignoreDraftees
+     * @param bool $isAmbush
      * @return float
      */
     public function getDefensivePowerRaw(
@@ -269,7 +270,7 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
-        // Beastfolk: Ambush (reduce raw DP by 0.5%)
+        // Beastfolk: Ambush (reduce raw DP by forest%, max -5% raw DP)
         if($isAmbush)
         {
           $forestRatio = $dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion);
