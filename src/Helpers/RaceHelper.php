@@ -97,14 +97,12 @@ ARMADA;
 
 
 $descriptions['norse'] = <<<NORSE
-<h1>UNFINISHED - DO NOT SELECT</h1>
 <p>Rarely before have the Norse ventured south for anything other than trade.</p>
 <p>The emergence of the Empire has forced even these northern stalwarts to pick a side, joining the Commonwealth.</p>
 <p>They are fierce warriors, into death and beyond.</p>
 NORSE;
 
         // EMPIRE
-
         $descriptions['dark elf'] = <<<DARKELF
 <p>With ashen skin, inky-black eyes and bat-like features, Dark Elves are the cave-dwelling distant cousins of the majestic Wood Elves. Corrupted long ago by the whispered promises of power from fallen demons, the Dark Elves are a cruel species who thrive on torment... be it the torment of their enemies, or even their own kin.</p>
 <p>Dark Elves have black magic coursing through their veins. Capable of calling down a rain of fire and lightning upon their enemies, they are a terrifying force to reckon with - and that's before they even set foot on the battlefield.</p>
@@ -190,7 +188,6 @@ IMPERIALGNOME;
 <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
 <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
 DEMON;
-
 
         $key = strtolower($race->name);
 
