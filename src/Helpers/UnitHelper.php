@@ -261,7 +261,7 @@ class UnitHelper
     }
 
     # Demon Soul collection
-    public function getSoulCollectionString(array $souls): string
+    public function getSoulCollectionString(int $souls): string
     {
       if ($souls > 0)
       {

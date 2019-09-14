@@ -167,6 +167,8 @@ class RangeCalculator
     {
         // todo: this doesn't belong here since it touches the db. Move to RangeService?
 
+        // Allow evil (Empire) to target in-realm.
+
         if($self->race->alignment == 'evil')
         {
 
@@ -176,8 +178,8 @@ class RangeCalculator
               ->filter(function ($dominion) use ($self) {
                   return (
 
-                      # Not in the same realm; and
-                      #($dominion->realm->id !== $self->realm->id) &&
+                      # Not the same dominion
+                      ($dominion->id !== $self->id) &&
 
                       # Is in range; and
                       $this->isInRange($self, $dominion) &&

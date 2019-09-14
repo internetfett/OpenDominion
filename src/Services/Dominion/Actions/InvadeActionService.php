@@ -206,6 +206,11 @@ class InvadeActionService
               }
             }
 
+            // Cannot invade yourself
+            if ($dominion->id == $target->id)
+            {
+              throw new RuntimeException('You cannot invade yourself.');              
+            }
 
             // Sanitize input
             $units = array_map('intval', array_filter($units));
@@ -993,7 +998,7 @@ class InvadeActionService
         // Demon soul collection (only from non-Demon races)
         if ($dominion->race->name == 'Demon' and $target->race->name !== 'Demon')
         {
-          $souls = $totalDefensiveCasualties;
+          $souls = (int)floor($totalDefensiveCasualties);
           $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
           $dominion->increment('resource_soul', $souls);
         }
