@@ -3,6 +3,7 @@ alignment: evil
 home_land_type: cavern
 perks:
   food_consumption: -25
+  mana_production: 10
 units:
   - name: Hellhound
     need_boat: true
@@ -10,7 +11,7 @@ units:
       platinum: 500
       ore: 0
     power:
-      offense: 4
+      offense: 3
       defense: 2
   - name: Tormentor
     need_boat: true
@@ -25,23 +26,23 @@ units:
     need_boat: true
     cost:
       platinum: 1000
-      food: 2000
+      food: 500
       soul: 4
-      gem: 5
     power:
-      offense: 8
-      defense: 8
+      offense: 6
+      defense: 6
     perks:
-      kills_peasants: 1
+      kills_peasants: 2
   - name: Archdemon
     need_boat: true
     cost:
       platinum: 1666
+      ore: 100
       mana: 1000
       soul: 1
       gem: 10
     power:
       offense: 6
-      defense: 3
+      defense: 2
     perks:
       immortal_except_vs: Sacred Order
