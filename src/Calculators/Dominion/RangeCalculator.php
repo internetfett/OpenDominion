@@ -167,7 +167,7 @@ class RangeCalculator
     {
         // todo: this doesn't belong here since it touches the db. Move to RangeService?
 
-        if($dominion->race->alignment == 'evil')
+        if($self->race->alignment == 'evil')
         {
 
           return $self->round->dominions()
