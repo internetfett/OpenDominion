@@ -237,7 +237,7 @@ class NotificationHelper
 
                 return sprintf(
                     'Training of %s %s completed',
-                    ucwords(number_format($units)),
+                    number_format($units),
                     str_plural('unit', $units)
                 );
 
