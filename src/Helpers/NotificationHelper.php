@@ -237,7 +237,7 @@ class NotificationHelper
 
                 return sprintf(
                     'Training of %s %s completed',
-                    number_format($units),
+                    ucwords(number_format($units)),
                     str_plural('unit', $units)
                 );
 
@@ -271,11 +271,14 @@ class NotificationHelper
             case 'hourly_dominion.starvation_occurred':
                 $units = array_sum($data);
 
+                return 'You are starving and cannot explore or invade until you have enough food to feed your population.';
+                /*
                 return sprintf(
                     '%s %s died due to starvation',
                     number_format($units),
                     str_plural('unit', $units)
                 );
+                */
 
             case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);

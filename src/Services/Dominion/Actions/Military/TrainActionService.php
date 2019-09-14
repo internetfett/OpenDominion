@@ -319,7 +319,7 @@ class TrainActionService
 
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
-            $unitsToTrainString,
+            ucwords($unitsToTrainString),
             $trainingCostsString
         );
 
