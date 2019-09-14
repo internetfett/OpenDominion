@@ -195,6 +195,7 @@ class MilitaryCalculator
      * @param array|null $units
      * @param float $multiplierReduction
      * @param bool $ignoreDraftees
+     * @param bool $isAmbush
      * @return float
      */
     public function getDefensivePower(
@@ -203,9 +204,10 @@ class MilitaryCalculator
         float $landRatio = null,
         array $units = null,
         float $multiplierReduction = 0,
-        bool $ignoreDraftees = false): float
+        bool $ignoreDraftees = false
+        bool $isAmbush = false): float
     {
-        $dp = $this->getDefensivePowerRaw($dominion, $opposingForceRaceName, $landRatio, $units, $ignoreDraftees);
+        $dp = $this->getDefensivePowerRaw($dominion, $opposingForceRaceName, $landRatio, $units, $ignoreDraftees, $isAmbush);
         $dp *= $this->getDefensivePowerMultiplier($dominion, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($dominion));
