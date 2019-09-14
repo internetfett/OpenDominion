@@ -513,6 +513,7 @@ class InvadeActionService
             }
         }
 
+        $attackerUnitsDiedInBattleSlot1 = 0;
         foreach ($offensiveUnitsLost as $slot => &$amount) {
             // Reduce amount of units to kill by further multipliers
             $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed);
@@ -525,7 +526,10 @@ class InvadeActionService
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->decrement("military_unit{$slot}", $amount);
 
-                $attackerUnitsDiedInBattle += $amount;
+                if($slot == 1)
+                {
+                    $attackerUnitsDiedInBattleSlot1 = $amount;
+                }
 
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
             }
@@ -540,7 +544,7 @@ class InvadeActionService
             }
         }
 
-        $survivingUnits['unitsDiedInBattle'] = $attackerUnitsDiedInBattle;
+        $survivingUnits['attackerUnitsDiedInBattleSlot1'] = $attackerUnitsDiedInBattleSlot1;
 
         return $survivingUnits;
     }
@@ -995,7 +999,7 @@ class InvadeActionService
         // Norse champion
         if ($dominion->race->name == 'Norse')
         {
-          $champions = $survivingUnits['attackerUnitsDiedInBattle'];
+          $champions = $survivingUnits['attackerUnitsDiedInBattleSlot1'];
           $this->invasionResult['attacker']['champion']['champions'] = $champions;
           $dominion->increment('resource_champion', $champions);
         }
