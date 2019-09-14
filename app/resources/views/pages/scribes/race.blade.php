@@ -126,7 +126,7 @@
                                     }
 
                                     if ($unit->cost_soul > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Soul');
+                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
                                     }
 
                                 @endphp

@@ -31,6 +31,8 @@ units:
     power:
       offense: 8
       defense: 8
+    perks:
+      kills_peasants: 1
   - name: Archdemon
     need_boat: true
     cost:
@@ -42,4 +44,4 @@ units:
       offense: 6
       defense: 3
     perks:
-      immortal_except_vs: sacred order
+      immortal_except_vs: Sacred Order

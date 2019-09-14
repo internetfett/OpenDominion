@@ -108,6 +108,7 @@ class UnitHelper
             'food_production' => 'Each unit produces %s food per hour.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
             'afterlife_norse' => 'Upon death, becomes a legendary champion and can be recalled into services as an Einherjar.',
+            'kills_peasants' => 'Eats %s peasants per hour.',
 
             // Misc
             'faster_return' => 'Returns %s hours faster from battle.',
