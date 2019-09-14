@@ -128,6 +128,14 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('boat', $value);
                                                             break;
 
+                                                        case 'champion':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Champion', $value);
+                                                            break;
+
+                                                        case 'soul':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Soul', $value);
+                                                            break;
+
                                                         case 'wizards':
                                                             $labelParts[] = '1 Wizard';
                                                             break;
