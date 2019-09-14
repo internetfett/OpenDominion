@@ -234,6 +234,13 @@
                                     {{ $unitHelper->getConvertedUnitsString($event->data['attacker']['conversion'], $selectedDominion->race) }}
                                 </p>
                             @endif
+
+
+                            @if (isset($event->data['attacker']['soul_collection']) && $event->source->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                                  {{ $unitHelper->getSoulCollectionString($event->data['attacker']['soul_collection']['souls']) }}
+                                </p>
+                            @endif
                         </div>
                     </div>
                 </div>

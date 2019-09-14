@@ -990,10 +990,11 @@ class InvadeActionService
           $dominion->increment('resource_champion', $champions);
         }
 
-        // Demon soul collection
-        if ($dominion->race->name == 'Demon')
+        // Demon soul collection (only from non-Demon races)
+        if ($dominion->race->name == 'Demon' and $target->race->name !== 'Demon')
         {
           $souls = $totalDefensiveCasualties;
+          $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
           $dominion->increment('resource_soul', $souls);
         }
     }

@@ -259,4 +259,20 @@ class UnitHelper
 
         return $result;
     }
+
+    # Demon Soul collection
+    public function getSoulCollectionString(array $souls): string
+    {
+      if ($souls > 0)
+      {
+        $result = 'Taking the souls of the fallen enemy soldiers, you gain ' . number_format($souls) . 'souls.';
+      }
+      else {
+        $result = 'You do not collect any souls.';
+      }
+
+        return $result;
+    }
+
+
 }
