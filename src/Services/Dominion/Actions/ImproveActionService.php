@@ -123,6 +123,7 @@ class ImproveActionService
             'ore' => 2,
             'mana' => 4,
             'gems' => 12,
+            'food' => 1,
         ];
     }
 }
