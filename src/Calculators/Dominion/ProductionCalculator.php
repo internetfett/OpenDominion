@@ -5,6 +5,9 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 
+// Morale affects production
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class ProductionCalculator
 {
     /** @var ImprovementCalculator */
@@ -25,6 +28,9 @@ class ProductionCalculator
     /** @var LandCalculator */
     protected $landCalculator;
 
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
     /**
      * ProductionCalculator constructor.
      *
@@ -33,6 +39,7 @@ class ProductionCalculator
      * @param PrestigeCalculator $prestigeCalculator
      * @param SpellCalculator $spellCalculator
      * @param GuardMembershipService $guardMembershipService
+     * @param MilitaryCalculator $militaryCalculator
      */
     public function __construct(
         ImprovementCalculator $improvementCalculator,
@@ -40,7 +47,8 @@ class ProductionCalculator
         PrestigeCalculator $prestigeCalculator,
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
-        LandCalculator $landCalculator)
+        LandCalculator $landCalculator,
+        MilitaryCalculator $militaryCalculator,)
     {
         $this->improvementCalculator = $improvementCalculator;
         $this->populationCalculator = $populationCalculator;
@@ -48,6 +56,7 @@ class ProductionCalculator
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
         $this->landCalculator = $landCalculator;
+        $this->militaryCalculator = $militaryCalculator;
     }
 
     //<editor-fold desc="Platinum">
@@ -160,6 +169,9 @@ class ProductionCalculator
         // Tech: Treasure Hunt or Banker's Foresight
         // todo
 
+        // Apply Morale multiplier to production multiplier
+        $mutiplier *= $this->getMoraleMultiplier($dominion);
+
         return min(1.5, (1 + $multiplier));
     }
 
@@ -253,6 +265,9 @@ class ProductionCalculator
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+
+        // Apply Morale multiplier to production multiplier
+        $mutiplier *= $this->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier) * (1 + $prestigeMultiplier);
     }
@@ -387,6 +402,9 @@ class ProductionCalculator
 
         // Tech: Fruits of Labor
         // todo
+
+        // Apply Morale multiplier to production multiplier
+        $mutiplier *= $this->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -591,6 +609,9 @@ class ProductionCalculator
         // Tech: Fruits of Labor
         // todo
 
+        // Apply Morale multiplier to production multiplier
+        $mutiplier *= $this->getMoraleMultiplier($dominion);
+
         return (1 + $multiplier);
     }
 
@@ -650,6 +671,9 @@ class ProductionCalculator
 
         // Tech: Fruits of Labor and Miner's Refining
         // todo
+
+        // Apply Morale multiplier to production multiplier
+        $mutiplier *= $this->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -714,6 +738,9 @@ class ProductionCalculator
         {
           $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
         }
+
+        // Apply Morale multiplier to production multiplier
+        $mutiplier *= $this->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }

@@ -808,30 +808,30 @@ class InvadeActionService
     {
         $range = $this->rangeCalculator->getDominionRange($dominion, $target);
 
-        # 40 - 50%: -10% morale
+        # 40 - 50%: -12% morale
         if($range < 50)
+        {
+          $moraleChange = -12;
+        }
+        # 50 - 60%: -10%
+        elseif ($range < 60)
         {
           $moraleChange = -10;
         }
-        # 50 - 60%: -8%
-        elseif ($range < 60)
-        {
-          $moraleChange = -8;
-        }
-        # 60% - 75: -7% morale
+        # 60% - 75: 87% morale
         elseif($range < 75)
         {
-          $moraleChange = -7;
+          $moraleChange = -8;
         }
         # 75 - 80%: -5% morale
         elseif($range < 85)
         {
-          $moraleChange = -5;
+          $moraleChange = -6;
         }
         # 85% and up: -3%
         else
         {
-          $moraleChange = -3;
+          $moraleChange = -5;
         }
 
         $dominion->increment('morale', $moraleChange);
