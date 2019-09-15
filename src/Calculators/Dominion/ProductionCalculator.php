@@ -48,7 +48,7 @@ class ProductionCalculator
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
         LandCalculator $landCalculator,
-        MilitaryCalculator $militaryCalculator,)
+        MilitaryCalculator $militaryCalculator)
     {
         $this->improvementCalculator = $improvementCalculator;
         $this->populationCalculator = $populationCalculator;
