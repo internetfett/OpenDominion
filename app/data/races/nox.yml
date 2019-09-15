@@ -21,18 +21,16 @@ units:
       defense: 3
   - name: Nightshade
     cost:
-      platinum: 1050
+      platinum: 975
       ore: 100
     power:
       offense: 0
       defense: 2
     perks:
       defense_from_land: swamp,10,4 # land type, ratio%,
-      counts_as_wizard_offense: 0.5
-      counts_as_wizard_defense: 0.5
   - name: Lich
     cost:
-      platinum: 1100
+      platinum: 1150
       ore: 0
     power:
       offense: 5
@@ -40,3 +38,5 @@ units:
     perks:
       fewer_casualties: 80
       conversion: 12
+      counts_as_wizard_offense: 0.5
+      counts_as_wizard_defense: 0.5
