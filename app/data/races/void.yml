@@ -21,9 +21,9 @@ units:
       defense: 0
   - name: Shadow
     cost:
-      platinum: 100
+      platinum: 200
       ore: 0
-      mana: 200
+      mana: 100
     power:
       offense: 0
       defense: 3
@@ -31,9 +31,9 @@ units:
       mana_production: 1.5
   - name: Vision
     cost:
-      platinum: 400
+      platinum: 550
       ore: 0
-      mana: 300
+      mana: 150
     power:
       offense: 0
       defense: 5
