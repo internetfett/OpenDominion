@@ -136,9 +136,12 @@ class SpellActionService
             if ($dominion->round->id !== $target->round->id) {
                 throw new RuntimeException('Nice try, but you cannot cast spells cross-round');
             }
-
-            if ($dominion->realm->id === $target->realm->id) {
-                throw new RuntimeException('Nice try, but you cannot cast spells on your realmies');
+            
+            if($dominion->race->alignment == 'good')
+            {
+              if ($dominion->realm->id === $target->realm->id) {
+                  throw new RuntimeException('Nice try, but you cannot cast spells on your realmies');
+              }
             }
         }
 
