@@ -158,8 +158,11 @@ class EspionageActionService
             throw new RuntimeException('Nice try, but you cannot perform espionage operations cross-round');
         }
 
-        if ($dominion->realm->id === $target->realm->id) {
-            throw new RuntimeException('Nice try, but you cannot perform espionage oprations on your realmies');
+        if($dominion->race->alignment == 'good')
+        {
+          if ($dominion->realm->id === $target->realm->id) {
+              throw new RuntimeException('Nice try, but you cannot perform espionage oprations on your realmies');
+          }
         }
 
         $result = null;

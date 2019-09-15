@@ -65,7 +65,7 @@
                                     <ul>
                                         <li>One account per player.</li>
                                         <li>No cheating, botting or scripting.</li>
-                                        <li>Anonymized analytical data will be collected through Google Analytics the sole purpose of improving the game. Feel free to exempt yourself by using something like adblock or Ghostery.</li>
+                                        <li>Anonymized analytical data will be collected through Google Analytics the sole purpose of improving the game. Feel free to exempt yourself by using something like uBlock Origin.</li>
                                         <li>We will not share your data to anyone.</li>
                                         <li>We will only send you game-related emails on your email address.</li>
                                     </ul>

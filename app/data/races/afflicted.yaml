@@ -8,8 +8,8 @@ units:
   - name: Zombie
     need_boat: true
     cost:
-      platinum: 200
-      ore: 10
+      platinum: 180
+      ore: 5
     power:
       offense: 2
       defense: 0
