@@ -9,11 +9,11 @@ class ImprovementHelper
 
       if($race == 'Growth')
       {
-        ['tissue'];
+        $improvementTypes[] = 'tissue';
       }
       else
       {
-        return [
+        $improvementTypes = array(
             'science',
             'keep',
             'towers',
@@ -22,8 +22,11 @@ class ImprovementHelper
             'harbor',
             'armory',
             'infirmary'
-        ];
+          );
       }
+
+      return $improvementTypes;
+
     }
 
     public function getImprovementRatingString(string $improvementType): string
