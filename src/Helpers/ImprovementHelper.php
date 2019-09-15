@@ -25,6 +25,12 @@ class ImprovementHelper
           );
       }
 
+      // For rules in ImproveActionRequest (???)
+      if($race == 'any_race')
+      {
+        $improvementTypes[] = 'tissue';
+      }
+
       return $improvementTypes;
 
     }
