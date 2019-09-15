@@ -46,6 +46,26 @@ class DominionFactory
         );
 
 
+        // These are starting resources which are or maybe
+        // modified for specific races. These are the default
+        // values, and then deviating values are set below.
+
+        $startingResources['platinum'] = 100000;
+        $startingResources['lumber'] = 15000;
+        $startingResources['food'] = 15000;
+        $startingResources['gems'] = 10000;
+        $startingResources['peasants'] = 1300;
+        $startingResources['unit1'] = 0;
+        $startingResources['unit2'] = 150;
+        $startingResources['unit3'] = 0;
+        $startingResources['unit4'] = 0;
+        $startingResources['draftees'] = 100;
+        $startingResources['spies'] = 25;
+        $startingResources['wizards'] = 25;
+        $startingResources['archmages'] = 0;
+        $startingResources['draft_rate'] = 10;
+
+
         if((bool)$race->getPerkValue('cannot_construct'))
         {
           if($race->name == 'Void')
@@ -55,15 +75,7 @@ class DominionFactory
             $startingResources['food'] = 0;
             $startingResources['gems'] = 0;
             $startingResources['peasants'] = 1000;
-            $startingResources['unit1'] = 0;
             $startingResources['unit2'] = 500;
-            $startingResources['unit3'] = 0;
-            $startingResources['unit4'] = 0;
-            $startingResources['draftees'] = 100;
-            $startingResources['spies'] = 25;
-            $startingResources['wizards'] = 25;
-            $startingResources['archmages'] = 0;
-            $startingResources['draft_rate'] = 10;
           }
           elseif($race->name == 'Growth')
           {
@@ -79,62 +91,34 @@ class DominionFactory
             $startingResources['draftees'] = rand(100,1000);
             $startingResources['spies'] = 0;
             $startingResources['wizards'] = 0;
-            $startingResources['archmages'] = 0;
             $startingResources['draft_rate'] = 100;
           }
-        // Default
         }
         elseif($race->name == 'Armada')
         {
-          $startingResources['platinum'] = 100000;
-          $startingResources['lumber'] = 15000;
-          $startingResources['food'] = 15000;
-          $startingResources['gems'] = 10000;
-          $startingResources['peasants'] = 1300;
           $startingResources['unit1'] = 100;
           $startingResources['unit2'] = 10;
-          $startingResources['unit3'] = 0;
-          $startingResources['unit4'] = 0;
-          $startingResources['draftees'] = 100;
-          $startingResources['spies'] = 25;
-          $startingResources['wizards'] = 25;
-          $startingResources['archmages'] = 0;
-          $startingResources['draft_rate'] = 10;
+        }
+        elseif($race->name == 'Imperial Gnome')
+        {
+          $startingResources['unit2'] = 120;
         }
         elseif($race->name == 'Spirit')
         {
-          $startingResources['platinum'] = 100000;
-          $startingResources['lumber'] = 15000;
           $startingResources['food'] = 0;
-          $startingResources['gems'] = 10000;
-          $startingResources['peasants'] = 1300;
           $startingResources['unit1'] = 100;
           $startingResources['unit2'] = 10;
-          $startingResources['unit3'] = 0;
-          $startingResources['unit4'] = 0;
-          $startingResources['draftees'] = 100;
-          $startingResources['spies'] = 25;
-          $startingResources['wizards'] = 25;
-          $startingResources['archmages'] = 0;
-          $startingResources['draft_rate'] = 10;
         }
-        else
+        elseif($race->name == 'Demon')
         {
-            $startingResources['platinum'] = 100000;
-            $startingResources['lumber'] = 15000;
-            $startingResources['food'] = 15000;
-            $startingResources['gems'] = 10000;
-            $startingResources['peasants'] = 1300;
-            $startingResources['unit1'] = 0;
-            $startingResources['unit2'] = 150;
-            $startingResources['unit3'] = 0;
-            $startingResources['unit4'] = 0;
-            $startingResources['draftees'] = 100;
-            $startingResources['spies'] = 25;
-            $startingResources['wizards'] = 25;
-            $startingResources['archmages'] = 0;
-            $startingResources['draft_rate'] = 10;
+          $startingResources['unit2'] = 250;
         }
+        elseif($race->name == 'Templars')
+        {
+          $startingResources['unit2'] = 100;
+          $startingResources['unit3'] = 100;
+        }
+
 
         // For cannot_construct races, replace Gems with Platinum.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
