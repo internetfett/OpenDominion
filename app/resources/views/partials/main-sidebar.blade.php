@@ -50,7 +50,17 @@
 
                 <!-- Hide Castle from cannot_improve_castle races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
-                <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}"><a href="{{ route('dominion.improvements') }}"><i class="fa fa-arrow-up fa-fw"></i> <span>Improvements</span></a></li>
+                <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}">
+                  <a href="{{ route('dominion.improvements') }}">
+                    <i class="fa fa-arrow-up fa-fw"></i> <span>
+                      @if((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
+                      Feeding
+                      @else
+                      Improvements
+                      @endif
+                      </span>
+                  </a>
+                </li>
                 @endif
 
                 <li class="{{ Route::is('dominion.bank') ? 'active' : null }}"><a href="{{ route('dominion.bank') }}"><i class="fa fa-money fa-fw"></i> <span>National Bank</span></a></li>
