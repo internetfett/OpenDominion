@@ -241,6 +241,7 @@ class TrainingCalculator
           }
 
         }
+        
         // Armory
         if(!in_array($resourceType,$exemptResourceTypes))
         {

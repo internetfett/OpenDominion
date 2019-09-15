@@ -44,7 +44,7 @@
                                         <option value="{{ $dominion->id }}"
                                                 data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                 data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
-                                            {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }} 
+                                            {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -153,15 +153,27 @@
                                         </colgroup>
                                         <tbody>
                                             <tr>
+                                                <td>Morale:</td>
+                                                <td>{{ number_format($selectedDominion->morale) }}%</td>
+                                            </tr>
+                                            <tr>
                                                 <td>OP:</td>
                                                 <td>
                                                     <strong id="invasion-force-op">0</strong>
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td>OP:</td>
+                                                <td>
+                                                    <strong id="invasion-force-op">0</strong>
+                                                </td>
+                                            </tr>
+                                            <!--
+                                            <tr>
                                                 <td>DP:</td>
                                                 <td id="invasion-force-dp">0</td>
                                             </tr>
+                                          -->
                                             <tr>
                                                 <td>Boats:</td>
                                                 <td>
