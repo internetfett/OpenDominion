@@ -24,10 +24,6 @@
                         </colgroup>
                         <tbody>
                             @foreach ($improvementHelper->getImprovementTypes() as $improvementType)
-
-                            @php
-                                if($resourceType == 'tissue')
-                            @endphp
                                 <tr>
                                     <td>
                                         {{ ucfirst($improvementType) }}
