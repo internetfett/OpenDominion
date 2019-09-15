@@ -29,7 +29,7 @@ units:
     perks:
       fewer_casualties_offense: 25
       fewer_casualties_defense: 50
-        conversion: 3 # slot 3
+      conversion: 3 # slot 3
   - name: Garou
     cost:
       platinum: 1100
