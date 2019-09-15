@@ -143,9 +143,6 @@ class ProductionCalculator
           $guardTax = -2;
         }
 
-//        $techBankersForesight = 5;
-//        $techTreasureHunt = 12.5;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('platinum_production');
 
@@ -170,7 +167,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return min(1.5, (1 + $multiplier));
     }
@@ -267,7 +264,7 @@ class ProductionCalculator
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier) * (1 + $prestigeMultiplier);
     }
@@ -404,7 +401,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -610,7 +607,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -673,7 +670,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -740,7 +737,7 @@ class ProductionCalculator
         }
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
