@@ -23,9 +23,9 @@
                             <col width="100">
                         </colgroup>
                         <tbody>
+                            @foreach ($improvementHelper->getImprovementTypes() as $improvementType)
+
                             @php
-                              foreach ($improvementHelper->getImprovementTypes() as $improvementType)
-                              {
                                 if($resourceType == 'tissue')
                             @endphp
                                 <tr>
