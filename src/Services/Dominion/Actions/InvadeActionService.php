@@ -52,7 +52,7 @@ class InvadeActionService
     /**
      * @var int The minimum morale required to initiate an invasion
      */
-    protected const MIN_MORALE = 70;
+    protected const MIN_MORALE = 10;
 
     /**
      * @var float Failing an invasion by this percentage (or more) results in 'being overwhelmed'
@@ -808,20 +808,31 @@ class InvadeActionService
     {
         $range = $this->rangeCalculator->getDominionRange($dominion, $target);
 
-        $moraleChange = -5;
-
-        // Increased morale drops for attacking weaker targets
-        if ($range < 75) {
-            $moraleChange += max(round((((($range / 100) - 0.4) * 100) / 7) - 5), -5);
-        }
-
-        # In-realm Invasion: -20% morale
-        /*
-        if($dominion->realm->id == $target->realm->id)
+        # 40 - 50%: -10% morale
+        if($range < 50)
         {
-          $moraleChange = -20;
+          $moraleChange = -10;
         }
-        */
+        # 50 - 60%: -8%
+        elseif ($range < 60)
+        {
+          $moraleChange = -8;
+        }
+        # 60% - 75: -7% morale
+        elseif($range < 75)
+        {
+          $moraleChange = -7;
+        }
+        # 75 - 80%: -5% morale
+        elseif($range < 85)
+        {
+          $moraleChange = -5;
+        }
+        # 85% and up: -3%
+        else
+        {
+          $moraleChange = -3;
+        }
 
         $dominion->increment('morale', $moraleChange);
     }

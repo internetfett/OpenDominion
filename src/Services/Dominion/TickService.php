@@ -219,9 +219,16 @@ class TickService
         $dominion->increment('military_draftees', $drafteesGrowthRate);
 
         // Morale
-        if ($dominion->morale < 70) {
+        if ($dominion->morale < 35)
+        {
+          $dominion->increment('morale', 7);
+        }
+        elseif ($dominion->morale < 70)
+        {
             $dominion->increment('morale', 6);
-        } elseif ($dominion->morale < 100) {
+        }
+        elseif ($dominion->morale < 100)
+        {
             $dominion->increment('morale', min(3, 100 - $dominion->morale));
         }
 
