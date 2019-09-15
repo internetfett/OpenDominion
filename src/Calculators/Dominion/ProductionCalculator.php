@@ -170,7 +170,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $militaryCalculator->getMoraleMultiplier($dominion);
+        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return min(1.5, (1 + $multiplier));
     }
@@ -267,7 +267,7 @@ class ProductionCalculator
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $militaryCalculator->getMoraleMultiplier($dominion);
+        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier) * (1 + $prestigeMultiplier);
     }
@@ -404,7 +404,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $militaryCalculator->getMoraleMultiplier($dominion);
+        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -610,7 +610,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $militaryCalculator->getMoraleMultiplier($dominion);
+        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -673,7 +673,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $militaryCalculator->getMoraleMultiplier($dominion);
+        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
@@ -740,7 +740,7 @@ class ProductionCalculator
         }
 
         // Apply Morale multiplier to production multiplier
-        $mutiplier *= $militaryCalculator->getMoraleMultiplier($dominion);
+        $mutiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         return (1 + $multiplier);
     }
