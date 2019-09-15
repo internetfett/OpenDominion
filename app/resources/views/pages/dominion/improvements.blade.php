@@ -48,7 +48,9 @@
                 </div>
                 <div class="box-footer">
                     <div class="pull-right">
-                      <input type="hidden" name="resource" value="food">
+                      <select name="resource" class="form-control" style="display:none;">
+                      <option value="food" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                      </select>
                     </div>
                     <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Feed</button>
                 </div>
