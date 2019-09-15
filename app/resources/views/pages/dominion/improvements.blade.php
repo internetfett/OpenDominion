@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
-@section('page-header', 'Improvements')
+@if ((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
+  @section('page-header', 'Feeding')
+@else
+  @section('page-header', 'Improvements')
+@endif
 
 @section('content')
 
