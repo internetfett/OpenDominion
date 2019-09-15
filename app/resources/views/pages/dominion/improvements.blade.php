@@ -50,7 +50,6 @@
                     <div class="pull-right">
                         <select name="resource" class="form-control">
                             <option value="food" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
-                            @endif
                         </select>
                     </div>
 
@@ -64,7 +63,6 @@
         </div>
     </div>
 </div>
-
 
 @elif ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
     <div class="row">
