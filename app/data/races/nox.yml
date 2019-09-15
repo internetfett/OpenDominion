@@ -38,5 +38,5 @@ units:
     perks:
       fewer_casualties: 80
       conversion: 12
-      counts_as_wizard_offense: 0.5
-      counts_as_wizard_defense: 0.5
+      counts_as_wizard_offense: 0.1
+      counts_as_wizard_defense: 0.1
