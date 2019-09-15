@@ -168,6 +168,7 @@ class DominionFactory
             'improvement_harbor' => 0,
             'improvement_armory' => 0,
             'improvement_infirmary' => 0,
+            'improvement_tissue' => 0,
 
             'military_draftees' => $startingResources['draftees'],
             'military_unit1' => $startingResources['unit1'],
