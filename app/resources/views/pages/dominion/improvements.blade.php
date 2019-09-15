@@ -46,10 +46,6 @@
                                     </td>
                                 </tr>
 
-                              @php
-                              }
-                              @endphp
-
                             @endforeach
                         </tbody>
                     </table>
