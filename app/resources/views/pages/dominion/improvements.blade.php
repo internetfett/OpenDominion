@@ -23,7 +23,7 @@
                             <col width="100">
                         </colgroup>
                         <tbody>
-                            @foreach ($improvementHelper->getImprovementTypes() as $improvementType)
+                            @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                 <tr>
                                     <td>
                                         {{ ucfirst($improvementType) }}
@@ -92,7 +92,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($improvementHelper->getImprovementTypes() as $improvementType)
+                                @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                     <tr>
                                         <td>
                                             {{ ucfirst($improvementType) }}

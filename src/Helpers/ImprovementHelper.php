@@ -4,8 +4,15 @@ namespace OpenDominion\Helpers;
 
 class ImprovementHelper
 {
-    public function getImprovementTypes(): array
+    public function getImprovementTypes(string $race): array
     {
+
+      if($race == 'Growth')
+      {
+        array('tissue');
+      }
+      else
+      {
         return [
             'science',
             'keep',
@@ -14,8 +21,9 @@ class ImprovementHelper
             'walls',
             'harbor',
             'armory',
-            'infirmary',
+            'infirmary'
         ];
+      }
     }
 
     public function getImprovementRatingString(string $improvementType): string
