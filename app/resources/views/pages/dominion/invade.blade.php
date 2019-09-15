@@ -153,22 +153,15 @@
                                         </colgroup>
                                         <tbody>
                                             <tr>
+                                                <td>OP:</td>
+                                                <td>
+                                                    <strong id="invasion-force-op">0</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td>Morale:</td>
                                                 <td>{{ number_format($selectedDominion->morale) }}%</td>
-                                            </tr>
-                                            <tr>
-                                                <td>OP:</td>
-                                                <td>
-                                                    <strong id="invasion-force-op">0</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>OP:</td>
-                                                <td>
-                                                    <strong id="invasion-force-op">0</strong>
-                                                </td>
-                                            </tr>
-                                            <!--
+                                            </tr>                                            <!--
                                             <tr>
                                                 <td>DP:</td>
                                                 <td id="invasion-force-dp">0</td>
