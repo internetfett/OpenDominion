@@ -57,6 +57,7 @@ class ImprovementCalculator
             'harbor' => 40,
             'armory' => 20, # Reduces training costs.
             'infirmary' => 30, # Reduces casualties
+            'tissue' => 30, # Growth unique
         ];
 
         return (($maximumPercentages[$improvementType] / 100) ?: null);
@@ -81,6 +82,7 @@ class ImprovementCalculator
             'harbor' => 5000,
             'armory' => 4000,
             'infirmary' => 4000,
+            'tissue' => 4000, # Growth unique
         ];
 
         return ($coefficients[$improvementType] ?: null);

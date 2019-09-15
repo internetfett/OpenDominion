@@ -187,13 +187,16 @@ class PopulationCalculator
         // Improvement: Keep
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'keep');
 
+        // Improvement: Tissue (growth)
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
+
         // Tech: Urban Mastery or Construction
         // todo
 
         // Beastfolk: Forest
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 1 * ($dominion->{"land_forest"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 1 * ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Prestige Bonus

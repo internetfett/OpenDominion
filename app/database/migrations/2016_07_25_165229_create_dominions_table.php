@@ -53,6 +53,7 @@ class CreateDominionsTable extends Migration
             $table->integer('improvement_irrigation')->unsigned();
             $table->integer('improvement_armory')->unsigned();
             $table->integer('improvement_infirmary')->unsigned();
+            $table->integer('improvement_tissue')->unsigned();
 
             $table->integer('military_draftees')->unsigned();
             $table->integer('military_unit1')->unsigned();

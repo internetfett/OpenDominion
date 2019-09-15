@@ -44,6 +44,7 @@ use OpenDominion\Services\Dominion\SelectorService;
  * @property int $improvement_harbor
  * @property int $improvement_armory
  * @property int $improvement_infirmary
+ * @property int $improvement_tissue
  * @property int $military_draftees
  * @property int $military_unit1
  * @property int $military_unit2

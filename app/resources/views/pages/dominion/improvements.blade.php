@@ -3,7 +3,78 @@
 @section('page-header', 'Improvements')
 
 @section('content')
-@if ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
+
+@if($selectedDominion->race->name == 'Growth')
+<div class="row">
+
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Improvements</h3>
+            </div>
+            <form action="{{ route('dominion.improvements') }}" method="post" role="form">
+                @csrf
+                <div class="box-body table-responsive no-padding">
+                    <table class="table">
+                        <colgroup>
+                            <col width="150">
+                            <col>
+                            <col width="100">
+                            <col width="100">
+                        </colgroup>
+                        <tbody>
+                            @php
+                              foreach ($improvementHelper->getImprovementTypes() as $improvementType)
+                              {
+                                if($resourceType == 'tissue')
+                            @endphp
+                                <tr>
+                                    <td>
+                                        {{ ucfirst($improvementType) }}
+                                        {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
+                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
+                                    </td>
+                                    <td>
+                                        {{ sprintf(
+                                            $improvementHelper->getImprovementRatingString($improvementType),
+                                            number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, $improvementType) * 100, 2)
+                                        ) }}
+                                    </td>
+                                    <td class="text-center">{{ number_format($selectedDominion->{'improvement_' . $improvementType}) }}</td>
+                                    <td class="text-center">
+                                        <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                    </td>
+                                </tr>
+
+                              @php
+                              }
+                              @endphp
+
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <select name="resource" class="form-control">
+                            <option value="food" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <div class="pull-right" style="padding: 7px 8px 0 0">
+                        Resource to invest:
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Feed</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@elif ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
