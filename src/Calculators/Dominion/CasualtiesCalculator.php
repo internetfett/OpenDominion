@@ -64,13 +64,21 @@ class CasualtiesCalculator
         // Immortality never triggers upon being overwhelmed
         if (!$isOverwhelmed) {
             // Global immortality
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal')) {
+            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
+            {
                 // Contrary to Dominion Classic, invading SPUDs are always immortal in OD, even when invading a HuNo
                 // with Crusade active
 
                 // This is to help the smaller OD player base (compared to DC) by not excluding HuNo as potential
                 // invasion targets
 
+                $multiplier = 0;
+            }
+
+            // True immortality.
+            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+            {
+                // For now the same as SPUD-style immortal, but separate in code for future usage.
                 $multiplier = 0;
             }
 
@@ -181,7 +189,8 @@ class CasualtiesCalculator
         // Only military units with a slot number could be immortal
         if ($slot !== null) {
             // Global immortality
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal')) {
+            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
+            {
                 // Note: At the moment only SPUDs have the global 'immortal' perk. If we ever add global immortality to
                 // other units later, we need to add checks in here so Crusade only works vs SPUD. And possibly
                 // additional race-based checks in here for any new units. So always assume we're running SPUD at the
@@ -198,18 +207,19 @@ class CasualtiesCalculator
                     $multiplier = 0;
                 }
             }
+            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+            {
+                // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
+
+                $multiplier = 0;
+            }
 
             // Race perk-based immortality
             if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $attacker->race->name, $slot)) {
                 $multiplier = 0;
             }
 
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')) {
-                // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
 
-                $multiplier = 0;
-
-            }
 
         }
 
