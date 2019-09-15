@@ -308,7 +308,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($improvementHelper->getImprovementTypes() as $improvementType)
+                                @foreach ($improvementHelper->getImprovementTypes($race->name) as $improvementType)
                                     <tr>
                                         <td>
                                             {{ ucfirst($improvementType) }}

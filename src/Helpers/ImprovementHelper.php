@@ -9,7 +9,7 @@ class ImprovementHelper
 
       if($race == 'Growth')
       {
-        array('tissue');
+        ['tissue'];
       }
       else
       {
