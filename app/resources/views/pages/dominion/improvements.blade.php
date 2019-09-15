@@ -62,7 +62,7 @@
     </div>
 </div>
 
-@elif ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
+@elseif ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
