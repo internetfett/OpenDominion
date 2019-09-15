@@ -330,7 +330,7 @@ DEMON;
                 $description = 'No guard platinum tax';
                 break;
             case 'tissue_improvement':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Can improve tissue (only)';
                 break;
             default:
@@ -500,7 +500,7 @@ DEMON;
                 $booleanValue = true;
                 break;
           case 'tissue_improvement':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Can improve tissue (only)';
                 $booleanValue = true;
                 break;
