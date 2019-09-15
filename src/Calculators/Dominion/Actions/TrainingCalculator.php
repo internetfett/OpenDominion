@@ -210,6 +210,7 @@ class TrainingCalculator
      * Returns the Dominion's training cost multiplier.
      *
      * @param Dominion $dominion
+     * @param string $resourceType
      * @return float
      */
     public function getSpecialistEliteCostMultiplier(Dominion $dominion, string $resourceType): float
@@ -241,7 +242,7 @@ class TrainingCalculator
           }
 
         }
-        
+
         // Armory
         if(!in_array($resourceType,$exemptResourceTypes))
         {
