@@ -329,6 +329,10 @@ DEMON;
                 $negativeBenefit = false;
                 $description = 'No guard platinum tax';
                 break;
+            case 'tissue_improvement':
+                $negativeBenefit = true;
+                $description = 'Can improve tissue (only)';
+                break;
             default:
                 return '';
         }
@@ -493,6 +497,11 @@ DEMON;
             case 'guard_tax_exemption':
                 $negativeBenefit = false;
                 $description = 'Exempt from guard platinum tax';
+                $booleanValue = true;
+                break;
+          case 'tissue_improvement':
+                $negativeBenefit = true;
+                $description = 'Can improve tissue (only)';
                 $booleanValue = true;
                 break;
             default:

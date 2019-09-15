@@ -4,7 +4,7 @@ home_land_type: swamp
 perks:
 #  max_population: 300
   population_growth: 200
-  cannot_improve_castle: 1
+#  cannot_improve_castle: 1
   cannot_construct: 1
   cannot_explore: 1
   cannot_train_spies: 1
@@ -12,6 +12,7 @@ perks:
   cannot_train_archmages: 1
   extra_barren_max_population: 120
   reduce_conversions: 50
+  tissue_improvement: 1
 units:
   - name: Abscess
     need_boat: false

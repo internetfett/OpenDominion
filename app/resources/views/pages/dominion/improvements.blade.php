@@ -4,13 +4,13 @@
 
 @section('content')
 
-@if($selectedDominion->race->name == 'Growth')
+@if ((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
 <div class="row">
 
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Improvements</h3>
+                <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Feeding</h3>
             </div>
             <form action="{{ route('dominion.improvements') }}" method="post" role="form">
                 @csrf
