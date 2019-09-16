@@ -4,7 +4,7 @@ home_land_type: water
 perks:
   food_consumption: -50
   mana_production: 10
-    does_not_kill: 1
+  does_not_kill: 1
 units:
   - name: Essence
     need_boat: false
