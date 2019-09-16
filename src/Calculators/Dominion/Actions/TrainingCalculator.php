@@ -87,6 +87,11 @@ class TrainingCalculator
                     $champion = $units[$unitSlot]->cost_champion;
                     $soul = $units[$unitSlot]->cost_soul;
 
+                    $unit1 = $units[$unitSlot]->cost_unit1;
+                    $unit2 = $units[$unitSlot]->cost_unit2;
+                    $unit3 = $units[$unitSlot]->cost_unit3;
+                    $unit4 = $units[$unitSlot]->cost_unit4;
+
                     if ($platinum > 0) {
                         $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion, 'platinum'));
                     }

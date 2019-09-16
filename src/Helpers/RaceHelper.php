@@ -95,12 +95,16 @@ $descriptions['armada'] = <<<ARMADA
 <p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
 ARMADA;
 
-
 $descriptions['norse'] = <<<NORSE
 <p>Rarely before have the Norse ventured south for anything other than trade.</p>
 <p>The emergence of the Empire has forced even these northern stalwarts to pick a side, joining the Commonwealth.</p>
 <p>They are fierce warriors, into death and beyond.</p>
 NORSE;
+
+$descriptions['lux'] = <<<LUX
+<p>The Lux are the children of the Suns.</p>
+<p>Some believe they are elves which transcended. Others say they are not of this world at all.</p>
+LUX;
 
         // EMPIRE
         $descriptions['dark elf'] = <<<DARKELF
@@ -333,6 +337,10 @@ DEMON;
                 $negativeBenefit = false;
                 $description = 'Can improve tissue (only)';
                 break;
+            case 'does_not_kill':
+                $negativeBenefit = false;
+                $description = 'Does not kill enemy units';
+                break;
             default:
                 return '';
         }
@@ -502,6 +510,11 @@ DEMON;
           case 'tissue_improvement':
                 $negativeBenefit = false;
                 $description = 'Can improve tissue (only)';
+                $booleanValue = true;
+                break;
+          case 'does_not_kill':
+                $negativeBenefit = false;
+                $description = 'Does not kill units.';
                 $booleanValue = true;
                 break;
             default:

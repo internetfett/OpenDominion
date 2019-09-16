@@ -31,6 +31,10 @@ class CreateUnitsTable extends Migration
             $table->integer('cost_boat');
             $table->integer('cost_champion');
             $table->integer('cost_soul');
+            $table->integer('cost_unit1');
+            $table->integer('cost_unit2');
+            $table->integer('cost_unit3');
+            $table->integer('cost_unit4');
 
 
             $table->float('power_offense');

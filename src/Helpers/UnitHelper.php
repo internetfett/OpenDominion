@@ -109,6 +109,7 @@ class UnitHelper
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
             'afterlife_norse' => 'Upon honourable death, becomes a legendary champion and can be recalled into services as an Einherjar.',
             'kills_peasants' => 'Eats %s peasants per hour.',
+            'does_not_kill' => 'Does not kill other units.',
 
             // Misc
             'faster_return' => 'Returns %s hours faster from battle.',

@@ -1,0 +1,50 @@
+name: Lux
+alignment: good
+home_land_type: water
+perks:
+  food_consumption: -50
+  mana_production: 10
+    does_not_kill: 1
+units:
+  - name: Essence
+    need_boat: false
+    cost:
+      mana: 10
+    power:
+      offense: 0
+      defense: 0
+    perks:
+      does_not_kill: 1
+      true_immortal: 1
+  - name: Hex
+    need_boat: false
+    cost:
+      unit1: 1
+    power:
+      offense: 0
+      defense: 4
+    perks:
+      does_not_kill: 1
+      true_immortal: 1
+  - name: Vex
+    need_boat: false
+    cost:
+      unit1: 1
+    power:
+      offense: 4
+      defense: 0
+    perks:
+      does_not_kill: 1
+      true_immortal: 1
+  - name: Pax
+    need_boat: false
+    cost:
+      unit2: 1
+      unit3: 1
+    power:
+      offense: 8
+      defense: 8
+    perks:
+      does_not_kill: 1
+      true_immortal: 1
+      conversion: 1

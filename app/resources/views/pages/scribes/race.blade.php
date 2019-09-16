@@ -129,6 +129,22 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
                                     }
 
+                                    if ($unit->cost_unit1 > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit1');
+                                    }
+
+                                    if ($unit->cost_unit2 > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit2');
+                                    }
+
+                                    if ($unit->cost_unit3 > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit3');
+                                    }
+
+                                    if ($unit->cost_unit3 > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit3');
+                                    }
+
                                 @endphp
                                 <tr>
                                     <td>
