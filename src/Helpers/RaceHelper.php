@@ -102,6 +102,7 @@ $descriptions['norse'] = <<<NORSE
 NORSE;
 
 $descriptions['lux'] = <<<LUX
+<h3>This race is not yet finished</h3>
 <p>The Lux are the children of the Suns.</p>
 <p>Some believe they are elves which transcended. Others say they are not of this world at all.</p>
 LUX;
