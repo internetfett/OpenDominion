@@ -17,8 +17,8 @@ units:
   - name: Tormentor
     need_boat: true
     cost:
-      platinum: 400
-      ore: 200
+      platinum: 300
+      ore: 100
       prestige: 1
     power:
       offense: 2
