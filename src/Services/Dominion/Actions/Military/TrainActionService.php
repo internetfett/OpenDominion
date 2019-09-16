@@ -302,7 +302,10 @@ class TrainActionService
                     'norn' => 'nornir',
                     'berserk' => 'berserkir',
                     'valkyrja' => 'valkyrjur',
-                    'einherjar' => 'einherjar'
+                    'einherjar' => 'einherjar',
+                    'hex' => 'hex',
+                    'vex' => 'vex',
+                    'pax' => 'pax',
                 ];
 
                 $amountLabel = number_format($amount);
@@ -344,7 +347,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            $trainingCostsString
+            str_replace('And', 'and', ucwords($trainingCostsString))
         );
 
         return $message;

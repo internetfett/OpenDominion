@@ -110,6 +110,7 @@ class UnitHelper
             'afterlife_norse' => 'Upon honourable death, becomes a legendary champion and can be recalled into services as an Einherjar.',
             'kills_peasants' => 'Eats %s peasants per hour.',
             'does_not_kill' => 'Does not kill other units.',
+            'no_draftee' => 'No draftee required to train.',
 
             // Misc
             'faster_return' => 'Returns %s hours faster from battle.',

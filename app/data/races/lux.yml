@@ -28,6 +28,7 @@ units:
       offense: 0
       defense: 4
     perks:
+      no_draftee: 1
       does_not_kill: 1
       true_immortal: 1
       counts_as_wizard_offense: 0.3
@@ -41,6 +42,7 @@ units:
       offense: 4
       defense: 0
     perks:
+      no_draftee: 1
       does_not_kill: 1
       true_immortal: 1
       counts_as_spy_offense: 0.3
@@ -55,6 +57,7 @@ units:
       offense: 8
       defense: 8
     perks:
+      no_draftee: 1
       does_not_kill: 1
       true_immortal: 1
       conversion: 1
