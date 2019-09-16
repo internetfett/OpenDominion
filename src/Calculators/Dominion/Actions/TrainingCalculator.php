@@ -173,7 +173,7 @@ class TrainingCalculator
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
                     {
-                      $cost['draftees'] = 2;
+                      $cost['draftees'] = 0;
                     }
                     else
                     {
@@ -240,6 +240,12 @@ class TrainingCalculator
                   $value = 1;
                 }
                 */
+
+                if($type == 'draftees' and $value == 0)
+                {
+                  $value = 1;
+                }
+
                 $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
             }
 
