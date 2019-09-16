@@ -23,6 +23,8 @@ units:
     power:
       offense: 2
       defense: 5
+    perks:
+      immortal: 1
   - name: Abomination
     need_boat: true
     cost:
