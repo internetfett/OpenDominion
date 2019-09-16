@@ -29,7 +29,7 @@
                                             <option></option>
                                             @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
                                                 <option value="{{ $dominion->id }}" data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}" data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
-                                                    {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }} 
+                                                    {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -96,6 +96,23 @@
                     <p>Theft can only be performed on dominions greater than your size.</p>
                     <p>Performing espionage operations spends some spy strength, but it regenerates a bit every hour. You may only perform espionage operations above 30% strength.</p>
                     <p>You have {{ floor($selectedDominion->spy_strength) }}% spy strength.</p>
+                    <ul>
+                      <li>Spy Strength: {{ floor($selectedDominion->spy_strength) }}%</li>
+                      <li>Offensive Spy Ratio:
+                      @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
+                          {{ number_format($militaryCalculator->getSpyRatioRaw($selectedDominion, 'offense'), 3) }}
+                      @else
+                          {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}
+                      @endif
+                    </li>
+                      <li>Defensive Spy Ratio:
+                        @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
+                            {{ number_format($militaryCalculator->getSpyRatioRaw($selectedDominion, 'defense'), 3) }}
+                        @else
+                            {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'defense'), 3) }}
+                        @endif
+                      </li>
+                    </ul>
                 </div>
             </div>
         </div>
