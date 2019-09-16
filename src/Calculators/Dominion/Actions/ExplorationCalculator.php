@@ -61,7 +61,7 @@ class ExplorationCalculator
         #}
 
         // Racial bonus
-        $platinum += $dominion->race->getPerkMultiplier('explore_cost');
+        $platinum *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
 
         return round($platinum);
     }
@@ -90,7 +90,7 @@ class ExplorationCalculator
         #}
 
         // Racial bonus
-        $draftees += $dominion->race->getPerkMultiplier('explore_cost');
+        $platinum *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
 
         return round($draftees);
     }
