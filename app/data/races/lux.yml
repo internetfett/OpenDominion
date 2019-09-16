@@ -23,6 +23,7 @@ units:
     need_boat: false
     cost:
       unit1: 1
+      gem: 1
     power:
       offense: 0
       defense: 4
@@ -35,6 +36,7 @@ units:
     need_boat: false
     cost:
       unit1: 1
+      gem: 1
     power:
       offense: 4
       defense: 0
@@ -48,6 +50,7 @@ units:
     cost:
       unit2: 1
       unit3: 1
+      gem: 4
     power:
       offense: 8
       defense: 8
