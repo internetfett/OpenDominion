@@ -83,6 +83,10 @@ class TrainActionService
             'boat' => 0,
             'champion' => 0,
             'soul' => 0,
+            'unit1' => 0,
+            'unit2' => 0,
+            'unit3' => 0,
+            'unit4' => 0,
 
         ];
 
@@ -147,10 +151,20 @@ class TrainActionService
         {
           throw new GameException('Insufficient souls. Collect more souls.');
         }
+        if(
+            $totalCosts['unit1'] > $dominion->military_unit1 OR
+            $totalCosts['unit2'] > $dominion->military_unit2 OR
+            $totalCosts['unit3'] > $dominion->military_unit3 OR
+            $totalCosts['unit4'] > $dominion->military_unit4
+            )
+        {
+          throw new GameException('Insufficient units to train this unit.');
+        }
 
+
+        # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
-
           // Wonky workaround.
           if(isset($unitsToTrain['unit3']))
           {
@@ -224,6 +238,12 @@ class TrainActionService
             $dominion->decrement('resource_boats', $totalCosts['boat']);
             $dominion->decrement('resource_champion', $totalCosts['champion']);
             $dominion->decrement('resource_soul', $totalCosts['soul']);
+
+
+            $dominion->decrement('military_unit1', $totalCosts['unit1']);
+            $dominion->decrement('military_unit2', $totalCosts['unit2']);
+            $dominion->decrement('military_unit3', $totalCosts['unit3']);
+            $dominion->decrement('military_unit4', $totalCosts['unit4']);
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 

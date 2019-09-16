@@ -89,8 +89,6 @@ class DominionFactory
             $startingResources['unit3'] = rand(50,300);
             $startingResources['unit4'] = rand(0,200);
             $startingResources['draftees'] = rand(100,1000);
-            $startingResources['spies'] = 0;
-            $startingResources['wizards'] = 0;
             $startingResources['draft_rate'] = 100;
           }
         }
@@ -118,6 +116,11 @@ class DominionFactory
           $startingResources['unit2'] = 100;
           $startingResources['unit3'] = 100;
         }
+        elseif($race->name == 'Lux')
+        {
+          $startingResources['unit1'] = 100;
+          $startingResources['unit2'] = 0;
+        }
 
 
         // For cannot_construct races, replace Gems with Platinum.
@@ -125,6 +128,20 @@ class DominionFactory
         {
           $startingResources['platinum'] += $startingResources['gems'] * 2;
           $startingResources['gems'] = 0;
+        }
+
+        // For cannot_train_x races, replace X with 0.
+        if((bool)$race->getPerkValue('cannot_train_spies'))
+        {
+          $startingResources['spies'] = 0;
+        }
+        if((bool)$race->getPerkValue('cannot_train_wizards'))
+        {
+          $startingResources['wizards'] = 0;
+        }
+        if((bool)$race->getPerkValue('cannot_train_archmages'))
+        {
+          $startingResources['archmages'] = 0;
         }
 
         return Dominion::create([
