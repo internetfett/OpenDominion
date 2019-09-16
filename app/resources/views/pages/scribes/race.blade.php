@@ -130,19 +130,19 @@
                                     }
 
                                     if ($unit->cost_unit1 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit1');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' Unit1');
                                     }
 
                                     if ($unit->cost_unit2 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit2');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit2) . ' Unit2');
                                     }
 
                                     if ($unit->cost_unit3 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit3');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit3) . ' Unit3');
                                     }
 
-                                    if ($unit->cost_unit3 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Unit3');
+                                    if ($unit->cost_unit4 > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' Unit4');
                                     }
 
                                 @endphp
