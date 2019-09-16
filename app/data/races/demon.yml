@@ -39,8 +39,8 @@ units:
   - name: Archdemon
     need_boat: true
     cost:
-      platinum: 1250
-      mana: 1000
+      platinum: 1000
+      mana: 100
       soul: 1
       gem: 10
     power:

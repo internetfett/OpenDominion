@@ -271,7 +271,7 @@ class TrainingCalculator
         $smithiesReductionMax = 36;
 
         // Never discount these resources.
-        $exemptResourceTypes = array('mana','food','lumber','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4');
+        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4');
 
         // Smithies
         $exemptRaces = array('Gnome', 'Imperial Gnome');
