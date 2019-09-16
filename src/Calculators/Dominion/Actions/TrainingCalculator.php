@@ -171,7 +171,7 @@ class TrainingCalculator
 
                     #if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
 
-                    if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit',$unitType)), 'no_draftee') == 1)
+                    if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
                     {
                       $cost['draftees'] = 0;
                     }
