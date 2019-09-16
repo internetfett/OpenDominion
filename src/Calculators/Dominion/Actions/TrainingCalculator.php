@@ -243,7 +243,7 @@ class TrainingCalculator
 
                 if($type == 'draftees' and $value == 0)
                 {
-                  $value = 1;
+                  $value = 1; # Ugly, causes display bug
                 }
 
                 $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
