@@ -136,6 +136,22 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('Soul', $value);
                                                             break;
 
+                                                        case 'unit1':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit1', $value);
+                                                            break;
+
+                                                        case 'unit2':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit2', $value);
+                                                            break;
+
+                                                        case 'unit3':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit3', $value);
+                                                            break;
+
+                                                        case 'unit4':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit4', $value);
+                                                            break;
+
                                                         case 'wizards':
                                                             $labelParts[] = '1 Wizard';
                                                             break;
