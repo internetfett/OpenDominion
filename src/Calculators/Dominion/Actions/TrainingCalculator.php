@@ -169,7 +169,16 @@ class TrainingCalculator
                         $cost['unit4'] = (int)ceil($unit4 * $this->getSpecialistEliteCostMultiplier($dominion, 'unit4'));
                     }
 
-                    $cost['draftees'] = 1;
+                    #if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
+
+                    if($dominion->race->getUnitPerkValueForUnitSlot($unitType, 'no_draftee') == 1)
+                    {
+                      $cost['draftees'] = 0;                       
+                    }
+                    else
+                    {
+                      $cost['draftees'] = 1;
+                    }
 
                     break;
             }
