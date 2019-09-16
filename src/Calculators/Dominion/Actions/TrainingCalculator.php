@@ -206,6 +206,11 @@ class TrainingCalculator
             'boat' => 'resource_boats',
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
+
+            'unit1' => 'military_unit1',
+            'unit2' => 'military_unit2',
+            'unit3' => 'military_unit3',
+            'unit4' => 'military_unit4',
         ];
 
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);
