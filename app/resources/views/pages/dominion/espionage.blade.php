@@ -98,20 +98,6 @@
                     <p>You have {{ floor($selectedDominion->spy_strength) }}% spy strength.</p>
                     <ul>
                       <li>Spy Strength: {{ floor($selectedDominion->spy_strength) }}%</li>
-                      <li>Offensive Spy Ratio:
-                      @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
-                          {{ number_format($selectedDominion->militaryCalculator->getSpyRatioRaw($selectedDominion, 'offense'), 3) }}
-                      @else
-                          {{ number_format($selectedDominion->militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}
-                      @endif
-                    </li>
-                      <li>Defensive Spy Ratio:
-                        @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
-                            {{ number_format($militaryCalculator->getSpyRatioRaw($selectedDominion, 'defense'), 3) }}
-                        @else
-                            {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'defense'), 3) }}
-                        @endif
-                      </li>
                     </ul>
                 </div>
             </div>
