@@ -57,7 +57,7 @@ class Unit extends AbstractModel
         // Unit unit 4 cost
         'cost_unit4' => 'integer',
         // For cases when a unit's NW needs to be manually set
-        'static_networth' => 'float',
+        'static_networth' => 'integer',
     ];
 
     public function perks()
