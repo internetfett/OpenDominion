@@ -100,9 +100,9 @@
                       <li>Spy Strength: {{ floor($selectedDominion->spy_strength) }}%</li>
                       <li>Offensive Spy Ratio:
                       @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
-                          {{ number_format($militaryCalculator->getSpyRatioRaw($selectedDominion, 'offense'), 3) }}
+                          {{ number_format($selectedDominion->militaryCalculator->getSpyRatioRaw($selectedDominion, 'offense'), 3) }}
                       @else
-                          {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}
+                          {{ number_format($selectedDominion->militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}
                       @endif
                     </li>
                       <li>Defensive Spy Ratio:
