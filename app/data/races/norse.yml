@@ -30,7 +30,7 @@ units:
     cost:
       platinum: 1000
       ore: 200
-      mana: 250
+      mana: 25
     power:
       offense: 5
       defense: 5
@@ -41,7 +41,7 @@ units:
     cost:
       platinum: 0
       ore: 0
-      mana: 20
+      mana: 0
       champion: 1
     power:
       offense: 8
