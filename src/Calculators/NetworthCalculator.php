@@ -106,6 +106,7 @@ class NetworthCalculator
                  + $unit->{"cost_mana"}
                  + $unit->{"cost_gem"}*4
              )/100;
+           }
     /*
     public function getUnitNetworth(Dominion $dominion, Unit $unit): float
     {
