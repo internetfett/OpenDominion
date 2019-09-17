@@ -541,7 +541,7 @@ class EspionageActionService
         $amountStolen = $this->getResourceTheftAmount($dominion, $target, $resource, $constraints);
 
         # Amount stolen decreased by land ratio.
-        $amountStolen = $amountStolen * min(1, getDominionRange($dominion, $target)/100);
+        $amountStolen = $amountStolen * min(1, $this->getDominionRange($dominion, $target)/100);
 
         DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
             $dominion->increment("resource_{$resource}", $amountStolen);
