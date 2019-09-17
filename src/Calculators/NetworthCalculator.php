@@ -69,7 +69,7 @@ class NetworthCalculator
         // Values
         $networthPerSpy = 5;
         $networthPerWizard = 5;
-        $networthPerArchMage = 5;
+        $networthPerArchMage = 10;
         $networthPerLand = 20;
         $networthPerBuilding = 5;
 
