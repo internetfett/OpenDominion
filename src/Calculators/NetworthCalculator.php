@@ -103,7 +103,7 @@ class NetworthCalculator
                  + $unit->{"cost_ore"}
                  + $unit->{"cost_lumber"}
                  + $unit->{"cost_food"}
-                 + $unit->{"cost_mana"}
+                 + $unit->{"cost_mana"}*10
                  + $unit->{"cost_gem"}*4
                  + $unit->{"cost_champion"}*1000
                  + $unit->{"cost_soul"}*50
