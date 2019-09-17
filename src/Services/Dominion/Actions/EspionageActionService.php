@@ -149,8 +149,9 @@ class EspionageActionService
             if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START) {
                 throw new RuntimeException('You cannot perform resource theft for the first seven days of the round');
             }
-            if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
-                throw new RuntimeException('You cannot perform resource theft on targets smaller than yourself');
+            #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
+            if (!$this->rangeCalculator->isInRange($dominion, $target)) {
+                throw new RuntimeException('You cannot perform resource theft on targets outside of your range');
             }
         }
 
@@ -538,6 +539,9 @@ class EspionageActionService
         }
 
         $amountStolen = $this->getResourceTheftAmount($dominion, $target, $resource, $constraints);
+
+        # Amount stolen decreased by land ratio.
+        $amountStolen = $amountStolen * min(1, getDominionRange($dominion, $target)/100);
 
         DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
             $dominion->increment("resource_{$resource}", $amountStolen);
