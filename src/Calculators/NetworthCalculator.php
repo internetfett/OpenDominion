@@ -112,12 +112,11 @@ class NetworthCalculator
                    + $unit->{"cost_food"}
                    + $unit->{"cost_mana"}*2.5
                    + $unit->{"cost_gem"}*4
-                   + $unit->{"cost_champion"}*1000
-                   + $unit->{"cost_soul"}*50
-                   + $unit->{"cost_unit1"}*500
-                   + $unit->{"cost_unit2"}*500
-                   + $unit->{"cost_unit3"}*750
-                   + $unit->{"cost_unit4"}*1000
+                   + $unit->{"cost_soul"}*5
+                   + $unit->{"cost_unit1"}*10
+                   + $unit->{"cost_unit2"}*10
+                   + $unit->{"cost_unit3"}*20
+                   + $unit->{"cost_unit4"}*20
                )/100;
            }
       }
