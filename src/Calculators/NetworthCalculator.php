@@ -98,6 +98,15 @@ class NetworthCalculator
      * @param Unit $unit
      * @return float
      */
+     public function getUnitNetworth(Dominion $dominion, Unit $unit): float {
+         return ($unit->{"cost_platinum"}
+                 + $unit->{"cost_ore"}
+                 + $unit->{"cost_lumber"}
+                 + $unit->{"cost_food"}
+                 + $unit->{"cost_mana"}
+                 + $unit->{"cost_gem"}*4
+             )/100;
+    /*
     public function getUnitNetworth(Dominion $dominion, Unit $unit): float
     {
         if (in_array($unit->slot, [1, 2], false)) {
@@ -113,4 +122,5 @@ class NetworthCalculator
             + (0.2 * (max(($unitOffense - 6), 0) + max(($unitDefense - 6), 0)))
         );
     }
+    */
 }
