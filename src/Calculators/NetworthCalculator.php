@@ -98,21 +98,29 @@ class NetworthCalculator
      * @param Unit $unit
      * @return float
      */
-     public function getUnitNetworth(Dominion $dominion, Unit $unit): float {
-         return ($unit->{"cost_platinum"}
-                 + $unit->{"cost_ore"}
-                 + $unit->{"cost_lumber"}
-                 + $unit->{"cost_food"}
-                 + $unit->{"cost_mana"}*2.5
-                 + $unit->{"cost_gem"}*4
-                 + $unit->{"cost_champion"}*1000
-                 + $unit->{"cost_soul"}*50
-                 + $unit->{"cost_unit1"}*500
-                 + $unit->{"cost_unit2"}*500
-                 + $unit->{"cost_unit3"}*750
-                 + $unit->{"cost_unit4"}*1000
-             )/100;
+     public function getUnitNetworth(Dominion $dominion, Unit $unit): float
+     {
+       if (isset($unit->{'static_networth'} && $unit->{'static_networth'} > 0))
+          {
+            return (float)$unit->{'static_networth'};
            }
+           else
+           {
+           return ($unit->{"cost_platinum"}
+                   + $unit->{"cost_ore"}
+                   + $unit->{"cost_lumber"}
+                   + $unit->{"cost_food"}
+                   + $unit->{"cost_mana"}*2.5
+                   + $unit->{"cost_gem"}*4
+                   + $unit->{"cost_champion"}*1000
+                   + $unit->{"cost_soul"}*50
+                   + $unit->{"cost_unit1"}*500
+                   + $unit->{"cost_unit2"}*500
+                   + $unit->{"cost_unit3"}*750
+                   + $unit->{"cost_unit4"}*1000
+               )/100;
+           }
+      }
     /*
     public function getUnitNetworth(Dominion $dominion, Unit $unit): float
     {

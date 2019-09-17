@@ -25,6 +25,7 @@ units:
       defense: 3
     perks:
       true_immortal: 1
+    static_networth: 10000
   - name: Valkyrja
     need_boat: false
     cost:

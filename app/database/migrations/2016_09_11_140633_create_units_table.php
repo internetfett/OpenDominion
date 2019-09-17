@@ -36,6 +36,8 @@ class CreateUnitsTable extends Migration
             $table->integer('cost_unit3');
             $table->integer('cost_unit4');
 
+            # Static NW
+            $table->float('static_networth');
 
             $table->float('power_offense');
             $table->float('power_defense');
