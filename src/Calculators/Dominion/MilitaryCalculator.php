@@ -118,8 +118,8 @@ class MilitaryCalculator
         $multiplier = 0;
 
         // Values (percentages)
-        $opPerGryphonNest = 1.75;
-        $gryphonNestMaxOp = 35;
+        $opPerGryphonNest = 2;
+        $gryphonNestMaxOp = 40;
         $spellCrusade = 5;
         $spellKillingRage = 10;
         $spellWarsong = 10;
@@ -297,8 +297,8 @@ class MilitaryCalculator
         $multiplier = 0;
 
         // Values (percentages)
-        $dpPerGuardTower = 1.75;
-        $guardTowerMaxDp = 35;
+        $dpPerGuardTower = 2;
+        $guardTowerMaxDp = 40;
         $spellAresCall = 10;
         $spellBlizzard = 15;
         $spellFrenzy = 20;

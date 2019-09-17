@@ -268,7 +268,7 @@ class TrainingCalculator
 
         // Values (percentages)
         $smithiesReduction = 2;
-        $smithiesReductionMax = 36;
+        $smithiesReductionMax = 40;
 
         // Never discount these resources.
         $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4');
