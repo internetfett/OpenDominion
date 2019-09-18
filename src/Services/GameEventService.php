@@ -71,16 +71,16 @@ class GameEventService
             ->where(function (Builder $query) {
                 $query
                     ->orWhere(function (Builder $query) {
-                        $query->where('source_type', Dominion::class)
+                        $query->where('source_type', Dominion::class);
                     })
                     ->orWhere(function (Builder $query) {
-                        $query->where('target_type', Dominion::class)
+                        $query->where('target_type', Dominion::class);
                     })
                     ->orWhere(function (Builder $query) {
-                        $query->where('source_type', Realm::class)
+                        $query->where('source_type', Realm::class);
                     })
                     ->orWhere(function (Builder $query) {
-                        $query->where('target_type', Realm::class)
+                        $query->where('target_type', Realm::class);
                     });
             })
             ->orderBy('created_at', 'desc')
