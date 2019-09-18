@@ -12,7 +12,7 @@ class GameEventService
 {
     public function getTownCrier(Dominion $dominion) : array
     {
-        #$realm = $dominion->realm;
+        $realm = $dominion->realm;
         #return $this->getGameEventsForRealm($realm, now());
         return $this->getGameEventsForWorld($realm, now());
     }
