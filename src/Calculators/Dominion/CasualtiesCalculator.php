@@ -117,8 +117,8 @@ class CasualtiesCalculator
 
             // todo: Wonders
 
-            // Cap at -80% and apply to multiplier (additive)
-            $multiplier -= min(0.8, $nonUnitBonusMultiplier);
+              // Cap at -80% and apply to multiplier (additive)
+              $multiplier -= min(0.8, $nonUnitBonusMultiplier);
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 0;
@@ -129,7 +129,7 @@ class CasualtiesCalculator
             // Unit Perk: Reduce Combat Losses
             $unitsAtHomePerSlot = [];
             $unitsAtHomeRCLSlot = null;
-            $reducedCombatLossesMultiplierAddition = 0;
+            $reducedCombatLosses = 0;
 
             // todo: inefficient to do run this code per slot. needs refactoring
             foreach ($dominion->race->units as $unit) {
@@ -155,19 +155,16 @@ class CasualtiesCalculator
             // We have a unit with RCL!
             if ($unitsAtHomeRCLSlot !== null) {
                 $totalUnitsAtHome = array_sum($unitsAtHomePerSlot);
-
-                $reducedCombatLossesMultiplierAddition += (($unitsAtHomePerSlot[$unitsAtHomeRCLSlot] / $totalUnitsAtHome) / 2);
+                $reducedCombatLosses += (($unitsAtHomePerSlot[$unitsAtHomeRCLSlot] / $totalUnitsAtHome) / 2);
             }
-
-            $unitBonusMultiplier += $reducedCombatLossesMultiplierAddition;
 
             // todo: Troll/Orc unit perks, possibly other perks elsewhere too
 
             // Apply to multiplier (multiplicative)
-            $multiplier *= (1 - $unitBonusMultiplier);
+            $multiplier *= (1 - $unitBonusMultiplier) * (1 - $reducedCombatLosses);
 
-            // Cap (again?) at 80%.
-            $multiplier = min($multiplier, 0.80);
+            // Absolute cap at 5% losses (=reduced by 95%).
+            $multiplier = min($multiplier, 0.05);
         }
 
         return $multiplier;
@@ -260,7 +257,7 @@ class CasualtiesCalculator
             // Unit Perk: Reduce Combat Losses
             $unitsAtHomePerSlot = [];
             $unitsAtHomeRCLSlot = null;
-            $reducedCombatLossesMultiplierAddition = 0;
+            $reducedCombatLosses = 0;
 
             // todo: inefficient to do run this code per slot. needs refactoring
             foreach ($dominion->race->units as $unit) {
@@ -279,16 +276,19 @@ class CasualtiesCalculator
                 $totalUnitsAtHome = array_sum($unitsAtHomePerSlot);
 
                 if ($totalUnitsAtHome > 0) {
-                    $reducedCombatLossesMultiplierAddition += (($unitsAtHomePerSlot[$unitsAtHomeRCLSlot] / $totalUnitsAtHome) / 2);
+                    $reducedCombatLosses += (($unitsAtHomePerSlot[$unitsAtHomeRCLSlot] / $totalUnitsAtHome) / 2);
                 }
             }
 
-            $unitBonusMultiplier += $reducedCombatLossesMultiplierAddition;
+            $unitBonusMultiplier += $reducedCombatLosses;
 
             // todo: Troll/Orc unit perks, possibly other perks elsewhere too
 
             // Apply to multiplier (multiplicative)
-            $multiplier *= (1 - $unitBonusMultiplier);
+            $multiplier *= (1 - $unitBonusMultiplier) * (1 - $reducedCombatLosses);
+
+            // Absolute cap at 5% losses (=reduced by 95%).
+            $multiplier = min($multiplier, 0.05);
         }
 
         return $multiplier;
