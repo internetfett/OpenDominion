@@ -38,10 +38,10 @@ units:
   - name: Siege Ship
     need_boat: false
     cost:
-      platinum: 15000
+      platinum: 20000
       ore: 5000
       boat: 1
-      lumber: 20000
+      lumber: 15000
     power:
       offense: 320
       defense: 40
