@@ -44,6 +44,7 @@ units:
       defense_from_building: alchemy,20,2 # building type, ratio%, max
   - name: Spectre
     need_boat: false
+    static_networth: 20
     cost:
       platinum: 12000
       ore: 0
