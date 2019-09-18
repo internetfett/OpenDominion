@@ -14,7 +14,7 @@ class GameEventService
     {
         #$realm = $dominion->realm;
         #return $this->getGameEventsForRealm($realm, now());
-        return $this->getGameEventsForWorld(now());
+        return $this->getGameEventsForWorld($realm, now());
     }
 
     public function getClairvoyance(Realm $realm, Carbon $clairvoyanceCreatedAt): array
@@ -62,7 +62,7 @@ class GameEventService
     }
 
     # This function gets old-style, realm-only TC.
-    private function getGameEventsForWorld(Carbon $createdBefore) : array
+    private function getGameEventsForWorld(Realm $realm, Carbon $createdBefore) : array
     {
         $gameEvents = GameEvent::query()
             ->where('round_id', $realm->round->id)
