@@ -12,9 +12,9 @@ class GameEventService
 {
     public function getTownCrier(Dominion $dominion) : array
     {
-        $realm = $dominion->realm;
-
-        return $this->getGameEventsForRealm($realm, now());
+        #$realm = $dominion->realm;
+        #return $this->getGameEventsForRealm($realm, now());
+        return $this->getGameEventsForWorld(now());
     }
 
     public function getClairvoyance(Realm $realm, Carbon $clairvoyanceCreatedAt): array
@@ -22,6 +22,7 @@ class GameEventService
         return $this->getGameEventsForRealm($realm, $clairvoyanceCreatedAt);
     }
 
+    # This function gets old-style, realm-only TC.
     private function getGameEventsForRealm(Realm $realm, Carbon $createdBefore) : array
     {
         $dominionIds = $realm->dominions
@@ -59,4 +60,36 @@ class GameEventService
             'gameEvents' =>  $gameEvents
         ];
     }
+
+    # This function gets old-style, realm-only TC.
+    private function getGameEventsForWorld(Carbon $createdBefore) : array
+    {
+        $gameEvents = GameEvent::query()
+            ->where('round_id', $realm->round->id)
+            ->where('created_at', '<', $createdBefore)
+            ->where('created_at', '>', now()->subDays(7))
+            ->where(function (Builder $query) {
+                $query
+                    ->orWhere(function (Builder $query) {
+                        $query->where('source_type', Dominion::class)
+                    })
+                    ->orWhere(function (Builder $query) {
+                        $query->where('target_type', Dominion::class)
+                    })
+                    ->orWhere(function (Builder $query) {
+                        $query->where('source_type', Realm::class)
+                    })
+                    ->orWhere(function (Builder $query) {
+                        $query->where('target_type', Realm::class)
+                    });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return [
+            'dominionIds' => $dominionIds,
+            'gameEvents' =>  $gameEvents
+        ];
+    }
+
 }

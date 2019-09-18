@@ -401,8 +401,6 @@ class InvadeActionService
               $targetPrestigeChange = 0;
             }
 
-
-            // todo: if wat war, increase $attackerPrestigeChange by +15%
         }
         elseif ($isInvasionSuccessful && ($range < 60))
         {
