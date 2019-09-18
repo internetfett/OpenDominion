@@ -34,7 +34,7 @@ class Ticker {
         currentTime.setUTCSeconds(currentTime.getUTCSeconds() + 1);
 
         const nextHour = new Date(currentTime.toString());
-        nextHour.setUTCHours(currentTime.getUTCMinutes() + 15);
+        nextHour.setUTCHours(currentTime.getUTCHours() + 1);
         nextHour.setMinutes(0);
         nextHour.setSeconds(0);
 

@@ -377,7 +377,7 @@ class InvadeActionService
             $targetPrestigeChange = (int)round(($target->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 200)));
 
             $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($range / 100) / 10)));
-            $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
+            #$attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
             // Reduce attacker prestige gain if the target was hit recently
             $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
@@ -395,13 +395,12 @@ class InvadeActionService
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
 
             # In-realm Invasion: No prestige gains or losses
-            /*
             if($dominion->realm->id == $target->realm->id)
             {
               $attackerPrestigeChange = 0;
               $targetPrestigeChange = 0;
             }
-            */
+
 
             // todo: if wat war, increase $attackerPrestigeChange by +15%
         }
@@ -831,7 +830,7 @@ class InvadeActionService
         # 85% and up: -3%
         else
         {
-          $moraleChange = -5;
+          $moraleChange = -4;
         }
 
         $dominion->increment('morale', $moraleChange);
