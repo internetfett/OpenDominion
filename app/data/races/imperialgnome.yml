@@ -47,5 +47,3 @@ units:
     power:
       offense: 120
       defense: 20
-    perks:
-      fewer_casualties: 75
