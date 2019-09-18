@@ -40,9 +40,9 @@ units:
   - name: Airship
     need_boat: false
     cost:
-      platinum: 4000
+      platinum: 5000
       ore: 1250
-      lumber: 6000
+      lumber: 5000
       gem: 100
     power:
       offense: 120
