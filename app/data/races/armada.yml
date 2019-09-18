@@ -34,7 +34,7 @@ units:
       offense: 0
       defense: 120
     perks:
-      fewer_casualties: 90
+      fewer_casualties: 80
   - name: Siege Ship
     need_boat: false
     cost:

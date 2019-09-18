@@ -165,6 +165,9 @@ class CasualtiesCalculator
 
             // Apply to multiplier (multiplicative)
             $multiplier *= (1 - $unitBonusMultiplier);
+
+            // Cap (again?) at 80%.
+            $multiplier = min($multiplier, 0.80);
         }
 
         return $multiplier;

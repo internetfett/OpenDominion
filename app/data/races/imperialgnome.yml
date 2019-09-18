@@ -25,6 +25,8 @@ units:
     power:
       offense: 4
       defense: 5
+    perks:
+      reduce_combat_losses: 1
   - name: Catapult
     cost:
       platinum: 15000
