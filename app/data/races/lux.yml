@@ -21,20 +21,6 @@ units:
     perks:
       does_not_kill: 1
       true_immortal: 1
-  - name: Vex
-    need_boat: false
-    cost:
-      unit1: 1
-      gem: 1
-    power:
-      offense: 4
-      defense: 0
-    perks:
-      no_draftee: 1
-      does_not_kill: 1
-      true_immortal: 1
-      counts_as_spy_offense: 0.15
-      counts_as_spy_defense: 0.15
   - name: Hex
     need_boat: false
     cost:
@@ -49,6 +35,20 @@ units:
       true_immortal: 1
       counts_as_wizard_offense: 0.15
       counts_as_wizard_defense: 0.15
+  - name: Vex
+    need_boat: false
+    cost:
+      unit1: 1
+      gem: 1
+    power:
+      offense: 4
+      defense: 0
+    perks:
+      no_draftee: 1
+      does_not_kill: 1
+      true_immortal: 1
+      counts_as_spy_offense: 0.15
+      counts_as_spy_defense: 0.15
   - name: Pax
     need_boat: false
     cost:
