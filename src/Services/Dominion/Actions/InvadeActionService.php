@@ -405,6 +405,7 @@ class InvadeActionService
         elseif ($isInvasionSuccessful && ($range < 60))
         {
           $attackerPrestigeChange = $dominion->prestige * (0 + ($this->militaryCalculator->getRecentlyInvadedCount($target) / 100) +  ((100 - $range) / 100 / 100));
+          $attackerPrestigeChange = $attackerPrestigeChange * -1;
         }
 
 
