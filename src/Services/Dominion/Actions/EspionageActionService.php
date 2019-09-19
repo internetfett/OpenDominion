@@ -605,8 +605,9 @@ class EspionageActionService
             return 0;
 
         // Limit to percentage of target's raw production
+        # Does not apply abduct_draftees.
         $maxTarget = true;
-        if ($constraints['target_amount'] > 0) {
+        if ($constraints['target_amount'] > 0 and $resource !== 'draftees') {
             $maxTarget = $target->{'resource_' . $resource} * $constraints['target_amount'] / 100;
         }
 
