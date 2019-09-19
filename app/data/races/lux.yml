@@ -9,6 +9,7 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   invest_bonus: -10
+  max_population: 5
 units:
   - name: Essence
     need_boat: false
