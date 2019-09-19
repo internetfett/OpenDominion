@@ -41,6 +41,21 @@ class ImprovementCalculator
     }
 
     /**
+     * Returns the Dominion's masonries bonus.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getMasonriesBonus(Dominion $dominion): float
+    {
+        $efficiencyPerMasonry = 2.75;
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+        $multiplier = (($dominion->building_masonry * $efficiencyPerMasonry) / $totalLand);
+
+        return round($multiplier, 4);
+    }
+
+    /**
      * Returns the improvement maximum percentage.
      *
      * @param string $improvementType
