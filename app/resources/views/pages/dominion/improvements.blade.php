@@ -77,10 +77,13 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Improvements</h3>
-                    @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
-                    <p>Masonries are increasing your castle bonuses by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. </p>
-                    @endif
                 </div>
+                @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
+                <div class="box-header with-border">
+                  <p>Masonries are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. </p>
+                </div>
+                @endif
+
                 <form action="{{ route('dominion.improvements') }}" method="post" role="form">
                     @csrf
                     <div class="box-body table-responsive no-padding">
