@@ -108,6 +108,11 @@ class EspionageHelper
                 'description' => 'Steal gems from target',
                 'key' => 'steal_gems',
             ],
+            [
+                'name' => 'Abduct Draftees',
+                'description' => 'Abduct draftees from target',
+                'key' => 'abduct_draftees',
+            ],
         ]);
     }
 

@@ -378,7 +378,7 @@ class NotificationHelper
                         break;
 
                     case 'steal_lumber':
-                        $where = 'from our storehouses';
+                        $where = 'from our lumberyards';
                         break;
 
                     case 'steal_mana':
@@ -391,6 +391,10 @@ class NotificationHelper
 
                     case 'steal_gems':
                         $where = 'from our mines';
+                        break;
+
+                    case 'abduct_draftees':
+                        $where = 'from our barracks';
                         break;
 
                     default:
@@ -441,6 +445,10 @@ class NotificationHelper
 
                     case 'steal_gems':
                         $where = 'within our diamond mines';
+                        break;
+
+                    case 'abduct_draftees':
+                        $where = 'within our barracks';
                         break;
 
                     default:

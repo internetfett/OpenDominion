@@ -532,6 +532,14 @@ class EspionageActionService
                     'self_production' => 0,
                     'spy_carries' => 50,
                 ];
+
+            case 'abduct_draftees':
+                $resource = 'draftees';
+                $constraints = [
+                    'target_amount' => 2,
+                    'self_production' => 0,
+                    'spy_carries' => 1,
+                ];
                 break;
 
             default:
@@ -589,6 +597,7 @@ class EspionageActionService
         }
 
         // Limit to percentage of dominion's raw production
+        # Does not apply abduct_draftees.
         $maxDominion = true;
         if ($constraints['self_production'] > 0) {
             if ($resource == 'platinum')

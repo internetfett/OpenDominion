@@ -204,7 +204,9 @@ class TrainActionService
             and (
                   ($dominion->military_unit3 + $dominion->military_unit4) +
                   ($unit3toBeTrained + $unit4toBeTrained) +
-                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')))
+                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')) +
+                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4'))
+                )
 
                   // If all the above is greater than Factories*2*Science
                   > ($dominion->building_factory * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science'))))
