@@ -538,7 +538,7 @@ class EspionageActionService
                 $constraints = [
                     'target_amount' => 2,
                     'self_production' => 0,
-                    'spy_carries' => 50,
+                    'spy_carries' => 1,
                 ];
                 break;
 
@@ -605,9 +605,14 @@ class EspionageActionService
             return 0;
 
         // Limit to percentage of target's raw production
-        # Does not apply abduct_draftees.
+        # For draftee abduction, limit to 1% of target's draftees.
         $maxTarget = true;
-        if ($constraints['target_amount'] > 0 and $resource !== 'draftees') {
+        if($resource == 'draftees')
+        {
+            $maxTarget = intval($target->military_draftees * 0.01);
+        }
+        if ($constraints['target_amount'] > 0)
+        {
             $maxTarget = $target->{'resource_' . $resource} * $constraints['target_amount'] / 100;
         }
 
