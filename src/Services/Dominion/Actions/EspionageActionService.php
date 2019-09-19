@@ -570,6 +570,7 @@ class EspionageActionService
 
               $target->decrement("military_{$resource}", $amountStolen);
               $target->save();
+          });
         }
 
         // Surreal Perception
