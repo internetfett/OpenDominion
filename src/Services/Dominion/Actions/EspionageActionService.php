@@ -532,6 +532,7 @@ class EspionageActionService
                     'self_production' => 0,
                     'spy_carries' => 50,
                 ];
+                break;
 
             case 'abduct_draftees':
                 $resource = 'draftees';
@@ -540,6 +541,7 @@ class EspionageActionService
                     'self_production' => 0,
                     'spy_carries' => 1,
                 ];
+                break;
 
             case 'abduct_peasants':
                 $resource = 'peasants';
