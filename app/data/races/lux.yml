@@ -13,6 +13,7 @@ perks:
 units:
   - name: Essence
     need_boat: false
+    static_networh: 6
     cost:
       platinum: 100
       mana: 5
@@ -24,6 +25,7 @@ units:
       true_immortal: 1
   - name: Hex
     need_boat: false
+    static_networh: 11
     cost:
       unit1: 1
       gem: 1
@@ -38,6 +40,7 @@ units:
       counts_as_wizard_defense: 0.15
   - name: Vex
     need_boat: false
+    static_networh: 11
     cost:
       unit1: 1
       gem: 1
@@ -52,6 +55,7 @@ units:
       counts_as_spy_defense: 0.15
   - name: Pax
     need_boat: false
+    static_networh: 22
     cost:
       unit2: 1
       unit3: 1

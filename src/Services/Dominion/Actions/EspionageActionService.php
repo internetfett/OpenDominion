@@ -560,7 +560,7 @@ class EspionageActionService
         $amountStolen = $amountStolen * min(1, $this->rangeCalculator->getDominionRange($dominion, $target)/100);
 
 
-        # Different logic for abducting draftees.
+        # Different logic for abducting draftees or peasants.
         if($resource == 'draftees')
         {
           DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
