@@ -551,13 +551,26 @@ class EspionageActionService
         # Amount stolen decreased by land ratio.
         $amountStolen = $amountStolen * min(1, $this->rangeCalculator->getDominionRange($dominion, $target)/100);
 
-        DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
-            $dominion->increment("resource_{$resource}", $amountStolen);
-            $dominion->save();
 
-            $target->decrement("resource_{$resource}", $amountStolen);
-            $target->save();
-        });
+        # Different logic for abducting draftees.
+        if($resource !== 'draftees')
+        {
+          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+              $dominion->increment("resource_{$resource}", $amountStolen);
+              $dominion->save();
+
+              $target->decrement("resource_{$resource}", $amountStolen);
+              $target->save();
+          });
+        }
+        else {
+          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+              $dominion->increment("military_{$resource}", $amountStolen);
+              $dominion->save();
+
+              $target->decrement("military_{$resource}", $amountStolen);
+              $target->save();
+        }
 
         // Surreal Perception
         $sourceDominionId = null;
