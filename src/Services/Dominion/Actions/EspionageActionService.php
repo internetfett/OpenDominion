@@ -633,7 +633,9 @@ class EspionageActionService
         $maxCarried = true;
         if ($constraints['spy_carries'] > 0) {
             // todo: refactor raw spies calculation
-            $maxCarried = $this->militaryCalculator->getSpyRatioRaw($dominion) * $this->landCalculator->getTotalLand($dominion) * $constraints['spy_carries'];
+            #$maxCarried = $this->militaryCalculator->getSpyRatioRaw($dominion) * $this->landCalculator->getTotalLand($dominion) * $constraints['spy_carries'];
+            $maxCarried = $dominion->military_spies * $constraints['spy_carries'];
+
         }
 
         // Forest Haven reduction
