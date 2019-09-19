@@ -78,7 +78,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Improvements</h3>
                     @if($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'keep') > 0)
-                    <p>Masonries are increasing your castle bonuses by ... </p>
+                    <p>Masonries are increasing your castle bonuses by {{number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'keep')*100,2)}}%. </p>
                     @endif
                 </div>
                 <form action="{{ route('dominion.improvements') }}" method="post" role="form">
