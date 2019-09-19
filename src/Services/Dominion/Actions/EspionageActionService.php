@@ -559,7 +559,6 @@ class EspionageActionService
         # Amount stolen decreased by land ratio.
         $amountStolen = $amountStolen * min(1, $this->rangeCalculator->getDominionRange($dominion, $target)/100);
 
-
         # Different logic for abducting draftees or peasants.
         if($resource == 'draftees')
         {
@@ -631,7 +630,7 @@ class EspionageActionService
         {
             $maxTarget = intval($target->military_draftees * 0.01);
         }
-        elseif($resource == 'draftees')
+        elseif($resource == 'peasants')
         {
             $maxTarget = intval($target->peasants * 0.005);
         }
