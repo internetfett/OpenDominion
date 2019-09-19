@@ -540,6 +540,14 @@ class EspionageActionService
                     'self_production' => 0,
                     'spy_carries' => 1,
                 ];
+
+            case 'abduct_peasants':
+                $resource = 'peasants';
+                $constraints = [
+                    'target_amount' => 2,
+                    'self_production' => 0,
+                    'spy_carries' => 1,
+                ];
                 break;
 
             default:
@@ -553,22 +561,33 @@ class EspionageActionService
 
 
         # Different logic for abducting draftees.
-        if($resource !== 'draftees')
+        if($resource == 'draftees')
+        {
+          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+              $dominion->increment("military_{$resource}", $amountStolen);
+              $dominion->save();
+
+              $target->decrement("military_{$resource}", $amountStolen);
+              $target->save();
+          });
+        }
+        elseif($resource == 'peasants')
+        {
+          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+              $dominion->increment("{$resource}", $amountStolen);
+              $dominion->save();
+
+              $target->decrement("{$resource}", $amountStolen);
+              $target->save();
+          });
+        }
+        else
         {
           DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
               $dominion->increment("resource_{$resource}", $amountStolen);
               $dominion->save();
 
               $target->decrement("resource_{$resource}", $amountStolen);
-              $target->save();
-          });
-        }
-        else {
-          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
-              $dominion->increment("military_{$resource}", $amountStolen);
-              $dominion->save();
-
-              $target->decrement("military_{$resource}", $amountStolen);
               $target->save();
           });
         }
@@ -606,12 +625,17 @@ class EspionageActionService
 
         // Limit to percentage of target's raw production
         # For draftee abduction, limit to 1% of target's draftees.
+        # For peasant abduction, limit to 0.5% of target's peasants.
         $maxTarget = true;
         if($resource == 'draftees')
         {
             $maxTarget = intval($target->military_draftees * 0.01);
         }
-        if ($constraints['target_amount'] > 0)
+        elseif($resource == 'draftees')
+        {
+            $maxTarget = intval($target->peasants * 0.005);
+        }
+        elseif ($constraints['target_amount'] > 0)
         {
             $maxTarget = $target->{'resource_' . $resource} * $constraints['target_amount'] / 100;
         }
