@@ -113,6 +113,11 @@ class EspionageHelper
                 'description' => 'Abduct draftees from target',
                 'key' => 'abduct_draftees',
             ],
+            [
+                'name' => 'Abduct Peasants',
+                'description' => 'Abduct peasants from target',
+                'key' => 'abduct_peasants',
+            ],
         ]);
     }
 

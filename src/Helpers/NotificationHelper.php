@@ -397,6 +397,10 @@ class NotificationHelper
                         $where = 'from our barracks';
                         break;
 
+                    case 'abduct_peasants':
+                        $where = 'from our homes';
+                        break;
+
                     default:
                         throw new \LogicException("Resource theft op notification for operation key {$data['operationKey']} not yet implemented");
                 }
@@ -449,6 +453,10 @@ class NotificationHelper
 
                     case 'abduct_draftees':
                         $where = 'within our barracks';
+                        break;
+
+                    case 'abduct_peasants':
+                        $where = 'within our homes';
                         break;
 
                     default:
