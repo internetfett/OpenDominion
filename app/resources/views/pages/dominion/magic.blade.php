@@ -35,7 +35,7 @@
                                                     <p>
                                                         <small>
                                                             @if ($isActive)
-                                                                ({{ $spellCalculator->getSpellDuration($selectedDominion, $spell['key']) }} hours remaining)
+                                                                ({{ $spellCalculator->getSpellDuration($selectedDominion, $spell['key']) }} ticks remaining)
                                                             @else
                                                                 @if ($canCast)
                                                                     Mana cost: <span class="text-success">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }}</span>
@@ -82,7 +82,7 @@
                                                     <option></option>
                                                     @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
                                                         <option value="{{ $dominion->id }}" data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}" data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
-                                                            {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}  
+                                                            {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -136,9 +136,9 @@
                 </div>
                 <div class="box-body">
                     <p>Here you may cast spells which temporarily benefit your dominion or hinder opposing dominions. You can also perform information gathering operations with magic.</p>
-                    <p>Non-information gathering spells last for <b>48 hours</b>, unless stated otherwise.</p>
+                    <p>Non-information gathering spells last for <b>48 ticks</b>, unless stated otherwise.</p>
                     <p>Any obtained data after successfully casting an information gathering spell gets posted to the <a href="{{ route('dominion.op-center') }}">Op Center</a> for your realmies.</p>
-                    <p>Casting spells spends some wizard strength, but it regenerates a bit every hour. You may only cast spells above 30% strength.</p>
+                    <p>Casting spells spends some wizard strength, but it regenerates a bit every tick. You may only cast spells above 30% strength.</p>
                     <p>You have {{ number_format($selectedDominion->resource_mana) }} mana and {{ floor($selectedDominion->wizard_strength) }}% wizard strength.</p>
                 </div>
             </div>
