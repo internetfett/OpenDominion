@@ -484,7 +484,7 @@ class EspionageActionService
                 $resource = 'platinum';
                 $constraints = [
                     'target_amount' => 2,
-                    'self_production' => 75,
+                    'self_production' => 150,
                     'spy_carries' => 45,
                 ];
                 break;
@@ -502,7 +502,7 @@ class EspionageActionService
                 $resource = 'lumber';
                 $constraints = [
                     'target_amount' => 5,
-                    'self_production' => 75,
+                    'self_production' => 150,
                     'spy_carries' => 50,
                 ];
                 break;
@@ -511,7 +511,7 @@ class EspionageActionService
                 $resource = 'mana';
                 $constraints = [
                     'target_amount' => 3,
-                    'self_production' => 56,
+                    'self_production' => 150,
                     'spy_carries' => 50,
                 ];
                 break;
@@ -520,7 +520,7 @@ class EspionageActionService
                 $resource = 'ore';
                 $constraints = [
                     'target_amount' => 5,
-                    'self_production' => 68,
+                    'self_production' => 150,
                     'spy_carries' => 50,
                 ];
                 break;
@@ -529,7 +529,7 @@ class EspionageActionService
                 $resource = 'gems';
                 $constraints = [
                     'target_amount' => 2,
-                    'self_production' => 0,
+                    'self_production' => 100,
                     'spy_carries' => 50,
                 ];
                 break;
@@ -539,7 +539,7 @@ class EspionageActionService
                 $constraints = [
                     'target_amount' => 2,
                     'self_production' => 0,
-                    'spy_carries' => 1,
+                    'spy_carries' => 0.25,
                 ];
                 break;
 
@@ -595,7 +595,8 @@ class EspionageActionService
 
         // Surreal Perception
         $sourceDominionId = null;
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception'))
+        {
             $sourceDominionId = $dominion->id;
         }
 
@@ -622,7 +623,9 @@ class EspionageActionService
     protected function getResourceTheftAmount(Dominion $dominion, Dominion $target, string $resource, array $constraints): int
     {
         if ($resource == 'platinum' && $this->spellCalculator->isSpellActive($target, 'fools_gold'))
-            return 0;
+        {
+          return 0;
+        }
 
         // Limit to percentage of target's raw production
         # For draftee abduction, limit to 1% of target's draftees.
