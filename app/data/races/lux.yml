@@ -36,8 +36,8 @@ units:
       no_draftee: 1
       does_not_kill: 1
       true_immortal: 1
-      counts_as_wizard_offense: 0.15
-      counts_as_wizard_defense: 0.15
+      counts_as_wizard_offense: 0.06
+      counts_as_wizard_defense: 0.06
   - name: Vex
     need_boat: false
     static_networth: 11
@@ -51,8 +51,8 @@ units:
       no_draftee: 1
       does_not_kill: 1
       true_immortal: 1
-      counts_as_spy_offense: 0.15
-      counts_as_spy_defense: 0.15
+      counts_as_spy_offense: 0.06
+      counts_as_spy_defense: 0.06
   - name: Pax
     need_boat: false
     static_networth: 22
@@ -68,7 +68,7 @@ units:
       does_not_kill: 1
       true_immortal: 1
       conversion: 1
-      counts_as_wizard_offense: 0.3
-      counts_as_wizard_defense: 0.3
-      counts_as_spy_offense: 0.3
-      counts_as_spy_defense: 0.3
+      counts_as_wizard_offense: 0.1618
+      counts_as_wizard_defense: 0.1618
+      counts_as_spy_offense: 0.1618
+      counts_as_spy_defense: 0.1618
