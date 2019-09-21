@@ -58,6 +58,13 @@ class CasualtiesCalculator
             return 1;
         }
 
+        // If you are fighting against a does_not_kill race (Lux)
+        # This means that OFFENSIVE CASUALTIES are zero when INVADING a Lux.
+        if($target->race->getPerkValue('does_not_kill') == 1)
+        {
+          $multiplier = 0;
+        }
+
         // Then check immortality, so we can skip the other remaining checks if we indeed have immortal units, since
         // casualties will then always be 0 anyway
 
@@ -221,6 +228,13 @@ class CasualtiesCalculator
 
 
 
+        }
+
+        // If you are fighting against a does_not_kill race (Lux)
+        # This means that Defensive CASUALTIES are zero when INVADED BY a Lux.
+        if($dominion->race->getPerkValue('does_not_kill') == 1)
+        {
+          $multiplier = 0;
         }
 
         if ($multiplier !== 0) {
