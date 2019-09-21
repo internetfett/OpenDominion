@@ -672,8 +672,14 @@ class ProductionCalculator
         // Apply Morale multiplier to production multiplier
         $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
-        #return (1 + $multiplier);
-        return $multiplier = -1;
+        if($multiplier > 1)
+        {
+          return (1 + $multiplier);
+        }
+        else {
+          return $multiplier;
+        }
+
     }
 
     //</editor-fold>
