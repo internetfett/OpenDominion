@@ -120,14 +120,16 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
+                                          <label>
                                           @if($selectedDominion->race->alignment == 'evil')
-                                            <label>Imperial Dark Arts Magic</label>
+                                            Imperial Dark Arts Magic
                                           @elseif($selectedDominion->race->alignment == 'good')
-                                            <label>Imperial Dark Arts Magic</label>
+                                            Commonwealth Academy of Wizardry
                                           @else
-                                            <label>Unknown Magic</label>
+                                            Unknown Magic
                                           @endif
-
+                                          <span class="nyi">(NYI)</span>
+                                          </label>
                                         </div>
                                     </div>
 
