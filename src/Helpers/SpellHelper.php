@@ -312,7 +312,7 @@ class SpellHelper
                 'description' => 'Reduces unit training times by 2 ticks.',
                 'key' => 'divine_shimmer',
                 'mana_cost' => 8,
-                'duration' => 12*4,
+                'duration' => 6*4, # Half a day
                 'races' => collect(['Lux']),
             ],
 
