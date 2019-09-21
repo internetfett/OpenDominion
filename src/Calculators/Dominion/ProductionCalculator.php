@@ -673,7 +673,7 @@ class ProductionCalculator
         $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         #return (1 + $multiplier);
-        $multiplier = 0;
+        return $multiplier = -1;
     }
 
     //</editor-fold>
