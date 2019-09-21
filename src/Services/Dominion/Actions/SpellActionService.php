@@ -116,7 +116,7 @@ class SpellActionService
             throw new RuntimeException("You can only cast {$spellInfo['name']} every {$spellInfo['cooldown']} hours.");
         }
 
-        if ($this->spellHelper->isOffensiveSpell($spellKey)) {
+        if ($this->spellHelper->isOffensiveSpell($spellKey, $dominion->race)) {
             if ($target === null) {
                 throw new RuntimeException("You must select a target when casting offensive spell {$spellInfo['name']}");
             }
