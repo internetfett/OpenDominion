@@ -763,6 +763,11 @@ class InvadeActionService
                 $landGenerated *= 1.2;
             }
 
+            if($dominion->realm->id == $target->realm->id)
+            {
+              $landGenerated = 0;
+            }
+
             $landGained = ($landConquered + $landGenerated);
 
             if (!isset($landGainedPerLandType["land_{$landType}"])) {
