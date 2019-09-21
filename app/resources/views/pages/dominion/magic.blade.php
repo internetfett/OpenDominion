@@ -131,7 +131,7 @@
                                         </div>
                                     </div>
 
-                                    @foreach ($spellHelper->getBlackOpSpells($selectedDominion->race->name)->chunk(4) as $spells)
+                                    @foreach ($spellHelper->getBlackOpSpells($selectedDominion->race)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
                                                 <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">

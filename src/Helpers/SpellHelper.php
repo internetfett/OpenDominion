@@ -54,7 +54,7 @@ class SpellHelper
     public function getSpells(Race $race): Collection
     {
         return $this->getSelfSpells($race)
-            ->merge($this->getOffensiveSpells());
+            ->merge($this->getOffensiveSpells($race));
     }
 
     public function getSelfSpells(Race $race): Collection
