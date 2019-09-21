@@ -132,27 +132,6 @@
                                     </div>
 
 
-                                    @foreach ($spellHelper->getWarSpells($selectedDominion->race->alignment)->chunk(4) as $spells)
-                                        <div class="row">
-                                            @foreach ($spells as $spell)
-                                                <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
-                                                    <div class="form-group">
-                                                        <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$spellCalculator->canCast($selectedDominion, $spell['key']) ? 'disabled' : null }}>
-                                                            {{ $spell['name'] }}
-                                                        </button>
-                                                        <p>{{ $spell['description'] }}</p>
-                                                        <small>
-                                                            @if ($canCast)
-                                                                Mana cost: <span class="text-success">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }}</span>
-                                                            @else
-                                                                Mana cost: <span class="text-danger">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }}</span>
-                                                            @endif
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
 
 
                                 </div>
