@@ -372,8 +372,32 @@ class SpellHelper
         ]);
     }
 
-    public function getWarSpells(): Collection
+    public function getWarSpells(string $alignment): Collection
     {
+
+      # Commonwealth Academy of Wizardry
+      // Lightning and Arcane
+      if($alignment == 'good')
+      {
+        return collect([
+          [
+              'name' => 'Lightning Bolt',
+              'description' => 'Destroy the target\'s castle improvements',
+              'key' => 'lightning_bolt',
+              'mana_cost' => 1,
+          ],
+          [
+              'name' => 'Silencing',
+              'description' => 'Weaken the target\'s wizards',
+              'key' => 'silencing',
+              'mana_cost' => 1,
+          ],
+        ]);
+      }
+      # Imperial Dark Arts Magic
+      // Fire and Cold
+      else
+      {
         return collect([
           [
               'name' => 'Fireball',
@@ -381,10 +405,15 @@ class SpellHelper
               'key' => 'fireball',
               'mana_cost' => 1,
           ],
-
-            // fireball
-            // lightning bolt
-            // disband spies
+          [
+              'name' => 'Iceshard',
+              'description' => 'Destroy the target\'s castle improvements',
+              'key' => 'lightning_bolt',
+              'mana_cost' => 1,
+          ],
         ]);
+      }
+
+
     }
 }
