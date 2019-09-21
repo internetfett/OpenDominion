@@ -409,7 +409,7 @@ class SpellHelper
 
     }
 
-    public function getWarSpells(string $race, string $alignment): Collection
+    public function getWarSpells(Race $race): Collection
     {
 
       return collect([
