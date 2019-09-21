@@ -670,7 +670,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion) * 2;
 
         return (1 + $multiplier);
     }
