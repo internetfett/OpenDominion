@@ -270,8 +270,18 @@ class TrainActionService
             ];
             unset($data['military_unit1'], $data['military_unit2']);
 
-            $this->queueService->queueResources('training', $dominion, $nineHourData, 9);
-            $this->queueService->queueResources('training', $dominion, $data);
+            // Imperial Gnome: Spell (remove DP reduction from Temples)
+            if ($this->spellCalculator->isSpellActive($dominion, 'divine_shimmer'))
+            {
+                $hours_modifier = -2;
+            }
+            else
+            {
+              $hours_modifier = 0;
+            }
+
+            $this->queueService->queueResources('training', $dominion, $nineHourData, (9 + $hours_modifier));
+            $this->queueService->queueResources('training', $dominion, $data, (12 + $hours_modifier));
         });
 
         return [

@@ -276,7 +276,7 @@ class SpellHelper
                 'key' => 'ambush',
                 'mana_cost' => 2,
                 'duration' => 1*4,
-                'cooldown' => 36*4,
+                'cooldown' => 24*4, # Once per day.
                 'races' => collect(['Beastfolk']),
             ],
 
@@ -305,6 +305,15 @@ class SpellHelper
                 'mana_cost' => 8,
                 'duration' => 12*4,
                 'races' => collect(['Norse']),
+            ],
+
+            [
+                'name' => 'Divine Shimmer',
+                'description' => 'Reduces unit training times by 2 ticks.',
+                'key' => 'divine_shimmer',
+                'mana_cost' => 8,
+                'duration' => 12*4,
+                'races' => collect(['Lux']),
             ],
 
 
