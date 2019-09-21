@@ -35,6 +35,7 @@ class SpellHelper
         })->isNotEmpty();
     }
 
+/*
     public function isBlackOpSpell(string $spellKey): bool
     {
         return $this->getBlackOpSpells()->filter(function ($spell) use ($spellKey) {
@@ -48,6 +49,7 @@ class SpellHelper
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
+*/
 
     public function getSpells(Race $race): Collection
     {
@@ -362,17 +364,7 @@ class SpellHelper
         ]);
     }
 
-    public function getBlackOpSpells(): Collection
-    {
-        return collect([
-            // plague
-            // insect swarm
-            // great flood
-            // earthquake
-        ]);
-    }
-
-    public function getWarSpells(string $alignment): Collection
+    public function getBlackOpSpells(string $alignment): Collection
     {
 
       # Commonwealth Academy of Wizardry
@@ -414,6 +406,15 @@ class SpellHelper
         ]);
       }
 
+
+    }
+
+    public function getWarSpells(string $alignment): Collection
+    {
+
+      return collect([
+          //
+      ]);
 
     }
 }

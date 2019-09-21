@@ -136,7 +136,7 @@ class SpellActionService
             if ($dominion->round->id !== $target->round->id) {
                 throw new RuntimeException('Nice try, but you cannot cast spells cross-round');
             }
-            
+
             if($dominion->race->alignment == 'good')
             {
               if ($dominion->realm->id === $target->realm->id) {
@@ -153,11 +153,12 @@ class SpellActionService
 
             } elseif ($this->spellHelper->isInfoOpSpell($spellKey)) {
                 $result = $this->castInfoOpSpell($dominion, $spellKey, $target);
-
+/*
             } elseif ($this->spellHelper->isBlackOpSpell($spellKey)) {
                 throw new LogicException('Not yet implemented');
             } elseif ($this->spellHelper->isWarSpell($spellKey)) {
                 throw new LogicException('Not yet implemented');
+*/
             } else {
                 throw new LogicException("Unknown type for spell {$spellKey}");
             }
