@@ -12,8 +12,11 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use Throwable;
 
-// For Armada and Imperial Gnomes
+// ODA: For Armada and Imperial Gnomes
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+
+// ODA: For Lux
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class TrainActionService
 {
@@ -31,17 +34,24 @@ class TrainActionService
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    // ODA
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * TrainActionService constructor.
      */
-    public function __construct(ImprovementCalculator $improvementCalculator)
+    public function __construct(
+        ImprovementCalculator $improvementCalculator,
+        SpellCalculator $spellCalculator
+        )
     {
         $this->queueService = app(QueueService::class);
         $this->trainingCalculator = app(TrainingCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
 
-
         $this->improvementCalculator = $improvementCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -270,7 +280,7 @@ class TrainActionService
             ];
             unset($data['military_unit1'], $data['military_unit2']);
 
-            // Imperial Gnome: Spell (remove DP reduction from Temples)
+            // Lux: Spell (reduce training times by 2 hours)
             if ($this->spellCalculator->isSpellActive($dominion, 'divine_shimmer'))
             {
                 $hours_modifier = -2;
