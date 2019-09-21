@@ -21,7 +21,7 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey): bool
+    public function isOffensiveSpell(string $spellKey, Race $race): bool
     {
         return $this->getOffensiveSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
