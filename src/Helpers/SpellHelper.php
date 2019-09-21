@@ -324,8 +324,8 @@ class SpellHelper
     public function getOffensiveSpells(Race $race): Collection
     {
         return $this->getInfoOpSpells()
-            ->merge($this->getBlackOpSpells($race->name, $race->alignment))
-            ->merge($this->getWarSpells($race->name, $race->alignment));
+            ->merge($this->getBlackOpSpells($race))
+            ->merge($this->getWarSpells($race));
     }
 
     public function getInfoOpSpells(): Collection
@@ -364,12 +364,12 @@ class SpellHelper
         ]);
     }
 
-    public function getBlackOpSpells(string $race, string $alignment): Collection
+    public function getBlackOpSpells(Race $race): Collection
     {
 
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
-      if($alignment == 'good')
+      if($race->alignment == 'good')
       {
         return collect([
           [
@@ -388,7 +388,7 @@ class SpellHelper
       }
       # Imperial Dark Arts Magic
       // Fire and Cold
-      elseif($alignment == 'evil')
+      elseif($race->alignment == 'evil')
       {
         return collect([
           [
