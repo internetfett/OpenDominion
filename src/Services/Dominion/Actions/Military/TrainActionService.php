@@ -69,15 +69,15 @@ class TrainActionService
         }
 
         # Poorly tested.
-        if ($dominion->race->getPerkValue('cannot_train_spies') == 1 and $data['spies'] > 0)
+        if ($dominion->race->getPerkValue('cannot_train_spies') == 1 and isset($data['spies']) and $data['spies'] > 0)
         {
             throw new GameException('Your faction is unable to train spies.');
         }
-        if ($dominion->race->getPerkValue('cannot_train_wizards') == 1 and $data['wizards'] > 0)
+        if ($dominion->race->getPerkValue('cannot_train_wizards') == 1 and isset($data['wizards']) and $data['wizards'] > 0)
         {
             throw new GameException('Your faction is unable to train wizards.');
         }
-        if ($dominion->race->getPerkValue('cannot_train_archmages') == 1 and $data['archmages'] > 0)
+        if ($dominion->race->getPerkValue('cannot_train_archmages') == 1 and isset($data['archmages']) and $data['archmages'] > 0)
         {
             throw new GameException('Your faction is unable to train Arch Mages.');
         }
