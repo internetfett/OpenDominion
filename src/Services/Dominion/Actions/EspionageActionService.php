@@ -659,7 +659,7 @@ class EspionageActionService
             elseif ($resource == 'ore')
                 $maxDominion = floor($this->productionCalculator->getOreProductionRaw($dominion) * $constraints['self_production'] / 100);
             elseif ($resource == 'gems')
-                $maxDominion = floor($this->productionCalculator->getGemsProductionRaw($dominion) * $constraints['self_production'] / 100);
+                $maxDominion = floor($this->productionCalculator->getGemProductionRaw($dominion) * $constraints['self_production'] / 100);
         }
 
         // Limit to amount carryable by spies
