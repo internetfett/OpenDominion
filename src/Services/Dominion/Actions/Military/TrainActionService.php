@@ -281,7 +281,7 @@ class TrainActionService
             unset($data['military_unit1'], $data['military_unit2']);
 
             // Lux: Spell (reduce training times by 2 hours)
-            if ($this->spellCalculator->isSpellActive($dominion, 'divine_shimmer'))
+            if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
             {
                 $hours_modifier = -2;
             }

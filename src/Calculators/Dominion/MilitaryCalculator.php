@@ -270,12 +270,12 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
-        // Beastfolk: Ambush (reduce raw DP by forest%, max -5% raw DP)
+        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
         {
           $forestRatio = $dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion);
-          $forestRatioModifier = $forestRatio / 10;
-          $ambushReduction = min($forestRatioModifier, 0.05);
+          $forestRatioModifier = $forestRatio / 20;
+          $ambushReduction = min($forestRatioModifier, 0.10);
           $dp = $dp * (1 - $ambushReduction);
         }
 

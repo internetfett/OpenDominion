@@ -272,7 +272,7 @@ class SpellHelper
 
             [
                 'name' => 'Ambush',
-                'description' => 'For every 10% Forest, removes 1% of target\'s raw defensive power (max 5% reduction).',
+                'description' => 'For every 5% Forest, removes 1% of target\'s raw defensive power (max 10% reduction).',
                 'key' => 'ambush',
                 'mana_cost' => 2,
                 'duration' => 1*4,
@@ -308,14 +308,13 @@ class SpellHelper
             ],
 
             [
-                'name' => 'Divine Shimmer',
+                'name' => 'Aurora',
                 'description' => 'Reduces unit training times by 2 ticks.',
-                'key' => 'divine_shimmer',
-                'mana_cost' => 8,
+                'key' => 'aurora',
+                'mana_cost' => 6,
                 'duration' => 6*4, # Half a day
                 'races' => collect(['Lux']),
             ],
-
 
         ]);
     }
@@ -334,7 +333,7 @@ class SpellHelper
                 'name' => 'Clear Sight',
                 'description' => 'Reveal status screen',
                 'key' => 'clear_sight',
-                'mana_cost' => 0.5,
+                'mana_cost' => 0.4,
             ],
 //            [
 //                'name' => 'Vision',
@@ -346,13 +345,13 @@ class SpellHelper
                 'name' => 'Revelation',
                 'description' => 'Reveal active spells',
                 'key' => 'revelation',
-                'mana_cost' => 1.2,
+                'mana_cost' => 1,
             ],
             [
                 'name' => 'Clairvoyance',
                 'description' => 'Reveal realm town crier',
                 'key' => 'clairvoyance',
-                'mana_cost' => 1.2,
+                'mana_cost' => 1,
             ],
 //            [
 //                'name' => 'Disclosure',
@@ -376,6 +375,13 @@ class SpellHelper
     public function getWarSpells(): Collection
     {
         return collect([
+          [
+              'name' => 'Fireball',
+              'description' => 'Burn target\'s peasants and food',
+              'key' => 'fireball',
+              'mana_cost' => 1,
+          ],
+
             // fireball
             // lightning bolt
             // disband spies
