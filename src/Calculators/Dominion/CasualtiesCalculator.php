@@ -232,7 +232,7 @@ class CasualtiesCalculator
 
         // If you are fighting against a does_not_kill race (Lux)
         # This means that Defensive CASUALTIES are zero when INVADED BY a Lux.
-        if($dominion->race->getPerkValue('does_not_kill') == 1)
+        if($attacker->race->getPerkValue('does_not_kill') == 1)
         {
           $multiplier = 0;
         }
