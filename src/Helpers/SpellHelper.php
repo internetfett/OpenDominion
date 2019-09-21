@@ -35,21 +35,21 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-/*
-    public function isBlackOpSpell(string $spellKey): bool
+
+    public function isBlackOpSpell(string $spellKey, Race $race): bool
     {
-        return $this->getBlackOpSpells()->filter(function ($spell) use ($spellKey) {
+        return $this->getBlackOpSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
 
-    public function isWarSpell(string $spellKey): bool
+    public function isWarSpell(string $spellKey, Race $race): bool
     {
-        return $this->getWarSpells()->filter(function ($spell) use ($spellKey) {
+        return $this->getWarSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
-*/
+
 
     public function getSpells(Race $race): Collection
     {
