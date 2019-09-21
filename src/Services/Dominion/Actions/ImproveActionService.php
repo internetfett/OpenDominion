@@ -41,6 +41,11 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad resource type.');
         }
 
+        if ($dominion->race->getPerkValue('cannot_improve_castle') == 1)
+        {
+            throw new GameException('Your faction is unable to use castle improvements.');
+        }
+
         if ($totalResourcesToInvest > $dominion->{'resource_' . $resource}) {
             throw new GameException("You do not have enough {$resource} to invest.");
         }

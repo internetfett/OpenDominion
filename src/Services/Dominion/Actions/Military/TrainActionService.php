@@ -68,6 +68,20 @@ class TrainActionService
             throw new GameException('Training aborted due to bad input.');
         }
 
+        # Poorly tested.
+        if ($dominion->race->getPerkValue('cannot_train_spies') == 1 and $data['spies'] > 0)
+        {
+            throw new GameException('Your faction is unable to train spies.');
+        }
+        if ($dominion->race->getPerkValue('cannot_train_wizards') == 1 and $data['wizards'] > 0)
+        {
+            throw new GameException('Your faction is unable to train wizards.');
+        }
+        if ($dominion->race->getPerkValue('cannot_train_archmages') == 1 and $data['archmages'] > 0)
+        {
+            throw new GameException('Your faction is unable to train Arch Mages.');
+        }
+
         $totalCosts = [
             'platinum' => 0,
             'ore' => 0,

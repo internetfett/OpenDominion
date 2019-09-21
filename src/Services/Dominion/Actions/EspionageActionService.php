@@ -645,7 +645,7 @@ class EspionageActionService
         }
 
         // Limit to percentage of dominion's raw production
-        # Does not apply abduct_draftees.
+        # Does not apply abduct_draftees or abduct_peasants.
         $maxDominion = true;
         if ($constraints['self_production'] > 0) {
             if ($resource == 'platinum')

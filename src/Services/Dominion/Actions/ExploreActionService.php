@@ -58,6 +58,11 @@ class ExploreActionService
             throw new GameException('Exploration was not begun due to bad input.');
         }
 
+        if ($dominion->race->getPerkValue('cannot_explore') == 1)
+        {
+            throw new GameException('Your faction is unable to explore.');
+        }
+
         $maxAfford = $this->explorationCalculator->getMaxAfford($dominion);
 
         if ($totalLandToExplore > $maxAfford) {

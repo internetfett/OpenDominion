@@ -68,6 +68,12 @@ class ConstructActionService
             throw new GameException('Construction was not started due to bad input.');
         }
 
+
+        if ($dominion->race->getPerkValue('cannot_build') == 1)
+        {
+            throw new GameException('Your faction is unable to construct buildings.');
+        }
+
         $maxAfford = $this->constructionCalculator->getMaxAfford($dominion);
 
         if ($totalBuildingsToConstruct > $maxAfford) {
