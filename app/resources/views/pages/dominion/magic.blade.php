@@ -128,7 +128,7 @@
                                           @else
                                             Unknown Magic
                                           @endif
-                                          <span class="nyi">(NYI)</span>
+                                          &nbsp;(Not Yet Implemented - causes error or just wastes mana)
                                           </label>
                                         </div>
                                     </div>
