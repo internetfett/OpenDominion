@@ -23,7 +23,7 @@ class SpellHelper
 
     public function isOffensiveSpell(string $spellKey): bool
     {
-        return $this->getOffensiveSpells()->filter(function ($spell) use ($spellKey) {
+        return $this->getOffensiveSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -321,11 +321,11 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(): Collection
+    public function getOffensiveSpells($race): Collection
     {
         return $this->getInfoOpSpells()
-            ->merge($this->getBlackOpSpells())
-            ->merge($this->getWarSpells());
+            ->merge($this->getBlackOpSpells($race))
+            ->merge($this->getWarSpells($race));
     }
 
     public function getInfoOpSpells(): Collection
@@ -364,12 +364,12 @@ class SpellHelper
         ]);
     }
 
-    public function getBlackOpSpells(string $alignment): Collection
+    public function getBlackOpSpells(string $race): Collection
     {
 
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
-      if($alignment == 'good')
+      if($race->alignment == 'good')
       {
         return collect([
           [
@@ -388,7 +388,7 @@ class SpellHelper
       }
       # Imperial Dark Arts Magic
       // Fire and Cold
-      else
+      elseif($race->alignment == 'evil')
       {
         return collect([
           [
