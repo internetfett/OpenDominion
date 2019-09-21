@@ -676,8 +676,9 @@ class ProductionCalculator
         {
           return (1 + $multiplier);
         }
-        else {
-          return $multiplier;
+        else
+        {
+          return (1 - $multiplier);
         }
 
     }
