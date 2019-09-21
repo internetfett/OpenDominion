@@ -154,12 +154,10 @@ class SpellActionService
             } elseif ($this->spellHelper->isInfoOpSpell($spellKey)) {
                 $result = $this->castInfoOpSpell($dominion, $spellKey, $target);
 
-/*
             } elseif ($this->spellHelper->isBlackOpSpell($spellKey, $dominion->race)) {
-                throw new LogicException('Not yet implemented');
+                throw new GameException('You cast the spell, but nothing happens... Ancient spirits whisper: "These spells are not implemented yet, but thanks for the mana!"');
             } elseif ($this->spellHelper->isWarSpell($spellKey, $dominion->race)) {
-                throw new LogicException('Not yet implemented');
-*/
+                throw new GameException('You cast the spell, but nothing happens... Ancient spirits whisper: "These spells are not implemented yet, but thanks for the mana!"');
             } else {
                 throw new LogicException("Unknown type for spell {$spellKey}");
             }
