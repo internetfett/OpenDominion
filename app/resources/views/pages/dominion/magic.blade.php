@@ -120,9 +120,17 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
+                                          @if($selectedDominion->race->alignment == 'evil')
                                             <label>Imperial Dark Arts Magic</label>
+                                          @elif($selectedDominion->race->alignment == 'good')
+                                            <label>Imperial Dark Arts Magic</label>
+                                          @else
+                                            <label>Unknown Magic</label>
+                                          @endif
+
                                         </div>
                                     </div>
+
 
                                     @foreach ($spellHelper->getWarSpells($selectedDominion->race->alignment)->chunk(4) as $spells)
                                         <div class="row">
