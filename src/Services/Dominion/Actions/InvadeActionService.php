@@ -818,7 +818,7 @@ class InvadeActionService
           # Drop 10% morale for hits under 60%.
           if($range < 60)
           {
-            $attackerMoraleChange = -10;
+            $attackerMoraleChange = -15;
           }
           # No change for hits in lower RG (60-75).
           elseif($range < 75)
@@ -828,17 +828,17 @@ class InvadeActionService
           # Increase 10% for hits 75-85%.
           elseif($range < 85)
           {
-            $attackerMoraleChange = 10;
+            $attackerMoraleChange = 15;
           }
           # Increase 15% for hits 85-100%
           elseif($range < 100)
           {
-            $attackerMoraleChange = 15;
+            $attackerMoraleChange = 20;
           }
           # Increase 20% for hits 100% and up.
           else
           {
-            $attackerMoraleChange = 20;
+            $attackerMoraleChange = 25;
           }
           # Defender gets the inverse of attacker morale change.
           $defenderMoraleChange = $attackerMoraleChange*-1;
