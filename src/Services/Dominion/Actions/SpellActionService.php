@@ -23,6 +23,9 @@ use OpenDominion\Traits\DominionGuardsTrait;
 use RuntimeException;
 use Throwable;
 
+# ODA
+use OpenDominion\Models\BlackOp;
+
 class SpellActionService
 {
     use DominionGuardsTrait;
@@ -31,6 +34,12 @@ class SpellActionService
      * @var float Info op base success rate
      */
     protected const INFO_MULTIPLIER_SUCCESS_RATE = 1.4;
+
+
+    /**
+     * @var float Black ops base success rate
+     */
+    protected const BLACKOPS_MULTIPLIER_SUCCESS_RATE = 2;
 
     /** @var LandCalculator */
     protected $landCalculator;
@@ -384,6 +393,96 @@ class SpellActionService
             'redirect' => $redirect,
         ];
     }
+
+
+    ### ODA
+
+    /**
+     * Casts an info op spell for $dominion to $target.
+     *
+     * @param Dominion $dominion
+     * @param string $spellKey
+     * @param Dominion $target
+     * @return array
+     */
+    protected function castBlackOpSpell(Dominion $dominion, string $spellKey, Dominion $target): array
+    {
+        $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion->race);
+
+        $selfWpa = $this->militaryCalculator->getWizardRatio($dominion, 'offense');
+        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
+
+        // You need at least some positive WPA to cast info ops
+        if ($selfWpa === 0.0) {
+            // Don't reduce mana by throwing an exception here
+            throw new GameException("Your wizard force is too weak to cast {$spellInfo['name']}. Please train more wizards.");
+        }
+
+        // 100% spell success if target has a WPA of 0
+        if ($targetWpa !== 0.0) {
+            $successRate = $this->opsHelper->operationSuccessChance($selfWpa, $targetWpa, static::BLACKOPS_MULTIPLIER_SUCCESS_RATE);
+
+            if (!random_chance($successRate)) {
+                // Inform target that they repelled a hostile spell
+                $this->notificationService
+                    ->queueNotification('repelled_hostile_spell', [
+                        'sourceDominionId' => $dominion->id,
+                        'spellKey' => $spellKey,
+                    ])
+                    ->sendNotifications($target, 'irregular_dominion');
+
+                // Return here, thus completing the spell cast and reducing the caster's mana
+                return [
+                    'success' => false,
+                    'message' => "The enemy wizards have repelled our {$spellInfo['name']} attempt.",
+                    'wizardStrengthCost' => 2,
+                    'alert-type' => 'warning',
+                ];
+            }
+        }
+
+        // todo: take Energy Mirror into account with 20% spell reflect (either show your info or give the infoop to the target)
+
+        $blackOp = new BlackOp([
+            'source_realm_id' => $dominion->realm->id,
+            'target_realm_id' => $target->realm->id,
+            'type' => $spellKey,
+            'source_dominion_id' => $dominion->id,
+            'target_dominion_id' => $target->id,
+        ]);
+
+        switch ($spellKey) {
+
+            case 'fireball':
+                $blackOp->data = $this->spellCalculator->getActiveSpells($target);
+                break;
+
+            default:
+                throw new LogicException("Unknown info op spell {$spellKey}");
+        }
+
+        $blackOp->save();
+
+        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+            $this->notificationService
+                ->queueNotification('received_hostile_spell', [
+                    'sourceDominionId' => $dominion->id,
+                    'spellKey' => $spellKey,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+        }
+
+        $redirect = route('dominion.op-center.show', $target);
+
+        return [
+            'success' => true,
+            'message' => 'Your wizards cast the spell successfully.',
+            'wizardStrengthCost' => 4,
+            'redirect' => $redirect,
+        ];
+    }
+
+    ### /ODA
 
     /**
      * Returns the successful return message.

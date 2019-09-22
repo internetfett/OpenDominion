@@ -763,6 +763,7 @@ class InvadeActionService
                 $landGenerated *= 1.2;
             }
 
+            # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
             {
               $landGenerated = 0;
@@ -867,7 +868,6 @@ class InvadeActionService
 
         $conversionBaseMultiplier = 0.06;
         $spellParasiticHungerMultiplier = 0.5;
-
 
         $conversionMultiplier = (
             $conversionBaseMultiplier *
