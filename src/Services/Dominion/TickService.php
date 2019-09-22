@@ -193,8 +193,9 @@ class TickService
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
-        // Starvation casualties
-        if (($dominion->resource_food + $foodNetChange) < 0) {
+        // Starvation
+        if (($dominion->resource_food + $foodNetChange) < 0)
+        {
             $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType($dominion, $dominion->resource_food + $foodNetChange);
 
             foreach ($casualties as $unitType => $unitCasualties) {
@@ -204,8 +205,21 @@ class TickService
             // Decrement to zero
             $dominion->decrement('resource_food', $dominion->resource_food);
 
+            # Lower morale by 10.
+            $starvationMoraleChange = 10;
+            if(($dominion->morale - $starvationMoraleChange) < 0)
+            {
+              $dominion->decrement('morale', $dominion->morale);
+            }
+            else
+            {
+              $dominion->decrement('morale', $starvationMoraleChange);
+            }
+
             $this->notificationService->queueNotification('starvation_occurred', $casualties);
-        } else {
+        }
+        else
+        {
             // Food production
             $dominion->increment('resource_food', $foodNetChange);
         }
