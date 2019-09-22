@@ -528,7 +528,7 @@ class MilitaryCalculator
      */
     public function getMoraleMultiplier(Dominion $dominion): float
     {
-        return (1 + ($dominion->morale-100) / 1000);
+        return (1 + ($dominion->morale - 100) / 100);
         #return clamp((0.9 + ($dominion->morale / 1000)), 0.9, 1.0);
     }
 
