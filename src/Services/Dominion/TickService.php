@@ -231,6 +231,10 @@ class TickService
         {
             $dominion->increment('morale', min(3, 100 - $dominion->morale));
         }
+        elseif  ($dominion->morale > 100)
+        {
+          $dominion->decrement('morale', min(2, $dominion->morale - 100));
+        }
 
         // Spy Strength
         if ($dominion->spy_strength < 100) {

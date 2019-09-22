@@ -812,33 +812,73 @@ class InvadeActionService
     {
         $range = $this->rangeCalculator->getDominionRange($dominion, $target);
 
-        # 40 - 50%: -12% morale
-        if($range < 50)
+        # For successful invasions...
+        if($this->invasionResult['result']['success'])
         {
-          $moraleChange = -12;
+          # Drop 10% morale for hits under 60%.
+          if($range < 60)
+          {
+            $attackerMoraleChange = -10;
+          }
+          # No change for hits in lower RG (60-75).
+          elseif($range < 75)
+          {
+            $attackerMoraleChange = 0;
+          }
+          # Increase 10% for hits 75-85%.
+          elseif($range < 85)
+          {
+            $attackerMoraleChange = 10;
+          }
+          # Increase 15% for hits 85-100%
+          elseif($range < 100)
+          {
+            $attackerMoraleChange = 15;
+          }
+          # Increase 20% for hits 100% and up.
+          else
+          {
+            $attackerMoraleChange = 20;
+          }
+          # Defender gets the inverse of attacker morale change.
+          $defenderMoraleChange = $attackerMoraleChange*-1;
         }
-        # 50 - 60%: -10%
-        elseif ($range < 60)
-        {
-          $moraleChange = -10;
-        }
-        # 60% - 75: 87% morale
-        elseif($range < 75)
-        {
-          $moraleChange = -8;
-        }
-        # 75 - 80%: -5% morale
-        elseif($range < 85)
-        {
-          $moraleChange = -6;
-        }
-        # 85% and up: -3%
+        # For failed invasions...
         else
         {
-          $moraleChange = -4;
+          # If overwhelmed, attacker loses 20%, defender gets nothing.
+          if($this->invasionResult['result']['overwhelmed'])
+          {
+            $attackerMoraleChange = -20;
+            $defenderMoraleChange = 0;
+          }
+          # Otherwise, -10% for attacker and +5% for defender
+          else
+          {
+            $attackerMoraleChange = -10;
+            $defenderMoraleChange = 5;
+          }
         }
 
-        $dominion->increment('morale', $moraleChange);
+        # Change attacker morale.
+        if($attackerMoraleChange > 0)
+        {
+          $dominion->increment('morale', $attackerMoraleChange);
+        }
+        else
+        {
+          $dominion->decrement('morale', $attackerMoraleChange);
+        }
+
+        # Change defender morale.
+        if($defenderMoraleChange > 0)
+        {
+          $target->increment('morale', $defenderMoraleChange);
+        }
+        else
+        {
+          $target->decrement('morale', $defenderMoraleChange);
+        }
     }
 
     /**
