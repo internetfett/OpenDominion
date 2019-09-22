@@ -196,6 +196,8 @@ class TickService
         // Starvation
         if (($dominion->resource_food + $foodNetChange) < 0)
         {
+            $isStarving = True;
+
             $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType($dominion, $dominion->resource_food + $foodNetChange);
 
             foreach ($casualties as $unitType => $unitCasualties) {
@@ -233,23 +235,25 @@ class TickService
         $dominion->increment('military_draftees', $drafteesGrowthRate);
 
         // Morale
-        if ($dominion->morale < 35)
+        if(!$isStarving)
         {
-          $dominion->increment('morale', 7);
-        }
-        elseif ($dominion->morale < 70)
-        {
-            $dominion->increment('morale', 6);
-        }
-        elseif ($dominion->morale < 100)
-        {
-            $dominion->increment('morale', min(3, 100 - $dominion->morale));
-        }
-        elseif  ($dominion->morale > 100)
-        {
-          $dominion->decrement('morale', min(2, $dominion->morale - 100));
-        }
-
+            if ($dominion->morale < 35)
+            {
+              $dominion->increment('morale', 7);
+            }
+            elseif ($dominion->morale < 70)
+            {
+                $dominion->increment('morale', 6);
+            }
+            elseif ($dominion->morale < 100)
+            {
+                $dominion->increment('morale', min(3, 100 - $dominion->morale));
+            }
+            elseif  ($dominion->morale > 100)
+            {
+              $dominion->decrement('morale', min(2, $dominion->morale - 100));
+            }
+      }
         // Spy Strength
         if ($dominion->spy_strength < 100) {
             $dominion->increment('spy_strength', min(4, 100 - $dominion->spy_strength));
