@@ -372,8 +372,8 @@
                     var amountToSend = parseInt($(this).val() || 0);
                     var needBoat = !!$(this).data('need-boat');
 
-                    var totalUnitOP = amountToSend * unitOP * OPMultiplier * MoraleMultiplier;
-                    var totalUnitDP = amountToSend * unitDP * DPMultiplier * MoraleMultiplier;
+                    var totalUnitOP = amountToSend * unitOP * OPMultiplier;
+                    var totalUnitDP = amountToSend * unitDP * DPMultiplier;
                     var unitSlot = parseInt($(this).data('slot'));
                     var unitStatsElement = $('#unit' + unitSlot + '_stats');
                     unitStatsElement.find('.op').text(totalUnitOP.toLocaleString(undefined, {maximumFractionDigits: 2}));
@@ -383,8 +383,8 @@
                         return true; // continue
                     }
 
-                    invadingForceOP += (amountToSend * unitOP) * OPMultiplier;
-                    invadingForceDP += (amountToSend * unitDP) * DPMultiplier;
+                    invadingForceOP += ((amountToSend * unitOP) * OPMultiplier) * MoraleMultiplier;
+                    invadingForceDP += ((amountToSend * unitDP) * DPMultiplier) * MoraleMultiplier;
 
                     if (needBoat) {
                         invadingForceBoats += amountToSend;
