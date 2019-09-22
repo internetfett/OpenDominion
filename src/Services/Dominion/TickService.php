@@ -222,6 +222,7 @@ class TickService
         }
         else
         {
+            $isStarving = False;
             // Food production
             $dominion->increment('resource_food', $foodNetChange);
         }
@@ -253,7 +254,8 @@ class TickService
             {
               $dominion->decrement('morale', min(2, $dominion->morale - 100));
             }
-      }
+        }
+
         // Spy Strength
         if ($dominion->spy_strength < 100) {
             $dominion->increment('spy_strength', min(4, 100 - $dominion->spy_strength));
