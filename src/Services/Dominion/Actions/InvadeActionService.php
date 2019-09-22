@@ -52,7 +52,7 @@ class InvadeActionService
     /**
      * @var int The minimum morale required to initiate an invasion
      */
-    protected const MIN_MORALE = 10;
+    protected const MIN_MORALE = 50;
 
     /**
      * @var float Failing an invasion by this percentage (or more) results in 'being overwhelmed'

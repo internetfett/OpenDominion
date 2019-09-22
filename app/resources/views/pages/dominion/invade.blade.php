@@ -18,13 +18,13 @@
                         You are currently under protection for <b>{{ number_format($protectionService->getUnderProtectionHoursLeft($selectedDominion), 2) }}</b> more hours and may not invade during that time.
                     </div>
                 </div>
-            @elseif ($selectedDominion->morale < 10)
+            @elseif ($selectedDominion->morale < 50)
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
                     </div>
                     <div class="box-body">
-                        Your military needs at least 10% morale to invade others. Your military currently has {{ $selectedDominion->morale }}% morale.
+                        Your military needs at least 50% morale to invade others. Your military currently has {{ $selectedDominion->morale }}% morale.
                     </div>
                 </div>
             @else
@@ -358,6 +358,9 @@
                 var OPMultiplier = parseFloat('{{ $militaryCalculator->getOffensivePowerMultiplier($selectedDominion) }}');
                 var DPMultiplier = parseFloat('{{ $militaryCalculator->getDefensivePowerMultiplier($selectedDominion) }}');
 
+
+                var MoraleMultiplier = parseFloat('{{ $militaryCalculator->getMoraleMultiplier($selectedDominion) }}');
+
                 var DPNeededToLeaveAtHome; // 33% rule
                 var allowedMaxOP; // 5:4 rule
 
@@ -369,8 +372,8 @@
                     var amountToSend = parseInt($(this).val() || 0);
                     var needBoat = !!$(this).data('need-boat');
 
-                    var totalUnitOP = amountToSend * unitOP * OPMultiplier;
-                    var totalUnitDP = amountToSend * unitDP * DPMultiplier;
+                    var totalUnitOP = amountToSend * unitOP * OPMultiplier * MoraleMultiplier;
+                    var totalUnitDP = amountToSend * unitDP * DPMultiplier * MoraleMultiplier;
                     var unitSlot = parseInt($(this).data('slot'));
                     var unitStatsElement = $('#unit' + unitSlot + '_stats');
                     unitStatsElement.find('.op').text(totalUnitOP.toLocaleString(undefined, {maximumFractionDigits: 2}));

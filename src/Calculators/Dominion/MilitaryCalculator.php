@@ -518,17 +518,16 @@ class MilitaryCalculator
     }
 
     /**
-     * Returns the Dominion's morale modifier for OP/DP.
+     * Returns the Dominion's morale modifier.
      *
      * Net OP/DP gets lowered linearly by up to -20% at 0% morale.
-     * Or, increased up to 200%.
      *
      * @param Dominion $dominion
      * @return float
      */
     public function getMoraleMultiplier(Dominion $dominion): float
     {
-        return (1 + ($dominion->morale - 100) / 100);
+        return (1 + (($dominion->morale - 100) / 100));
         #return clamp((0.9 + ($dominion->morale / 1000)), 0.9, 1.0);
     }
 
