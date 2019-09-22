@@ -31,6 +31,7 @@ class CasualtiesCalculator
     public function __construct(LandCalculator $landCalculator, PopulationCalculator $populationCalculator, SpellCalculator $spellCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
+        $this->populationCalculator = $populationCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->unitHelper = $unitHelper;
         $this->populationCalculator = $populationCalculator;
@@ -97,7 +98,7 @@ class CasualtiesCalculator
             }
 
             // Race perk-based immortality
-            if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $target->race->name, $slot)) {
+            if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $target, $slot)) {
                 $multiplier = 0;
             }
         }
@@ -105,6 +106,7 @@ class CasualtiesCalculator
         if ($multiplier !== 0) {
             // Non-unit bonuses (hero, shrines, tech, wonders), capped at -80%
             // Values (percentages)
+            $spellBloodrage = 10;
             $spellRegeneration = 25;
 
             $nonUnitBonusMultiplier = 0;
@@ -115,6 +117,7 @@ class CasualtiesCalculator
             $nonUnitBonusMultiplier += $this->getOffensiveCasualtiesReductionFromShrines($dominion);
 
             // Spells
+            $nonUnitBonusMultiplier -= $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'bloodrage', $spellBloodrage);
             $nonUnitBonusMultiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'regeneration', $spellRegeneration);
 
             // Infirmary
@@ -222,7 +225,7 @@ class CasualtiesCalculator
             }
 
             // Race perk-based immortality
-            if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $attacker->race->name, $slot)) {
+            if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $attacker, $slot)) {
                 $multiplier = 0;
             }
 
@@ -440,13 +443,13 @@ class CasualtiesCalculator
 
     /**
      * @param Dominion $dominion
-     * @param string $opposingForceRaceName
+     * @param Dominion $target
      * @param int $slot
      * @return bool
      */
-    protected function isImmortalVersusRacePerk(Dominion $dominion, string $opposingForceRaceName, int $slot): bool
+    protected function isImmortalVersusRacePerk(Dominion $dominion, Dominion $target, int $slot): bool
     {
-        $raceNameFormatted = strtolower($opposingForceRaceName);
+        $raceNameFormatted = strtolower($target->race->name);
         $raceNameFormatted = str_replace(' ', '_', $raceNameFormatted);
 
         $perkValue = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_except_vs');

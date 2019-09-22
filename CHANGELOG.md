@@ -4,6 +4,34 @@ All notable changes relevant to players in this project will be documented in th
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). This project uses its own versioning system.
 
 ## [Unreleased]
+### Fixed
+- Barracks spy should now be more clear that draftees are inaccurate
+- Fixed a bug when knocking a target outside of your applied guard range would reset your guard application
+
+## [0.7.0-10] - 2019-08-20
+### Fixed
+- Surreal Perception now states it lasts for 8 hours
+- Fixed Clairvoyances sometimes disappearing from the Op Center
+- Fixed notifications not updating properly on settings page
+- Fixed not being able to the Royal Guard at the intended day in the round
+- Fixed being able to leave the Royal Guard while in the Elite Guard
+
+## [0.7.0-9] - 2019-08-18
+### Fixed
+- Fixed Parasitic Hunger not properly giving the +50% conversions bonus
+
+## [0.7.0-8] - 2019-08-18
+### Fixed
+- Fixed theft buttons being clickable before theft is enabled in the round
+
+## [0.7.0-7] - 2019-08-17
+### Fixed
+- Minor bug fixes
+
+## [0.7.0-6] - 2019-08-17
+### Changed
+- Slightly increased prestige gains for attackers. Prestige loss for defenders unchanged
+- Offensive actions and exploration will now be randomly disabled at end of round (1 to 16 hours before round end)
 
 ## [0.7.0-5] - 2019-08-14
 ### Changed
@@ -387,7 +415,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). 
 ### Added
 - This CHANGELOG file.
 
-[Unreleased]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-5...HEAD
+[Unreleased]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-10...HEAD
+[0.7.0-10]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-9...0.7.0-10
+[0.7.0-9]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-8...0.7.0-9
+[0.7.0-8]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-7...0.7.0-8
+[0.7.0-7]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-6...0.7.0-7
+[0.7.0-6]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-5...0.7.0-6
 [0.7.0-5]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-4...0.7.0-5
 [0.7.0-4]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-3...0.7.0-4
 [0.7.0-3]: https://github.com/WaveHack/OpenDominion/compare/0.7.0-2...0.7.0-3

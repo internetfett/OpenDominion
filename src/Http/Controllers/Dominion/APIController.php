@@ -9,7 +9,7 @@ use OpenDominion\Services\Dominion\API\InvadeCalculationService;
 
 class APIController extends AbstractDominionController
 {
-    public function calculateInvasion(InvadeCalculationRequest $request)
+    public function calculateInvasion(InvadeCalculationRequest $request): array
     {
         $dominion = $this->getSelectedDominion();
         $invadeCalculationService = app(InvadeCalculationService::class);
@@ -18,7 +18,8 @@ class APIController extends AbstractDominionController
             $result = $invadeCalculationService->calculate(
                 $dominion,
                 Dominion::find($request->get('target_dominion')),
-                $request->get('unit')
+                $request->get('unit'),
+                $request->get('calc')
             );
         } catch (GameException $e) {
             return [
