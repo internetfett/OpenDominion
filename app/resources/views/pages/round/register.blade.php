@@ -43,7 +43,7 @@
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'good'; }) as $race)
                                         <div class="col-xs-12">
-                                            <label class="btn btn-block" style="border: 1px solid #DA4234; margin: 5px 0px; white-space: normal;">
+                                            <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                                 <div class="row text-left">
                                                     <div class="col-lg-4">
                                                         <p>
@@ -67,14 +67,14 @@
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'evil'; }) as $race)
                                     <div class="col-xs-12">
-                                        <label class="btn btn-block" style="border: 1px solid #DA4234; margin: 5px 0px; white-space: normal;">
+                                        <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                             <div class="row text-left">
                                                 <div class="col-lg-4">
                                                     <p>
                                                         <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.race', $race->name) }}">More info...</a>
+                                                    <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
                                                   </p>
                                                 </div>
                                             </div>
