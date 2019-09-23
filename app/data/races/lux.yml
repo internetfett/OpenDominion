@@ -35,7 +35,7 @@ units:
     perks:
       no_draftee: 1
       does_not_kill: 1
-      true_immortal: 1
+      fewer_casualties: 50
       counts_as_wizard_offense: 0.06
       counts_as_wizard_defense: 0.06
   - name: Vex
@@ -50,7 +50,7 @@ units:
     perks:
       no_draftee: 1
       does_not_kill: 1
-      true_immortal: 1
+      fewer_casualties: 50
       counts_as_spy_offense: 0.06
       counts_as_spy_defense: 0.06
   - name: Pax
