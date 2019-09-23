@@ -202,6 +202,8 @@ IMPERIALGNOME;
         $descriptions['demon'] = <<<DEMON
 <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
 <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
+<hr />
+<p>The soul of every unit killed in battle is collected and can be used to summon stronger demons.</p> 
 DEMON;
 
 $descriptions['black orc'] = <<<BLACKORC
