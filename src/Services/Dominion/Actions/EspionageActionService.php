@@ -188,10 +188,8 @@ class EspionageActionService
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
 
-            $dominion->decrement('spy_strength', $spyStrengthLost);
-
-            $dominion->increment('stat_espionage_success');
-
+            $dominion->spy_strength -= $spyStrengthLost;
+            $dominion->stat_espionage_success += 1;
             $dominion->save([
                 'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                 'action' => $operationKey
@@ -600,33 +598,51 @@ class EspionageActionService
         # Different logic for abducting draftees or peasants.
         if($resource == 'draftees')
         {
-          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
-              $dominion->increment("military_{$resource}", $amountStolen);
-              $dominion->save();
+            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+                $dominion->{"miliary_{$resource}"} += $amountStolen;
+                $dominion->save([
+                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                    'action' => $operationKey
+                ]);
 
-              $target->decrement("military_{$resource}", $amountStolen);
-              $target->save();
-          });
+                $target->{"miliary_{$resource}"} -= $amountStolen;
+                $target->save([
+                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                    'action' => $operationKey
+                ]);
+            });
         }
         elseif($resource == 'peasants')
         {
-          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
-              $dominion->increment("{$resource}", $amountStolen);
-              $dominion->save();
+            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+                $dominion->{"{$resource}"} += $amountStolen;
+                $dominion->save([
+                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                    'action' => $operationKey
+                ]);
 
-              $target->decrement("{$resource}", $amountStolen);
-              $target->save();
-          });
+                $target->{"{$resource}"} -= $amountStolen;
+                $target->save([
+                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                    'action' => $operationKey
+                ]);
+            });
         }
         else
         {
-          DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
-              $dominion->increment("resource_{$resource}", $amountStolen);
-              $dominion->save();
+            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+                $dominion->{"resource_{$resource}"} += $amountStolen;
+                $dominion->save([
+                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                    'action' => $operationKey
+                ]);
 
-              $target->decrement("resource_{$resource}", $amountStolen);
-              $target->save();
-          });
+                $target->{"resource_{$resource}"} -= $amountStolen;
+                $target->save([
+                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                    'action' => $operationKey
+                ]);
+            });
         }
 
         // Surreal Perception
