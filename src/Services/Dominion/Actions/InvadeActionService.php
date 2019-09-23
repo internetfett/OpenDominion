@@ -388,6 +388,8 @@ class InvadeActionService
                 $attackerPrestigeChange *= 0.1;
             }
 
+            $attackerPrestigeChange = max($attackerPrestigeChange, PRESTIGE_CHANGE_ADD);
+
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
 
             # In-realm Invasion: No prestige gains or losses
@@ -820,23 +822,32 @@ class InvadeActionService
           {
             $attackerMoraleChange = 0;
           }
-          # Increase 10% for hits 75-85%.
+          # Increase 15% for hits 75-85%.
           elseif($range < 85)
           {
             $attackerMoraleChange = 15;
           }
-          # Increase 15% for hits 85-100%
+          # Increase 20% for hits 85-100%
           elseif($range < 100)
           {
             $attackerMoraleChange = 20;
           }
-          # Increase 20% for hits 100% and up.
+          # Increase 25% for hits 100% and up.
           else
           {
             $attackerMoraleChange = 25;
           }
-          # Defender gets the inverse of attacker morale change.
-          $defenderMoraleChange = $attackerMoraleChange*-1;
+          # Defender gets the inverse of attacker morale change,
+          # if it greater than 0.
+          if($attackerMoraleChange > 0)
+          {
+            $defenderMoraleChange = $attackerMoraleChange*-1;
+          }
+          else
+          {
+            $defenderMoraleChange = 0;
+          }
+
         }
         # For failed invasions...
         else
@@ -851,7 +862,7 @@ class InvadeActionService
           else
           {
             $attackerMoraleChange = -10;
-            $defenderMoraleChange = 5;
+            $defenderMoraleChange = 10;
           }
         }
 

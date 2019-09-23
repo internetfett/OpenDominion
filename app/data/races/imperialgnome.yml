@@ -36,7 +36,7 @@ units:
       offense: 0
       defense: 300
     perks:
-      fewer_casualties: 50
+      fewer_casualties: 25
   - name: Airship
     need_boat: false
     cost:
@@ -48,4 +48,4 @@ units:
       offense: 120
       defense: 20
     perks:
-      fewer_casualties: 75
+      fewer_casualties: 25

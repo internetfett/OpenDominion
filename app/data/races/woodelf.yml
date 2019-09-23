@@ -11,14 +11,14 @@ units:
   - name: Ranger
     cost:
       platinum: 275
-      ore: 25
+      lumber: 50
     power:
       offense: 3
       defense: 0
   - name: Longbowman
     cost:
       platinum: 325
-      ore: 10
+      lumber: 20
     power:
       offense: 0
       defense: 4

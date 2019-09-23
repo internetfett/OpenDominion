@@ -29,11 +29,11 @@ units:
       platinum: 1000
       ore: 50
     power:
-      offense: 3
+      offense: 1
       defense: 3
     perks:
-      offense_from_building: shrine,5,3 # building type, ratio%, max
-      defense_from_building: shrine,5,3 # building type, ratio%, max
+      offense_from_building: temple,5,3 # building type, ratio%, max
+      defense_from_building: temple,5,3 # building type, ratio%, max
       conversion: 1
   - name: Holy Warrior
     cost:
@@ -43,4 +43,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_from_building: temple,5,3 # building type, ratio%, max
+      offense_from_building: shrine,5,3 # building type, ratio%, max
