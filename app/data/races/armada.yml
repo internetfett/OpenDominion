@@ -25,10 +25,10 @@ units:
   - name: Oreclad
     need_boat: false
     cost:
-      platinum: 3000
-      ore: 10000
+      platinum: 5000
+      ore: 18000
       boat: 1
-      lumber: 2500
+      lumber: 4500
     power:
       offense: 0
       defense: 120
@@ -37,10 +37,10 @@ units:
   - name: Siege Ship
     need_boat: false
     cost:
-      platinum: 20000
-      ore: 5000
+      platinum: 45000
+      ore: 11000
       boat: 1
-      lumber: 15000
+      lumber: 32500
     power:
       offense: 320
       defense: 40

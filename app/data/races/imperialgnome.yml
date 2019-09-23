@@ -16,6 +16,8 @@ units:
     power:
       offense: 3
       defense: 0
+    perks:
+      offense_from_pairing: 2,1 # slot, amount
   - name: Automaton
     need_boat: true
     cost:
@@ -25,13 +27,11 @@ units:
     power:
       offense: 4
       defense: 5
-    perks:
-      reduce_combat_losses: 1
   - name: Catapult
     cost:
-      platinum: 15000
-      ore: 8000
-      lumber: 8000
+      platinum: 37500
+      ore: 20000
+      lumber: 20000
     power:
       offense: 0
       defense: 300
@@ -40,12 +40,12 @@ units:
   - name: Airship
     need_boat: false
     cost:
-      platinum: 5000
-      ore: 1250
-      lumber: 5000
-      gem: 100
+      platinum: 14500
+      ore: 3500
+      lumber: 14500
+      gem: 250
     power:
       offense: 120
       defense: 20
     perks:
-      fewer_casualties: 25
+      fewer_casualties: 50
