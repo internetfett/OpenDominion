@@ -391,6 +391,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromLandBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRawWizardRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -398,6 +399,7 @@ class MilitaryCalculator
 
         if ($opposingForceRaceName !== null) {
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $opposingForceRaceName, $unit, $powerType);
+            $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType);
         }
 
         return $unitPower;
@@ -528,7 +530,7 @@ class MilitaryCalculator
     public function getMoraleMultiplier(Dominion $dominion): float
     {
         #return (1 + (($dominion->morale - 100) / 100));
-        return clamp((0.9 + ($dominion->morale / 1000)), 0.8, 2.0);
+        return clamp((0.9 + ($dominion->morale / 1000)), 0.9, 2.0);
     }
 
     /**
