@@ -49,8 +49,10 @@
                                                         <p>
                                                             <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                             <strong>{{ $race->name }}</strong>
+                                                            &nbsp;&mdash;&nbsp;
                                                         <a href="{{ route('scribes.race', $race->name) }}">More info...</a>
                                                       </p>
+                                                    </div>
                                                 </div>
                                             </label>
                                         </div>
@@ -64,28 +66,20 @@
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'evil'; }) as $race)
-                                        <div class="col-xs-12">
-                                            <label class="btn btn-block" style="border: 1px solid #d2d6de; margin-top: 10px; white-space: normal;">
-                                                <div class="row text-left">
-                                                    <div class="col-lg-2">
-                                                        <p>
-                                                            <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                            <strong>{{ $race->name }}</strong>
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <p>
-                                                            @foreach ($race->perks as $perk)
-                                                                {!! $raceHelper->getPerkDescriptionHtml($perk) !!}<br>
-                                                            @endforeach
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        {!! $raceHelper->getRaceDescriptionHtml($race) !!}
-                                                    </div>
+                                    <div class="col-xs-12">
+                                        <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
+                                            <div class="row text-left">
+                                                <div class="col-lg-2">
+                                                    <p>
+                                                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
+                                                        <strong>{{ $race->name }}</strong>
+                                                        &nbsp;&mdash;&nbsp;
+                                                    <a href="{{ route('scribes.race', $race->name) }}">More info...</a>
+                                                  </p>
                                                 </div>
-                                            </label>
-                                        </div>
+                                            </div>
+                                        </label>
+                                    </div>
                                     @endforeach
                                 </div>
                             </div>
