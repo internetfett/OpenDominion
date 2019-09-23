@@ -598,7 +598,9 @@ class InvadeActionService
 
         // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
         $casualtiesMultiplier = 1;
-        if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury'))
+        $range = $this->rangeCalculator->getDominionRange($dominion, $target);
+
+        if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury') and $range > 75 and $this->invasionResult['result']['success'])
         {
             $casualtiesMultiplier += 0.2;
         }
