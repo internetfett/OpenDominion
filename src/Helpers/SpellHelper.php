@@ -107,7 +107,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Surreal Perception',
-                'description' => 'Shows you the dominion upon receiving offensive spells or spy ops',
+                'description' => 'Shows you the dominion upon receiving offensive spells or spy ops for 8 hours',
                 'key' => 'surreal_perception',
                 'mana_cost' => 4,
                 'duration' => 8*4,# * $this->militaryCalculator->getWizardRatio($target, 'defense'),
@@ -181,6 +181,22 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Icekin']),
             ],
+            /*[
+                'name' => 'Mechanical Genius',
+                'description' => '30% reduction of re-zoning costs',
+                'key' => 'mechanical_genius',
+                'mana_cost' => 5,
+                'duration' => 12,
+                'races' => collect(['Gnome']),
+            ],*/
+            [
+                'name' => 'Bloodrage',
+                'description' => '+10% offensive strength, +10% offensive casualties',
+                'key' => 'bloodrage',
+                'mana_cost' => 5,
+                'duration' => 12,
+                'races' => collect(['Orc']),
+            ],
             [
                 'name' => 'Unholy Ghost',
                 'description' => 'Enemy draftees do not participate in battle',
@@ -196,6 +212,14 @@ class SpellHelper
                 'mana_cost' => 10,
                 'duration' => 12*4,
                 'races' => collect(['Halfling']),
+            ],
+            [
+                'name' => 'Howling',
+                'description' => '+10% offensive strength, +10% defensive strength (not cumulative with Ares Call)',
+                'key' => 'howling',
+                'mana_cost' => 5,
+                'duration' => 12,
+                'races' => collect(['Kobold']),
             ],
             [
                 'name' => 'Warsong',

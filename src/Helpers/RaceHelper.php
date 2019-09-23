@@ -45,9 +45,14 @@ HUMAN;
 MERFOLK;
 
         $descriptions['spirit'] = <<<SPIRIT
-<p>Ethereal and incorporeal - barely real - beings.</p>
-<p>Deadly, without death.</p>
+<p>These kind spirits long for a quiet and peaceful world.</p>
+<p>Some of the lost souls of fallen enemies, will join their ranks in search of this goal.</p>
 SPIRIT;
+
+        $descriptions['kobold'] = <<<KOBOLD
+<p>A bunch of annoying little shits.</p>
+<p>You no take candle!</p>
+KOBOLD;
 
         $descriptions['sylvan'] = <<<SYLVAN
 <p>Mythical forest-dwelling creatures, which have banded together to combat the forces of evil.</p>
@@ -74,7 +79,7 @@ WOODELF;
 <li>Spy Strength increased by Caverns %.</li>
 BEASTFOLK;
 
-$descriptions['ants'] = <<<ANTS
+        $descriptions['ants'] = <<<ANTS
 <p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size.</p>
 <p>Their units are weak, but they are both numerous and belligerent.</p>
 ANTS;
@@ -85,23 +90,23 @@ ANTS;
 <p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors.</p>
 SACREDORDER;
 
-$descriptions['templars'] = <<<TEMPLARS
+        $descriptions['templars'] = <<<TEMPLARS
 <p>Another off-shoot from Humans, the Templars are a small, pious community taking up residence in the hills.</p>
 TEMPLARS;
 
-$descriptions['armada'] = <<<ARMADA
+        $descriptions['armada'] = <<<ARMADA
 <p>The Commonwealth Armada traces its origin to Human naval forces aimed at taking care of increasing piracy and worrying signs of an Imperial navy.</p>
 <p>They were given a great deal of autonomy in order to face challenges in a manner and with an efficiency normal human bureaucracy would not permit.</p>
 <p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
 ARMADA;
 
-$descriptions['norse'] = <<<NORSE
+        $descriptions['norse'] = <<<NORSE
 <p>Rarely before have the Norse ventured south for anything other than trade.</p>
 <p>The emergence of the Empire has forced even these northern stalwarts to pick a side, joining the Commonwealth.</p>
 <p>They are fierce warriors, into death and beyond.</p>
 NORSE;
 
-$descriptions['lux'] = <<<LUX
+        $descriptions['lux'] = <<<LUX
 <h3>This race is not yet finished</h3>
 <p>The Lux are the children of the Suns.</p>
 <p>Some believe they are elves which transcended. Others say they are not of this world at all.</p>
@@ -132,6 +137,11 @@ LIZARDFOLK;
 <p>Once thought to be an ancient curse that transformed men into wolves under the light of a full moon, little is understood about the Lycanthropic affliction. But one thing's for certain: once bitten, you'll never be the same again.</p>
 <p>Capable of agonising transformations into half-beast monsters, Lycanthropes are a hardy and fast-growing race, turning their enemies into werewolves and regenerating non-lethal wounds mid-combat.</p>
 LYCANTHROPE;
+
+        $descriptions['orc'] = <<<ORC
+<p>Known for their barbaric behavior and lack of intelligence, these warmongering creatures have an insatiable hunger for destruction.</p>
+<p>Orcs are proud warriors with a strong sense of honor. As formidable as they are, their direct approach to warfare is weak against a fortified position.</p>
+ORC;
 
         $descriptions['nomad'] = <<<NOMAD
 <p>Forever wandering the plains, Nomads are Humans who have rejected sedentary culture.</p>
