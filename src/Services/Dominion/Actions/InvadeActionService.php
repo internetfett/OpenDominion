@@ -388,7 +388,7 @@ class InvadeActionService
                 $attackerPrestigeChange *= 0.1;
             }
 
-            $attackerPrestigeChange = max($attackerPrestigeChange, PRESTIGE_CHANGE_ADD);
+            $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
 
