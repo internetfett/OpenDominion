@@ -45,7 +45,7 @@
                                         <div class="col-xs-12">
                                             <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                                 <div class="row text-left">
-                                                    <div class="col-lg-2">
+                                                    <div class="col-lg-4">
                                                         <p>
                                                             <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                             <strong>{{ $race->name }}</strong>
@@ -69,7 +69,7 @@
                                     <div class="col-xs-12">
                                         <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                             <div class="row text-left">
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-4">
                                                     <p>
                                                         <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                         <strong>{{ $race->name }}</strong>
