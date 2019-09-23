@@ -600,7 +600,7 @@ class InvadeActionService
         $casualtiesMultiplier = 1;
         if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury'))
         {
-            $multiplier += 0.2;
+            $casualtiesMultiplier += 0.2;
         }
 
         // Draftees
