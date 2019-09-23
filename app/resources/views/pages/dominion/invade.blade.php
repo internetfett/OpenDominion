@@ -397,6 +397,7 @@
                         }
                     }
                 );
+            }
 
             function calculate() {
                 // Calculate subtotals for each unit
