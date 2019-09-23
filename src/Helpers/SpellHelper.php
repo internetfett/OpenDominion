@@ -193,9 +193,9 @@ class SpellHelper
                 'name' => 'Bloodrage',
                 'description' => '+10% offensive strength, +10% offensive casualties',
                 'key' => 'bloodrage',
-                'mana_cost' => 5,
-                'duration' => 12,
-                'races' => collect(['Orc']),
+                'mana_cost' => 10,
+                'duration' => 12*4,
+                'races' => collect(['Orc', 'Black Orc']),
             ],
             [
                 'name' => 'Unholy Ghost',
