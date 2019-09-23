@@ -38,7 +38,7 @@
 
                             <div class="col-xs-12">
                                 <div class="text-center">
-                                    <strong>Commonwealth Factions</strong>
+                                    <h2>The Commonwealth</h2>
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'good'; }) as $race)
@@ -49,18 +49,8 @@
                                                         <p>
                                                             <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                             <strong>{{ $race->name }}</strong>
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <p>
-                                                            @foreach ($race->perks as $perk)
-                                                                {!! $raceHelper->getPerkDescriptionHtml($perk) !!}<br>
-                                                            @endforeach
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        {!! $raceHelper->getRaceDescriptionHtml($race) !!}
-                                                    </div>
+                                                        <a href="{{ route('scribes.race', $race->name) }}">More info...</a>
+                                                      </p>
                                                 </div>
                                             </label>
                                         </div>
@@ -70,7 +60,7 @@
 
                             <div class="col-xs-12">
                                 <div class="text-center">
-                                    <strong>Empire Factions</strong>
+                                    <h2>The Empire</h2>
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'evil'; }) as $race)
