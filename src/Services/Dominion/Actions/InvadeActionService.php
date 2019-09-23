@@ -596,12 +596,20 @@ class InvadeActionService
 
         $defensiveUnitsLost = [];
 
+        // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
+        $casualtiesMultiplier = 1;
+        if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury'))
+        {
+            $multiplier += 0.2;
+        }
+
         // Draftees
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost')) {
             $drafteesLost = 0;
         } else {
             $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage *
-                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null));
+                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) *
+                $casualtiesMultiplier);
         }
         if ($drafteesLost > 0) {
             $target->decrement('military_draftees', $drafteesLost);
@@ -617,7 +625,8 @@ class InvadeActionService
             }
 
             $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage *
-                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot));
+                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot) *
+                $casualtiesMultiplier);
 
             if ($slotLost > 0) {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;

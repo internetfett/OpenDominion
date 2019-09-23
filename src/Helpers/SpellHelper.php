@@ -334,6 +334,15 @@ class SpellHelper
             ],
 
             [
+                'name' => 'Infernal Fury',
+                'description' => 'Increases enemy casualties by 20% on successful invasions over 75%.',
+                'key' => 'infernal_fury',
+                'mana_cost' => 6,
+                'duration' => 6*4,
+                'races' => collect(['Demon']),
+            ],
+
+            [
                 'name' => 'Aurora',
                 'description' => 'Reduces unit training times by 2 ticks.',
                 'key' => 'aurora',
