@@ -265,9 +265,9 @@ class InvadeActionService
             // Stat changes
             // todo: move to own method
             if ($this->invasionResult['result']['success']) {
-                $dominion->increment('stat_attacking_success');
+                $dominion->stat_attacking_success += 1;
             } else {
-                $target->increment('stat_defending_success');
+                $target->stat_defending_success += 1;
             }
 
             // todo: move to GameEventService
@@ -410,7 +410,8 @@ class InvadeActionService
         if ($attackerPrestigeChange !== 0) {
             if (!$isInvasionSuccessful) {
                 // Unsuccessful invasions (bounces) give negative prestige immediately
-                $dominion->increment('prestige', $attackerPrestigeChange);
+                $dominion->prestige += $attackerPrestigeChange;
+
             } else {
                 // todo: possible bug if all 12hr units die (somehow) and only 9hr units survive, prestige gets returned after 12 hrs, since $units is input, not surviving units. fix?
                 $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
@@ -427,7 +428,7 @@ class InvadeActionService
         }
 
         if ($targetPrestigeChange !== 0) {
-            $target->increment('prestige', $targetPrestigeChange);
+            $target->prestige += $targetPrestigeChange;
 
             $this->invasionResult['defender']['prestigeChange'] = $targetPrestigeChange;
         }
@@ -520,7 +521,7 @@ class InvadeActionService
 
             if ($amount > 0) {
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
-                $dominion->decrement("military_unit{$slot}", $amount);
+                $dominion->{"military_unit{$slot}"} -= $amount;
 
                 if($slot == 1)
                 {
@@ -614,7 +615,7 @@ class InvadeActionService
                 $casualtiesMultiplier);
         }
         if ($drafteesLost > 0) {
-            $target->decrement('military_draftees', $drafteesLost);
+            $target->military_draftees -= $drafteesLost;
 
             $this->unitsLost += $drafteesLost; // todo: refactor
             $this->invasionResult['defender']['unitsLost']['draftees'] = $drafteesLost;
@@ -638,7 +639,7 @@ class InvadeActionService
         }
 
         foreach ($defensiveUnitsLost as $slot => $amount) {
-            $target->decrement("military_unit{$slot}", $amount);
+            $target->{"military_unit{$slot}"} -= $amount;
 
             $this->invasionResult['defender']['unitsLost'][$slot] = $amount;
         }
@@ -714,13 +715,13 @@ class InvadeActionService
             $buildingsLostForLandType = $this->buildingCalculator->getBuildingTypesToDestroy($target, $buildingsToDestroy, $landType);
 
             // Remove land
-            $target->decrement("land_$landType", $landLost);
+            $target->{"land_$landType"} -= $landLost;
 
             // Destroy buildings
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost) {
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
                 $resourceName = "building_{$buildingType}";
-                $target->decrement($resourceName, $builtBuildingsToDestroy);
+                $target->$resourceName -= $builtBuildingsToDestroy;
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
@@ -884,7 +885,7 @@ class InvadeActionService
         {
           $attackerMoraleChange = 0;
         }
-        $dominion->increment('morale', $attackerMoraleChange);
+        $dominion->morale += $attackerMoraleChange;
 
         # Change defender morale.
 
@@ -893,7 +894,7 @@ class InvadeActionService
         {
           $defenderMoraleChange = 0;
         }
-        $target->increment('morale', $defenderMoraleChange);
+        $target->morale += $defenderMoraleChange;
 
     }
 
@@ -1047,8 +1048,8 @@ class InvadeActionService
             $plunderPlatinum = min($hobbosToPlunderWith * 50, (int)floor($target->resource_platinum * 0.2));
             $plunderGems = min($hobbosToPlunderWith * 20, (int)floor($target->resource_gems * 0.2));
 
-            $target->decrement('resource_platinum', $plunderPlatinum);
-            $target->decrement('resource_gems', $plunderGems);
+            $target->resource_platinum -= $plunderPlatinum;
+            $target->resource_gems -= $plunderGems;
 
             if (!isset($this->invasionResult['attacker']['plunder'])) {
                 $this->invasionResult['attacker']['plunder'] = [
@@ -1071,7 +1072,7 @@ class InvadeActionService
         {
           $champions = $survivingUnits['attackerUnitsDiedInBattleSlot1'];
           $this->invasionResult['attacker']['champion']['champions'] = $champions;
-          $dominion->increment('resource_champion', $champions);
+          $dominion->resource_champion += $champions;
         }
 
         // Demon soul collection (only from non-Demon races)
@@ -1079,7 +1080,7 @@ class InvadeActionService
         {
           $souls = (int)floor($totalDefensiveCasualties);
           $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
-          $dominion->increment('resource_soul', $souls);
+          $dominion->resource_soul += $souls;
         }
     }
 
@@ -1098,7 +1099,7 @@ class InvadeActionService
 
             if (array_key_exists($i, $units)) {
                 $returningAmount += $units[$i];
-                $dominion->decrement($unitKey, $units[$i]);
+                $dominion->$unitKey -= $units[$i];
             }
 
             if (array_key_exists($i, $convertedUnits)) {
@@ -1160,7 +1161,7 @@ class InvadeActionService
             $defenderBoatsSunk = (int)floor(max(0, $targetBoatTotal - $defenderBoatsProtected) * $defenderBoatsSunkPercentage);
             if ($defenderBoatsSunk > $targetQueuedBoats) {
                 $this->queueService->dequeueResource('invasion', $target, 'boats', $targetQueuedBoats);
-                $target->decrement('resource_boats', $defenderBoatsSunk - $targetQueuedBoats);
+                $target->resource_boats -= $defenderBoatsSunk - $targetQueuedBoats;
             } else {
                 $this->queueService->dequeueResource('invasion', $target, 'boats', $defenderBoatsSunk);
             }
@@ -1185,7 +1186,7 @@ class InvadeActionService
         foreach ($unitsThatNeedsBoatsByReturnHours as $hours => $amountUnits) {
             $boatsByReturnHourGroup = (int)floor($amountUnits / $dominion->race->getBoatCapacity());
 
-            $dominion->decrement('resource_boats', $boatsByReturnHourGroup);
+            $dominion->resource_boats -= $boatsByReturnHourGroup;
 
             if ($defendingUnitsThatSinkBoats > 0) {
                 $attackerBoatsSunk = (int)ceil($boatsByReturnHourGroup * $attackerBoatsSunkPercentage);

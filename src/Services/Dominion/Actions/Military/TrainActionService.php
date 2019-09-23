@@ -249,27 +249,25 @@ class TrainActionService
         }
 
         DB::transaction(function () use ($dominion, $data, $totalCosts) {
-            $dominion->decrement('resource_platinum', $totalCosts['platinum']);
-            $dominion->decrement('resource_ore', $totalCosts['ore']);
-            $dominion->decrement('military_draftees', $totalCosts['draftees']);
-            $dominion->decrement('military_wizards', $totalCosts['wizards']);
+            $dominion->resource_platinum -= $totalCosts['platinum'];
+            $dominion->resource_ore -= $totalCosts['ore'];
+            $dominion->military_draftees -= $totalCosts['draftees'];
+            $dominion->military_wizards -= $totalCosts['wizards'];
 
             // New unit cost resources.
+            $dominion->resource_food -= $totalCosts['food'];
+            $dominion->resource_mana -= $totalCosts['mana'];
+            $dominion->resource_gems -= $totalCosts['gem'];
+            $dominion->resource_lumber -= $totalCosts['lumber'];
+            $dominion->prestige -= $totalCosts['prestige'];
+            $dominion->resource_boats -= $totalCosts['boat'];
+            $dominion->resource_champion -= $totalCosts['champion'];
+            $dominion->resource_soul -= $totalCosts['soul'];
 
-            $dominion->decrement('resource_food', $totalCosts['food']);
-            $dominion->decrement('resource_mana', $totalCosts['mana']);
-            $dominion->decrement('resource_gems', $totalCosts['gem']);
-            $dominion->decrement('resource_lumber', $totalCosts['lumber']);
-            $dominion->decrement('prestige', $totalCosts['prestige']);
-            $dominion->decrement('resource_boats', $totalCosts['boat']);
-            $dominion->decrement('resource_champion', $totalCosts['champion']);
-            $dominion->decrement('resource_soul', $totalCosts['soul']);
-
-
-            $dominion->decrement('military_unit1', $totalCosts['unit1']);
-            $dominion->decrement('military_unit2', $totalCosts['unit2']);
-            $dominion->decrement('military_unit3', $totalCosts['unit3']);
-            $dominion->decrement('military_unit4', $totalCosts['unit4']);
+            $dominion->military_unit1 -= $totalCosts['unit1'];
+            $dominion->military_unit2 -= $totalCosts['unit2'];
+            $dominion->military_unit3 -= $totalCosts['unit3'];
+            $dominion->military_unit4 -= $totalCosts['unit4'];
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
