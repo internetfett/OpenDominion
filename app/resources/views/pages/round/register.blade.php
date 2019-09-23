@@ -89,7 +89,7 @@
                 </div>
 
                 <!-- Realm -->
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="realm" class="col-sm-3 control-label">Realm</label>
                     <div class="col-sm-9">
                         <select name="realm_type" id="realm_type" class="form-control" required>
