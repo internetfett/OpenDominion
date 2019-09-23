@@ -204,6 +204,11 @@ IMPERIALGNOME;
 <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
 DEMON;
 
+$descriptions['black orc'] = <<<BLACKORC
+<p>Part of The Empress' elite of distinguished warriors, the Black Orc &mdash; so called for the black armour and weapons &mdash are the preeminent infantry of the Empire.</p>
+<p>Tougher and more disciplined than their </p>
+BLACKORC;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
