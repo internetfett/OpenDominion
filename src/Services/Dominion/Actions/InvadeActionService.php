@@ -867,8 +867,21 @@ class InvadeActionService
         }
 
         # Change attacker morale.
+
+        // Make sure it doesn't go below 0.
+        if(($dominion->morale + $attackerMoraleChange) < 0)
+        {
+          $attackerMoraleChange = 0;
+        }
         $dominion->increment('morale', $attackerMoraleChange);
+
         # Change defender morale.
+
+        // Make sure it doesn't go below 0.
+        if(($target->morale + $defenderMoraleChange) < 0)
+        {
+          $defenderMoraleChange = 0;
+        }
         $target->increment('morale', $defenderMoraleChange);
 
     }
