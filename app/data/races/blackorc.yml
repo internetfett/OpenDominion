@@ -1,0 +1,50 @@
+name: Black Orc
+alignment: evil
+home_land_type: forest
+perks:
+  food_consumption: 20
+  lumber_production: 50
+  max_population: -7.5
+units:
+  - name: Grunt
+    cost:
+      platinum: 500
+      ore: 25
+    power:
+      offense: 3
+      defense: 0
+    perks:
+      offense_from_pairing: 4,2 # slot, amount
+  - name: Shieldbearer
+    cost:
+      platinum: 400
+      ore: 20
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      defense_from_pairing: 4,2 # slot, amount
+  - name: Warlock
+    cost:
+      platinum: 700
+      lumber: 10
+      gem: 1
+    power:
+      offense: 0
+      defense: 2.5
+    perks:
+      defense_from_prestige: 400,3 # amount, max
+      mana_production: 5
+      counts_as_wizard_offense: 0.3
+      counts_as_wizard_defense: 0.3
+  - name: Warboss
+    cost:
+      platinum: 1400
+      ore: 200
+      gem: 1
+    power:
+      offense: 8
+      defense: 3
+    perks:
+      defense_from_pairing: 3,1 # slot, amount
+      fewer_casualties: 33
