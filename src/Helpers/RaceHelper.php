@@ -86,7 +86,7 @@ ANTS;
 
         $descriptions['sacred order'] = <<<SACREDORDER
 <p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
-<p>Monks are responsible for providing stable defenses, while Fanatics are seen both defending the holy land and conquering more, strengthened by Shrines to the Divines.</p>
+<p>Monks are responsible for providing stable defenses, while Fanatics are seen both defending the holy land and conquering more, strengthened by Temples to the Divines.</p>
 <p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors.</p>
 SACREDORDER;
 
@@ -187,10 +187,12 @@ AFFLICTED;
 <p>Attempts at communication have failed. It shows no signs of sentience.</p>
 <hr>
 <p>Starting resources are randomised:</p>
-<ul>
-<li>Between 0 and 200 of each unit type.</li>
-<li>Between 100 and 1,000 cells (draftees).</li>
-<li>Between 30,000 and 45,000 food.</li>
+<ul>w
+<li>Between 0 and 200 of each unit type except for Cysts</li>
+<li>Between 50 and 300 Cysts.</li>
+<li>Between 1,500 and 2,000 cells (peasants).</li>
+<li>Between 100 and 1,000 amoeba (draftees).</li>
+<li>Between 400,000 and 650,000 food.</li>
 </ul>
 GROWTH;
 
