@@ -47,5 +47,6 @@ units:
       offense: 8
       defense: 0
     perks:
+      no_draftee: 1
       true_immortal: 1
-    static_networth: 25
+      static_networth: 25
