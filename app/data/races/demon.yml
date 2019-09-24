@@ -30,7 +30,7 @@ units:
     cost:
       platinum: 1000
       food: 1000
-      soul: 4
+      soul: 1
     power:
       offense: 6
       defense: 6

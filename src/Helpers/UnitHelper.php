@@ -106,23 +106,23 @@ class UnitHelper
             'reduce_combat_losses' => 'Reduces combat losses.',
 
             // Resource related
-            'ore_production' => 'Each unit produces %s units of ore per hour.',
+            'ore_production' => 'Each unit produces %s units of ore per tick.',
             'plunders_resources_on_attack' => 'Plunders resources on attack.',
             'sink_boats_defense' => 'Sinks boats when defending.',
             'sink_boats_offense' => 'Sinks boats when attacking.',
 
-            // Dreki
-            'mana_production' => 'Each unit generates %s mana per hour.',
-            'lumber_production' => 'Each unit collects %s lumber per hour.',
-            'food_production' => 'Each unit produces %s food per hour.',
+            // ODA
+            'mana_production' => 'Each unit generates %s mana per tick.',
+            'lumber_production' => 'Each unit collects %s lumber per tick.',
+            'food_production' => 'Each unit produces %s food per tick.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
             'afterlife_norse' => 'Upon honourable death, becomes a legendary champion and can be recalled into services as an Einherjar.',
-            'kills_peasants' => 'Eats %s peasants per hour.',
+            'kills_peasants' => 'Eats %s peasants per tick.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 
             // Misc
-            'faster_return' => 'Returns %s hours faster from battle.',
+            'faster_return' => 'Returns %s ticks faster from battle.',
         ];
 
         foreach ($race->units as $unit) {

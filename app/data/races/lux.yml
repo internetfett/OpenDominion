@@ -20,9 +20,6 @@ units:
     power:
       offense: 0
       defense: 0
-    perks:
-      does_not_kill: 1
-      true_immortal: 1
   - name: Hex
     need_boat: false
     static_networth: 11
@@ -34,7 +31,6 @@ units:
       defense: 4
     perks:
       no_draftee: 1
-      does_not_kill: 1
       fewer_casualties: 50
       counts_as_wizard_offense: 0.06
       counts_as_wizard_defense: 0.06
@@ -49,7 +45,6 @@ units:
       defense: 0
     perks:
       no_draftee: 1
-      does_not_kill: 1
       fewer_casualties: 50
       counts_as_spy_offense: 0.06
       counts_as_spy_defense: 0.06
@@ -65,7 +60,6 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      does_not_kill: 1
       true_immortal: 1
       conversion: 1
       counts_as_wizard_offense: 0.1618

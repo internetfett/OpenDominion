@@ -145,7 +145,7 @@ ORC;
 
         $descriptions['nomad'] = <<<NOMAD
 <p>Forever wandering the plains, Nomads are Humans who have rejected sedentary culture.</p>
-<p>Very similar to Humans except for the masterful Horse Archers.</p>
+<p>Very similar to the Human armies they have since long rejected, except for the masterful Horse Archers.</p>
 NOMAD;
 
         $descriptions['nox'] = <<<NOX
@@ -154,12 +154,12 @@ NOMAD;
 NOX;
 
         $descriptions['troll'] = <<<TROLL
-<p>Hard to kill, and even harder to look at without screaming, Trolls are the hideously ugly but tremendously powerful genetic dead end of an ancient elven race.</p>
-<p>Trolls are notoriously bloodthirsty. What they lack in subtlety they more than make up for in gratuitous violence. It is not uncommon to see fully-armoured soldiers being punted up sixty feet into the air during Troll invasions. <em>[Urg smash!]</em></p>
+<p>Trolls can be found in the earliest scriptures and even they speak of trolls in ancient tales. Foul, brutish, and dull, trolls have always been feared by those wandering the lands where forest meets plain.</p>
+<p>Trolls are notoriously bloodthirsty. What they lack in subtlety they more than make up for in gratuitous violence. It is not uncommon to see fully-armoured soldiers being punted up sixty feet into the air in battle with trolls. <em>[Urg smash!]</em></p>
 TROLL;
 
         $descriptions['undead'] = <<<UNDEAD
-<p>An unending horde of beings that have overcome death, the undead have an insatiable desire to destroy all living creatures.</p>
+<p>A ceaseless horde of beings that have overcome death, the undead have an insatiable desire to destroy all living creatures.</p>
 <p>They are always on the offensive, increasing their number by reanimating fallen enemies.</p>
 UNDEAD;
 
@@ -175,7 +175,7 @@ UNDEAD;
 VOID;
 
         $descriptions['dragon'] = <<<DRAGON
-<p>Dragons of old have returned from beyond the Unending Sea.</p>
+<p>Dragons of old have returned from beyond the Endless Sea.</p>
 DRAGON;
 
         $descriptions['afflicted'] = <<<AFFLICTED
@@ -203,11 +203,11 @@ IMPERIALGNOME;
 <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
 <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
 <hr />
-<p>The soul of every unit killed in battle is collected and can be used to summon stronger demons.</p> 
+<p>The soul of every unit killed in battle is collected and can be used to summon stronger demons.</p>
 DEMON;
 
 $descriptions['black orc'] = <<<BLACKORC
-<p>Part of The Empress' elite of distinguished warriors, the Black Orc &mdash; so called for the black armour and weapons &mdash are the preeminent infantry of the Empire.</p>
+<p>Part of The Empress' elite of distinguished warriors, the Black Orc &mdash; so called for the black armour and black weapons forged with moonsoot &mdash are the preeminent infantry of the Empire.</p>
 BLACKORC;
 
         $key = strtolower($race->name);
