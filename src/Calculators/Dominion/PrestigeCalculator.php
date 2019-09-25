@@ -27,14 +27,13 @@ class PrestigeCalculator
     {
         if($dominion->race->name !== 'Beastfolk')
         {
-          return 1;
+          return 0;
         }
         else
         {
-          1 + (($dominion->prestige / 50) / 100);
+          return 1 + (($dominion->prestige / 50) / 100);
         }
 
-        return ($dominion->prestige / 10000);
     }
 
 }
