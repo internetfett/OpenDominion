@@ -54,7 +54,7 @@ class BankingCalculator
             'peasants' => [
                 'label' => 'Peasants',
                 'buy' => 0.0,
-                'sell' => 0.25,
+                'sell' => 0.5,
                 'max' => $dominion->peasants,
             ],
             'resource_soul' => [

@@ -11,7 +11,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                 @if ($selectedDominion->race->name == 'Demon')
-                    <h3 class="box-title"><i class="fa fa-money"></i> Sacrifical Altar</h3>
+                    <h3 class="box-title"><i class="fa fa-daggers"></i> Sacrifical Altar</h3>
                 @else
                     <h3 class="box-title"><i class="fa fa-money"></i> National Bank</h3>
                 @endif
