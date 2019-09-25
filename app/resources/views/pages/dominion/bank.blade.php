@@ -40,11 +40,10 @@
                                     </div>
                                     <div class="form-group col-sm-6">
                                       @if ($selectedDominion->race->name == 'Demon')
-                                        <label for="source">Extract this from the killed peasants</label>
+                                        <label for="target">Extract this from the killed peasants</label>
                                       @else
-                                        <label for="source">Exchange this</label>
-                                      @endif
                                         <label for="target">Into this</label>
+                                      @endif
                                         <select name="target" id="target" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             @foreach ($resources as $field => $resource)
                                                 @if (!$resource['buy'])

@@ -63,7 +63,15 @@
                 </li>
                 @endif
 
-                <li class="{{ Route::is('dominion.bank') ? 'active' : null }}"><a href="{{ route('dominion.bank') }}"><i class="fa fa-money fa-fw"></i> <span>National Bank</span></a></li>
+                <!-- NATIONAL BANK -->
+                <li class="{{ Route::is('dominion.bank') ? 'active' : null }}"><a href="{{ route('dominion.bank') }}">
+                @if ($selectedDominion->race->name == 'Demon')
+                  <i class="ra ra-daggers ra-fw"></i> <span>Sacrificial Altar
+                @else
+                  <i class="fa fa-money fa-fw"></i> <span>National Bank
+                @endif
+                </span></a></li>
+
 
                 <li class="header">BLACK OPS</li>
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
