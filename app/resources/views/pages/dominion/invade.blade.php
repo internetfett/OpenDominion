@@ -105,8 +105,8 @@
                                                 }
 
                                                 $offenseVsLandPerk = $unit->getPerkValue('offense_vs_land');
-                                                if ($offenseVsBuildingPerk) {
-                                                    $offenseVsLandTypes[] = explode(',', $offenseVsLandTypes)[0];
+                                                if ($offenseVsLandPerk) {
+                                                    $offenseVsLandTypes[] = explode(',', $offenseVsLandPerk)[0];
                                                 }
 
                                             }
