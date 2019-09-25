@@ -387,7 +387,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace(' Morale', '% Morale,', str_replace('And', 'and', ucwords($trainingCostsString)))
+            str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString)))
         );
 
         return $message;
