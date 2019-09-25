@@ -77,6 +77,7 @@
                                 <tbody>
                                     @php
                                         $offenseVsBuildingTypes = [];
+                                        $offenseVsLandTypes = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
