@@ -7,7 +7,7 @@
             $roundDay = $selectedDominion->round->start_date->subDays(1)->diffInDays(now());
             $roundDurationInDays = $selectedDominion->round->durationInDays();
             $currentHour = ($diff->h + 1);
-            $currentTick = floor(intval(Date('i')) / 15);
+            $currentTick = 1+floor(intval(Date('i')) / 15);
 
             echo "Day <strong>{$roundDay}</strong>/{$roundDurationInDays}, hour <strong>{$currentHour}</strong>, tick <strong>{$currentTick}</strong>.";
 
