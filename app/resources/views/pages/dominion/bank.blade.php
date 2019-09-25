@@ -10,7 +10,11 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
+                @if ($selectedDominion->race->name == 'Demon')
+                    <h3 class="box-title"><i class="fa fa-money"></i> Sacrifical Altar</h3>
+                @else
                     <h3 class="box-title"><i class="fa fa-money"></i> National Bank</h3>
+                @end
                 </div>
                 <form action="{{ route('dominion.bank') }}" method="post" {{--class="form-inline" --}}role="form">
                     @csrf
@@ -19,7 +23,11 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="form-group col-sm-6">
+                                      @if ($selectedDominion->race->name == 'Demon')
+                                        <label for="source">Select number of peasants to slaughter</label>
+                                      @else
                                         <label for="source">Exchange this</label>
+                                      @endif
                                         <select name="source" id="source" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             @foreach ($resources as $field => $resource)
                                                 @if (!$resource['sell'])
@@ -31,6 +39,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-6">
+                                      @if ($selectedDominion->race->name == 'Demon')
+                                        <label for="source">Extract this from the killed peasants</label>
+                                      @else
+                                        <label for="source">Exchange this</label>
+                                      @endif
                                         <label for="target">Into this</label>
                                         <select name="target" id="target" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             @foreach ($resources as $field => $resource)
@@ -82,7 +95,13 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Exchange</button>
+                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                          @if ($selectedDominion->race->name == 'Demon')
+                            Sacrifice
+                          @else
+                            Exchange
+                          @endif
+                        </button>
                     </div>
                 </form>
             </div>
