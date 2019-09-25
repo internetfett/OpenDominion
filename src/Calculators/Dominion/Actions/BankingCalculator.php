@@ -52,14 +52,14 @@ class BankingCalculator
           $demonResources = [
             'resource_soul' => [
                 'label' => 'Souls',
-                'buy' => 3.0,
+                'buy' => 1.0,
                 'sell' => 0.0,
                 'max' => $dominion->resource_gems,
             ],
             'resource_peasant' => [
                 'label' => 'Peasants',
                 'buy' => 0.0,
-                'sell' => 1.0,
+                'sell' => 0.25,
                 'max' => $dominion->resource_food,
             ],
           ];
