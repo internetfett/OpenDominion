@@ -152,6 +152,10 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('Unit4', $value);
                                                             break;
 
+                                                        case 'morale':
+                                                            $labelParts[] =  number_format($value) . '% morale';
+                                                            break;
+
                                                         case 'wizards':
                                                             $labelParts[] = '1 Wizard';
                                                             break;
