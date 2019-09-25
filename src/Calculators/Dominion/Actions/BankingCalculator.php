@@ -49,22 +49,26 @@ class BankingCalculator
 
         if($dominion->race->name == 'Demon')
         {
-          $demonResources = [
+          $resources = [
+            'peasants' => [
+                'label' => 'Peasants',
+                'buy' => 0.0,
+                'sell' => 0.25,
+                'max' => $dominion->peasants,
+            ],
             'resource_soul' => [
                 'label' => 'Souls',
                 'buy' => 1.0,
                 'sell' => 0.0,
-                'max' => $dominion->resource_gems,
+                'max' => $dominion->resource_soul,
             ],
-            'resource_peasant' => [
-                'label' => 'Peasants',
-                'buy' => 0.0,
-                'sell' => 0.25,
+            'resource_food' => [
+                'label' => 'Food',
+                'buy' => 0.125,
+                'sell' => 0.0,
                 'max' => $dominion->resource_food,
             ],
           ];
-
-          $resources = array_merge($resources, $demonResources);
 
         }
 

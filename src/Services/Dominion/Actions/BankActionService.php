@@ -60,6 +60,11 @@ class BankActionService
             ));
         }
 
+        if($source == 'peasants' and $target !== 'resource_soul')
+        {
+          throw new GameException('Peasants may only be sacrified and exchanged for Souls.');
+        }
+
         $targetAmount = floor($amount * $sourceResource['sell'] * $targetResource['buy']);
 
         $dominion->{$source} -= $amount;
