@@ -110,6 +110,10 @@ NORSE;
 <h3>This race is not yet finished</h3>
 <p>The Lux are the children of the Suns.</p>
 <p>Some believe they are elves which transcended. Others say they are not of this world at all.</p>
+<hr />
+<p>Essences are trained from draftees.</p>
+<p>Hex and Vex are trained from Essences and cost no draftees. They both take 12 ticks to train.</p>
+<p>Pax is trained by combining one Hex and one Vex. No draftee required.</p>
 LUX;
 
         // EMPIRE
