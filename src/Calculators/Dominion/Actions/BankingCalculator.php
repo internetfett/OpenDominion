@@ -49,7 +49,7 @@ class BankingCalculator
 
         if($dominion->race->name == 'Demon')
         {
-          $resources[] = [
+          $demonResources = [
             'resource_soul' => [
                 'label' => 'Souls',
                 'buy' => 3.0,
@@ -63,6 +63,9 @@ class BankingCalculator
                 'max' => $dominion->resource_food,
             ],
           ];
+
+          $resources = array_merge($resources, $demonResources);
+
         }
 
         // Get racial bonus
