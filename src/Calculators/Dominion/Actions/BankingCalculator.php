@@ -47,6 +47,7 @@ class BankingCalculator
             ],
         ];
 
+        # Special bank for Demons
         if($dominion->race->name == 'Demon')
         {
           $resources = [
@@ -69,17 +70,18 @@ class BankingCalculator
                 'max' => $dominion->resource_food,
             ],
           ];
-
         }
+        else
+        {
+          // Get racial bonus
+          $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
 
-        // Get racial bonus
-        $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
-
-        $resources['resource_platinum']['sell'] *= (1 + $bonus);
-        $resources['resource_lumber']['sell'] *= (1 + $bonus);
-        $resources['resource_ore']['sell'] *= (1 + $bonus);
-        $resources['resource_gems']['sell'] *= (1 + $bonus);
-        $resources['resource_food']['sell'] *= (1 + $bonus);
+          $resources['resource_platinum']['sell'] *= (1 + $bonus);
+          $resources['resource_lumber']['sell'] *= (1 + $bonus);
+          $resources['resource_ore']['sell'] *= (1 + $bonus);
+          $resources['resource_gems']['sell'] *= (1 + $bonus);
+          $resources['resource_food']['sell'] *= (1 + $bonus);
+        }
 
         return $resources;
     }
