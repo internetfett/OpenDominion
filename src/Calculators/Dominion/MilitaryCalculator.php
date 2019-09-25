@@ -422,6 +422,7 @@ class MilitaryCalculator
         if ($target !== null || !empty($calc)) {
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
