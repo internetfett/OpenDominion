@@ -278,6 +278,12 @@ class TrainingCalculator
         $smithiesReduction = 2;
         $smithiesReductionMax = 40;
 
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $smithiesReduction = 2.5;
+          $smithiesReductionMax = 50;
+        }
+
         // Never discount these resources.
         $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale');
 

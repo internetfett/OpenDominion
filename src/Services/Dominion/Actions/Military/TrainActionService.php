@@ -178,7 +178,8 @@ class TrainActionService
         }
         if($totalCosts['morale'] > $dominion->morale)
         {
-          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+          # This is fine. We just have to make sure that morale doesn't dip below 0.
+          #throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
         }
         if(
             $totalCosts['unit1'] > $dominion->military_unit1 OR
@@ -268,7 +269,7 @@ class TrainActionService
             $dominion->resource_boats -= $totalCosts['boat'];
             $dominion->resource_champion -= $totalCosts['champion'];
             $dominion->resource_soul -= $totalCosts['soul'];
-            $dominion->morale -= $totalCosts['morale'];
+            $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
 
             $dominion->military_unit1 -= $totalCosts['unit1'];
             $dominion->military_unit2 -= $totalCosts['unit2'];
@@ -374,7 +375,7 @@ class TrainActionService
 
             $costType = str_singular($costType);
 #            if (!\in_array($costType, ['platinum', 'ore'], true)) {
-            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul'], true)) {
+            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'morale'], true)) {
 
                 $costType = str_plural($costType, $cost);
             }

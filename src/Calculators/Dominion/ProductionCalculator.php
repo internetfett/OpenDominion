@@ -160,7 +160,7 @@ class ProductionCalculator
         // Beastfolk: Mountain increases platinum production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);# * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
         }
 
         // Tech: Treasure Hunt or Banker's Foresight
@@ -260,7 +260,7 @@ class ProductionCalculator
         // Beastfolk: Water increases food production
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));#* $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
         }
 
         // Apply Morale multiplier to production multiplier
@@ -733,7 +733,7 @@ class ProductionCalculator
         // Beastfolk: Water increases boat production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));# * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
         }
 
         // Apply Morale multiplier to production multiplier
