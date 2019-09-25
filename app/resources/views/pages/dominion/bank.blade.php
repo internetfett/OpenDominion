@@ -14,7 +14,7 @@
                     <h3 class="box-title"><i class="fa fa-money"></i> Sacrifical Altar</h3>
                 @else
                     <h3 class="box-title"><i class="fa fa-money"></i> National Bank</h3>
-                @end
+                @endif
                 </div>
                 <form action="{{ route('dominion.bank') }}" method="post" {{--class="form-inline" --}}role="form">
                     @csrf
