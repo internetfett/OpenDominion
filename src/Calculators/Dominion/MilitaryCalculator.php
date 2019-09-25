@@ -716,7 +716,7 @@ class MilitaryCalculator
       // Beastfolk: Cavern increases Spy Strength
       if($dominion->race->name == 'Beastfolk')
       {
-        $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion))  * $this->militaryCalculator->getPrestigeMultiplier($dominion);
+        $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion))  * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
       }
 
         // Wonder: Great Oracle (+30%)
@@ -794,7 +794,7 @@ class MilitaryCalculator
         // Beastfolk: Swamp increases Wizard Strength
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 2 * ($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion))  * $this->militaryCalculator->getPrestigeMultiplier($dominion);
+          $multiplier += 2 * ($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion))  * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
 
         // Tech: Magical Weaponry  (+15%)
