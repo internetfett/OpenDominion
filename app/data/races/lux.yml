@@ -12,7 +12,6 @@ perks:
   max_population: 5
 units:
   - name: Essence
-    need_boat: false
     static_networth: 6
     cost:
       platinum: 100
