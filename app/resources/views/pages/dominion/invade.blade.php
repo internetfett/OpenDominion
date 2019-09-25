@@ -159,6 +159,23 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endforeach
+                                    @foreach ($offenseVsLandTypes as $landType)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter target {{ ucwords(str_replace('_', ' ', $landType)) }} percentage:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc[{{ $landType }}_percent]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       max="100"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
