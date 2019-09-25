@@ -47,20 +47,41 @@ class BankingCalculator
             ],
         ];
 
-        // Get racial bonus
-        $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
-#        $resources['resource_platinum']['buy'] *= (1 + $bonus);
-#        $resources['resource_lumber']['buy'] *= (1 + $bonus);
-#        $resources['resource_ore']['buy'] *= (1 + $bonus);
-#        $resources['resource_gems']['buy'] *= (1 + $bonus);
-#        $resources['resource_food']['buy'] *= (1 + $bonus);
+        # Special bank for Demons
+        if($dominion->race->name == 'Demon')
+        {
+          $resources = [
+            'peasants' => [
+                'label' => 'Peasants',
+                'buy' => 0.0,
+                'sell' => 1.0,
+                'max' => ($dominion->peasants-1000),
+            ],
+            'resource_soul' => [
+                'label' => 'Souls',
+                'buy' => 0.5,
+                'sell' => 0.0,
+                'max' => $dominion->resource_soul,
+            ],
+            'resource_food' => [
+                'label' => 'Food',
+                'buy' => 4.0,
+                'sell' => 0.0,
+                'max' => $dominion->resource_food,
+            ],
+          ];
+        }
+        else
+        {
+          // Get racial bonus
+          $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
 
-
-        $resources['resource_platinum']['sell'] *= (1 + $bonus);
-        $resources['resource_lumber']['sell'] *= (1 + $bonus);
-        $resources['resource_ore']['sell'] *= (1 + $bonus);
-        $resources['resource_gems']['sell'] *= (1 + $bonus);
-        $resources['resource_food']['sell'] *= (1 + $bonus);
+          $resources['resource_platinum']['sell'] *= (1 + $bonus);
+          $resources['resource_lumber']['sell'] *= (1 + $bonus);
+          $resources['resource_ore']['sell'] *= (1 + $bonus);
+          $resources['resource_gems']['sell'] *= (1 + $bonus);
+          $resources['resource_food']['sell'] *= (1 + $bonus);
+        }
 
         return $resources;
     }

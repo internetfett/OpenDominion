@@ -60,6 +60,14 @@ class BankActionService
             ));
         }
 
+        if($source == 'peasants' and $amount > ($dominion->peasants - 1000))
+        {
+          throw new GameException(sprintf(
+              'You cannot sacrifice %s peasants. You must leave at least 1,000 peasants alive.',
+              number_format($amount),
+          ));
+        }
+
         $targetAmount = floor($amount * $sourceResource['sell'] * $targetResource['buy']);
 
         $dominion->{$source} -= $amount;
