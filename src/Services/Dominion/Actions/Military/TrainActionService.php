@@ -107,6 +107,7 @@ class TrainActionService
             'boat' => 0,
             'champion' => 0,
             'soul' => 0,
+            'morale' => 0,
             'unit1' => 0,
             'unit2' => 0,
             'unit3' => 0,
@@ -174,6 +175,10 @@ class TrainActionService
         if($totalCosts['soul'] > $dominion->resource_soul)
         {
           throw new GameException('Insufficient souls. Collect more souls.');
+        }
+        if($totalCosts['morale'] > $dominion->morale)
+        {
+          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
         }
         if(
             $totalCosts['unit1'] > $dominion->military_unit1 OR

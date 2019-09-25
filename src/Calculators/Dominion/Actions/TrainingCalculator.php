@@ -86,6 +86,7 @@ class TrainingCalculator
                     $boat = $units[$unitSlot]->cost_boat;
                     $champion = $units[$unitSlot]->cost_champion;
                     $soul = $units[$unitSlot]->cost_soul;
+                    $morale = $units[$unitSlot]->cost_morale;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
@@ -169,6 +170,12 @@ class TrainingCalculator
                         $cost['unit4'] = (int)ceil($unit4 * $this->getSpecialistEliteCostMultiplier($dominion, 'unit4'));
                     }
 
+                    // MORALE cost for units
+                    if ($morale > 0) {
+                        $cost['morale'] = $morale;
+                        $cost['morale'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'morale'));
+                    }
+
                     #if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
@@ -215,6 +222,7 @@ class TrainingCalculator
             'boat' => 'resource_boats',
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
+            'soul' => 'morale',
 
             'unit1' => 'military_unit1',
             'unit2' => 'military_unit2',
@@ -271,7 +279,7 @@ class TrainingCalculator
         $smithiesReductionMax = 40;
 
         // Never discount these resources.
-        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4');
+        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale');
 
         // Smithies
         $exemptRaces = array('Gnome', 'Imperial Gnome');

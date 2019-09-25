@@ -145,6 +145,10 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' Unit4');
                                     }
 
+                                    if ($unit->cost_morale > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
+                                    }
+
                                 @endphp
                                 <tr>
                                     <td>

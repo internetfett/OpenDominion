@@ -57,6 +57,8 @@ class Unit extends AbstractModel
         // Unit unit 4 cost
         'cost_unit4' => 'integer',
         // For cases when a unit's NW needs to be manually set
+        'cost_morale' => 'integer',
+        // For cases when a unit's NW needs to be manually set
         'static_networth' => 'integer',
     ];
 
