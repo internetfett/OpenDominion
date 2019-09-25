@@ -196,7 +196,7 @@ class PopulationCalculator
         // Beastfolk: Forest increases population
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion)) * 100;
+          $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Prestige Bonus
