@@ -197,7 +197,7 @@ class PopulationCalculator
         if($dominion->race->name == 'Beastfolk')
         {
           $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
-          $multipier *= $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
+          $multiplier *= $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
         }
 
         // Prestige Bonus
