@@ -260,7 +260,7 @@ class ProductionCalculator
         // Beastfolk: Water increases food production
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->militaryCalculator->getPrestigeMultiplier($dominion);
         }
 
         // Apply Morale multiplier to production multiplier
