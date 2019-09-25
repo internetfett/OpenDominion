@@ -59,17 +59,17 @@ class UnitHelper
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
 
             // OP/DP related
-            'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
-            'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+            'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max %3$s).',
+            'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max %3$s).',
 
-            'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
-            'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+            'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max %3$s).',
+            'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max %3$s).',
 
             'defense_from_pairing' => 'Defense increased by %2$s when paired with one %1$s.',
             'offense_from_pairing' => 'Offense increased by %2$s when paired with one %1$s.',
 
-            'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max +%2$s).',
-            'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max +%2$s).',
+            'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max %2$s).',
+            'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max %2$s).',
 
             'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
             'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
@@ -83,7 +83,7 @@ class UnitHelper
 
             'offense_staggered_land_range' => 'Offense increased by %2$s against dominions %1$s%%+ of your size.',
 
-            'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max +%2$s).',
+            'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max %2$s).',
 
             // Spy related
             'counts_as_spy_defense' => 'Each unit counts as %s of a spy on defense.',
@@ -120,7 +120,6 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
-
 
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 
