@@ -285,6 +285,7 @@ class TrainActionService
               $nineHourData = [
                   'military_unit1' => $data['military_unit1']
               ];
+              unset($data['military_unit1']);
             }
             else
             {
@@ -292,8 +293,8 @@ class TrainActionService
                   'military_unit1' => $data['military_unit1'],
                   'military_unit2' => $data['military_unit2'],
               ];
+              unset($data['military_unit1'], $data['military_unit2']);
             }
-            unset($data['military_unit1'], $data['military_unit2']);
 
             // Lux: Spell (reduce training times by 2 hours)
             if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
