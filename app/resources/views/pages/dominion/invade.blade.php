@@ -97,11 +97,18 @@
                                             $hasDynamicOffensivePower = $unit->perks->filter(static function ($perk) {
                                                 return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_']);
                                             })->count() > 0;
-                                            if ($hasDynamicOffensivePower) {
+                                            if ($hasDynamicOffensivePower)
+                                            {
                                                 $offenseVsBuildingPerk = $unit->getPerkValue('offense_vs_building');
                                                 if ($offenseVsBuildingPerk) {
                                                     $offenseVsBuildingTypes[] = explode(',', $offenseVsBuildingPerk)[0];
                                                 }
+
+                                                $offenseVsLandPerk = $unit->getPerkValue('offense_vs_land');
+                                                if ($offenseVsBuildingPerk) {
+                                                    $offenseVsLandTypes[] = explode(',', $offenseVsLandTypes)[0];
+                                                }
+
                                             }
                                             $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
                                                 return starts_with($perk->key, ['defense_from_', 'defense_staggered_', 'defense_vs_']);
