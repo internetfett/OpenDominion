@@ -222,7 +222,7 @@ class TrainingCalculator
             'boat' => 'resource_boats',
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
-            'soul' => 'morale',
+            'morale' => 'morale',
 
             'unit1' => 'military_unit1',
             'unit2' => 'military_unit2',
