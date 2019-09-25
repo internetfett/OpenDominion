@@ -96,7 +96,7 @@ class TickService
                 continue;
             }
 
-            DB::transaction(function() use ($round) {
+            DB::transaction(function () use ($round) {
                 // Update dominions
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
@@ -173,12 +173,23 @@ class TickService
                     ]);
 
                 // Update queues
+                // Two-step process to avoid getting UNIQUE constraint integrity errors
+                // since we can't reliably use deferred transactions, deferred update
+                // queries or update+orderby cross-database vendors
                 DB::table('dominion_queue')
                     ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                     ->where('dominions.round_id', $round->id)
                     ->where('hours', '>', 0)
                     ->update([
-                        'hours' => DB::raw('hours - 1'),
+                        'hours' => DB::raw('-(`hours` - 1)'),
+                    ]);
+
+                DB::table('dominion_queue')
+                    ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
+                    ->where('dominions.round_id', $round->id)
+                    ->where('hours', '<', 0)
+                    ->update([
+                        'hours' => DB::raw('-`hours`'),
                         'dominion_queue.updated_at' => $this->now,
                     ]);
             });
@@ -302,8 +313,8 @@ class TickService
                 $resources[$row->resource] = $row->amount;
             }
 
-            if ($source === "invasion") {
-                $notificationType = "returning_completed";
+            if ($source === 'invasion') {
+                $notificationType = 'returning_completed';
             } else {
                 $notificationType = "{$source}_completed";
             }
@@ -327,7 +338,7 @@ class TickService
         if ($saveHistory) {
             // Save a dominion history record
             $dominionHistoryService = app(HistoryService::class);
-            $changes = array_filter($tick->getAttributes(), function($value, $key) {
+            $changes = array_filter($tick->getAttributes(), function ($value, $key) {
                 if ($key != 'id' && $key != 'dominion_id' && $key != 'updated_at' && $value != 0) return true;
             }, ARRAY_FILTER_USE_BOTH);
             $dominionHistoryService->record($dominion, $changes, HistoryService::EVENT_TICK);
