@@ -157,10 +157,10 @@ class ProductionCalculator
             $multiplier += ($guardTax / 100);
         }
 
-        // Beastfolk:
+        // Beastfolk: Mountain increases platinum production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
+          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion) * * $this->militaryCalculator->getMoraleMultiplier($dominion);
         }
 
         // Tech: Treasure Hunt or Banker's Foresight
@@ -254,14 +254,14 @@ class ProductionCalculator
         // Tech: Farmer's Growth
         // todo
 
-        // Beastfolk water
-        if($dominion->race->name == 'Beastfolk')
-        {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
-        }
-
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+
+        // Beastfolk: Water increases food production
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
+        }
 
         // Apply Morale multiplier to production multiplier
         $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -730,10 +730,10 @@ class ProductionCalculator
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
 
-        // Beastfolk water
+        // Beastfolk: Water increases boat production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
         }
 
         // Apply Morale multiplier to production multiplier

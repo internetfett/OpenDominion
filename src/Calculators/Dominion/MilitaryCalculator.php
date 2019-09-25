@@ -144,10 +144,10 @@ class MilitaryCalculator
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forges');
 
-        // Beastfolk: Plains
+        // Beastfolk: Plains increases OP
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 0.2 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 0.2 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
         }
 
         // Racial Spell
@@ -329,7 +329,7 @@ class MilitaryCalculator
         // Improvement: Walls
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
 
-        // Beastfolk: Hills
+        // Beastfolk: Hills increases DP
         if($dominion->race->name == 'Beastfolk')
         {
           $multiplier += 1 * ($dominion->{'land_hill'} / $this->landCalculator->getTotalLand($dominion));
@@ -676,10 +676,10 @@ class MilitaryCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('spy_strength');
 
-      // Beastfolk: Cavern
+      // Beastfolk: Cavern increases Spy Strength
       if($dominion->race->name == 'Beastfolk')
       {
-        $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion));
+        $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion))  * $this->militaryCalculator->getMoraleMultiplier($dominion);
       }
 
         // Wonder: Great Oracle (+30%)
@@ -754,10 +754,10 @@ class MilitaryCalculator
         // Improvement: Towers
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
 
-        // Beastfolk: Swamp
+        // Beastfolk: Swamp increases Wizard Strength
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 2 * ($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 2 * ($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion))  * $this->militaryCalculator->getMoraleMultiplier($dominion);
         }
 
         // Tech: Magical Weaponry  (+15%)

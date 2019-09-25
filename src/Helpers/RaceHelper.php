@@ -68,7 +68,7 @@ WOODELF;
 <p>Arcane magic has given life to the beasts of the forest, which have been seen building villages in the forests of the Commonwealth.</p>
 <p>Beastfolk take shelter in the forests and excel at fighting on the open plains.</a>
 <hr />
-<p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
+<p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion. All bonuses except the OP and DP bonuses from Plains and Hills are increased by prestige.</p>
 <ul>
 <li>Platinum production increased by Mountains % (<em>Science</em>).</li>
 <li>Max population increased by Forest % (<em>Keep</em>).</li>

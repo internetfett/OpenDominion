@@ -193,10 +193,10 @@ class PopulationCalculator
         // Tech: Urban Mastery or Construction
         // todo
 
-        // Beastfolk: Forest
+        // Beastfolk: Forest increases population
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 1 * ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 1 * ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion))  * $this->militaryCalculator->getMoraleMultiplier($dominion);
         }
 
         // Prestige Bonus
