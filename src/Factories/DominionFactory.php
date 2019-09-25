@@ -64,6 +64,7 @@ class DominionFactory
         $startingResources['wizards'] = 25;
         $startingResources['archmages'] = 0;
         $startingResources['draft_rate'] = 10;
+        $startingResources['soul'] = 0;
 
 
         if((bool)$race->getPerkValue('cannot_construct'))
@@ -110,6 +111,7 @@ class DominionFactory
         elseif($race->name == 'Demon')
         {
           $startingResources['unit2'] = 250;
+          $startingResources['soul'] = 100;
         }
         elseif($race->name == 'Templars')
         {
@@ -174,7 +176,7 @@ class DominionFactory
 
             # New resources
             'resource_champion' => 0,
-            'resource_soul' => 0,
+            'resource_soul' => $startingResources['soul'],
             # End new resources
 
             'improvement_science' => 0,

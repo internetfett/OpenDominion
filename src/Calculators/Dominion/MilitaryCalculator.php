@@ -614,6 +614,43 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+
+    protected function getUnitPowerFromVersusLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    {
+        if ($target === null && empty($calc)) {
+            return 0;
+        }
+
+        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_land", null);
+        if(!$versusLandPerkData) {
+            return 0;
+        }
+
+        $buildingType = $versusLandPerkData[0];
+        $ratio = (int)$versusLandPerkData[1];
+        $max = (int)$versusLandPerkData[2];
+
+        $landPercentage = 0;
+        if (!empty($calc)) {
+            # Override building percentage for invasion calculator
+            if (isset($calc["{$landType}_percent"])) {
+                $landPercentage = (float) $calc["{$landType}_percent"];
+            }
+        } elseif ($target !== null) {
+            $totalLand = $this->landCalculator->getTotalLand($target);
+            $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
+        }
+
+        $powerFromLand = $landPercentage / $ratio;
+        if ($max < 0) {
+            $powerFromPerk = max(-1 * $powerFromLand, $max);
+        } else {
+            $powerFromPerk = min($powerFromLand, $max);
+        }
+
+        return $powerFromPerk;
+    }
+
     /**
      * Returns the Dominion's morale modifier.
      *
