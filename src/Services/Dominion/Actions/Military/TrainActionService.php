@@ -279,10 +279,20 @@ class TrainActionService
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
             // Specialists train in 9 hours
-            $nineHourData = [
-                'military_unit1' => $data['military_unit1'],
-                'military_unit2' => $data['military_unit2'],
-            ];
+            # Only essence takes 9 hours to train for Lux.
+            if($dominion->race->name == 'Lux')
+            {
+              $nineHourData = [
+                  'military_unit1' => $data['military_unit1']
+              ];
+            }
+            else
+            {
+              $nineHourData = [
+                  'military_unit1' => $data['military_unit1'],
+                  'military_unit2' => $data['military_unit2'],
+              ];
+            }
             unset($data['military_unit1'], $data['military_unit2']);
 
             // Lux: Spell (reduce training times by 2 hours)
