@@ -71,8 +71,8 @@ class UnitHelper
             'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max +%2$s).',
             'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max +%2$s).',
 
-            'defense_vs_building' => 'Defense decreased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
-            'offense_vs_building' => 'Offense decreased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
+            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
+            'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 
             'defense_vs_goblin' => 'Defense increased by %s against goblins.',
             'offense_vs_goblin' => 'Offense increased by %s against goblins.',
@@ -120,6 +120,9 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
+
+
+            'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',
