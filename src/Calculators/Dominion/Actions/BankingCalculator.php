@@ -65,7 +65,7 @@ class BankingCalculator
             ],
             'resource_food' => [
                 'label' => 'Food',
-                'buy' => 2.0,
+                'buy' => 4.0,
                 'sell' => 0.0,
                 'max' => $dominion->resource_food,
             ],
