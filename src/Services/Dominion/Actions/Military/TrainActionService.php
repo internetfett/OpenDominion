@@ -268,6 +268,7 @@ class TrainActionService
             $dominion->resource_boats -= $totalCosts['boat'];
             $dominion->resource_champion -= $totalCosts['champion'];
             $dominion->resource_soul -= $totalCosts['soul'];
+            $dominion->morale -= $totalCosts['morale'];
 
             $dominion->military_unit1 -= $totalCosts['unit1'];
             $dominion->military_unit2 -= $totalCosts['unit2'];
@@ -386,7 +387,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace('And', 'and', ucwords($trainingCostsString))
+            str_replace(' Morale', '% Morale,', str_replace('And', 'and', ucwords($trainingCostsString)))
         );
 
         return $message;
