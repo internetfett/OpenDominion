@@ -42,7 +42,6 @@ units:
       platinum: 1000
       mana: 100
       soul: 1
-      prestige: 1
       gem: 10
     power:
       offense: 6
