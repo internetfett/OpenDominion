@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <div style="margin-bottom: 20px;">
-                <img src="{{ asset('assets/app/images/opendominion.png') }}" class="img-responsive" alt="OpenDominion">
+                <img src="{{ asset('assets/app/images/odarena.png') }}" class="img-responsive" alt="OD Arena">
             </div>
         </div>
     </div>
@@ -100,10 +100,10 @@
         <div class="col-sm-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Welcome to OpenDominion Arena!</h3>
+                    <h3 class="box-title">Welcome to OD Arena!</h3>
                 </div>
                 <div class="box-body">
-                    <p>OpenDominion Arena is a clone and fork of <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, which is a free online text-based strategy game in a medieval fantasy setting. You control a dominion and your goal is to become the largest dominion in the current round.</p>
+                    <p>OD Arena is a clone and fork of <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, which is a free online text-based strategy game in a medieval fantasy setting. You control a dominion and your goal is to become the largest dominion in the current round.</p>
 
                     <p>To start playing, <a href="{{ route('auth.register') }}">register</a> an account and sign up for a round after registration. If you already have an account, <a href="{{ route('auth.login') }}">login</a> instead.</p>
 

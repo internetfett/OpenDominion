@@ -14,7 +14,7 @@
     <meta property="og:description" content="OD Arena is a free text-based strategic game in a medieval fantasy setting. Control a dominion and fight to become the largest!" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ config('app.url') }}" />
-    <meta property="og:image" content="{{ asset('assets/app/images/opendominion.png') }}" />
+    <meta property="og:image" content="{{ asset('assets/app/images/odarena.png') }}" />
     <meta property="og:image:width" content="1222" />
     <meta property="og:image:height" content="243" />
 
