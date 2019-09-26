@@ -432,9 +432,9 @@ class TickService
             {
                 $tick->morale = min(3, 100 - $dominion->morale);
             }
-            elseif  ($dominion->morale > 100)
+            elseif($dominion->morale > 100)
             {
-              $tick->morale = min(2, $dominion->morale - 100);
+              $tick->morale -= min(2, $dominion->morale - 100);
             }
         }
 

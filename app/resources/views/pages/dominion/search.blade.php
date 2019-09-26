@@ -143,7 +143,10 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    box body
+                    <p>Use the search to find dominions matching certain criteria.</p>
+                    <p>The grey button labelled 40% pre-fills the land min and land max with dominions 40%-250% your range.</p>
+                    <p>The green button labelled 60% pre-fills the land min and land max with dominions 60%-166% your range: Royal Guard range.</p>
+                    <p>The grey button labelled 75% pre-fills the land min and land max with dominions 75%-133% your range: Elite Guard range</p>
                 </div>
             </div>
         </div>
@@ -173,7 +176,7 @@
                 var landMin = parseInt($('input[name=landMin]').val());
                 var landMax = parseInt($('input[name=landMax]').val());
                 var land = parseFloat(data[3]) || 0;
-        
+
                 if (!(isNaN(landMin) && isNaN(landMax)) &&
                     !(isNaN(landMin) && land <= landMax) &&
                     !(landMin <= land && isNaN(landMax)) &&
@@ -185,7 +188,7 @@
                 var nwMin = parseInt($('input[name=networthMin]').val());
                 var nwMax = parseInt($('input[name=networthMax]').val());
                 var nw = parseFloat(data[4]) || 0;
-        
+
                 if (!(isNaN(nwMin) && isNaN(nwMax)) &&
                     !(isNaN(nwMin) && nw <= nwMax) &&
                     !(nwMin <= nw && isNaN(nwMax)) &&

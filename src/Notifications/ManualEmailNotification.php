@@ -60,7 +60,7 @@ class ManualEmailNotification extends Notification implements ShouldQueue
     public function toMail(User $user): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->replyTo('email@wavehack.net', 'WaveHack')
+            ->replyTo('info@odarena.com', 'OD Arena')
             ->subject($this->subject)
             ->greeting($this->greeting);
 

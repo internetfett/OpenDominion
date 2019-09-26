@@ -633,13 +633,13 @@ class MilitaryCalculator
             return 0;
         }
 
-        $buildingType = $versusLandPerkData[0];
+        $landType = $versusLandPerkData[0];
         $ratio = (int)$versusLandPerkData[1];
         $max = (int)$versusLandPerkData[2];
 
         $landPercentage = 0;
         if (!empty($calc)) {
-            # Override building percentage for invasion calculator
+            # Override land percentage for invasion calculator
             if (isset($calc["{$landType}_percent"])) {
                 $landPercentage = (float) $calc["{$landType}_percent"];
             }

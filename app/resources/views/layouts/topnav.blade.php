@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>@yield('title', 'OpenDominion Arena')</title>
+    <title>@yield('title', 'OD Arena')</title>
 
     <link rel="author" href="{{ asset('humans.txt') }}" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,7 +14,7 @@
     <meta property="og:description" content="OD Arena is a free text-based strategic game in a medieval fantasy setting. Control a dominion and fight to become the largest!" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ config('app.url') }}" />
-    <meta property="og:image" content="{{ asset('assets/app/images/opendominion.png') }}" />
+    <meta property="og:image" content="{{ asset('assets/app/images/odarena.png') }}" />
     <meta property="og:image:width" content="1222" />
     <meta property="og:image:height" content="243" />
 

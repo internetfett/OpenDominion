@@ -29,8 +29,8 @@ class ApiController extends Controller
                 })->count(),
             ],
             'links' => [
-                'beta' => 'https://beta.opendominion.net',
-                'github' => 'https://github.com/WaveHack/OpenDominion',
+                'beta' => 'https://odarena.com',
+                'github' => 'https://github.com/Dr-Eki/OpenDominion',
             ],
         ];
     }

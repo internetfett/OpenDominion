@@ -6,14 +6,14 @@ require 'recipe/laravel.php';
 
 // Config
 
-set('repository', 'git@github.com:WaveHack/OpenDominion.git');
+set('repository', 'git@github.com:Dr-Eki/OpenDominion.git');
 set('branch', 'master');
 
 set('ssh_multiplexing', false);
 
 // Hosts
 
-host('opendominion.net')
+host('odarena.com')
     ->set('deploy_path', '/var/www/opendominion.net')
     ->configFile('~/.ssh/config');
 

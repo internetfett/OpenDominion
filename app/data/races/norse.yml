@@ -25,6 +25,7 @@ units:
       defense: 3
     perks:
       true_immortal: 1
+      reduce_combat_losses: 1
   - name: Valkyrja
     need_boat: false
     cost:
@@ -35,7 +36,8 @@ units:
       offense: 5
       defense: 5
     perks:
-      true_immortal: 1
+      fewer_casualties_offense: 50
+      fewer_casualties_defense: 25
   - name: Einherjar
     need_boat: true
     cost:
