@@ -55,7 +55,7 @@ class HourlyEmailDigestNotification extends Notification implements ShouldQueue
     public function toMail(Dominion $dominion): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->replyTo('email@wavehack.net', 'WaveHack')
+            ->replyTo('info@odarena.com', 'ODArena')
             ->subject($this->getSubject())
             ->greeting('Hourly Report for ' . $this->now->format('D, M j, Y H:00'))
             ->line('Hello ' . $dominion->user->display_name . '!')
@@ -71,7 +71,7 @@ class HourlyEmailDigestNotification extends Notification implements ShouldQueue
 
         $mailMessage = $mailMessage->line('You are receiving this email because you have turned on email notifications for one or more of the above events.')
             ->line('To unsubscribe, please update your notification settings at: ' . route('settings'))
-            ->salutation('-OpenDominion');
+            ->salutation('-OD Arena');
 
         return $mailMessage;
     }

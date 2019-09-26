@@ -55,7 +55,7 @@ class IrregularDominionEmailNotification extends Notification implements ShouldQ
     public function toMail(Dominion $dominion): MailMessage
     {
         $mailMessage = (new MailMessage)
-            ->replyTo('email@wavehack.net', 'WaveHack')
+            ->replyTo('info@odarena.com', 'OD Arena')
             ->subject($this->getSubject())
             ->greeting('Irregular Dominion Event(s) at ' . $this->now->format('D, M j, Y H:00'))
             ->line('Hello ' . $dominion->user->display_name . '!')
@@ -71,7 +71,7 @@ class IrregularDominionEmailNotification extends Notification implements ShouldQ
 
         $mailMessage = $mailMessage->line('You are receiving this email because you have turned on email notifications for one or more of the above events.')
             ->line('To unsubscribe, please update your notification settings at: ' . route('settings'))
-            ->salutation('-OpenDominion');
+            ->salutation('-OD Arena');
 
         return $mailMessage;
     }
@@ -79,7 +79,7 @@ class IrregularDominionEmailNotification extends Notification implements ShouldQ
     // todo: move to parent abstract class
     protected function getSubject(): string
     {
-        $subjectParts[] = '[OD]';
+        $subjectParts[] = '[ODA]';
 
         $amountNotifications = count($this->notifications);
         if ($amountNotifications > 1) {
