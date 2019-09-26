@@ -126,7 +126,7 @@
         </div>
 
         <div class="col-sm-3">
-            <img src="{{ asset('assets/app/images/knight.jpg') }}" class="img-responsive" alt="">
+            <img src="{{ asset('assets/app/images/odarena-icon.png') }}" class="img-responsive" alt="">
         </div>
 
     </div>
