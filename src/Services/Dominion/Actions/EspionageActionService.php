@@ -688,7 +688,7 @@ class EspionageActionService
         $maxTarget = true;
         if($resource == 'draftees')
         {
-            $maxTarget = intval($target->draftees * 0.01);
+            $maxTarget = intval($target->military_draftees * 0.01);
         }
         elseif($resource == 'peasants')
         {
