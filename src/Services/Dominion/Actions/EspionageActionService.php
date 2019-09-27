@@ -614,7 +614,7 @@ class EspionageActionService
         }
         elseif($resource == 'peasants')
         {
-            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
                 $dominion->{"{$resource}"} += $amountStolen;
                 $dominion->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
@@ -630,7 +630,7 @@ class EspionageActionService
         }
         else
         {
-            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
                 $dominion->{"resource_{$resource}"} += $amountStolen;
                 $dominion->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
