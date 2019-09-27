@@ -141,9 +141,9 @@ class EspionageActionService
         }
 
         if ($this->espionageHelper->isResourceTheftOperation($operationKey)) {
-#            if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START) {
-#                throw new GameException('You cannot perform resource theft for the first two days of the round');
-#            }
+            if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START) {
+                throw new GameException('You cannot perform resource theft for the first two days of the round');
+            }
             #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
             if (!$this->rangeCalculator->isInRange($dominion, $target)) {
                 throw new GameException('You cannot perform resource theft on targets outside of your range');
@@ -598,7 +598,7 @@ class EspionageActionService
         # Different logic for abducting draftees or peasants.
         if($resource == 'draftees')
         {
-            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen) {
+            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
                 $dominion->{"miliary_{$resource}"} += $amountStolen;
                 $dominion->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
