@@ -339,7 +339,7 @@ class DominionFactory
             'water' => $startingBarrenLand['water'],
         ];
 
-        $startingLand[$race->home_land_type] += $startingBuildings['home'];
+        #$startingLand[$race->home_land_type] += $startingBuildings['home'];
 
         return $startingLand;
     }
