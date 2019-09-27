@@ -605,7 +605,7 @@ class EspionageActionService
                     'action' => $operationKey
                 ]);
 
-                $target->{"miliary_{$resource}"} -= $amountStolen;
+                $target->{"military_{$resource}"} -= $amountStolen;
                 $target->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                     'action' => $operationKey
