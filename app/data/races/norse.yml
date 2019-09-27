@@ -25,7 +25,6 @@ units:
       defense: 3
     perks:
       true_immortal: 1
-      reduce_combat_losses: 1
   - name: Valkyrja
     need_boat: false
     cost:
