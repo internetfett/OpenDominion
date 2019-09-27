@@ -599,7 +599,7 @@ class EspionageActionService
         if($resource == 'draftees')
         {
             DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
-                $dominion->{"miliary_{$resource}"} += $amountStolen;
+                $dominion->{"military_{$resource}"} += $amountStolen;
                 $dominion->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                     'action' => $operationKey
