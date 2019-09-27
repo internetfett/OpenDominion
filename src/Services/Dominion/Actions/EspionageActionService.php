@@ -102,7 +102,7 @@ class EspionageActionService
         $this->spellCalculator = app(SpellCalculator::class);
     }
 
-    public const THEFT_DAYS_AFTER_ROUND_START = 1;
+    public const THEFT_DAYS_AFTER_ROUND_START = 1; # Any changes here must also be done in espionage.blade.php.
 
     /**
      * Performs a espionage operation for $dominion, aimed at $target dominion.
@@ -142,7 +142,7 @@ class EspionageActionService
 
         if ($this->espionageHelper->isResourceTheftOperation($operationKey)) {
             if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START) {
-                throw new GameException('You cannot perform resource theft for the first seven days of the round');
+                throw new GameException('You cannot perform resource theft for the first two days of the round');
             }
             #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
             if (!$this->rangeCalculator->isInRange($dominion, $target)) {
