@@ -35,8 +35,8 @@ units:
     perks:
       defense_from_prestige: 400,3 # amount, max
       mana_production: 5
-      counts_as_wizard_offense: 0.3
-      counts_as_wizard_defense: 0.3
+      counts_as_wizard_offense: 0.30
+      counts_as_wizard_defense: 0.15
   - name: Warboss
     cost:
       platinum: 1400

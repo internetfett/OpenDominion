@@ -34,7 +34,7 @@ units:
     perks:
       conversion: 4
       counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.25
+      counts_as_wizard_defense: 0.15
   - name: Reaper
     need_boat: true
     cost:

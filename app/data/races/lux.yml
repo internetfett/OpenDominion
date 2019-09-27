@@ -60,7 +60,6 @@ units:
     perks:
       no_draftee: 1
       true_immortal: 1
-      conversion: 1
       counts_as_wizard_offense: 0.1618
       counts_as_wizard_defense: 0.1618
       counts_as_spy_offense: 0.1618
