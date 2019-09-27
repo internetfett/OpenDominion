@@ -57,6 +57,8 @@ class DominionFactory
         $startingResources['platinum'] += $platForTroops;
         $startingResources['ore'] = intval($platForTroops * 0.15); # For troops: 15% of plat for troops in ore
 
+        $startingResources['gems'] = 20000;
+
         $startingResources['lumber'] = 355000; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500
 
         $startingResources['food'] = 50000; # 1000*15*0.25*24 = 90,000 + 8% Farms
@@ -86,6 +88,12 @@ class DominionFactory
         if(in_array($race->name, $boatFreeRaces))
         {
           $startingResources['boats'] = 0;
+        }
+        // For cannot_improve_castle races, replace Gems with Platinum.
+        if((bool)$race->getPerkValue('cannot_improve_castle'))
+        {
+          $startingResources['platinum'] += $startingResources['gems'] * 2;
+          $startingResources['gems'] = 0;
         }
 
 
@@ -147,7 +155,7 @@ class DominionFactory
             'resource_lumber' => $startingResources['lumber'],
             'resource_mana' => $startingResources['mana'],
             'resource_ore' => $startingResources['ore'],
-            'resource_gems' => 0,
+            'resource_gems' => $startingResources['gems'],
             'resource_tech' => 0,
             'resource_boats' => $startingResources['boats'],
 
@@ -244,7 +252,7 @@ class DominionFactory
      */
     protected function getStartingBarrenLand($race): array
     {
-        if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
+        if((bool)$race->getPerkValue('cannot_construct'))
         {
           if($race->name == 'Void')
           {
@@ -274,13 +282,13 @@ class DominionFactory
         else
         {
             return [
-                'plain' => 40,
-                'mountain' => 20,
-                'swamp' => 20,
-                'cavern' => 20,
-                'forest' => 20,
-                'hill' => 20,
-                'water' => 20,
+                'plain' => 150,
+                'mountain' => 150,
+                'swamp' => 150,
+                'cavern' => 150,
+                'forest' => 150,
+                'hill' => 150,
+                'water' => 100,
             ];
         }
     }
