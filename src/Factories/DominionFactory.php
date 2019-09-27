@@ -160,8 +160,8 @@ class DominionFactory
             'resource_boats' => $startingResources['boats'],
 
             # New resources
-            'resource_champion' => $startingResources['champion'],
-            'resource_soul' => $startingResources['soul'],
+            'resource_champion' => 0,
+            'resource_soul' => 0,
             # End new resources
 
             'improvement_science' => 0,
