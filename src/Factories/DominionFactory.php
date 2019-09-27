@@ -65,32 +65,32 @@ class DominionFactory
         $startingResources['boats'] = 200;
 
         // Gnome and Imperial Gnome: triple the ore and remove 1/3 of platinum
-        if($dominion->race->name == 'Gnome' or $dominion->race->name == 'Imperial Gnome')
+        if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
         {
           $startingResources['ore'] = intval($startingResources['ore'] * 3);
           $startingResources['platinum'] *= intval($startingResources['platinum'] * (1/3));
         }
         // Ore-free races
         $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Undead','Void');
-        if(in_array($dominion->race->name, $oreFreeRaces))
+        if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
         }
         // Food-free races
-        if($dominion->race->getPerkMultiplier('food_consumption') == -1)
+        if($race->getPerkMultiplier('food_consumption') == -1)
         {
           $startingResources['food'] = 0;
         }
         // Boat-free races
         $boatFreeRaces = array('Lux','Merfolk','Spirit','Dragon','Growth','Lizardfolk','Undead','Void');
-        if(in_array($dominion->race->name, $boatFreeRaces))
+        if(in_array($race->name, $boatFreeRaces))
         {
           $startingResources['boats'] = 0;
         }
 
 
         # MILITARY
-        $startingResources['peasants'] = intval(1000 * 15 * (1 + $dominion->race->getPerkMultiplier('max_population')));
+        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')));
         $startingResources['draftees'] = intval($startingResources['peasants'] * 0.20));
         $startingResources['peasants'] -= intval($startingResources['draftees']);
         $startingResources['draft_rate'] = 40;
