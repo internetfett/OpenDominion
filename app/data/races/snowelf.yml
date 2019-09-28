@@ -1,0 +1,49 @@
+name: Snow Elf
+alignment: good
+home_land_type: mountain
+perks:
+  mana_production: 10
+  food_consumption: -25
+units:
+  - name: Arbalist
+    need_boat: false
+    cost:
+      platinum: 500
+      ore: 75
+      lumber: 100
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      immortal: 1
+  - name: Ice Boulder
+    cost:
+      platinum: 225
+    power:
+      offense: 1
+      defense: 0
+    perks:
+      offense_from_pairing: 99,3 # slot, amount
+      defense_from_pairing: 99,3
+      fixed_casualties: 100
+  - name: Trebuchet
+    need_boat: true
+    cost:
+      platinum: 10000
+      lumber: 2000
+    power:
+      offense: 1
+      defense: 1
+    perks:
+      fewer_casualties: 50
+  - name: Yeti
+    need_boat: true
+    cost:
+      gryphon_nest: 1
+    power:
+      offense: 7
+      defense: 7
+    perks:
+      no_draftee: 1
+      offense_vs_land: mountain,10,2 # land type, ratio%, max
+      min_power_to_kill: 6 # Only units with 6 raw OP (defending) or 6 raw DP (invading) can kill Yeti
