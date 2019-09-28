@@ -747,51 +747,64 @@ class ProductionCalculator
          * Returns the Dominion's wild yeti production per hour.
          *
          * Boats are produced by:
-         * - Building: Dock (20 per)
+         * - Building: Gryphon Nest (1 per)
          *
          * @param Dominion $dominion
          * @return float
          */
-        public function getWildYetiProductionRaw(Dominion $dominion): float
+        public function getWildYetiProduction(Dominion $dominion): float
         {
+            if(!$dominion->race->getPerkValue('gryphon_nests_generates_wild_yetis'))
+            {
+              return 0;
+            }
+
             $wildYetis = 0;
 
             // Values
             $wildYetisPerGryphonNest = 1;
 
-            $wildYetis += ($dominion->building_gryphon_nest / $wildYetisPerGryphonNest);
+            $wildYetis += intval($dominion->building_gryphon_nest / $wildYetisPerGryphonNest);
 
-            return $boats;
+            // Void: Spell (remove DP reduction from Temples)
+            if ($this->spellCalculator->isSpellActive($target, 'gryphons_call'))
+            {
+              $wildYetis = $wildYetis * 3;
+            }
+
+            return $wildYetis;
         }
 
         /**
-         * Returns the Dominions's boat production multiplier.
+         * Returns the Dominion's wild yeti escapees.
          *
-         * Boat production is modified by:
-         * - Improvement: Harbor
+         * Between 0% and 5% wild yetis escape.
          *
          * @param Dominion $dominion
          * @return float
          */
-        public function getWildYetiProductionMultiplier(Dominion $dominion): float
+        public function getWildYetiEscaped(Dominion $dominion): float
         {
-            $multiplier = 0;
+            $escaped = 0;
 
-            // Improvement: Harbor
-            $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
+            // Escaped percentage
+            $escaped = rand(0,5);
 
-            // Beastfolk: Water increases boat production.
-            if($dominion->race->name == 'Beastfolk')
-            {
-              $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
-            }
+            $escaped += intval(($dominion->resource_mana * ($escaped / 100)));
 
-            // Apply Morale multiplier to production multiplier
-            $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
-
-            return (1 + $multiplier);
+            return $escaped;
         }
 
+        /**
+         * Returns the Dominion's net wild yeti change.
+         *
+         * @param Dominion $dominion
+         * @return int
+         */
+        public function getWildYetiNetChange(Dominion $dominion): int
+        {
+            return round($this->getWildYetiProductionRaw($dominion) - $this->getWildYetiEscaped($dominion));
+        }
 
     //</editor-fold>
 }

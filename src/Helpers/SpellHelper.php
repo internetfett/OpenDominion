@@ -137,15 +137,15 @@ class SpellHelper
                 'name' => 'Crusade',
                 'description' => '+5% offensive power and allows you to kill Spirit/Undead',
                 'key' => 'crusade',
-                'mana_cost' => 9,
+                'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Human','Dragon','Templars']),
+                'races' => collect(['Human', 'Sacred Order']),
             ],
             [
                 'name' => 'Miner\'s Sight',
                 'description' => '+20% ore production (not cumulative with Mining Strength)',
                 'key' => 'miners_sight',
-                'mana_cost' => 10,
+                'mana_cost' => 8,
                 'duration' => 12*4,
                 'races' => collect(['Dwarf', 'Gnome']),
             ],
@@ -175,43 +175,19 @@ class SpellHelper
             ],
             [
                 'name' => 'Blizzard',
-                'description' => '+15% defensive strength (not cumulative with Ares Call)',
+                'description' => '+15% defensive strength (not cumulative with Ares\'s Call)',
                 'key' => 'blizzard',
                 'mana_cost' => 10,
                 'duration' => 12*4,
                 'races' => collect(['Icekin']),
             ],
-            /*[
-                'name' => 'Mechanical Genius',
-                'description' => '30% reduction of re-zoning costs',
-                'key' => 'mechanical_genius',
-                'mana_cost' => 5,
-                'duration' => 12,
-                'races' => collect(['Gnome']),
-            ],*/
             [
                 'name' => 'Bloodrage',
                 'description' => '+10% offensive strength, +10% offensive casualties',
                 'key' => 'bloodrage',
-                'mana_cost' => 10,
+                'mana_cost' => 8,
                 'duration' => 12*4,
                 'races' => collect(['Orc', 'Black Orc']),
-            ],
-            /*[
-                'name' => 'Mechanical Genius',
-                'description' => '30% reduction of re-zoning costs',
-                'key' => 'mechanical_genius',
-                'mana_cost' => 5,
-                'duration' => 12,
-                'races' => collect(['Gnome']),
-            ],*/
-            [
-                'name' => 'Bloodrage',
-                'description' => '+10% offensive strength, +10% offensive casualties',
-                'key' => 'bloodrage',
-                'mana_cost' => 5,
-                'duration' => 12,
-                'races' => collect(['Orc']),
             ],
             [
                 'name' => 'Unholy Ghost',
@@ -219,11 +195,11 @@ class SpellHelper
                 'key' => 'unholy_ghost',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Dark Elf']),
+                'races' => collect(['Dark Elf', 'Dragon']),
             ],
             [
                 'name' => 'Defensive Frenzy',
-                'description' => '+20% defensive strength (not cumulative with Ares Call)',
+                'description' => '+20% defensive strength (not cumulative with Ares\'s Call)',
                 'key' => 'defensive_frenzy',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -231,15 +207,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Howling',
-                'description' => '+10% offensive strength, +10% defensive strength (not cumulative with Ares Call)',
-                'key' => 'howling',
-                'mana_cost' => 5,
-                'duration' => 12,
-                'races' => collect(['Kobold']),
-            ],
-            [
-                'name' => 'Howling',
-                'description' => '+10% offensive strength, +10% defensive strength (not cumulative with Ares Call)',
+                'description' => '+10% offensive strength, +10% defensive strength (not cumulative with Ares\'s Call)',
                 'key' => 'howling',
                 'mana_cost' => 5,
                 'duration' => 12,
@@ -251,7 +219,7 @@ class SpellHelper
                 'key' => 'warsong',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Sylvan']),
+                'races' => collect(['Sylvan', 'Templars']),
             ],
             [
                 'name' => 'Regeneration',
@@ -259,7 +227,7 @@ class SpellHelper
                 'key' => 'regeneration',
                 'mana_cost' => 10,
                 'duration' => 12,
-                'races' => collect(['Troll']),
+                'races' => collect(['Troll'], ['Afflicted']),
             ],
             [
                 'name' => 'Parasitic Hunger',
@@ -275,7 +243,7 @@ class SpellHelper
                 'key' => 'gaias_blessing',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Wood Elf','Sacred Order']),
+                'races' => collect(['Wood Elf']),
             ],
             [
                 'name' => 'Nightfall',
@@ -354,7 +322,7 @@ class SpellHelper
                 'key' => 'fimbulwinter',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['NorseXX']),
+                'races' => collect(['Norse']),
             ],
 
             [
@@ -374,7 +342,6 @@ class SpellHelper
                 'duration' => 6*4,
                 'races' => collect(['Demon']),
             ],
-
             [
                 'name' => 'Aurora',
                 'description' => 'Reduces unit training times by 2 ticks.',
@@ -382,6 +349,14 @@ class SpellHelper
                 'mana_cost' => 6,
                 'duration' => 6*4, # Half a day
                 'races' => collect(['Lux']),
+            ],
+            [
+                'name' => 'Gryphon\'s Call',
+                'description' => 'Triples yeti trapping. Removes offensive power bonus from Gryphon Nests.',
+                'key' => 'gryphons_call',
+                'mana_cost' => 6,
+                'duration' => 3*4, # Quarter day
+                'races' => collect(['Snow Elf']),
             ],
 
         ]);
@@ -401,7 +376,7 @@ class SpellHelper
                 'name' => 'Clear Sight',
                 'description' => 'Reveal status screen',
                 'key' => 'clear_sight',
-                'mana_cost' => 0.4,
+                'mana_cost' => 0.3,
             ],
 //            [
 //                'name' => 'Vision',
@@ -413,13 +388,13 @@ class SpellHelper
                 'name' => 'Revelation',
                 'description' => 'Reveal active spells',
                 'key' => 'revelation',
-                'mana_cost' => 1,
+                'mana_cost' => 0.75,
             ],
             [
                 'name' => 'Clairvoyance',
                 'description' => 'Reveal realm town crier',
                 'key' => 'clairvoyance',
-                'mana_cost' => 1,
+                'mana_cost' => 0.75,
             ],
 //            [
 //                'name' => 'Disclosure',

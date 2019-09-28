@@ -116,6 +116,10 @@ class TickService
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+
+                        # ODA resources
+                        'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
+
                         'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
                         'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1'),
                         'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2'),
@@ -377,6 +381,11 @@ class TickService
         $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
         $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
         $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
+
+        # ODA: wild yeti production
+        $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
+        $tick->resource_resource_wild_yeti_production += $this->productionCalculator->getWildYetiNetChange($dominion);
+
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
