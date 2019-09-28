@@ -227,7 +227,7 @@ class SpellHelper
                 'key' => 'regeneration',
                 'mana_cost' => 10,
                 'duration' => 12,
-                'races' => collect(['Troll'], ['Afflicted']),
+                'races' => collect(['Troll', 'Afflicted']),
             ],
             [
                 'name' => 'Parasitic Hunger',
