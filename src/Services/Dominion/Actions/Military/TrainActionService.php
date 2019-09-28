@@ -192,7 +192,6 @@ class TrainActionService
           throw new GameException('Insufficient units to train this unit.');
         }
 
-
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
@@ -270,6 +269,7 @@ class TrainActionService
             $dominion->resource_boats -= $totalCosts['boat'];
             $dominion->resource_champion -= $totalCosts['champion'];
             $dominion->resource_soul -= $totalCosts['soul'];
+            $dominion->building_gryphon_nest -= $totalCosts['gryphon_nest'];
             $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
 
             $dominion->military_unit1 -= $totalCosts['unit1'];
@@ -400,7 +400,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace('Gryphon_nest','Gryphon Net',str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString))))
+            str_replace('Gryphon_nest','Gryphon Nest',str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString))))
         );
 
         return $message;
