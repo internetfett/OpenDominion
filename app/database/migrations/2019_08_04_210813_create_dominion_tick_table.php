@@ -33,6 +33,7 @@ class CreateDominionTickTable extends Migration
             $table->integer('resource_tech')->default(0);
             $table->float('resource_boats')->default(0);
             $table->integer('resource_wild_yeti')->default(0);
+            $table->integer('resource_wild_yeti_production')->default(0);
             $table->integer('military_draftees')->default(0);
             $table->integer('military_unit1')->default(0);
             $table->integer('military_unit2')->default(0);

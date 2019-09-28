@@ -11,28 +11,28 @@ units:
     need_boat: true
     cost:
       platinum: 500
-      ore: 75
-      lumber: 10
+      ore: 50
+      lumber: 5
     power:
       offense: 4
       defense: 4
   - name: Ice Boulder
     need_boat: false
     cost:
-      platinum: 10000
-      mana: 500
+      platinum: 1000
+      mana: 100
     power:
       offense: 1
       defense: 1
     perks:
-      offense_from_pairing: 3,99 # slot, amount
-      defense_from_pairing: 3,99
+      offense_from_pairing: 3,20 # slot, amount
+      defense_from_pairing: 3,20
       fixed_casualties: 100
   - name: Trebuchet
     need_boat: false
     cost:
-      platinum: 10000
-      lumber: 2000
+      platinum: 1000
+      lumber: 100
     power:
       offense: 1
       defense: 1
