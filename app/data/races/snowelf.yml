@@ -18,13 +18,14 @@ units:
       immortal: 1
   - name: Ice Boulder
     cost:
-      platinum: 225
+      platinum: 10000
+      mana: 1000
     power:
       offense: 1
       defense: 0
     perks:
-      offense_from_pairing: 99,3 # slot, amount
-      defense_from_pairing: 99,3
+      offense_from_pairing: 3,99 # slot, amount
+      defense_from_pairing: 3,99
       fixed_casualties: 100
   - name: Trebuchet
     need_boat: true
