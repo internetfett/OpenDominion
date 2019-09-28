@@ -387,8 +387,8 @@ class TrainActionService
 
             $costType = str_singular($costType);
 #            if (!\in_array($costType, ['platinum', 'ore'], true)) {
-            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'morale'], true)) {
-
+            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'morale'], true))
+            {
                 $costType = str_plural($costType, $cost);
             }
             $trainingCostsStringParts[] = (number_format($cost) . ' ' . $costType);
@@ -400,7 +400,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString)))
+            str_replace('Gryphon_nest','Gryphon Net',str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString))))
         );
 
         return $message;
