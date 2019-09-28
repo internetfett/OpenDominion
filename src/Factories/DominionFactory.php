@@ -1,5 +1,7 @@
 <?php
 
+# 1000-acre factory
+
 namespace OpenDominion\Factories;
 
 use OpenDominion\Exceptions\GameException;
@@ -50,41 +52,84 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
-        $startingResources['platinum'] = 100000;
-        $startingResources['lumber'] = 15000;
-        $startingResources['food'] = 15000;
-        $startingResources['gems'] = 10000;
-        $startingResources['peasants'] = 1300;
+        # RESOURCES
+        $platForTroops = 2000000; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
+        $startingResources['platinum'] = 2000000; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500
+        $startingResources['platinum'] += 350000; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
+        $startingResources['platinum'] += $platForTroops;
+        $startingResources['ore'] = intval($platForTroops * 0.15); # For troops: 15% of plat for troops in ore
+
+        $startingResources['gems'] = 20000;
+
+        $startingResources['lumber'] = 355000; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500
+
+        $startingResources['food'] = 50000; # 1000*15*0.25*24 = 90,000 + 8% Farms
+        $startingResources['mana'] = 20000; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
+
+        $startingResources['boats'] = 200;
+
+        // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
+        if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
+        {
+          $startingResources['ore'] = intval($startingResources['ore'] * 3);
+          $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
+        }
+        // Ore-free races
+        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Undead','Void');
+        if(in_array($race->name, $oreFreeRaces))
+        {
+          $startingResources['ore'] = 0;
+        }
+        // Food-free races
+        if($race->getPerkMultiplier('food_consumption') == -1)
+        {
+          $startingResources['food'] = 0;
+        }
+        // Boat-free races
+        $boatFreeRaces = array('Lux','Merfolk','Spirit','Dragon','Growth','Lizardfolk','Undead','Void');
+        if(in_array($race->name, $boatFreeRaces))
+        {
+          $startingResources['boats'] = 0;
+        }
+        // For cannot_improve_castle races, replace Gems with Platinum.
+        if((bool)$race->getPerkValue('cannot_improve_castle'))
+        {
+          $startingResources['platinum'] += $startingResources['gems'] * 2;
+          $startingResources['gems'] = 0;
+        }
+        // Mana-cost races
+        $boatFreeRaces = array('Lux','Demon','Norse','Undead','Void');
+        if(in_array($race->name, $boatFreeRaces))
+        {
+          $startingResources['mana'] *= 2;
+        }
+
+
+        # POPULATION AND MILITARY
+        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')));
+        $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
+        $startingResources['peasants'] -= intval($startingResources['draftees']);
+        $startingResources['draft_rate'] = 40;
+
         $startingResources['unit1'] = 0;
-        $startingResources['unit2'] = 150;
+        $startingResources['unit2'] = 0;
         $startingResources['unit3'] = 0;
         $startingResources['unit4'] = 0;
-        $startingResources['draftees'] = 100;
-        $startingResources['spies'] = 25;
-        $startingResources['wizards'] = 25;
-        $startingResources['archmages'] = 0;
-        $startingResources['draft_rate'] = 10;
-        $startingResources['soul'] = 0;
-
+        $startingResources['spies'] = 0;
 
         if((bool)$race->getPerkValue('cannot_construct'))
         {
           if($race->name == 'Void')
           {
-            $startingResources['platinum'] = 200000;
             $startingResources['lumber'] = 0;
             $startingResources['food'] = 0;
-            $startingResources['gems'] = 0;
-            $startingResources['peasants'] = 1000;
-            $startingResources['unit2'] = 500;
           }
           elseif($race->name == 'Growth')
           {
             $startingResources['platinum'] = 0;
             $startingResources['lumber'] = 0;
-            $startingResources['food'] = rand(400000,650000);
-            $startingResources['gems'] = 0;
-            $startingResources['peasants'] = rand(1500,2000);
+            $startingResources['food'] = intval($startingResources['food'] * rand(2,3.5));
+            $startingResources['peasants'] = 1000 * rand(10,20);
             $startingResources['unit1'] = rand(0,200);
             $startingResources['unit2'] = rand(0,200);
             $startingResources['unit3'] = rand(50,300);
@@ -92,58 +137,6 @@ class DominionFactory
             $startingResources['draftees'] = rand(100,1000);
             $startingResources['draft_rate'] = 100;
           }
-        }
-        elseif($race->name == 'Armada')
-        {
-          $startingResources['unit1'] = 100;
-          $startingResources['unit2'] = 10;
-        }
-        elseif($race->name == 'Imperial Gnome')
-        {
-          $startingResources['unit2'] = 120;
-        }
-        elseif($race->name == 'Spirit')
-        {
-          $startingResources['food'] = 0;
-          $startingResources['unit1'] = 100;
-          $startingResources['unit2'] = 10;
-        }
-        elseif($race->name == 'Demon')
-        {
-          $startingResources['unit2'] = 250;
-          $startingResources['soul'] = 100;
-        }
-        elseif($race->name == 'Templars')
-        {
-          $startingResources['unit2'] = 100;
-          $startingResources['unit3'] = 100;
-        }
-        elseif($race->name == 'Lux')
-        {
-          $startingResources['unit1'] = 100;
-          $startingResources['unit2'] = 0;
-        }
-
-
-        // For cannot_construct races, replace Gems with Platinum.
-        if((bool)$race->getPerkValue('cannot_improve_castle'))
-        {
-          $startingResources['platinum'] += $startingResources['gems'] * 2;
-          $startingResources['gems'] = 0;
-        }
-
-        // For cannot_train_x races, replace X with 0.
-        if((bool)$race->getPerkValue('cannot_train_spies'))
-        {
-          $startingResources['spies'] = 0;
-        }
-        if((bool)$race->getPerkValue('cannot_train_wizards'))
-        {
-          $startingResources['wizards'] = 0;
-        }
-        if((bool)$race->getPerkValue('cannot_train_archmages'))
-        {
-          $startingResources['archmages'] = 0;
         }
 
         return Dominion::create([
@@ -155,7 +148,7 @@ class DominionFactory
 
             'ruler_name' => $rulerName,
             'name' => $dominionName,
-            'prestige' => 250,
+            'prestige' => 500,
 
             'peasants' => $startingResources['peasants'],
             'peasants_last_hour' => 0,
@@ -168,15 +161,15 @@ class DominionFactory
             'resource_platinum' => $startingResources['platinum'],
             'resource_food' =>  $startingResources['food'],
             'resource_lumber' => $startingResources['lumber'],
-            'resource_mana' => 0,
-            'resource_ore' => 0,
+            'resource_mana' => $startingResources['mana'],
+            'resource_ore' => $startingResources['ore'],
             'resource_gems' => $startingResources['gems'],
             'resource_tech' => 0,
-            'resource_boats' => 0,
+            'resource_boats' => $startingResources['boats'],
 
             # New resources
             'resource_champion' => 0,
-            'resource_soul' => $startingResources['soul'],
+            'resource_soul' => 0,
             # End new resources
 
             'improvement_science' => 0,
@@ -194,9 +187,9 @@ class DominionFactory
             'military_unit2' => $startingResources['unit2'],
             'military_unit3' => $startingResources['unit3'],
             'military_unit4' => $startingResources['unit4'],
-            'military_spies' => $startingResources['spies'],
-            'military_wizards' => $startingResources['wizards'],
-            'military_archmages' => $startingResources['archmages'],
+            'military_spies' => 0,
+            'military_wizards' => 0,
+            'military_archmages' => 0,
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
@@ -206,14 +199,14 @@ class DominionFactory
             'land_hill' => $startingLand['hill'],
             'land_water' => $startingLand['water'],
 
-            'building_home' => $startingBuildings['home'],
-            'building_alchemy' => $startingBuildings['alchemy'],
+            'building_home' => 0,
+            'building_alchemy' => 0,
             'building_farm' => $startingBuildings['farm'],
             'building_smithy' => 0,
             'building_masonry' => 0,
             'building_ore_mine' => 0,
             'building_gryphon_nest' => 0,
-            'building_tower' => 0,
+            'building_tower' => $startingBuildings['tower'],
             'building_wizard_guild' => 0,
             'building_temple' => 0,
             'building_diamond_mine' => 0,
@@ -267,13 +260,13 @@ class DominionFactory
      */
     protected function getStartingBarrenLand($race): array
     {
-        if((bool)$race->getPerkValue('cannot_construct')) # Race dependent in the future if multiple non-construct races?
+        if((bool)$race->getPerkValue('cannot_construct'))
         {
           if($race->name == 'Void')
           {
             return [
                 'plain' => 0,
-                'mountain' => 250,
+                'mountain' => 1000,
                 'swamp' => 0,
                 'cavern' => 0,
                 'forest' => 0,
@@ -286,7 +279,7 @@ class DominionFactory
             return [
                 'plain' => 0,
                 'mountain' => 0,
-                'swamp' => 250,
+                'swamp' => 1000,
                 'cavern' => 0,
                 'forest' => 0,
                 'hill' => 0,
@@ -297,13 +290,13 @@ class DominionFactory
         else
         {
             return [
-                'plain' => 40,
-                'mountain' => 20,
-                'swamp' => 20,
-                'cavern' => 20,
-                'forest' => 20,
-                'hill' => 20,
-                'water' => 20,
+                'plain' => 150-80,
+                'mountain' => 150,
+                'swamp' => 150-50,
+                'cavern' => 150,
+                'forest' => 150-50,
+                'hill' => 150,
+                'water' => 100,
             ];
         }
     }
@@ -318,8 +311,7 @@ class DominionFactory
         if((bool)$race->getPerkValue('cannot_construct'))
         {
             return [
-                'home' => 0,
-                'alchemy' => 0,
+                'tower' => 0,
                 'farm' => 0,
                 'lumberyard' => 0,
             ];
@@ -327,10 +319,9 @@ class DominionFactory
         else
         {
             return [
-                'home' => 10,
-                'alchemy' => 30,
-                'farm' => 30,
-                'lumberyard' => 20,
+                'tower' => 50,
+                'farm' => 80,
+                'lumberyard' => 50,
             ];
         }
     }
@@ -347,16 +338,16 @@ class DominionFactory
     protected function getStartingLand(Race $race, array $startingBarrenLand, array $startingBuildings): array
     {
         $startingLand = [
-            'plain' => $startingBarrenLand['plain'] + $startingBuildings['alchemy'] + $startingBuildings['farm'],
+            'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'],
             'mountain' => $startingBarrenLand['mountain'],
-            'swamp' => $startingBarrenLand['swamp'],
+            'swamp' => $startingBarrenLand['swamp'] + + $startingBuildings['tower'],
             'cavern' => $startingBarrenLand['cavern'],
             'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'],
             'hill' => $startingBarrenLand['hill'],
             'water' => $startingBarrenLand['water'],
         ];
 
-        $startingLand[$race->home_land_type] += $startingBuildings['home'];
+        #$startingLand[$race->home_land_type] += $startingBuildings['home'];
 
         return $startingLand;
     }

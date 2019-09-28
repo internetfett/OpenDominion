@@ -267,7 +267,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Lycanthrope', 'Undead']),
+                'races' => collect(['Lycanthrope']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
@@ -350,11 +350,20 @@ class SpellHelper
 
             [
                 'name' => 'Fimbulwinter',
-                'description' => '',
+                'description' => 'Not yet implemented.',
                 'key' => 'fimbulwinter',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Norse']),
+                'races' => collect(['NorseXX']),
+            ],
+
+            [
+                'name' => 'Desecration',
+                'description' => 'Triples enemy draftees casualties. (Not yet implemented)',
+                'key' => 'Desecration',
+                'mana_cost' => 8,
+                'duration' => 12*4,
+                'races' => collect(['Undead']),
             ],
 
             [
