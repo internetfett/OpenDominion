@@ -26,7 +26,6 @@ units:
       defense: 1
     perks:
       offense_from_pairing: 3,20 # slot, amount
-      defense_from_pairing: 3,20
       fixed_casualties: 100
   - name: Trebuchet
     need_boat: false
@@ -34,10 +33,10 @@ units:
       platinum: 1000
       lumber: 100
     power:
-      offense: 1
-      defense: 1
+      offense: 0
+      defense: 0
     perks:
-      immortal: 1
+      true_immortal: 1
       faster_return: 11
   - name: Yeti
     need_boat: true

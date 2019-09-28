@@ -183,8 +183,6 @@ class TrainingCalculator
                         $cost['wild_yeti'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wild_yeti'));
                     }
 
-                    #if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
-
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
                     {
                       $cost['draftees'] = 0;
