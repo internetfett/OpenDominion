@@ -7,7 +7,9 @@ use OpenDominion\Models\Dominion;
 
 class ProtectionService
 {
-    public const PROTECTION_DURATION_IN_HOURS = 18; // Changed to 18 for Arena
+    # Protection in ODA is 6 hours.
+    # 6 hours = 24 ticks
+    public const PROTECTION_DURATION_IN_HOURS = 6; // Changed 6 for Arena
 
     /**
      * Returns the Dominion's 'under protection' start date.

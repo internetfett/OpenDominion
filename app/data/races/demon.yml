@@ -41,7 +41,7 @@ units:
     need_boat: true
     cost:
       platinum: 1000
-      mana: 50
+      mana: 30
       soul: 3
     power:
       offense: 8

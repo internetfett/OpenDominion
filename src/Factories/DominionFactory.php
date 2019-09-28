@@ -98,8 +98,8 @@ class DominionFactory
           $startingResources['gems'] = 0;
         }
         // Mana-cost races
-        $boatFreeRaces = array('Lux','Demon','Norse','Undead','Void');
-        if(in_array($race->name, $boatFreeRaces))
+        $manaCostRaces = array('Lux','Demon','Norse','Undead','Void');
+        if(in_array($race->name, $manaCostRaces))
         {
           $startingResources['mana'] *= 2;
         }
