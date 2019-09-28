@@ -551,7 +551,8 @@ BLACKORC;
                 break;
           case 'gryphon_nests_generates_wild_yetis':
                 $negativeBenefit = false;
-                $description = 'Wild yetis trapped per hour peer Gryphon Nests';
+                $description = 'Wild yetis trapped per Gryphon Nests';
+                $valueType = 'per tick';
                 $booleanValue = false;
                 break;
             default:
