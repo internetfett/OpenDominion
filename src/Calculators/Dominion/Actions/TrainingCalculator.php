@@ -245,24 +245,17 @@ class TrainingCalculator
 
             foreach ($costs as $type => $value) {
 
-                /* Pray we never need this again.
-                if($value == Null)
-                {
-                  echo '<pre>';
-                  echo "\n".'$value is NULL';
-                  echo "\n".'$costs is' . var_dump($costs);
-                  echo "\n".'$value is ' . var_dump($value);
-                  echo '</pre>';
-                  $value = 1;
-                }
-                */
-
                 if($type == 'draftees' and $value == 0)
                 {
-                  $value = 1; # Ugly, causes display bug
+                  # Do nothing?
+                  #$value = 1; # Ugly, causes display bug
+                  #$trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
+                }
+                else
+                {
+                  $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
                 }
 
-                $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
             }
 
             $trainable[$unitType] = min($trainableByCost);
