@@ -44,6 +44,6 @@ units:
       defense: 3
     perks:
       immortal: 1
-      staggered_conversion: 60;3 # 60% and up, convert to Revenant
+      staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
       conversion: 12 # Also, always convert to Skeletons and Ghouls
       offense_raw_wizard_ratio: 1,1 # ratio%, max
