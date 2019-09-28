@@ -7,7 +7,7 @@ perks:
   max_population: -10
 units:
   - name: Arbalist
-    need_boat: false
+    need_boat: true
     cost:
       platinum: 500
       ore: 75
@@ -16,6 +16,7 @@ units:
       offense: 4
       defense: 4
   - name: Ice Boulder
+    need_boat: false
     cost:
       platinum: 10000
       mana: 1000
@@ -27,7 +28,7 @@ units:
       defense_from_pairing: 3,99
       fixed_casualties: 100
   - name: Trebuchet
-    need_boat: true
+    need_boat: false
     cost:
       platinum: 10000
       lumber: 2000

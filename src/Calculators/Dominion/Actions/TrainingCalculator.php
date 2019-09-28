@@ -87,6 +87,7 @@ class TrainingCalculator
                     $champion = $units[$unitSlot]->cost_champion;
                     $soul = $units[$unitSlot]->cost_soul;
                     $morale = $units[$unitSlot]->cost_morale;
+                    $gryphon_nest = $units[$unitSlot]->cost_gryphon_nest;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
@@ -176,6 +177,12 @@ class TrainingCalculator
                         $cost['morale'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'morale'));
                     }
 
+                    // GRYPHON NEST cost for units
+                    if ($gryphon_nest > 0) {
+                        $cost['gryphon_nest'] = $gryphon_nest;
+                        $cost['gryphon_nest'] = (int)ceil($gryphon_nest * $this->getSpecialistEliteCostMultiplier($dominion, 'gryphon_nest'));
+                    }
+
                     #if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
@@ -223,6 +230,7 @@ class TrainingCalculator
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
             'morale' => 'morale',
+            'gryphon_nest' => 'building_gryphon_nest',
 
             'unit1' => 'military_unit1',
             'unit2' => 'military_unit2',
@@ -285,7 +293,7 @@ class TrainingCalculator
         }
 
         // Never discount these resources.
-        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale');
+        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale','gryphon_nest');
 
         // Smithies
         $exemptRaces = array('Gnome', 'Imperial Gnome');

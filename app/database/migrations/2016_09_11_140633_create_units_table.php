@@ -36,6 +36,7 @@ class CreateUnitsTable extends Migration
             $table->integer('cost_unit3');
             $table->integer('cost_unit4');
             $table->integer('cost_morale');
+            $table->integer('cost_gryphon_nest');
 
             # Static NW
             $table->integer('static_networth');

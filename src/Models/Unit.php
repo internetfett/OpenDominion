@@ -59,6 +59,8 @@ class Unit extends AbstractModel
         // For cases when a unit's NW needs to be manually set
         'cost_morale' => 'integer',
         // For cases when a unit's NW needs to be manually set
+        'cost_gryphon_nest' => 'integer',
+        // For cases when a unit's NW needs to be manually set
         'static_networth' => 'integer',
     ];
 
