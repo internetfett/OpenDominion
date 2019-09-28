@@ -26,6 +26,7 @@ class AddDominionStatisticsFields extends Migration
             $table->unsignedInteger('stat_total_gem_production')->after('stat_total_ore_production')->default(0);
             $table->unsignedInteger('stat_total_tech_production')->after('stat_total_gem_production')->default(0);
             $table->float('stat_total_boat_production')->after('stat_total_tech_production')->default(0);
+            $table->unsignedInteger('stat_total_wild_yeti_production')->after('stat_total_boat_production')->default(0);
             $table->unsignedInteger('stat_total_land_explored')->after('stat_total_boat_production')->default(0);
             $table->unsignedInteger('stat_total_land_conquered')->after('stat_total_land_explored')->default(0);
         });
@@ -52,6 +53,7 @@ class AddDominionStatisticsFields extends Migration
                 'stat_total_gem_production',
                 'stat_total_tech_production',
                 'stat_total_boat_production',
+                'stat_total_wild_yeti_production',
                 'stat_total_land_explored',
                 'stat_total_land_conquered',
             ]);
