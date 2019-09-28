@@ -36,12 +36,11 @@ units:
       offense: 1
       defense: 1
     perks:
-      fewer_casualties: 50
+      immortal: 1
   - name: Yeti
     need_boat: true
     cost:
       gryphon_nest: 1
-      platinum: -500
     power:
       offense: 10
       defense: 10
