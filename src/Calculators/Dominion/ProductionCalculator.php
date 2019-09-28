@@ -766,8 +766,8 @@ class ProductionCalculator
 
             $wildYetis += intval($dominion->building_gryphon_nest / $wildYetisPerGryphonNest);
 
-            // Void: Spell (remove DP reduction from Temples)
-            if ($this->spellCalculator->isSpellActive($target, 'gryphons_call'))
+            // Snow Elf: Spell (triples wild yeti production)
+            if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
             {
               $wildYetis = $wildYetis * 3;
             }
