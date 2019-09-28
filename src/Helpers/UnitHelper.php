@@ -120,7 +120,7 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
-            'min_power_to_kill' => 'Only dies againts units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
+            'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 

@@ -121,7 +121,7 @@ LUX;
 <p>They have learned to live with the mighty snowmen, the Yeti, and use their hunger for gryphon eggs to trap and tame them.</p>
 <hr />
 <p>For every ten Gryphon Nests, one wild yeti per tick is trapped. This is doubled if Gryphon's Call is cast.</p>
-<p>Up to 10% of all wild yetis in captivity escape per tick.</p>
+<p>Up to 5% of all wild yetis in captivity escape every tick.</p>
 <hr />
 <p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. It takes one tick to set the Trebuchet up again and be ready to throw a new Ice Boulder.</p>
 SNOWELF;
