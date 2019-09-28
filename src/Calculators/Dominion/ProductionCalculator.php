@@ -742,5 +742,56 @@ class ProductionCalculator
         return (1 + $multiplier);
     }
 
+
+        /**
+         * Returns the Dominion's wild yeti production per hour.
+         *
+         * Boats are produced by:
+         * - Building: Dock (20 per)
+         *
+         * @param Dominion $dominion
+         * @return float
+         */
+        public function getWildYetiProductionRaw(Dominion $dominion): float
+        {
+            $wildYetis = 0;
+
+            // Values
+            $wildYetisPerGryphonNest = 1;
+
+            $wildYetis += ($dominion->building_gryphon_nest / $wildYetisPerGryphonNest);
+
+            return $boats;
+        }
+
+        /**
+         * Returns the Dominions's boat production multiplier.
+         *
+         * Boat production is modified by:
+         * - Improvement: Harbor
+         *
+         * @param Dominion $dominion
+         * @return float
+         */
+        public function getWildYetiProductionMultiplier(Dominion $dominion): float
+        {
+            $multiplier = 0;
+
+            // Improvement: Harbor
+            $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
+
+            // Beastfolk: Water increases boat production.
+            if($dominion->race->name == 'Beastfolk')
+            {
+              $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
+            }
+
+            // Apply Morale multiplier to production multiplier
+            $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+
+            return (1 + $multiplier);
+        }
+
+
     //</editor-fold>
 }

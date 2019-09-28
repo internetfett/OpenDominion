@@ -156,8 +156,8 @@
                                                             $labelParts[] =  number_format($value) . '% morale';
                                                             break;
 
-                                                        case 'gryphon_nest':
-                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Gryphon Nest', $value);
+                                                        case 'wild_yeti':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('wild yeti', $value);
                                                             break;
 
                                                         case 'wizards':

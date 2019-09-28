@@ -5,13 +5,14 @@ perks:
   mana_production: 10
   food_consumption: -25
   max_population: -10
+  gryphon_nests_generates_wild_yetis: 1
 units:
   - name: Arbalist
     need_boat: true
     cost:
       platinum: 500
       ore: 75
-      lumber: 100
+      lumber: 10
     power:
       offense: 4
       defense: 4
@@ -19,7 +20,7 @@ units:
     need_boat: false
     cost:
       platinum: 10000
-      mana: 1000
+      mana: 500
     power:
       offense: 1
       defense: 1
@@ -40,11 +41,12 @@ units:
   - name: Yeti
     need_boat: true
     cost:
-      gryphon_nest: 1
+      wild_yeti: 1
+      ore: 200
+      food: 10
     power:
       offense: 10
       defense: 10
     perks:
       no_draftee: 1
-      offense_vs_land: mountain,10,2 # land type, ratio%, max
       min_power_to_kill: 6 # Only units with 6 raw OP (defending) or 6 raw DP (invading) can kill Yeti

@@ -118,7 +118,7 @@ class NetworthCalculator
                    + $unit->{"cost_unit3"}*20
                    + $unit->{"cost_unit4"}*20
                    + $unit->{"cost_morale"}*10
-                   + $unit->{"cost_gryphon_nest"}*30
+                   + $unit->{"cost_wild_yeti"}*30
                )/100;
            }
       }

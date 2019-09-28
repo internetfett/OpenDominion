@@ -107,7 +107,7 @@ class TrainActionService
             'boat' => 0,
             'champion' => 0,
             'soul' => 0,
-            'gryphon_nest' => 0,
+            'wild_yeti' => 0,
             'morale' => 0,
             'unit1' => 0,
             'unit2' => 0,
@@ -269,7 +269,7 @@ class TrainActionService
             $dominion->resource_boats -= $totalCosts['boat'];
             $dominion->resource_champion -= $totalCosts['champion'];
             $dominion->resource_soul -= $totalCosts['soul'];
-            $dominion->building_gryphon_nest -= $totalCosts['gryphon_nest'];
+            $dominion->resource_wild_yeti -= $totalCosts['wild_yeti'];
             $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
 
             $dominion->military_unit1 -= $totalCosts['unit1'];
@@ -400,7 +400,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace('Gryphon_nest','Gryphon Nest',str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString))))
+            str_replace('Wild_yeti','wild yeti',str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString))))
         );
 
         return $message;

@@ -369,6 +369,10 @@ BLACKORC;
                 $negativeBenefit = false;
                 $description = 'Does not kill enemy units';
                 break;
+            case 'gryphon_nests_generates_wild_yetis':
+                $negativeBenefit = false;
+                $description = 'Wild yetis trapped per hour peer Gryphon Nests';
+                break;
             default:
                 return '';
         }
@@ -544,6 +548,11 @@ BLACKORC;
                 $negativeBenefit = false;
                 $description = 'Does not kill units.';
                 $booleanValue = true;
+                break;
+          case 'gryphon_nests_generates_wild_yetis':
+                $negativeBenefit = false;
+                $description = 'Wild yetis trapped per hour peer Gryphon Nests';
+                $booleanValue = false;
                 break;
             default:
                 return null;

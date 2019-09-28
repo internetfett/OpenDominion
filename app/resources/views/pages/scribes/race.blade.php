@@ -149,8 +149,8 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
                                     }
 
-                                    if ($unit->cost_gryphon_nest > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_gryphon_nest) . ' Gryphon Nest');
+                                    if ($unit->cost_wild_yeti > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_gryphon_nest) . ' wild yeti');
                                     }
 
                                 @endphp

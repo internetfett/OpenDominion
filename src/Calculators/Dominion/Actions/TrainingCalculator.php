@@ -87,7 +87,7 @@ class TrainingCalculator
                     $champion = $units[$unitSlot]->cost_champion;
                     $soul = $units[$unitSlot]->cost_soul;
                     $morale = $units[$unitSlot]->cost_morale;
-                    $gryphon_nest = $units[$unitSlot]->cost_gryphon_nest;
+                    $wild_yeti = $units[$unitSlot]->cost_wild_yeti;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
@@ -177,10 +177,10 @@ class TrainingCalculator
                         $cost['morale'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'morale'));
                     }
 
-                    // GRYPHON NEST cost for units
-                    if ($gryphon_nest > 0) {
-                        $cost['gryphon_nest'] = $gryphon_nest;
-                        $cost['gryphon_nest'] = (int)ceil($gryphon_nest * $this->getSpecialistEliteCostMultiplier($dominion, 'gryphon_nest'));
+                    // WILD YETI cost for units
+                    if ($wild_yeti > 0) {
+                        $cost['wild_yeti'] = $wild_yeti;
+                        $cost['wild_yeti'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wild_yeti'));
                     }
 
                     #if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
@@ -230,7 +230,7 @@ class TrainingCalculator
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
             'morale' => 'morale',
-            'gryphon_nest' => 'building_gryphon_nest',
+            'wild_yeti' => 'resource_wild_yeti',
 
             'unit1' => 'military_unit1',
             'unit2' => 'military_unit2',
@@ -293,7 +293,7 @@ class TrainingCalculator
         }
 
         // Never discount these resources.
-        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale','gryphon_nest');
+        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale','wild_yeti');
 
         // Smithies
         $exemptRaces = array('Gnome', 'Imperial Gnome');
