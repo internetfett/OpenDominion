@@ -4,6 +4,7 @@ home_land_type: mountain
 perks:
   mana_production: 10
   food_consumption: -25
+  max_population: -10
 units:
   - name: Arbalist
     need_boat: false
@@ -12,10 +13,8 @@ units:
       ore: 75
       lumber: 100
     power:
-      offense: 5
-      defense: 5
-    perks:
-      immortal: 1
+      offense: 4
+      defense: 4
   - name: Ice Boulder
     cost:
       platinum: 10000
