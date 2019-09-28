@@ -113,7 +113,7 @@ class CasualtiesCalculator
             }
 
             // min_power_to_kill: Snow Elf (Yeti)
-            $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'min_power_to_kill') / 100);
+            $minPowerToKill = ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'min_power_to_kill') / 100);
             if($minPowerToKill > 0)
             {
                 # Do nothing. Yet.
