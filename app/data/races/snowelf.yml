@@ -38,13 +38,14 @@ units:
       defense: 1
     perks:
       immortal: 1
+      faster_return: 11
   - name: Yeti
     need_boat: true
     cost:
       wild_yeti: 1
-      platinum: 100
+      platinum: 500
       ore: 200
-      food: 10
+      food: 25
     power:
       offense: 10
       defense: 10

@@ -116,12 +116,14 @@ NORSE;
 LUX;
 
         $descriptions['snow elf'] = <<<SNOWELF
-<p>Snow Elves are an isolated elven people living at the highest mountain peaks of the Commonwealth.</p>
+<p>Snow Elves are an isolated elven people living at the highest mountain peaks overlooking the plains of the Commonwealth.</p>
 <p>Hidden by the clouds, they build enormous trebuchets and use powerful magic to sling enormous ice bolders at enormous distances.</p>
 <p>They have learned to live with the mighty snowmen, the Yeti, and use their hunger for gryphon eggs to trap and tame them.</p>
 <hr />
-<p>Gryphon Nests traps one wild yeti per tick. This is tripled when Gryphon's Call is cast.</p>
+<p>For every 10 Gryphon Nests, one wild yeti per tick is trapped. This is doubled if Gryphon's Call is cast.</p>
 <p>Up to 5% of all wild yetis in captivity escape per tick.</p>
+<hr />
+<p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. Trebuchets take one tick to reload with a new Ice Boulder.</p> 
 SNOWELF;
 
         // EMPIRE

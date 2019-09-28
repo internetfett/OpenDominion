@@ -352,7 +352,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Gryphon\'s Call',
-                'description' => 'Triples yeti trapping. Removes offensive power bonus from Gryphon Nests.',
+                'description' => 'Doubles yeti trapping. Removes offensive power bonus from Gryphon Nests.',
                 'key' => 'gryphons_call',
                 'mana_cost' => 6,
                 'duration' => 3*4, # Quarter day
