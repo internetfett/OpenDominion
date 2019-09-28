@@ -127,6 +127,7 @@ class MilitaryCalculator
         $multiplier = 0;
 
         // Values (percentages)
+
         $opPerGryphonNest = 2;
         $gryphonNestMaxOp = 40;
         $spellBloodrage = 10;
@@ -137,10 +138,15 @@ class MilitaryCalculator
         $spellNightfall = 5;
 
         // Gryphon Nests
-        $multiplier += min(
-            (($opPerGryphonNest * $dominion->building_gryphon_nest) / $this->landCalculator->getTotalLand($dominion)),
-            ($gryphonNestMaxOp / 100)
-        );
+        # Spell: Snow Elf - Gryphon's Call: no OP bonus from GNs.
+        if (!$this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
+        {
+          $multiplier += min(
+              (($opPerGryphonNest * $dominion->building_gryphon_nest) / $this->landCalculator->getTotalLand($dominion)),
+              ($gryphonNestMaxOp / 100)
+          );
+
+        }
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('offense');
