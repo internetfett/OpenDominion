@@ -70,7 +70,7 @@ class DominionFactory
         if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
         {
           $startingResources['ore'] = intval($startingResources['ore'] * 3);
-          $startingResources['platinum'] *= intval($startingResources['platinum'] * (1/3));
+          $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/3));
         }
         // Ore-free races
         $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Undead','Void');

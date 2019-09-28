@@ -2,7 +2,7 @@ name: Undead
 alignment: evil
 home_land_type: swamp
 perks:
-  max_population: 20
+  max_population: 15
   mana_production: 10
   food_consumption: -75
 units:
