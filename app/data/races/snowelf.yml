@@ -41,6 +41,7 @@ units:
     need_boat: true
     cost:
       gryphon_nest: 1
+      platinum: -500
     power:
       offense: 10
       defense: 10
