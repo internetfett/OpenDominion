@@ -209,7 +209,7 @@
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ str_plural('draftee', $selectedDominion->military_draftees) }} available to train.
                           @endif
                           @if ($selectedDominion->race->name == 'Snow Elf')
-                          <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }} wild yeti trapped.</strong>
+                          <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.
                           @endif
                         </div>
                     </div>
