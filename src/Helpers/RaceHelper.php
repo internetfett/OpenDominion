@@ -107,7 +107,6 @@ ARMADA;
 NORSE;
 
         $descriptions['lux'] = <<<LUX
-<h3>This race is not yet finished</h3>
 <p>The Lux are the children of the Suns.</p>
 <p>Some believe they are elves which transcended. Others say they are not of this world at all.</p>
 <hr />
@@ -115,6 +114,12 @@ NORSE;
 <p>Hex and Vex are trained from Essences and cost no draftees. They both take 12 ticks to train.</p>
 <p>Pax is trained by combining one Hex and one Vex. No draftee required.</p>
 LUX;
+
+        $descriptions['snow elf'] = <<<SNOWELF
+<p>Snow Elves are an isolated elven people living at the highest mountain peaks of the Commonwealth.</p>
+<p>Hidden by the clouds, they build enormous trebuchets and use powerful magic to sling enormous ice bolders at enormous distances.</p>
+<p>They have learned to live with the mighty snowmen, the Yeti, and use their hunger for gryphon eggs to trap and tame them.</p>
+SNOWELF;
 
         // EMPIRE
         $descriptions['dark elf'] = <<<DARKELF
