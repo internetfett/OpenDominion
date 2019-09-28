@@ -150,7 +150,7 @@
                                     }
 
                                     if ($unit->cost_wild_yeti > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_gryphon_nest) . ' wild yeti');
+                                        $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . ' wild yeti');
                                     }
 
                                 @endphp

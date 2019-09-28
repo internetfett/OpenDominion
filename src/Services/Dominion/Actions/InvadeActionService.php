@@ -606,7 +606,7 @@ class InvadeActionService
             $casualtiesMultiplier += 0.2;
         }
 
-        // Draftees
+        // Draftees - Unholy Ghost
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost')) {
             $drafteesLost = 0;
         } else {

@@ -764,7 +764,7 @@ class ProductionCalculator
             // Values
             $wildYetisPerGryphonNest = 0.1;
 
-            $wildYetis += intval($dominion->building_gryphon_nest / $wildYetisPerGryphonNest);
+            $wildYetis += intval($dominion->building_gryphon_nest * $wildYetisPerGryphonNest);
 
             // Snow Elf: Spell (triples wild yeti production)
             if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))

@@ -6,6 +6,10 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
+# ODA
+
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class CasualtiesCalculator
 {
     /** @var LandCalculator */
@@ -20,6 +24,9 @@ class CasualtiesCalculator
     /** @var UnitHelper */
     protected $unitHelper;
 
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
     /**
      * CasualtiesCalculator constructor.
      *
@@ -28,7 +35,7 @@ class CasualtiesCalculator
      * @param SpellCalculator $spellCalculator
      * @param UnitHelper $unitHelper
      */
-    public function __construct(LandCalculator $landCalculator, PopulationCalculator $populationCalculator, SpellCalculator $spellCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator)
+    public function __construct(LandCalculator $landCalculator, PopulationCalculator $populationCalculator, SpellCalculator $spellCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator, MilitaryCalculator $militaryCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->populationCalculator = $populationCalculator;
@@ -36,6 +43,7 @@ class CasualtiesCalculator
         $this->unitHelper = $unitHelper;
         $this->populationCalculator = $populationCalculator;
         $this->improvementCalculator = $improvementCalculator;
+        $this->militaryCalculator = $militaryCalculator;
     }
 
     /**
@@ -55,7 +63,8 @@ class CasualtiesCalculator
         $multiplier = 1;
 
         // Check if unit has fixed casualties first, so we can skip all other checks
-        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0) {
+        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties') !== 0)
+        {
             return 1;
         }
 
@@ -70,7 +79,8 @@ class CasualtiesCalculator
         // casualties will then always be 0 anyway
 
         // Immortality never triggers upon being overwhelmed
-        if (!$isOverwhelmed) {
+        if (!$isOverwhelmed)
+        {
             // Global immortality
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
@@ -100,6 +110,13 @@ class CasualtiesCalculator
             // Race perk-based immortality
             if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $target, $slot)) {
                 $multiplier = 0;
+            }
+
+            // min_power_to_kill: Snow Elf (Yeti)
+            $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'min_power_to_kill') / 100);
+            if($minPowerToKill > 0)
+            {
+
             }
         }
 
