@@ -778,7 +778,7 @@ class ProductionCalculator
         /**
          * Returns the Dominion's wild yeti escapees.
          *
-         * Between 0% and 5% wild yetis escape.
+         * Between 0% and 10% wild yetis escape.
          *
          * @param Dominion $dominion
          * @return float
@@ -788,7 +788,7 @@ class ProductionCalculator
             $escaped = 0;
 
             // Escaped percentage
-            $escaped = rand(0,5);
+            $escaped = rand(1,10);
 
             $escaped += intval(($dominion->resource_wild_yeti * ($escaped / 100)));
 
