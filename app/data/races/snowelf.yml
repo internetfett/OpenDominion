@@ -21,7 +21,7 @@ units:
       mana: 1000
     power:
       offense: 1
-      defense: 0
+      defense: 1
     perks:
       offense_from_pairing: 3,99 # slot, amount
       defense_from_pairing: 3,99
