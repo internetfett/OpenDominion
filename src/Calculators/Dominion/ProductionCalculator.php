@@ -790,7 +790,7 @@ class ProductionCalculator
             // Escaped percentage
             $escaped = rand(0,5);
 
-            $escaped += intval(($dominion->resource_mana * ($escaped / 100)));
+            $escaped += intval(($dominion->resource_wild_yeti * ($escaped / 100)));
 
             return $escaped;
         }
