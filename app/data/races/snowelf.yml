@@ -14,7 +14,7 @@ units:
       ore: 50
       lumber: 5
     power:
-      offense: 4
+      offense: 0
       defense: 4
   - name: Ice Boulder
     need_boat: false
@@ -25,6 +25,7 @@ units:
       offense: 1
       defense: 0
     perks:
+      no_draftee: 1
       offense_from_pairing: 3,24 # slot, amount
       fixed_casualties: 100
   - name: Trebuchet
@@ -36,6 +37,8 @@ units:
       offense: 1
       defense: 0
     perks:
+      no_draftee: 1
+      true_immortal: 1
       faster_return: 11
   - name: Yeti
     need_boat: true
