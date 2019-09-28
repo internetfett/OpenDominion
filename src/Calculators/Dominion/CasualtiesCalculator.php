@@ -116,7 +116,7 @@ class CasualtiesCalculator
             $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'min_power_to_kill') / 100);
             if($minPowerToKill > 0)
             {
-
+                # Do nothing. Yet.
             }
         }
 
