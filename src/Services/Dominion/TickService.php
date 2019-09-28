@@ -374,19 +374,23 @@ class TickService
 
         // Resources
         $tick->resource_platinum += $this->productionCalculator->getPlatinumProduction($dominion);
+
         $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
         $tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
+
         $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
         $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
+
         $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
         $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
+
         $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
-        $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
 
         # ODA: wild yeti production
         $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
-        $tick->resource_resource_wild_yeti_production += $this->productionCalculator->getWildYetiNetChange($dominion);
+        $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
 
+        $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
