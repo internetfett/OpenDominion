@@ -150,7 +150,7 @@
                                     }
 
                                     if ($unit->cost_gryphon_nest > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_morale) . ' Gryphon Nest');
+                                        $unitCostString .= (', ' . number_format($unit->cost_gryphon_nest) . ' Gryphon Nest');
                                     }
 
                                 @endphp

@@ -107,6 +107,7 @@ class TrainActionService
             'boat' => 0,
             'champion' => 0,
             'soul' => 0,
+            'gryphon_nest' => 0,
             'morale' => 0,
             'unit1' => 0,
             'unit2' => 0,

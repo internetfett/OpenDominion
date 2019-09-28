@@ -42,8 +42,8 @@ units:
     cost:
       gryphon_nest: 1
     power:
-      offense: 7
-      defense: 7
+      offense: 10
+      defense: 10
     perks:
       no_draftee: 1
       offense_vs_land: mountain,10,2 # land type, ratio%, max
