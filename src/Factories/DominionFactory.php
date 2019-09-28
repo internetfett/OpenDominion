@@ -66,11 +66,11 @@ class DominionFactory
 
         $startingResources['boats'] = 200;
 
-        // Gnome and Imperial Gnome: triple the ore and remove 1/3 of platinum
+        // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
         if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
         {
           $startingResources['ore'] = intval($startingResources['ore'] * 3);
-          $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/3));
+          $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
         }
         // Ore-free races
         $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Undead','Void');
