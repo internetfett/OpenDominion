@@ -115,6 +115,11 @@
                                         <td>Souls:</td>
                                         <td>{{ number_format($selectedDominion->resource_soul) }}</td>
                                     </tr>
+                                    @elseif ($selectedDominion->race->name == 'Snow Elf')
+                                    <tr>
+                                        <td>Wild yetis:</td>
+                                        <td>{{ number_format($selectedDominion->resource_wild_yeti) }}</td>
+                                    </tr>
                                     @endif
                                 </tbody>
                             </table>
