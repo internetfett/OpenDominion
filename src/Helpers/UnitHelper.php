@@ -203,18 +203,18 @@ class UnitHelper
                 if (is_array($perkValue)) {
                     if ($nestedArrays) {
                         foreach ($perkValue as $nestedKey => $nestedValue) {
-                            $helpStrings['unit' . $unit->slot] .= ('<br><br>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue));
+                            $helpStrings['unit' . $unit->slot] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                         }
                     } else {
-                        $helpStrings['unit' . $unit->slot] .= ('<br><br>' . vsprintf($perkTypeStrings[$perk->key], $perkValue));
+                        $helpStrings['unit' . $unit->slot] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                     }
                 } else {
-                    $helpStrings['unit' . $unit->slot] .= ('<br><br>' . sprintf($perkTypeStrings[$perk->key], $perkValue));
+                    $helpStrings['unit' . $unit->slot] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
 
             if ($unit->need_boat === false) {
-                $helpStrings['unit' . $unit->slot] .= ('<br><br>No boats needed.');
+                $helpStrings['unit' . $unit->slot] .= ('<li>No boats needed.</li>');
             }
         }
 
