@@ -390,6 +390,11 @@ class InvadeActionService
 
             $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
+            if($dominion->race->getPerkMultiplier('prestige_gains'))
+            {
+              $attackerPrestigeChange = (1 + $dominion->race->getPerkMultiplier('prestige_gains');
+            }
+
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
 
             # In-realm Invasion: No prestige gains or losses

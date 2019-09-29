@@ -378,6 +378,10 @@ BLACKORC;
                 $negativeBenefit = false;
                 $description = 'Traps wild yetis';
                 break;
+            case 'prestige_gains':
+                $negativeBenefit = false;
+                $description = 'prestige gains';
+                break;
             default:
                 return '';
         }
@@ -558,6 +562,10 @@ BLACKORC;
                 $negativeBenefit = false;
                 $description = 'Traps wild yetis';
                 $booleanValue = true;
+                break;
+            case 'prestige_gains':
+                $negativeBenefit = false;
+                $description = 'Prestige gains';
                 break;
             default:
                 return null;
