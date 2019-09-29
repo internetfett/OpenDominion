@@ -8,6 +8,25 @@
 @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
     <div class="row">
         <div class="col-sm-12 col-md-9">
+          @if ($protectionService->isUnderProtection($selectedDominion))
+              <div class="box box-primary">
+                  <div class="box-header with-border">
+                      <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Explore</h3>
+                  </div>
+                  <div class="box-body">
+                      You are currently under protection for <b>{{ number_format($protectionService->getUnderProtectionHoursLeft($selectedDominion), 2) }}</b> more hours and may not explore during that time.
+                  </div>
+              </div>
+          @elseif ($selectedDominion->morale < 20)
+              <div class="box box-primary">
+                  <div class="box-header with-border">
+                      <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Explore</h3>
+                  </div>
+                  <div class="box-body">
+                      Your military needs at least 20% morale to explore. Your military currently has {{ $selectedDominion->morale }}% morale.
+                  </div>
+              </div>
+          @else
             <div class="box box-primary">
                 <p>Your race is not able to obtain land by exploring.</p>
                 <p>Grow your <a href="{{ route('dominion.military') }}">military power</a> and <a href="{{ route('dominion.invade') }}">invade other dominions</a>.</p>

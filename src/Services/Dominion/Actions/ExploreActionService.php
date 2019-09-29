@@ -25,6 +25,11 @@ class ExploreActionService
     protected $queueService;
 
     /**
+     * @var int The minimum morale required to explore
+     */
+    protected const MIN_MORALE = 50;
+
+    /**
      * ExplorationActionService constructor.
      */
     public function __construct()
@@ -72,6 +77,10 @@ class ExploreActionService
 
         if ($totalLandToExplore > $maxAfford) {
             throw new GameException("You do not have enough platinum and/or draftees to explore for {$totalLandToExplore} acres.");
+        }
+
+        if ($dominion->morale < static::MIN_MORALE) {
+            throw new GameException('You do not have enough morale to explore');
         }
 
         // todo: refactor. see training action service. same with other action services
