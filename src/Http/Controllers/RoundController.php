@@ -79,7 +79,7 @@ class RoundController extends AbstractController
         $this->validate($request, [
             'dominion_name' => 'required|string|min:3|max:50',
             'ruler_name' => 'nullable|string|max:50',
-            'race' => 'required|exists:races,id,playable',
+            'race' => 'required|exists:races,id',
             'realm_type' => 'in:random,join_pack,create_pack',
             'pack_name' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
             'pack_password' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
@@ -168,7 +168,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
             return redirect()->back()
                 ->withInput($request->all())
-                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round."]);
+                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round." . var_dump($e)]);
 
         } catch (GameException $e) {
             return redirect()->back()
