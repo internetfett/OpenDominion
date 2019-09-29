@@ -79,7 +79,7 @@ class RoundController extends AbstractController
         $this->validate($request, [
             'dominion_name' => 'required|string|min:3|max:50',
             'ruler_name' => 'nullable|string|max:50',
-            'race' => 'required|exists:races,id',
+            'race' => 'required|exists:races,id,playable',
             'realm_type' => 'in:random,join_pack,create_pack',
             'pack_name' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
             'pack_password' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
