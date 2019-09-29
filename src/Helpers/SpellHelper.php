@@ -327,7 +327,7 @@ class SpellHelper
 
             [
                 'name' => 'Desecration',
-                'description' => 'Triples enemy draftees casualties. (Not yet implemented)',
+                'description' => 'Triples enemy draftees casualties.',
                 'key' => 'Desecration',
                 'mana_cost' => 8,
                 'duration' => 12*4,

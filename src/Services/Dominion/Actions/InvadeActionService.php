@@ -606,14 +606,23 @@ class InvadeActionService
             $casualtiesMultiplier += 0.2;
         }
 
-        // Draftees - Unholy Ghost
+        // Dark Elf: Draftees - Unholy Ghost
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost')) {
             $drafteesLost = 0;
-        } else {
+        }
+        else
+        {
             $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage *
                 $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) *
                 $casualtiesMultiplier);
         }
+
+        // Undead: Desecration
+        if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
+        {
+            $drafteesLost = min($target->military_draftees, $drafteesLost*3);
+        }
+
         if ($drafteesLost > 0) {
             $target->military_draftees -= $drafteesLost;
 
