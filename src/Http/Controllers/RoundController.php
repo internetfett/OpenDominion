@@ -168,7 +168,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
             return redirect()->back()
                 ->withInput($request->all())
-                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round." . var_dump($e)]);
+                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round.")]);
 
         } catch (GameException $e) {
             return redirect()->back()
