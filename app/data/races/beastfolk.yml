@@ -1,6 +1,7 @@
 name: Beastfolk
 alignment: good
 home_land_type: forest
+playable: 1
 perks:
   extra_barren_max_population: 10
   cannot_improve_castle: 1

@@ -1,6 +1,7 @@
 name: Afflicted
 alignment: evil
 home_land_type: hill
+playable: 1
 perks:
   max_population: 10
   population_growth: -5

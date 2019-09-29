@@ -1,6 +1,7 @@
 name: Ants
 alignment: good
 home_land_type: forest
+playable: 1
 perks:
   max_population: 150
   construction_cost: -20

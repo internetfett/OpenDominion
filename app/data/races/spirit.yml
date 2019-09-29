@@ -1,6 +1,7 @@
 name: Spirit
 alignment: good
 home_land_type: water
+playable: 1
 perks:
   food_consumption: -100
   max_population: -10

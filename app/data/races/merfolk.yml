@@ -1,6 +1,7 @@
 name: Merfolk
 alignment: good
 home_land_type: water
+playable: 1
 perks:
   lumber_production: -15
   food_production: 15

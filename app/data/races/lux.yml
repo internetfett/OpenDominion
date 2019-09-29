@@ -1,6 +1,7 @@
 name: Lux
 alignment: good
 home_land_type: water
+playable: 1
 perks:
   food_consumption: -50
   mana_production: 10

@@ -1,6 +1,7 @@
 name: Black Orc
 alignment: evil
 home_land_type: forest
+playable: 1
 perks:
   food_consumption: 20
   lumber_production: 50

@@ -1,6 +1,7 @@
 name: Undead
 alignment: evil
 home_land_type: swamp
+playable: 1
 perks:
   max_population: 15
   mana_production: 10

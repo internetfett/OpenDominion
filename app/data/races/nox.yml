@@ -1,6 +1,7 @@
 name: Nox
 alignment: evil
 home_land_type: swamp
+playable: 1
 perks:
   food_consumption: -20
   mana_production: 10

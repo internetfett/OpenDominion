@@ -1,10 +1,11 @@
 name: Firewalker
 alignment: good
 home_land_type: cavern
+playable: 1
 perks:
-  max_population: 5
+  max_population: 10
   lumber_production: -10
-  gem_production: 15
+  gem_production: 20
   construction_cost: -10
 units:
   - name: Fire Sprite

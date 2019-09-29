@@ -17,6 +17,7 @@ class CreateRacesTable extends Migration
             $table->string('name');
             $table->enum('alignment', ['good', 'neutral', 'evil', 'other']);
             $table->enum('home_land_type', ['plain', 'mountain', 'swamp', 'cavern', 'forest', 'hill', 'water']);
+            $table->integer('playable');
             $table->timestamps();
         });
     }

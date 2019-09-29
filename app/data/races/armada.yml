@@ -1,6 +1,7 @@
 name: Armada
 alignment: good
 home_land_type: water
+playable: 1
 perks:
   exchange_bonus: 25
   platinum_production: 5

@@ -1,6 +1,7 @@
 name: Halfling
 alignment: good
 home_land_type: hill
+playable: 1
 perks:
   max_population: 12.5
   extra_barren_max_population: 5

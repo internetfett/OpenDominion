@@ -1,6 +1,7 @@
 name: Norse
 alignment: good
 home_land_type: plain
+playable: 1
 perks:
   exchange_bonus: 10
   lumber_production: 10

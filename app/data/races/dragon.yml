@@ -1,6 +1,7 @@
 name: Dragon
 alignment: evil
 home_land_type: plain
+playable: 1
 perks:
     gem_production: 10
     food_consumption: 25

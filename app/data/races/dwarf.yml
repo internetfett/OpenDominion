@@ -1,6 +1,7 @@
 name: Dwarf
 alignment: good
 home_land_type: mountain
+playable: 1
 perks:
   max_population: 7.5
   extra_barren_max_population: 5

@@ -1,6 +1,7 @@
 name: Sylvan
 alignment: good
 home_land_type: forest
+playable: 1
 perks:
   lumber_production: 20
   food_production: 10
