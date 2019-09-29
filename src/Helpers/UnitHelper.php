@@ -220,7 +220,7 @@ class UnitHelper
 
         foreach($helpStrings as $helpString)
         {
-          $helpStrings[$helpString] = '<ul>' . $helpString . '</ul>';
+          $helpStrings[$helpString] = '<ul id="helpstring">' . $helpString . '</ul>';
         }
 
         return $helpStrings[$unitType] ?: null;
