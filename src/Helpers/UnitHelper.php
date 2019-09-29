@@ -218,11 +218,14 @@ class UnitHelper
             }
         }
 
-        # Wrap in <ul>. For some reason, this worked but a foreach did not.
-        $helpStrings['unit1'] = '<ul>' . $helpStrings['unit1'] . '</ul>';
-        $helpStrings['unit2'] = '<ul>' . $helpStrings['unit2'] . '</ul>';
-        $helpStrings['unit3'] = '<ul>' . $helpStrings['unit3'] . '</ul>';
-        $helpStrings['unit4'] = '<ul>' . $helpStrings['unit4'] . '</ul>';
+        if(isEmpty($helpStrings[$unitType]))
+        {
+          $helpStrings[$unitType] = '<i>No special abilities</i>';
+        }
+        else
+        {
+          $helpStrings[$unitType] = '<ul>' . $helpStrings[$unitType] . '</ul>';
+        }
 
         return $helpStrings[$unitType] ?: null;
     }

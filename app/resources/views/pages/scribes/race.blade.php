@@ -44,7 +44,7 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>Faction Perk</th>
+                                <th>Faction Special Ability</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
@@ -84,7 +84,7 @@
                                 <th>Unit</th>
                                 <th class="text-center">OP</th>
                                 <th class="text-center">DP</th>
-                                <th>Perks</th>
+                                <th>Special Abilities</th>
                                 <th class="text-center">Cost</th>
                             </tr>
                         </thead>
