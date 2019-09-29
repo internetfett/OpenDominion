@@ -63,6 +63,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 ->fill([
                     'alignment' => object_get($data, 'alignment'),
                     'home_land_type' => object_get($data, 'home_land_type'),
+                    'playable' => object_get($data, 'playable'),
                 ]);
 
             if (!$race->exists) {
