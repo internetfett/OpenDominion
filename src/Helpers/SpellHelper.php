@@ -361,7 +361,7 @@ class SpellHelper
                 'races' => collect(['Snow Elf']),
             ],
             [
-                'name' => 'Charbydis\'s Gape',
+                'name' => 'Charybdis\' Gape',
                 'description' => 'Increases offensive casualties by 25% against invading forces.',
                 'key' => 'charybdis_gape',
                 'mana_cost' => 5,

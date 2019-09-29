@@ -27,7 +27,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      defense_from_prestige: 600,2 # amount, max
+      defense_from_prestige: 500,3 # amount, max
   - name: Bone Breaker
     cost:
       platinum: 1050

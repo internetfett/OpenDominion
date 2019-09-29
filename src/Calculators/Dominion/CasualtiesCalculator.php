@@ -56,9 +56,11 @@ class CasualtiesCalculator
      * @param array $units Units being sent out on invasion
      * @param float $landRatio
      * @param bool $isOverwhelmed
+     * @param bool $attackingForceOP
+     * @param bool $targetDP
      * @return float
      */
-    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed): float
+    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP): float
     {
         $multiplier = 1;
 
@@ -112,12 +114,6 @@ class CasualtiesCalculator
                 $multiplier = 0;
             }
 
-            // min_power_to_kill: Snow Elf (Yeti)
-            $minPowerToKill = ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'min_power_to_kill') / 100);
-            if($minPowerToKill > 0)
-            {
-                # Do nothing. Yet.
-            }
         }
 
         if ($multiplier !== 0) {
@@ -144,8 +140,8 @@ class CasualtiesCalculator
 
             // todo: Wonders
 
-              // Cap at -80% and apply to multiplier (additive)
-              $multiplier -= min(0.8, $nonUnitBonusMultiplier);
+            // Cap at -80% and apply to multiplier (additive)
+            $multiplier -= min(0.8, $nonUnitBonusMultiplier);
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 0;

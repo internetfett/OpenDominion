@@ -3,7 +3,6 @@ alignment: evil
 home_land_type: cavern
 perks:
   max_population: 10
-  defense: 5
 units:
   - name: Warg
     cost:

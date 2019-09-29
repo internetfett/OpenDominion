@@ -52,4 +52,4 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      min_power_to_kill: 6 # Only units with 6 raw OP (defending) or 6 raw DP (invading) can kill Yeti
+      offense_vs_building: gryphon_nest,10,2

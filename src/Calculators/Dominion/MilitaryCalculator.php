@@ -130,6 +130,8 @@ class MilitaryCalculator
 
         $opPerGryphonNest = 2;
         $gryphonNestMaxOp = 40;
+
+
         $spellBloodrage = 10;
         $spellCrusade = 5;
         $spellHowling = 10;
@@ -161,8 +163,6 @@ class MilitaryCalculator
         }
 
         // Racial Spell
-        // todo
-        // Spell: Nightfall (+5%)
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, [
             'bloodrage' => $spellBloodrage,
             'crusade' => $spellCrusade,
