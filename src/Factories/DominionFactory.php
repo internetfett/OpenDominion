@@ -164,6 +164,7 @@ class DominionFactory
             # New resources
             'resource_champion' => 0,
             'resource_soul' => 0,
+            'resource_wild_yeti' => 0,
             # End new resources
 
             'improvement_science' => 0,
