@@ -457,6 +457,12 @@ class InvadeActionService
         $targetDP = $this->invasionResult['defender']['dp'];
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
 
+        # Merfolk: Charybdis' Gape - increase offensive casualties by 25% if target has this spell on.
+        if ($this->spellCalculator->isSpellActive($target, 'charybdis_gape'))
+        {
+            $offensiveCasualtiesPercentage *= 1.25;
+        }
+
         $offensiveUnitsLost = [];
 
         if ($isInvasionSuccessful) {
@@ -509,6 +515,8 @@ class InvadeActionService
                 $offensiveUnitsLost[$slot] = $unitsToKill;
             }
         }
+
+
 
         $attackerUnitsDiedInBattleSlot1 = 0;
         foreach ($offensiveUnitsLost as $slot => &$amount) {
@@ -617,7 +625,7 @@ class InvadeActionService
                 $casualtiesMultiplier);
         }
 
-        // Undead: Desecration
+        // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
         {
             $drafteesLost = min($target->military_draftees, $drafteesLost*3);
@@ -741,8 +749,9 @@ class InvadeActionService
 
             $landConquered = (int)round($landLost);
 
-            // Racial Spell: Erosion (Lizardfolk)
-            if ($this->spellCalculator->isSpellActive($dominion, 'erosion')) {
+            // Racial Spell: Erosion (Lizardfolk) - ABANDONED
+            if ($this->spellCalculator->isSpellActive($dominion, 'erosion'))
+            {
                 // todo: needs a more generic solution later
                 $landRezoneType = 'water';
                 $landRezonePercentage = 20;

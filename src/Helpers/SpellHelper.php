@@ -165,6 +165,7 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Firewalker','Spirit']),
             ],
+            /*
             [
                 'name' => 'Erosion',
                 'description' => '20% of captured land re-zoned into water',
@@ -173,6 +174,7 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Lizardfolk', 'Merfolk']),
             ],
+            */
             [
                 'name' => 'Blizzard',
                 'description' => '+15% defensive strength (not cumulative with Ares\'s Call)',
@@ -227,7 +229,7 @@ class SpellHelper
                 'key' => 'regeneration',
                 'mana_cost' => 10,
                 'duration' => 12,
-                'races' => collect(['Troll', 'Afflicted']),
+                'races' => collect(['Troll', 'Afflicted', 'Lizardfolk']),
             ],
             [
                 'name' => 'Parasitic Hunger',
@@ -357,6 +359,14 @@ class SpellHelper
                 'mana_cost' => 6,
                 'duration' => 3*4, # Quarter day
                 'races' => collect(['Snow Elf']),
+            ],
+            [
+                'name' => 'Charbydis\'s Gape',
+                'description' => 'Increases offensive casualties by 25% against invading forces.',
+                'key' => 'charybdis_gape',
+                'mana_cost' => 5,
+                'duration' => 12*4,
+                'races' => collect(['Merfolk']),
             ],
 
         ]);

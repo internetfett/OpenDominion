@@ -2,9 +2,9 @@ name: Halfling
 alignment: good
 home_land_type: hill
 perks:
-  max_population: 5
+  max_population: 12.5
   extra_barren_max_population: 5
-  spy_strength: 30
+  spy_strength: 10
   food_consumption: -30
 units:
   - name: Slinger
@@ -20,20 +20,21 @@ units:
       defense: 3
   - name: Master Thief
     cost:
-      platinum: 900
-      ore: 30
+      platinum: 875
+      ore: 50
     power:
       offense: 2
       defense: 4
     perks:
-      counts_as_spy_offense: 0.2
+      counts_as_spy_offense: 0.333
       counts_as_spy_defense: 0.333
   - name: Staff Master
     cost:
-      platinum: 900
+      platinum: 1150
       ore: 25
     power:
       offense: 5
       defense: 3
     perks:
-      fewer_casualties: 40
+      fewer_casualties: 50
+      offense_raw_spy_ratio: 1,2 # ratio%, max

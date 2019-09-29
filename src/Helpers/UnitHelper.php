@@ -124,6 +124,7 @@ class UnitHelper
 
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 
+            'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',

@@ -5,10 +5,10 @@ perks:
   max_population: 10
   defense: 5
 units:
-  - name: Scavenger
+  - name: Warg
     cost:
-      platinum: 300
-      ore: 25
+      platinum: 250
+      food: 25
     power:
       offense: 3
       defense: 0
@@ -29,7 +29,8 @@ units:
     perks:
       fewer_casualties_offense: 25
       fewer_casualties_defense: 50
-      conversion: 3 # slot 3
+      offense_from_pairing: 4,1 # slot, amount
+      conversion: 3 # Werewolves
   - name: Garou
     cost:
       platinum: 1100
@@ -38,4 +39,4 @@ units:
       offense: 6
       defense: 0
     perks:
-      conversion: 3 # slot 3
+      conversion: 3 # Werewolves

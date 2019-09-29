@@ -7,7 +7,7 @@ perks:
 units:
   - name: Merman
     cost:
-      platinum: 275
+      platinum: 300
     power:
       offense: 3
       defense: 0
@@ -20,18 +20,18 @@ units:
       defense: 3
   - name: Leviathan
     cost:
-      platinum: 1350
+      platinum: 2200
     power:
       offense: 0
-      defense: 7
+      defense: 14
     perks:
       sink_boats_defense: 1
   - name: Kraken
     cost:
-      platinum: 600
+      platinum: 1300
     power:
-      offense: 4
-      defense: 2
+      offense: 6
+      defense: 4
     perks:
       sink_boats_offense: 1
     need_boat: false

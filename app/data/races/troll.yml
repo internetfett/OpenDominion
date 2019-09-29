@@ -5,7 +5,7 @@ perks:
   max_population: -5
   spy_strength: -10
   food_consumption: 5
-  offense: 5
+  offense: 10
 units:
   - name: Brute
     cost:

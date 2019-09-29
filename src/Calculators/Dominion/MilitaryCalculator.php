@@ -299,7 +299,7 @@ class MilitaryCalculator
         if($isAmbush)
         {
           $forestRatio = $dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion);
-          $forestRatioModifier = $forestRatio / 20;
+          $forestRatioModifier = $forestRatio / 5;
           $ambushReduction = min($forestRatioModifier, 0.10);
           $dp = $dp * (1 - $ambushReduction);
         }
@@ -502,6 +502,27 @@ class MilitaryCalculator
         $wizardRawRatio = $this->getWizardRatioRaw($dominion, 'offense');
         $powerFromWizardRatio = $wizardRawRatio * $ratio;
         $powerFromPerk = min($powerFromWizardRatio, $max);
+
+        return $powerFromPerk;
+    }
+
+
+    protected function getUnitPowerFromRawSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_raw_spy_ratio");
+
+        if(!$spyRatioPerk) {
+            return 0;
+        }
+
+        $ratio = (float)$spyRatioPerk[0];
+        $max = (int)$spyRatioPerk[1];
+
+        $spyRawRatio = $this->getSpyRatioRaw($dominion, 'offense');
+        $powerFromSpyRatio = $spyRawRatio * $ratio;
+        $powerFromPerk = min($powerFromSpyRatio, $max);
 
         return $powerFromPerk;
     }
