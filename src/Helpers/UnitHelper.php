@@ -218,10 +218,10 @@ class UnitHelper
             }
         }
 
-        $helpString['unit1'] = '<ul>' . $helpString['unit1'] . '</ul>';
-        $helpString['unit2'] = '<ul>' . $helpString['unit2'] . '</ul>';
-        $helpString['unit3'] = '<ul>' . $helpString['unit3'] . '</ul>';
-        $helpString['unit4'] = '<ul>' . $helpString['unit4'] . '</ul>';
+        $helpStrings['unit1'] = '<ul>' . $helpStrings['unit1'] . '</ul>';
+        $helpStrings['unit2'] = '<ul>' . $helpStrings['unit2'] . '</ul>';
+        $helpStrings['unit3'] = '<ul>' . $helpStrings['unit3'] . '</ul>';
+        $helpStrings['unit4'] = '<ul>' . $helpStrings['unit4'] . '</ul>';
 
         return $helpStrings[$unitType] ?: null;
     }
