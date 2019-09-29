@@ -167,8 +167,7 @@ class RoundController extends AbstractController
 
         } catch (QueryException $e) {
 
-            $request->command->error("SQL Error: " . $e->getMessage() . "\n");
-            die();
+            die($e->getMessage());
             return redirect()->back()
                 ->withInput($request->all())
                 ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round."]);
