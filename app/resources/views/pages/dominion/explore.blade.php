@@ -32,7 +32,6 @@
         </div>
     </div>
 @elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
-
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -131,15 +130,14 @@
         </div>
 
     </div>
-          @endif
-    @else
-        <div class="row">
-            <div class="col-sm-12 col-md-9">
-                <div class="box box-primary">
-                    <p>Due to starvation, you cannot explore until you have more food.</p>
-                    <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
-                </div>
+@else
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <p>Due to starvation, you cannot explore until you have more food.</p>
+                <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
             </div>
         </div>
-    @endif
+    </div>
+@endif
 @endsection
