@@ -42,14 +42,14 @@ class UnitHelper
     {
 
         $helpStrings = [
-            'draftees' => 'Basic military unit. Provides 1 DP.<br><br>Used for exploring and training other units.',
-            'unit1' => 'Specialist unit.',
-            'unit2' => 'Specialist unit.',
-            'unit3' => 'Elite unit.',
-            'unit4' => 'Elite unit.',
+            'draftees' => 'Used for exploring and training other units. Provides 1 DP.',
+            #'unit1' => 'Specialist unit.',
+            #'unit2' => 'Specialist unit.',
+            #'unit3' => 'Elite unit.',
+            #'unit4' => 'Elite unit.',
             'spies' => 'Used for espionage.',
             'wizards' => 'Used for casting offensive spells.',
-            'archmages' => 'Used for casting offensive spells.<br><br>Immortal and twice as strong as regular wizards.',
+            'archmages' => 'Used for casting offensive spells. Twice as strong as regular wizards.',
         ];
 
         // todo: refactor this. very inefficient
@@ -218,6 +218,7 @@ class UnitHelper
             }
         }
 
+        # Wrap in <ul>. For some reason, this worked but a foreach did not.
         $helpStrings['unit1'] = '<ul>' . $helpStrings['unit1'] . '</ul>';
         $helpStrings['unit2'] = '<ul>' . $helpStrings['unit2'] . '</ul>';
         $helpStrings['unit3'] = '<ul>' . $helpStrings['unit3'] . '</ul>';
