@@ -167,7 +167,7 @@ class RoundController extends AbstractController
 
         } catch (QueryException $e) {
 
-            $this->command->error("SQL Error: " . $e->getMessage() . "\n");
+            $request->command->error("SQL Error: " . $e->getMessage() . "\n");
             die();
             return redirect()->back()
                 ->withInput($request->all())
