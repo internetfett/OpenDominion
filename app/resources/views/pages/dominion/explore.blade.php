@@ -8,6 +8,17 @@
 @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
     <div class="row">
         <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <p>Your race is not able to obtain land by exploring.</p>
+                <p>Grow your <a href="{{ route('dominion.military') }}">military power</a> and <a href="{{ route('dominion.invade') }}">invade other dominions</a>.</p>
+            </div>
+        </div>
+    </div>
+@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-9">
           @if ($protectionService->isUnderProtection($selectedDominion))
               <div class="box box-primary">
                   <div class="box-header with-border">
@@ -27,17 +38,6 @@
                   </div>
               </div>
           @else
-            <div class="box box-primary">
-                <p>Your race is not able to obtain land by exploring.</p>
-                <p>Grow your <a href="{{ route('dominion.military') }}">military power</a> and <a href="{{ route('dominion.invade') }}">invade other dominions</a>.</p>
-            </div>
-        </div>
-    </div>
-@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
-
-    <div class="row">
-
-        <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
@@ -133,6 +133,7 @@
         </div>
 
     </div>
+          @endif
     @else
         <div class="row">
             <div class="col-sm-12 col-md-9">
