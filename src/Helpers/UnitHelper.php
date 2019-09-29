@@ -218,10 +218,10 @@ class UnitHelper
             }
         }
 
-        foreach($helpStrings as $helpString)
-        {
-          $helpStrings[$helpString] = '<ul id="helpstring">' . $helpString . '</ul>';
-        }
+        $helpString['unit1'] = '<ul>' . $helpString['unit1'] . '</ul>';
+        $helpString['unit2'] = '<ul>' . $helpString['unit2'] . '</ul>';
+        $helpString['unit3'] = '<ul>' . $helpString['unit3'] . '</ul>';
+        $helpString['unit4'] = '<ul>' . $helpString['unit4'] . '</ul>';
 
         return $helpStrings[$unitType] ?: null;
     }
