@@ -12,6 +12,9 @@ use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\ExploreActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use OpenDominion\Services\Dominion\ProtectionService;
+
 class ExplorationController extends AbstractDominionController
 {
     public function getExplore()
@@ -21,6 +24,7 @@ class ExplorationController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
+            'protectionService' => app(ProtectionService::class),
         ]);
     }
 
