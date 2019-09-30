@@ -236,5 +236,6 @@ class RoundController extends AbstractController
         return $ratingStrings[$rating];
       }
       return 'Unrated';
+    }
 
 }
