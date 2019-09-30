@@ -62,7 +62,6 @@
                                                       </ul>
                                                     </div>
 
-
                                                 </div>
                                             </label>
                                         </div>
@@ -87,6 +86,15 @@
                                                     <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
                                                   </p>
                                                 </div>
+
+                                                <div class="col-sm-4">
+                                                  <ul>
+                                                    <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
+                                                    <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
+                                                    <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>
+                                                  </ul>
+                                                </div>
+
                                             </div>
                                         </label>
                                     </div>
