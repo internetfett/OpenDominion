@@ -131,7 +131,7 @@ class DominionFactory
         if($race->name == 'Void')
         {
           $startingResources['mana'] = intval($startingResources['platinum'] * (1/2));
-          $startingResources['platinum'] = intval($startingResources['platinum'] (1/2));
+          $startingResources['platinum'] = intval($startingResources['platinum'] * (1/2));
           $startingResources['gems'] = 0;
         }
 
