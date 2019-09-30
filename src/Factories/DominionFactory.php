@@ -52,21 +52,24 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
+        #
+        $acresBase = 1000;
+
         # RESOURCES
-        $platForTroops = 2000000; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
-        $startingResources['platinum'] = 2000000; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500
-        $startingResources['platinum'] += 350000; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
+        $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
+        $startingResources['platinum'] = 2000 * $acresBase; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500
+        $startingResources['platinum'] += 350 * $acresBase; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
         $startingResources['platinum'] += $platForTroops;
         $startingResources['ore'] = intval($platForTroops * 0.15); # For troops: 15% of plat for troops in ore
 
-        $startingResources['gems'] = 20000;
+        $startingResources['gems'] = 20 * $acresBase;
 
-        $startingResources['lumber'] = 355000; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500
+        $startingResources['lumber'] = 355 * $acresBase; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500
 
-        $startingResources['food'] = 50000; # 1000*15*0.25*24 = 90,000 + 8% Farms
-        $startingResources['mana'] = 20000; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
+        $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms
+        $startingResources['mana'] = 20 * $acresBase; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
 
-        $startingResources['boats'] = 200;
+        $startingResources['boats'] = 0.2 * $acresBase;
 
         // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
         if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
@@ -96,6 +99,12 @@ class DominionFactory
         {
           $startingResources['platinum'] += $startingResources['gems'] * 2;
           $startingResources['gems'] = 0;
+        }
+        // For cannot_construct races, replace Lumber with Platinum.
+        if((bool)$race->getPerkValue('cannot_improve_castle'))
+        {
+          $startingResources['lumber'] += $startingResources['lumber'] / 2;
+          $startingResources['lumber'] = 0;
         }
 
 

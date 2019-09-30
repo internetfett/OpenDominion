@@ -11,6 +11,9 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+# ODA
+use OpenDominion\Services\Dominion\ProtectionService;
+
 class ExploreActionService
 {
     use DominionGuardsTrait;
@@ -24,6 +27,10 @@ class ExploreActionService
     /** @var QueueService */
     protected $queueService;
 
+
+    /** @var ProtectionService */
+    protected $protectionService;
+
     /**
      * @var int The minimum morale required to explore
      */
@@ -32,11 +39,12 @@ class ExploreActionService
     /**
      * ExplorationActionService constructor.
      */
-    public function __construct()
+    public function __construct(ProtectionService $protectionService)
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
+        $this->protectionService = $protectionService;
     }
 
     /**
@@ -79,8 +87,13 @@ class ExploreActionService
             throw new GameException("You do not have enough platinum and/or draftees to explore for {$totalLandToExplore} acres.");
         }
 
+        # ODA
         if ($dominion->morale < static::MIN_MORALE) {
             throw new GameException('You do not have enough morale to explore');
+        }
+
+        if ($this->protectionService->isUnderProtection($dominion)) {
+            throw new GameException('You are currently under protection and may not explore during that time');
         }
 
         // todo: refactor. see training action service. same with other action services
