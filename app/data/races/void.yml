@@ -2,6 +2,11 @@ name: Void
 alignment: evil
 home_land_type: mountain
 playable: 1
+
+attacking: 3
+exploring : 2
+converting: 2
+
 perks:
   max_population: 10
   food_consumption: -100

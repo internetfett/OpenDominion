@@ -2,6 +2,11 @@ name: Imperial Gnome
 alignment: evil
 home_land_type: mountain
 playable: 1
+
+attacking: 1
+exploring : 2
+converting: 3
+
 perks:
   max_population: -10
   food_consumption: -15

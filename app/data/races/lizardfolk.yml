@@ -2,6 +2,11 @@ name: Lizardfolk
 alignment: evil
 home_land_type: water
 playable: 1
+
+attacking: 3
+exploring : 1
+converting: 1
+
 perks:
   max_population: 10
   population_growth: 25

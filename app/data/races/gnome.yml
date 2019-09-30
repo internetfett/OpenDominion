@@ -2,6 +2,11 @@ name: Gnome
 alignment: good
 home_land_type: mountain
 playable: 1
+
+attacking: 2
+exploring : 3
+converting: 3
+
 perks:
   offense: 7.5
   max_population: -5

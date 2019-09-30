@@ -2,6 +2,11 @@ name: Lycanthrope
 alignment: evil
 home_land_type: cavern
 playable: 1
+
+attacking: 3
+exploring : 2
+converting: 1
+
 perks:
   max_population: 10
 units:

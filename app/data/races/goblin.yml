@@ -2,6 +2,11 @@ name: Goblin
 alignment: evil
 home_land_type: hill
 playable: 1
+
+attacking: 3
+exploring : 3
+converting: 1
+
 perks:
   max_population: 20
   extra_barren_max_population: 5

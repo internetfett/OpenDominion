@@ -56,7 +56,6 @@
 
                                                     <div class="col-sm-4">
                                                       <ul>
-                                                        @php # I tried and failed to get this into a getPlaystyleRatingString() function but couldn't figure it out...
                                                         <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
                                                         <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
                                                         <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>

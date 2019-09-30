@@ -2,6 +2,11 @@ name: Dark Elf
 alignment: evil
 home_land_type: cavern
 playable: 1
+
+attacking: 3
+exploring : 3
+converting: 1
+
 perks:
   wizard_strength: 10
   mana_production: 10

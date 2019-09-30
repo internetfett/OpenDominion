@@ -2,6 +2,11 @@ name: Growth
 alignment: evil
 home_land_type: swamp
 playable: 1
+
+attacking: 2
+exploring : 0
+converting: 0
+
 perks:
 #  max_population: 300
   population_growth: 200

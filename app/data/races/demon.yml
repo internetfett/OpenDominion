@@ -2,6 +2,11 @@ name: Demon
 alignment: evil
 home_land_type: cavern
 playable: 1
+
+attacking: 3
+exploring : 1
+converting: 1
+
 perks:
   food_consumption: -25
   mana_production: 15

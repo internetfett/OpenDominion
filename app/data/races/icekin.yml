@@ -2,6 +2,11 @@ name: Icekin
 alignment: evil
 home_land_type: mountain
 playable: 1
+
+attacking: 2
+exploring : 3
+converting: 3
+
 perks:
   food_consumption: -50
   lumber_production: -10

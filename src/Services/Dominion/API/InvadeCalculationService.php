@@ -13,7 +13,7 @@ class InvadeCalculationService
     /**
      * @var int How many units can fit in a single boat
      */
-    
+
     protected const UNITS_PER_BOAT = 30;
 
     /** @var MilitaryCalculator */
@@ -133,7 +133,7 @@ class InvadeCalculationService
         $this->calculationResult['home_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $unitsHome, $calc);
         $this->calculationResult['home_dpa'] = $this->calculationResult['home_defense'] / $this->landCalculator->getTotalLand($dominion);
 
-        $this->calculationResult['max_op'] = $this->calculationResult['home_defense'] * 1.25;
+        $this->calculationResult['max_op'] = $this->calculationResult['home_defense'] * (5/4);
         $this->calculationResult['min_dp'] = $this->calculationResult['away_offense'] / 3;
 
         return $this->calculationResult;

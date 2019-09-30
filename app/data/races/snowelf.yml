@@ -2,6 +2,11 @@ name: Snow Elf
 alignment: good
 home_land_type: mountain
 playable: 1
+
+attacking: 3
+exploring : 1
+converting: 2
+
 perks:
   mana_production: 10
   food_consumption: -25

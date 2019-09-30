@@ -2,6 +2,11 @@ name: Sacred Order
 alignment: good
 home_land_type: plain
 playable: 1
+
+attacking: 3
+exploring : 2
+converting: 2
+
 perks:
   food_production: 5
   population_growth: -15

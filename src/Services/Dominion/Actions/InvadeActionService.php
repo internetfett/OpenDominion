@@ -1391,7 +1391,8 @@ class InvadeActionService
         $currentHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion);
         $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
 
-        $attackingForceMaxOP = (int)ceil($newHomeForcesDP * 1.25);
+        # 5/4 (5:4) rule, to be changed to 4/3 (4:3)
+        $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (5/4));
 
         return ($attackingForceOP <= $attackingForceMaxOP);
     }

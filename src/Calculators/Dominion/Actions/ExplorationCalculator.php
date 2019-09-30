@@ -56,10 +56,6 @@ class ExplorationCalculator
             $platinum *= 1.25;
         }
 
-        #if($totalLand >= 4000) {
-        #    $platinum *= 1.25;
-        #}
-
         // Racial bonus
         $platinum *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
 
@@ -84,10 +80,6 @@ class ExplorationCalculator
         }
 
         $draftees += 5;
-
-        #if($totalLand >= 4000) {
-        #    $draftees *= 1.25;
-        #}
 
         // Racial bonus
         $draftees *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
