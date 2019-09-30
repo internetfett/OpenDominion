@@ -56,9 +56,9 @@
 
                                                     <div class="col-sm-4">
                                                       <ul>
-                                                        <li>Attacking: {{ getPlaystyleRatingString($race->attacking) }}</li>
-                                                        <li>Converting: {{ getPlaystyleRatingString($race->converting) }}</li>
-                                                        <li>Exploring: {{ getPlaystyleRatingString($race->exploring) }}</li>
+                                                        <li>Attacking: {{ $round->getPlaystyleRatingString($race->attacking) }}</li>
+                                                        <li>Converting: {{ $round->getPlaystyleRatingString($race->converting) }}</li>
+                                                        <li>Exploring: {{ $round->getPlaystyleRatingString($race->exploring) }}</li>
                                                       </ul>
                                                     </div>
 
