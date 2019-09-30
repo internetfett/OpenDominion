@@ -97,7 +97,7 @@ class DominionFactory
           $startingResources['boats'] = 0;
         }
         // Mana-cost races: double Mana
-        $manaCostRaces = array('Lux','Norse','Snow Elf','Void');
+        $manaCostRaces = array('Lux','Norse','Snow Elf','Undead','Void');
         if(in_array($race->name, $manaCostRaces))
         {
           $startingResources['mana'] = $startingResources['mana']*2;
@@ -127,10 +127,11 @@ class DominionFactory
         {
           $startingResources['morale'] = 300;
         }
-        // Void: extra mana.
-        if((bool)$race->getPerkValue('can_invest_mana'))
+        // Void: move 1/2 of plat into mana, and remove gems.
+        if($race->name == 'Void')
         {
-          $startingResources['mana'] = $startingResources['gems'] * 2;
+          $startingResources['mana'] = intval($startingResources['platinum'] * (1/2));
+          $startingResources['platinum'] = intval($startingResources['platinum'] (1/2));
           $startingResources['gems'] = 0;
         }
 
