@@ -2,6 +2,10 @@ name: Merfolk
 alignment: good
 home_land_type: water
 playable: 1
+# Difficulty: 0 - can't, 1 - difficult, 2 - challenging, 3 - excellent
+attacking: 3
+exploring : 3
+converting: 1
 perks:
   lumber_production: -15
   food_production: 15

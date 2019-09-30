@@ -53,6 +53,10 @@
                                                         <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
                                                       </p>
                                                     </div>
+
+                                                    <div class="col-lg-4">
+                                                      <p>Attacking: {{ $race->attacking }} | Exploring: {{ $race->exploring }} | Converting: {{ $race->converting }}</p>
+                                                    </div>
                                                 </div>
                                             </label>
                                         </div>
