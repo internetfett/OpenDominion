@@ -237,6 +237,6 @@ class RoundController extends AbstractController
             throw new GameException("You already have a dominion in round {$round->number}");
         }
     }
-x
+
 
 }
