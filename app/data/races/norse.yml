@@ -38,22 +38,23 @@ units:
       ore: 200
       mana: 25
     power:
-      offense: 5
-      defense: 5
+      offense: 4
+      defense: 6
     perks:
       fewer_casualties_offense: 50
       fewer_casualties_defense: 25
+      offense_from_prestige: 500,2 # amount, max
   - name: Einherjar
-    need_boat: true
+    need_boat: false
     cost:
       platinum: 0
       ore: 0
       mana: 0
       champion: 1
     power:
-      offense: 8
+      offense: 30
       defense: 0
     perks:
       no_draftee: 1
       true_immortal: 1
-      static_networth: 25
+      static_networth: 33

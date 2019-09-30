@@ -25,7 +25,7 @@ units:
   - name: Ice Boulder
     need_boat: false
     cost:
-      platinum: 1000
+      platinum: 2000
       mana: 100
     power:
       offense: 1
@@ -37,7 +37,7 @@ units:
   - name: Trebuchet
     need_boat: false
     cost:
-      platinum: 1000
+      platinum: 2000
       lumber: 100
     power:
       offense: 1

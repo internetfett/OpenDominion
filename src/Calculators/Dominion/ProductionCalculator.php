@@ -785,6 +785,11 @@ class ProductionCalculator
          */
         public function getWildYetiEscaped(Dominion $dominion): float
         {
+            if(!$dominion->race->getPerkValue('gryphon_nests_generates_wild_yetis'))
+            {
+              return 0;
+            }
+          
             $escaped = 0;
 
             // Escaped percentage

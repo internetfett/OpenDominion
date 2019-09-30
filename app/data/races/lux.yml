@@ -15,13 +15,13 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   invest_bonus: -10
-  max_population: 5
+  platinum_production: -10
 units:
   - name: Essence
     static_networth: 6
     cost:
-      platinum: 100
-      mana: 5
+      platinum: 250
+      mana: 25
     power:
       offense: 0
       defense: 0
@@ -31,28 +31,30 @@ units:
     cost:
       unit1: 1
       gem: 1
+      mana: 50
     power:
       offense: 0
       defense: 4
     perks:
       no_draftee: 1
       fewer_casualties: 50
-      counts_as_wizard_offense: 0.06
-      counts_as_wizard_defense: 0.06
+      counts_as_wizard_offense: 0.05
+      counts_as_wizard_defense: 0.05
   - name: Vex
     need_boat: false
     static_networth: 11
     cost:
       unit1: 1
       gem: 1
+      mana: 50
     power:
       offense: 4
       defense: 0
     perks:
       no_draftee: 1
       fewer_casualties: 50
-      counts_as_spy_offense: 0.06
-      counts_as_spy_defense: 0.06
+      counts_as_spy_offense: 0.05
+      counts_as_spy_defense: 0.05
   - name: Pax
     need_boat: false
     static_networth: 22
@@ -60,13 +62,14 @@ units:
       unit2: 1
       unit3: 1
       gem: 4
+      mana: 100
     power:
       offense: 8
       defense: 8
     perks:
       no_draftee: 1
       true_immortal: 1
-      counts_as_wizard_offense: 0.1618
-      counts_as_wizard_defense: 0.1618
-      counts_as_spy_offense: 0.1618
-      counts_as_spy_defense: 0.1618
+      counts_as_wizard_offense: 0.12
+      counts_as_wizard_defense: 0.08
+      counts_as_spy_offense: 0.12
+      counts_as_spy_defense: 0.08
