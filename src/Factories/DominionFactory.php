@@ -71,48 +71,67 @@ class DominionFactory
 
         $startingResources['boats'] = 0.2 * $acresBase;
 
+        $startingResources['morale'] = 100;
+
         // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
         if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
         {
           $startingResources['ore'] = intval($startingResources['ore'] * 3);
           $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
         }
-        // Ore-free races
+        // Ore-free races: no ore
         $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Undead','Void');
         if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
         }
-        // Food-free races
+        // Food-free races: no food
         if($race->getPerkMultiplier('food_consumption') == -1)
         {
           $startingResources['food'] = 0;
         }
-        // Boat-free races
+        // Boat-free races: no boats
         $boatFreeRaces = array('Lux','Merfolk','Spirit','Dragon','Growth','Lizardfolk','Undead','Void');
         if(in_array($race->name, $boatFreeRaces))
         {
           $startingResources['boats'] = 0;
         }
-        // For cannot_improve_castle races, replace Gems with Platinum.
+        // Mana-cost races: double Mana
+        $manaCostRaces = array('Lux','Norse','Snow Elf','Void');
+        if(in_array($race->name, $manaCostRaces))
+        {
+          $startingResources['mana'] = $startingResources['mana']*2;
+        }
+        // For cannot_improve_castle races: replace Gems with Platinum.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
         {
           $startingResources['platinum'] += $startingResources['gems'] * 2;
           $startingResources['gems'] = 0;
         }
-        // For cannot_construct races, replace Lumber with Platinum.
+        // For cannot_construct races: replace Lumber with Platinum.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
           $startingResources['lumber'] += $startingResources['lumber'] / 2;
           $startingResources['lumber'] = 0;
         }
-        // Growth weirdness.
+        // Growth: extra food, no platinum, no gems, and higher draft rate.
         if($race->name == 'Growth')
         {
           $startingResources['platinum'] = 0;
           $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 4000;
+          $startingResources['food'] = $acresBase * 5000;
           $startingResources['draft_rate'] = 100;
+        }
+        // Demon: extra morale.
+        if($race->name == 'Demon')
+        {
+          $startingResources['morale'] = 300;
+        }
+        // Void: extra mana.
+        if((bool)$race->getPerkValue('can_invest_mana'))
+        {
+          $startingResources['mana'] = $startingResources['gems'] * 2;
+          $startingResources['gems'] = 0;
         }
 
         # POPULATION AND MILITARY
@@ -142,7 +161,7 @@ class DominionFactory
             'peasants_last_hour' => 0,
 
             'draft_rate' => $startingResources['draft_rate'],
-            'morale' => 100,
+            'morale' => $startingResources['morale'],
             'spy_strength' => 100,
             'wizard_strength' => 100,
 

@@ -374,7 +374,7 @@ BLACKORC;
                 $description = 'prestige gains';
                 break;
             case 'draftee_dp':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'DP per draftee';
                 break;
             default:
@@ -563,8 +563,9 @@ BLACKORC;
                 $description = 'Prestige gains';
                 break;
             case 'draftee_dp':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'DP per draftee';
+                $valueType = '';
                 break;
             default:
                 return null;
