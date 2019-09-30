@@ -55,13 +55,11 @@
                                                     </div>
 
                                                     <div class="col-sm-4">
-                                                      <p>Attacking: {{ $race->attacking }}</p>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                      <p>Converting: {{ $race->converting }}</p>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                      <p>Exploring: {{ $race->exploring }}</p>
+                                                      <ul>
+                                                        <li>Attacking: {{ getPlaystyleRatingString($race->attacking) }}</li>
+                                                        <li>Converting: {{ getPlaystyleRatingString($race->converting) }}</li>
+                                                        <li>Exploring: {{ getPlaystyleRatingString($race->exploring) }}</li>
+                                                      </ul>
                                                     </div>
 
 

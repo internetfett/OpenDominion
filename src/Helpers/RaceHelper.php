@@ -601,4 +601,26 @@ BLACKORC;
 
         return $result;
     }
+
+    public function getPlaystyleRatingString(integer $rating): string
+    {
+      $ratingStrings = array
+      (
+        0 => 'Unplayable',
+        1 => 'Difficult',
+        2 => 'Challenging',
+        3 => 'Excellent'
+      );
+
+      if($ratingStrings[$rating])
+      {
+        return $ratingStrings[$rating];
+      }
+      else
+      {
+        return 'Unrated';
+      }
+
+    }
+
 }
