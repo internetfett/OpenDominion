@@ -54,9 +54,17 @@
                                                       </p>
                                                     </div>
 
-                                                    <div class="col-lg-4">
-                                                      <p>Attacking: {{ $race->attacking }} | Exploring: {{ $race->exploring }} | Converting: {{ $race->converting }}</p>
+                                                    <div class="col-sm-3">
+                                                      <p>Attacking: {{ $race->attacking }}</p>
                                                     </div>
+                                                    <div class="col-sm-3">
+                                                      <p>Converting: {{ $race->converting }}</p>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                      <p>Exploring: {{ $race->exploring }}</p>
+                                                    </div>
+
+
                                                 </div>
                                             </label>
                                         </div>
