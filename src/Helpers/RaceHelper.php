@@ -199,15 +199,6 @@ AFFLICTED;
         $descriptions['growth'] = <<<GROWTH
 <p>The growth is believed to originate from ancient Nox burial grounds, deep in the swamp lands.</p>
 <p>Attempts at communication have failed. It shows no signs of sentience.</p>
-<hr>
-<p>Starting resources are randomised:</p>
-<ul>w
-<li>Between 0 and 200 of each unit type except for Cysts</li>
-<li>Between 50 and 300 Cysts.</li>
-<li>Between 1,500 and 2,000 cells (peasants).</li>
-<li>Between 100 and 1,000 amoeba (draftees).</li>
-<li>Between 400,000 and 650,000 food.</li>
-</ul>
 GROWTH;
 
         $descriptions['imperial gnome'] = <<<IMPERIALGNOME
@@ -381,6 +372,10 @@ BLACKORC;
             case 'prestige_gains':
                 $negativeBenefit = false;
                 $description = 'prestige gains';
+                break;
+            case 'draftee_dp':
+                $negativeBenefit = false;
+                $description = 'DP per draftee';
                 break;
             default:
                 return '';
@@ -566,6 +561,10 @@ BLACKORC;
             case 'prestige_gains':
                 $negativeBenefit = false;
                 $description = 'Prestige gains';
+                break;
+            case 'draftee_dp':
+                $negativeBenefit = false;
+                $description = 'DP per draftee';
                 break;
             default:
                 return null;

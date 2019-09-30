@@ -19,6 +19,7 @@ perks:
   extra_barren_max_population: 120
   reduce_conversions: 50
   tissue_improvement: 1
+  draftee_dp: 0.01
 units:
   - name: Abscess
     need_boat: false
@@ -53,7 +54,7 @@ units:
       defense: 2
     perks:
         mana_production: 0.1
-        food_production: 4
+        food_production: 8
   - name: Ulcer
     need_boat: false
     cost:

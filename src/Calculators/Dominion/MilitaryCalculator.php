@@ -260,6 +260,12 @@ class MilitaryCalculator
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
 
+        # Growth and Ants draftees are weaker.
+        if($dominion->race->getPerkValue('draftee_dp'))
+        {
+          $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+        }
+
         // Military
         foreach ($dominion->race->units as $unit) {
             $powerDefense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'defense');
