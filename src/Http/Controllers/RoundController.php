@@ -220,4 +220,21 @@ class RoundController extends AbstractController
             throw new GameException("You already have a dominion in round {$round->number}");
         }
     }
+
+    public function getPlaystyleRatingString(integer $rating): string
+    {
+      $ratingStrings = array
+      (
+        0 => 'Unplayable',
+        1 => 'Difficult',
+        2 => 'Challenging',
+        3 => 'Excellent'
+      );
+
+      if($ratingStrings[$rating])
+      {
+        return $ratingStrings[$rating];
+      }
+      return 'Unrated';
+
 }
