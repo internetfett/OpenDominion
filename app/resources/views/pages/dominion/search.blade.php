@@ -14,7 +14,7 @@
                     <div class="row no-margin">
                         <div class="col-sm-6 col-md-4 form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-6 control-label text-right">Race:</label>
+                                <label class="col-sm-6 control-label text-right">Faction:</label>
                                 <div class="col-sm-6">
                                     <select class="form-control" name="race">
                                         <option value="">All</option>
@@ -89,7 +89,7 @@
                             <tr>
                                 <th>Dominion</th>
                                 <th class="text-center">Realm</th>
-                                <th class="text-center">Race</th>
+                                <th class="text-center">Faction</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
                                 <th class="text-center hidden">My Range</th>

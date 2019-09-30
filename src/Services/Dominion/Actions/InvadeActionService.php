@@ -392,7 +392,7 @@ class InvadeActionService
 
             if($dominion->race->getPerkMultiplier('prestige_gains'))
             {
-              $attackerPrestigeChange = (1 + $dominion->race->getPerkMultiplier('prestige_gains');
+              $attackerPrestigeChange = (1 + $dominion->race->getPerkMultiplier('prestige_gains'));
             }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
