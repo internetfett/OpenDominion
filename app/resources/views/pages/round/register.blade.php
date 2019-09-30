@@ -54,13 +54,13 @@
                                                       </p>
                                                     </div>
 
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                       <p>Attacking: {{ $race->attacking }}</p>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                       <p>Converting: {{ $race->converting }}</p>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                       <p>Exploring: {{ $race->exploring }}</p>
                                                     </div>
 
