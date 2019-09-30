@@ -66,7 +66,7 @@ class DominionFactory
 
         $startingResources['lumber'] = 355 * $acresBase; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500
 
-        $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms
+        $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
         $startingResources['mana'] = 20 * $acresBase; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
 
         $startingResources['boats'] = 0.2 * $acresBase;
@@ -101,15 +101,22 @@ class DominionFactory
           $startingResources['gems'] = 0;
         }
         // For cannot_construct races, replace Lumber with Platinum.
-        if((bool)$race->getPerkValue('cannot_improve_castle'))
+        if((bool)$race->getPerkValue('cannot_construct'))
         {
           $startingResources['lumber'] += $startingResources['lumber'] / 2;
           $startingResources['lumber'] = 0;
         }
-
+        // Growth weirdness.
+        if($race->name == 'Growth')
+        {
+          $startingResources['platinum'] = 0;
+          $startingResources['gems'] = 0;
+          $startingResources['food'] = $acresBase * 4000;
+          $startingResources['draft_rate'] = 100;
+        }
 
         # POPULATION AND MILITARY
-        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')));
+        $startingResources['peasants'] = intval(1000 * (15 + $race->getPerkValue('extra_barren_max_population')) * (1 + $race->getPerkMultiplier('max_population')));
         $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
         $startingResources['peasants'] -= intval($startingResources['draftees']);
         $startingResources['draft_rate'] = 40;
@@ -120,28 +127,6 @@ class DominionFactory
         $startingResources['unit4'] = 0;
         $startingResources['spies'] = 0;
 
-        if((bool)$race->getPerkValue('cannot_construct'))
-        {
-          if($race->name == 'Void')
-          {
-            $startingResources['lumber'] = 0;
-            $startingResources['food'] = 0;
-          }
-          elseif($race->name == 'Growth')
-          {
-            $startingResources['platinum'] = 0;
-            $startingResources['lumber'] = 0;
-            $startingResources['food'] = intval($startingResources['food'] * rand(2,3.5));
-            $startingResources['peasants'] = 1000 * rand(10,20);
-            $startingResources['unit1'] = rand(0,200);
-            $startingResources['unit2'] = rand(0,200);
-            $startingResources['unit3'] = rand(50,300);
-            $startingResources['unit4'] = rand(0,200);
-            $startingResources['draftees'] = rand(100,1000);
-            $startingResources['draft_rate'] = 100;
-          }
-        }
-
         return Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
@@ -151,7 +136,7 @@ class DominionFactory
 
             'ruler_name' => $rulerName,
             'name' => $dominionName,
-            'prestige' => 500,
+            'prestige' => intval($acresBase/2),
 
             'peasants' => $startingResources['peasants'],
             'peasants_last_hour' => 0,
