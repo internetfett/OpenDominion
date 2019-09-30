@@ -7,7 +7,6 @@ attacking: 3
 exploring : 3
 converting: 3
 
-
 perks:
   max_population: 150
   construction_cost: -20
@@ -23,7 +22,7 @@ units:
   - name: Soldier Ant
     need_boat: true
     cost:
-      platinum: 40
+      platinum: 50
       ore: 0
     power:
       offense: 1
@@ -31,7 +30,7 @@ units:
   - name: Worker Ant
     need_boat: true
     cost:
-      platinum: 75
+      platinum: 150
       ore: 0
     power:
       offense: 0
@@ -41,7 +40,7 @@ units:
   - name: Giant Ant
     need_boat: true
     cost:
-      platinum: 200
+      platinum: 320
       ore: 0
     power:
       offense: 0
@@ -49,10 +48,10 @@ units:
   - name: Flying Ant
     need_boat: false
     cost:
-      platinum: 250
+      platinum: 500
       ore: 0
     power:
       offense: 2
       defense: 2
     perks:
-      offense_from_building: forest_haven,10,2 # building type, ratio%, max
+      offense_from_building: forest_haven,10,1 # building type, ratio%, max
