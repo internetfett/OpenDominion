@@ -1,6 +1,7 @@
 <?php
 
-namespace OpenDominion\Services\Dominion\Actions;
+#namespace OpenDominion\Services\Dominion\Actions;
+namespace OpenDominion\Calculators\Dominion\Actions;
 
 use DB;
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
@@ -108,6 +109,12 @@ class ConstructActionService
         $platinumCost = $this->constructionCalculator->getTotalPlatinumCost($dominion, $totalBuildingsToConstruct);
         $lumberCost = $this->constructionCalculator->getTotalLumberCost($dominion, $totalBuildingsToConstruct);
 
+        # Gnome: increased construction speed
+        if($dominion->race->getPerkValue('increased_construction_speed'))
+        {
+          $data['hours'] -= getPerkValue('increased_construction_speed');
+        }
+
         DB::transaction(function () use ($dominion, $data, $platinumCost, $lumberCost, $totalBuildingsToConstruct) {
             $dominion->fill([
                 'resource_platinum' => ($dominion->resource_platinum - $platinumCost),
@@ -115,11 +122,6 @@ class ConstructActionService
                 'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
             ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
 
-            # Gnome: increased construction speed
-            if($dominion->race->getPerkValue('increased_construction_speed'))
-            {
-              $data['hours'] -= getPerkValue('increased_construction_speed');
-            }
 
             $this->queueService->queueResources('construction', $dominion, $data);
         });
