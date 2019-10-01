@@ -111,7 +111,7 @@ class ConstructActionService
         # Gnome: increased construction speed
         if($dominion->race->getPerkValue('increased_construction_speed'))
         {
-          $data['hours'] -= getPerkValue('increased_construction_speed');
+          $data['hours'] = 12 - $dominion->race->getPerkValue('increased_construction_speed');
         }
 
         DB::transaction(function () use ($dominion, $data, $platinumCost, $lumberCost, $totalBuildingsToConstruct) {
