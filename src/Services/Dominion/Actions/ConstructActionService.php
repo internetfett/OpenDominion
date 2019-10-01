@@ -1,7 +1,6 @@
 <?php
 
-#namespace OpenDominion\Services\Dominion\Actions;
-namespace OpenDominion\Calculators\Dominion\Actions;
+namespace OpenDominion\Services\Dominion\Actions;
 
 use DB;
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
