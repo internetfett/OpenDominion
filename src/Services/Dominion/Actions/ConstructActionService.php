@@ -115,6 +115,12 @@ class ConstructActionService
                 'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
             ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
 
+            # Gnome: increased construction speed
+            if($dominion->race->getPerkValue('increased_construction_speed'))
+            {
+              $data['hours'] -= getPerkValue('increased_construction_speed');
+            }
+
             $this->queueService->queueResources('construction', $dominion, $data);
         });
 

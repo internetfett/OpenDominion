@@ -117,7 +117,7 @@ LUX;
 
         $descriptions['snow elf'] = <<<SNOWELF
 <p>Snow Elves are an isolated elven people living at the highest mountain peaks overlooking the plains of the Commonwealth.</p>
-<p>Hidden by the clouds, they build enormous trebuchets and use powerful magic to sling enormous ice bolders at enormous distances.</p>
+<p>Hidden by the clouds, they build enormous trebuchets and use powerful magic to throw ice bou lders at great distances.</p>
 <p>They have learned to live with the mighty snowmen, the Yeti, and use their hunger for gryphon eggs to trap and tame them.</p>
 <hr />
 <p>For every ten Gryphon Nests, one wild yeti per tick is trapped. This is doubled if Gryphon's Call is cast.</p>
@@ -377,6 +377,10 @@ BLACKORC;
                 $negativeBenefit = true;
                 $description = 'DP per draftee';
                 break;
+            case 'increased_construction_speed':
+                $negativeBenefit = false;
+                $description = 'increased construction speed';
+                break;
             default:
                 return '';
         }
@@ -566,6 +570,11 @@ BLACKORC;
                 $negativeBenefit = true;
                 $description = 'DP per draftee';
                 $valueType = '';
+                break;
+            case 'increased_construction_speed':
+                $negativeBenefit = false;
+                $description = 'Increased construction speed';
+                $valueType = ' hours';
                 break;
             default:
                 return null;

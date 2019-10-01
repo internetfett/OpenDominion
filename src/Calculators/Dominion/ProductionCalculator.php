@@ -553,7 +553,7 @@ class ProductionCalculator
      *
      * Ore is produced by:
      * - Building: Ore Mine (60 per)
-     * - Dwarf Unit: Miner (0.5 per)
+     * - Dwarf Unit: Miner (2 per)
      *
      * @param Dominion $dominion
      * @return float
@@ -632,6 +632,7 @@ class ProductionCalculator
      *
      * Gems are rpoduced by:
      * - Building: Diamond Mine (15 per)
+     * - Dwarf Unit: Miner (0.5 per)
      *
      * @param Dominion $dominion
      * @return float
@@ -645,6 +646,9 @@ class ProductionCalculator
 
         // Building: Diamond Mine
         $gems += ($dominion->building_diamond_mine * $gemsPerDiamondMine);
+
+        // Unit Perk Production Bonus (Dwarf Unit: Miner)
+        $ore += $dominion->getUnitPerkProductionBonus('gem_production');
 
         return $gems;
     }
@@ -789,7 +793,7 @@ class ProductionCalculator
             {
               return 0;
             }
-          
+
             $escaped = 0;
 
             // Escaped percentage

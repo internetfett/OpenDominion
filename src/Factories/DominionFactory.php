@@ -111,8 +111,8 @@ class DominionFactory
         // For cannot_construct races: replace Lumber with Platinum.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
-          $startingResources['lumber'] += $startingResources['lumber'] / 2;
-          $startingResources['lumber'] = 0;
+          $startingResources['platinum'] += $startingResources['lumber'] / 2;
+          $startingResources['platinum'] = 0;
         }
         // Growth: extra food, no platinum, no gems, and higher draft rate.
         if($race->name == 'Growth')

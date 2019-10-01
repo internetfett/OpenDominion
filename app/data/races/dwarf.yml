@@ -27,7 +27,8 @@ units:
       offense: 0
       defense: 3
     perks:
-      ore_production: 0.5
+      ore_production: 2
+      gem_production: 0.5
   - name: Cleric
     cost:
       platinum: 760
