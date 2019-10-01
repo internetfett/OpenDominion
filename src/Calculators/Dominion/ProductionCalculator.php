@@ -648,7 +648,7 @@ class ProductionCalculator
         $gems += ($dominion->building_diamond_mine * $gemsPerDiamondMine);
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
-        $ore += $dominion->getUnitPerkProductionBonus('gem_production');
+        $gems += $dominion->getUnitPerkProductionBonus('gem_production');
 
         return $gems;
     }
