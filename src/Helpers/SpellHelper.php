@@ -211,8 +211,8 @@ class SpellHelper
                 'name' => 'Howling',
                 'description' => '+10% offensive strength, +10% defensive strength (not cumulative with Ares\'s Call)',
                 'key' => 'howling',
-                'mana_cost' => 5,
-                'duration' => 12,
+                'mana_cost' => 10,
+                'duration' => 12*4,
                 'races' => collect(['Kobold']),
             ],
             [
@@ -228,7 +228,7 @@ class SpellHelper
                 'description' => '-25% combat losses',
                 'key' => 'regeneration',
                 'mana_cost' => 10,
-                'duration' => 12,
+                'duration' => 12*4,
                 'races' => collect(['Troll', 'Afflicted', 'Lizardfolk']),
             ],
             [
