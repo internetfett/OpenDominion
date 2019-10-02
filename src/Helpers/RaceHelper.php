@@ -27,6 +27,8 @@ FIREWALKER;
         $descriptions['gnome'] = <<<GNOME
 <p>These ingenious little people are the masters of invention and tinkering technology.</p>
 <p>Although slow and expensive due their metallic augments, their powerful machinery can turn the tide of battles in the late game.</p>
+<hr />
+<p>Gnomes finish buildings in nine ticks, instead of the normal twelve.</p>
 GNOME;
 
         $descriptions['halfling'] = <<<HALFLING

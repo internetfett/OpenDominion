@@ -73,6 +73,20 @@ class DominionFactory
 
         $startingResources['morale'] = 100;
 
+        # POPULATION AND MILITARY
+        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')));
+        $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
+        $startingResources['peasants'] -= intval($startingResources['draftees']);
+        $startingResources['draft_rate'] = 40;
+
+        $startingResources['unit1'] = 0;
+        $startingResources['unit2'] = 0;
+        $startingResources['unit3'] = 0;
+        $startingResources['unit4'] = 0;
+        $startingResources['spies'] = 0;
+
+        # RACE/FACTION SPECIFIC RESOURCES
+
         // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
         if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
         {
@@ -108,7 +122,7 @@ class DominionFactory
           $startingResources['platinum'] += $startingResources['gems'] * 2;
           $startingResources['gems'] = 0;
         }
-        // For cannot_construct races: replace Lumber with Platinum.
+        // For cannot_construct races: replace half of Lumber with Platinum.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
           $startingResources['platinum'] += $startingResources['lumber'] / 2;
@@ -135,17 +149,6 @@ class DominionFactory
           $startingResources['gems'] = 0;
         }
 
-        # POPULATION AND MILITARY
-        $startingResources['peasants'] = intval(1000 * (15 + $race->getPerkValue('extra_barren_max_population')) * (1 + $race->getPerkMultiplier('max_population')));
-        $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
-        $startingResources['peasants'] -= intval($startingResources['draftees']);
-        $startingResources['draft_rate'] = 40;
-
-        $startingResources['unit1'] = 0;
-        $startingResources['unit2'] = 0;
-        $startingResources['unit3'] = 0;
-        $startingResources['unit4'] = 0;
-        $startingResources['spies'] = 0;
 
         return Dominion::create([
             'user_id' => $user->id,
