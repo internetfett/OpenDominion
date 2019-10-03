@@ -168,7 +168,9 @@
                       <p>If you register now, your ticks will start when the round starts on Saturday at midnight UTC.</p>
                       <p>Protection only lasts six hours (24 ticks / 4 ticks per hour = 6 hours).</p>
                       <p>If 00:00 to 06:00 UTC are not convenient hours for you, consider registering a little later.</p>
+                      @if ($discordInviteLink = config('app.discord_invite_link'))
                       <p>Come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a> in the meantime.</p>
+                      @endif
                     </div>
                 </div>
 
