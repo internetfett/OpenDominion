@@ -57,7 +57,7 @@
                             <div class="col-sm-offset-3 col-sm-9">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('auth.termsandconditions') }}">Terms and Conditions</a>
+                                        <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('termsandconditions') }}">Terms and Conditions</a>
                                     </label>
                                 </div>
                             </div>

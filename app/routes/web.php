@@ -27,8 +27,6 @@ $router->group(['prefix' => 'auth', 'as' => 'auth.'], static function (Router $r
         $router->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
         $router->post('password/reset', 'Auth\ResetPasswordController@reset');
 
-        $router->get('termsandconditions')->name('termsandconditions');
-
     });
 
     $router->group(['middleware' => 'auth'], static function (Router $router) {
@@ -49,6 +47,9 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 
     // Dashboard
     $router->get('dashboard')->uses('DashboardController@getIndex')->name('dashboard');
+
+    // Terms and Conditions
+    $router->get('termsandconditions')->uses('TermsAndConditionsController@getIndex')->name('termsandconditions');
 
     // Settings
     $router->get('settings')->uses('SettingsController@getIndex')->name('settings');
