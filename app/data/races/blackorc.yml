@@ -13,7 +13,7 @@ perks:
   lumber_production: 50
   max_population: -7.5
 units:
-  - name: Grunt
+  - name: Impaler
     cost:
       platinum: 500
       ore: 25
