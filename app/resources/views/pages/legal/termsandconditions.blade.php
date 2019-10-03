@@ -111,5 +111,7 @@
 
       <p>Insofar as applicable, these Terms also apply to other chat rooms, discussion boards, and other websites directly associated with {{ $website_name }}.</p>
 
+      <p>We may send emails to you related to the game including game event notifications configured by you and announcements. You can unsubscribe from these emails by clicking the unsubscribe link or change your notification settins by logging in, or by contacting {{ $contact_email }}.
+
     </div>
 @endsection
