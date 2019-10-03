@@ -24,7 +24,7 @@ class LegalController extends AbstractController
     public function getPrivacyPolicy()
     {
       return view('pages.legal.privacypolicy', [
-          'company_name' => 'Dreki LLC',
+          'company_name' => 'ODArena',
           'website_name' => 'ODArena',
           'website_url' => 'https://odarena.com/',
       ]);

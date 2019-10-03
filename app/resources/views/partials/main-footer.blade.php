@@ -17,5 +17,10 @@
     </div>
 
     <i class="fa fa-github"></i> <span class="hidden-xs">View this project on </span><a href="https://github.com/Dr-Eki/OpenDominion" target="_blank">GitHub <i class="fa fa-external-link"></i></a>
+     |
+    <i class="fa fa-file-text-o"></i> <span class="hidden-xs">View this project on </span><a href="{{ route('legal.privacypolicy') }}" target="_blank">Privacy Policy</a>
+     |
+    <i class="fa fa-file-text-o"></i> <span class="hidden-xs">View this project on </span><a href="{{ route('legal.termsandconditions') }}" target="_blank">Terms and Conditions</a>
+
 
 </footer>
