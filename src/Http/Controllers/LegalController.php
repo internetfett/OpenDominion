@@ -24,6 +24,7 @@ class LegalController extends AbstractController
     public function getPrivacyPolicy()
     {
       return view('pages.legal.privacypolicy', [
+          'company_website' => 'https://odarena.com',
           'company_name' => 'ODArena',
           'company_address' => 'Cyprus',
       ]);
