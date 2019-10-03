@@ -74,7 +74,7 @@ class DominionFactory
         $startingResources['morale'] = 100;
 
         # POPULATION AND MILITARY
-        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')));
+        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
         $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
         $startingResources['peasants'] -= intval($startingResources['draftees']);
         $startingResources['draft_rate'] = 40;
