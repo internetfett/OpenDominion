@@ -10,7 +10,7 @@
     <div class="box-body">
       <p>At {{ $website_name }}, accessible from {{ $website_url }}, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by {{ $website_name }} and how we use it.</p>
 
-      <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at info@odarena.com</p>
+      <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at {{ $contact_email }}</p>
 
       <h3>General Data Protection Regulation (GDPR)</h3>
       <p>We are a Data Controller of your information.</p>

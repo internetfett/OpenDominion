@@ -84,7 +84,7 @@
 
       <h2>Governing Law</h2>
 
-      <p>These Terms shall be governed and construed in accordance with the laws of the Republic of Cyprus, without regard to its conflict of law provisions.</p>
+      <p>These Terms shall be governed and construed in accordance with the laws of {{ $company_jurisdiction }}, without regard to its conflict of law provisions.</p>
 
       <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.</p>
 
