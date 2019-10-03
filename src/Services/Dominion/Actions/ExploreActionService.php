@@ -60,9 +60,9 @@ class ExploreActionService
         $this->guardLockedDominion($dominion);
 
 
-        if($dominion->round->isExplorationAllowed() !== 1)
+        if(!$dominion->round->isExploringAllowed())
         {
-            throw new GameException('Exploration has been disabled for this round.');
+            throw new GameException('Exploration has been disabled for this round.' . $dominion->round->isExploringAllowed);
         }
 
 

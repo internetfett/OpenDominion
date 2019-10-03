@@ -161,9 +161,16 @@ class Round extends AbstractModel
        *
        * @return bool
        */
-      public function isExplorationAllowed(): bool
+      public function isExploringAllowed(): bool
       {
-          return $this->allow_exploring;
+        if($this->allow_exploring == 1)
+        {
+          return True;
+        }
+        else
+        {
+          return False;
+        }
       }
 
 
