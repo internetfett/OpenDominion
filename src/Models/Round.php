@@ -155,6 +155,18 @@ class Round extends AbstractModel
         return ($this->offensive_actions_prohibited_at <= now());
     }
 
+
+      /**
+       * Returns whether exploration is allowed this round.
+       *
+       * @return bool
+       */
+      public function isExplorationAllowed(): bool
+      {
+          return $this->allow_exploring;
+      }
+
+
     /**
      * Returns whether a round is active.
      *
