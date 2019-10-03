@@ -95,7 +95,7 @@
 
       <p>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
 
-      <h3>Privac Policy</h3>
+      <h3>Privacy Policy</h3>
 
       <p>These Terms also include the {{ $website_name }} Privacy Policy, available from this link: {{ route('legal.privacypolicy') }}
 
