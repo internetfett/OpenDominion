@@ -83,13 +83,13 @@
                         </table>
                     </div>
                     <div class="box-footer text-center">
-                        @if ($currentRound->daysUntilEnd() < 7)
+                        @if ($currentRound->daysUntilEnd() < 2)
                             <p>
                                 <em class="text-red">The round ends in {{ $currentRound->daysUntilEnd() }} {{ str_plural('day', $currentRound->daysUntilEnd()) }}.</em>
                             </p>
                         @else
                             <p>
-                                <em>Register to join the ongoing round!</em>
+                                <em><a href="{{ route('auth.register') }}">Register to join the ongoing round!</a></em>
                             </p>
                         @endif
                     </div>
@@ -103,24 +103,17 @@
                     <h3 class="box-title">Welcome to OD Arena!</h3>
                 </div>
                 <div class="box-body">
-                    <p>OD Arena is a clone and fork of <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, which is a free online text-based strategy game in a medieval fantasy setting. You control a dominion and your goal is to become the largest dominion in the current round.</p>
+                    <p>OD Arena is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
 
                     <p>To start playing, <a href="{{ route('auth.register') }}">register</a> an account and sign up for a round after registration. If you already have an account, <a href="{{ route('auth.login') }}">login</a> instead.</p>
 
-                    <p>To help you get started, please consult the following resources:</p>
-
-                    <ul>
-                        <li><a href="https://opendominion.miraheze.org/wiki/My_First_Round" target="_blank">My First Round <i class="fa fa-external-link"></i></a> on the <a href="https://opendominion.miraheze.org/" target="_blank">OpenDominion Wiki <i class="fa fa-external-link"></i></a>.</li>
-                        <li><a href="{{ route('scribes.index') }}">The Scribes</a></li>
-                    </ul>
-
-                    <p>Do note that OpenDominion is still in development and not all features from Dominion are present in OpenDominion.</p>
-
                     @if ($discordInviteLink = config('app.discord_invite_link'))
-                        <p>Also feel free to join the OpenDominion <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>! It's the main place for game announcements, game-related chat and development chat.</p>
+                        <p>Also feel free to join the OD Arena <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>! It's the main place for game announcements, game-related chat and development chat.</p>
                     @endif
 
-                    <p>OD Arena is open source software and can be found on <a href="https://github.com/Dr-Eki/OpenDominion" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
+                    <p>OD Arena is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
+
+                    <p>Just like OpenDominion, OD Arena is open source software and can be found on <a href="https://github.com/Dr-Eki/OpenDominion" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
                 </div>
             </div>
         </div>

@@ -125,7 +125,7 @@ LUX;
 <p>For every ten Gryphon Nests, one wild yeti per tick is trapped. This is doubled if Gryphon's Call is cast.</p>
 <p>Up to 5% of all wild yetis in captivity escape every tick.</p>
 <hr />
-<p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. It takes one tick to set the Trebuchet up again and be ready to throw a new Ice Boulder.</p>
+<p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. It takes one tick for the Trebuchet to  be able to throw another Ice Boulder.</p>
 SNOWELF;
 
         // EMPIRE
