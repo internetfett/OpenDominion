@@ -191,8 +191,7 @@ $router->group(['prefix' => 'legal', 'as' => 'legal.'], static function (Router 
   $router->get('/')->uses('LegalController@getIndex')->name('index');
   $router->get('termsandconditions')->uses('LegalController@getTermsAndConditions')->name('termsandconditions');
   $router->get('privacypolicy')->uses('LegalController@getPrivacyPolicy')->name('privacypolicy');
-
-}
+});
 
 
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
