@@ -108,7 +108,7 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                      @if(!$selectedDominion->round->isExploringAllowed)
+                      @if(!$selectedDominion->round->isExploringAllowed())
                         <p>Exploring has been disabled for this round.</p>
                       @else
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
