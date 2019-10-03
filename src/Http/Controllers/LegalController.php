@@ -20,6 +20,7 @@ class LegalController extends AbstractController
         'website_name' => 'OD Arena',
         'website_url' => 'https://odarena.com/',
         'contact_email' => 'info@odarena.com',
+        'company_jurisdiction' => 'the Republic of Cyprus',
       ]);
     }
 

@@ -8,7 +8,6 @@
         <h3 class="box-title"> Terms and Conditions</h3>
     </div>
     <div class="box-body">
-      <h1>Terms and Conditions ("Terms")</h1>
 
       <p>Last updated: October 03, 2019</p>
 
@@ -18,13 +17,15 @@
 
       <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement  for {{ $website_name }} has been created with the help of <a href="https://www.termsfeed.com/">TermsFeed</a>.</p>
 
-      <h2>Source Code</h2>
+      <h3>Source Code</h3>
 
       <p>The ODArena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</p>
 
       <p>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</p>
 
-      <h2>Accounts</h2>
+      <h3>Accounts</h3>
+
+      <p>You must be at least 18 years or of legal age to register an account and play the game.</p>
 
       <p>When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</p>
 
@@ -40,7 +41,7 @@
 
       <p>If you have forgot your password, use the password reset function. If you do not have access to your email account, contact an administrator on Discord or via {{ $contact_email }}</p>
 
-      <h2>Game Rules</h2>
+      <h3>Game Rules</h3>
 
       <p>You are only allowed to have one dominion per round per account.</p>
 
@@ -62,7 +63,7 @@
 
       <p>If you have been negatively impacted by other players breaching the rules and this can be substantiated during the investigation, you may receive an adequate and proportionate compensation, at our sole discretion.</p>
 
-      <h2>Links To Other Web Sites</h2>
+      <h3>Links To Other Web Sites</h3>
 
       <p>Our Service may contain links to third-party web sites or services that are not owned or controlled by {{ $website_name }}.</p>
 
@@ -70,7 +71,7 @@
 
       <p>We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.</p>
 
-      <h2>Termination</h2>
+      <h3>Termination</h3>
 
       <p>We may terminate or suspend access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
 
@@ -82,27 +83,27 @@
 
       <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</p>
 
-      <h2>Governing Law</h2>
+      <h3>Governing Law</h3>
 
       <p>These Terms shall be governed and construed in accordance with the laws of {{ $company_jurisdiction }}, without regard to its conflict of law provisions.</p>
 
       <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.</p>
 
-      <h2>Changes</h2>
+      <h3>Changes</h3>
 
       <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
 
       <p>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
 
-      <h2>Privac Policy</h2>
+      <h3>Privac Policy</h3>
 
       <p>These Terms also include the {{ $website_name }} Privacy Policy, available from this link: {{ route('legal.privacypolicy') }}
 
-      <h2>Contact Us</h2>
+      <h3>Contact Us</h3>
 
       <p>If you have any questions about these Terms, please contact us via email by {{ $contact_email }}.</p>
 
-      <h2>General</h2>
+      <h3>General</h3>
 
       <p>If you do not agree with these Terms, you may not create an account.</p>
 

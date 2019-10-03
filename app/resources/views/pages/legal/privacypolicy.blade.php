@@ -5,9 +5,11 @@
 @section('content')
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title"> Privacy Policy {{ $company_name }}</h3>
+        <h3 class="box-title">Privacy Policy</h3>
     </div>
     <div class="box-body">
+      <p>Last updated: October 03, 2019</p>
+
       <p>At {{ $website_name }}, accessible from {{ $website_url }}, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by {{ $website_name }} and how we use it.</p>
 
       <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through email at {{ $contact_email }}</p>
