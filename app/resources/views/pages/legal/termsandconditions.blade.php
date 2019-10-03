@@ -38,7 +38,7 @@
 
       <p>If your account is suspended or banned, you are not permitted to open a new account or use another account.</p>
 
-      <p>If you have forgot your password, use the password reset function. If you do not have access to your email account, contact an administrator on Discord or via info@odarena.com.</p>
+      <p>If you have forgot your password, use the password reset function. If you do not have access to your email account, contact an administrator on Discord or via {{ $contact_email }}</p>
 
       <h2>Game Rules</h2>
 
@@ -94,9 +94,13 @@
 
       <p>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</p>
 
+      <h2>Privac Policy</h2>
+
+      <p>These Terms also include the {{ $website_name }} Privacy Policy, available from this link: {{ route('legal.privacypolicy') }}
+
       <h2>Contact Us</h2>
 
-      <p>If you have any questions about these Terms, please contact us via email by info@odarena.com.</p>
+      <p>If you have any questions about these Terms, please contact us via email by {{ $contact_email }}.</p>
 
       <h2>General</h2>
 
