@@ -48,9 +48,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
     // Dashboard
     $router->get('dashboard')->uses('DashboardController@getIndex')->name('dashboard');
 
-    // Terms and Conditions
-    $router->get('termsandconditions')->uses('TermsAndConditionsController@getIndex')->name('termsandconditions');
-
     // Settings
     $router->get('settings')->uses('SettingsController@getIndex')->name('settings');
     $router->post('settings')->uses('SettingsController@postIndex');
@@ -187,6 +184,16 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 });
 
 // Scribes
+
+// Terms and Conditions
+$router->group(['prefix' => 'legal', 'as' => 'scribes.'], static function (Router $router)
+{
+  $router->get('/')->uses('LegalController@getIndex')->name('index');
+  $router->get('termsandconditions')->uses('LegalController@getTermsAndConditions')->name('termsandconditions');
+  $router->get('privacypolicy')->uses('LegalController@getPrivacyPolicy')->name('privacypolicy');
+
+}
+
 
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
 
