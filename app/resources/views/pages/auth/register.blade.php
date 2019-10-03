@@ -57,11 +57,23 @@
                             <div class="col-sm-offset-3 col-sm-9">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('termsandconditions') }}">Terms and Conditions</a>
+                                        <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a>
                                     </label>
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Privacy Policy --}}
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <p>Unlike vanilla Dominion, you only need to register for a user account once.</p>
                         <p>Once you activate your user account, you can sign up for an active round and start playing. Your user account will be persistent across rounds and dominions.</p>

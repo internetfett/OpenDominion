@@ -186,7 +186,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 // Scribes
 
 // Terms and Conditions
-$router->group(['prefix' => 'legal', 'as' => 'scribes.'], static function (Router $router)
+$router->group(['prefix' => 'legal', 'as' => 'legal.'], static function (Router $router)
 {
   $router->get('/')->uses('LegalController@getIndex')->name('index');
   $router->get('termsandconditions')->uses('LegalController@getTermsAndConditions')->name('termsandconditions');
