@@ -57,18 +57,8 @@
                             <div class="col-sm-offset-3 col-sm-9">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="terms" required> I agree to the <a href="#" style="text-decoration: line-through;">Terms and Conditions</a> (todo)
+                                        <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('auth.termsandconditions') }}">Terms and Conditions</a>
                                     </label>
-                                </div>
-                                <div class="help-block">
-                                    <p>TL;DR version:</p>
-                                    <ul>
-                                        <li>One account per player.</li>
-                                        <li>No cheating, botting or scripting.</li>
-                                        <li>Anonymized analytical data will be collected through Google Analytics the sole purpose of improving the game. Feel free to exempt yourself by using something like uBlock Origin.</li>
-                                        <li>We will not share your data to anyone.</li>
-                                        <li>We will only send you game-related emails on your email address.</li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>

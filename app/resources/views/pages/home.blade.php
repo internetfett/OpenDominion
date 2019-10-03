@@ -105,16 +105,20 @@
                 <div class="box-body">
                     <p>OD Arena is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
 
-                    <p>To start playing, <a href="{{ route('auth.register') }}">register</a> an account and sign up for a round after registration. If you already have an account, <a href="{{ route('auth.login') }}">login</a> instead.</p>
+                    <p>To start playing, <a href="{{ route('auth.register') }}">register</a> an account and sign up for a round after registration.</p>
+
+                    <p>If you already have an account, <a href="{{ route('auth.login') }}">login</a> instead.</p>
 
                     @if ($discordInviteLink = config('app.discord_invite_link'))
                         <p>Also feel free to join the OD Arena <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>! It's the main place for game announcements, game-related chat and development chat.</p>
                     @endif
-
+                </div>
+                <div class="box-body">
                     <p>OD Arena is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
 
                     <p>Just like OpenDominion, OD Arena is open source software and can be found on <a href="https://github.com/Dr-Eki/OpenDominion" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
                 </div>
+
             </div>
         </div>
 
