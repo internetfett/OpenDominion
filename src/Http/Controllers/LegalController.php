@@ -14,6 +14,7 @@ class LegalController extends AbstractController
 
     public function getTermsAndConditions()
     {
+      return view('pages.legal.termsandconditions', [
         'company_name' => 'ODArena',
         'website_name' => 'ODArena',
         'website_url' => 'https://odarena.com/',
