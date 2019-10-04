@@ -12,7 +12,7 @@ class ScribesController extends AbstractController
 {
     public function getIndex()
     {
-        $races = collect(Race::orderBy('name')->get())->groupBy('alignment')->toArray();
+        $races = collect(Race::where('playable', 1)->orderBy('name')->get())->groupBy('alignment')->toArray();
         return view('pages.scribes.index', [
             'goodRaces' => $races['good'],
             'evilRaces' => $races['evil'],
