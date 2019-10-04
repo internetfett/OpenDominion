@@ -52,6 +52,5 @@ units:
       offense: 8
       defense: 3
     perks:
-      offense_from_pairing: 1,2,100 # slot, amount, num required
-      defense_from_pairing: 3,1 # slot, amount, num required
+      offense_from_pairing: 1,2,10 # slot, amount, num required
       fewer_casualties: 33
