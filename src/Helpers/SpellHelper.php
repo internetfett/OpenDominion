@@ -368,6 +368,14 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Merfolk']),
             ],
+            [
+                'name' => 'Discipline',
+                'description' => '+10% offensive power, +10% defensive power, +10% ',
+                'key' => 'charybdis_gape',
+                'mana_cost' => 5,
+                'duration' => 12*4,
+                'races' => collect(['Merfolk']),
+            ],
 
         ]);
     }

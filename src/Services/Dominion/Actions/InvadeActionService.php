@@ -1392,7 +1392,7 @@ class InvadeActionService
         $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
 
         # 5/4 (5:4) rule, to be changed to 4/3 (4:3)
-        $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (5/4));
+        $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 
         return ($attackingForceOP <= $attackingForceMaxOP);
     }
