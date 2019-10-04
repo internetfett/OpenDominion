@@ -1,0 +1,53 @@
+name: Legion
+alignment: evil
+home_land_type: plain
+playable: 0
+
+attacking: 2
+exploring : 2
+converting: 1
+
+perks:
+units:
+  - name: Goblin
+    need_boat: true
+    cost:
+      platinum: 400
+      ore: 40
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      plunders_resources_on_attack: 1
+  - name: Dark Elf
+    need_boat: true
+    cost:
+      platinum: 400
+      ore: 40
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      counts_as_wizard_offense: 0.2
+      counts_as_wizard_defense: 0.2
+  - name: Lizardfolk
+    need_boat: false
+    cost:
+      platinum: 400
+      ore: 40
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      counts_as_spy_offense: 0.2
+      counts_as_spy_defense: 0.2
+  - name: Troll
+    need_boat: true
+    cost:
+      platinum: 400
+      ore: 40
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      fewer_casualties: 50

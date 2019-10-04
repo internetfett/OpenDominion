@@ -109,13 +109,13 @@
                     <div class="row">
                         @if (!$canJoinGuards)
                             <div class="col-sm-12 text-center">
-                                <p class="text-red">You cannot join the Emperor's Royal Guard for the first three days of the round.</p>
+                                <p class="text-red">You cannot join the Royal Guard for the first three days of the round.</p>
                             </div>
                         @endif
                         <div class="col-sm-6 text-center">
                             <h4 class="text-green">
                                 <i class="ra ra-heavy-shield" title="Royal Guard"></i>
-                                The Emperor's Royal Guard
+                                The Royal Guard
                             </h4>
                             <ul class="text-left" style="padding: 0 50px;">
                                 <li>Cannot interact with Dominions less than 60% or greater than 166% of your land size.</li>
@@ -144,7 +144,7 @@
                         <div class="col-sm-6 text-center">
                             <h4 class="text-yellow">
                                 <i class="ra ra-heavy-shield" title="Elite Guard"></i>
-                                The Emperor's Elite Guard
+                                The Elite Guard
                             </h4>
                             <ul class="text-left" style="padding: 0 50px;">
                                 <li>Cannot interact with Dominions less than 75% or greater than 133% of your land size.</li>
@@ -187,27 +187,27 @@
                     <p>Once you join a guard, you cannot leave for 2 days. Joining the Royal Guard unlocks the ability to apply for the Elite Guard.</p>
 
                     @if ($isEliteGuardMember)
-                        <p>You are a member of the Emperor's <span class="text-yellow"><i class="ra ra-heavy-shield" title="Elite Guard"></i>Elite Guard</span>.</p>
+                        <p>You are a member of the <span class="text-yellow"><i class="ra ra-heavy-shield" title="Elite Guard"></i>Elite Guard</span>.</p>
 
                         @if ($hoursBeforeLeaveEliteGuard)
                             <p>You cannot leave for {{ $hoursBeforeLeaveEliteGuard }} hours.</p>
                         @endif
                     @elseif ($isRoyalGuardMember)
-                        <p>You are a member of the Emperor's <span class="text-green"><i class="ra ra-heavy-shield" title="Royal Guard"></i> Royal Guard</span>.</p>
+                        <p>You are a member of the <span class="text-green"><i class="ra ra-heavy-shield" title="Royal Guard"></i> Royal Guard</span>.</p>
 
                         @if ($hoursBeforeLeaveRoyalGuard)
                             <p>You cannot leave for {{ $hoursBeforeLeaveRoyalGuard }} hours.</p>
                         @endif
                     @else
-                        <p>You are <span class="text-red">NOT</span> a member of the Emperor's Royal or Elite Guard. You cannot interact with dominions less than 40% or greater than 250% of your land size.</p>
+                        <p>You are <span class="text-red">NOT</span> a member of the Royal or Elite Guard. You cannot interact with dominions less than 40% or greater than 250% of your land size.</p>
                     @endif
 
                     @if ($isEliteGuardApplicant)
-                        <p>You will become a member of the Emperor's Elite Guard in {{ $hoursBeforeEliteGuardMember }} hours.</p>
+                        <p>You will become a member of the Elite Guard in {{ $hoursBeforeEliteGuardMember }} hours.</p>
                     @endif
 
                     @if ($isRoyalGuardApplicant)
-                        <p>You will become a member of the Emperor's Royal Guard in {{ $hoursBeforeRoyalGuardMember }} hours.</p>
+                        <p>You will become a member of the Royal Guard in {{ $hoursBeforeRoyalGuardMember }} hours.</p>
                     @endif
                 </div>
             </div>

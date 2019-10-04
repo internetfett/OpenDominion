@@ -219,6 +219,11 @@ $descriptions['black orc'] = <<<BLACKORC
 <p>Part of The Empress' elite of distinguished warriors, the Black Orc &mdash; so called for their black armour and black weapons forged with moonsoot &mdash; are the preeminent infantry of the Empire.</p>
 BLACKORC;
 
+$descriptions['legion'] = <<<LEGION
+<p>The Legion is the Empress' latest creation. By taking the most promising younglings from all corners of the Empire away from their families and into lifelong servitude, the Empress is forging an army of total loyalty and devotion to the art of bloodshed.</p>
+<p>Each unit (<em>Legionaire</em>) of the Legion is trained to equal strength. The only thing separating one from another is their ancestral special ability.</p> 
+LEGION;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
