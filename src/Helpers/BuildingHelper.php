@@ -9,55 +9,27 @@ class BuildingHelper
 
     public function getBuildingTypes(): array
     {
-
-      if($race->getPerkValue('cannot_build_homes'))
-      {
-        return [
-            'alchemy',
-            'farm',
-            'smithy',
-            'masonry',
-            'ore_mine',
-            'gryphon_nest',
-            'tower',
-            'wizard_guild',
-            'temple',
-            'diamond_mine',
-            'school',
-            'lumberyard',
-            'forest_haven',
-            'factory',
-            'guard_tower',
-            'shrine',
-            'barracks',
-            'dock',
-        ];
-      }
-      else
-      {
-        return [
-            'home',
-            'alchemy',
-            'farm',
-            'smithy',
-            'masonry',
-            'ore_mine',
-            'gryphon_nest',
-            'tower',
-            'wizard_guild',
-            'temple',
-            'diamond_mine',
-            'school',
-            'lumberyard',
-            'forest_haven',
-            'factory',
-            'guard_tower',
-            'shrine',
-            'barracks',
-            'dock',
-        ];
-      }
-
+      return [
+          'home',
+          'alchemy',
+          'farm',
+          'smithy',
+          'masonry',
+          'ore_mine',
+          'gryphon_nest',
+          'tower',
+          'wizard_guild',
+          'temple',
+          'diamond_mine',
+          'school',
+          'lumberyard',
+          'forest_haven',
+          'factory',
+          'guard_tower',
+          'shrine',
+          'barracks',
+          'dock',
+      ];
 
     }
 
@@ -98,8 +70,12 @@ class BuildingHelper
             ],
         ];
 
-        if ($race !== null) {
+        if ($race !== null)
+        {
+          if(!$race->getPerkValue('cannot_build_homes'))
+          {
             array_unshift($return[$race->home_land_type], 'home');
+          }
         }
 
         return $return;
