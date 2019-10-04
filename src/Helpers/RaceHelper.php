@@ -396,8 +396,8 @@ LEGION;
                 $negativeBenefit = false;
                 $description = 'Barracks housing';
                 break;
-            case 'cannot_train_spies':
-                $negativeBenefit = false;
+            case 'cannot_build_homes':
+                $negativeBenefit = true;
                 $description = 'cannot build homes';
                 break;
             default:
@@ -606,7 +606,7 @@ LEGION;
                 $valueType = ' units';
                 break;
             case 'cannot_build_homes':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'Cannot build homes';
                 $booleanValue = true;
                 break;
