@@ -37,7 +37,7 @@ units:
       gem: 1
     power:
       offense: 0
-      defense: 3
+      defense: 2.5
     perks:
       defense_from_prestige: 500,10 # amount, max
       mana_production: 5
