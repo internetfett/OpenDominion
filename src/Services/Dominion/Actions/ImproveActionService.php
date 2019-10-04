@@ -60,7 +60,7 @@ class ImproveActionService
             // Racial bonus multiplier
             $multiplier = (1 + $dominion->race->getPerkMultiplier('invest_bonus'));
 
-            // Imperial Gnome: Spell (remove DP reduction from Temples)
+            // Imperial Gnome: Spell (increase imp points by 10%)
             if ($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
             {
                 $multiplier = 1.10;
