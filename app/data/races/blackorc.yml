@@ -7,7 +7,6 @@ attacking: 3
 exploring : 1
 converting: 1
 
-
 perks:
   food_consumption: 20
   lumber_production: 50
@@ -38,9 +37,9 @@ units:
       gem: 1
     power:
       offense: 0
-      defense: 2.5
+      defense: 3
     perks:
-      defense_from_prestige: 400,3 # amount, max
+      defense_from_prestige: 500,10 # amount, max
       mana_production: 5
       counts_as_wizard_offense: 0.20
       counts_as_wizard_defense: 0.20
@@ -53,5 +52,6 @@ units:
       offense: 8
       defense: 3
     perks:
-      defense_from_pairing: 3,1 # slot, amount
+      offense_from_pairing: 1,2,100 # slot, amount, num required
+      defense_from_pairing: 3,1 # slot, amount, num required
       fewer_casualties: 33
