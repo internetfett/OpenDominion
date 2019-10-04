@@ -217,6 +217,11 @@ class PopulationCalculator
         // Values
         $troopsPerBarracks = 36;
 
+        if($dominion->race->getPerkValue('extra_barracks_housing'))
+        {
+          $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
+        }
+
         return min(
             ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
             ($dominion->building_barracks * $troopsPerBarracks)

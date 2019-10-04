@@ -297,18 +297,30 @@ class TrainActionService
               unset($data['military_unit1'], $data['military_unit2']);
             }
 
+            // Legion: all units train in 9 hours.
+            if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
+            {
+              $hoursSpecs = 9;
+              $hoursElites = 9;
+            }
+            else
+            {
+              $hoursSpecs = 9;
+              $hoursElites = 12;
+            }
+
             // Lux: Spell (reduce training times by 2 hours)
             if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
             {
-                $hours_modifier = -2;
+              $hours_modifier = -2;
             }
             else
             {
               $hours_modifier = 0;
             }
 
-            $this->queueService->queueResources('training', $dominion, $nineHourData, (9 + $hours_modifier));
-            $this->queueService->queueResources('training', $dominion, $data, (12 + $hours_modifier));
+            $this->queueService->queueResources('training', $dominion, $nineHourData, ($hoursSpecs + $hours_modifier));
+            $this->queueService->queueResources('training', $dominion, $data, ($hoursElites + $hours_modifier));
         });
 
         return [

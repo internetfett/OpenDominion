@@ -221,7 +221,7 @@ BLACKORC;
 
 $descriptions['legion'] = <<<LEGION
 <p>The Legion is the Empress' latest creation. By taking the most promising younglings from all corners of the Empire away from their families and into lifelong servitude, the Empress is forging an army of total loyalty and devotion to the art of bloodshed.</p>
-<p>Each unit (<em>Legionaire</em>) of the Legion is trained to equal strength. The only thing separating one from another is their ancestral special ability.</p> 
+<p>Each unit (<em>Legionaire</em>) of the Legion is trained to equal strength. The only thing separating one from another is their ancestral special ability.</p>
 LEGION;
 
         $key = strtolower($race->name);
@@ -387,6 +387,18 @@ LEGION;
             case 'increased_construction_speed':
                 $negativeBenefit = false;
                 $description = 'increased construction speed';
+                break;
+            case 'all_units_trained_in_9hrs':
+                $negativeBenefit = false;
+                $description = 'All units trained in 9 hours';
+                break;
+            case 'extra_barracks_housing':
+                $negativeBenefit = false;
+                $description = 'Barracks housing';
+                break;
+            case 'cannot_train_spies':
+                $negativeBenefit = false;
+                $description = 'cannot build homes';
                 break;
             default:
                 return '';
@@ -582,6 +594,21 @@ LEGION;
                 $negativeBenefit = false;
                 $description = 'Increased construction speed';
                 $valueType = ' hours';
+                break;
+            case 'all_units_trained_in_9hrs':
+                $negativeBenefit = false;
+                $description = 'All units trained in 9 hours';
+                $booleanValue = true;
+                break;
+            case 'extra_barracks_housing':
+                $negativeBenefit = false;
+                $description = 'Barracks housing';
+                $valueType = ' units';
+                break;
+            case 'cannot_build_homes':
+                $negativeBenefit = false;
+                $description = 'Cannot build homes';
+                $booleanValue = true;
                 break;
             default:
                 return null;
