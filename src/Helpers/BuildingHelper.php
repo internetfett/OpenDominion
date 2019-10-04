@@ -9,6 +9,32 @@ class BuildingHelper
 
     public function getBuildingTypes(): array
     {
+
+      if($race->getPerkValue('cannot_build_homes'))
+      {
+        return [
+            'alchemy',
+            'farm',
+            'smithy',
+            'masonry',
+            'ore_mine',
+            'gryphon_nest',
+            'tower',
+            'wizard_guild',
+            'temple',
+            'diamond_mine',
+            'school',
+            'lumberyard',
+            'forest_haven',
+            'factory',
+            'guard_tower',
+            'shrine',
+            'barracks',
+            'dock',
+        ];
+      }
+      else
+      {
         return [
             'home',
             'alchemy',
@@ -30,6 +56,9 @@ class BuildingHelper
             'barracks',
             'dock',
         ];
+      }
+
+
     }
 
     public function getBuildingTypesByRace(Race $race = null): array

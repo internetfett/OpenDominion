@@ -217,6 +217,7 @@ class PopulationCalculator
         // Values
         $troopsPerBarracks = 36;
 
+        # Legion: cannot build home but barracks house extra troops.
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
           $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
