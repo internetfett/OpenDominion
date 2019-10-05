@@ -303,7 +303,7 @@ class CasualtiesCalculator
             $unitBonusMultiplier += $reducedCombatLosses;
 
             // Apply to multiplier (multiplicative)
-            $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier)
+            $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
 
             // Absolute cap at 5% losses (=reduced by 95%).
             $multiplier = min(0.80, $multiplier);
