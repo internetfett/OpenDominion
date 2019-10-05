@@ -812,7 +812,7 @@ class ProductionCalculator
          */
         public function getWildYetiNetChange(Dominion $dominion): int
         {
-            return intval($this->getWildYetiProduction($dominion);
+            return intval($this->getWildYetiProduction($dominion));
             #return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
         }
 
