@@ -177,6 +177,10 @@ class TrainActionService
         {
           throw new GameException('Insufficient souls. Collect more souls.');
         }
+        if($totalCosts['wild_yeti'] > $dominion->resource_wild_yeti)
+        {
+          throw new GameException('You do not have enough wild yetis.');
+        }
         if($totalCosts['morale'] > $dominion->morale)
         {
           # This is fine. We just have to make sure that morale doesn't dip below 0.
