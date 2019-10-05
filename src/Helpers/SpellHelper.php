@@ -189,7 +189,7 @@ class SpellHelper
                 'key' => 'bloodrage',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Orc', 'Black Orc']),
+                'races' => collect(['Orc', 'Black Orc', 'Norse']),
             ],
             [
                 'name' => 'Unholy Ghost',
