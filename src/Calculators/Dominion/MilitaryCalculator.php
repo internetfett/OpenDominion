@@ -333,7 +333,7 @@ class MilitaryCalculator
         $spellAresCall = 10;
         $spellBlizzard = 15;
         $spellFrenzy = 20;
-        $spellHowling = 20;
+        $spellHowling = 10;
 
         // Guard Towers
         $multiplier += min(
