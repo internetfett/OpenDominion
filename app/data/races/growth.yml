@@ -1,7 +1,7 @@
 name: Growth
 alignment: evil
 home_land_type: swamp
-playable: 1
+playable: 0
 
 attacking: 2
 exploring : 0
@@ -53,8 +53,8 @@ units:
       offense: 0
       defense: 2
     perks:
-        mana_production: 0.1
-        food_production: 8
+        mana_production: 0.05
+        food_production: 4
   - name: Ulcer
     need_boat: false
     cost:
