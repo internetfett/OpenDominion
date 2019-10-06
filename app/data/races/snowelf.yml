@@ -25,7 +25,7 @@ units:
   - name: Ice Boulder
     need_boat: false
     cost:
-      platinum: 2000
+      platinum: 1000
       mana: 100
     power:
       offense: 1
