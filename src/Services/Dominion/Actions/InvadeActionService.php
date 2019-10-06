@@ -378,13 +378,17 @@ class InvadeActionService
             // Reduce attacker prestige gain if the target was hit recently
             $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
 
-            if ($recentlyInvadedCount === 1) {
+            if ($recentlyInvadedCount === 1)
+            {
                 $attackerPrestigeChange *= 0.9;
-            } elseif ($recentlyInvadedCount === 2) {
+            } elseif ($recentlyInvadedCount === 2)
+            {
                 $attackerPrestigeChange *= 0.6;
-            } elseif ($recentlyInvadedCount === 3) {
+            } elseif ($recentlyInvadedCount === 3)
+            {
                 $attackerPrestigeChange *= 0.3;
-            } elseif ($recentlyInvadedCount >= 4) {
+            } elseif ($recentlyInvadedCount >= 4)
+            {
                 $attackerPrestigeChange *= 0.1;
             }
 
@@ -590,16 +594,25 @@ class InvadeActionService
         // Reduce casualties if target has been hit recently
         $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
 
-        if ($recentlyInvadedCount === 1) {
+        if ($recentlyInvadedCount === 1)
+        {
             $defensiveCasualtiesPercentage *= 0.8;
-        } elseif ($recentlyInvadedCount === 2) {
+        }
+        elseif ($recentlyInvadedCount === 2)
+        {
             $defensiveCasualtiesPercentage *= 0.6;
-        } elseif ($recentlyInvadedCount === 3) {
-            $defensiveCasualtiesPercentage *= 0.55;
-        } elseif ($recentlyInvadedCount === 4) {
-            $defensiveCasualtiesPercentage *= 0.45;
-        } elseif ($recentlyInvadedCount >= 5) {
-            $defensiveCasualtiesPercentage *= 0.35;
+        }
+        elseif ($recentlyInvadedCount === 3)
+        {
+            $defensiveCasualtiesPercentage *= 0.50;
+        }
+        elseif ($recentlyInvadedCount === 4)
+        {
+            $defensiveCasualtiesPercentage *= 0.33;
+        }
+        elseif ($recentlyInvadedCount >= 5)
+        {
+            $defensiveCasualtiesPercentage *= 0.25;
         }
 
         // Cap max casualties
@@ -626,8 +639,7 @@ class InvadeActionService
         else
         {
             $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage *
-                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) *
-                $casualtiesMultiplier);
+                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) * $casualtiesMultiplier);
         }
 
         // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)

@@ -773,7 +773,7 @@ class ProductionCalculator
             // Snow Elf: Spell (triples wild yeti production)
             if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
             {
-              $wildYetis = $wildYetis * 2;
+              $wildYetis = $wildYetis * 4;
             }
 
             return $wildYetis;

@@ -357,7 +357,7 @@ class SpellHelper
                 'description' => 'Doubles yeti trapping. Removes offensive power bonus from Gryphon Nests.',
                 'key' => 'gryphons_call',
                 'mana_cost' => 6,
-                'duration' => 3*4, # Quarter day
+                'duration' => 1.5*4, # 6 ticks (3 hours)
                 'races' => collect(['Snow Elf']),
             ],
             [

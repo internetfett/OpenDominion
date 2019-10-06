@@ -30,8 +30,8 @@ units:
       defense: 4
   - name: Mystic
     cost:
-      platinum: 1075
-      ore: 0
+      platinum: 1100
+      lumber: 20
     power:
       offense: 0
       defense: 4
@@ -39,8 +39,8 @@ units:
       defense_from_land: forest,20,5 # land type, ratio%, max
   - name: Druid
     cost:
-      platinum: 1100
-      ore: 0
+      platinum: 1050
+      lumber: 20
     power:
       offense: 3
       defense: 1
