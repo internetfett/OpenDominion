@@ -62,7 +62,7 @@ class CasualtiesCalculator
      */
     public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP): float
     {
-        $multiplier = 1;
+        $multiplier = 0;
 
         # CHECK IMMORTALITY
 
@@ -102,7 +102,7 @@ class CasualtiesCalculator
             if (($multiplier !== 1) && (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0))
             {
                 if ($landRatio >= ($immortalVsLandRange / 100)) {
-                    $multiplier = 0;
+                    $multiplier = 1;
                 }
             }
 
@@ -207,7 +207,7 @@ class CasualtiesCalculator
      */
     public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $attacker, ?int $slot): float
     {
-        $multiplier = 1;
+        $multiplier = 0;
 
         // First check immortality, so we can skip the other remaining checks if we indeed have immortal units, since
         // casualties will then always be 0 anyway
@@ -241,7 +241,7 @@ class CasualtiesCalculator
         # This means that Defensive CASUALTIES are zero when INVADED BY a Lux.
         if($attacker->race->getPerkValue('does_not_kill') == 1)
         {
-          $multiplier = 0;
+          $multiplier = 1;
         }
 
         if ($multiplier !== 1) {
