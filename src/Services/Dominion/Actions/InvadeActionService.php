@@ -638,8 +638,7 @@ class InvadeActionService
         }
         else
         {
-            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage *
-                $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) * $casualtiesMultiplier);
+            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ( 1 - $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) * $casualtiesMultiplier));
         }
 
         // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)
