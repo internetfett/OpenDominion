@@ -76,7 +76,7 @@ class CasualtiesCalculator
         # This means that OFFENSIVE CASUALTIES are zero when INVADING a Lux.
         if($target->race->getPerkValue('does_not_kill') == 1)
         {
-          $multiplier = 0;
+          $multiplier = 1;
         }
 
         // Then check immortality, so we can skip the other remaining checks if we indeed have immortal units, since
@@ -88,18 +88,18 @@ class CasualtiesCalculator
             // General "Almost never dies" type of immortality.
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
-                $multiplier = 0;
+                $multiplier = 1;
             }
 
             // True immortality: only dies when overwhelmed.
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 // For now the same as SPUD-style immortal, but separate in code for future usage.
-                $multiplier = 0;
+                $multiplier = 1;
             }
 
             // Range-based immortality
-            if (($multiplier !== 0) && (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0))
+            if (($multiplier !== 1) && (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0))
             {
                 if ($landRatio >= ($immortalVsLandRange / 100)) {
                     $multiplier = 0;
@@ -107,9 +107,9 @@ class CasualtiesCalculator
             }
 
             // Race perk-based immortality
-            if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $target, $slot))
+            if (($multiplier !== 1) && $this->isImmortalVersusRacePerk($dominion, $target, $slot))
             {
-                $multiplier = 0;
+                $multiplier = 1;
             }
         }
 
@@ -219,20 +219,20 @@ class CasualtiesCalculator
             {
                 if (!$this->spellCalculator->isSpellActive($attacker, 'crusade'))
                 {
-                    $multiplier = 0;
+                    $multiplier = 1;
                 }
             }
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
 
-                $multiplier = 0;
+                $multiplier = 1;
             }
 
             // Race perk-based immortality
-            if (($multiplier !== 0) && $this->isImmortalVersusRacePerk($dominion, $attacker, $slot))
+            if (($multiplier !== 1) && $this->isImmortalVersusRacePerk($dominion, $attacker, $slot))
             {
-                $multiplier = 0;
+                $multiplier = 1;
             }
 
         }
