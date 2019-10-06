@@ -117,7 +117,7 @@ class CasualtiesCalculator
 
         # CHECK UNIT AND RACIAL CASUALTY MODIFIERS
 
-        if ($multiplier !== 0)
+        if ($multiplier !== 1)
         {
 
             $nonUnitBonusMultiplier = 0;
@@ -244,7 +244,7 @@ class CasualtiesCalculator
           $multiplier = 0;
         }
 
-        if ($multiplier !== 0) {
+        if ($multiplier !== 1) {
             // Non-unit bonuses (hero, tech, wonders), capped at -80%
 
             $nonUnitBonusMultiplier = 0;
