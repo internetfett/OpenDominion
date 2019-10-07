@@ -21,12 +21,30 @@ class SearchController extends AbstractDominionController
 
         $dominion = $this->getSelectedDominion();
         if ($dominion->realm->alignment == "evil") {
-            $dominions = Dominion::with(['race.units', 'round'])
+            $dominions = Dominion::query()
+                ->with([
+                    'queues',
+                    'round',
+                    'realm',
+                    'race',
+                    'race.perks',
+                    'race.units',
+                    'race.units.perks',
+                ])
                 ->where('round_id', $dominion->round_id)
                 ->where('id', '!=', $dominion->id)
                 ->get();
         } else {
-            $dominions = Dominion::with(['race.units', 'round'])
+            $dominions = Dominion::query()
+                ->with([
+                    'queues',
+                    'round',
+                    'realm',
+                    'race',
+                    'race.perks',
+                    'race.units',
+                    'race.units.perks',
+                ])
                 ->where('round_id', $dominion->round_id)
                 ->where('realm_id', '!=', $dominion->realm_id)
                 ->get();

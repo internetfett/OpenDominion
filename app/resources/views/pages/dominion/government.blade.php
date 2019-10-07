@@ -15,14 +15,22 @@
                             <div class="col-md-12">
                                 <form action="{{ route('dominion.government.realm') }}" method="post" role="form">
                                     @csrf
-                                    <label for="realm_name">Change Realm Name</label>
+                                    <label for="realm_name">Realm Message</label>
                                     <div class="row">
-                                        <div class="col-sm-8 col-lg-9">
+                                        <div class="col-sm-12">
                                             <div class="form-group">
-                                                <input class="form-control" name="realm_name" id="realm_name" placeholder="{{ $selectedDominion->realm->name }}" />
+                                                <input class="form-control" name="realm_motd" id="realm_motd" placeholder="{{ $selectedDominion->realm->motd }}" maxlength="256" />
                                             </div>
                                         </div>
-                                        <div class="col-xs-offset-6 col-xs-6 col-sm-offset-0 col-sm-4 col-lg-2">
+                                    </div>
+                                    <label for="realm_name">Realm Name</label>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <input class="form-control" name="realm_name" id="realm_name" placeholder="{{ $selectedDominion->realm->name }}" maxlength="64" />
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                     Change
@@ -32,18 +40,26 @@
                                     </div>
                                 </form>
                             </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <hr/>
+                                </div>
+                            </div>
                         @endif
                         <div class="col-md-12">
                             <form action="{{ route('dominion.government.monarch') }}" method="post" role="form">
                                 @csrf
                                 <label for="monarch">Vote for monarch</label>
                                 <div class="row">
-                                    <div class="col-sm-8 col-lg-9">
+                                    <div class="col-sm-8 col-lg-10">
                                         <div class="form-group">
                                             <select name="monarch" id="monarch" class="form-control select2" required style="width: 100%" data-placeholder="Select a dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                 <option></option>
-                                                @foreach ($selectedDominion->realm->dominions->sortBy('name') as $dominion)
-                                                    <option value="{{ $dominion->id }}" data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}" data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}">
+                                                @foreach ($dominions as $dominion)
+                                                    <option value="{{ $dominion->id }}"
+                                                            data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                            data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
+                                                            data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
                                                         {{ $dominion->name }} (#{{ $dominion->realm->number }})
                                                     </option>
                                                 @endforeach
@@ -61,7 +77,7 @@
                                 <div class="form-group">
                                     <table class="table table-condensed">
                                         <tr><th>Dominion</th><th>Voted for</th></tr>
-                                        @foreach ($selectedDominion->realm->dominions->sortBy('name') as $dominion)
+                                        @foreach ($dominions as $dominion)
                                             <tr>
                                                 <td>
                                                     @if ($dominion->isMonarch())
@@ -70,8 +86,8 @@
                                                         {{ $dominion->name }}
                                                     @endif
                                                 </td>
-                                                @if ($dominion->monarchVote())
-                                                    <td>{{ $dominion->monarchVote()->name }}</td>
+                                                @if ($dominion->monarchVote)
+                                                    <td>{{ $dominion->monarchVote->name }}</td>
                                                 @else
                                                     <td>N/A</td>
                                                 @endif
@@ -124,7 +140,7 @@
                             @if ($isRoyalGuardApplicant || $isGuardMember)
                                 <form action="{{ route('dominion.government.royal-guard.leave') }}" method="post" role="form" style="padding-bottom: 10px;">
                                     @csrf
-                                    <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() || $isEliteGuardApplicant || $isEliteGuardMember ? 'disabled' : null }}>
+                                    <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() || $isEliteGuardApplicant || $isEliteGuardMember || $hoursBeforeLeaveRoyalGuard ? 'disabled' : null }}>
                                         @if ($isGuardMember)
                                             Leave Royal Guard
                                         @else
@@ -154,7 +170,7 @@
                             @if ($isEliteGuardApplicant || $isEliteGuardMember)
                                 <form action="{{ route('dominion.government.elite-guard.leave') }}" method="post" role="form">
                                     @csrf
-                                    <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                    <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() || $hoursBeforeLeaveEliteGuard ? 'disabled' : null }}>
                                         @if ($isEliteGuardMember)
                                             Leave Elite Guard
                                         @else
@@ -196,7 +212,7 @@
                         <p>You are a member of the <span class="text-green"><i class="ra ra-heavy-shield" title="Royal Guard"></i> Royal Guard</span>.</p>
 
                         @if ($hoursBeforeLeaveRoyalGuard)
-                            <p>You cannot leave for {{ $hoursBeforeLeaveRoyalGuard }} hours.</p>
+                            <p class="text-red">You cannot leave for {{ $hoursBeforeLeaveRoyalGuard }} hours.</p>
                         @endif
                     @else
                         <p>You are <span class="text-red">NOT</span> a member of the Royal or Elite Guard. You cannot interact with dominions less than 40% or greater than 250% of your land size.</p>
@@ -238,11 +254,23 @@
             }
 
             const land = state.element.dataset.land;
+            const percentage = state.element.dataset.percentage;
             const networth = state.element.dataset.networth;
+            let difficultyClass;
+
+            if (percentage >= 120) {
+                difficultyClass = 'text-red';
+            } else if (percentage >= 75) {
+                difficultyClass = 'text-green';
+            } else if (percentage >= 66) {
+                difficultyClass = 'text-muted';
+            } else {
+                difficultyClass = 'text-gray';
+            }
 
             return $(`
                 <div class="pull-left">${state.text}</div>
-                <div class="pull-right">${land} land - ${networth} networth</div>
+                <div class="pull-right">${land} land <span class="${difficultyClass}">(${percentage}%)</span> - ${networth} networth</div>
                 <div style="clear: both;"></div>
             `);
         }

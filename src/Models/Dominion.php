@@ -218,6 +218,11 @@ class Dominion extends AbstractModel
         return $this->belongsTo(Round::class);
     }
 
+    public function queues()
+    {
+        return $this->hasMany(Dominion\Queue::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -331,7 +336,7 @@ class Dominion extends AbstractModel
      */
     public function monarchVote()
     {
-        return self::find($this->monarch_dominion_id);
+        return $this->hasOne(static::class, 'id', 'monarchy_vote_for_dominion_id');
     }
 
     /**

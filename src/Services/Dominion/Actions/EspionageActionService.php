@@ -163,7 +163,7 @@ class EspionageActionService
 
         $result = null;
 
-        DB::transaction(function () use ($dominion, $operationKey, &$result, $target) {
+        DB::transaction(function () use ($dominion, $target, $operationKey, &$result) {
             if ($this->espionageHelper->isInfoGatheringOperation($operationKey)) {
                 $spyStrengthLost = 2;
                 $result = $this->performInfoGatheringOperation($dominion, $operationKey, $target);
@@ -376,6 +376,7 @@ class EspionageActionService
                 });
 
                 array_set($data, 'barren_land', $this->landCalculator->getTotalBarrenLand($target));
+                array_set($data, 'total_land', $this->landCalculator->getTotalLand($target));
 
                 $infoOp->data = $data;
                 break;

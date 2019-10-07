@@ -3,6 +3,7 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\GovernmentActionRequest;
@@ -18,7 +19,21 @@ class GovernmentController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
         $guardMembershipService = app(GuardMembershipService::class);
 
+        $dominions = $dominion->realm->dominions()
+            ->with([
+                'race',
+                'race.perks',
+                'race.units',
+                'race.units.perks',
+                'monarchVote',
+            ])
+            ->get()
+            ->sortByDesc(function ($dominion) {
+                return app(LandCalculator::class)->getTotalLand($dominion);
+            });
+
         return view('pages.dominion.government', [
+            'dominions' => $dominions,
             'monarch' => $dominion->realm->monarch,
             'canJoinGuards' => $guardMembershipService->canJoinGuards($dominion),
             'isRoyalGuardApplicant' => $guardMembershipService->isRoyalGuardApplicant($dominion),
@@ -31,7 +46,8 @@ class GovernmentController extends AbstractDominionController
             'hoursBeforeLeaveRoyalGuard' => $guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion),
             'hoursBeforeLeaveEliteGuard' => $guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion),
             'landCalculator' => app(LandCalculator::class),
-            'networthCalculator' => app(NetworthCalculator::class)
+            'networthCalculator' => app(NetworthCalculator::class),
+            'rangeCalculator' => app(RangeCalculator::class)
         ]);
     }
 
@@ -43,19 +59,20 @@ class GovernmentController extends AbstractDominionController
         $vote = $request->get('monarch');
         $governmentActionService->voteForMonarch($dominion, $vote);
 
-        $request->session()->flash('alert-success', 'Your vote has been cast');
+        $request->session()->flash('alert-success', 'Your vote has been cast!');
         return redirect()->route('dominion.government');
     }
 
-    public function postRealmName(GovernmentActionRequest $request)
+    public function postRealm(GovernmentActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
         $governmentActionService = app(GovernmentActionService::class);
 
+        $motd = $request->get('realm_motd');
         $name = $request->get('realm_name');
-        $governmentActionService->changeRealmName($dominion, $name);
+        $governmentActionService->updateRealm($dominion, $motd, $name);
 
-        $request->session()->flash('alert-success', 'Your realm name has been changed');
+        $request->session()->flash('alert-success', 'Your realm has been updated!');
         return redirect()->route('dominion.government');
     }
 

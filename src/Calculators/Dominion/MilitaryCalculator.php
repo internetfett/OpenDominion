@@ -96,10 +96,9 @@ class MilitaryCalculator
 
         foreach ($dominion->race->units as $unit) {
             $powerOffense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'offense', $calc);
-
             $numberOfUnits = 0;
 
-            if($units === null) {
+            if ($units === null) {
                 $numberOfUnits = (int)$dominion->{'military_unit' . $unit->slot};
             } elseif (isset($units[$unit->slot]) && ((int)$units[$unit->slot] !== 0)) {
                 $numberOfUnits = (int)$units[$unit->slot];
@@ -272,7 +271,7 @@ class MilitaryCalculator
 
             $numberOfUnits = 0;
 
-            if($units === null) {
+            if ($units === null) {
                 $numberOfUnits = (int)$dominion->{'military_unit' . $unit->slot};
             } elseif (isset($units[$unit->slot]) && ((int)$units[$unit->slot] !== 0)) {
                 $numberOfUnits = (int)$units[$unit->slot];
@@ -286,14 +285,18 @@ class MilitaryCalculator
             $dp += ($powerDefense * $numberOfUnits);
         }
 
-        // Attacking Forces skip draftees and land-based defenses
+        // Draftees
+        if (!$ignoreDraftees) {
+            if ($units !== null && isset($units[0])) {
+                $dp += ((int)$units[0] * $dpPerDraftee);
+            } else {
+                $dp += ($dominion->military_draftees * $dpPerDraftee);
+            }
+        }
+
+        // Attacking Forces skip land-based defenses
         if ($units !== null)
             return $dp;
-
-        // Draftees
-        if(!$ignoreDraftees) {
-            $dp += ($dominion->military_draftees * $dpPerDraftee);
-        }
 
         // Forest Havens
         $dp += min(
@@ -445,7 +448,7 @@ class MilitaryCalculator
     {
         $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_land", null);
 
-        if(!$landPerkData) {
+        if (!$landPerkData) {
             return 0;
         }
 
@@ -456,7 +459,7 @@ class MilitaryCalculator
         //$constructedOnly = $landPerkData[3]; todo: implement for Nox?
         $totalLand = $this->landCalculator->getTotalLand($dominion);
 
-        if(!$constructedOnly)
+        if (!$constructedOnly)
         {
             $landPercentage = ($dominion->{"land_{$landType}"} / $totalLand) * 100;
         }
@@ -477,7 +480,7 @@ class MilitaryCalculator
     {
         $buildingPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_building", null);
 
-        if(!$buildingPerkData) {
+        if (!$buildingPerkData) {
             return 0;
         }
 
@@ -499,7 +502,7 @@ class MilitaryCalculator
             $unit->slot,
             "{$powerType}_raw_wizard_ratio");
 
-        if(!$wizardRatioPerk) {
+        if (!$wizardRatioPerk) {
             return 0;
         }
 
@@ -540,7 +543,7 @@ class MilitaryCalculator
             $unit->slot,
             "{$powerType}_from_prestige");
 
-        if(!$prestigePerk) {
+        if (!$prestigePerk) {
             return 0;
         }
 
@@ -558,11 +561,11 @@ class MilitaryCalculator
             $unit->slot,
             "{$powerType}_staggered_land_range");
 
-        if(!$staggeredLandRangePerk) {
+        if (!$staggeredLandRangePerk) {
             return 0;
         }
 
-        if($landRatio === null) {
+        if ($landRatio === null) {
             $landRatio = 0;
         }
 
@@ -572,7 +575,7 @@ class MilitaryCalculator
             $range = ((int)$rangePerk[0]) / 100;
             $power = (float)$rangePerk[1];
 
-            if($range > $landRatio) { // TODO: Check this, might be a bug here
+            if ($range > $landRatio) { // TODO: Check this, might be a bug here
                 continue;
             }
 
@@ -601,7 +604,7 @@ class MilitaryCalculator
     protected function getBonusPowerFromPairingPerk(Dominion $dominion, Unit $unit, string $powerType, array $units = null): float
     {
         $pairingPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_pairing", null);
-        if(!$pairingPerkData) {
+        if (!$pairingPerkData) {
             return 0;
         }
 
@@ -614,10 +617,11 @@ class MilitaryCalculator
         }
 
         $powerFromPerk = 0;
-        if (isset($units[$unitSlot]) && ((int)$units[$unitSlot] !== 0)) {
-            $numberPaired = min($units[$unit->slot], floor((int)$units[$unitSlot] / $numRequired));
-        } else {
+        $numberPaired = 0;
+        if ($units === null) {
             $numberPaired = min($dominion->{'military_unit' . $unit->slot}, floor((int)$dominion->{'military_unit' . $unitSlot} / $numRequired));
+        } elseif (isset($units[$unitSlot]) && ((int)$units[$unitSlot] !== 0)) {
+            $numberPaired = min($units[$unit->slot], floor((int)$units[$unitSlot] / $numRequired));
         }
         $powerFromPerk = $numberPaired * $amount;
 
@@ -631,7 +635,7 @@ class MilitaryCalculator
         }
 
         $versusBuildingPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_building", null);
-        if(!$versusBuildingPerkData) {
+        if (!$versusBuildingPerkData) {
             return 0;
         }
 
