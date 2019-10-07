@@ -232,7 +232,7 @@
                                                     <i class="fa fa-question-circle"
                                                        data-toggle="tooltip"
                                                        data-placement="top"
-                                                       title="You may send out a maximum of 125% of your new home DP in OP. (5:4 rule)"></i>
+                                                       title="You may send out a maximum of 133% of your new home DP in OP. (4:3 rule)"></i>
                                                 </td>
                                                 <td id="invasion-force-max-op" data-amount="0">0</td>
                                             </tr>

@@ -238,7 +238,7 @@ class InvadeActionService
             }
 
             if (!$this->passes54RatioRule($dominion, $target, $landRatio, $units)) {
-                throw new GameException('You are sending out too much OP, based on your new home DP (5:4 rule)');
+                throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule)');
             }
 
             // Handle invasion results
@@ -1393,7 +1393,7 @@ class InvadeActionService
         $currentHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion);
         $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
 
-        # 5/4 (5:4) rule, to be changed to 4/3 (4:3)
+        # 5/4 (5:4) rule, changed to 4/3 (4:3)
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 
         return ($attackingForceOP <= $attackingForceMaxOP);
