@@ -1,0 +1,52 @@
+name: Swarm
+alignment: evil
+home_land_type: cavern
+playable: 0
+
+attacking: 2
+exploring : 2
+converting: 1
+
+perks:
+  extra_barren_max_population: 15
+  cannot_construct: 1
+  cannot_train_archmages: 1
+  food_consumption: -50
+  immortal_spies: 1
+  immortal_wizards: 1
+
+units:
+  - name: Scarab
+    need_boat: false
+    cost:
+      platinum: 275
+    power:
+      offense: 3
+      defense: 0
+  - name: Burrower
+    cost:
+      platinum: 250
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      immortal_except_vs: Swarm
+  - name: Arachnid
+    need_boat: false
+    cost:
+      platinum: 1200
+    power:
+      offense: 4
+      defense: 6
+    perks:
+      converts_to_cocoons: 1
+  - name: Naga
+    need_boat: false
+    cost:
+      platinum: 400
+      ore: 40
+    power:
+      offense: 5
+      defense: 3
+    perks:
+      offense_from_barren_land: 5,3 # ratio%, max

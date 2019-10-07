@@ -125,6 +125,10 @@ class UnitHelper
 
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 
+            # TBD
+            'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
+            'converts_to_cocoons' => 'Converts casualties to cocoons.',
+
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 
             // Misc
