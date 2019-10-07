@@ -10,7 +10,7 @@ converting: 1
 perks:
   food_consumption: -25
   mana_production: 15
-  max_population: +16.66
+  max_population: +26.66
 units:
   - name: Hellhound
     need_boat: true
@@ -27,8 +27,8 @@ units:
       ore: 100
       morale: 1
     power:
-      offense: 2
-      defense: 5
+      offense: 0
+      defense: 4
     perks:
       immortal: 1
   - name: Abomination
