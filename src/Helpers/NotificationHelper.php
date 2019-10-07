@@ -356,14 +356,22 @@ class NotificationHelper
                         throw new \LogicException("Repelled spy op notification for operation key {$data['operationKey']} not yet implemented");
                 }
 
-                return sprintf(
-                    'Spies from %s (#%s) were discovered %s! We executed %s %s.',
+                if ($data['spiesKilled'] === 0) {
+                    $lastPart = '';
+                } else {
+                    $lastPart = sprintf(
+                        'We executed %s %s.',
+                        number_format($data['spiesKilled']),
+                        str_plural('spy', $data['spiesKilled'])
+                    );
+                }
+
+                return trim(sprintf(
+                    "Spies from %s (#%s) were discovered %s! {$lastPart}",
                     $sourceDominion->name,
                     $sourceDominion->realm->number,
-                    $where,
-                    number_format($data['spiesKilled']),
-                    str_plural('spy', $data['spiesKilled'])
-                );
+                    $where
+                ));
 
             case 'irregular_dominion.resource_theft':
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
@@ -386,9 +394,6 @@ class NotificationHelper
                         break;
 
                     case 'steal_ore':
-                        $where = 'from our mines';
-                        break;
-
                     case 'steal_gems':
                         $where = 'from our mines';
                         break;
@@ -414,14 +419,14 @@ class NotificationHelper
                         $data['resource'],
                         $where
                     );
-                } else {
-                    return sprintf(
-                        'Our spies discovered %s %s missing %s!',
-                        number_format($data['amount']),
-                        $data['resource'],
-                        $where
-                    );
                 }
+
+                return sprintf(
+                    'Our spies discovered %s %s missing %s!',
+                    number_format($data['amount']),
+                    $data['resource'],
+                    $where
+                );
 
             case 'irregular_dominion.repelled_resource_theft':
                 $sourceDominion = Dominion::with('realm')->findOrFail($data['sourceDominionId']);
@@ -463,14 +468,22 @@ class NotificationHelper
                         throw new \LogicException("Repelled resource theft op notification for operation key {$data['operationKey']} not yet implemented");
                 }
 
-                return sprintf(
-                    'Spies from %s (#%s) were discovered %s! We executed %s %s.',
+                if ($data['spiesKilled'] === 0) {
+                    $lastPart = '';
+                } else {
+                    $lastPart = sprintf(
+                        'We executed %s %s.',
+                        number_format($data['spiesKilled']),
+                        str_plural('spy', $data['spiesKilled'])
+                    );
+                }
+
+                return trim(sprintf(
+                    "Spies from %s (#%s) were discovered %s! {$lastPart}",
                     $sourceDominion->name,
                     $sourceDominion->realm->number,
-                    $where,
-                    number_format($data['spiesKilled']),
-                    str_plural('spy', $data['spiesKilled'])
-                );
+                    $where
+                ));
 
             case 'irregular_dominion.received_hostile_spell':
                 $sourceDominion = Dominion::with('realm')->findOrFail($data['sourceDominionId']);

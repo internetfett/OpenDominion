@@ -16,7 +16,6 @@ use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Dominion\Tick;
 use OpenDominion\Models\Round;
-use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\NotificationService;
 use Throwable;
 
@@ -81,10 +80,9 @@ class TickService
         $activeRounds = Round::active()->get();
 
         foreach ($activeRounds as $round) {
-            // Ignore hour 0
+            // Precalculate all dominion ticks on hour 0
             if ($this->now->diffInHours($round->start_date) === 0) {
-                $activeDominions = $round
-                    ->dominions()
+                $dominions = $round->dominions()
                     ->with([
                         'race',
                         'race.perks',
@@ -92,7 +90,11 @@ class TickService
                         'race.units.perks',
                     ])
                     ->get();
-                $this->precalculateTick($activeDominions, true);
+
+                foreach ($dominions as $dominion) {
+                    $this->precalculateTick($dominion, true);
+                }
+
                 continue;
             }
 
@@ -197,12 +199,20 @@ class TickService
                         'hours' => DB::raw('-`hours`'),
                         'dominion_queue.updated_at' => $this->now,
                     ]);
-            });
+            }, 5);
+
+            Log::info(sprintf(
+                'Ticked %s dominions in %s ms in %s',
+                number_format($round->dominions->count()),
+                number_format($this->now->diffInMilliseconds(now())),
+                $round->name
+            ));
+
+            $this->now = now();
         }
 
         foreach ($activeRounds as $round) {
-            $activeDominions = $round
-                ->dominions()
+            $dominions = $round->dominions()
                 ->with([
                     'race',
                     'race.perks',
@@ -210,35 +220,46 @@ class TickService
                     'race.units.perks',
                 ])
                 ->get();
-            foreach ($activeDominions as $dominion) {
+
+            foreach ($dominions as $dominion) {
                 if (!empty($dominion->tick->starvation_casualties)) {
-                    $this->notificationService->queueNotification('starvation_occurred', $dominion->tick->starvation_casualties);
+                    $this->notificationService->queueNotification(
+                        'starvation_occurred',
+                        $dominion->tick->starvation_casualties
+                    );
                 }
-                $this->tickActiveSpells($dominion);
-                $this->tickQueues($dominion);
+
+                $this->cleanupActiveSpells($dominion);
+                $this->cleanupQueues($dominion);
+
                 $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
+
                 $this->precalculateTick($dominion, true);
             }
+
+            Log::info(sprintf(
+                'Cleaned up queues, sent notifications, and precalculated %s dominions in %s ms in %s',
+                number_format($round->dominions->count()),
+                number_format($this->now->diffInMilliseconds(now())),
+                $round->name
+            ));
+
+            $this->now = now();
         }
-
-        //$queries = DB::getQueryLog();
-        //Log::debug(count($queries) . ' queries executed');
-
-        Log::info(sprintf(
-            'Ticked %s dominions in %s seconds',
-            number_format($activeDominions->count()),
-            number_format($this->now->diffInSeconds(now()))
-        ));
 
         // Update rankings
         if (($this->now->hour % 6) === 0) {
-            $now = now();
-            Log::debug('Update rankings started');
-            $this->updateDailyRankings($activeDominions);
-            Log::info(sprintf(
-                'Ticked rankings in %s seconds',
-                $now->diffInSeconds(now())
-            ));
+            foreach ($activeRounds as $round) {
+                $this->updateDailyRankings($round->dominions);
+
+                Log::info(sprintf(
+                    'Updated rankings in %s ms in %s',
+                    number_format($this->now->diffInMilliseconds(now())),
+                    $round->name
+                ));
+
+                $this->now = now();
+            }
         }
     }
 
@@ -273,7 +294,7 @@ class TickService
         Log::info('Daily tick finished');
     }
 
-    protected function tickActiveSpells(Dominion $dominion)
+    protected function cleanupActiveSpells(Dominion $dominion)
     {
         $finished = DB::table('active_spells')
             ->where('dominion_id', $dominion->id)
@@ -305,7 +326,7 @@ class TickService
             ->delete();
     }
 
-    protected function tickQueues(Dominion $dominion)
+    protected function cleanupQueues(Dominion $dominion)
     {
         $finished = DB::table('dominion_queue')
             ->where('dominion_id', $dominion->id)
@@ -334,8 +355,9 @@ class TickService
             ->delete();
     }
 
-    public function precalculateTick(Dominion $dominion, ?bool $saveHistory = false)
+    public function precalculateTick(Dominion $dominion, ?bool $saveHistory = false): void
     {
+        /** @var Tick $tick */
         $tick = Tick::firstOrCreate(
             ['dominion_id' => $dominion->id]
         );
@@ -343,17 +365,26 @@ class TickService
         if ($saveHistory) {
             // Save a dominion history record
             $dominionHistoryService = app(HistoryService::class);
-            $changes = array_filter($tick->getAttributes(), function ($value, $key) {
-                if ($key != 'id' && $key != 'dominion_id' && $key != 'updated_at' && $value != 0) return true;
+
+            $changes = array_filter($tick->getAttributes(), static function ($value, $key) {
+                return (
+                    !in_array($key, [
+                        'id',
+                        'dominion_id',
+                        'created_at',
+                    ], true) &&
+                    ($value != 0) // todo: strict type checking?
+                );
             }, ARRAY_FILTER_USE_BOTH);
+
             $dominionHistoryService->record($dominion, $changes, HistoryService::EVENT_TICK);
         }
 
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value) {
-            if ($attr != 'id' && $attr != 'dominion_id' && $attr != 'updated_at' && $attr != 'starvation_casualties') {
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties'], true)) {
                 $tick->{$attr} = 0;
-            } elseif ($attr == 'starvation_casualties') {
+            } elseif ($attr === 'starvation_casualties') {
                 $tick->{$attr} = [];
             }
         }
@@ -369,7 +400,7 @@ class TickService
         }
 
         // Hacky refresh for dominion
-        $dominion = $dominion->fresh();
+        $dominion->refresh();
         $this->spellCalculator->getActiveSpells($dominion, true);
 
         // Resources
@@ -394,12 +425,14 @@ class TickService
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
-        // Starvation
-        if (($dominion->resource_food + $foodNetChange) < 0)
-        {
+        // Starvation casualties
+        if (($dominion->resource_food + $foodNetChange) < 0) {
             $isStarving = true;
+            $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType(
+                $dominion,
+                ($dominion->resource_food + $foodNetChange)
+            );
 
-            $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType($dominion, $dominion->resource_food + $foodNetChange);
             $tick->starvation_casualties = $casualties;
 
             foreach ($casualties as $unitType => $unitCasualties) {
@@ -475,7 +508,7 @@ class TickService
         $tick->save();
     }
 
-    protected function updateDailyRankings(Collection $activeDominions)
+    protected function updateDailyRankings(Collection $activeDominions): void
     {
         $dominionIds = $activeDominions->pluck('id')->toArray();
 
