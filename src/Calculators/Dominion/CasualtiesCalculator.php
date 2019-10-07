@@ -176,7 +176,8 @@ class CasualtiesCalculator
             }
 
             # Apply RCL do uBM.
-            $unitBonusMultiplier += $reducedCombatLosses;
+            #$unitBonusMultiplier += $reducedCombatLosses;
+            $unitBonusMultiplier += $reducedCombatLossesMultiplierAddition;
 
             // Apply to multiplier (multiplicative)
             $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
@@ -292,7 +293,6 @@ class CasualtiesCalculator
             }
 
             # Apply RCL do uBM.
-
             $unitBonusMultiplier += $reducedCombatLosses;
 
             // Apply to multiplier (multiplicative)
