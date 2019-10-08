@@ -56,7 +56,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                      @if ($race->name == 'Growth')
+                                      @if ($dominion->race->name == 'Growth')
                                         <td>Cells:</td>
                                       @else
                                         <td>Peasants:</td>
