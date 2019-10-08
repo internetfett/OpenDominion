@@ -9,7 +9,7 @@ class ProtectionService
 {
     # Protection in ODA is 6 hours.
     # 6 hours = 24 ticks
-    public const PROTECTION_DURATION_IN_HOURS = 6; // Changed 6 for Arena
+    public const PROTECTION_DURATION_IN_HOURS = 6.25; // Changed 6 for Arena
 
     /**
      * Returns the Dominion's 'under protection' start date.

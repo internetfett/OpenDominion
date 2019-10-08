@@ -24,7 +24,7 @@
                                 <div class="row">
                                     <div class="form-group col-sm-6">
                                       @if ($selectedDominion->race->name == 'Demon')
-                                        <label for="source">Select number of peasants to slaughter</label>
+                                        <label for="source">Peasants to slaughter</label>
                                       @else
                                         <label for="source">Exchange this</label>
                                       @endif
