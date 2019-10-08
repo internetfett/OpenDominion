@@ -265,6 +265,8 @@ class InvadeActionService
             // Stat changes
             // todo: move to own method
             if ($this->invasionResult['result']['success']) {
+                $dominion->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
+                $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
                 $dominion->stat_attacking_success += 1;
             } else {
                 $target->stat_defending_success += 1;
@@ -1388,10 +1390,15 @@ class InvadeActionService
      */
     protected function passes54RatioRule(Dominion $dominion, Dominion $target, float $landRatio, array $units): bool
     {
+        $unitsHome = [
+            0 => $dominion->military_draftees,
+            1 => $dominion->military_unit1 - (isset($units[1]) ? $units[1] : 0),
+            2 => $dominion->military_unit2 - (isset($units[2]) ? $units[2] : 0),
+            3 => $dominion->military_unit3 - (isset($units[3]) ? $units[3] : 0),
+            4 => $dominion->military_unit4 - (isset($units[4]) ? $units[4] : 0)
+        ];
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $attackingForceDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $units);
-        $currentHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion);
-        $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
+        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome);
 
         # 5/4 (5:4) rule, changed to 4/3 (4:3)
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));

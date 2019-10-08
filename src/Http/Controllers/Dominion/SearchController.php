@@ -23,6 +23,7 @@ class SearchController extends AbstractDominionController
         if ($dominion->realm->alignment == "evil") {
             $dominions = Dominion::query()
                 ->with([
+                    'queues',
                     'round',
                     'realm',
                     'race',
@@ -36,6 +37,7 @@ class SearchController extends AbstractDominionController
         } else {
             $dominions = Dominion::query()
                 ->with([
+                    'queues',
                     'round',
                     'realm',
                     'race',
