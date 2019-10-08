@@ -92,6 +92,9 @@ class OpCenterController extends AbstractDominionController
         $infoOpArchive = $this->getSelectedDominion()->realm
             ->infoOps()
             ->with('sourceDominion')
+            # ODA
+            ->with('targetDominion.race')
+            # /ODA
             ->where('target_dominion_id', '=', $dominion->id)
             ->where('type', '=', $type)
             ->orderBy('created_at', 'desc')
