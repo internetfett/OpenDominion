@@ -38,13 +38,8 @@
                                         <td>{{ $infoOp->data['ruler_name'] }}</td>
                                     </tr>
                                     <tr>
-<<<<<<< HEAD
                                         <td>Faction:</td>
-                                        <td>{{ $race->name }}</td>
-=======
-                                        <td>Race:</td>
                                         <td>{{ $dominion->race->name }}</td>
->>>>>>> round-15
                                     </tr>
                                     <tr>
                                         <td>Land:</td>
