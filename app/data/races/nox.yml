@@ -20,6 +20,7 @@ units:
       defense: 0
     perks:
       instant_training: 1
+      no_draftee: 1
       pairing_limit: 4,50 # Unit slot, amount (max 10 of this unit per each Unit 4)
   - name: Fiend
     cost:
