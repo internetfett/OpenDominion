@@ -242,7 +242,7 @@ class TrainActionService
           }
           else
           {
-            die($pairingLimit);
+            die(var_dump($pairingLimit));
           }
 
         }
