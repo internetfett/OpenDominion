@@ -177,6 +177,20 @@ class UnitHelper
                     }
                 }
 
+                // Special case for pairing limit
+                if ($perk->key === 'pairing_limit') {
+                    $slot = (int)$perkValue[0];
+                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+                    $perkValue[0] = $pairedUnit->name;
+                    if (isset($perkValue[2]) && $perkValue[2] > 1) {
+                        $perkValue[0] = str_plural($perkValue[0]);
+                    } else {
+                        $perkValue[2] = 1;
+                    }
+                }
+
                 // Special case for conversions
                 if ($perk->key === 'conversion') {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
@@ -210,25 +224,7 @@ class UnitHelper
                         $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
                     }
                 }
-                elseif ($perk->key === 'pairing_limit')
-                {
-                   foreach ($perkValue as $index => $conversion) {
-                       [$convertAboveLandRatio, $slots] = $conversion;
 
-                       $unitSlotsToConvertTo = array_map('intval', str_split($slots));
-                       $unitNamesToConvertTo = [];
-
-                       foreach ($unitSlotsToConvertTo as $slot) {
-                           $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
-                               return ($unit->slot === $slot);
-                           })->first();
-
-                           $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
-                       }
-
-                       $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
-                   }
-               }
 
                 if (is_array($perkValue)) {
                     if ($nestedArrays) {
