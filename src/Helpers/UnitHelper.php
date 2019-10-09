@@ -122,12 +122,13 @@ class UnitHelper
             'no_draftee' => 'No draftee required to train.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
             'gem_production' => 'Each unit mines %s gems per tick.',
-
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
+            'pairing_limit' => 'You can at most have %1$s of this unit per each %2$s.',
+            'faster_training' => 'Trains %s faster.'
 
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 
@@ -209,6 +210,25 @@ class UnitHelper
                         $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
                     }
                 }
+                elseif ($perk->key === 'pairing_limit')
+                {
+                   foreach ($perkValue as $index => $conversion) {
+                       [$convertAboveLandRatio, $slots] = $conversion;
+
+                       $unitSlotsToConvertTo = array_map('intval', str_split($slots));
+                       $unitNamesToConvertTo = [];
+
+                       foreach ($unitSlotsToConvertTo as $slot) {
+                           $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
+                               return ($unit->slot === $slot);
+                           })->first();
+
+                           $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
+                       }
+
+                       $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
+                   }
+               }
 
                 if (is_array($perkValue)) {
                     if ($nestedArrays) {

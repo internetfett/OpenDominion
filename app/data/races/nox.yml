@@ -8,41 +8,40 @@ exploring : 3
 converting: 1
 
 perks:
-  food_consumption: -20
+  food_consumption: -50
   mana_production: 10
 units:
   - name: Imp
     cost:
-      platinum: 300
-      ore: 0
+      mana: 50
     power:
       offense: 3
       defense: 0
+    perks:
+      faster_training: 9
+      pairing_limit: 4,50 # Unit slot, amount (max 10 of this unit per each Unit 4)
   - name: Fiend
     cost:
-      platinum: 325
-      ore: 25
+      platinum: 350
+      mana: 25
     power:
       offense: 0
       defense: 3
   - name: Nightshade
     cost:
-      platinum: 975
-      ore: 100
+      platinum: 1000
+      mana: 60
     power:
       offense: 0
       defense: 2
     perks:
-      defense_from_land: swamp,10,4 # land type, ratio%,
+      defense_from_land: swamp,12,5 # land type, ratio%,max
   - name: Lich
     cost:
-      platinum: 1150
-      ore: 0
+      platinum: 1200
+      mana: 65
     power:
       offense: 5
       defense: 2
     perks:
       fewer_casualties: 80
-      conversion: 12
-      counts_as_wizard_offense: 0.1
-      counts_as_wizard_defense: 0.1
