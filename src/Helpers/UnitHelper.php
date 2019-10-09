@@ -127,7 +127,7 @@ class UnitHelper
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
-            'pairing_limit' => 'You can at most have %1$s of this unit per %2$s you have.',
+            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster.',
 
