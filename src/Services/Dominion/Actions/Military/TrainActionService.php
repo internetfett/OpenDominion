@@ -204,7 +204,7 @@ class TrainActionService
               continue;
           }
 
-          $unitSlot = str_replace('military_unit', '', $unitType);
+          $unitSlot = intval(str_replace('military_unit', '', $unitType));
 
           $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
 
