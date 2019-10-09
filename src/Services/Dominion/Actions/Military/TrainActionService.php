@@ -197,15 +197,50 @@ class TrainActionService
         }
 
         # Look for pairing_limit
-        # For now, this is pretty hardcoded for Nox.
-
-        $pairing_limit = $dominion->race->getUnitPerkValueForUnitSlot(1,'pairing_limit');
-
-        die(var_dump($pairing_limit));
-
-        if($unitsToTrain['unit1']*$pairing_limit[1] > $dominion->military_unit4)
+        foreach($unitsToTrain as $unitType => $amountToTrain)
         {
-          throw new GameException('You cannot train that many units.');
+          if (!$amountToTrain)
+          {
+              continue;
+          }
+
+          $unitSlot = str_replace('military_unit', '', $unitType);
+
+          $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
+
+          if($pairingLimit)
+          {
+            // We have pairing limit for this unit.
+            $pairingLimitedBy = $pairingLimit[0];
+            $pairingLimitedTo = $pairingLimit[1];
+
+            // Evaluate the limit.
+
+            # How many of the limiting unit does the dominion have?
+            if($pairingLimitedBy == 1)
+            {
+              $pairingLimitedByTrained = $dominion->military_unit1;
+            }
+            elseif($pairingLimitedBy == 2)
+            {
+              $pairingLimitedByTrained = $dominion->military_unit2;
+            }
+            elseif($pairingLimitedBy == 3)
+            {
+              $pairingLimitedByTrained = $dominion->military_unit3;
+            }
+            elseif($pairingLimitedBy == 4)
+            {
+              $pairingLimitedByTrained = $dominion->military_unit4;
+            }
+
+            if(($amountToTrain * $pairingLimit) > $pairingLimitedByTrained)
+            {
+              throw new GameException('You cannot train that many units.');
+            }
+
+          }
+
         }
 
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
