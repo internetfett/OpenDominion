@@ -128,7 +128,7 @@ class UnitHelper
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'pairing_limit' => 'You can at most have %1$s of this unit per each %2$s.',
-            'faster_training' => 'Trains %s faster.'
+            'faster_training' => 'Trains %s faster.',
 
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 
