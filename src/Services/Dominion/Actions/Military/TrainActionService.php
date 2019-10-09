@@ -196,6 +196,15 @@ class TrainActionService
           throw new GameException('Insufficient units to train this unit.');
         }
 
+        # Look for pairing_limit
+
+        die($dominion->race->getUnitPerkValueForUnitSlot($unit->slot,'pairing_limit'));
+
+        if($unitsToTrain['unit1']* > $dominion->military_unit4)
+        {
+          throw new GameException('You cannot train that many units.');
+        }
+
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
