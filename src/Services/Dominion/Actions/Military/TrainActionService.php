@@ -233,6 +233,10 @@ class TrainActionService
             {
               $pairingLimitedByTrained = $dominion->military_unit4;
             }
+            else
+            {
+              die(var_dump($pairingLimit));
+            }
 
             if(($amountToTrain * $pairingLimit) > $pairingLimitedByTrained)
             {
