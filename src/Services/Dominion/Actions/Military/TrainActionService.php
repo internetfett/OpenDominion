@@ -199,10 +199,10 @@ class TrainActionService
         # Look for pairing_limit
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {
-          if (!$amountToTrain)
-          {
-              continue;
-          }
+          #if (!$amountToTrain)
+          #{
+          #    continue;
+          #}
 
           $unitSlot = intval(str_replace('military_unit', '', $unitType));
 

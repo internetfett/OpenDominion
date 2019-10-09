@@ -22,6 +22,7 @@ units:
       instant_training: 1
       no_draftee: 1
       pairing_limit: 4,50 # Unit slot, amount (max 10 of this unit per each Unit 4)
+      fixed_casualties: 75
   - name: Fiend
     cost:
       platinum: 350
