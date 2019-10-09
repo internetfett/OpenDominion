@@ -211,7 +211,7 @@ class TrainActionService
           if($pairingLimit)
           {
             // We have pairing limit for this unit.
-            $pairingLimitedBy = $pairingLimit[0];
+            $pairingLimitedBy = intval($pairingLimit[0]);
             $pairingLimitedTo = $pairingLimit[1];
 
             // Evaluate the limit.
