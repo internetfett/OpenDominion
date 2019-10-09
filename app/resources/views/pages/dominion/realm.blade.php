@@ -42,6 +42,7 @@
                                 @endphp
 
                                 @if ($dominion === null)
+                                <!--
                                     <tr>
                                         <td>&nbsp;</td>
                                         @if ($isOwnRealm && $selectedDominion->pack !== null)
@@ -50,6 +51,7 @@
                                             <td colspan="4"><i>Vacant</i></td>
                                         @endif
                                     </tr>
+                                  -->
                                 @else
                                     <tr>
                                         <td class="text-center">{{ $i + 1 }}</td>
