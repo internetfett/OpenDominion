@@ -240,10 +240,6 @@ class TrainActionService
             }
 
           }
-          else
-          {
-            die(var_dump($pairingLimit));
-          }
 
         }
 
