@@ -198,7 +198,9 @@ class TrainActionService
 
         # Look for pairing_limit
 
-        die($dominion->race->getUnitPerkValueForUnitSlot($unit->slot,'pairing_limit'));
+        $pairing_limit = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,'pairing_limit');
+
+        die(var_dump($pairing_limit));
 
         if($unitsToTrain['unit1']* > $dominion->military_unit4)
         {
