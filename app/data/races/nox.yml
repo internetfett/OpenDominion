@@ -19,7 +19,7 @@ units:
       defense: 0
     perks:
       faster_training: 9
-      pairing_limit: 4,50 # Unit slot, amount (max 10 of this unit per each Unit 4)
+      pairing_limit: 50,4 # Unit slot, amount (max 10 of this unit per each Unit 4)
   - name: Fiend
     cost:
       platinum: 350
