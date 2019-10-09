@@ -197,8 +197,9 @@ class TrainActionService
         }
 
         # Look for pairing_limit
+        # For now, this is pretty hardcoded for Nox.
 
-        $pairing_limit = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,'pairing_limit');
+        $pairing_limit = $dominion->race->getUnitPerkValueForUnitSlot(1,'pairing_limit');
 
         die(var_dump($pairing_limit));
 
