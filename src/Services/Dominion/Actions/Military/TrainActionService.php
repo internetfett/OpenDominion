@@ -208,8 +208,13 @@ class TrainActionService
 
           $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
 
+
+
           if($pairingLimit)
           {
+
+            die(var_dump($pairingLimit));
+
             // We have pairing limit for this unit.
             $pairingLimitedBy = intval($pairingLimit[0]);
             $pairingLimitedTo = $pairingLimit[1];
@@ -234,7 +239,7 @@ class TrainActionService
               $pairingLimitedByTrained = $dominion->military_unit4;
             }
 
-            if(($amountToTrain * $pairingLimit) > $pairingLimitedByTrained)
+            if( ( $dominion->$unitType + ($amountToTrain * $pairingLimit) ) > $pairingLimitedByTrained)
             {
               throw new GameException('You cannot train that many units.');
             }
