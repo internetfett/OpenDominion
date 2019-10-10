@@ -208,7 +208,7 @@ class TrainActionService
 
           $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
 
-
+          die(var_dump($unitSlot) . var_dump($pairingLimit));
 
           if($pairingLimit)
           {
