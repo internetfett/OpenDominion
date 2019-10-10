@@ -178,7 +178,7 @@ class TrainActionService
             }
 
             if(
-                (($dominion->{'military_unit' . $unitSlot} + $amountToTrain) * $pairingLimitedTo)
+                (($dominion->{'military_unit' . $unitSlot} + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) + $amountToTrain) * $pairingLimitedTo)
                 >
                 ($pairingLimitedByTrained)
               )
