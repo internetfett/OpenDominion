@@ -180,7 +180,7 @@ class TrainActionService
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
                   $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->$queueService->getTrainingQueueAmount($dominion, 'military_unit' . $unitSlot) +
+                  $this->queueService->getTrainingQueueAmount($dominion, 'military_unit' . $unitSlot) +
                   $amountToTrain))
                 >
                 ($pairingLimitedByTrained * $pairingLimitedTo)
