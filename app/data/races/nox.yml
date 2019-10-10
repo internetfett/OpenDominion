@@ -21,7 +21,7 @@ units:
     perks:
       instant_training: 1
       no_draftee: 1
-      pairing_limit: 4,50 # Unit slot, amount (max 10 of this unit per each Unit 4)
+      pairing_limit: 4,50 # Unit slot, amount (max 50 of this unit per each Unit 4)
       fixed_casualties: 75
   - name: Fiend
     cost:
@@ -48,3 +48,4 @@ units:
       defense: 2
     perks:
       fewer_casualties: 80
+      counts_as_wizard_offense: 0.1

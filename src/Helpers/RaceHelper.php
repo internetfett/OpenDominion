@@ -165,9 +165,10 @@ ORC;
 NOMAD;
 
         $descriptions['nox'] = <<<NOX
-<p>The Nox, also called The Children of the Night, are a collection of dark souls, neither living nor dead, neither spirit nor flesh, and neither .</p>
-<p>For all intents and purposes, the Nox have been abandoned by the deities and instead pursued the darkness to find meaning and purpose.</p>
+<p>The Nox, also called The Children of the Night, are a collection of hopeless and corrupt beings, neither living nor dead, neither spirit nor flesh, and so old their ancestry is only ever described as "arcane."</p>
+<p>Abandoned by the deities and forgotten by the ancient ones, the Nox are on an ceaseless pursuit into the darkness to find meaning and a purpose.</p>
 <p>The Nox can be found in the deepest, gloomiest swamplands where even the Undead and Dark Elves dare not venture.</p>
+<p>Their allegiance to the Empire is absolute and the Empress holds them in high regard.</p>
 <p>Many believe their vile burial pits are to blame for the Growth.</p>
 NOX;
 
