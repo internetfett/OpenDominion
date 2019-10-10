@@ -165,8 +165,10 @@ ORC;
 NOMAD;
 
         $descriptions['nox'] = <<<NOX
-<p>The children of the night lurk in the shadows, striking terror in even the most powerful of rulers.</p>
-<p>Nox can be found in the deepest darkness where even Dark Elves won't dare to trespass.</p>
+<p>The Nox, also called The Children of the Night, are a collection of dark souls, neither living nor dead, neither spirit nor flesh, and neither .</p>
+<p>For all intents and purposes, the Nox have been abandoned by the deities and instead pursued the darkness to find meaning and purpose.</p>
+<p>The Nox can be found in the deepest, gloomiest swamplands where even the Undead and Dark Elves dare not venture.</p>
+<p>Many believe their vile burial pits are to blame for the Growth.</p>
 NOX;
 
         $descriptions['troll'] = <<<TROLL
@@ -199,8 +201,8 @@ DRAGON;
 AFFLICTED;
 
         $descriptions['growth'] = <<<GROWTH
-<p>The growth is believed to originate from ancient Nox burial grounds, deep in the swamp lands.</p>
-<p>Attempts at communication have failed. It shows no signs of sentience.</p>
+<p>The growth is believed to originate from ancient Nox burial pits, deep in the swamp lands.</p>
+<p>Attempts at communication have failed. It shows no signs of sentience. It simply grows and grows.</p>
 GROWTH;
 
         $descriptions['imperial gnome'] = <<<IMPERIALGNOME
