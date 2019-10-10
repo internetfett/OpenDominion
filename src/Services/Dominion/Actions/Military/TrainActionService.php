@@ -178,12 +178,12 @@ class TrainActionService
             }
 
             if(
-                (($dominion->{'military_unit' . $unitSlot} + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) + $amountToTrain) * $pairingLimitedTo)
+                (($dominion->{'military_unit' . $unitSlot} + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) + $amountToTrain))
                 >
-                ($pairingLimitedByTrained)
+                ($pairingLimitedByTrained * $pairingLimitedTo)
               )
             {
-              throw new GameException('You can at most train ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
+              throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
             }
 
           }
