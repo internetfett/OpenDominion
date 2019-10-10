@@ -175,7 +175,11 @@ class TrainActionService
               $pairingLimitedByTrained = $dominion->military_unit4;
             }
 
-            if( ( $dominion->{'military_unit' . $unitSlot} + ($amountToTrain * $pairingLimit) ) > $pairingLimitedByTrained)
+            if(
+                ($dominion->{'military_unit' . $unitSlot} + $amountToTrain)
+                >
+                ($pairingLimitedByTrained * $pairingLimit)
+              )
             {
               throw new GameException('You cannot train that many units.');
             }
