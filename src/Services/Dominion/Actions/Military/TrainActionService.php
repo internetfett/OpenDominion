@@ -183,7 +183,7 @@ class TrainActionService
                 ($pairingLimitedByTrained)
               )
             {
-              throw new GameException('You can at most train ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) ' of this unit. To train more, you need to first train more of their master unit.');
+              throw new GameException('You can at most train ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
             }
 
           }
