@@ -98,11 +98,11 @@ class PopulationCalculator
 
       # Check each Unit for does_not_count_as_population perk.
 
-      for ($x = 1; $x <= 4; $x++)
+      for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
       {
-        if(!$dominion->race->getUnitPerkValueForUnitSlot($x, 'does_not_count_as_population'))
+        if(!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
         {
-          $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $x);
+          $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitSlot);
         }
       }
 

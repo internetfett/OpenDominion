@@ -64,9 +64,13 @@ class ReleaseActionService
 
             $dominion->{'military_' . $unitType} -= $amount;
 
-            if ($unitType === 'draftees') {
+            if ($unitType === 'draftees')
+            {
                 $dominion->peasants += $amount;
-            } else {
+            }
+            # Only return draftees if unit is not exempt from population.
+            elseif (!$dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit',''$unitType)), 'does_not_count_as_population'))
+            {
                 $dominion->military_draftees += $amount;
             }
 
