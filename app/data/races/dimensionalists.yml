@@ -32,7 +32,7 @@ units:
       does_not_count_as_population: 1
       mana_drain: 1
       faster_return: 11
-      pairing_limit: 1,222 # Unit slot, amount
+      pairing_limit: 1,22 # Unit slot, amount
   - name: Sft'Rm
     need_boat: false
     cost:
@@ -45,7 +45,7 @@ units:
       does_not_count_as_population: 1
       mana_drain: 2
       faster_return: 11
-      pairing_limit: 1,108 # Unit slot, amount
+      pairing_limit: 1,11 # Unit slot, amount
   - name: Ze'Tk
     need_boat: false
     cost:
@@ -59,4 +59,4 @@ units:
       does_not_count_as_population: 1
       mana_drain: 8
       faster_return: 11
-      pairing_limit: 1,14 # Unit slot, amount
+      pairing_limit: 1,11 # Unit slot, amount
