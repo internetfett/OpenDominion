@@ -23,33 +23,33 @@ units:
   - name: Tl'Tl
     need_boat: false
     cost:
-      mana: 100
+      mana: 50
     power:
-      offense: 0
+      offense: 2
       defense: 3
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 1
-      faster_return: 12
+      faster_return: 11
       pairing_limit: 1,222 # Unit slot, amount
   - name: Sft'Rm
     need_boat: false
     cost:
-      mana: 2000
+      mana: 100
     power:
-      offense: 3
+      offense: 4
       defense: 6
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 2
-      faster_return: 12
+      faster_return: 11
       pairing_limit: 1,108 # Unit slot, amount
   - name: Ze'Tk
     need_boat: false
     cost:
-      mana: 2000
+      mana: 500
     power:
       offense: 12
       defense: 12
@@ -58,5 +58,5 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 8
-      faster_return: 12
+      faster_return: 11
       pairing_limit: 1,14 # Unit slot, amount
