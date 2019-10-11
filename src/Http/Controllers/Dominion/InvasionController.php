@@ -12,6 +12,9 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\Actions\InvadeActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class InvasionController extends AbstractDominionController
 {
     public function getInvade()
@@ -22,6 +25,9 @@ class InvasionController extends AbstractDominionController
             'protectionService' => app(ProtectionService::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'unitHelper' => app(UnitHelper::class),
+
+            # ODA
+            'spellCalculator' => app(SpellCalculator::class),
         ]);
     }
 
