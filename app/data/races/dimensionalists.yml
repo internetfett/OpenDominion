@@ -18,6 +18,8 @@ units:
     power:
       offense: 0
       defense: 0
+    perks:
+        counts_as_wizard_offense: 0.333
   - name: Tl'Tl
     need_boat: false
     cost:
@@ -25,7 +27,7 @@ units:
     power:
       offense: 0
       defense: 3
-    perk:
+    perks:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 1
@@ -49,8 +51,8 @@ units:
     cost:
       mana: 2000
     power:
-      offense: 10
-      defense: 10
+      offense: 12
+      defense: 12
     perks:
       true_immortal: 1
       no_draftee: 1

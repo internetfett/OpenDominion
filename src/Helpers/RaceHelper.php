@@ -228,10 +228,11 @@ $descriptions['legion'] = <<<LEGION
 LEGION;
 
 $descriptions['dimensionalists'] = <<<DIMENSIONALISTS
-<p>The Dimensionalists are a cult of worshippers of starry night sky and cosmic visions.</p>
-<p>They draw members from Dark Elves, Nox, and Nomads. A few other corrupt minds have joined their devotion to the impossible, black expanses.</p>
+<p>The Dimensionalists are a small cult of worshippers of the starry night sky and cosmic visions.</p>
+<p>They are led by Summoners, who surrender their minds to the stars for the ability to summon powerful beings from distant worlds.</p>
+<p>Dark Elves, Nox, and Nomads have been seen joining the cult. A few other corrupt minds have joined its devotion to the impossible, black expanses.</p>
 <hr />
-<p>In order to attack, a Portal must be opened and used before it closes.</p>
+<p>In order to attack, a Portal must be opened and used quickly, before it closes.</p>
 DIMENSIONALISTS;
 
         $key = strtolower($race->name);
