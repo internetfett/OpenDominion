@@ -533,7 +533,7 @@ class ProductionCalculator
      */
     public function getManaNetChange(Dominion $dominion): int
     {
-        $manaDecay = intval(min($this->getManaDecay($dominion), $dominion->mana));
+        $manaDecay = intval(min($this->getManaDecay($dominion), $dominion->resource_mana));
 
         $manaNetChange = round($this->getManaProduction($dominion) - $manaDecay);
 
