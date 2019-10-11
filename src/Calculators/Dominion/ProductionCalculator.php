@@ -537,7 +537,7 @@ class ProductionCalculator
 
         if($dominion->resource_mana < $manaDecay)
         {
-          return $dominion->resource_mana*-1;
+          return round($dominion->resource_mana*-1);
         }
         else
         {
