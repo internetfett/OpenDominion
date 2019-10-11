@@ -5,7 +5,7 @@ playable: 1
 
 attacking: 3
 exploring : 3
-converting: 1
+converting: 3
 
 perks:
   food_consumption: -50
@@ -17,11 +17,11 @@ units:
       offense: 3
       defense: 0
     perks:
-      instant_training: 1
-      no_draftee: 1
-      pairing_limit: 4,50 # Unit slot, amount (max 50 of this unit per each Unit 4)
-      fixed_casualties: 50
       does_not_count_as_population: 1
+      no_draftee: 1
+      instant_training: 1
+      pairing_limit: 4,20 # Unit slot, amount (max 50 of this unit per each Unit 4)
+      fixed_casualties: 100
   - name: Fiend
     cost:
       platinum: 350
@@ -31,7 +31,7 @@ units:
       defense: 3
   - name: Nightshade
     cost:
-      platinum: 1000
+      platinum: 1100
       mana: 60
     power:
       offense: 0

@@ -31,6 +31,7 @@ units:
       offense: 1
       defense: 0
     perks:
+      does_not_count_as_population: 1
       no_draftee: 1
       offense_from_pairing: 3,24 # slot, amount
       fixed_casualties: 100
