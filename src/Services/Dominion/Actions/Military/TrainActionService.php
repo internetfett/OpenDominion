@@ -384,6 +384,18 @@ class TrainActionService
               $hours_modifier = 0;
             }
 
+            // Nox: unit perk (instant_training)
+            foreach($data as $unitType => $amountToTrain)
+            if ($dominion->race->getUnitPerkValueForUnitSlot('instant_training'))
+            {
+              $hoursSpecs = 0;
+              $hoursElites = 0;
+            }
+            else
+            {
+              $hours_modifier = 0;
+            }
+
             $this->queueService->queueResources('training', $dominion, $nineHourData, ($hoursSpecs + $hours_modifier));
             $this->queueService->queueResources('training', $dominion, $data, ($hoursElites + $hours_modifier));
         });

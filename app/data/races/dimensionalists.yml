@@ -1,0 +1,57 @@
+name: Dimensionalists
+alignment: evil
+home_land_type: hill
+playable: 1
+
+attacking: 2
+exploring : 2
+converting: 2
+
+perks:
+  food_consumption: -50
+  max_population: -25
+  cannot_build_homes: 1
+units:
+  - name: Summoner
+    cost:
+      platinum: 2000
+    power:
+      offense: 0
+      defense: 0
+  - name: Tl'Tl
+    cost:
+      mana: 100
+    power:
+      offense: 0
+      defense: 3
+    perk:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      mana_drain: 1
+      faster_return: 12
+      pairing_limit: 1,222 # Unit slot, amount
+  - name: Sft'Rm
+    cost:
+      mana: 2000
+    power:
+      offense: 3
+      defense: 6
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      mana_drain: 2
+      faster_return: 12
+      pairing_limit: 1,108 # Unit slot, amount
+  - name: Ze'Tk
+    cost:
+      mana: 2000
+    power:
+      offense: 10
+      defense: 10
+    perks:
+      true_immortal: 1
+      no_draftee: 1
+      does_not_count_as_population: 1
+      mana_drain: 8
+      faster_return: 12
+      pairing_limit: 1,14 # Unit slot, amount

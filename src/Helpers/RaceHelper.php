@@ -227,6 +227,13 @@ $descriptions['legion'] = <<<LEGION
 <p>Each unit (<em>Legionaire</em>) of the Legion is trained to equal strength. The only thing separating one from another is their ancestral special ability.</p>
 LEGION;
 
+$descriptions['dimensionalists'] = <<<DIMENSIONALISTS
+<p>The Dimensionalists are a cult of worshippers of starry night sky and cosmic visions.</p>
+<p>They draw members from Dark Elves, Nox, and Nomads. A few other corrupt minds have joined their devotion to the impossible, black expanses.</p>
+<hr />
+<p>In order to attack, a Portal must be opened and used before it closes.</p>
+DIMENSIONALISTS;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {

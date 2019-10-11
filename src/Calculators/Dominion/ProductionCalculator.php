@@ -474,6 +474,9 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Void Unit: Vision)
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
 
+        // Unit Perk Production Bonus (Void Unit: Vision)
+        $mana -= $dominion->getUnitPerkProductionBonus('mana_drain');
+
         return $mana;
     }
 
