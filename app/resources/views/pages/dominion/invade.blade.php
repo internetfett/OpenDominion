@@ -240,6 +240,9 @@
                                     </table>
                                 </div>
                                 <div class="box-footer">
+                                  @if($selectedDominion->race->name == 'Dimensionalists')
+
+                                    @if($spellCalculator->isSpellActive($selectedDominion, 'portal')))
                                     <button type="submit"
                                             class="btn btn-danger"
                                             {{ $selectedDominion->isLocked() ? 'disabled' : null }}
@@ -247,6 +250,21 @@
                                         <i class="ra ra-crossed-swords"></i>
                                         Invade
                                     </button>
+                                    @else
+
+                                    <strong><em>You must open a portal before you can send your units.</em></strong>
+
+                                    @endif
+
+                                  @else
+                                    <button type="submit"
+                                            class="btn btn-danger"
+                                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                            id="invade-button">
+                                        <i class="ra ra-crossed-swords"></i>
+                                        Invade
+                                    </button>
+                                  @endif
                                 </div>
                             </div>
 
