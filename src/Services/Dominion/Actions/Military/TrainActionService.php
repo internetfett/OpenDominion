@@ -385,6 +385,7 @@ class TrainActionService
             }
 
             // Nox: unit perk (instant_training)
+            /*
             foreach($data as $unitType => $amountToTrain)
             if ($dominion->race->getUnitPerkValueForUnitSlot('instant_training'))
             {
@@ -395,6 +396,7 @@ class TrainActionService
             {
               $hours_modifier = 0;
             }
+            */
 
             $this->queueService->queueResources('training', $dominion, $nineHourData, ($hoursSpecs + $hours_modifier));
             $this->queueService->queueResources('training', $dominion, $data, ($hoursElites + $hours_modifier));
