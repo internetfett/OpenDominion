@@ -376,6 +376,14 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Merfolk']),
             ],
+            [
+                'name' => 'Portal',
+                'description' => 'Must be cast in order to send units on attack.',
+                'key' => 'portal',
+                'mana_cost' => 12,
+                'duration' => 2,
+                'races' => collect(['Dimensionalists']),
+            ],
 
         ]);
     }

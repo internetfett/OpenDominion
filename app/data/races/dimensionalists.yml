@@ -19,6 +19,7 @@ units:
       offense: 0
       defense: 0
   - name: Tl'Tl
+    need_boat: false
     cost:
       mana: 100
     power:
@@ -31,6 +32,7 @@ units:
       faster_return: 12
       pairing_limit: 1,222 # Unit slot, amount
   - name: Sft'Rm
+    need_boat: false
     cost:
       mana: 2000
     power:
@@ -43,6 +45,7 @@ units:
       faster_return: 12
       pairing_limit: 1,108 # Unit slot, amount
   - name: Ze'Tk
+    need_boat: false
     cost:
       mana: 2000
     power:
