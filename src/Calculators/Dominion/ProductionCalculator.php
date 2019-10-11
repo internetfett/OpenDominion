@@ -533,7 +533,18 @@ class ProductionCalculator
      */
     public function getManaNetChange(Dominion $dominion): int
     {
-        return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
+        $manaNetChange = $this->getManaProduction($dominion) - $this->getManaDecay($dominion);
+
+        if($dominion->mana < $manaNetChange)
+        {
+          return $dominion->mana;
+        }
+        else
+        {
+          return $manaNetChange;
+        }
+
+        #return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
     }
 
     //</editor-fold>
