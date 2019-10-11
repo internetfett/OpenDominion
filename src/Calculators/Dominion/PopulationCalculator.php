@@ -87,6 +87,27 @@ class PopulationCalculator
      */
     public function getPopulationMilitary(Dominion $dominion): int
     {
+
+      $military = 0;
+
+      # Draftees, Spies, Wizards, and Arch Mages always count.
+      $military += $dominion->military_draftees;
+      $military += $dominion->military_spies;
+      $military += $dominion->military_wizards;
+      $military += $dominion->military_archmages;
+
+      # Check each Unit for does_not_count_as_population perk.
+
+      for ($x = 1; $x <= 4; $x++)
+      {
+        if(!$dominion->race->getUnitPerkValueForUnitSlot($x, 'does_not_count_as_population'))
+        {
+          $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $x);
+        }
+      }
+
+      return $military;
+      /*
         return (
             $dominion->military_draftees
             + $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1)
@@ -98,6 +119,7 @@ class PopulationCalculator
             + $dominion->military_archmages
             + $this->queueService->getTrainingQueueTotal($dominion)
         );
+        */
     }
 
     /**

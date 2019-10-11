@@ -9,12 +9,10 @@ converting: 1
 
 perks:
   food_consumption: -50
-  mana_production: 10
-  can_invest_mana: 1
 units:
   - name: Imp
     cost:
-      mana: 50
+      mana: 15
     power:
       offense: 3
       defense: 0
@@ -22,7 +20,8 @@ units:
       instant_training: 1
       no_draftee: 1
       pairing_limit: 4,50 # Unit slot, amount (max 50 of this unit per each Unit 4)
-      fixed_casualties: 75
+      fixed_casualties: 50
+      does_not_count_as_population: 1
   - name: Fiend
     cost:
       platinum: 350

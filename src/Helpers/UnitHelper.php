@@ -123,13 +123,14 @@ class UnitHelper
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
             'gem_production' => 'Each unit mines %s gems per tick.',
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
+            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
-            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'instant_training' => 'Summoned immediately. Available the following tick.',
             'faster_training' => 'Trains %s ticks faster.',
+            'does_not_count_as_population' => 'Does not count towards population. No housing required.',
 
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 

@@ -103,7 +103,7 @@ class SpellHelper
                 'key' => 'fools_gold',
                 'mana_cost' => 5,
                 'duration' => 10*4,
-                'cooldown' => 22*4,
+                'cooldown' => 20,
             ],
             [
                 'name' => 'Surreal Perception',
@@ -296,7 +296,7 @@ class SpellHelper
                 'key' => 'ambush',
                 'mana_cost' => 2,
                 'duration' => 1*4,
-                'cooldown' => 24*4, # Once per day.
+                'cooldown' => 24, # Once per day.
                 'races' => collect(['Beastfolk']),
             ],
 
