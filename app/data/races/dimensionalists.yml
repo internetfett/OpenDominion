@@ -30,7 +30,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      mana_drain: 1
+      mana_drain: 0.01
       faster_return: 11
       pairing_limit: 1,22 # Unit slot, amount
   - name: Sft'Rm
@@ -43,7 +43,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      mana_drain: 2
+      mana_drain: 0.05
       faster_return: 11
       pairing_limit: 1,11 # Unit slot, amount
   - name: Ze'Tk
@@ -57,6 +57,6 @@ units:
       true_immortal: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      mana_drain: 8
+      mana_drain: 0.1
       faster_return: 11
       pairing_limit: 1,11 # Unit slot, amount

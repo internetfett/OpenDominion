@@ -381,7 +381,7 @@ class SpellHelper
                 'description' => 'Must be cast in order to send units on attack.',
                 'key' => 'portal',
                 'mana_cost' => 12,
-                'duration' => 2,
+                'duration' => 1,
                 'races' => collect(['Dimensionalists']),
             ],
 

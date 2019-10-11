@@ -242,13 +242,13 @@
                                 <div class="box-footer">
                                   @if($selectedDominion->race->name == 'Dimensionalists')
 
-                                    @if($spellCalculator->isSpellActive($selectedDominion, 'portal')))
+                                    @if($spellCalculator->isSpellActive($selectedDominion, 'portal'))
                                     <button type="submit"
                                             class="btn btn-danger"
                                             {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                                             id="invade-button">
-                                        <i class="ra ra-crossed-swords"></i>
-                                        Invade
+                                        <i class="ra ra-player-teleport"></i>
+                                        Teleport units to battle
                                     </button>
                                     @else
 
