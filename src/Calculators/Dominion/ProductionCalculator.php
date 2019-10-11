@@ -474,9 +474,6 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Void Unit: Vision)
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
 
-        // Unit Perk Production Bonus (Void Unit: Vision)
-        $mana -= $dominion->getUnitPerkProductionBonus('mana_drain');
-
         return $mana;
     }
 
@@ -521,6 +518,9 @@ class ProductionCalculator
         $manaDecay = 2;
 
         $decay += ($dominion->resource_mana * ($manaDecay / 100));
+
+        // Unit Perk Production Bonus (Dimensionalists Units)
+        $decay += $dominion->getUnitPerkProductionBonus('mana_drain');
 
         return $decay;
     }
