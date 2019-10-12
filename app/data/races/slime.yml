@@ -9,7 +9,7 @@ converting: 2
 
 perks:
   max_population: 12.5
-  exploration_cost: 10
+  explore_cost: 10
   lumber_production: -10
   ore_production: -10
   gem_production: -10
