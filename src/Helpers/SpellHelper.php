@@ -271,7 +271,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Ants']),
             ],
-
             [
                 'name' => '𒉡𒌋𒆷',
                 'description' => 'Void defensive modifiers immune to Temples.',
@@ -280,7 +279,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Void']),
             ],
-
             [
                 'name' => 'Metabolism',
                 'description' => '-50% food rot.',
@@ -289,7 +287,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Growth']),
             ],
-
             [
                 'name' => 'Ambush',
                 'description' => 'For every 5% Forest, removes 1% of target\'s raw defensive power (max 10% reduction).',
@@ -299,7 +296,6 @@ class SpellHelper
                 'cooldown' => 24, # Once per day.
                 'races' => collect(['Beastfolk']),
             ],
-
             [
                 'name' => 'Coastal Cannons',
                 'description' => '+1% Defensive Power for every 1% Water. Max +20%. Not cumulative with Ares Call.',
@@ -308,7 +304,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Armada']),
             ],
-
             [
                 'name' => 'Spiral Architecture',
                 'description' => '+10% value for investments into castle improvements performed when active.',
@@ -317,7 +312,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Imperial Gnome']),
             ],
-
             [
                 'name' => 'Fimbulwinter',
                 'description' => 'Not yet implemented.',
@@ -326,7 +320,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Norse']),
             ],
-
             [
                 'name' => 'Desecration',
                 'description' => 'Triples enemy draftees casualties.',
@@ -382,6 +375,7 @@ class SpellHelper
                 'key' => 'portal',
                 'mana_cost' => 12,
                 'duration' => 1,
+                'cooldown' => 12, # Twice per day.
                 'races' => collect(['Dimensionalists']),
             ],
 
