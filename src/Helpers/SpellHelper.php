@@ -371,7 +371,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Portal',
-                'description' => 'Must be cast in order to send units on attack.',
+                'description' => 'Must be cast in order to send units on attack. Portal closes quickly and should be used immediately.',
                 'key' => 'portal',
                 'mana_cost' => 12,
                 'duration' => 1,

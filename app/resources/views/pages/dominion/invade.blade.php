@@ -252,7 +252,7 @@
                                     </button>
                                     @else
 
-                                    <strong><em>You must open a portal before you can send your units.</em></strong>
+                                    <strong><em>You must open a portal before you can send your units to invade.</em></strong>
 
                                     @endif
 

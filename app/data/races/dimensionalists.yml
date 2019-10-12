@@ -1,6 +1,6 @@
 name: Dimensionalists
 alignment: evil
-home_land_type: hill
+home_land_type: swamp
 playable: 1
 
 attacking: 2
@@ -8,7 +8,7 @@ exploring : 2
 converting: 2
 
 perks:
-  food_consumption: -50
+  construction_cost: +15
   max_population: -25
   cannot_build_homes: 1
 units:
@@ -33,13 +33,14 @@ units:
       mana_drain: 0.02
       faster_return: 111
       pairing_limit: 1,22 # Unit slot, amount
+      gem_production: 0.02
   - name: Sft'Rm
     need_boat: false
     cost:
       mana: 100
     power:
-      offense: 3/2
-      defense: 4/5
+      offense: 2
+      defense: 4.5
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
@@ -51,8 +52,8 @@ units:
     cost:
       mana: 500
     power:
-      offense: 7/2
-      defense: 4/3
+      offense: 4
+      defense: 1
     perks:
       true_immortal: 1
       no_draftee: 1
