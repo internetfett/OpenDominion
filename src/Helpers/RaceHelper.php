@@ -236,6 +236,10 @@ $descriptions['dimensionalists'] = <<<DIMENSIONALISTS
 <p>In order to attack, a Portal must be opened and used quickly, before it closes. Surviving units return when the portal closes.</p>
 DIMENSIONALISTS;
 
+$descriptions['slime'] = <<<SLIME
+<p></p>
+SLIME;
+
         $key = strtolower($race->name);
 
         if (!isset($descriptions[$key])) {
