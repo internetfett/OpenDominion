@@ -189,6 +189,7 @@ class TrainActionService
               throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
             }
 
+            }
           }
 
           # Look for cannot_be_trained
@@ -207,9 +208,10 @@ class TrainActionService
             {
               throw new GameException('This unit cannot be trained.');
             }
+          }
 
 
-        }
+        
 
         if($totalCosts['platinum'] > $dominion->resource_platinum)
         {
