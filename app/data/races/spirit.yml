@@ -60,3 +60,4 @@ units:
     perks:
       immortal: 1
       staggered_conversion: 85;3,100;4
+      cannot_be_trained: 1
