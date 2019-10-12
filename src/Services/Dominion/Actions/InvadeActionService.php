@@ -468,10 +468,10 @@ class InvadeActionService
         $targetDP = $this->invasionResult['defender']['dp'];
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
 
-        # Merfolk: Charybdis' Gape - increase offensive casualties by 25% if target has this spell on.
+        # Merfolk: Charybdis' Gape - increase offensive casualties by 50% if target has this spell on.
         if ($this->spellCalculator->isSpellActive($target, 'charybdis_gape'))
         {
-            $offensiveCasualtiesPercentage *= 1.25;
+            $offensiveCasualtiesPercentage *= 1.50;
         }
 
         $offensiveUnitsLost = [];

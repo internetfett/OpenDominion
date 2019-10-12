@@ -355,7 +355,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Charybdis\' Gape',
-                'description' => 'Increases offensive casualties by 25% against invading forces.',
+                'description' => 'Increases offensive casualties by 50% against invading forces.',
                 'key' => 'charybdis_gape',
                 'mana_cost' => 5,
                 'duration' => 12*4,

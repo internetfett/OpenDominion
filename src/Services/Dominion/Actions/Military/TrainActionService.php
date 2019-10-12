@@ -191,6 +191,24 @@ class TrainActionService
 
           }
 
+          # Look for cannot_be_trained
+          foreach($unitsToTrain as $unitType => $amountToTrain)
+          {
+            if (!$amountToTrain)
+            {
+                continue;
+            }
+
+            $unitSlot = intval(str_replace('unit', '', $unitType));
+
+            $cannotBeTrained = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'cannot_be_trained');
+
+            if($cannotBeTrained and $amountToTrain > 0)
+            {
+              throw new GameException('This unit cannot be trained.');
+            }
+
+
         }
 
         if($totalCosts['platinum'] > $dominion->resource_platinum)

@@ -52,7 +52,7 @@ units:
       mana: 0
       champion: 1
     power:
-      offense: 30
+      offense: 12
       defense: 0
     perks:
       no_draftee: 1

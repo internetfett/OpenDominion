@@ -31,21 +31,21 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 0.02
-      faster_return: 111
+      faster_return: 11
       pairing_limit: 1,22 # Unit slot, amount
       gem_production: 0.02
   - name: Sft'Rm
-    need_boat: false
+    #need_boat: false
     cost:
       mana: 100
     power:
-      offense: 2
-      defense: 4.5
+      offense: 0
+      defense: 4
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 0.05
-      faster_return: 11
+      #faster_return: 11
       pairing_limit: 1,11 # Unit slot, amount
   - name: Ze'Tk
     need_boat: false

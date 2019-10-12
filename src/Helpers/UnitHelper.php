@@ -127,12 +127,13 @@ class UnitHelper
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'mana_drain' => 'Each unit drains %s mana per tick.',
 
-
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
-            'instant_training' => 'Summoned immediately. Available the following tick.',
+            'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster.',
+            'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
+            'cannot_be_trained' => 'Unit cannot be trained.',
 
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 

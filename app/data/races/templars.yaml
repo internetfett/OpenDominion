@@ -44,10 +44,10 @@ units:
       platinum: 1200
       ore: 100
     power:
-      offense: 3
+      offense: 5
       defense: 3
     perks:
       faster_return: 3
       counts_as_wizard_offense: 0.1
       counts_as_wizard_defense: 0.1
-      offense_staggered_land_range: 40;1,60;2,75;3,100;4
+      offense_staggered_land_range: 75;-1,100;3

@@ -37,18 +37,19 @@ GNOME;
 HALFLING;
 
         $descriptions['human'] = <<<HUMAN
-<p>Among the youngest of the races, the Human empire rose swiftly and against the odds. Humans proved to be not only capable warriors, but also skilled smiths, clever engineers and above all, adaptable. Their homeland destroyed by the forces of Evil decades ago, Humans seek to rebuild and avenge their fallen brothers.</p>
+<p>While humans can be found in many factions from the Sacred Order to the Templars, to Nomads and Dimensionalists, the vast majority still live under the same banner and work as one.</p>
 <p>Humans are generally proficient in everything they set their mind to, though they are masters of no single discipline.</p>
 HUMAN;
 
         $descriptions['merfolk'] = <<<MERFOLK
 <p>An aquatic race that lives in beautiful coral reefs where food is plentiful, Merfolk are the benevolent guardians of the great oceans.</p>
-<p>Though typically peaceful, Merfolk are legendary for their wrath when angered, summoning terrors of the deep to destroy entire naval fleets with the thrashing tentacles of ravenous krakens. The chilling and alluring call of the psiren might be the last thing you ever hear... before you're snatched from your ship and dragged down to the bottom of the cold, dark sea.</p>
+<p>Though typically peaceful, Merfolk are legendary for their wrath when angered, summoning terrors of the deep to destroy entire naval fleets with the thrashing tentacles of ravenous krakens. The chilling and alluring call of the piren might be the last thing you ever hear... before you're snatched from your ship and dragged down to the bottom of the cold, dark sea.</p>
+<p>Mighty Charybdis is always lurking in the depths. When called upon, he will ravage any enemy ships or flying units which dare draw close.</p>
 MERFOLK;
 
         $descriptions['spirit'] = <<<SPIRIT
-<p>These kind spirits long for a quiet and peaceful world.</p>
-<p>Some of the lost souls of fallen enemies, will join their ranks in search of this goal.</p>
+<p>Spirits have always surrounded the world.</p>
+<p>Distraught by the scourge of the Empire, these Spirits have rejoined the corporeal world to keep the pure pure.</p>
 SPIRIT;
 
         $descriptions['kobold'] = <<<KOBOLD
