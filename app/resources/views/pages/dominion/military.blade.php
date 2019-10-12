@@ -184,7 +184,7 @@
                                             &mdash;
                                           @elseif ($selectedDominion->race->getPerkValue('cannot_train_archmages') and $unitType == 'archmages')
                                             &mdash;
-                                          @elseif ($selectedDominion->race->getUnitPerkValueForUnitSlot($unitType,'cannot_be_trained'))
+                                          @elseif ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval($unitType),'cannot_be_trained'))
                                             &mdash;
                                           @else
                                             <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
