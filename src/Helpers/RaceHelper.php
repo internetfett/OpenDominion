@@ -237,7 +237,8 @@ $descriptions['dimensionalists'] = <<<DIMENSIONALISTS
 DIMENSIONALISTS;
 
 $descriptions['slime'] = <<<SLIME
-<p></p>
+<p>Slime are oozing, trickling, and perculating see-through blobs.</p>
+<p>Stories about slimes go back centuries, about adventurers venturing across swamps and caves and coming across see-through beings of inexplicable endurance and apparent intelligence.</p>
 SLIME;
 
         $key = strtolower($race->name);
