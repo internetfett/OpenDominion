@@ -48,15 +48,18 @@ class DominionFactory
         );
 
 
+        // Starting resources are based on this.
+        $acresBase = 1000;
+
+        // Give +0.35% starting resources per hour late, max +50%.
+        $hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
+        $startingResourcesMultiplier = 1 + min(0.50, $hourSinceRoundStarted/300);
+
+        die(var_dump($startingResourcesMultiplier));
+
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
-
-        #
-        $acresBase = 1000;
-
-        $startingResourcesMultiplier = 1;
-        die(var_dump(($realm->round->start_date)->diffInHours(now())));
 
         # RESOURCES
         $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
