@@ -136,7 +136,7 @@ class TrainActionService
             $unitsToTrain[$unitType] = $amountToTrain;
         }
 
-        # Look for pairing_limit
+        # Look for pairing_limit and cannot_be_trained
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {
           if (!$amountToTrain)
@@ -146,6 +146,13 @@ class TrainActionService
 
           $unitSlot = intval(str_replace('unit', '', $unitType));
 
+          # Cannot be trained
+          if($dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'cannot_be_trained') and $amountToTrain > 0)
+          {
+            throw new GameException('This unit cannot be trained.');
+          }
+
+          # OK, unit can be trained. Let's check for pairing limits.
           $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
           # [0] = unit limited by
           # [1] = limit
@@ -191,27 +198,6 @@ class TrainActionService
 
             }
           }
-
-          # Look for cannot_be_trained
-          foreach($unitsToTrain as $unitType => $amountToTrain)
-          {
-            if (!$amountToTrain)
-            {
-                continue;
-            }
-
-            $unitSlot = intval(str_replace('unit', '', $unitType));
-
-            $cannotBeTrained = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'cannot_be_trained');
-
-            if($cannotBeTrained and $amountToTrain > 0)
-            {
-              throw new GameException('This unit cannot be trained.');
-            }
-          }
-
-
-        
 
         if($totalCosts['platinum'] > $dominion->resource_platinum)
         {
