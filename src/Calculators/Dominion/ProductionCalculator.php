@@ -214,6 +214,11 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
 
+        // Racial Spell: Metabolism (Growth) - Double food production
+        if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
+            $food *= 2;
+        }
+
         return $food;
     }
 
@@ -312,9 +317,9 @@ class ProductionCalculator
         $foodDecay = 1;
 
         // Racial Spell: Metabolism (Growth)
-        if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
-            $foodDecay = $foodDecay / 2;
-        }
+        #if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
+        #    $foodDecay = $foodDecay / 2;
+        #}
 
         $decay += ($dominion->resource_food * ($foodDecay / 100));
 

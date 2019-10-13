@@ -25,16 +25,14 @@ units:
   - name: Fiend
     cost:
       platinum: 350
-      mana: 25
+      mana: 15
     power:
       offense: 0
       defense: 3
-    perks:
-      faster_training: 8
   - name: Nightshade
     cost:
       platinum: 1100
-      mana: 60
+      mana: 30
     power:
       offense: 0
       defense: 2
@@ -43,7 +41,7 @@ units:
   - name: Lich
     cost:
       platinum: 1200
-      mana: 65
+      mana: 45
     power:
       offense: 5
       defense: 2

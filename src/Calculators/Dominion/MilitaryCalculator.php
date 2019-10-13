@@ -334,8 +334,8 @@ class MilitaryCalculator
         $dpPerGuardTower = 2;
         $guardTowerMaxDp = 40;
         $spellAresCall = 10;
-        $spellBlizzard = 15;
-        $spellFrenzy = 20;
+        $spellBlizzard = 5; # From 15%
+        $spellFrenzy = 10; # From 10%
         $spellHowling = 10;
 
         // Guard Towers
@@ -370,12 +370,11 @@ class MilitaryCalculator
           $multiplierFromCoastalCannons = 0;
         }
 
-
-        // Spell: Blizzard (+15%)
+        // Spell: Blizzard (+5%)
         $multiplierFromBlizzard = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'blizzard', $spellBlizzard);
         $multiplier += $multiplierFromBlizzard;
 
-        // Spell: Frenzy (Halfling) (+20%)
+        // Spell: Frenzy (Halfling) (+10%)
         $multiplierFromFrenzy = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'defensive_frenzy', $spellFrenzy);
         $multiplier += $multiplierFromFrenzy;
 

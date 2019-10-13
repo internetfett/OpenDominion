@@ -55,6 +55,8 @@ class DominionFactory
         #
         $acresBase = 1000;
 
+        $startingResourcesMultiplier = 1;
+
         # RESOURCES
         $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
         $startingResources['platinum'] = 2000 * $acresBase; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500
@@ -111,7 +113,7 @@ class DominionFactory
           $startingResources['boats'] = 0;
         }
         // Mana-cost races: double Mana
-        $manaCostRaces = array('Lux','Norse','Snow Elf','Undead','Void');
+        $manaCostRaces = array('Lux','Norse','Snow Elf','Nox','Undead','Void');
         if(in_array($race->name, $manaCostRaces))
         {
           $startingResources['mana'] = $startingResources['mana']*2;
@@ -128,18 +130,21 @@ class DominionFactory
           $startingResources['platinum'] += $startingResources['lumber'] / 2;
           $startingResources['platinum'] = 0;
         }
-        // Growth: extra food, no platinum, no gems, and higher draft rate.
+        // Growth: extra food, no platinum, no gems, higher draft rate, and enough Unit3 to equal 80 farms.
         if($race->name == 'Growth')
         {
           $startingResources['platinum'] = 0;
           $startingResources['gems'] = 0;
           $startingResources['food'] = $acresBase * 5000;
           $startingResources['draft_rate'] = 100;
+
+
+          $startingResources['unit3'] = intval((80 * 80) / 3);
         }
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
-          $startingResources['morale'] = 300;
+          $startingResources['morale'] = 330;
         }
         // Void: move 1/2 of plat into mana, and remove gems.
         if($race->name == 'Void')
@@ -161,7 +166,7 @@ class DominionFactory
             'name' => $dominionName,
             'prestige' => intval($acresBase/2),
 
-            'peasants' => $startingResources['peasants'],
+            'peasants' => $startingResources['peasants'] * $startingResourcesMultiplier,
             'peasants_last_hour' => 0,
 
             'draft_rate' => $startingResources['draft_rate'],
@@ -169,14 +174,14 @@ class DominionFactory
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
-            'resource_platinum' => $startingResources['platinum'],
-            'resource_food' =>  $startingResources['food'],
-            'resource_lumber' => $startingResources['lumber'],
-            'resource_mana' => $startingResources['mana'],
-            'resource_ore' => $startingResources['ore'],
-            'resource_gems' => $startingResources['gems'],
-            'resource_tech' => 0,
-            'resource_boats' => $startingResources['boats'],
+            'resource_platinum' => $startingResources['platinum'] * $startingResourcesMultiplier,
+            'resource_food' =>  $startingResources['food'] * $startingResourcesMultiplier,
+            'resource_lumber' => $startingResources['lumber'] * $startingResourcesMultiplier,
+            'resource_mana' => $startingResources['mana'] * $startingResourcesMultiplier,
+            'resource_ore' => $startingResources['ore'] * $startingResourcesMultiplier,
+            'resource_gems' => $startingResources['gems'] * $startingResourcesMultiplier,
+            'resource_tech' => 0 * $startingResourcesMultiplier,
+            'resource_boats' => $startingResources['boats'] * $startingResourcesMultiplier,
 
             # New resources
             'resource_champion' => 0,
@@ -194,14 +199,14 @@ class DominionFactory
             'improvement_infirmary' => 0,
             'improvement_tissue' => 0,
 
-            'military_draftees' => $startingResources['draftees'],
-            'military_unit1' => $startingResources['unit1'],
-            'military_unit2' => $startingResources['unit2'],
-            'military_unit3' => $startingResources['unit3'],
-            'military_unit4' => $startingResources['unit4'],
-            'military_spies' => 0,
-            'military_wizards' => 0,
-            'military_archmages' => 0,
+            'military_draftees' => $startingResources['draftees'] * $startingResourcesMultiplier,
+            'military_unit1' => $startingResources['unit1'] * $startingResourcesMultiplier,
+            'military_unit2' => $startingResources['unit2'] * $startingResourcesMultiplier,
+            'military_unit3' => $startingResources['unit3'] * $startingResourcesMultiplier,
+            'military_unit4' => $startingResources['unit4'] * $startingResourcesMultiplier,
+            'military_spies' => 0 * $startingResourcesMultiplier,
+            'military_wizards' => 0 * $startingResourcesMultiplier,
+            'military_archmages' => 0 * $startingResourcesMultiplier,
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],

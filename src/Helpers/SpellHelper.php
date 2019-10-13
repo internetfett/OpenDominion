@@ -69,6 +69,7 @@ class SpellHelper
                 'mana_cost' => 2,
                 'duration' => 12*4,
             ],
+            /*
             [
                 'name' => 'Ares\' Call',
                 'description' => '+10% defensive power',
@@ -83,6 +84,7 @@ class SpellHelper
                 'mana_cost' => 2.5,
                 'duration' => 12*4,
             ],
+            */
             [
                 'name' => 'Mining Strength',
                 'description' => '+10% ore production',
@@ -177,7 +179,7 @@ class SpellHelper
             */
             [
                 'name' => 'Blizzard',
-                'description' => '+15% defensive strength (not cumulative with Ares\'s Call)',
+                'description' => '+5% defensive strength (not cumulative with Ares\'s Call)',
                 'key' => 'blizzard',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -201,7 +203,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Defensive Frenzy',
-                'description' => '+20% defensive strength (not cumulative with Ares\'s Call)',
+                'description' => '+10% defensive strength (not cumulative with Ares\'s Call)',
                 'key' => 'defensive_frenzy',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -281,7 +283,8 @@ class SpellHelper
             ],
             [
                 'name' => 'Metabolism',
-                'description' => '-50% food rot.',
+                #'description' => '-50% food rot.',
+                'description' => '+200% food production.',
                 'key' => 'metabolism',
                 'mana_cost' => 8,
                 'duration' => 12*4,
