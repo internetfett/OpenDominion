@@ -414,6 +414,9 @@ class TrainActionService
                   $hours = $hoursElites;
                 }
 
+                // $hours must always be at least 1.
+                $hours = max($hours,1);
+
                 $this->queueService->queueResources('training', $dominion, $data, $hours);
               }
 
