@@ -1,7 +1,7 @@
 name: Growth
 alignment: evil
 home_land_type: swamp
-playable: 0
+playable: 1
 
 attacking: 2
 exploring : 0
