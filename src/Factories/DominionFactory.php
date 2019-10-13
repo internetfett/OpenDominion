@@ -114,11 +114,11 @@ class DominionFactory
         {
           $startingResources['boats'] = 0;
         }
-        // Mana-cost races: double Mana
+        // Mana-cost races: triple Mana
         $manaCostRaces = array('Lux','Norse','Snow Elf','Nox','Undead','Void');
         if(in_array($race->name, $manaCostRaces))
         {
-          $startingResources['mana'] = $startingResources['mana']*2;
+          $startingResources['mana'] = $startingResources['mana']*3;
         }
         // For cannot_improve_castle races: replace Gems with Platinum.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
