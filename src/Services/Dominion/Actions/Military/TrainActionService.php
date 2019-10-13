@@ -346,7 +346,6 @@ class TrainActionService
             $dominion->military_unit3 -= $totalCosts['unit3'];
             $dominion->military_unit4 -= $totalCosts['unit4'];
 
-            $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
             // Data:
             # unit1 => int
@@ -398,24 +397,11 @@ class TrainActionService
               if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'instant_training') and $amountToTrain > 0)
               {
                 $dominion->{"$unit"} += $amountToTrain;
-                  $dominion->{$unit} += $amountToTrain;
-                    $dominion->$unit += $amountToTrain;
-
-                echo '{""}';
-                echo $dominion->{"$unit"};
-                echo ';{}';
-                echo $dominion->{$unit};
-                echo ';';
-                echo $dominion->$unit;
-                echo ';$unit:';
-                echo $unit;
-                echo ';';
-
-                die();
               }
               // If not instant training, queue resource.
               else
               {
+                $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
                 # Default state
                 $data = array($unit => $amountToTrain);
 
