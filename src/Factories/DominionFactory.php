@@ -55,8 +55,6 @@ class DominionFactory
         $hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
         $startingResourcesMultiplier = 1 + min(0.50, $hourSinceRoundStarted/300);
 
-        die(var_dump($startingResourcesMultiplier));
-
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
@@ -171,7 +169,7 @@ class DominionFactory
             'name' => $dominionName,
             'prestige' => intval($acresBase/2),
 
-            'peasants' => $startingResources['peasants'] * $startingResourcesMultiplier,
+            'peasants' => intval($startingResources['peasants'] * $startingResourcesMultiplier),
             'peasants_last_hour' => 0,
 
             'draft_rate' => $startingResources['draft_rate'],
@@ -179,14 +177,14 @@ class DominionFactory
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
-            'resource_platinum' => $startingResources['platinum'] * $startingResourcesMultiplier,
-            'resource_food' =>  $startingResources['food'] * $startingResourcesMultiplier,
-            'resource_lumber' => $startingResources['lumber'] * $startingResourcesMultiplier,
-            'resource_mana' => $startingResources['mana'] * $startingResourcesMultiplier,
-            'resource_ore' => $startingResources['ore'] * $startingResourcesMultiplier,
-            'resource_gems' => $startingResources['gems'] * $startingResourcesMultiplier,
-            'resource_tech' => 0 * $startingResourcesMultiplier,
-            'resource_boats' => $startingResources['boats'] * $startingResourcesMultiplier,
+            'resource_platinum' => intval($startingResources['platinum'] * $startingResourcesMultiplier),
+            'resource_food' =>  intval($startingResources['food'] * $startingResourcesMultiplier),
+            'resource_lumber' => intval($startingResources['lumber'] * $startingResourcesMultiplier),
+            'resource_mana' => intval($startingResources['mana'] * $startingResourcesMultiplier),
+            'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
+            'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
+            'resource_tech' => intval(0 * $startingResourcesMultiplier),
+            'resource_boats' => intval($startingResources['boats'] * $startingResourcesMultiplier),
 
             # New resources
             'resource_champion' => 0,
@@ -204,14 +202,14 @@ class DominionFactory
             'improvement_infirmary' => 0,
             'improvement_tissue' => 0,
 
-            'military_draftees' => $startingResources['draftees'] * $startingResourcesMultiplier,
-            'military_unit1' => $startingResources['unit1'] * $startingResourcesMultiplier,
-            'military_unit2' => $startingResources['unit2'] * $startingResourcesMultiplier,
-            'military_unit3' => $startingResources['unit3'] * $startingResourcesMultiplier,
-            'military_unit4' => $startingResources['unit4'] * $startingResourcesMultiplier,
-            'military_spies' => 0 * $startingResourcesMultiplier,
-            'military_wizards' => 0 * $startingResourcesMultiplier,
-            'military_archmages' => 0 * $startingResourcesMultiplier,
+            'military_draftees' => intval($startingResources['draftees'] * $startingResourcesMultiplier),
+            'military_unit1' => intval($startingResources['unit1'] * $startingResourcesMultiplier),
+            'military_unit2' => intval($startingResources['unit2'] * $startingResourcesMultiplier),
+            'military_unit3' => intval($startingResources['unit3'] * $startingResourcesMultiplier),
+            'military_unit4' => intval($startingResources['unit4'] * $startingResourcesMultiplier),
+            'military_spies' => intval(0 * $startingResourcesMultiplier),
+            'military_wizards' => intval(0 * $startingResourcesMultiplier),
+            'military_archmages' => intval(0 * $startingResourcesMultiplier),
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
