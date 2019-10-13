@@ -56,7 +56,7 @@ class DominionFactory
         $acresBase = 1000;
 
         $startingResourcesMultiplier = 1;
-        die($realm->round->start_date->diffInHours(now()));
+        die(var_dump($realm->round->start_date));
 
         # RESOURCES
         $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
