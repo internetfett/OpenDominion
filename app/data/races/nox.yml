@@ -29,6 +29,8 @@ units:
     power:
       offense: 0
       defense: 3
+    perks:
+      faster_training: 8
   - name: Nightshade
     cost:
       platinum: 1100
