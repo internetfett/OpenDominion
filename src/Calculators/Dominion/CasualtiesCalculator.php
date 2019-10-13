@@ -88,28 +88,28 @@ class CasualtiesCalculator
             // General "Almost never dies" type of immortality.
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
-                $multiplier = 1;
+                $multiplier = 0;
             }
 
             // True immortality: only dies when overwhelmed.
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 // For now the same as SPUD-style immortal, but separate in code for future usage.
-                $multiplier = 1;
+                $multiplier = 0;
             }
 
             // Range-based immortality
             if (($multiplier !== 1) && (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0))
             {
                 if ($landRatio >= ($immortalVsLandRange / 100)) {
-                    $multiplier = 1;
+                    $multiplier = 0;
                 }
             }
 
             // Race perk-based immortality
             if (($multiplier !== 1) && $this->isImmortalVersusRacePerk($dominion, $target, $slot))
             {
-                $multiplier = 1;
+                $multiplier = 0;
             }
         }
 
@@ -117,7 +117,7 @@ class CasualtiesCalculator
 
         # CHECK UNIT AND RACIAL CASUALTY MODIFIERS
 
-        if ($multiplier !== 1)
+        if ($multiplier !== 0)
         {
 
             $nonUnitBonusMultiplier = 0;
@@ -128,20 +128,20 @@ class CasualtiesCalculator
             // Orc and Black Orc spell: increases casualties by 10%.
             if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
             {
-              $nonUnitBonusMultiplier += -0.10;
+              $nonUnitBonusMultiplier += 0.10;
             }
 
             # Troll and Lizardfolk spell: decreases casualties by 25%.
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
-              $nonUnitBonusMultiplier += 0.25;
+              $nonUnitBonusMultiplier += -0.25;
             }
 
             // Infirmary
-            $nonUnitBonusMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
+            $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             // Cap $nonUnitBonusMultiplier to 80%.
-            $nonUnitBonusMultiplier = min(0.80, $nonUnitBonusMultiplier);
+            $nonUnitBonusMultiplier = min(0.20, $nonUnitBonusMultiplier);
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 0;
@@ -177,13 +177,13 @@ class CasualtiesCalculator
 
             # Apply RCL do uBM.
             #$unitBonusMultiplier += $reducedCombatLosses;
-            $unitBonusMultiplier += $reducedCombatLossesMultiplierAddition;
+            $unitBonusMultiplier -= $reducedCombatLossesMultiplierAddition;
 
             // Apply to multiplier (multiplicative)
             $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
 
             // Absolute cap at 90% reduction.
-            $multiplier = min(0.90, $multiplier);
+            $multiplier = min(0.10, $multiplier);
         }
 
         # END CHECK UNIT AND RACIAL CASUALTY MODIFIERS
@@ -214,20 +214,20 @@ class CasualtiesCalculator
             {
                 if (!$this->spellCalculator->isSpellActive($attacker, 'crusade'))
                 {
-                    $multiplier = 1;
+                    $multiplier = 0;
                 }
             }
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
 
-                $multiplier = 1;
+                $multiplier = 0;
             }
 
             // Race perk-based immortality
             if (($multiplier !== 1) && $this->isImmortalVersusRacePerk($dominion, $attacker, $slot))
             {
-                $multiplier = 1;
+                $multiplier = 0;
             }
 
         }
@@ -236,26 +236,26 @@ class CasualtiesCalculator
         # This means that Defensive CASUALTIES are zero when INVADED BY a Lux.
         if($attacker->race->getPerkValue('does_not_kill') == 1)
         {
-          $multiplier = 1;
+          $multiplier = 0;
         }
 
-        if ($multiplier !== 1) {
+        if ($multiplier !== 0) {
             // Non-unit bonuses (hero, tech, wonders), capped at -80%
 
-            $nonUnitBonusMultiplier = 0;
+            $nonUnitBonusMultiplier = 1;
 
             // Spells
             # Troll and Lizardfolk spell: decreases casualties by 25%.
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
-              $nonUnitBonusMultiplier += 0.25;
+              $nonUnitBonusMultiplier += -0.25;
             }
 
             // Infirmary
             $nonUnitBonusMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             // Cap $nonUnitBonusMultiplier to 80%.
-            $nonUnitBonusMultiplier = min(0.80, $nonUnitBonusMultiplier);
+            $nonUnitBonusMultiplier = min(0.20, $nonUnitBonusMultiplier);
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 0;
@@ -299,7 +299,7 @@ class CasualtiesCalculator
             $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
 
             // Absolute cap at 90% reduction.
-            $multiplier = min(0.90, $multiplier);
+            $multiplier = min(0.10, $multiplier);
         }
 
         return $multiplier;
