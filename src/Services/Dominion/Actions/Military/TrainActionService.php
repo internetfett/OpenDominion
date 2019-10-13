@@ -378,7 +378,7 @@ class TrainActionService
               }
 
               // Look for faster training.
-              if($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'))
+              if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training'))
               {
                 $timeReductionSpecs = min($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'), $hoursSpecs-1);
                 $timeReductionElites = min($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'), $hoursElites-1);
@@ -395,8 +395,9 @@ class TrainActionService
               }
 
               // Look for instant training.
-              if($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'instant_training'))
+              if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'instant_training'))
               {
+                die($unit . 'trains instantly');
                 $dominion->{$unit} += $amountToTrain;
               }
               // If not instant training, queue resource.
