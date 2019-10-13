@@ -12,7 +12,7 @@ perks:
 units:
   - name: Imp
     cost:
-      mana: 15
+      mana: 10
     power:
       offense: 3
       defense: 0
@@ -25,7 +25,7 @@ units:
   - name: Fiend
     cost:
       platinum: 350
-      mana: 15
+      mana: 5
     power:
       offense: 0
       defense: 3
