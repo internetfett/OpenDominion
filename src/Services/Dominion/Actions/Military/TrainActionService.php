@@ -401,12 +401,15 @@ class TrainActionService
                   $dominion->{$unit} += $amountToTrain;
                     $dominion->$unit += $amountToTrain;
 
+                echo '{""}';
                 echo $dominion->{"$unit"};
-                echo ':';
+                echo ';{}';
                 echo $dominion->{$unit};
-                echo ':';
+                echo ';';
                 echo $dominion->$unit;
-                echo ':';
+                echo ';$unit:';
+                echo $unit;
+                echo ';';
 
                 die();
               }
