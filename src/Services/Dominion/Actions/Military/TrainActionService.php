@@ -380,11 +380,11 @@ class TrainActionService
               }
 
               // Look for reduced training times.
-              if($timeReductionSpecs > 0)
+              if($timeReductionSpecs)
               {
                 $hoursSpecs -= $timeReductionSpecs;
               }
-              if($timeReductionElites > 0)
+              if($timeReductionElites)
               {
                 $hoursElites -= $timeReductionElites;
               }
