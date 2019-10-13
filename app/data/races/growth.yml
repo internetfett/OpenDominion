@@ -54,7 +54,7 @@ units:
       defense: 2
     perks:
         mana_production: 0.05
-        food_production: 3
+        food_production: 3.5
   - name: Ulcer
     need_boat: false
     cost:

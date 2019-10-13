@@ -287,7 +287,8 @@ class SpellHelper
                 'description' => '+200% food production.',
                 'key' => 'metabolism',
                 'mana_cost' => 8,
-                'duration' => 12*4,
+                'duration' => 6*4, # 24 ticks / 6 hours
+                'cooldown' => 36, # Once every day and a half.
                 'races' => collect(['Growth']),
             ],
             [

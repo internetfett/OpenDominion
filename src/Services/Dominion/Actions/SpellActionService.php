@@ -268,7 +268,7 @@ class SpellActionService
         return [
             'success' => true,
             'message' => sprintf(
-                'Your wizards cast the spell successfully, and it will continue to affect your dominion for the next %s hours.',
+                'Your wizards cast the spell successfully, and it will continue to affect your dominion for the next %s ticks.',
                 $spellInfo['duration']
             )
         ];

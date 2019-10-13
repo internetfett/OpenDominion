@@ -56,6 +56,7 @@ class DominionFactory
         $acresBase = 1000;
 
         $startingResourcesMultiplier = 1;
+        die($realm->round->start_date->diffInHours(now()));
 
         # RESOURCES
         $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
@@ -129,6 +130,7 @@ class DominionFactory
         {
           $startingResources['platinum'] += $startingResources['lumber'] / 2;
           $startingResources['platinum'] = 0;
+          $startingResources['lumber'] = 0;
         }
         // Growth: extra food, no platinum, no gems, higher draft rate, and enough Unit3 to equal 80 farms.
         if($race->name == 'Growth')
