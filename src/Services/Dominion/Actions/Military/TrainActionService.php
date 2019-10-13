@@ -348,6 +348,9 @@ class TrainActionService
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
+
+                        die(var_dump($data));
+
             // Specialists train in 9 hours
             # Only essence takes 9 hours to train for Lux.
             if($dominion->race->name == 'Lux')
@@ -388,7 +391,6 @@ class TrainActionService
               $hours_modifier = 0;
             }
 
-            die(var_dump($data));
 
             // Nox: unit perk (instant_training)
             /*
