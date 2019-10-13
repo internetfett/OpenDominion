@@ -356,8 +356,13 @@ class TrainActionService
             // Lux: Spell (reduce training times by 2 hours)
             if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
             {
-              $timeReductionSpecs -= 2;
-              $timeReductionElites -= 2;
+              $timeReductionSpecs = 2;
+              $timeReductionElites = 2;
+            }
+            else
+            {
+              $timeReductionSpecs = 0;
+              $timeReductionElites = 0;
             }
 
             foreach($data as $unit => $amountToTrain)
@@ -369,7 +374,7 @@ class TrainActionService
               // Legion: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {
-                $timeReductionElites -= 3;
+                $timeReductionElites = 3;
               }
 
               // Look for faster training.
@@ -380,11 +385,11 @@ class TrainActionService
               }
 
               // Look for reduced training times.
-              if($timeReductionSpecs)
+              if($timeReductionSpecs > 0)
               {
                 $hoursSpecs -= $timeReductionSpecs;
               }
-              if($timeReductionElites)
+              if($timeReductionElites > 0)
               {
                 $hoursElites -= $timeReductionElites;
               }
