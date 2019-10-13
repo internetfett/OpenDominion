@@ -32,7 +32,7 @@ units:
   - name: Nightshade
     cost:
       platinum: 1100
-      mana: 30
+      mana: 10
     power:
       offense: 0
       defense: 2
@@ -41,7 +41,7 @@ units:
   - name: Lich
     cost:
       platinum: 1200
-      mana: 45
+      mana: 15
     power:
       offense: 5
       defense: 2

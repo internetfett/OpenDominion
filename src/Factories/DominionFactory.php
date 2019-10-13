@@ -98,7 +98,7 @@ class DominionFactory
           $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
         }
         // Ore-free races: no ore
-        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Undead','Void');
+        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Nox','Undead','Void');
         if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
