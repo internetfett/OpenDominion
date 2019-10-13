@@ -202,7 +202,7 @@ class CasualtiesCalculator
      */
     public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $attacker, ?int $slot): float
     {
-        $multiplier = 0;
+        $multiplier = 1;
 
         // First check immortality, so we can skip the other remaining checks if we indeed have immortal units, since
         // casualties will then always be 0 anyway
