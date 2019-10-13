@@ -258,8 +258,6 @@ class TrainActionService
           throw new GameException('Insufficient units to train this unit.');
         }
 
-
-
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
@@ -389,6 +387,8 @@ class TrainActionService
             {
               $hours_modifier = 0;
             }
+
+            die($data);
 
             // Nox: unit perk (instant_training)
             /*

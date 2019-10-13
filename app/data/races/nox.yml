@@ -20,7 +20,7 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit: 4,20 # Unit slot, amount (max 50 of this unit per each Unit 4)
+      pairing_limit: 4,20 # Unit slot, amount (max 20 of this unit per each Unit 4)
       fixed_casualties: 100
   - name: Fiend
     cost:
