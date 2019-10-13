@@ -397,8 +397,7 @@ class TrainActionService
               // Look for instant training.
               if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'instant_training') and $amountToTrain > 0)
               {
-                $dominion->{"$unit"} += $amountToTrain;
-                die(var_dump($dominion->{"$unit"}));
+                $dominion->{'military_unit.'.$unit} += $amountToTrain;
               }
               // If not instant training, queue resource.
               else
