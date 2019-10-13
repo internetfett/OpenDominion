@@ -57,4 +57,4 @@ units:
     perks:
       no_draftee: 1
       true_immortal: 1
-      static_networth: 33
+    static_networth: 33
