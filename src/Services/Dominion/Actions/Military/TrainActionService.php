@@ -388,7 +388,7 @@ class TrainActionService
               $hours_modifier = 0;
             }
 
-            die($data);
+            die(var_dump($data));
 
             // Nox: unit perk (instant_training)
             /*
