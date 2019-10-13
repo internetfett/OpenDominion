@@ -348,43 +348,70 @@ class TrainActionService
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
-
             // Data:
             # unit1 => int
             # unit2 => int
             # et cetera
 
-            $hoursSpecs = 9;
-            $hoursElites = 12;
-
             // Lux: Spell (reduce training times by 2 hours)
             if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
             {
-              $hoursSpecs -= 2;
-              $hoursElites -= 2;
+              $timeReductionSpecs -= 2;
+              $timeReductionElites -= 2;
             }
 
             foreach($data as $unit => $amountToTrain)
             {
+              // Reset at each run of loop.
+              $hoursSpecs = 9;
+              $hoursElites = 12;
+
               // Legion: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {
-                $hoursElites = 9;
+                $timeReductionElites -= 3;
               }
 
-              # Default state
-              $data = array($unit => $amountToTrain);
-
-              if($unit == 'military_unit1' or $unit == 'military_unit2')
+              // Look for faster training.
+              if($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'))
               {
-                $hours = $hoursSpecs;
+                $timeReductionSpecs = min($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'), $hoursSpecs-1);
+                $timeReductionElites = min($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'), $hoursElites-1);
               }
+
+              // Look for reduced training times.
+              if($timeReductionSpecs > 0)
+              {
+                $hoursSpecs -= $timeReductionSpecs;
+              }
+              if($timeReductionElites > 0)
+              {
+                $hoursElites -= $timeReductionElites;
+              }
+
+              // Look for instant training.
+              if($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'instant_training'))
+              {
+                $dominion->{$unit} += $amountToTrain;
+              }
+              // If not instant training, queue resource.
               else
               {
-                $hours = $hoursElites;
+                # Default state
+                $data = array($unit => $amountToTrain);
+
+                if($unit == 'military_unit1' or $unit == 'military_unit2')
+                {
+                  $hours = $hoursSpecs;
+                }
+                else
+                {
+                  $hours = $hoursElites;
+                }
+
+                $this->queueService->queueResources('training', $dominion, $data, $hours);
               }
 
-              $this->queueService->queueResources('training', $dominion, $data, $hours);
             }
 
             #$this->queueService->queueResources('training', $dominion, $nineHourData, ($hoursSpecs + $hours_modifier));
