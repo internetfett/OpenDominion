@@ -400,6 +400,15 @@ class TrainActionService
                 $dominion->{"$unit"} += $amountToTrain;
                   $dominion->{$unit} += $amountToTrain;
                     $dominion->$unit += $amountToTrain;
+
+                echo $dominion->{"$unit"};
+                echo ':';
+                echo $dominion->{$unit};
+                echo ':';
+                echo $dominion->$unit;
+                echo ':';
+
+                die();
               }
               // If not instant training, queue resource.
               else
