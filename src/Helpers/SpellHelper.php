@@ -179,7 +179,7 @@ class SpellHelper
             */
             [
                 'name' => 'Blizzard',
-                'description' => '+5% defensive strength (not cumulative with Ares\'s Call)',
+                'description' => '+5% defensive strength',
                 'key' => 'blizzard',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -191,7 +191,7 @@ class SpellHelper
                 'key' => 'bloodrage',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Orc', 'Black Orc', 'Norse']),
+                'races' => collect(['Orc', 'Black Orc']),
             ],
             [
                 'name' => 'Unholy Ghost',
@@ -203,7 +203,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Defensive Frenzy',
-                'description' => '+10% defensive strength (not cumulative with Ares\'s Call)',
+                'description' => '+10% defensive strength',
                 'key' => 'defensive_frenzy',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -211,7 +211,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Howling',
-                'description' => '+10% offensive strength, +10% defensive strength (not cumulative with Ares\'s Call)',
+                'description' => '+10% offensive strength, +10% defensive strength',
                 'key' => 'howling',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -302,7 +302,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Coastal Cannons',
-                'description' => '+1% Defensive Power for every 1% Water. Max +20%. Not cumulative with Ares Call.',
+                'description' => '+1% Defensive Power for every 1% Water. Max +20%.',
                 'key' => 'coastal_cannons',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -318,7 +318,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fimbulwinter',
-                'description' => 'Not yet implemented.',
+                'description' => '+10% Defensive Power, +15% casualties.',
                 'key' => 'fimbulwinter',
                 'mana_cost' => 8,
                 'duration' => 12*4,

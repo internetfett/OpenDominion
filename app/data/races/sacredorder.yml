@@ -28,7 +28,7 @@ units:
       ore: 25
     power:
       offense: 0
-      defense: 3
+      defense: 1
     perks:
         reduce_combat_losses: 1
   - name: Fanatic

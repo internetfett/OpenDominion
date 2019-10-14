@@ -131,7 +131,13 @@ class CasualtiesCalculator
               $nonUnitBonusMultiplier += 0.10;
             }
 
-            # Troll and Lizardfolk spell: decreases casualties by 25%.
+            // Norse spell: increases casualties by 15%.
+            if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
+            {
+              $nonUnitBonusMultiplier += 0.15;
+            }
+
+            // Troll and Lizardfolk spell: decreases casualties by 25%.
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
               $nonUnitBonusMultiplier += -0.25;

@@ -31,6 +31,7 @@ units:
     perks:
       reduce_combat_losses: 1
       mana_production: 0.02
+      faster_training: 3
   - name: Pikeman
     need_boat: true
     cost:
@@ -41,7 +42,7 @@ units:
       defense: 6
   - name: Paladin
     cost:
-      platinum: 1200
+      platinum: 1150
       ore: 100
     power:
       offense: 5
@@ -49,5 +50,4 @@ units:
     perks:
       faster_return: 3
       counts_as_wizard_offense: 0.1
-      counts_as_wizard_defense: 0.1
-      offense_staggered_land_range: 75;-1,100;3
+      offense_staggered_land_range: 75;1,85;1.5,100;2

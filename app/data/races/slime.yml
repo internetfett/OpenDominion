@@ -45,7 +45,7 @@ units:
     perks:
       upgrade_survivors: 4
       cannot_be_trained: 1
-  - name: Ze'Tk
+  - name: Gelatinous Cube
     need_boat: true
     cost:
       platinum: 0

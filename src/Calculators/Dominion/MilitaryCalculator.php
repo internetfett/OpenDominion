@@ -370,6 +370,12 @@ class MilitaryCalculator
           $multiplierFromCoastalCannons = 0;
         }
 
+        // Spell: Fimbulwinter (+10% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
+        {
+          $multiplier += 10;
+        }
+
         // Spell: Blizzard (+5%)
         $multiplierFromBlizzard = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'blizzard', $spellBlizzard);
         $multiplier += $multiplierFromBlizzard;
