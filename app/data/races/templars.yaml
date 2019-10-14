@@ -27,10 +27,10 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 1
+      defense: 2
     perks:
       reduce_combat_losses: 1
-      mana_production: 0.02
+      mana_production: 0.05
       faster_training: 3
   - name: Pikeman
     need_boat: true
