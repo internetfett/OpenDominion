@@ -21,7 +21,7 @@ units:
     static_networth: 6
     cost:
       platinum: 250
-      mana: 25
+      mana: 5
     power:
       offense: 0
       defense: 0
@@ -30,8 +30,8 @@ units:
     static_networth: 11
     cost:
       unit1: 1
-      gem: 1
-      mana: 50
+      gem: 5
+      mana: 10
     power:
       offense: 0
       defense: 4
@@ -45,8 +45,8 @@ units:
     static_networth: 11
     cost:
       unit1: 1
-      gem: 1
-      mana: 50
+      gem: 5
+      mana: 10
     power:
       offense: 4
       defense: 0
@@ -61,8 +61,8 @@ units:
     cost:
       unit2: 1
       unit3: 1
-      gem: 4
-      mana: 100
+      gem: 20
+      mana: 20
     power:
       offense: 8
       defense: 8

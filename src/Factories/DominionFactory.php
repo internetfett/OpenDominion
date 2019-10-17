@@ -149,11 +149,11 @@ class DominionFactory
         {
           $startingResources['morale'] = 330;
         }
-        // Void: move 1/2 of plat into mana, and remove gems.
+        // Void: gets half of plat for troops as mana
         if($race->name == 'Void')
         {
-          $startingResources['mana'] = intval($startingResources['platinum'] * (1/2));
-          $startingResources['platinum'] = intval($startingResources['platinum'] * (1/2));
+          $startingResources['mana'] = 1000 * $acresBase;
+          $startingResources['platinum'] = 1000 * $acresBase;
           $startingResources['gems'] = 0;
         }
 
