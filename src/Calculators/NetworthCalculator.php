@@ -110,7 +110,7 @@ class NetworthCalculator
                    + $unit->{"cost_ore"}
                    + $unit->{"cost_lumber"}
                    + $unit->{"cost_food"}
-                   + $unit->{"cost_mana"}*5
+                   + $unit->{"cost_mana"}*2.5
                    + $unit->{"cost_gem"}*4
                    + $unit->{"cost_soul"}*5
                    + $unit->{"cost_unit1"}*10
@@ -118,6 +118,7 @@ class NetworthCalculator
                    + $unit->{"cost_unit3"}*20
                    + $unit->{"cost_unit4"}*20
                    + $unit->{"cost_morale"}*10
+                   + $unit->{"cost_prestige"}*10
                    + $unit->{"cost_wild_yeti"}*30
                )/100;
            }
