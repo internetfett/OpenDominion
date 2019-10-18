@@ -51,7 +51,7 @@ units:
       food: 280
     power:
       offense: 0
-      defense: 2
+      defense: 3
     perks:
         mana_production: 0.05
         food_production: 2
