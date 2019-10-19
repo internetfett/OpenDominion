@@ -167,7 +167,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        return min(1.5, (1 + $multiplier * $this->militaryCalculator->getMoraleMultiplier($dominion)));
+        return min(1.5, (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion));
     }
 
     //</editor-fold>
