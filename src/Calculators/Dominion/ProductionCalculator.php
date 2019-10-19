@@ -160,7 +160,7 @@ class ProductionCalculator
         // Beastfolk: Mountain increases platinum production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
+          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
         }
 
         // Tech: Treasure Hunt or Banker's Foresight
