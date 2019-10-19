@@ -149,12 +149,15 @@ class DominionFactory
         {
           $startingResources['morale'] = 330;
         }
-        // Void: gets half of plat for troops as mana
+        // Void: gets half of plat for troops as mana; and gets 320 Visions for mana production
         if($race->name == 'Void')
         {
           $startingResources['mana'] = 1000 * $acresBase;
           $startingResources['platinum'] = 1000 * $acresBase;
           $startingResources['gems'] = 0;
+
+          $startingResources['unit3'] = ((80 * 25) / 4);
+
         }
 
 

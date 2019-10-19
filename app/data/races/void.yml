@@ -19,9 +19,9 @@ units:
   - name: Fallen
     need_boat: false
     cost:
-      platinum: 100
+      platinum: 200
       ore: 0
-      mana: 200
+      mana: 50
     power:
       offense: 3
       defense: 0
@@ -29,7 +29,7 @@ units:
     cost:
       platinum: 200
       ore: 0
-      mana: 100
+      mana: 50
     power:
       offense: 0
       defense: 3
