@@ -76,7 +76,7 @@ class CasualtiesCalculator
         # This means that OFFENSIVE CASUALTIES are zero when INVADING a Lux.
         if($target->race->getPerkValue('does_not_kill') == 1)
         {
-          $multiplier = 1;
+          $multiplier = 0;
         }
 
         // Then check immortality, so we can skip the other remaining checks if we indeed have immortal units, since
@@ -147,7 +147,7 @@ class CasualtiesCalculator
             $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             // Cap $nonUnitBonusMultiplier to 80%.
-            $nonUnitBonusMultiplier = min(0.20, $nonUnitBonusMultiplier);
+            $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 0;
@@ -189,7 +189,7 @@ class CasualtiesCalculator
             $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
 
             // Absolute cap at 90% reduction.
-            $multiplier = min(0.10, $multiplier);
+            $multiplier = max(0.10, $multiplier);
         }
 
         # END CHECK UNIT AND RACIAL CASUALTY MODIFIERS
@@ -261,7 +261,7 @@ class CasualtiesCalculator
             $nonUnitBonusMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             // Cap $nonUnitBonusMultiplier to 80%.
-            $nonUnitBonusMultiplier = min(0.20, $nonUnitBonusMultiplier);
+            $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 0;
@@ -305,7 +305,7 @@ class CasualtiesCalculator
             $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
 
             // Absolute cap at 90% reduction.
-            $multiplier = min(0.10, $multiplier);
+            $multiplier = max(0.10, $multiplier);
         }
 
         return $multiplier;
