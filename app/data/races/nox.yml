@@ -11,6 +11,7 @@ perks:
   food_consumption: -50
 units:
   - name: Imp
+    need_boat: false
     cost:
       mana: 10
     power:
