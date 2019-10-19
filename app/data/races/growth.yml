@@ -51,10 +51,10 @@ units:
       food: 280
     power:
       offense: 0
-      defense: 3
+      defense: 2
     perks:
         mana_production: 0.05
-        food_production: 2
+        food_production: 3
   - name: Ulcer
     need_boat: false
     cost:
