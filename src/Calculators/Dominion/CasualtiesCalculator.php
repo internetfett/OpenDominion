@@ -62,7 +62,7 @@ class CasualtiesCalculator
      */
     public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP): float
     {
-        $multiplier = 0;
+        $multiplier = 1;
 
         # CHECK IMMORTALITY
 
