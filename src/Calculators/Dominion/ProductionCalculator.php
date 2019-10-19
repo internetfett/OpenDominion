@@ -267,9 +267,7 @@ class ProductionCalculator
         }
 
         // Apply Morale multiplier to production multiplier
-        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
-
-        return (1 + $multiplier) * (1 + $prestigeMultiplier);
+        return ((1 + $multiplier) * (1 + $prestigeMultiplier)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
     /**
@@ -404,9 +402,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
-
-        return (1 + $multiplier);
+        return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
     /**
@@ -624,9 +620,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
-
-        return (1 + $multiplier);
+        return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
     //</editor-fold>
@@ -691,9 +685,7 @@ class ProductionCalculator
         // todo
 
         // Apply Morale multiplier to production multiplier
-        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
-
-        return (1 + $multiplier);
+        return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
     //</editor-fold>
@@ -758,9 +750,7 @@ class ProductionCalculator
         }
 
         // Apply Morale multiplier to production multiplier
-        $multiplier *= $this->militaryCalculator->getMoraleMultiplier($dominion);
-
-        return (1 + $multiplier);
+        return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
 
