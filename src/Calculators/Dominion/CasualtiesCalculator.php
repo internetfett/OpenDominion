@@ -120,42 +120,42 @@ class CasualtiesCalculator
         if ($multiplier !== 0)
         {
 
-            $nonUnitBonusMultiplier = 0;
+            // Non-Unit bonuses
+            $nonUnitBonusMultiplier = 1;
 
-            // Shrines
-            $nonUnitBonusMultiplier += $this->getOffensiveCasualtiesReductionFromShrines($dominion);
+            # Shrines
+            $nonUnitBonusMultiplier -= $this->getOffensiveCasualtiesReductionFromShrines($dominion);
 
-            // Orc and Black Orc spell: increases casualties by 10%.
+            # Orc and Black Orc spell: increases casualties by 10%.
             if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
             {
               $nonUnitBonusMultiplier += 0.10;
             }
-
-            // Norse spell: increases casualties by 15%.
+            # Norse spell: increases casualties by 15%.
             if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
             {
               $nonUnitBonusMultiplier += 0.15;
             }
-
-            // Troll and Lizardfolk spell: decreases casualties by 25%.
+            # Troll and Lizardfolk spell: decreases casualties by 25%.
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
               $nonUnitBonusMultiplier += -0.25;
             }
 
-            // Infirmary
+            # Infirmary
             $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
-            // Cap $nonUnitBonusMultiplier to 80%.
+            ## Cap $nonUnitBonusMultiplier to 80%.
             $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
 
+
             // Unit bonuses (multiplicative with non-unit bonuses)
-            $unitBonusMultiplier = 0;
+            $unitBonusMultiplier = 1;
 
-            // Unit Perk: Fewer Casualties
-            $unitBonusMultiplier += ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
+            # Unit Perk: Fewer Casualties
+            $unitBonusMultiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
-            // Unit Perk: Reduce Combat Losses
+            # Unit Perk: Reduce Combat Losses
             $unitsSentPerSlot = [];
             $unitsSentRCLSlot = null;
             $reducedCombatLossesMultiplierAddition = 0;
@@ -182,11 +182,13 @@ class CasualtiesCalculator
             }
 
             # Apply RCL do uBM.
-            #$unitBonusMultiplier += $reducedCombatLosses;
             $unitBonusMultiplier -= $reducedCombatLossesMultiplierAddition;
 
+            ## Cap $unitBonusMultiplier to 80%.
+            $unitBonusMultiplier = max(0.20, $unitBonusMultiplier);
+
             // Apply to multiplier (multiplicative)
-            $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
+            $multiplier = ($nonUnitBonusMultiplier * $unitBonusMultiplier);
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
@@ -258,7 +260,7 @@ class CasualtiesCalculator
             }
 
             // Infirmary
-            $nonUnitBonusMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
+            $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             // Cap $nonUnitBonusMultiplier to 80%.
             $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
@@ -269,7 +271,7 @@ class CasualtiesCalculator
             // Unit Perk: Fewer Casualties (only on military units with a slot, draftees don't have this perk)
             if ($slot)
             {
-                $unitBonusMultiplier += ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
+                $unitBonusMultiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
             }
 
             // Unit Perk: Reduce Combat Losses
@@ -299,7 +301,10 @@ class CasualtiesCalculator
             }
 
             # Apply RCL do uBM.
-            $unitBonusMultiplier += $reducedCombatLosses;
+            $unitBonusMultiplier -= $reducedCombatLosses;
+
+            // Cap $unitBonusMultiplier to 80%.
+            $unitBonusMultiplier = max(0.20, $unitBonusMultiplier);
 
             // Apply to multiplier (multiplicative)
             $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);

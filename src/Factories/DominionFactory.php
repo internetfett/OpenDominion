@@ -141,7 +141,6 @@ class DominionFactory
           $startingResources['food'] = $acresBase * 5000;
           $startingResources['draft_rate'] = 100;
 
-
           $startingResources['unit3'] = intval((80 * 80) / 3);
         }
         // Demon: extra morale.
@@ -156,10 +155,8 @@ class DominionFactory
           $startingResources['platinum'] = 1000 * $acresBase;
           $startingResources['gems'] = 0;
 
-          $startingResources['unit3'] = ((80 * 25) / 4);
-
+          $startingResources['unit3'] = intval((80 * 25) / 4);
         }
-
 
         return Dominion::create([
             'user_id' => $user->id,

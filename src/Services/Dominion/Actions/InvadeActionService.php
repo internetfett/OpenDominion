@@ -527,8 +527,6 @@ class InvadeActionService
             }
         }
 
-
-
         $attackerUnitsDiedInBattleSlot1 = 0;
         foreach ($offensiveUnitsLost as $slot => &$amount) {
             // Reduce amount of units to kill by further multipliers
