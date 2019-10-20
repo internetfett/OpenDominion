@@ -40,4 +40,5 @@ units:
       defense: 7
     perks:
       sink_boats_offense: 1
+      sink_boats_defense: 1
     need_boat: false
