@@ -15,8 +15,11 @@ use Throwable;
 // ODA: For Armada and Imperial Gnomes
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
-// ODA: For Lux
+// ODA: For Lux and Legion
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+
+// ODA: For Legion
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class TrainActionService
 {
@@ -38,12 +41,16 @@ class TrainActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
     /**
      * TrainActionService constructor.
      */
     public function __construct(
         ImprovementCalculator $improvementCalculator,
-        SpellCalculator $spellCalculator
+        SpellCalculator $spellCalculator,
+        SpellCalculator $militaryCalculator
         )
     {
         $this->queueService = app(QueueService::class);
@@ -52,6 +59,7 @@ class TrainActionService
 
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
+        $this->$militaryCalculator = $militaryCalculator;
     }
 
     /**
@@ -357,6 +365,11 @@ class TrainActionService
             {
               $timeReductionSpecs = 2;
               $timeReductionElites = 2;
+            }
+            if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms') and $this->militaryCalculator->getRecentlyInvadedCount($dominion) > 0)
+            {
+              $timeReductionSpecs = 3;
+              $timeReductionElites = 3;
             }
             else
             {

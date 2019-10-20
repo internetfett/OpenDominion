@@ -382,6 +382,14 @@ class SpellHelper
                 'cooldown' => 12, # Twice per day.
                 'races' => collect(['Dimensionalists']),
             ],
+            [
+                'name' => 'Call to Arms',
+                'description' => 'Training times reduced by 4 ticks if recently invaded.',
+                'key' => 'call_to_arms',
+                'mana_cost' => 5,
+                'duration' => 12*4,
+                'races' => collect(['Legion']),
+            ],
 
         ]);
     }

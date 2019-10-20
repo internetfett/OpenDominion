@@ -15,9 +15,8 @@ perks:
   extra_barracks_housing: 14
   cannot_build_homes: 1
   prestige_gains: 10
-
 units:
-  - name: Goblin
+  - name: Goblin Legionnaire
     need_boat: true
     cost:
       platinum: 400
@@ -27,7 +26,8 @@ units:
       defense: 4
     perks:
       plunders_resources_on_attack: 1
-  - name: Dark Elf
+      faster_return: 2
+  - name: Dark Elf Legionnaire
     need_boat: true
     cost:
       platinum: 400
@@ -38,7 +38,8 @@ units:
     perks:
       counts_as_wizard_offense: 0.2
       counts_as_wizard_defense: 0.2
-  - name: Lizardfolk
+      faster_return: 2
+  - name: Lizardfolk Legionnaire
     need_boat: false
     cost:
       platinum: 400
@@ -49,7 +50,8 @@ units:
     perks:
       counts_as_spy_offense: 0.2
       counts_as_spy_defense: 0.2
-  - name: Troll
+      faster_return: 2
+  - name: Troll Legionnaire
     need_boat: true
     cost:
       platinum: 400
@@ -59,3 +61,4 @@ units:
       defense: 4
     perks:
       fewer_casualties: 50
+      faster_return: 2
