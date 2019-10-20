@@ -387,7 +387,7 @@ class TrainActionService
               // Legion: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {
-                $timeReductionElites = 3;
+                $timeReductionElites += 3;
               }
 
               // Look for faster training.
