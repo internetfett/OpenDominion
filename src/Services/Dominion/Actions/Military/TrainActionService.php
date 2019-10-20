@@ -371,10 +371,10 @@ class TrainActionService
                 $timeReductionElites = 2;
               }
               // Legion: Spell (reduce training times by 4 ticks)
-              if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms') and $this->militaryCalculator->getRecentlyInvadedCount($dominion) > 0)
+              if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms') and  > 0)
               {
-                $timeReductionSpecs = 4;
-                $timeReductionElites = 4;
+                $timeReductionSpecs = min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
+                $timeReductionElites = min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
               }
               else
               {

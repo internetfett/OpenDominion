@@ -231,7 +231,7 @@ class SpellHelper
                 'key' => 'regeneration',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Troll', 'Afflicted', 'Lizardfolk']),
+                'races' => collect(['Troll','Lizardfolk']),
             ],
             [
                 'name' => 'Parasitic Hunger',
@@ -239,7 +239,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Lycanthrope']),
+                'races' => collect(['Lycanthrope','Afflicted']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
@@ -332,7 +332,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Undead']),
             ],
-
             [
                 'name' => 'Infernal Fury',
                 'description' => 'Increases enemy casualties by 20% on successful invasions over 75%.',
@@ -383,8 +382,8 @@ class SpellHelper
                 'races' => collect(['Dimensionalists']),
             ],
             [
-                'name' => 'Call to Arms',
-                'description' => 'Training times reduced by 4 ticks if recently invaded.',
+                'name' => 'Call To Arms',
+                'description' => 'Training times reduced by 2 for every recent invasion (max -8 ticks).',
                 'key' => 'call_to_arms',
                 'mana_cost' => 5,
                 'duration' => 12*4,
