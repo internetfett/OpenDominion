@@ -50,7 +50,7 @@ class TrainActionService
     public function __construct(
         ImprovementCalculator $improvementCalculator,
         SpellCalculator $spellCalculator,
-        SpellCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator
         )
     {
         $this->queueService = app(QueueService::class);
