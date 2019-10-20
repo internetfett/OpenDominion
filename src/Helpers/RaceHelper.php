@@ -407,7 +407,7 @@ SLIME;
                 break;
             case 'all_units_trained_in_9hrs':
                 $negativeBenefit = false;
-                $description = 'All units trained in 9 hours';
+                $description = 'All units trained in 9 ticks';
                 break;
             case 'extra_barracks_housing':
                 $negativeBenefit = false;
@@ -614,7 +614,7 @@ SLIME;
                 break;
             case 'all_units_trained_in_9hrs':
                 $negativeBenefit = false;
-                $description = 'All units trained in 9 hours';
+                $description = 'All units trained in 9 ticks';
                 $booleanValue = true;
                 break;
             case 'extra_barracks_housing':

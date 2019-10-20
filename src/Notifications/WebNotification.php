@@ -32,7 +32,7 @@ class WebNotification extends Notification
         $this->notificationHelper = app(NotificationHelper::class);
         $this->category = $category;
         $this->type = $type;
-        $this->data = $data;
+        $this->data = $data;z
     }
 
     /**

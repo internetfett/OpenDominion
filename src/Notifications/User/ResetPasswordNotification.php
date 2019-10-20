@@ -46,12 +46,12 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->replyTo('info@odarena.com', 'OD Arena')
-            ->subject('OpenDominion Password Reset')
-            ->greeting('OpenDominion Password Reset')
-            ->line('Hello ' . $user->display_name . '!')
+            ->subject('OD Arena Password Reset')
+            ->greeting('OD Arena Password Reset')
+            ->line('Hi, ' . $user->display_name . '!')
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset Password', route('auth.password.reset', $this->token))
             ->line('If you did not request a password reset, no further action is required.')
-            ->salutation('-OpenDominion');
+            ->salutation('-OD Arena');
     }
 }

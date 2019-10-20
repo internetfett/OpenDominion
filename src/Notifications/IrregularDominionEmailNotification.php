@@ -58,7 +58,7 @@ class IrregularDominionEmailNotification extends Notification implements ShouldQ
             ->replyTo('info@odarena.com', 'OD Arena')
             ->subject($this->getSubject())
             ->greeting('Irregular Dominion Event(s) at ' . $this->now->format('D, M j, Y H:00'))
-            ->line('Hello ' . $dominion->user->display_name . '!')
+            ->line('Hi, ' . $dominion->user->display_name . '!')
             ->line('The following dominion event(s) just occurred in your dominion *' . $dominion->name . '*:');
 
         foreach ($this->notifications as $notification) {
