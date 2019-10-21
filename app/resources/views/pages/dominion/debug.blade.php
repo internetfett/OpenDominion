@@ -242,7 +242,7 @@
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($trainingCalculator, [
                             'getTrainingCostsPerUnit',
                             'getMaxTrainable',
-                            'getSpecialistEliteCostMultiplier',
+                            #'getSpecialistEliteCostMultiplier',
                             'getWizardCostMultiplier',
                         ]) !!}
                     </p>
