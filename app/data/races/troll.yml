@@ -1,5 +1,8 @@
 name: Troll
 alignment: evil
+description: >-
+  <p>Trolls can be found in the earliest scriptures and even they speak of trolls in ancient tales. Foul, brutish, and dull, trolls have always been feared by those wandering the lands where forest meets plain.</p>
+  <p>Trolls are notoriously bloodthirsty. What they lack in subtlety they more than make up for in gratuitous violence. It is not uncommon to see fully-armoured soldiers being punted up sixty feet into the air in battle with trolls. <em>[Urg smash!]</em></p>
 home_land_type: plain
 playable: 1
 
@@ -28,6 +31,7 @@ units:
       offense: 0
       defense: 3
   - name: Basher
+    type: offensive_elite
     cost:
       platinum: 1000
       ore: 100
@@ -37,6 +41,7 @@ units:
     perks:
       reduce_combat_losses: 1
   - name: Smasher
+    type: hybrid_elite
     cost:
       platinum: 1400
       ore: 135

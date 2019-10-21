@@ -62,10 +62,11 @@ class DataSyncCommand extends Command implements CommandInterface
             $race = Race::firstOrNew(['name' => $data->name])
                 ->fill([
                     'alignment' => object_get($data, 'alignment'),
+                    'description' => object_get($data, 'description'),
                     'home_land_type' => object_get($data, 'home_land_type'),
 
                     # ODA
-                    'playable' => object_get($data, 'playable'),
+                    'playable' => object_get($data, 'playable', true),
                     'attacking' => object_get($data, 'attacking'),
                     'exploring' => object_get($data, 'exploring'),
                     'converting' => object_get($data, 'converting'),
@@ -73,7 +74,6 @@ class DataSyncCommand extends Command implements CommandInterface
 
             if (!$race->exists) {
                 $this->info("Adding race {$data->name}");
-
             } else {
                 $this->info("Processing race {$data->name}");
 
@@ -106,7 +106,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 if ($racePerk === null) {
                     $this->info("[Add Race Perk] {$perk}: {$value}");
-                } elseif ($racePerk->value !== $value) {
+                } elseif ($racePerk->value != $value) {
                     $this->info("[Change Race Perk] {$perk}: {$racePerk->value} -> {$value}");
                 }
             }
@@ -139,6 +139,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'power_offense' => object_get($unitData, 'power.offense', 0),
                     'power_defense' => object_get($unitData, 'power.defense', 0),
                     'need_boat' => (int)object_get($unitData, 'need_boat', true),
+                    'type' => object_get($unitData, 'type'),
 
                     // New unit cost resources
                     'cost_food' => object_get($unitData, 'cost.food', 0),
@@ -155,8 +156,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_unit4' => object_get($unitData, 'cost.unit4', 0),
                     'cost_morale' => object_get($unitData, 'cost.morale', 0),
                     'cost_wild_yeti' => object_get($unitData, 'cost.wild_yeti', 0),
-
-
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                 ]);
 

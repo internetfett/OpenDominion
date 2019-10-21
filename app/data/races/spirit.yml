@@ -1,5 +1,8 @@
 name: Spirit
 alignment: good
+description: >-
+  <p>Spirits have always surrounded the world.</p>
+  <p>Distraught by the scourge of the Empire, these Spirits have rejoined the corporeal world to keep the pure pure.</p>
 home_land_type: water
 playable: 1
 
@@ -59,5 +62,9 @@ units:
       defense: 10
     perks:
       immortal: 1
+<<<<<<< HEAD
       staggered_conversion: 85;3,100;4
       cannot_be_trained: 1
+=======
+      staggered_conversion: 50;12,65;3 # slot 1 and 2 below 65%, slot 3 above
+>>>>>>> round-15

@@ -33,7 +33,7 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $user = $this->createAndImpersonateUser();
         $this->round = $this->createRound('last week');
 
-        $this->dominion = $this->createDominion($user, $this->round);
+        $this->dominion = $this->createDominion($user, $this->round, Race::where('name', 'Halfling')->firstOrFail());
         $this->dominion->created_at = Carbon::now()->addHours(-80);
 
         $targetUser = $this->createUser();
@@ -46,7 +46,7 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $mockRandomChance = true;
     }
 
-    public function testPerformOperation_SameSpa_LoseFivePermille()
+    public function testPerformOperation_SameSpa_LoseQuarterPercent()
     {
         // Arrange
         $this->dominion->military_spies = 10000;
@@ -56,10 +56,10 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
 
         // Assert
-        $this->assertEquals(9950, $this->dominion->military_spies);
+        $this->assertEquals(9975, $this->dominion->military_spies);
     }
 
-    public function testPerformOperation_MuchLowerSpa_LoseMaxTwoPercent()
+    public function testPerformOperation_MuchLowerSpa_LoseMaxOnePercent()
     {
         // Arrange
         $this->dominion->military_spies = 10000;
@@ -69,10 +69,10 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
 
         // Assert
-        $this->assertEquals(9800, $this->dominion->military_spies);
+        $this->assertEquals(9900, $this->dominion->military_spies);
     }
 
-    public function testPerformOperation_MuchHigherSpa_LoseHalfAPercent()
+    public function testPerformOperation_MuchHigherSpa_LoseQuarterPercent()
     {
         // Arrange
         $this->dominion->military_spies = 10000;
@@ -82,6 +82,19 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
 
         // Assert
-        $this->assertEquals(9950, $this->dominion->military_spies);
+        $this->assertEquals(9975, $this->dominion->military_spies);
+    }
+
+    public function testPerformOperation_SameSpa_LoseMilitary()
+    {
+        // Arrange
+        $this->dominion->military_unit3 = 50000;
+        $this->target->military_spies = 10000;
+
+        // Act
+        $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
+
+        // Assert
+        $this->assertEquals(49988, $this->dominion->military_unit3);
     }
 }
