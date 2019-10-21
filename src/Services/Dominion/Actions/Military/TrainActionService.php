@@ -364,6 +364,10 @@ class TrainActionService
             foreach($data as $unit => $amountToTrain)
             {
 
+              // Reset at each run of loop.
+              $hoursSpecs = 9;
+              $hoursElites = 12;
+
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
@@ -381,10 +385,6 @@ class TrainActionService
                 $timeReductionSpecs = 0;
                 $timeReductionElites = 0;
               }
-
-              // Reset at each run of loop.
-              $hoursSpecs = 9;
-              $hoursElites = 12;
 
               // Legion: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
@@ -436,11 +436,11 @@ class TrainActionService
                 $this->queueService->queueResources('training', $dominion, $data, $hours);
               }
 
-              unset($hours);
-              unset($hoursSpecs);
-              unset($hoursElites);
-              unset($timeReductionSpecs);
-              unset($timeReductionElites);
+              #unset($hours);
+              #unset($hoursSpecs);
+              #unset($hoursElites);
+              #unset($timeReductionSpecs);
+              #unset($timeReductionElites);
 
             }
 
