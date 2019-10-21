@@ -371,6 +371,7 @@ class TrainActionService
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
+                die('PRINCESS AURORA');
                 $timeReductionSpecs = 2;
                 $timeReductionElites = 2;
               }

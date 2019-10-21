@@ -25,8 +25,8 @@ units:
   - name: Ice Boulder
     need_boat: false
     cost:
-      platinum: 1000
-      mana: 100
+      platinum: 800
+      mana: 110
     power:
       offense: 1
       defense: 0
@@ -38,8 +38,8 @@ units:
   - name: Trebuchet
     need_boat: false
     cost:
-      platinum: 2000
-      lumber: 100
+      platinum: 1800
+      lumber: 150
     power:
       offense: 1
       defense: 0
@@ -51,9 +51,9 @@ units:
     need_boat: true
     cost:
       wild_yeti: 1
-      platinum: 1600
-      ore: 125
-      food: 125
+      platinum: 1500
+      ore: 120
+      food: 120
     power:
       offense: 8
       defense: 8
