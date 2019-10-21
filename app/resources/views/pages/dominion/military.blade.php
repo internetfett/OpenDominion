@@ -228,10 +228,10 @@
                 </div>
                 <div class="box-body">
                     @if ($selectedDominion->race->name == 'Growth')
-                    <p>Here you can mutate your amoeba into military units. Mutating Abscess and Blisters take <b>9 hours</b> to process, while mutating Cysts and Ulcers take <b>12 hours</b>.</p>
+                    <p>Here you can mutate your amoeba into military units. Mutating Abscess and Blisters take <b>9 ticks</b> to process, while mutating Cysts and Ulcers take <b>12 ticks</b>.</p>
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} amoeba.</p>
                     @else
-                    <p>Here you can train your draftees into stronger military units. Training specialist units take <b>9 hours</b> to process, while training your other units take <b>12 hours</b>.</p>
+                    <p>Here you can train your draftees into stronger military units. Training specialist units take <b>9 ticks</b> to process, while training your other units take <b>12 ticks</b>.</p>
                     <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->military_draftees) }} {{ str_plural('draftee', $selectedDominion->military_draftees) }}.</p>
                     @endif
                     <p>You may also <a href="{{ route('dominion.military.release') }}">release your troops</a> if you wish.</p>
