@@ -367,26 +367,21 @@ class TrainActionService
               // Reset at each run of loop.
               $hoursSpecs = 9;
               $hoursElites = 12;
+              $timeReductionSpecs = 0;
+              $timeReductionElites = 0;
 
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
-                die('PRINCESS AURORA');
-                $timeReductionSpecs = 2;
-                $timeReductionElites = 2;
+                $timeReductionSpecs += 2;
+                $timeReductionElites += 2;
               }
               // Legion: Spell (reduce training times by 4 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
               {
-                $timeReductionSpecs = min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
-                $timeReductionElites = min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
+                $timeReductionSpecs += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
+                $timeReductionElites += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
               }
-              else
-              {
-                $timeReductionSpecs = 0;
-                $timeReductionElites = 0;
-              }
-
               // Legion: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {

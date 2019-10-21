@@ -365,12 +365,6 @@ class PopulationCalculator
             $growthFactor = 2;
         }
 
-        // Racial Spell: Ganglia (Growth) - REMOVED
-        #if ($this->spellCalculator->isSpellActive($dominion, 'ganglia')) {
-        #    $growthFactor = 3;
-        #}
-
-
         if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate) {
             $draftees += round(($dominion->peasants * ($growthFactor / 100)));
         }
