@@ -97,7 +97,7 @@
                 <div class="box-body">
                     <p>Here you can perform espionage operations on hostile dominions to win important information for you and your realmies.</p>
                     <p>Any obtained data after successfully performing an information gathering operation gets posted to the <a href="{{ route('dominion.op-center') }}">Op Center</a> for your realmies.</p>
-                    <p>Performing espionage operations spends some spy strength, but it regenerates a bit every hour. You may only perform espionage operations above 30% strength.</p>
+                    <p>Performing espionage operations spends some spy strength, but it regenerates a bit every tick. You may only perform espionage operations above 30% strength.</p>
                     <p>You have {{ floor($selectedDominion->spy_strength) }}% spy strength.</p>
                     <ul>
                       <li>Spy Strength: {{ floor($selectedDominion->spy_strength) }}%</li>
