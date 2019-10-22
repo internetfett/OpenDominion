@@ -53,9 +53,5 @@ units:
       defense: 3
     perks:
       immortal: 1
-<<<<<<< HEAD
       staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
       offense_raw_wizard_ratio: 1,1 # ratio%, max
-=======
-      staggered_conversion: 50;12,65;3 # slot 1 and 2 below 65%, slot 3 above
->>>>>>> round-15
