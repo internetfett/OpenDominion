@@ -73,7 +73,7 @@
                                         @if($landType !== NULL)
                                             {!! $landHelper->getLandTypeIconHtml($landType) !!} {{ ucfirst($landType) }}
                                         @else
-                                            Race dependant
+                                            Varies by faction
                                         @endif
                                     </td>
                                     <td>
