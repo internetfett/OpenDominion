@@ -49,15 +49,18 @@ class ExplorationCalculator
 
         $platinum += 1000;
 
-        // Elite Guard Tax
-        if ($this->guardMembershipService->isEliteGuardMember($dominion)) {
-            $platinum *= 1.25;
-        }
+        // Techs
+        $multiplier = (1 + $dominion->getTechPerkMultiplier('explore_platinum_cost'));
 
         // Racial bonus
-        $platinum *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
+        $multiplier += $dominion->race->getPerkMultiplier('explore_cost');
 
-        return round($platinum);
+        // Elite Guard Tax
+        if ($this->guardMembershipService->isEliteGuardMember($dominion)) {
+            $multiplier += 25;
+        }
+
+        return round($platinum * $multiplier);
     }
 
     /**
@@ -81,6 +84,13 @@ class ExplorationCalculator
 
         // Racial bonus
         $draftees *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
+
+        // Techs
+        $draftees += $dominion->getTechPerkValue('explore_draftee_cost');
+        # Minimum dratee cost is 3
+        if ($draftees < 3) {
+            $draftees = 3;
+        }
 
         return round($draftees);
     }

@@ -13,6 +13,9 @@ class ProductionCalculator
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    /** @var LandCalculator */
+    protected $landCalculator;
+
     /** @var PopulationCalculator */
     protected $populationCalculator;
 
@@ -35,6 +38,7 @@ class ProductionCalculator
      * ProductionCalculator constructor.
      *
      * @param ImprovementCalculator $improvementCalculator
+     * @param LandCalculator $landCalculator
      * @param PopulationCalculator $populationCalculator
      * @param PrestigeCalculator $prestigeCalculator
      * @param SpellCalculator $spellCalculator
@@ -43,6 +47,7 @@ class ProductionCalculator
      */
     public function __construct(
         ImprovementCalculator $improvementCalculator,
+        LandCalculator $landCalculator,
         PopulationCalculator $populationCalculator,
         PrestigeCalculator $prestigeCalculator,
         SpellCalculator $spellCalculator,
@@ -51,6 +56,7 @@ class ProductionCalculator
         MilitaryCalculator $militaryCalculator)
     {
         $this->improvementCalculator = $improvementCalculator;
+        $this->landCalculator = $landCalculator;
         $this->populationCalculator = $populationCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
         $this->spellCalculator = $spellCalculator;
@@ -146,6 +152,9 @@ class ProductionCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('platinum_production');
 
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('platinum_production');
+
         // Spell: Midas Touch
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'midas_touch', $spellMidasTouch);
 
@@ -162,9 +171,6 @@ class ProductionCalculator
         {
           $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
         }
-
-        // Tech: Treasure Hunt or Banker's Foresight
-        // todo
 
         // Apply Morale multiplier to production multiplier
         return min(1.5, (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion));
@@ -240,10 +246,12 @@ class ProductionCalculator
         // Values (percentages)
         $spellGaiasBlessing = 20;
         $spellGaiasWatch = 10;
-//        $techFarmersGrowth = 10;
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('food_production');
+
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('food_production');
 
         // Spell: Gaia's Blessing or Gaia's Watch
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, [
@@ -253,9 +261,6 @@ class ProductionCalculator
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
-
-        // Tech: Farmer's Growth
-        // todo
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
@@ -390,16 +395,15 @@ class ProductionCalculator
 
         // Values (percentages)
         $spellGaiasBlessing = 10;
-        $techProduction = 10;
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('lumber_production');
 
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
+
         // Spell: Gaia's Blessing
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'gaias_blessing', $spellGaiasBlessing);
-
-        // Tech: Fruits of Labor
-        // todo
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -490,13 +494,11 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('mana_production');
 
-        // Tech: Enchanted Lands
-        // todo
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('mana_production');
 
         return (1 + $multiplier);
     }
@@ -605,19 +607,18 @@ class ProductionCalculator
         // Values (percentages)
         $spellMinersSight = 20;
         $spellMiningStrength = 10;
-//        $techFruitsOfLabor = 20;
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('ore_production');
+
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('ore_production');
 
         // Spell: Miner's Sight or Mining Strength
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, [
             'miners_sight' => $spellMinersSight,
             'mining_strength' => $spellMiningStrength,
         ]);
-
-        // Tech: Fruits of Labor
-        // todo
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -641,7 +642,7 @@ class ProductionCalculator
     /**
      * Returns the Dominion's raw gem production.
      *
-     * Gems are rpoduced by:
+     * Gems are produced by:
      * - Building: Diamond Mine (15 per)
      * - Dwarf Unit: Miner (0.5 per)
      *
@@ -681,8 +682,8 @@ class ProductionCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('gem_production');
 
-        // Tech: Fruits of Labor and Miner's Refining
-        // todo
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('gem_production');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -690,8 +691,64 @@ class ProductionCalculator
 
     //</editor-fold>
 
-    // Tech
-    // todo
+    //<editor-fold desc="Tech">
+
+    /**
+     * Returns the Dominion's research point production.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getTechProduction(Dominion $dominion): int
+    {
+        return floor($this->getTechProductionRaw($dominion) * $this->getTechProductionMultiplier($dominion));
+    }
+
+    /**
+     * Returns the Dominion's raw tech production.
+     *
+     * Research points are produced by:
+     * - Building: School (15 per)
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getTechProductionRaw(Dominion $dominion): float
+    {
+        $tech = 0;
+
+        // Values
+        $techPerSchool = 0.5;
+
+        // Building: School
+        $tech += max(
+            $dominion->building_school * $techPerSchool,
+            $dominion->building_school * (1 - ($dominion->building_school / $this->landCalculator->getTotalLand($dominion)))
+        );
+
+        return $tech;
+    }
+
+    /**
+     * Returns the Dominion's research point production multiplier.
+     *
+     * Research point production is modified by:
+     * - Racial Bonus
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getTechProductionMultiplier(Dominion $dominion): float
+    {
+        $multiplier = 0;
+
+        // Racial Bonus
+        $multiplier += $dominion->race->getPerkMultiplier('tech_production');
+
+        return (1 + $multiplier);
+    }
+
+    //</editor-fold>
 
     //<editor-fold desc="Boats">
 

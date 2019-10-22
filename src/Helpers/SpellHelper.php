@@ -409,12 +409,12 @@ class SpellHelper
                 'key' => 'clear_sight',
                 'mana_cost' => 0.3,
             ],
-//            [
-//                'name' => 'Vision',
-//                'description' => 'Reveal tech and heroes',
-//                'key' => 'vision',
-//                'mana_cost' => 0.5,
-//            ],
+            [
+                'name' => 'Vision',
+                'description' => 'Reveal tech and heroes',
+                'key' => 'vision',
+                'mana_cost' => 0.5,
+            ],
             [
                 'name' => 'Revelation',
                 'description' => 'Reveal active spells',
