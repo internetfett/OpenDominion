@@ -74,7 +74,7 @@
                                     <h2>The Empire</h2>
                                 </div>
                                 <div class="row">
-                                    @foreach ($races->filter(function ($race) { return return $race->playable && $race->alignment === 'evil'; }) as $race)
+                                    @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
                                     <div class="col-xs-12">
                                         <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                             <div class="row text-left">
