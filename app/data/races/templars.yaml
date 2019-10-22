@@ -1,5 +1,7 @@
 name: Templars
 alignment: good
+description: >-
+  <p>Another off-shoot from Humans, the Templars are a small, pious community taking up residence in the hills.</p>
 home_land_type: hill
 playable: 1
 

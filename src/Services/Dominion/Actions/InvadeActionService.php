@@ -36,7 +36,7 @@ class InvadeActionService
     /**
      * @var float Base percentage of defensive casualties
      */
-    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 3.375;
+    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 3.825;
 
     /**
      * @var float Max percentage of defensive casualties
@@ -377,7 +377,11 @@ class InvadeActionService
             $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($range / 100) / 10)));
             #$attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
-            // Reduce attacker prestige gain if the target was hit recently
+            // todo: if wat war, increase $attackerPrestigeChange by +15%
+        }
+
+        // Reduce attacker prestige gain if the target was hit recently
+        if($attackerPrestigeChange > 0) {
             $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
 
             if ($recentlyInvadedCount === 1)
@@ -584,6 +588,11 @@ class InvadeActionService
      */
     protected function handleDefensiveCasualties(Dominion $dominion, Dominion $target): int
     {
+        if ($this->invasionResult['result']['overwhelmed'])
+        {
+            return 0;
+        }
+
         $attackingForceOP = $this->invasionResult['attacker']['op'];
         $targetDP = $this->invasionResult['defender']['dp'];
         $defensiveCasualtiesPercentage = (static::CASUALTIES_DEFENSIVE_BASE_PERCENTAGE / 100);
@@ -712,7 +721,7 @@ class InvadeActionService
         $landGrabRatio = 1;
         // todo: if mutual war, $landGrabRatio = 1.2
         // todo: if non-mutual war, $landGrabRatio = 1.15
-        $bonusLandRatio = 2;
+        $bonusLandRatio = 1.7647;
 
         $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($dominion) * $landGrabRatio);
 
@@ -724,7 +733,7 @@ class InvadeActionService
             $acresLost = (0.129 * $rangeMultiplier - 0.048) * $attackerLandWithRatioModifier;
         }
 
-        $acresLost *= 0.75;
+        $acresLost *= 0.85;
 
         $acresLost = (int)max(floor($acresLost), 10);
 
@@ -989,7 +998,7 @@ class InvadeActionService
             $totalConvertingUnits += $units[$unit->slot];
         }
 
-        $totalConverts = min($totalConvertingUnits * $conversionMultiplier, $totalDefensiveCasualties * 2) * $landRatio;
+        $totalConverts = min($totalConvertingUnits * $conversionMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
 
         // Racial: Apply reduce_conversions
         $totalConverts = $totalConverts * (1 - ($reduceConversions / 100));

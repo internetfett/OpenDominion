@@ -1,12 +1,24 @@
 name: Beastfolk
 alignment: good
+description: >-
+  <p>Arcane magic has given life to the beasts of the forest, which have been seen building villages in the forests of the Commonwealth.</p>
+  <p>Beastfolk take shelter in the forests and excel at fighting on the open plains.</a>
+  <hr />
+  <p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion. All bonuses except the OP and DP bonuses from Plains and Hills are increased by prestige.</p>
+  <ul>
+  <li>Platinum production increased by Mountains % (<em>Science</em>).</li>
+  <li>Max population increased by Forest % (<em>Keep</em>).</li>
+  <li>Wizard Strength increased by 2 x Swamp % (<em>Tower</em>).</li>
+  <li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
+  <li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
+  <li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
+  <li>Spy Strength increased by Caverns %.</li>
 home_land_type: forest
 playable: 1
 
 attacking: 3
 exploring : 2
 converting: 2
-
 
 perks:
   extra_barren_max_population: 10

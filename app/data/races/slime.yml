@@ -1,5 +1,8 @@
 name: Slime
 alignment: evil
+description: >-
+  <p>Slime are oozing, trickling, and perculating see-through blobs.</p>
+  <p>Stories about slimes go back centuries, about adventurers venturing across swamps and caves and coming across see-through beings of inexplicable endurance and apparent intelligence.</p>
 home_land_type: cavern
 playable: 0
 

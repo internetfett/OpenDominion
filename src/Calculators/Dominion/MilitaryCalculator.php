@@ -918,7 +918,7 @@ class MilitaryCalculator
         }
 
         $invasionEvents = $invasionEvents->filter(function (GameEvent $event) {
-            return $event->data['result']['success'];
+            return !$event->data['result']['overwhelmed'];
         });
 
         return $invasionEvents->count();

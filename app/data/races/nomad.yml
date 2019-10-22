@@ -1,5 +1,8 @@
 name: Nomad
 alignment: evil
+description: >-
+  <p>Forever wandering the plains, Nomads are Humans who have rejected sedentary culture.</p>
+  <p>Very similar to the Human armies they have since long rejected, except for the masterful Horse Archers.</p>
 home_land_type: plain
 playable: 1
 

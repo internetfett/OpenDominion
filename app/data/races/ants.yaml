@@ -1,5 +1,8 @@
 name: Ants
 alignment: good
+description: >-
+  <p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size.</p>
+  <p>Their units are weak, but they are both numerous and belligerent.</p>
 home_land_type: forest
 playable: 1
 
