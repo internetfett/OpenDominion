@@ -142,12 +142,14 @@ class CasualtiesCalculator
               $nonUnitBonusMultiplier += -0.25;
             }
 
+            // Techs
+            $nonUnitBonusMultiplier += $dominion->getTechPerkMultiplier('fewer_casualties_offense');
+
             # Infirmary
             $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             ## Cap $nonUnitBonusMultiplier to 80%.
             $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
-
 
             // Unit bonuses (multiplicative with non-unit bonuses)
             $unitBonusMultiplier = 1;
@@ -258,6 +260,9 @@ class CasualtiesCalculator
             {
               $nonUnitBonusMultiplier += -0.25;
             }
+
+            // Techs
+            $nonUnitBonusMultiplier += $dominion->getTechPerkMultiplier('fewer_casualties_defense');
 
             // Infirmary
             $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');

@@ -367,9 +367,12 @@ class SpellActionService
                 ];
                 break;
 
-//            case 'vision':
-//                $infoOp->data = [];
-//                break;
+            case 'vision':
+                $infoOp->data = [
+                    'techs' => $target->techs->pluck('name', 'key')->all(),
+                    'heroes' => []
+                ];
+                break;
 
             case 'revelation':
                 $infoOp->data = $this->spellCalculator->getActiveSpells($target);

@@ -206,6 +206,9 @@ class PopulationCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('max_population');
 
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('max_population');
+
         // Improvement: Keep
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'keep');
 
