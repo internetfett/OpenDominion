@@ -62,7 +62,7 @@ class TechActionService
             ));
         }
 
-        DB::transaction(function () use ($dominion, $techToUnlock, $techCost) {
+        DB::transaction(function () use ($dominion, $techToUnlock, $techCost, $key) {
             DominionTech::create([
                 'dominion_id' => $dominion->id,
                 'tech_id' => $techToUnlock->id

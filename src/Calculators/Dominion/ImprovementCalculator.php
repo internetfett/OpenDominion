@@ -75,6 +75,8 @@ class ImprovementCalculator
             'tissue' => 30, # Growth unique
         ];
 
+        #foreach($maximumPercentages as )
+
         return (($maximumPercentages[$improvementType] / 100) ?: null);
     }
 
