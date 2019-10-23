@@ -49,7 +49,6 @@ class ProductionCalculator
         PrestigeCalculator $prestigeCalculator,
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
-        LandCalculator $landCalculator,
         MilitaryCalculator $militaryCalculator)
     {
         $this->improvementCalculator = $improvementCalculator;
@@ -58,7 +57,6 @@ class ProductionCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
-        $this->landCalculator = $landCalculator;
         $this->militaryCalculator = $militaryCalculator;
     }
 
