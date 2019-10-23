@@ -28,9 +28,6 @@ class ProductionCalculator
     /** @var GuardMembershipService */
     private $guardMembershipService;
 
-    /** @var LandCalculator */
-    protected $landCalculator;
-
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
