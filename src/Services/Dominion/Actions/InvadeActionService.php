@@ -951,6 +951,9 @@ class InvadeActionService
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
 
+        // Racial: Apply reduce_conversions
+        $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
+
         if (
             !$isInvasionSuccessful ||
             ($totalDefensiveCasualties === 0) ||
@@ -1001,9 +1004,6 @@ class InvadeActionService
         }
 
         $totalConverts = min($totalConvertingUnits * $conversionMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
-
-        // Racial: Apply reduce_conversions
-        $totalConverts = $totalConverts * (1 - ($reduceConversions / 100));
 
         # In-realm Invasion: -90% converts
         /*
