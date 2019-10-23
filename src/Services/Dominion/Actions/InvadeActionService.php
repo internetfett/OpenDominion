@@ -255,11 +255,11 @@ class InvadeActionService
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
-            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $survivingUnits);
+            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties);
 
             $this->handleMoraleChanges($dominion, $target);
             $this->handleLandGrabs($dominion, $target);
-            $this->handleResearchPoints($dominion, $survivingUnits);
+            $this->handleResearchPoints($dominion, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1095,7 +1095,7 @@ class InvadeActionService
      * @param Dominion $target
      * @param array $units
      */
-    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties, array $survivingUnits): void
+    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties): void
     {
         // todo: just hobgoblin plunder atm, need a refactor later to take into
         //       account more post-combat unit-perk-related stuff
@@ -1149,7 +1149,7 @@ class InvadeActionService
         // Norse champion
         if ($dominion->race->name == 'Norse')
         {
-          $champions = $survivingUnits['attackerUnitsDiedInBattleSlot1'];
+          $champions = $units['attackerUnitsDiedInBattleSlot1'];
           $this->invasionResult['attacker']['champion']['champions'] = $champions;
           $dominion->resource_champion += $champions;
         }
