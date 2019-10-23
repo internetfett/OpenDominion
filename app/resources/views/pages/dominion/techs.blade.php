@@ -36,11 +36,11 @@
                                         @if(in_array($tech->key, $unlockedTechs))
                                             <i class="fa fa-check"></i>
                                         @else
-                                            <input type="radio" name="key" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
+                                            <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
                                         @endif
                                     </td>
                                     <td class="{{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'text-muted' : 'text-default' }}">{{ $tech->name }}</td>
-                                    <td>{{ $techHelper->getTechDescription($tech) }}</td>
+                                    <td><label for="{{ $tech->key }}">{{ $techHelper->getTechDescription($tech) }}</label></td>
                                     <td>
                                         @if ($tech->prerequisites)
                                             @foreach ($tech->prerequisites as $key)
