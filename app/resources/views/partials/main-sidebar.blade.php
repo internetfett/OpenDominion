@@ -73,7 +73,7 @@
                 </span></a></li>
 
                 <!-- TECHS -->
-                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Techonology</span></a></li>
+                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Technology</span></a></li>
 
 
                 <li class="header">BLACK OPS</li>
