@@ -73,8 +73,9 @@
                 </span></a></li>
 
                 <!-- TECHS -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_use_techs'))
                 <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Technology</span></a></li>
-
+                @endif
 
                 <li class="header">BLACK OPS</li>
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>

@@ -33,7 +33,7 @@ class ImprovementCalculator
         $improvementPoints = $dominion->{'improvement_' . $improvementType};
         $totalLand = $this->landCalculator->getTotalLand($dominion);
 
-        $multiplier = $this->getImprovementMaximum($improvementType)
+        $multiplier = $this->getImprovementMaximum($improvementType, $dominion)
             * (1 - exp(-$improvementPoints / ($this->getImprovementCoefficient($improvementType) * $totalLand + 15000)))
             * (1 + (($dominion->building_masonry * $efficiencyPerMasonry) / $totalLand));
 
@@ -61,7 +61,7 @@ class ImprovementCalculator
      * @param string $improvementType
      * @return float
      */
-    protected function getImprovementMaximum(string $improvementType): float
+    protected function getImprovementMaximum(string $improvementType, Dominion $dominion): float
     {
         $maximumPercentages = [
             'science' => 20,
@@ -75,7 +75,13 @@ class ImprovementCalculator
             'tissue' => 30, # Growth unique
         ];
 
-        #foreach($maximumPercentages as )
+        if($dominion->race->getPerkMultiplier('castle_max'))
+        {
+          foreach($maximumPercentages as $type => $max)
+          {
+            $maximumPercentages[$type] = $max *= (1 + $dominion->race->getPerkMultiplier('castle_max'));
+          }          
+        }
 
         return (($maximumPercentages[$improvementType] / 100) ?: null);
     }

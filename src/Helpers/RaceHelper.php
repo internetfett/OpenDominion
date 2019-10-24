@@ -175,6 +175,10 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'cannot build homes';
                 break;
+            case 'castle_max':
+                $negativeBenefit = false;
+                $description = 'castle improvements max';
+                break;
             default:
                 return '';
         }
@@ -384,6 +388,10 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Cannot build homes';
                 $booleanValue = true;
+                break;
+            case 'castle_max':
+                $negativeBenefit = false;
+                $description = 'Castle improvements max';
                 break;
             default:
                 return null;
