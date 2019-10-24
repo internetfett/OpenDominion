@@ -24,6 +24,7 @@ perks:
   can_invest_mana: 1
   castle_max: 50
   population_growth: 40
+  reduce_conversions: 100
 units:
   - name: Fallen
     need_boat: false
