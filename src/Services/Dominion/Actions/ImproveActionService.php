@@ -127,7 +127,7 @@ class ImproveActionService
             'platinum' => 1,
             'lumber' => 2,
             'ore' => 2,
-            'mana' => 4,
+            'mana' => 5,
             'gems' => 12,
             'food' => 1,
         ];
