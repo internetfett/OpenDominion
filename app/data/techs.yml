@@ -163,3 +163,6 @@ strategic_vision:
   name: Strategic Vision
   perks:
     training_time: -2
+  requires:
+    - tactical_battle
+    - master_of_resources
