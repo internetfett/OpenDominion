@@ -44,6 +44,9 @@ class TechHelper
             'mana_production' => '%s%% mana production',
             'ore_production' => '%s%% ore production',
             'platinum_production' => '%s%% platinum production',
+
+            // ODA
+            'training_time' => 'Units train %s ticks faster.'
         ];
 
         $perkStrings = [];

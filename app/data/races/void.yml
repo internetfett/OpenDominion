@@ -19,7 +19,7 @@ perks:
   max_population: 10
   food_consumption: -100
   platinum_production: -20
-  extra_barren_max_population: 20
+  extra_barren_max_population: 17
   cannot_construct: 1
   can_invest_mana: 1
   castle_max: 50

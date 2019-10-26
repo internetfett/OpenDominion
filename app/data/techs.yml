@@ -159,3 +159,7 @@ enchanted_lands:
   requires:
     - master_of_magi
     - explorers_luck
+strategic_vision:
+  name: Strategic Vision
+  perks:
+    training_time: -2

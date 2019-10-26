@@ -22,13 +22,13 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   invest_bonus: -10
-  platinum_production: -10
+  platinum_production: -15
 units:
   - name: Essence
     static_networth: 6
     cost:
       platinum: 250
-      mana: 5
+      mana: 10
     power:
       offense: 0
       defense: 0
@@ -46,7 +46,7 @@ units:
       no_draftee: 1
       fewer_casualties: 50
       counts_as_wizard_offense: 0.05
-      counts_as_wizard_defense: 0.05
+      counts_as_wizard_defense: 0.03
   - name: Vex
     need_boat: false
     static_networth: 11
@@ -61,7 +61,7 @@ units:
       no_draftee: 1
       fewer_casualties: 50
       counts_as_spy_offense: 0.05
-      counts_as_spy_defense: 0.05
+      counts_as_spy_defense: 0.03
   - name: Pax
     need_boat: false
     static_networth: 22

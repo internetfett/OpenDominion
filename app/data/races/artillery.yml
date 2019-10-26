@@ -1,0 +1,64 @@
+name: Artillery
+alignment: evil
+description: >-
+  <p>Designed by the Imperial Gnomes but operated by the more expendable and numerous Goblins, the Artillery is the Empire's response to the Snow Elf and its powerful Trebuchets.</p>
+  <hr />
+  <p>Each Bombardier can operate up to ten Cannons.</p>
+  <p>Cannonballs are destroyed upon impact.</p>
+home_land_type: swamp
+playable: 1
+
+attacking: 2
+exploring : 3
+converting: 3
+
+perks:
+  food_consumption: -50
+  max_population: -10
+units:
+  - name: Bombardier
+    need_boat: false
+    cost:
+      platinum: 800
+      ore: 150
+    power:
+      offense: 4
+      defense: 4
+  - name: Cannonball
+    cost:
+      ore: 500
+    power:
+      offense: 1
+      defense: 0
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      fixed_casualties: 100
+      offense_from_pairing: 4,4 # slot, amount
+      defense_from_pairing: 4,4 # slot, amount
+  - name: Burning Cannonball
+    cost:
+      platinum: 1100
+      mana: 10
+    power:
+      offense: 1
+      defense: 0
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      fixed_casualties: 100
+      offense_from_pairing: 4,9 # slot, amount
+  - name: Cannon
+    cost:
+      platinum: 600
+      ore: 300
+      gem: 2
+    power:
+      offense: 1
+      defense: 1
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      true_immortal: 1
+      pairing_limit: 1,10
+      faster_return: 11
