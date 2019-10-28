@@ -46,7 +46,10 @@ class TechHelper
             'platinum_production' => '%s%% platinum production',
 
             // ODA
-            'training_time' => 'Units train %s ticks faster.'
+            'training_time' => 'Units train %s ticks faster'
+            'conquered_acres' => '%s%% conquered acres'
+            'fewer_casualties' => '%s%% fewer casualties'
+            'prestige_gains' => '%s%% higher prestige gains'
         ];
 
         $perkStrings = [];

@@ -11,12 +11,12 @@ converting: 1
 
 perks:
   max_population: 10
-  population_growth: -5
+  population_growth: -10
 units:
   - name: Zombie
     need_boat: true
     cost:
-      platinum: 180
+      platinum: 160
       ore: 5
     power:
       offense: 2
@@ -34,7 +34,7 @@ units:
   - name: Necromancer
     need_boat: true
     cost:
-      platinum: 900
+      platinum: 800
       ore: 10
     power:
       offense: -1

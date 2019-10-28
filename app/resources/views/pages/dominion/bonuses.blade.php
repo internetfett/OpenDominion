@@ -26,7 +26,7 @@
                                 @csrf
                                 <button type="submit" name="platinum" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_platinum ? 'disabled' : null }}>
                                     <i class="ra ra-gold-bar ra-lg"></i>
-                                    Platinum Bonus
+                                    Resource Bonus
                                 </button>
                             </form>
                         </div>
@@ -83,7 +83,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>The Platinum Bonus instantly gives you {{ number_format($selectedDominion->peasants * 4) }} platinum.</p>
+                    <p>The Resource Bonus instantly gives you {{ number_format($selectedDominion->peasants * 4) }} platinum, ore (Gnome, Imperial Gnome), mana (Void), or food (Growth).</p>
                     <p>The Land Bonus instantly gives you some barren acres of {{ str_plural($selectedDominion->race->home_land_type) }}. You have a 0.50% chance to get 100 acres, otherwise you get a random amount between 10 and 40 acres</p>
                     <p>Both bonuses can be claimed once per day.</p>
                 </div>

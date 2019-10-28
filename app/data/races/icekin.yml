@@ -44,10 +44,10 @@ units:
       counts_as_wizard_defense: 0.2
   - name: Ice Elemental
     cost:
-      platinum: 1100
+      platinum: 1150
       ore: 0
     power:
       offense: 4
-      defense: 2
+      defense: 3
     perks:
       offense_raw_wizard_ratio: 0.90,3 # ratio%, max

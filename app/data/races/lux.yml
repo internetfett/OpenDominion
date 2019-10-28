@@ -37,8 +37,8 @@ units:
     static_networth: 11
     cost:
       unit1: 1
-      gem: 5
-      mana: 10
+      gem: 10
+      mana: 20
     power:
       offense: 0
       defense: 4
@@ -52,8 +52,8 @@ units:
     static_networth: 11
     cost:
       unit1: 1
-      gem: 5
-      mana: 10
+      gem: 10
+      mana: 20
     power:
       offense: 4
       defense: 0
@@ -68,8 +68,8 @@ units:
     cost:
       unit2: 1
       unit3: 1
-      gem: 20
-      mana: 20
+      gem: 40
+      mana: 40
     power:
       offense: 8
       defense: 8

@@ -21,7 +21,7 @@ class DailyBonusesActionService
     public function claimPlatinum(Dominion $dominion): array
     {
         if ($dominion->daily_platinum) {
-            throw new GameException('You already claimed your platinum bonus for today.');
+            throw new GameException('You already claimed your resource bonus for today.');
         }
 
         if($dominion->race->name == 'Growth')

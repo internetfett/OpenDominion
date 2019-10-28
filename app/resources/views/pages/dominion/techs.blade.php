@@ -51,7 +51,7 @@
                                         @endif
                                     </td>
                                 </tr>
-                                @endforeach
+                            @endforeach
                         </table>
                     </div>
                     <div class="box-footer">

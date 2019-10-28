@@ -14,7 +14,7 @@ perks:
   max_population: 150
   construction_cost: -20
   spy_strength: -30
-  wizard_strength: -50
+  wizard_strength: -30
   food_consumption: -50
   boat_capacity: 70
   platinum_production: -15

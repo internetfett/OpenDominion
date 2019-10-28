@@ -14,6 +14,7 @@ converting: 1
 perks:
   lumber_production: -15
   food_production: 15
+  max_populatin: -5
 units:
   - name: Merman
     cost:
@@ -21,6 +22,8 @@ units:
     power:
       offense: 3
       defense: 0
+    perks:
+      sink_boats_offense: 1
     need_boat: false
   - name: Siren
     cost:
@@ -28,6 +31,8 @@ units:
     power:
       offense: 0
       defense: 3
+    perks:
+      sink_boats_defense: 1
   - name: Leviathan
     cost:
       platinum: 3500
@@ -38,7 +43,7 @@ units:
       sink_boats_defense: 1
   - name: Kraken
     cost:
-      platinum: 2600
+      platinum: 2750
     power:
       offense: 12
       defense: 7

@@ -29,10 +29,11 @@ class TechCalculator
      */
     public function getTechCost(Dominion $dominion): int
     {
-        $minimumCost = 3780;
+        $techCostMultiplier = 5;
+        $minimumCost = intval(1000 * $techCostMultiplier);
 
         // TODO: Cost based on highest land total achieved
-        return max(6.425 * $this->landCalculator->getTotalLand($dominion), $minimumCost);
+        return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion)));
     }
 
     /**
