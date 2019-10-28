@@ -4,10 +4,10 @@ namespace OpenDominion\Helpers;
 
 class ImprovementHelper
 {
-    public function getImprovementTypes(Race $race): array
+    public function getImprovementTypes(string $race): array
     {
 
-      if($race->name == 'Growth')
+      if($race == 'Growth')
       {
         $improvementTypes[] = 'tissue';
       }
