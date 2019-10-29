@@ -47,7 +47,6 @@ units:
       defense: 6
     perks:
       no_draftee: 1
-      kills_peasants: 0.1
   - name: Archdemon
     need_boat: true
     cost:
