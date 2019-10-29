@@ -36,8 +36,6 @@ units:
       offense: 0
       defense: 2.5
     perks:
-      counts_as_wizard_offense: 0.4
-      counts_as_wizard_defense: 0.4
       mana_production: 2
       defense_from_land: forest,20,5 # land type, ratio%, max
   - name: Spriggan
@@ -51,5 +49,5 @@ units:
       no_draftee: 1
       counts_as_wizard_offense: 1
       counts_as_wizard_defense: 1
-      defense_from_land: forest,25,4 # land type, ratio%, max
-      offense_from_land: forest,25,4 # land type, ratio%, max
+      defense_from_land: forest,20,4 # land type, ratio%, max
+      offense_from_land: forest,20,4 # land type, ratio%, max
