@@ -122,6 +122,10 @@ class TrainActionService
             'unit3' => 0,
             'unit4' => 0,
 
+            'spy' => 0,
+            'wizard' => 0,
+            'archmage' => 0,
+
         ];
 
         $unitsToTrain = [];
@@ -265,6 +269,18 @@ class TrainActionService
         {
           throw new GameException('Insufficient units to train this unit.');
         }
+        if($totalCosts['spy'] > $dominion->military_spies)
+        {
+          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+        }
+        if($totalCosts['wizard'] > $dominion->military_wizards)
+        {
+          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+        }
+        if($totalCosts['archmage'] > $dominion->military_archmages)
+        {
+          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+        }
 
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
@@ -353,6 +369,10 @@ class TrainActionService
             $dominion->military_unit2 -= $totalCosts['unit2'];
             $dominion->military_unit3 -= $totalCosts['unit3'];
             $dominion->military_unit4 -= $totalCosts['unit4'];
+
+            $dominion->military_spies -= $totalCosts['spy'];
+            $dominion->military_wizards -= $totalCosts['wizard'];
+            $dominion->military_archmages -= $totalCosts['archmage'];
 
 
             // Data:

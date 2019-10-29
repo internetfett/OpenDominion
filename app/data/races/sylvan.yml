@@ -46,9 +46,10 @@ units:
       wizard: 1
     power:
       offense: 4
-      defense: 0.5
+      defense: 1
     perks:
+      no_draftee: 1
       counts_as_wizard_offense: 1
       counts_as_wizard_defense: 1
-      defense_from_land: forest,20,5 # land type, ratio%, max
-      offense_from_land: forest,20,5 # land type, ratio%, max
+      defense_from_land: forest,25,4 # land type, ratio%, max
+      offense_from_land: forest,25,4 # land type, ratio%, max
