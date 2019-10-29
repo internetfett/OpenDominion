@@ -530,6 +530,7 @@ class TickService
 
         if($peasantsToKill > 0)
         {
+          $peasantsToKill = min($peasantsToKill, $dominion->peasants);
           $tick->peasants -= intval($peasantsToKill);
         }
 
