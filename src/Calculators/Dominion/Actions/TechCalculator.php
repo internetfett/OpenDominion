@@ -32,8 +32,14 @@ class TechCalculator
         $techCostMultiplier = 5;
         $minimumCost = intval(1000 * $techCostMultiplier);
 
-        // TODO: Cost based on highest land total achieved
-        return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion)));
+        $techCost = max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion)));
+
+        if($dominion->race->getPerkMultiplier('tech_costs'))
+        {
+          $techCost = (1 + $dominion->race->getPerkMultiplier('tech_costs'));
+        }
+
+        return $techCost;
     }
 
     /**

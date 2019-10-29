@@ -179,6 +179,14 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'castle improvements max';
                 break;
+            case 'tech_costs':
+                $negativeBenefit = false;
+                $description = 'cost of technological advancements';
+                break;
+            case 'research_points_per_acre':
+                $negativeBenefit = false;
+                $description = 'research points gained per acre on successful invasions';
+                break;
             default:
                 return '';
         }
@@ -392,6 +400,14 @@ class RaceHelper
             case 'castle_max':
                 $negativeBenefit = false;
                 $description = 'Castle improvements max';
+                break;
+            case 'tech_costs':
+                $negativeBenefit = false;
+                $description = 'Cost of technological advancements';
+                break;
+            case 'research_points_per_acre':
+                $negativeBenefit = false;
+                $description = 'Research points gained per acre on successful invasions';
                 break;
             default:
                 return null;

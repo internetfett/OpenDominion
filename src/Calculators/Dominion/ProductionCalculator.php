@@ -490,7 +490,7 @@ class ProductionCalculator
         $multiplier = 0;
 
         // Improvement: Tower
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tower');
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('mana_production');

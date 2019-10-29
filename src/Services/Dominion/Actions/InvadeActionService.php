@@ -1070,6 +1070,11 @@ class InvadeActionService
     {
         $researchPointsPerAcre = 20;
 
+        if($dominion->race->getPerkMultiplier('research_points_per_acre'))
+        {
+          $researchPointsPerAcre = (1 + $dominion->race->getPerkMultiplier('research_points_per_acre'));
+        }
+
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful) {
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
