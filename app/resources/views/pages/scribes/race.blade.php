@@ -91,6 +91,8 @@
                         <tbody>
                             @foreach ($race->units as $unit)
                                 @php
+                                    $unitCostString = '';
+
                                     if ($unit->cost_platinum > 0) {
                                         $unitCostString .= (number_format($unit->cost_platinum) . ' platinum');
                                     }
