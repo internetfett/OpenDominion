@@ -75,7 +75,7 @@ class DominionFactory
 
         $startingResources['boats'] = 0.2 * $acresBase;
 
-        startingResources['soul'] = 0;
+        $startingResources['soul'] = 0;
 
         $startingResources['morale'] = 100;
 
