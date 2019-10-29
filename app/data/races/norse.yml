@@ -61,4 +61,5 @@ units:
     perks:
       no_draftee: 1
       true_immortal: 1
+      does_not_count_as_population: 1
     static_networth: 33

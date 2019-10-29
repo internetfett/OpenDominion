@@ -49,6 +49,7 @@ units:
       defense: 6
     perks:
       no_draftee: 1
+      does_not_count_as_population: 1
   - name: Archdemon
     need_boat: true
     cost:
@@ -62,3 +63,4 @@ units:
       no_draftee: 1
       immortal_except_vs: Sacred Order
       offense_vs_building: temple,5,2
+      does_not_count_as_population: 1

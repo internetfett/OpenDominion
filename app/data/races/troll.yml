@@ -49,5 +49,3 @@ units:
     power:
       offense: 7
       defense: 7
-    perks:
-      offense_from_pairing: 1,1 # slot, amount
