@@ -191,21 +191,21 @@ class TrainingCalculator
                     }
 
                     // SPY cost for units
-                    if ($wild_yeti > 0) {
-                        $cost['spy'] = $wild_yeti;
-                        $cost['spy'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'spy'));
+                    if ($spy > 0) {
+                        $cost['spy'] = $spy;
+                        $cost['spy'] = (int)ceil($spy * $this->getSpecialistEliteCostMultiplier($dominion, 'spy'));
                     }
 
                     // WIZARD cost for units
-                    if ($wild_yeti > 0) {
-                        $cost['wizard'] = $wild_yeti;
-                        $cost['wizard'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wizard'));
+                    if ($wizard > 0) {
+                        $cost['wizard'] = $wizard;
+                        $cost['wizard'] = (int)ceil($wizard * $this->getSpecialistEliteCostMultiplier($dominion, 'wizard'));
                     }
 
                     // ARCHMAGE cost for units
-                    if ($wild_yeti > 0) {
-                        $cost['archmage'] = $wild_yeti;
-                        $cost['archmage'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'archmage'));
+                    if ($archmage > 0) {
+                        $cost['archmage'] = $archmage;
+                        $cost['archmage'] = (int)ceil($archmage * $this->getSpecialistEliteCostMultiplier($dominion, 'archmage'));
                     }
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
