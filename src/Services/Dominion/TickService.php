@@ -517,7 +517,7 @@ class TickService
         // Look for unit-specific non-production stuff to run every tick.
         $slot = 1;
         $peasantsToKill = 0;
-        while($slot < 5)
+        while($slot <= 4)
         {
           // Perk: kills_peasants
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'kills_peasants'))
