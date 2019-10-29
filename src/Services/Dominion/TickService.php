@@ -514,21 +514,6 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
-        // Look for unit-specific non-production stuff to run every tick.
-        $slot = 1;
-        $peasantsToKill = 0;
-        while($slot <= 4)
-        {
-          // Perk: kills_peasants
-          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'kills_peasants'))
-          {
-            $peasantsToKill += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'kills_peasants');
-          }
-
-          $slot++;
-        }
-        // Do nothing with it?
-
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
             $dominion->{$row->resource} -= $row->amount;
