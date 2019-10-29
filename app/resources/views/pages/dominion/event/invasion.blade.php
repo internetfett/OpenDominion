@@ -232,7 +232,7 @@
                                 @if ($event->source->id === $selectedDominion->id)
                                     <p class="text-center text-green">
                                         {{-- todo: remove hardcoded Hobgoblin mention? --}}
-                                        Your Hobgoblins plunder {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems.
+                                        Your units plunder {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems.
                                     </p>
                                 @else
                                     <p class="text-center text-red">

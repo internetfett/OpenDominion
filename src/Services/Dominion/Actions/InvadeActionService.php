@@ -1151,6 +1151,41 @@ class InvadeActionService
                 ]
             );
         }
+        if (($dominion->race->name === 'Legion') && isset($units[1]) && ($units[1] > 0))
+        {
+            $hobbos = $units[1];
+            $totalUnitsSent = array_sum($units);
+
+            $hobbosPercentage = $hobbos / $totalUnitsSent;
+
+            $averageOPPerUnitSent = ($attackingForceOP / $totalUnitsSent);
+            $OPNeededToBreakTarget = ($targetDP + 1);
+            $unitsNeededToBreakTarget = round($OPNeededToBreakTarget / $averageOPPerUnitSent);
+
+            $hobbosToPlunderWith = (int)ceil($unitsNeededToBreakTarget * $hobbosPercentage);
+
+            $plunderPlatinum = min($hobbosToPlunderWith * 50, (int)floor($target->resource_platinum * 0.2));
+            $plunderGems = min($hobbosToPlunderWith * 20, (int)floor($target->resource_gems * 0.2));
+
+            $target->resource_platinum -= $plunderPlatinum;
+            $target->resource_gems -= $plunderGems;
+
+            if (!isset($this->invasionResult['attacker']['plunder'])) {
+                $this->invasionResult['attacker']['plunder'] = [
+                    'platinum' => $plunderPlatinum,
+                    'gems' => $plunderGems,
+                ];
+            }
+
+            $this->queueService->queueResources(
+                'invasion',
+                $dominion,
+                [
+                    'resource_platinum' => $plunderPlatinum,
+                    'resource_gems' => $plunderGems,
+                ]
+            );
+        }
         // Norse champion
         if ($dominion->race->name == 'Norse')
         {
