@@ -187,10 +187,6 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'research points gained per acre on successful invasions';
                 break;
-            case 'all_buildings_in_forest':
-                $negativeBenefit = false;
-                $description = 'all buildings are located in forest';
-                break;
             default:
                 return '';
         }
@@ -412,10 +408,6 @@ class RaceHelper
             case 'research_points_per_acre':
                 $negativeBenefit = false;
                 $description = 'Research points gained per acre on successful invasions';
-                break;
-            case 'all_buildings_in_forest':
-                $negativeBenefit = false;
-                $description = 'All buildings are located in forest';
                 break;
             default:
                 return null;

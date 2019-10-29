@@ -56,10 +56,16 @@ class Unit extends AbstractModel
         'cost_unit3' => 'integer',
         // Unit unit 4 cost
         'cost_unit4' => 'integer',
-        // For cases when a unit's NW needs to be manually set
+        // Unit morale cost
         'cost_morale' => 'integer',
-        // For cases when a unit's NW needs to be manually set
+        // Unit wild yeti cost
         'cost_wild_yeti' => 'integer',
+        // Unit spy cost
+        'cost_spy' => 'integer',
+        // Unit wizard cost
+        'cost_wizard' => 'integer',
+        // Unit archmage cost
+        'cost_archmage' => 'integer',
         // For cases when a unit's NW needs to be manually set
         'static_networth' => 'integer',
     ];

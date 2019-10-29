@@ -13,11 +13,10 @@ converting: 1
 perks:
   lumber_production: 20
   food_production: 10
-  all_buildings_in_forest: 1
 units:
-  - name: Satyr
+  - name: Leshy
     cost:
-      platinum: 275
+      platinum: 250
       ore: 0
     power:
       offense: 3
@@ -35,8 +34,10 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 3
+      defense: 2.5
     perks:
+      counts_as_wizard_offense: 0.4
+      counts_as_wizard_defense: 0.4
       mana_production: 2
       defense_from_land: forest,20,5 # land type, ratio%, max
   - name: Spriggan
@@ -45,7 +46,7 @@ units:
       wizard: 1
     power:
       offense: 4
-      defense: 1
+      defense: 0.5
     perks:
       counts_as_wizard_offense: 1
       counts_as_wizard_defense: 1

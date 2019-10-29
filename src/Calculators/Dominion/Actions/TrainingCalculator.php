@@ -97,6 +97,10 @@ class TrainingCalculator
                     $unit3 = $units[$unitSlot]->cost_unit3;
                     $unit4 = $units[$unitSlot]->cost_unit4;
 
+                    $spy = $units[$unitSlot]->cost_spy;
+                    $wizard = $units[$unitSlot]->cost_wizard;
+                    $archmage = $units[$unitSlot]->cost_archmage;
+
                     if ($platinum > 0) {
                         $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion, 'platinum'));
                     }
@@ -186,6 +190,24 @@ class TrainingCalculator
                         $cost['wild_yeti'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wild_yeti'));
                     }
 
+                    // SPY cost for units
+                    if ($wild_yeti > 0) {
+                        $cost['spy'] = $wild_yeti;
+                        $cost['spy'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'spy'));
+                    }
+
+                    // WIZARD cost for units
+                    if ($wild_yeti > 0) {
+                        $cost['wizard'] = $wild_yeti;
+                        $cost['wizard'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wizard'));
+                    }
+
+                    // ARCHMAGE cost for units
+                    if ($wild_yeti > 0) {
+                        $cost['archmage'] = $wild_yeti;
+                        $cost['archmage'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'archmage'));
+                    }
+
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
                     {
                       $cost['draftees'] = 0;
@@ -237,6 +259,11 @@ class TrainingCalculator
             'unit2' => 'military_unit2',
             'unit3' => 'military_unit3',
             'unit4' => 'military_unit4',
+
+
+            'spy' => 'military_spies',
+            'wizard' => 'military_wizards',
+            'archmage' => 'military_archmages',
         ];
 
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);

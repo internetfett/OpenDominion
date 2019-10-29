@@ -149,7 +149,7 @@ class DominionFactory
         if($race->name == 'Demon')
         {
           $startingResources['morale'] = 666;
-          $startingResources['soul'] = 1000;
+          $startingResources['soul'] = 2000;
         }
         // Void: gets half of plat for troops as mana; and gets enough Visions for mana production equivalent of 80 Towers
         if($race->name == 'Void')

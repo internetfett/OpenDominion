@@ -4,9 +4,11 @@ description: >-
   <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
   <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
   <hr />
-  <p>The soul of every unit killed in battle is collected and can be used to summon stronger demons.</p>
+  <p>The soul of every enemy unit killed in battle is collected and can be used to summon stronger demons.</p>
   <hr />
-  <p>Starting resources include 666% Morale and 1,000 Souls.</p>
+  <p>Starts with 666% Morale and 2,000 Souls.</p>
+  <hr />
+  <p>Instead of National Bank, Demons have Sacrificial Altar where peasants can be sacrificed for either 1 Soul or 4 bushels of food.</p>
 home_land_type: cavern
 playable: 1
 

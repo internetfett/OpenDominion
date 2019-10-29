@@ -153,6 +153,18 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . ' wild yeti');
                                     }
 
+                                    if ($unit->cost_spy > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_spy) . ' Spy');
+                                    }
+
+                                    if ($unit->cost_wizard > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_wizard) . ' Wizard');
+                                    }
+
+                                    if ($unit->cost_archmage > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_archmage) . ' ArchMage');
+                                    }
+
                                 @endphp
                                 <tr>
                                     <td>
