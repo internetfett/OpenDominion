@@ -36,7 +36,7 @@ class TechCalculator
 
         if($dominion->race->getPerkMultiplier('tech_costs'))
         {
-          $techCost = (1 + $dominion->race->getPerkMultiplier('tech_costs'));
+          $techCost *= (1 + $dominion->race->getPerkMultiplier('tech_costs'));
         }
 
         return $techCost;
