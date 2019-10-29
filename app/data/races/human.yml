@@ -12,6 +12,7 @@ converting: 3
 
 perks:
   food_production: 5
+  research_points_per_acre: 25
 units:
   - name: Spearman
     cost:

@@ -14,8 +14,6 @@ perks:
   food_consumption: -50
   lumber_production: -10
   archmage_cost: -150
-  tech_costs: -10
-  research_points_per_acre: 50
 units:
   - name: Icebeast
     cost:
