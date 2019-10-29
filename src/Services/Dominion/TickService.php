@@ -105,7 +105,7 @@ class TickService
                     ->where('dominions.round_id', $round->id)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
-                        'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
+                        #'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
                         'dominions.peasants_last_hour' => DB::raw('dominion_tick.peasants'),
                         'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
@@ -456,7 +456,7 @@ class TickService
         $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
 
-        #$tick->peasants = $populationPeasantGrowth;
+        $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
         // Morale
