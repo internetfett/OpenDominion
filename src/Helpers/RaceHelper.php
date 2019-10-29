@@ -180,7 +180,7 @@ class RaceHelper
                 $description = 'castle improvements max';
                 break;
             case 'tech_costs':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'cost of technological advancements';
                 break;
             case 'research_points_per_acre':
@@ -402,7 +402,7 @@ class RaceHelper
                 $description = 'Castle improvements max';
                 break;
             case 'tech_costs':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'Cost of technological advancements';
                 break;
             case 'research_points_per_acre':
