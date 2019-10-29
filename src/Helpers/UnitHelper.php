@@ -117,7 +117,6 @@ class UnitHelper
             'food_production' => 'Each unit produces %s food per tick.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
             'afterlife_norse' => 'Upon honourable death (successful invasions over 75%), becomes a legendary champion and can be recalled into services as an Einherjar.',
-            'kills_peasants' => 'Eats %s peasants per tick.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
@@ -126,16 +125,16 @@ class UnitHelper
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'mana_drain' => 'Each unit drains %s mana per tick.',
+            'cannot_be_trained' => 'Unit cannot be trained.',
+            'instant_training' => 'Summoned immediately.',
+            'faster_training' => 'Trains %s ticks faster.',
+            'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
-            'instant_training' => 'Summoned immediately.',
-            'faster_training' => 'Trains %s ticks faster.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
-            'cannot_be_trained' => 'Unit cannot be trained.',
-
-            'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
+            'kills_peasants' => 'Eats %s peasants per tick.',
 
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',

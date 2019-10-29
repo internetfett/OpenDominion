@@ -14,7 +14,8 @@ converting: 1
 perks:
   lumber_production: -15
   food_production: 15
-  max_populatin: -5
+  max_population: -5
+  platinum_production: -10
 units:
   - name: Merman
     cost:
@@ -35,7 +36,7 @@ units:
       sink_boats_defense: 1
   - name: Leviathan
     cost:
-      platinum: 3500
+      platinum: 4000
     power:
       offense: 0
       defense: 22
