@@ -13,6 +13,7 @@ converting: 1
 perks:
   lumber_production: 20
   food_production: 10
+  all_buildings_in_forest: 1
 units:
   - name: Satyr
     cost:
@@ -30,21 +31,23 @@ units:
       defense: 3
   - name: Dryad
     cost:
-      platinum: 1050
+      platinum: 1000
       ore: 0
     power:
       offense: 0
       defense: 3
     perks:
-      counts_as_wizard_offense: 0.333
-      counts_as_wizard_defense: 0.333
-      defense_from_land: forest,20,4 # land type, ratio%, max
-  - name: Centaur
+      mana_production: 2
+      defense_from_land: forest,20,5 # land type, ratio%, max
+  - name: Spriggan
     cost:
-      platinum: 950
+      platinum: 1000
+      wizard: 1
     power:
-      offense: 5
-      defense: 2
+      offense: 4
+      defense: 1
     perks:
-      faster_return: 3
-      fewer_casualties: 50
+      counts_as_wizard_offense: 1
+      counts_as_wizard_defense: 1
+      defense_from_land: forest,20,5 # land type, ratio%, max
+      offense_from_land: forest,20,5 # land type, ratio%, max
