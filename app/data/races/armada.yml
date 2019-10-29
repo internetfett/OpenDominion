@@ -5,7 +5,7 @@ description: >-
   <p>They were given a great deal of autonomy in order to face challenges in a manner and with an efficiency normal human bureaucracy would not permit.</p>
   <p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
   <hr />
-  <p>You can have at most two of the elite units per Dock. If you have two Oreclads and want to train one Siege Ship, you must have two Factories.</p>
+  <p>You can have at most two of the elite units per Dock. For example, if you have two Oreclads and want to train one Siege Ship, you must have two Docks.</p>
 home_land_type: water
 playable: 1
 

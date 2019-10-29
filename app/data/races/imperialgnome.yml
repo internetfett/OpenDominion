@@ -4,7 +4,7 @@ description: >-
   <p>Distressed by the failed attempt to create an Orcish Navy, the Empress exploited the largest weakness found in Gnomes- their greed.</p>
   <p>By promising them gems and ore, the Empress convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
   <hr />
-  <p>You can have at most two of the elite units per Factory. If you have two Catapults and want to train one Airship, you must have two Factories.</p>
+  <p>You can have at most two of the elite units per Factory. For example, if you have two Catapults and want to train one Airship, you must have two Factories.</p>
 home_land_type: mountain
 playable: 1
 
