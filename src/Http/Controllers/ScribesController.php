@@ -2,6 +2,7 @@
 
 namespace OpenDominion\Http\Controllers;
 
+use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RaceHelper;
@@ -49,6 +50,7 @@ class ScribesController extends AbstractController
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'spellHelper' => app(SpellHelper::class),
+            'trainingCalculator' => app(TrainingCalculator::class),
             'race' => $race,
         ]);
     }
