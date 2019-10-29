@@ -12,6 +12,7 @@ converting: 3
 perks:
     gem_production: 10
     food_consumption: 25
+    max_population: -15
 units:
   - name: Wyrm
     need_boat: false
