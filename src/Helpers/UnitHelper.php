@@ -111,6 +111,9 @@ class UnitHelper
             'sink_boats_defense' => 'Sinks boats when defending.',
             'sink_boats_offense' => 'Sinks boats when attacking.',
 
+            // Misc
+            'faster_return' => 'Returns %s ticks faster from battle.',
+
             // ODA
             'mana_production' => 'Each unit generates %s mana per tick.',
             'lumber_production' => 'Each unit collects %s lumber per tick.',
@@ -136,8 +139,6 @@ class UnitHelper
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
 
-            // Misc
-            'faster_return' => 'Returns %s ticks faster from battle.',
         ];
 
         // Get unit - same logic as military page

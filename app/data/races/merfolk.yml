@@ -16,7 +16,6 @@ perks:
   food_production: 15
   max_population: -5
   platinum_production: -10
-  tech_costs: 10
 units:
   - name: Merman
     cost:

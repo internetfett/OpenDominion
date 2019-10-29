@@ -15,6 +15,7 @@ perks:
   spy_strength: -10
   food_consumption: 5
   offense: 10
+  tech_costs: 10
 units:
   - name: Brute
     cost:
@@ -48,3 +49,5 @@ units:
     power:
       offense: 7
       defense: 7
+    perks:
+      offense_from_pairing: 1,1 # slot, amount
