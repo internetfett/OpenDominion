@@ -20,6 +20,7 @@ perks:
   prestige_gains: 10
 units:
   - name: Goblin
+    type: hybrid_elite
     need_boat: true
     cost:
       platinum: 400
@@ -31,6 +32,7 @@ units:
       plunders_resources_on_attack: 1
       faster_return: 2
   - name: Dark Elf
+    type: hybrid_elite
     need_boat: true
     cost:
       platinum: 400
@@ -43,6 +45,7 @@ units:
       counts_as_wizard_defense: 0.2
       faster_return: 2
   - name: Lizardfolk
+    type: hybrid_elite
     need_boat: false
     cost:
       platinum: 400
@@ -55,6 +58,7 @@ units:
       counts_as_spy_defense: 0.2
       faster_return: 2
   - name: Troll
+    type: hybrid_elite
     need_boat: true
     cost:
       platinum: 400
