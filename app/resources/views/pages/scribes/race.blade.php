@@ -94,66 +94,67 @@
                                     $unitCostString = '';
 
                                     if ($unit->cost_platinum > 0) {
-                                        $unitCostString .= (number_format($unit->cost_platinum) . ' platinum');
+                                        $unitCostString .= (', ' . number_format($unit->cost_platinum) . ' platinum');
                                     }
+
                                     if ($unit->cost_ore > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_ore) . ' ore');
+                                        $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');
                                     }
 
                                     if ($unit->cost_lumber > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_lumber) . ' lumber');
+                                        $unitCostString .= (', ' . number_format($unit->cost_lumber) . ' lumber');
                                     }
 
                                     if ($unit->cost_food > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_food) . ' food');
+                                        $unitCostString .= (', ' . number_format($unit->cost_food) . ' food');
                                     }
 
                                     if ($unit->cost_mana > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_mana) . ' mana');
+                                        $unitCostString .= (', ' . number_format($unit->cost_mana) . ' mana');
                                     }
 
                                     if ($unit->cost_gem > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_gem) . ' gem');
+                                        $unitCostString .= (', ' . number_format($unit->cost_gem) . ' gem');
                                     }
 
                                     if ($unit->cost_prestige > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_prestige) . ' Prestige');
+                                        $unitCostString .= (', ' . number_format($unit->cost_prestige) . ' Prestige');
                                     }
 
                                     if ($unit->cost_boat > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_boat) . ' boat');
+                                        $unitCostString .= (', ' . number_format($unit->cost_boat) . ' boat');
                                     }
 
                                     if ($unit->cost_champion > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_champion) . ' Champion');
+                                        $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Champion');
                                     }
 
                                     if ($unit->cost_soul > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_soul) . ' Soul');
+                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
                                     }
 
                                     if ($unit->cost_unit1 > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_unit1) . ' Unit1');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' Unit1');
                                     }
 
                                     if ($unit->cost_unit2 > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_unit2) . ' Unit2');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit2) . ' Unit2');
                                     }
 
                                     if ($unit->cost_unit3 > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_unit3) . ' Unit3');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit3) . ' Unit3');
                                     }
 
                                     if ($unit->cost_unit4 > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_unit4) . ' Unit4');
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' Unit4');
                                     }
 
                                     if ($unit->cost_morale > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_morale) . '% morale');
+                                        $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
                                     }
 
                                     if ($unit->cost_wild_yeti > 0) {
-                                        $unitCostString .= (",<br>" . number_format($unit->cost_wild_yeti) . ' wild yeti');
+                                        $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . ' wild yeti');
                                     }
 
                                 @endphp
