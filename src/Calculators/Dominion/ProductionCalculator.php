@@ -263,7 +263,7 @@ class ProductionCalculator
         // Beastfolk: Water increases food production
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Apply Morale multiplier to production multiplier
@@ -488,6 +488,9 @@ class ProductionCalculator
     public function getManaProductionMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
+
+        // Improvement: Tower
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tower');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('mana_production');
@@ -798,7 +801,7 @@ class ProductionCalculator
         // Beastfolk: Water increases boat production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * $this->prestigeCalculator->getBeastfolkPrestigeLandBonusMultiplier($dominion);
+          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Apply Morale multiplier to production multiplier

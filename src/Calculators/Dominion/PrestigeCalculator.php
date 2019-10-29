@@ -31,7 +31,7 @@ class PrestigeCalculator
         }
         else
         {
-          return ($dominion->prestige / 5000);
+          return (1+($dominion->prestige / 5000));
         }
 
     }

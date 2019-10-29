@@ -91,11 +91,7 @@
                         <tbody>
                             @foreach ($race->units as $unit)
                                 @php
-                                    $unitCostString = '';
-
-                                    if ($unit->cost_platinum > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_platinum) . ' platinum');
-                                    }
+                                    $unitCostString = (number_format($unit->cost_platinum) . ' platinum');
 
                                     if ($unit->cost_ore > 0) {
                                         $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');

@@ -40,7 +40,7 @@ class ImprovementHelper
         $ratingStrings = [
             'science' => '+%s%% platinum production',
             'keep' => '+%s%% max population',
-            'towers' => '+%1$s%% wizard power, -%1$s%% damage from spells',
+            'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells',
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
@@ -57,7 +57,7 @@ class ImprovementHelper
         $helpStrings = [
             'science' => 'Improvements to science increase your platinum production.<br><br>Max +20% platinum production.',
             'keep' => 'Improvements to your keep increase your maximum population.<br><br>Max +30% max population.',
-            'towers' => 'Improvements to your towers increase your wizard strength and reduce damage from harmful spells.<br><br>Max +40% base towers.',
+            'towers' => 'Improvements to your towers increase your wizard strength, mana production, and reduce damage from harmful spells.<br><br>Max +40% base towers.',
             'forges' => 'Improvements to your forges increase your offensive power.<br><br>Max +30% offensive power.',
             'walls' => 'Improvements to your walls increase your defensive power.<br><br>Max +30% defensive power.',
             'harbor' => 'Improvements to your harbor improve your food production, boat production and boat protection.<br><br>Max +40% base harbor.',
