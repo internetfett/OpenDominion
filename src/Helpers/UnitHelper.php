@@ -116,7 +116,7 @@ class UnitHelper
             'lumber_production' => 'Each unit collects %s lumber per tick.',
             'food_production' => 'Each unit produces %s food per tick.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
-            'afterlife_norse' => 'Upon honourable death, becomes a legendary champion and can be recalled into services as an Einherjar.',
+            'afterlife_norse' => 'Upon honourable death (successful invasions over 75%), becomes a legendary champion and can be recalled into services as an Einherjar.',
             'kills_peasants' => 'Eats %s peasants per tick.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',

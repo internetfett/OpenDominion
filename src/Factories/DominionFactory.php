@@ -148,7 +148,7 @@ class DominionFactory
         {
           $startingResources['morale'] = 330;
         }
-        // Void: gets half of plat for troops as mana; and gets 320 Visions for mana production
+        // Void: gets half of plat for troops as mana; and gets enough Visions for mana production equivalent of 80 Towers
         if($race->name == 'Void')
         {
           $startingResources['mana'] = 1000 * $acresBase;
