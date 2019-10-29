@@ -5,6 +5,7 @@ description: >-
   <p>By promising them gems and ore, the Empress convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
   <hr />
   <p>You can have at most two of the elite units per Factory. For example, if you have two Catapults and want to train one Airship, you must have two Factories.</p>
+  <p>The restriction is increased by Science improvements. With 20% Science, 10 Factories can house 24 instead of 20 Catapults/Airships.</p>
 home_land_type: mountain
 playable: 1
 

@@ -6,6 +6,7 @@ description: >-
   <p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
   <hr />
   <p>You can have at most two of the elite units per Dock. For example, if you have two Oreclads and want to train one Siege Ship, you must have two Docks.</p>
+  <p>The restriction is increased by Harbor improvements. With 20% Harbor, 10 Docks can house 24 instead of 20 Catapults/Airships.</p>
 home_land_type: water
 playable: 1
 
