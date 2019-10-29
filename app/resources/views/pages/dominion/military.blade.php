@@ -160,6 +160,18 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('wild yeti', $value);
                                                             break;
 
+                                                        case 'spy':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Spy', $value);
+                                                            break;
+
+                                                        case 'wizard':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Wizard', $value);
+                                                            break;
+
+                                                        case 'archmage':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Archmage', $value);
+                                                            break;
+
                                                         case 'wizards':
                                                             $labelParts[] = '1 Wizard';
                                                             break;
