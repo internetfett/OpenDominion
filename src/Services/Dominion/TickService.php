@@ -527,13 +527,7 @@ class TickService
 
           $slot++;
         }
-
-        if($peasantsToKill > 0)
-        {
-          $peasantsToKill = min($peasantsToKill, $dominion->peasants);
-          #$tick->peasants -= intval($peasantsToKill);
-        }
-
+        // Do nothing with it?
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
