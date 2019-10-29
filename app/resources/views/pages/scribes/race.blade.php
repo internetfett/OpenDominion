@@ -91,66 +91,67 @@
                         <tbody>
                             @foreach ($race->units as $unit)
                                 @php
-                                    $unitCostString = (number_format($unit->cost_platinum) . ' platinum');
-
+                                    if ($unit->cost_platinum > 0) {
+                                        $unitCostString .= (number_format($unit->cost_platinum) . ' platinum');
+                                    }
                                     if ($unit->cost_ore > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_ore) . ' ore');
                                     }
 
                                     if ($unit->cost_lumber > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_lumber) . ' lumber');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_lumber) . ' lumber');
                                     }
 
                                     if ($unit->cost_food > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_food) . ' food');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_food) . ' food');
                                     }
 
                                     if ($unit->cost_mana > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_mana) . ' mana');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_mana) . ' mana');
                                     }
 
                                     if ($unit->cost_gem > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_gem) . ' gem');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_gem) . ' gem');
                                     }
 
                                     if ($unit->cost_prestige > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_prestige) . ' Prestige');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_prestige) . ' Prestige');
                                     }
 
                                     if ($unit->cost_boat > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_boat) . ' boat');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_boat) . ' boat');
                                     }
 
                                     if ($unit->cost_champion > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Champion');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_champion) . ' Champion');
                                     }
 
                                     if ($unit->cost_soul > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_soul) . ' Soul');
                                     }
 
                                     if ($unit->cost_unit1 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' Unit1');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_unit1) . ' Unit1');
                                     }
 
                                     if ($unit->cost_unit2 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit2) . ' Unit2');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_unit2) . ' Unit2');
                                     }
 
                                     if ($unit->cost_unit3 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit3) . ' Unit3');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_unit3) . ' Unit3');
                                     }
 
                                     if ($unit->cost_unit4 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' Unit4');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_unit4) . ' Unit4');
                                     }
 
                                     if ($unit->cost_morale > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_morale) . '% morale');
                                     }
 
                                     if ($unit->cost_wild_yeti > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . ' wild yeti');
+                                        $unitCostString .= ('<br>, ' . number_format($unit->cost_wild_yeti) . ' wild yeti');
                                     }
 
                                 @endphp
@@ -169,94 +170,7 @@
                                         {!! $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td class="text-center">
-                                      @php
-                                          // todo: move this shit to view presenter or something
-                                          $labelParts = [];
-
-                                          foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
-
-                                            # Only show resource if there is a corresponding cost
-                                            if($value > 0)
-                                            {
-
-                                              switch ($costType) {
-                                                  case 'platinum':
-                                                      $labelParts[] = number_format($value) . ' platinum';
-                                                      break;
-
-                                                  case 'ore':
-                                                      $labelParts[] = number_format($value) . ' ore';
-                                                      break;
-
-                                                  case 'food':
-                                                      $labelParts[] =  number_format($value) . ' food';
-                                                      break;
-
-                                                  case 'mana':
-                                                      $labelParts[] =  number_format($value) . ' mana';
-                                                      break;
-
-                                                  case 'lumber':
-                                                      $labelParts[] =  number_format($value) . ' lumber';
-                                                      break;
-
-                                                  case 'gem':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('gem', $value);
-                                                      break;
-
-                                                  case 'prestige':
-                                                      $labelParts[] =  number_format($value) . ' Prestige';
-                                                      break;
-
-                                                  case 'boat':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('boat', $value);
-                                                      break;
-
-                                                  case 'champion':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('Champion', $value);
-                                                      break;
-
-                                                  case 'soul':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('Soul', $value);
-                                                      break;
-
-                                                  case 'unit1':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('Unit1', $value);
-                                                      break;
-
-                                                  case 'unit2':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('Unit2', $value);
-                                                      break;
-
-                                                  case 'unit3':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('Unit3', $value);
-                                                      break;
-
-                                                  case 'unit4':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('Unit4', $value);
-                                                      break;
-
-                                                  case 'morale':
-                                                      $labelParts[] =  number_format($value) . '% morale';
-                                                      break;
-
-                                                  case 'wild_yeti':
-                                                      $labelParts[] =  number_format($value) . ' ' . str_plural('wild yeti', $value);
-                                                      break;
-
-                                                  case 'wizards':
-                                                      $labelParts[] = '1 Wizard';
-                                                      break;
-
-                                                  default:
-                                                      break;
-                                                  }
-
-                                              } #ENDIF
-                                          }
-
-                                          echo implode(',<br>', $labelParts);
-                                      @endphp
+                                        {{ $unitCostString }}
                                     </td>
                                 </tr>
                             @endforeach
