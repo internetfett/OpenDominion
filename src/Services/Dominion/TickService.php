@@ -514,6 +514,8 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
+        # Demons?
+
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
             $dominion->{$row->resource} -= $row->amount;
