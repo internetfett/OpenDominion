@@ -455,11 +455,8 @@ class TickService
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
         $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
-        if($populationPeasantGrowth < 0)
-        {
-          $populationPeasantGrowth = min(abs($populationPeasantGrowth), $dominion->peasants)*-1;
-        }
-        $tick->peasants = $populationPeasantGrowth;
+
+        #$tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
         // Morale
