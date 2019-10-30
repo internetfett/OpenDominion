@@ -343,6 +343,40 @@ class CasualtiesCalculator
     }
 
     /**
+     * Returns the defensive casualties reduction from a specific land type.
+     *
+     * This number is in the 0 - 1 range, but is later capped by max reduction.
+     *
+     * @param Dominion $dominion
+     * @param Unit $unit
+     * @return float
+     */
+     # ABANDONED
+    protected function getUnitCasualtyReductionFromLandBasedPerk(Dominion $dominion, Unit $unit): float
+    {
+        $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "casualties_reduced_by_land", null);
+
+        if (!$landPerkData)
+        {
+            return 0;
+        }
+
+        $landType = $landPerkData[0];
+        $ratio = (int)$landPerkData[1];
+        $max = (int)$landPerkData[2];
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+        $buildingsForLandType = $this->buildingCalculator->getTotalBuildingsForLandType($dominion, $landType);
+
+        $landPercentage = ($buildingsForLandType / $totalLand) * 100;
+
+        $powerFromLand = $landPercentage / $ratio;
+        $powerFromPerk = min($powerFromLand, $max);
+
+        return $powerFromPerk;
+    }
+
+    /**
      * Returns the Dominion's casualties by unit type.
      *
      * @param  Dominion $dominion

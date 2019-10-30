@@ -4,7 +4,7 @@ description: >-
   <p>Mythical forest-dwelling creatures, which have banded together to combat the forces of evil.</p>
   <p>Their affinity for nature makes them excellent at exploration, and highly proficient spellcasters.</p>
 home_land_type: forest
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 3

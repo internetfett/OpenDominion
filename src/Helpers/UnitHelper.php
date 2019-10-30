@@ -133,7 +133,7 @@ class UnitHelper
             'faster_training' => 'Trains %s ticks faster.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
 
-            'reduced_casualties_by_land' => 'Casualties reduced by 1% for every %2$s%% %1$ss (max %3%% reduction).',
+            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max %3$s).',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
