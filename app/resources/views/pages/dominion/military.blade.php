@@ -225,6 +225,12 @@
                           @if ($selectedDominion->race->name == 'Snow Elf')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.
                           @endif
+                          @if ($selectedDominion->race->name == 'Demon')
+                          <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls collected.
+                          @endif
+                          @if ($selectedDominion->race->name == 'Norse')
+                          <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
+                          @endif
                         </div>
                     </div>
                 </form>
