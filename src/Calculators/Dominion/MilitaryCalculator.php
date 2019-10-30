@@ -375,7 +375,7 @@ class MilitaryCalculator
         // Spell: Fimbulwinter (+10% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
         {
-          $multiplier += 10;
+          $multiplier += 0.10;
         }
 
         // Spell: Blizzard (+5%)

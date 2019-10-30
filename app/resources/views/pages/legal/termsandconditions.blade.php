@@ -35,7 +35,7 @@
 
       <p>Your username must not be offensive or misleading. This includes profanity, slurs, and names which may cause confusion.</p>
 
-      <p>Accounts are personal and must. One person per account: only one person is permitted to make use of an account.</p>
+      <p>Accounts are personal and must not be shared. One person per account: only one person is permitted to make use of an account.</p>
 
       <p>If your account is suspended or banned, you are not permitted to open a new account or use another account.</p>
 

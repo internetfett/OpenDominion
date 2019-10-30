@@ -34,21 +34,17 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 2.5
-    perks:
-      mana_production: 2
-      reduces_combat_losses: 1
-      defense_from_land: forest,20,5 # land type, ratio%, max
-  - name: Spriggan
-    cost:
-      platinum: 1000
-      wizard: 1
-    power:
-      offense: 4
-      defense: 1
+      defense: 3
     perks:
       no_draftee: 1
       counts_as_wizard_offense: 1
       counts_as_wizard_defense: 1
-      defense_from_land: forest,20,5 # land type, ratio%, max
-      offense_from_land: forest,20,5 # land type, ratio%, max
+  - name: Spriggan
+    cost:
+      lumber: 2000
+      wizard: 1
+    power:
+      offense: 7
+      defense: 1
+    perks:
+      reduced_casualties_by_land: forest,20,5 # land type, ratio%, max
