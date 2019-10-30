@@ -75,8 +75,16 @@ class BankActionService
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_BANK]);
 
+        if($dominion->race->name == 'Demon')
+        {
+          $message = 'The peasants have been slaughtered.';
+        }
+        else {
+          $message = 'Your resources have been exchanged.';
+        }
+
         return [
-            'message' => 'Your resources have been exchanged.',
+            'message' => $message,
         ];
     }
 }
