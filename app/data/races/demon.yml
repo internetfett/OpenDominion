@@ -62,5 +62,5 @@ units:
       defense: 4
     perks:
       no_draftee: 1
-      immortal_except_vs: Sacred Order
+      immortal: 1
       offense_vs_building: temple,5,2
