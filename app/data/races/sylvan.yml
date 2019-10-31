@@ -46,8 +46,8 @@ units:
       lumber: 2000
       mana: 20
     power:
-      offense: 7
+      offense: 6
       defense: 3
     perks:
-      offense_if_recently_invaded: 2
-      defense_if_recently_invaded: 2
+      offense_if_recently_invaded: 6
+      defense_if_recently_invaded: 3

@@ -231,6 +231,9 @@
                           @if ($selectedDominion->race->name == 'Norse')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
                           @endif
+                          @if ($militaryCalculator->recentlyInvadedCount($selectedDominion))
+                          <br> You were recently invaded, angering your Spriggan.
+                          @endif
                         </div>
                     </div>
                 </form>
