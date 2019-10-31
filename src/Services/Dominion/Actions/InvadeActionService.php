@@ -1189,9 +1189,12 @@ class InvadeActionService
         // Norse champion
         if ($dominion->race->name == 'Norse')
         {
-          $champions = $units['attackerUnitsDiedInBattleSlot1'];
-          $this->invasionResult['attacker']['champion']['champions'] = $champions;
-          $dominion->resource_champion += $champions;
+          if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75)
+          {
+            $champions = $units['attackerUnitsDiedInBattleSlot1'];
+            $this->invasionResult['attacker']['champion']['champions'] = $champions;
+            $dominion->resource_champion += $champions;            
+          }
         }
 
         // Demon soul collection (only from non-Demon races)

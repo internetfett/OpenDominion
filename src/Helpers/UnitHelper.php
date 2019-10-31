@@ -59,20 +59,20 @@ class UnitHelper
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
 
             // OP/DP related
-            'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max %3$s).',
-            'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max %3$s).',
+            'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+            'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
-            'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max %3$s).',
-            'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max %3$s).',
+            'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+            'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
             'defense_from_pairing' => 'Defense increased by %2$s when paired with %3$s %1$s at home.',
             'offense_from_pairing' => 'Offense increased by %2$s when paired with %3$s %1$s on attack.',
 
-            'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max %2$s).',
-            'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max %2$s).',
+            'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max +%2$s).',
+            'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max +%2$s).',
 
-            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
-            'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
+            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
+            'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
 
             'defense_vs_goblin' => 'Defense increased by %s against goblins.',
             'offense_vs_goblin' => 'Offense increased by %s against goblins.',
@@ -83,7 +83,7 @@ class UnitHelper
 
             'offense_staggered_land_range' => 'Offense increased by %2$s against dominions %1$s%%+ of your size.',
 
-            'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max %2$s).',
+            'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max +%2$s).',
 
             // Spy related
             'counts_as_spy_defense' => 'Each unit counts as %s of a spy on defense.',
@@ -124,22 +124,24 @@ class UnitHelper
             'no_draftee' => 'No draftee required to train.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
             'gem_production' => 'Each unit mines %s gems per tick.',
-            'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max %3$s).',
+            'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'cannot_be_trained' => 'Unit cannot be trained.',
             'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster.',
-            'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max %2$s).',
+            'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
 
-            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max %3$s).',
+            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
 
             # TBD
-            'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max %2$s).',
+            'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
+            'offense_if_recently_invaded' => 'Offense increased by %1%% if recenty invaded.',
+            'defense_if_recently_invaded' => 'Offense increased by %1%% if recenty invaded.',
 
         ];
 

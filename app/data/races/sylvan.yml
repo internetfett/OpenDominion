@@ -1,7 +1,8 @@
 name: Sylvan
 alignment: good
 description: >-
-  <p>Mythical forest-dwelling creatures, which have banded together to combat the forces of evil.</p>
+  <p>Sylvan are beings of the forest. They consider it their duty to keep the forest safe at all costs.</p>
+  <p>Those found destroying forest under Sylvan protection end up regretting it.</p>
   <p>Their affinity for nature makes them excellent at exploration, and highly proficient spellcasters.</p>
 home_land_type: forest
 playable: 0
@@ -17,34 +18,36 @@ units:
   - name: Leshy
     cost:
       platinum: 250
-      ore: 0
     power:
       offense: 3
       defense: 0
+    perks:
+      offense_from_recently_invaded: 3
   - name: Sprite
     cost:
       platinum: 300
-      ore: 0
     power:
       offense: 0
       defense: 3
   - name: Dryad
     cost:
       platinum: 1000
-      ore: 0
+      mana: 20
     power:
       offense: 0
       defense: 3
     perks:
       no_draftee: 1
-      counts_as_wizard_offense: 1
-      counts_as_wizard_defense: 1
+      counts_as_wizard_offense: 0.333
+      counts_as_wizard_defense: 0.333
+      defense_from_land: forest,20,5 # land type, ratio%, max
   - name: Spriggan
     cost:
       lumber: 2000
-      wizard: 1
+      mana: 20
     power:
       offense: 7
-      defense: 1
+      defense: 3
     perks:
-      reduced_casualties_by_land: forest,20,5 # land type, ratio%, max
+      offense_if_recently_invaded: 3
+      defense_if_recently_invaded: 2
