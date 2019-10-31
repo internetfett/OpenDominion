@@ -64,7 +64,7 @@
                                                 <i class="ra ra-shield ra-lg text-aqua" title="Under Protection"></i>
                                             @endif
 
-                                            @if ($militaryCalculator->getRecentlyInvadedCount($dominion) and $dominion->race->name == 'Sylvan')
+                                            @if ($militaryCalculator->getRecentlyInvadedCount($dominion))
                                                 <i class="ra ra-all-for-one ra-lg text-aqua" title="Recently Invaded Sylvan"></i>
                                             @endif
 
