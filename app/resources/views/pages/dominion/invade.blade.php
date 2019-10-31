@@ -338,9 +338,9 @@
                     <p>Find targets using <a href="{{ route('dominion.magic') }}">magic</a>,  <a href="{{ route('dominion.espionage') }}">espionage</a> and the <a href="{{ route('dominion.op-center') }}">Op Center</a>. Communicate with your realmies using the <a href="{{ route('dominion.council') }}">council</a> to coordinate attacks.</p>
                     <p>Be sure to calculate your OP vs your target's DP to avoid blindly sending your units to their doom.</p>
                     <p>You can only invade dominions that are within your range, and you will only gain prestige on targets 75% or greater relative to your own land size.</p>
-                    <hr />
                     @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
-                    <p><strong>You were recently invaded, angering your Spriggan.</strong></p>
+                    <hr />
+                    <p><strong>You were recently invaded, enraging your Spriggan and Leshy.</strong></p>
                     @endif
                 </div>
             </div>
