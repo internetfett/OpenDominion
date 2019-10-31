@@ -336,22 +336,15 @@ class TrainingCalculator
             $multiplier = 0;
           }
 
+          // Armory
+          if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
+          {
+              $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
+          }
+          // Techs
+          $multiplier += $dominion->getTechPerkMultiplier('military_cost');
+
         }
-
-
-
-        # Armory and tech (Master of Resources)
-        if(!in_array($resourceType,$exemptResourceTypes))
-        {
-            // Armory
-            if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
-            {
-                $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
-            }
-            // Techs
-            $multiplier += $dominion->getTechPerkMultiplier('military_cost');
-        }
-
         return (1 + $multiplier);
     }
 
