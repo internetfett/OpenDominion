@@ -437,6 +437,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromRawWizardRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -707,6 +708,19 @@ class MilitaryCalculator
 
         return $powerFromPerk;
     }
+
+    protected function getUnitPowerFromRecentlyInvadedPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $amount = 0;
+
+        if($this->getRecentlyInvadedCount($dominion) > 1)
+        {
+          $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
+        }
+
+        return $amount;
+    }
+
 
     /**
      * Returns the Dominion's morale modifier.

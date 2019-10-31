@@ -141,7 +141,7 @@ class UnitHelper
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
-            'defense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
 
         ];
 

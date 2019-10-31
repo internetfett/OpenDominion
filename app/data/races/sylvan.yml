@@ -49,5 +49,5 @@ units:
       offense: 7
       defense: 3
     perks:
-      offense_if_recently_invaded: 3
+      offense_if_recently_invaded: 2
       defense_if_recently_invaded: 2
