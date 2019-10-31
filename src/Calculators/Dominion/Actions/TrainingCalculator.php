@@ -313,14 +313,17 @@ class TrainingCalculator
           $smithiesReductionMax = 50;
         }
 
-        // Never discount these resources.
-        $exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale','wild_yeti');
+        // Never discount these resources. -- Replaced
+        #$exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale','wild_yeti');
+
+        // Only discount these resources.
+        $discountableResourceTypes = array('platinum', 'ore');
 
         // Smithies
         $exemptRaces = array('Gnome', 'Imperial Gnome');
 
         # Apply smithies to non-exempt resources (to platinum and ore)
-        if(!in_array($resourceType,$exemptResourceTypes))
+        if(in_array($resourceType,$discountableResourceTypes))
         {
           $multiplier -= min(
               (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),

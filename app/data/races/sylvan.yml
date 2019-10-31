@@ -1,7 +1,8 @@
 name: Sylvan
 alignment: good
 description: >-
-  <p>Sylvan are beings of the forest. They consider it their duty to keep the forest safe at all costs.</p>
+  <p>Sylvan are beings of the forest. They consider it their duty to maintain the forest and take care of all that lives there.</p>
+  <p>While the Sprites and Dryads are peaceful, the Leshy and mighty Spriggan can be angered
   <p>Those found destroying forest under Sylvan protection end up regretting it.</p>
   <p>Their affinity for nature makes them excellent at exploration, and highly proficient spellcasters.</p>
 home_land_type: forest
@@ -22,7 +23,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_if_recently_invaded: 3
+      offense_if_recently_invaded: 1
   - name: Sprite
     cost:
       platinum: 300

@@ -64,10 +64,6 @@
                                                 <i class="ra ra-shield ra-lg text-aqua" title="Under Protection"></i>
                                             @endif
 
-                                            @if ($militaryCalculator->getRecentlyInvadedCount($dominion))
-                                                <i class="ra ra-all-for-one ra-lg text-aqua" title="Recently Invaded Sylvan"></i>
-                                            @endif
-
                                             @if ($guardMembershipService->isEliteGuardMember($dominion))
                                                 <i class="ra ra-heavy-shield ra-lg text-yellow" title="Elite Guard"></i>
                                             @elseif ($guardMembershipService->isRoyalGuardMember($dominion))

@@ -13,7 +13,7 @@ use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
 #ODA
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+#use OpenDominion\Calculators\Dominion\MilitaryCalculator; -- Was used locally to test showing an icon next to recently invaded Sylvans
 
 class RealmController extends AbstractDominionController
 {
@@ -23,7 +23,7 @@ class RealmController extends AbstractDominionController
         $networthCalculator = app(NetworthCalculator::class);
         $protectionService = app(ProtectionService::class);
         $guardMembershipService = app(GuardMembershipService::class);
-        $militaryCalculator = app(MilitaryCalculator::class);
+        #$militaryCalculator = app(MilitaryCalculator::class);
 
         $dominion = $this->getSelectedDominion();
         $round = $dominion->round;
@@ -99,7 +99,7 @@ class RealmController extends AbstractDominionController
             'prevRealm',
             'guardMembershipService',
             'protectionService',
-            'militaryCalculator',
+            #'militaryCalculator',
             'nextRealm',
             'isOwnRealm',
             'realmCount'
