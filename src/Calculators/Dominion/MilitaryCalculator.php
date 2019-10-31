@@ -713,7 +713,7 @@ class MilitaryCalculator
     {
         $amount = 0;
 
-        if($this->getRecentlyInvadedCount($dominion) > 1)
+        if($this->getRecentlyInvadedCount($dominion) > 0)
         {
           $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
         }
