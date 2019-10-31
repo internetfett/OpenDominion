@@ -339,7 +339,7 @@
                     <p>Be sure to calculate your OP vs your target's DP to avoid blindly sending your units to their doom.</p>
                     <p>You can only invade dominions that are within your range, and you will only gain prestige on targets 75% or greater relative to your own land size.</p>
                     <hr />
-                    @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $dominion->race->name == 'Sylvan')
+                    @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                     <p><strong>You were recently invaded, angering your Spriggan.</strong></p>
                     @endif
                 </div>
