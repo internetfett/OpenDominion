@@ -22,7 +22,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_from_recently_invaded: 3
+      offense_if_recently_invaded: 3
   - name: Sprite
     cost:
       platinum: 300
@@ -37,7 +37,6 @@ units:
       offense: 0
       defense: 3
     perks:
-      no_draftee: 1
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.333
       defense_from_land: forest,20,5 # land type, ratio%, max
