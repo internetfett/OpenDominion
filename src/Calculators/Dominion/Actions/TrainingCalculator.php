@@ -345,6 +345,9 @@ class TrainingCalculator
           $multiplier += $dominion->getTechPerkMultiplier('military_cost');
 
         }
+
+        $multiplier = max(-0.50, $multiplier);
+
         return (1 + $multiplier);
     }
 

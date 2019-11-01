@@ -232,7 +232,7 @@
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
                           @endif
                           @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
-                          <br> You were recently invaded, angering your Spriggan.
+                          <br> You were recently invaded, enraging your Spriggan and Leshy.
                           @endif
                         </div>
                     </div>
