@@ -35,8 +35,8 @@ units:
       offense: 1
       defense: 0
     perks:
-      counts_as_wizard_offense: 0.01
-      counts_as_spy_offense: 0.01
+      counts_as_wizard_offense: 0.05
+      counts_as_spy_offense: 0.05
   - name: Blister
     cost:
       platinum: 0
@@ -46,8 +46,8 @@ units:
       offense: 0
       defense: 1
     perks:
-      counts_as_wizard_defense: 0.01
-      counts_as_spy_defense: 0.01
+      counts_as_wizard_defense: 0.025
+      counts_as_spy_defense: 0.025
   - name: Cyst
     cost:
       platinum: 0
