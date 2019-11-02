@@ -259,14 +259,14 @@ class MilitaryCalculator
         $peasantsPerForestHaven = 20;
 
         # Some draftees are weaker (Ants, Growth), and some draftees
-        # count as no DP. If no DP, draftees do not participate in battle.  
+        # count as no DP. If no DP, draftees do not participate in battle.
         if($dominion->race->getPerkValue('draftee_dp'))
         {
           if($dominion->race->getPerkValue('draftee_dp') === 0)
           {
             $ignoreDraftees == TRUE;
           }
-          else
+          elseif($dominion->race->getPerkValue('draftee_dp') > 0)
           {
             $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
           }
