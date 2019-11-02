@@ -1,0 +1,67 @@
+#WIP
+
+name: Mykanthrope
+alignment: good
+description: >-
+  <p>The Mycanthrope are network of semi-independent sentient Fungus, Psilocybe, and Amanita
+home_land_type: forest
+playable: 0
+
+attacking: 3
+exploring : 3
+converting: 3
+
+perks:
+  cannot_train_spies: 1
+  cannot_train_wizards: 1
+  cannot_train_archmages: 1
+  cannot_invade: 1
+  cannot_explore: 1
+  draftee_dp: 0
+units:
+  - name: Spore
+    need_boat: false
+    cost:
+      food: 50
+    power:
+      offense: 0
+      defense: 1
+    perks:
+      faster_training: 6
+      land_per_tick: 0.01
+  - name: Fungus
+    cost:
+      food: 100
+      unit1: 1
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      no_draftee: 1
+      dies_into: 1,4
+      unit_production: 1,1
+      land_per_tick: 0.01
+  - name: Psilocybe
+    cost:
+      food: 100
+      unit1: 1
+    power:
+      offense: 0
+      defense: 6
+    perks:
+      no_draftee: 1
+      dies_into: 1,2
+      unit_production: 1,1
+      land_per_tick: 0.01
+  - name: Amanita
+    cost:
+      food: 100
+      unit1: 1
+    power:
+      offense: 0
+      defense: 9
+    perks:
+      no_draftee: 1
+      dies_into: 1,2
+      unit_production: 1,1
+      land_per_tick: 0.01
