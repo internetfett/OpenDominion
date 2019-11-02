@@ -516,17 +516,17 @@ class TickService
         }
 
         // Mycelia: Spore training and Land generation
-
+/*
         $slot = 1;
         while($i <= 4)
         {
-          
+
 
           $slot++;
         }
 
         $tick->spores =
-
+*/
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
             $dominion->{$row->resource} -= $row->amount;
