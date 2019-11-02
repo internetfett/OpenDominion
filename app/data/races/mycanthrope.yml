@@ -37,8 +37,8 @@ units:
       defense: 3
     perks:
       no_draftee: 1
-      #dies_into: 1
-      #unit_production: 1,1
+      dies_into: 1
+      unit_production: 1,1
       land_per_tick: 0.01
   - name: Psilocybe
     cost:
@@ -49,8 +49,8 @@ units:
       defense: 6
     perks:
       no_draftee: 1
-      #dies_into: 1
-      #unit_production: 1,1
+      dies_into: 1
+      unit_production: 1,1
       land_per_tick: 0.01
   - name: Amanita
     cost:
@@ -61,6 +61,6 @@ units:
       defense: 9
     perks:
       no_draftee: 1
-      #dies_into: 1
-      #unit_production: 1,1
+      dies_into: 1
+      unit_production: 1,1
       land_per_tick: 0.01

@@ -144,8 +144,8 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'land_per_tick' => 'Explores %2$s acres of home land per tick.',
-            'dies_into' => 'When killed, turns into a %2$s.',
+            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
+            'dies_into' => 'When killed, turns into a %1$s.',
 
         ];
 
