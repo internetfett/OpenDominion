@@ -201,6 +201,20 @@ class UnitHelper
                         $perkValue[2] = 1;
                     }
                 }
+                  // Special case for unit_production
+                  if ($perk->key === 'unit_production') {
+                      $slot = (int)$perkValue[0];
+                      $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                          return ($unit->slot === $slot);
+                      })->first();
+
+                      $perkValue[0] = $pairedUnit->name;
+                      if (isset($perkValue[2]) && $perkValue[2] > 1) {
+                          $perkValue[0] = str_plural($perkValue[0]);
+                      } else {
+                          $perkValue[2] = 1;
+                      }
+                  }
                 // Special case for conversions and dies_into
                 if ($perk->key === 'conversion' || $perk->key === 'dies_into') {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));

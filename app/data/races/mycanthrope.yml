@@ -28,7 +28,6 @@ units:
       defense: 1
     perks:
       faster_training: 6
-      land_per_tick: 0.01
   - name: Fungus
     cost:
       food: 100

@@ -264,6 +264,7 @@ class MilitaryCalculator
         {
           if($dominion->race->getPerkValue('draftee_dp') === 0)
           {
+            $dpPerDraftee = 0;
             $ignoreDraftees == TRUE;
           }
           elseif($dominion->race->getPerkValue('draftee_dp') > 0)
@@ -301,16 +302,6 @@ class MilitaryCalculator
             }
         }
 
-        // Attacking Forces skip land-based defenses
-        #if ($units !== null)
-        #    return $dp;
-
-        // Forest Havens
-        $dp += min(
-            ($dominion->peasants * $forestHavenDpPerPeasant),
-            ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
-        ); // todo: recheck this
-
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
         {
@@ -319,6 +310,17 @@ class MilitaryCalculator
           $ambushReduction = min($forestRatioModifier, 0.10);
           $dp = $dp * (1 - $ambushReduction);
         }
+
+        // Attacking Forces skip land-based defenses
+        if ($units !== null)
+            return $dp;
+
+        // Forest Havens
+        $dp += min(
+            ($dominion->peasants * $forestHavenDpPerPeasant),
+            ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
+        ); // todo: recheck this
+
 
         return max(
             $dp,
