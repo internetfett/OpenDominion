@@ -25,6 +25,7 @@ perks:
   castle_max: 50
   population_growth: 40
   reduce_conversions: 100
+  research_points_per_acre: 100
 units:
   - name: Fallen
     need_boat: false
