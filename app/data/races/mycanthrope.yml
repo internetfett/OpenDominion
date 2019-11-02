@@ -38,7 +38,7 @@ units:
       defense: 3
     perks:
       no_draftee: 1
-      dies_into: 1,4
+      dies_into: 1
       unit_production: 1,1
       land_per_tick: 0.01
   - name: Psilocybe
@@ -50,7 +50,7 @@ units:
       defense: 6
     perks:
       no_draftee: 1
-      dies_into: 1,2
+      dies_into: 1
       unit_production: 1,1
       land_per_tick: 0.01
   - name: Amanita
@@ -62,6 +62,6 @@ units:
       defense: 9
     perks:
       no_draftee: 1
-      dies_into: 1,2
+      dies_into: 1
       unit_production: 1,1
       land_per_tick: 0.01
