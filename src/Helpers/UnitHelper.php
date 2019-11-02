@@ -145,7 +145,7 @@ class UnitHelper
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
-            'dies_into' => 'When killed, turns into a %1$s.',
+            'dies_into' => 'When killed, turns into a %1$.',
 
         ];
 

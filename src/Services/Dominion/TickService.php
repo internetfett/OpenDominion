@@ -515,7 +515,17 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
-        # Demons?
+        // Mycelia: Spore training and Land generation
+
+        $slot = 1;
+        while($i <= 4)
+        {
+          
+
+          $slot++;
+        }
+
+        $tick->spores =
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
