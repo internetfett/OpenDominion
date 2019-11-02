@@ -294,8 +294,8 @@ class MilitaryCalculator
         }
 
         // Attacking Forces skip land-based defenses
-        if ($units !== null)
-            return $dp;
+        #if ($units !== null)
+        #    return $dp;
 
         // Forest Havens
         $dp += min(
