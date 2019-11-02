@@ -35,7 +35,7 @@ units:
   - name: FrostMage # Leave the space out, for nostalgic reasons
     cost:
       platinum: 1000
-      ore: 100
+      ore: 50
     power:
       offense: 3
       defense: 3
@@ -46,7 +46,7 @@ units:
   - name: Ice Elemental
     cost:
       platinum: 1150
-      ore: 0
+      mana: 10
     power:
       offense: 4
       defense: 3

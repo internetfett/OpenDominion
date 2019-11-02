@@ -132,6 +132,8 @@ class UnitHelper
             'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
+            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
 
             'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
 
@@ -140,8 +142,10 @@ class UnitHelper
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
-            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
-            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
+
+            'unit_production' => 'Produces %2$s %1$s per tick.',
+            'land_per_tick' => 'Explores %2$s acres of home land per tick.'
+            'dies_into' => 'When killed, turns into a %2$s.'
 
         ];
 
@@ -184,7 +188,7 @@ class UnitHelper
                 }
 
                 // Special case for pairings
-                if ($perk->key === 'defense_from_pairing' || $perk->key === 'offense_from_pairing') {
+                if ($perk->key === 'defense_from_pairing' || $perk->key === 'offense_from_pairing' || $perk->key === 'pairing_limit') {
                     $slot = (int)$perkValue[0];
                     $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
                         return ($unit->slot === $slot);
@@ -197,23 +201,8 @@ class UnitHelper
                         $perkValue[2] = 1;
                     }
                 }
-
-                // Special case for pairing limit
-                if ($perk->key === 'pairing_limit') {
-                    $slot = (int)$perkValue[0];
-                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
-                        return ($unit->slot === $slot);
-                    })->first();
-                    $perkValue[0] = $pairedUnit->name;
-                    if (isset($perkValue[2]) && $perkValue[2] > 1) {
-                        $perkValue[0] = str_plural($perkValue[0]);
-                    } else {
-                        $perkValue[2] = 1;
-                    }
-                }
-
-                // Special case for conversions
-                if ($perk->key === 'conversion') {
+                // Special case for conversions and dies_into
+                if ($perk->key === 'conversion' || $perk->key === 'dies_into') {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
 

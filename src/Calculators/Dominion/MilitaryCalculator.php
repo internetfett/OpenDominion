@@ -258,10 +258,18 @@ class MilitaryCalculator
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
 
-        # Growth and Ants draftees are weaker.
-        if($dominion->race->getPerkValue('draftee_dp'))
+        # Some draftees are weaker (Ants, Growth), and some draftees
+        # count as no DP. If no DP, draftees do not participate in battle.
+        if(isset($dominion->race->getPerkValue('draftee_dp')))
         {
-          $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+          if($dominion->race->getPerkValue('draftee_dp') == 0)
+          {
+            $ignoreDraftees == TRUE;
+          }
+          else
+          {
+            $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+          }
         }
 
         // Military
