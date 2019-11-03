@@ -310,6 +310,19 @@ class DominionFactory
             ];
           }
         }
+        elseif($race->name == 'Mycelia')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => 0,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => 1000,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
+      }
         else
         {
             return [
