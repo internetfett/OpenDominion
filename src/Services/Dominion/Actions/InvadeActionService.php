@@ -241,6 +241,11 @@ class InvadeActionService
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule)');
             }
 
+            if ($dominion->race->getPerkValue('cannot_invade ') == 1)
+            {
+                throw new GameException('Your faction is unable to invade.');
+            }
+
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
@@ -1193,7 +1198,7 @@ class InvadeActionService
           {
             $champions = $units['attackerUnitsDiedInBattleSlot1'];
             $this->invasionResult['attacker']['champion']['champions'] = $champions;
-            $dominion->resource_champion += $champions;            
+            $dominion->resource_champion += $champions;
           }
         }
 
