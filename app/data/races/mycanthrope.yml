@@ -28,7 +28,7 @@ units:
       food: 50
     power:
       offense: 0
-      defense: 1
+      defense: 0
     perks:
       faster_training: 6
   - name: Fungus

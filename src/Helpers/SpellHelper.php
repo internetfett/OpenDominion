@@ -389,6 +389,14 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Legion']),
             ],
+            [
+                'name' => 'Hallucinations',
+                'description' => 'Training times reduced by 2 for every recent invasion (max -8 ticks).',
+                'key' => 'call_to_arms',
+                'mana_cost' => 5,
+                'duration' => 12*4,
+                'races' => collect(['Mycelia']),
+            ],
 
         ]);
     }
