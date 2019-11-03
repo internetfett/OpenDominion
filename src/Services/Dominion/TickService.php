@@ -543,7 +543,7 @@ class TickService
           $slot++;
         }
 
-        $tick->spores =
+        #$tick->spores =
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
