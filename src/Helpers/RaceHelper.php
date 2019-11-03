@@ -187,6 +187,10 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'research points gained per acre on successful invasions';
                 break;
+            case 'cannot_tech':
+                $negativeBenefit = false;
+                $description = 'cannot use technological advancements';
+                break;
             default:
                 return '';
         }
@@ -408,6 +412,10 @@ class RaceHelper
             case 'research_points_per_acre':
                 $negativeBenefit = false;
                 $description = 'Research points gained per acre on successful invasions';
+                break;
+            case 'cannot_tech':
+                $negativeBenefit = false;
+                $description = 'Cannot use technological advancements';
                 break;
             default:
                 return null;

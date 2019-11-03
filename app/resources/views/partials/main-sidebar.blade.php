@@ -73,7 +73,7 @@
                 </span></a></li>
 
                 <!-- TECHS -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_use_techs'))
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
                 <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Technology</span></a></li>
                 @endif
 
