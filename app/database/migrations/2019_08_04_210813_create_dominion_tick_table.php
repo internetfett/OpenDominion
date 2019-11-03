@@ -69,6 +69,14 @@ class CreateDominionTickTable extends Migration
             $table->integer('building_shrine')->default(0);
             $table->integer('building_barracks')->default(0);
             $table->integer('building_dock')->default(0);
+
+            #ODA
+            $table->integer('generated_land')->default(0);
+            $table->integer('generated_unit1')->default(0);
+            $table->integer('generated_unit2')->default(0);
+            $table->integer('generated_unit3')->default(0);
+            $table->integer('generated_unit4')->default(0);
+
             $table->text('starvation_casualties')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
