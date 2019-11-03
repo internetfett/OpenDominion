@@ -526,7 +526,7 @@ class TickService
 
         $tick->generated_land = 0;
 
-        while($i <= 4)
+        while($slot <= 4)
         {
 
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
