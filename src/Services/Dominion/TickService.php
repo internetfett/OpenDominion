@@ -547,7 +547,7 @@ class TickService
 
         if($acresToExplore > 0)
         {
-          $data = array($homeLandType,$acresToExplore);
+          $data = array($acresToExplore,$homeLandType);
           $this->queueService->queueResources('exploration', $dominion, $data);
 
         }
