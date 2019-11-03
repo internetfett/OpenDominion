@@ -535,7 +535,7 @@ class TickService
             $homeLandType = 'land_' . $dominion->race->home_land_type;
             $data = array(
               'resource' => $homeLandType,
-              'hours' => 12,
+              'hours' => 13,
               'amount' => $acresToExplore
             );
 
