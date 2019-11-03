@@ -214,7 +214,7 @@ class ProductionCalculator
         $food += $dominion->getUnitPerkProductionBonus('food_production');
 
         // Racial Perk: peasants_produce_food
-        if($dominion->getPerkValue('peasants_produce_food'))
+        if($dominion->race->getPerkValue('peasants_produce_food'))
         {
           $food += $dominion->peasants;
         }
