@@ -34,7 +34,6 @@ units:
       defense: 0
     perks:
       faster_training: 6
-      food_production: 1
   - name: Fungus
     cost:
       food: 100

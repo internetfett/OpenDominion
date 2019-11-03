@@ -190,10 +190,12 @@ class RaceHelper
             case 'cannot_tech':
                 $negativeBenefit = false;
                 $description = 'cannot use technological advancements';
+                $booleanValue = true;
                 break;
             case 'peasants_produce_food':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'peasants produce food';
+                $booleanValue = true;
                 break;
             default:
                 return '';
@@ -420,10 +422,12 @@ class RaceHelper
             case 'cannot_tech':
                 $negativeBenefit = false;
                 $description = 'Cannot use technological advancements';
+                $booleanValue = true;
                 break;
             case 'peasants_produce_food':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'Peasants produce food';
+                $booleanValue = true;
                 break;
             default:
                 return null;
