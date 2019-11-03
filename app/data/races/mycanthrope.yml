@@ -22,7 +22,9 @@ perks:
   cannot_explore: 1
   cannot_construct: 1
   cannot_tech: 1
+  extra_barren_max_population: 15
   peasants_produce_food: 1
+
   draftee_dp: 0
 units:
   - name: Sporeling
@@ -31,7 +33,7 @@ units:
       food: 50
     power:
       offense: 0
-      defense: 0
+      defense: 1
     perks:
       faster_training: 6
   - name: Fungus
