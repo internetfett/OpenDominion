@@ -7,7 +7,7 @@ description: >-
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
 
 home_land_type: forest
-playable: 1
+playable: 0
 
 attacking: 0
 exploring : 3
