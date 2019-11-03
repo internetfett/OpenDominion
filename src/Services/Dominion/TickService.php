@@ -532,8 +532,6 @@ class TickService
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
           {
             $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
-            $homeLandType = 'land_' . $dominion->race->home_land_type;
-            #$tick->generated_land += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
           }
 
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
@@ -547,9 +545,9 @@ class TickService
 
         if($acresToExplore > 0)
         {
-          $data = array($acresToExplore,$homeLandType);
+          $homeLandType = 'land_' . $dominion->race->home_land_type;
+          $data = array($acresToExplore,$dominion->race->home_land_type);
           $this->queueService->queueResources('exploration', $dominion, $data);
-
         }
 
 
