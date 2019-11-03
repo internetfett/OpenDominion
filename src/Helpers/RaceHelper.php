@@ -191,6 +191,10 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'cannot use technological advancements';
                 break;
+            case 'peasants_produce_food':
+                $negativeBenefit = false;
+                $description = 'peasants produce food';
+                break;
             default:
                 return '';
         }
@@ -416,6 +420,10 @@ class RaceHelper
             case 'cannot_tech':
                 $negativeBenefit = false;
                 $description = 'Cannot use technological advancements';
+                break;
+            case 'peasants_produce_food':
+                $negativeBenefit = false;
+                $description = 'Peasants produce food';
                 break;
             default:
                 return null;

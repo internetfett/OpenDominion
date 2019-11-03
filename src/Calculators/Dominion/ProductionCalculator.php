@@ -210,8 +210,14 @@ class ProductionCalculator
         // Building: Dock
         $food += ($dominion->building_dock * $foodPerDock);
 
-        // Unit Perk Production Bonus (Growth Unit)
+        // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
+
+        // Racial Perk: peasants_produce_food
+        if($dominion->getPerkValue('peasants_produce_food'))
+        {
+          $food += $dominion->peasants;
+        }
 
         // Racial Spell: Metabolism (Growth) - Double food production
         if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {

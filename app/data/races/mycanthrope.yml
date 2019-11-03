@@ -5,7 +5,8 @@ alignment: good
 description: >-
   <p>The Mycelia are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
-
+  <hr />
+  <p>Spores ("peasants") produce 1 food/hr instead of the normal 2.7 platinum/hr.</p>
 home_land_type: forest
 playable: 0
 
@@ -21,9 +22,10 @@ perks:
   cannot_explore: 1
   cannot_construct: 1
   cannot_tech: 1
+  peasants_produce_food: 1
   draftee_dp: 0
 units:
-  - name: Spore
+  - name: Sporeling
     need_boat: false
     cost:
       food: 50
