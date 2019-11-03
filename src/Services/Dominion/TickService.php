@@ -546,8 +546,10 @@ class TickService
         if($acresToExplore > 0)
         {
           $homeLandType = 'land_' . $dominion->race->home_land_type;
-          $data = array($acresToExplore,$dominion->race->home_land_type);
-          $this->queueService->queueResources('exploration', $dominion, $data);
+          $data = array($dominion->race->home_land_type => $acresToExplore);
+          $hours = 12;
+
+          $this->queueService->queueResources('exploration', $dominion, $data, $hours);
         }
 
 
