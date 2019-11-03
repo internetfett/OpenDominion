@@ -285,6 +285,7 @@ class DominionFactory
     {
         if((bool)$race->getPerkValue('cannot_construct'))
         {
+          # Change this to just look at home land type?
           if($race->name == 'Void')
           {
             return [
@@ -309,20 +310,19 @@ class DominionFactory
                 'water' => 0,
             ];
           }
+          elseif($race->name == 'Mycelia')
+          {
+            return [
+                'plain' => 0,
+                'mountain' => 0,
+                'swamp' => 0,
+                'cavern' => 0,
+                'forest' => 1000,
+                'hill' => 0,
+                'water' => 0,
+            ];
+          }
         }
-        elseif($race->name == 'Mycelia')
-        {
-          return [
-              'plain' => 0,
-              'mountain' => 0,
-              'swamp' => 0,
-              'cavern' => 0,
-              'forest' => 1000,
-              'hill' => 0,
-              'water' => 0,
-          ];
-        }
-      }
         else
         {
             return [
