@@ -518,7 +518,7 @@ class TickService
         // Mycelia: Spore training and Land generation
 
         $slot = 1;
-        $tick->generated_land = 0;
+        $acresToExplore = 0;
         $tick->generated_unit1 = 0;
         $tick->generated_unit2 = 0;
         $tick->generated_unit3 = 0;
