@@ -41,8 +41,8 @@ units:
     perks:
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.0005 # Unit Type, Amount
-      land_per_tick: 0.01
+      unit_production: 1,0.1 # Unit Type, Amount
+      land_per_tick: 0.0005
   - name: Psilocybe
     cost:
       food: 100
@@ -53,8 +53,8 @@ units:
     perks:
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.0005 # Unit Type, Amount
-      land_per_tick: 0.01
+      unit_production: 1,0.1 # Unit Type, Amount
+      land_per_tick: 0.0005
   - name: Amanita
     cost:
       food: 100
@@ -65,5 +65,5 @@ units:
     perks:
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.0005 # Unit Type, Amount
-      land_per_tick: 0.01
+      unit_production: 1,0.1 # Unit Type, Amount
+      land_per_tick: 0.0005
