@@ -516,17 +516,35 @@ class TickService
         }
 
         // Mycelia: Spore training and Land generation
-/*
+
         $slot = 1;
+        $tick->generated_land = 0;
+        $tick->generated_unit1 = 0;
+        $tick->generated_unit2 = 0;
+        $tick->generated_unit3 = 0;
+        $tick->generated_unit4 = 0;
+
+        $tick->generated_land = 0;
+
         while($i <= 4)
         {
 
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
+          {
+            $tick->generated_land += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+          }
+
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
+          {
+            $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
+            $tick->{"generated_unit".$unitGeneration[0]} += intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
+          }
 
           $slot++;
         }
 
         $tick->spores =
-*/
+
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
             $dominion->{$row->resource} -= $row->amount;
