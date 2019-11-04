@@ -167,16 +167,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Firewalker','Spirit']),
             ],
-            /*
-            [
-                'name' => 'Erosion',
-                'description' => '20% of captured land re-zoned into water',
-                'key' => 'erosion',
-                'mana_cost' => 5,
-                'duration' => 12*4,
-                'races' => collect(['Lizardfolk', 'Merfolk']),
-            ],
-            */
             [
                 'name' => 'Blizzard',
                 'description' => '+5% defensive strength',
@@ -283,7 +273,6 @@ class SpellHelper
             ],
             [
                 'name' => 'Metabolism',
-                #'description' => '-50% food rot.',
                 'description' => '+200% food production.',
                 'key' => 'metabolism',
                 'mana_cost' => 8,
@@ -364,6 +353,7 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Merfolk']),
             ],
+            [
                 'name' => 'Portal',
                 'description' => 'Must be cast in order to send units on attack. Portal closes quickly and should be used immediately.',
                 'key' => 'portal',
