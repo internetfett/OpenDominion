@@ -172,7 +172,7 @@ class DominionFactory
             'name' => $dominionName,
             'prestige' => intval($acresBase/2),
 
-            'peasants' => intval($startingResources['peasants'] * $startingResourcesMultiplier),
+            'peasants' => intval($startingResources['peasants']/* * $startingResourcesMultiplier */ ), # Remove multiplier for peasants
             'peasants_last_hour' => 0,
 
             'draft_rate' => $startingResources['draft_rate'],
