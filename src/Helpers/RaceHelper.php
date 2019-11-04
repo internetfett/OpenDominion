@@ -188,7 +188,7 @@ class RaceHelper
                 $description = 'research points gained per acre on successful invasions';
                 break;
             case 'cannot_tech':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'cannot use technological advancements';
                 $booleanValue = true;
                 break;
@@ -420,7 +420,7 @@ class RaceHelper
                 $description = 'Research points gained per acre on successful invasions';
                 break;
             case 'cannot_tech':
-                $negativeBenefit = false;
+                $negativeBenefit = true;
                 $description = 'Cannot use technological advancements';
                 $booleanValue = true;
                 break;
