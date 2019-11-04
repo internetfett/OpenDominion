@@ -117,6 +117,8 @@ class Tick extends AbstractModel
         'generated_unit2' => 'integer',
         'generated_unit3' => 'integer',
         'generated_unit4' => 'integer',
+        'resource_champion' => 'integer',
+        'resource_soul' => 'integer',
 
         'starvation_casualties' => 'array',
     ];

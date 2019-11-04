@@ -76,6 +76,8 @@ class CreateDominionTickTable extends Migration
             $table->integer('generated_unit2')->default(0);
             $table->integer('generated_unit3')->default(0);
             $table->integer('generated_unit4')->default(0);
+            $table->integer('resource_champion')->default(0);
+            $table->integer('resource_soul')->default(0);
 
             $table->text('starvation_casualties')->nullable();
             $table->timestamp('updated_at')->nullable();

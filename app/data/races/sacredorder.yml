@@ -19,13 +19,14 @@ perks:
 units:
   - name: Martyr
     cost:
-      platinum: 100
+      platinum: 0
       ore: 0
     power:
-      offense: 3
+      offense: 10
       defense: 0
     perks:
       fixed_casualties: 100
+      cannot_be_trained: 1
   - name: Monk
     cost:
       platinum: 275
