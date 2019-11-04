@@ -2,7 +2,7 @@
  * Skin: heavily modified version of Midnight Dark theme
  * ------------
  */
-.skin-dark-red {
+ .skin-dark-red {
   color: #b3adb6;
 }
 .skin-dark-red .content-header > .breadcrumb > li > a {
@@ -344,11 +344,34 @@
 .skin-dark-red .text-green {
     color: #00C851 !important;
 }
+.skin-dark-red .text-orange {
+    color: #ef6c00 !important;
+}
 .skin-dark-red .text-red {
     color: #ff4444 !important;
 }
+.skin-dark-red .text-aqua,
 .skin-dark-red .text-light-blue {
-    color: #33b5e5 !important;
+    color: #0099CC !important;
+}
+
+.skin-dark-red .alert,
+.skin-dark-red .panel,
+.skin-dark-red .label {
+    color: #fff !important;
+}
+
+.skin-dark-red .alert .text-muted,
+.skin-dark-red .panel .text-muted,
+.skin-dark-red .label .text-muted {
+    color: #e5e3e6 !important;
+}
+
+.skin-dark-red .btn-link {
+    color: #e5e3e6;
+}
+.skin-dark-red .btn-link:hover {
+    color: #b3adb6;
 }
 
 .skin-dark-red .btn-app,
@@ -365,7 +388,8 @@
 .skin-dark-red .bg-red,
 .skin-dark-red .alert-danger,
 .skin-dark-red .btn-danger,
-.skin-dark-red .label-danger {
+.skin-dark-red .label-danger,
+.skin-dark-red .panel-danger {
     background-color: #BB2C1A !important;
     border-color: #951605 !important;
 }
@@ -374,7 +398,8 @@
 }
 .skin-dark-red .alert-warning,
 .skin-dark-red .btn-warning,
-.skin-dark-red .label-warning {
+.skin-dark-red .label-warning,
+.skin-dark-red .panel-warning {
     background-color: #BB6A1A !important;
     border-color: #954D05 !important;
 }
@@ -383,7 +408,8 @@
 }
 .skin-dark-red .alert-info,
 .skin-dark-red .btn-info,
-.skin-dark-red .label-info {
+.skin-dark-red .label-info,
+.skin-dark-red .panel-info {
     background-color: #136174 !important;
     border-color: #064C5C !important;
 }
@@ -392,7 +418,8 @@
 }
 .skin-dark-red .alert-success,
 .skin-dark-red .btn-success,
-.skin-dark-red .label-success {
+.skin-dark-red .label-success,
+.skin-dark-red .panel-success {
     background-color: #138C33 !important;
     border-color: #046F20 !important;
 }
@@ -432,6 +459,23 @@
 .skin-dark-red .btn-primary:hover {
     background: #BB2C1A !important;
     color: #fff;
+}
+
+.skin-dark-red .table tr.danger > td,
+.skin-dark-red .table tr.danger > th  {
+  background-color: #951605 !important;
+}
+.skin-dark-red .table tr.warning > td,
+.skin-dark-red .table tr.warning > th  {
+  background-color: #954D05 !important;
+}
+.skin-dark-red .table tr.info > td,
+.skin-dark-red .table tr.info > th  {
+  background-color: #064C5C !important;
+}
+.skin-dark-red .table tr.success > td,
+.skin-dark-red .table tr.success > th  {
+  background-color: #046F20 !important;
 }
 
 .skin-dark-red .text-muted {
