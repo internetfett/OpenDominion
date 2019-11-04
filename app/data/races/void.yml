@@ -16,16 +16,16 @@ exploring : 2
 converting: 2
 
 perks:
+  cannot_construct: 1
+  cannot_tech: 1
+  extra_barren_max_population: 17
   max_population: 10
   food_consumption: -100
   platinum_production: -20
-  extra_barren_max_population: 17
-  cannot_construct: 1
   can_invest_mana: 1
-  castle_max: 50
+  castle_max: 60
   population_growth: 40
   reduce_conversions: 100
-  research_points_per_acre: 100
 units:
   - name: Fallen
     need_boat: false

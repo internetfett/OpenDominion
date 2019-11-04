@@ -1073,7 +1073,15 @@ class InvadeActionService
      */
     protected function handleResearchPoints(Dominion $dominion, array $units): void
     {
-        $researchPointsPerAcre = 20;
+
+        if($dominion->race->getPerkValue('cannot_tech'))
+        {
+          $researchPointsPerAcre = 0;          
+        }
+        else
+        {
+          $researchPointsPerAcre = 20;
+        }
 
         if($dominion->race->getPerkMultiplier('research_points_per_acre'))
         {
@@ -1215,7 +1223,14 @@ class InvadeActionService
         {
           $souls = (int)floor($totalDefensiveCasualties);
           $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
-          $dominion->resource_soul += $souls;
+
+          $this->queueService->queueResources(
+              'invasion',
+              $dominion,
+              [
+                  'resource_soul' => $souls,
+              ]
+          );
         }
     }
 
