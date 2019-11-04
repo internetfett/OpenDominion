@@ -110,6 +110,16 @@ class Tick extends AbstractModel
         'building_shrine' => 'integer',
         'building_barracks' => 'integer',
         'building_dock' => 'integer',
+
+        # ODA
+        'generated_land' => 'integer',
+        'generated_unit1' => 'integer',
+        'generated_unit2' => 'integer',
+        'generated_unit3' => 'integer',
+        'generated_unit4' => 'integer',
+        'resource_champion' => 'integer',
+        'resource_soul' => 'integer',
+
         'starvation_casualties' => 'array',
     ];
 

@@ -121,41 +121,37 @@ class CasualtiesCalculator
         {
 
             // Non-Unit bonuses
-            $nonUnitBonusMultiplier = 1;
+            $multiplier = 1;
 
             # Shrines
-            $nonUnitBonusMultiplier -= $this->getOffensiveCasualtiesReductionFromShrines($dominion);
+            $multiplier -= $this->getOffensiveCasualtiesReductionFromShrines($dominion);
 
             # Orc and Black Orc spell: increases casualties by 10%.
             if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
             {
-              $nonUnitBonusMultiplier += 0.10;
+              $multiplier += 0.10;
             }
             # Norse spell: increases casualties by 15%.
             if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
             {
-              $nonUnitBonusMultiplier += 0.15;
+              $multiplier += 0.15;
             }
             # Troll and Lizardfolk spell: decreases casualties by 25%.
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
-              $nonUnitBonusMultiplier += -0.25;
+              $multiplier -= 0.25;
             }
 
             // Techs
-            $nonUnitBonusMultiplier += $dominion->getTechPerkMultiplier('fewer_casualties_offense');
+            $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_offense');
 
             # Infirmary
-            $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
-
-            ## Cap $nonUnitBonusMultiplier to 80%.
-            $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
+            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
             // Unit bonuses (multiplicative with non-unit bonuses)
-            $unitBonusMultiplier = 1;
 
             # Unit Perk: Fewer Casualties
-            $unitBonusMultiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
+            $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
             # Unit Perk: Reduce Combat Losses
             $unitsSentPerSlot = [];
@@ -184,13 +180,7 @@ class CasualtiesCalculator
             }
 
             # Apply RCL do uBM.
-            $unitBonusMultiplier -= $reducedCombatLossesMultiplierAddition;
-
-            ## Cap $unitBonusMultiplier to 80%.
-            $unitBonusMultiplier = max(0.20, $unitBonusMultiplier);
-
-            // Apply to multiplier (multiplicative)
-            $multiplier = ($nonUnitBonusMultiplier * $unitBonusMultiplier);
+            $multiplier -= $reducedCombatLossesMultiplierAddition;
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
@@ -249,34 +239,29 @@ class CasualtiesCalculator
           $multiplier = 0;
         }
 
-        if ($multiplier !== 0) {
+        if ($multiplier !== 0)
+        {
             // Non-unit bonuses (hero, tech, wonders), capped at -80%
-
-            $nonUnitBonusMultiplier = 1;
+            $multiplier = 1;
 
             // Spells
             # Troll and Lizardfolk spell: decreases casualties by 25%.
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
-              $nonUnitBonusMultiplier += -0.25;
+              $multiplier -= 0.25;
             }
 
             // Techs
-            $nonUnitBonusMultiplier += $dominion->getTechPerkMultiplier('fewer_casualties_defense');
+            $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');
 
             // Infirmary
-            $nonUnitBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
+            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
-            // Cap $nonUnitBonusMultiplier to 80%.
-            $nonUnitBonusMultiplier = max(0.20, $nonUnitBonusMultiplier);
-
-            // Unit bonuses (multiplicative with non-unit bonuses)
-            $unitBonusMultiplier = 0;
-
+            # Unit bonuses
             // Unit Perk: Fewer Casualties (only on military units with a slot, draftees don't have this perk)
             if ($slot)
             {
-                $unitBonusMultiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
+                $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
             }
 
             // Unit Perk: Reduce Combat Losses
@@ -306,13 +291,7 @@ class CasualtiesCalculator
             }
 
             # Apply RCL do uBM.
-            $unitBonusMultiplier -= $reducedCombatLosses;
-
-            // Cap $unitBonusMultiplier to 80%.
-            $unitBonusMultiplier = max(0.20, $unitBonusMultiplier);
-
-            // Apply to multiplier (multiplicative)
-            $multiplier = ($nonUnitBonusMultiplier + $unitBonusMultiplier);
+            $multiplier -= $reducedCombatLosses;
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
@@ -340,40 +319,6 @@ class CasualtiesCalculator
             (($casualtyReductionPerShrine * $dominion->building_shrine) / $this->landCalculator->getTotalLand($dominion)),
             ($maxCasualtyReductionFromShrines / 100)
         );
-    }
-
-    /**
-     * Returns the defensive casualties reduction from a specific land type.
-     *
-     * This number is in the 0 - 1 range, but is later capped by max reduction.
-     *
-     * @param Dominion $dominion
-     * @param Unit $unit
-     * @return float
-     */
-     # ABANDONED
-    protected function getUnitCasualtyReductionFromLandBasedPerk(Dominion $dominion, Unit $unit): float
-    {
-        $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "casualties_reduced_by_land", null);
-
-        if (!$landPerkData)
-        {
-            return 0;
-        }
-
-        $landType = $landPerkData[0];
-        $ratio = (int)$landPerkData[1];
-        $max = (int)$landPerkData[2];
-        $totalLand = $this->landCalculator->getTotalLand($dominion);
-
-        $buildingsForLandType = $this->buildingCalculator->getTotalBuildingsForLandType($dominion, $landType);
-
-        $landPercentage = ($buildingsForLandType / $totalLand) * 100;
-
-        $powerFromLand = $landPercentage / $ratio;
-        $powerFromPerk = min($powerFromLand, $max);
-
-        return $powerFromPerk;
     }
 
     /**

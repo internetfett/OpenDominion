@@ -258,10 +258,19 @@ class MilitaryCalculator
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
 
-        # Growth and Ants draftees are weaker.
+        # Some draftees are weaker (Ants, Growth), and some draftees
+        # count as no DP. If no DP, draftees do not participate in battle.
         if($dominion->race->getPerkValue('draftee_dp'))
         {
-          $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+          if($dominion->race->getPerkValue('draftee_dp') === 0)
+          {
+            $dpPerDraftee = 0;
+            $ignoreDraftees == TRUE;
+          }
+          elseif($dominion->race->getPerkValue('draftee_dp') > 0)
+          {
+            $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+          }
         }
 
         // Military
@@ -293,6 +302,15 @@ class MilitaryCalculator
             }
         }
 
+        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
+        if($isAmbush)
+        {
+          $forestRatio = $target->{'land_forest'} / $this->landCalculator->getTotalLand($target);
+          $forestRatioModifier = $forestRatio / 5;
+          $ambushReduction = min($forestRatioModifier, 0.10);
+          $dp = $dp * (1 - $ambushReduction);
+        }
+
         // Attacking Forces skip land-based defenses
         if ($units !== null)
             return $dp;
@@ -303,14 +321,6 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
-        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
-        if($isAmbush)
-        {
-          $forestRatio = $dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion);
-          $forestRatioModifier = $forestRatio / 5;
-          $ambushReduction = min($forestRatioModifier, 0.10);
-          $dp = $dp * (1 - $ambushReduction);
-        }
 
         return max(
             $dp,

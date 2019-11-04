@@ -121,12 +121,14 @@ class TickService
 
                         # ODA resources
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
+                        'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
+                        'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
 
                         'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
-                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1'),
-                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2'),
-                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3'),
-                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4'),
+                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 + dominion_tick.generated_unit1'),
+                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 + dominion_tick.generated_unit2'),
+                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3 + dominion_tick.generated_unit3'),
+                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4 + dominion_tick.generated_unit4'),
                         'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
                         'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
                         'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),
@@ -515,7 +517,47 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
-        # Demons?
+        // Mycelia: Spore training and Land generation
+
+        $slot = 1;
+        $acresToExplore = 0;
+        $tick->generated_unit1 = 0;
+        $tick->generated_unit2 = 0;
+        $tick->generated_unit3 = 0;
+        $tick->generated_unit4 = 0;
+
+        $tick->generated_land = 0;
+
+        while($slot <= 4)
+        {
+
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
+          {
+            $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+          }
+
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
+          {
+            $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
+            $unitsToGenerate[$unitGeneration[0]] = intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
+          }
+
+          $slot++;
+        }
+
+        if($acresToExplore > 0)
+        {
+          $hours = 12;
+          $homeLandType = 'land_' . $dominion->race->home_land_type;
+
+          $data = array($homeLandType => $acresToExplore);
+
+          $this->queueService->queueResources('exploration', $dominion, $data, $hours);
+          unset($acresToExplore);
+        }
+
+
+        #$tick->spores =
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later

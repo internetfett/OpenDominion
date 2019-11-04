@@ -73,13 +73,18 @@
                 </span></a></li>
 
                 <!-- TECHS -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_use_techs'))
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
                 <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Technology</span></a></li>
                 @endif
 
                 <li class="header">BLACK OPS</li>
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
+
+                <!-- Hide Invade from cannot_invade races -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
                 <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
+                @endif
+
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.espionage') ? 'active' : null }}"><a href="{{ route('dominion.espionage') }}"><i class="fa fa-user-secret fa-fw"></i> <span>Espionage</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>

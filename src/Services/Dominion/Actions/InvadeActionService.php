@@ -241,6 +241,11 @@ class InvadeActionService
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule)');
             }
 
+            if ($dominion->race->getPerkValue('cannot_invade ') == 1)
+            {
+                throw new GameException('Your faction is unable to invade.');
+            }
+
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
@@ -1068,7 +1073,15 @@ class InvadeActionService
      */
     protected function handleResearchPoints(Dominion $dominion, array $units): void
     {
-        $researchPointsPerAcre = 20;
+
+        if($dominion->race->getPerkValue('cannot_tech'))
+        {
+          $researchPointsPerAcre = 0;          
+        }
+        else
+        {
+          $researchPointsPerAcre = 20;
+        }
 
         if($dominion->race->getPerkMultiplier('research_points_per_acre'))
         {
@@ -1193,7 +1206,15 @@ class InvadeActionService
           {
             $champions = $units['attackerUnitsDiedInBattleSlot1'];
             $this->invasionResult['attacker']['champion']['champions'] = $champions;
-            $dominion->resource_champion += $champions;            
+
+            $this->queueService->queueResources(
+                'invasion',
+                $dominion,
+                [
+                    'resource_champion' => $champions,
+                ]
+            );
+
           }
         }
 
@@ -1202,7 +1223,14 @@ class InvadeActionService
         {
           $souls = (int)floor($totalDefensiveCasualties);
           $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
-          $dominion->resource_soul += $souls;
+
+          $this->queueService->queueResources(
+              'invasion',
+              $dominion,
+              [
+                  'resource_soul' => $souls,
+              ]
+          );
         }
     }
 
