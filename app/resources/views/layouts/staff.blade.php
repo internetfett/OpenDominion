@@ -25,7 +25,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition skin-dark-red sidebar-mini">
+<body class="hold-transition {{ Auth::user() && Auth::user()->skin ? Auth::user()->skin : 'skin-red' }} sidebar-mini">
 {!! Analytics::render() !!}
 
 <div class="wrapper">

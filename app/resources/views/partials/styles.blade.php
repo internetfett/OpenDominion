@@ -13,6 +13,7 @@
 
 {{-- AdminLTe styles --}}
 <link rel="stylesheet" href="{{ asset('assets/vendor/admin-lte/css/AdminLTE.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/admin-lte/css/skins/skin-red.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/app/css/skin-dark-red.css') }}">
 
 {{-- App styles --}}
