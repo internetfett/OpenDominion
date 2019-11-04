@@ -329,6 +329,30 @@
     color: #e5e3e6 !important;
 }
 
+.navbar-nav > .notifications-menu > .dropdown-menu > li,
+.navbar-nav > .messages-menu > .dropdown-menu > li,
+.navbar-nav > .tasks-menu > .dropdown-menu > li {
+    background-color: #332f35 !important;
+    border-color: #675f6b !important;
+    color: #e5e3e6 !important;
+}
+.navbar-nav > .notifications-menu > .dropdown-menu > li.footer > a,
+.navbar-nav > .messages-menu > .dropdown-menu > li.footer > a,
+.navbar-nav > .tasks-menu > .dropdown-menu > li.footer > a {
+  background-color: #DD4C39;
+  border-bottom: 1px solid #675f6b;
+  color: #fff !important;
+}
+.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a:hover,
+.navbar-nav > .messages-menu > .dropdown-menu > li .menu > li > a:hover,
+.navbar-nav > .tasks-menu > .dropdown-menu > li .menu > li > a:hover {
+  background: #4d4750;
+}
+.navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a {
+  color: #e5e3e6;
+  border-color: #675f6b;
+}
+
 .skin-dark-red a {
     color: #ffffff;
 }
