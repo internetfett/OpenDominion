@@ -1198,7 +1198,15 @@ class InvadeActionService
           {
             $champions = $units['attackerUnitsDiedInBattleSlot1'];
             $this->invasionResult['attacker']['champion']['champions'] = $champions;
-            $dominion->resource_champion += $champions;
+
+            $this->queueService->queueResources(
+                'invasion',
+                $dominion,
+                [
+                    'resource_champion' => $champions,
+                ]
+            );
+
           }
         }
 

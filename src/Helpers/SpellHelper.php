@@ -364,15 +364,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Merfolk']),
             ],
-            [
-                'name' => 'Discipline',
-                'description' => '+10% offensive power, +10% defensive power, +10% ',
-                'key' => 'charybdis_gape',
-                'mana_cost' => 5,
-                'duration' => 12*4,
-                'races' => collect(['Merfolk']),
-            ],
-            [
                 'name' => 'Portal',
                 'description' => 'Must be cast in order to send units on attack. Portal closes quickly and should be used immediately.',
                 'key' => 'portal',
@@ -391,8 +382,8 @@ class SpellHelper
             ],
             [
                 'name' => 'Hallucinations',
-                'description' => 'Training times reduced by 2 for every recent invasion (max -8 ticks).',
-                'key' => 'call_to_arms',
+                'description' => '33% chance to divert information-gathering spy and wizard operations to the performing dominion.',
+                'key' => 'hallucinations',
                 'mana_cost' => 5,
                 'duration' => 12*4,
                 'races' => collect(['Mycelia']),

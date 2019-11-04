@@ -537,7 +537,7 @@ class TickService
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
           {
             $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
-            $tick->{"generated_unit".$unitGeneration[0]} += intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
+            $unitsToGenerate[$unitGeneration[0]] = intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
           }
 
           $slot++;
