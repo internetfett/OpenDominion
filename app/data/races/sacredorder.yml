@@ -14,7 +14,7 @@ converting: 2
 perks:
   food_production: 5
   population_growth: -15
-  max_population: -5
+  max_population: 5
   prestige_gains: 10
 units:
   - name: Martyr
@@ -22,15 +22,15 @@ units:
       platinum: 0
       ore: 0
     power:
-      offense: 10
+      offense: 15
       defense: 0
     perks:
       fixed_casualties: 100
       cannot_be_trained: 1
   - name: Monk
     cost:
-      platinum: 275
-      ore: 25
+      platinum: 0
+      ore: 0
     power:
       offense: 0
       defense: 1
@@ -42,11 +42,10 @@ units:
       ore: 50
     power:
       offense: 1
-      defense: 3
+      defense: 4
     perks:
       offense_from_building: temple,5,3 # building type, ratio%, max
       defense_from_building: temple,5,3 # building type, ratio%, max
-      conversion: 1
   - name: Holy Warrior
     cost:
       platinum: 1675
@@ -56,3 +55,4 @@ units:
       defense: 3
     perks:
       offense_from_building: shrine,5,3 # building type, ratio%, max
+      conversion: 1
