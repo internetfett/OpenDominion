@@ -23,7 +23,7 @@ units:
       ore: 150
     power:
       offense: 0
-      defense: 4
+      defense: 8
   - name: Cannonball
     cost:
       ore: 500
