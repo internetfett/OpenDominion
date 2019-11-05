@@ -46,6 +46,7 @@ units:
     perks:
       offense_from_building: temple,5,3 # building type, ratio%, max
       defense_from_building: temple,5,3 # building type, ratio%, max
+      conversion: 1
   - name: Holy Warrior
     cost:
       platinum: 1675
