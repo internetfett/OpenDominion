@@ -234,18 +234,18 @@
                         Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
                         Cells: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                         @if ($selectedDominion->peasants_last_hour < 0)
-                            <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last hour)</span>
+                            <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
                         @elseif ($selectedDominion->peasants_last_hour > 0)
-                            <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last hour)</span>
+                            <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
                         @endif
                       @else
                           <b>Population</b><br>
                           Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
                           Peasants: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                           @if ($selectedDominion->peasants_last_hour < 0)
-                              <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last hour)</span>
+                              <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
                           @elseif ($selectedDominion->peasants_last_hour > 0)
-                              <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last hour)</span>
+                              <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
                           @endif
                           <br>
                           Military: {{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}<br>

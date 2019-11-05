@@ -50,7 +50,7 @@ units:
       conversion: 1
   - name: Holy Warrior
     cost:
-      platinum: 1675
+      platinum: 1400
       ore: 80
     power:
       offense: 5
