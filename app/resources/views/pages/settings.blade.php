@@ -43,6 +43,18 @@
                                 </div>
                             </div>
 
+                            {{-- Skins --}}
+                            <div class="form-group">
+                                <label for="skin" class="col-sm-3 control-label">Skin</label>
+                                <div class="col-sm-9">
+                                    <select name="skin" id="skin" class="form-control">
+                                        <option value="skin-red">Default</option>
+                                        <option value="skin-dark-red" {{ Auth::user()->skin == 'skin-dark-red' ? 'selected' : null }}>Dark</option>
+                                    </select>
+                                    <p class="help-block">Select a new color scheme for the website.</p>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-md-6">
 

@@ -96,13 +96,18 @@ class PopulationCalculator
       $military += $dominion->military_wizards;
       $military += $dominion->military_archmages;
 
-      # Check each Unit for does_not_count_as_population perk.
+      # Units in training
+      $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_spies');
+      $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_wizards');
+      $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_archmages');
 
+      # Check each Unit for does_not_count_as_population perk.
       for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
       {
-        if(!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
+        if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
         {
           $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitSlot);
+          $military += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unitSlot}");
         }
       }
 
