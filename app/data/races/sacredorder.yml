@@ -36,6 +36,7 @@ units:
       defense: 1
     perks:
         reduce_combat_losses: 1
+        faster_training: 8
   - name: Fanatic
     cost:
       platinum: 1000
