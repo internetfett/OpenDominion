@@ -30,6 +30,7 @@ class ImprovementHelper
             'hideouts',
             'forestry',
             'refinery',
+            'granaries',
           );
       }
 
