@@ -54,7 +54,7 @@ class ImprovementHelper
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
             'armory' => '-%s%% unit training costs',
-            'infirmary' => '-%s%% fewer casualties',
+            'infirmary' => '-%s%% casualties in battle',
             'workshops' => '-%s%% construction and rezoning costs',
             'observatory' => '+%1$s%% research points gained on attacks, -%1$s%% cost of technologies',
             'cartography' => '+%s%% land explored and land discovered on attacks',
