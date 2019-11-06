@@ -49,7 +49,7 @@ class TechCalculator
         # Observatory
         $techCostBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
-        return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostMultiplier));
+        return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostBonusMultiplier));
 
     }
 
