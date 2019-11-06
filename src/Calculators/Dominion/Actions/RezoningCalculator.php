@@ -4,6 +4,7 @@ namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 
 class RezoningCalculator
@@ -14,6 +15,9 @@ class RezoningCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
+
     /**
      * RezoningCalculator constructor.
      *
@@ -21,10 +25,12 @@ class RezoningCalculator
      */
     public function __construct(
         LandCalculator $landCalculator,
-        SpellCalculator $spellCalculator
+        SpellCalculator $spellCalculator,
+        ImprovementCalculator $improvementCalculator
     ) {
         $this->landCalculator = $landCalculator;
         $this->spellCalculator = $spellCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -72,6 +78,8 @@ class RezoningCalculator
     {
         $multiplier = 0;
 
+        $maxReduction = -90;
+
         // Values (percentages)
         $factoryReduction = 3;
         $factoryReductionMax = 75;
@@ -82,8 +90,13 @@ class RezoningCalculator
             ($factoryReductionMax / 100)
         );
 
+        # Workshops
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
+
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('rezone_cost');
+
+        $multiplier = max($multiplier, $maxReduction);
 
         return (1 + $multiplier);
     }
