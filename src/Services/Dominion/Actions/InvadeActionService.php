@@ -798,7 +798,7 @@ class InvadeActionService
             // Improvement: Cartography
             $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
-            $landGenerated = $landGenerated * (1 + $landGeneratedMultiplier);
+            $landGenerated = $landGenerated * $landGeneratedMultiplier;
 
             # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
@@ -1071,6 +1071,7 @@ class InvadeActionService
 
         $researchPointsPerAcreMultiplier = 1;
 
+        # Increase RP per acre
         if($dominion->race->getPerkMultiplier('research_points_per_acre'))
         {
           $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
