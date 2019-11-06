@@ -58,7 +58,7 @@ class ImprovementHelper
             'workshops' => '-%s%% fewer casualties',
             'observatory' => '+%1$s%% research points gained on attacks, -%1$s%% cost of technologies',
             'cartography' => '+%s%% land explored and land discovered on attacks',
-            'hideouts' => '+%s%% spy power, -%s%% spy losses',
+            'hideouts' => '+%1$s%% spy power, -%1$s%% spy losses',
             'forestry' => '+%s%% lumber production',
             'refinery' => '+%s%% ore production',
             'granaries' => '-%s%% lumber and food rot',
