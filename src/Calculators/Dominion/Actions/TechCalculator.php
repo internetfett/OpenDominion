@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Tech;
 
@@ -11,14 +12,20 @@ class TechCalculator
     /** @var LandCalculator */
     protected $landCalculator;
 
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
+
     /**
      * TechCalculator constructor.
      *
      * @param LandCalculator $landCalculator
      */
-    public function __construct(LandCalculator $landCalculator)
+    public function __construct(
+        LandCalculator $landCalculator,
+        ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
