@@ -55,7 +55,7 @@ class ImprovementHelper
             'harbor' => '+%s%% food production, boat production & protection',
             'armory' => '-%s%% unit training costs',
             'infirmary' => '-%s%% fewer casualties',
-            'workshops' => '-%s%% fewer casualties',
+            'workshops' => '-%s%% construction and rezoning costs',
             'observatory' => '+%1$s%% research points gained on attacks, -%1$s%% cost of technologies',
             'cartography' => '+%s%% land explored and land discovered on attacks',
             'hideouts' => '+%1$s%% spy power, -%1$s%% spy losses',
