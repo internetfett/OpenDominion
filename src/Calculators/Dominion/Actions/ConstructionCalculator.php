@@ -215,6 +215,8 @@ class ConstructionCalculator
     {
         $multiplier = 0;
 
+        $maxReduction = -90;
+
         // Values (percentages)
         $factoryReduction = 4;
         $factoryReductionMax = 75;
@@ -224,6 +226,11 @@ class ConstructionCalculator
             (($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * $factoryReduction),
             ($factoryReductionMax / 100)
         );
+
+        # Workshops
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
+
+        $multiplier = max($multiplier, $maxReduction);
 
         return (1 + $multiplier);
     }

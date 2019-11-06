@@ -60,6 +60,9 @@ class ExplorationCalculator
             $multiplier += 0.25;
         }
 
+        # Improvement: Cartography
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
+
         return round($platinum * $multiplier);
     }
 
@@ -87,6 +90,7 @@ class ExplorationCalculator
 
         // Techs
         $draftees += $dominion->getTechPerkValue('explore_draftee_cost');
+
         # Minimum dratee cost is 3
         if ($draftees < 3) {
             $draftees = 3;

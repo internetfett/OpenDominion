@@ -153,8 +153,8 @@ class ProductionCalculator
         // Spell: Midas Touch
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'midas_touch', $spellMidasTouch);
 
-        // Improvement: Science
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science');
+        // Improvement: Markets (formerly "Science")
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
         // Guard Tax
         if ($this->guardMembershipService->isGuardMember($dominion)) {
@@ -318,10 +318,10 @@ class ProductionCalculator
         // Values (percentages)
         $foodDecay = 1;
 
-        // Racial Spell: Metabolism (Growth)
-        #if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
-        #    $foodDecay = $foodDecay / 2;
-        #}
+        // Improvement: Granaries
+        $multiplier = 1 - $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
+
+        $foodDecay *= $multiplier;
 
         $decay += ($dominion->resource_food * ($foodDecay / 100));
 
@@ -406,6 +406,9 @@ class ProductionCalculator
         // Spell: Gaia's Blessing
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'gaias_blessing', $spellGaiasBlessing);
 
+        // Improvement: Forestry
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
+
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
@@ -424,6 +427,11 @@ class ProductionCalculator
 
         // Values (percentages)
         $lumberDecay = 1;
+
+        // Improvement: Granaries
+        $multiplier = 1 - $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
+
+        $lumberDecay *= $multiplier;
 
         $decay += ($dominion->resource_lumber * ($lumberDecay / 100));
 
@@ -623,6 +631,9 @@ class ProductionCalculator
             'miners_sight' => $spellMinersSight,
             'mining_strength' => $spellMiningStrength,
         ]);
+
+        // Improvement: Refinery
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);

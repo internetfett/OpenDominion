@@ -254,6 +254,9 @@ class EspionageActionService
                 // Techs
                 $spiesKilledPercentage += $dominion->getTechPerkMultiplier('spy_losses');
 
+                // Techs
+                $spiesKilledPercentage -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
+
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
                 if ($spiesKilled > 0) {

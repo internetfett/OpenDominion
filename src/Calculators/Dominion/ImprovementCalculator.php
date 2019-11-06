@@ -64,15 +64,22 @@ class ImprovementCalculator
     protected function getImprovementMaximum(string $improvementType, Dominion $dominion): float
     {
         $maximumPercentages = [
-            'science' => 20,
-            'keep' => 30,
-            'towers' => 40,
-            'forges' => 30,
-            'walls' => 30,
-            'harbor' => 40,
-            'armory' => 20, # Reduces training costs.
-            'infirmary' => 30, # Reduces casualties
-            'tissue' => 30, # Growth unique
+            'markets' => 20, # Increases platinum production
+            'keep' => 15, # Increases max population
+            'towers' => 40, # Increases wizard strength, mana production, and reduces damage form black-ops
+            'forges' => 20, # Increases OP
+            'walls' => 20, # Increases DP
+            'harbor' => 40, # Increase food and boat production
+            'armory' => 20, # Reduces training costs
+            'infirmary' => 20, # Reduces casualties
+            'workshops' => 20, # Reduces construction and rezoning costs
+            'observatory' => 20, # Increases RP gains and reduces tech costs
+            'cartography' => 30, # Increases land explored and lower cost of exploring
+            'hideouts' => 40, # Increases spy strength and reduces spy losses
+            'forestry' => 20, # Increases lumber production
+            'refinery' => 20, # Increases ore production
+            'granaries' => 80, # Reduces food and lumber rot
+            'tissue' => 20, # Increases max population (Growth)
         ];
 
         if($dominion->race->getPerkMultiplier('castle_max'))
@@ -80,7 +87,7 @@ class ImprovementCalculator
           foreach($maximumPercentages as $type => $max)
           {
             $maximumPercentages[$type] = $max *= (1 + $dominion->race->getPerkMultiplier('castle_max'));
-          }          
+          }
         }
 
         return (($maximumPercentages[$improvementType] / 100) ?: null);
@@ -97,7 +104,7 @@ class ImprovementCalculator
     protected function getImprovementCoefficient(string $improvementType): int
     {
         $coefficients = [
-            'science' => 4000,
+            'markets' => 4000,
             'keep' => 4000,
             'towers' => 5000,
             'forges' => 7500,
@@ -105,7 +112,14 @@ class ImprovementCalculator
             'harbor' => 5000,
             'armory' => 4000,
             'infirmary' => 4000,
-            'tissue' => 4000, # Growth unique
+            'workshops' => 4000,
+            'observatory' => 4000,
+            'cartography' => 4000,
+            'hideouts' => 5000,
+            'forestry' => 4000,
+            'refinery' => 4000,
+            'granaries' => 5000,
+            'tissue' => 4000,
         ];
 
         return ($coefficients[$improvementType] ?: null);

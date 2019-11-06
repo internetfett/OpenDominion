@@ -795,14 +795,14 @@ class MilitaryCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('spy_strength');
 
-      // Beastfolk: Cavern increases Spy Strength
-      if($dominion->race->name == 'Beastfolk')
-      {
-        $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion))  * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
-      }
+        # Hideouts
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
 
-        // Wonder: Great Oracle (+30%)
-        // todo
+        // Beastfolk: Cavern increases Spy Strength
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion));
+        }
 
         return (1 + $multiplier);
     }

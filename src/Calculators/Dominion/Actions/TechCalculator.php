@@ -30,16 +30,20 @@ class TechCalculator
     public function getTechCost(Dominion $dominion): int
     {
         $techCostMultiplier = 5;
+        $techCostBonusMultiplier = 1;
         $minimumCost = intval(1000 * $techCostMultiplier);
 
-        $techCost = max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion)));
-
+        # Perk
         if($dominion->race->getPerkMultiplier('tech_costs'))
         {
-          $techCost *= (1 + $dominion->race->getPerkMultiplier('tech_costs'));
+          $techCostBonusMultiplier += $dominion->race->getPerkMultiplier('tech_costs');
         }
 
-        return $techCost;
+        # Observatory
+        $techCostBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
+
+        return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostMultiplier));
+
     }
 
     /**
