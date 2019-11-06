@@ -1073,7 +1073,7 @@ class InvadeActionService
 
         if($dominion->race->getPerkMultiplier('research_points_per_acre'))
         {
-          $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre'));
+          $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
         }
 
         $researchPointsPerAcreMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
