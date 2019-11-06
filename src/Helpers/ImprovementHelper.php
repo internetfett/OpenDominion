@@ -46,7 +46,7 @@ class ImprovementHelper
     public function getImprovementRatingString(string $improvementType): string
     {
         $ratingStrings = [
-            'science' => '+%s%% platinum production',
+            #'science' => '+%s%% platinum production',
             'markets' => '+%s%% platinum production',
             'keep' => '+%s%% max population',
             'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells',
@@ -56,7 +56,7 @@ class ImprovementHelper
             'armory' => '-%s%% unit training costs',
             'infirmary' => '-%s%% fewer casualties',
             'workshops' => '-%s%% fewer casualties',
-            'observatory' => '+%s%% research points gained on attacks, -%s%% cost of technologies',
+            'observatory' => '+%1$s%% research points gained on attacks, -%1$s%% cost of technologies',
             'cartography' => '+%s%% land explored and land discovered on attacks',
             'hideouts' => '+%s%% spy power, -%s%% spy losses',
             'forestry' => '+%s%% lumber production',
@@ -71,7 +71,7 @@ class ImprovementHelper
     public function getImprovementHelpString(string $improvementType): string
     {
         $helpStrings = [
-            'science' => 'Improvements to science increase your platinum production.<br><br>Max +20% platinum production.',
+            #'science' => 'Improvements to science increase your platinum production.<br><br>Max +20% platinum production.',
             'markets' => 'Markets increase your platinum production.<br><br>Max +20%.',
             'keep' => 'Keep increases population housing of all buildings except for Barracks.<br><br>Max +15%.',
             'towers' => 'Towers increase your wizard power, mana production, and reduce damage from offensive spells.<br><br>Max +40%.',
