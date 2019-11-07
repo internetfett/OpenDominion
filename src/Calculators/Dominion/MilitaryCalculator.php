@@ -748,7 +748,7 @@ class MilitaryCalculator
 
         $powerFromHours = $powerPerHour * $hoursSinceRoundStarted;
 
-        $powerFromHours = min($powerFromTick, $max);
+        $powerFromHours = min($powerFromHours, $max);
 
         return $powerFromPerk;
     }
