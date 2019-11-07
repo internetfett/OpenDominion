@@ -448,6 +448,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromTicksPerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -735,18 +736,19 @@ class MilitaryCalculator
     {
         $tickPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_tick", null);
 
-        if (!$tickPerkData) {
+        if (!$tickPerkData)
+        {
             return 0;
         }
 
-        $buildingType = $buildingPerkData[0];
-        $ratio = (int)$buildingPerkData[1];
-        $max = (int)$buildingPerkData[2];
-        $totalLand = $this->landCalculator->getTotalLand($dominion);
-        $landPercentage = ($dominion->{"building_{$buildingType}"} / $totalLand) * 100;
+        $hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
 
-        $powerFromBuilding = $landPercentage / $ratio;
-        $powerFromPerk = min($powerFromBuilding, $max);
+        $powerPerTick = (float)$versusLandPerkData[0];
+        $max = (float)$versusLandPerkData[1];
+
+        $powerFromTick = $powerPerTick * $hourSinceRoundStarted;
+
+        $powerFromPerk = min($powerFromTick, $max);
 
         return $powerFromPerk;
     }
