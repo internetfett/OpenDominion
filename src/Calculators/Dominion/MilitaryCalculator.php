@@ -743,8 +743,8 @@ class MilitaryCalculator
 
         $hourSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
 
-        $powerPerTick = (float)$versusLandPerkData[0];
-        $max = (float)$versusLandPerkData[1];
+        $powerPerTick = (float)$tickPerkData[0];
+        $max = (float)$tickPerkData[1];
 
         $powerFromTick = $powerPerTick * $hourSinceRoundStarted;
 
