@@ -11,10 +11,10 @@ exploring : 1
 converting: 1
 
 perks:
-  max_population: 10
+  max_population: 20
   population_growth: 25
   spy_strength: 10
-  food_consumption: -15
+  food_consumption: -25
 units:
   - name: Reptile
     cost:

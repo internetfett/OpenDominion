@@ -11,7 +11,7 @@ exploring : 2
 converting: 1
 
 perks:
-  max_population: 7.5
+  max_population: 12.5
   extra_barren_max_population: 5
   ore_production: 10
 units:
@@ -33,7 +33,7 @@ units:
       ore_production: 2
       gem_production: 0.5
   - name: Cleric
-    type: hybrid_elite  
+    type: hybrid_elite
     cost:
       platinum: 760
       ore: 0

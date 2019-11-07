@@ -11,41 +11,40 @@ exploring : 2
 converting: 3
 
 perks:
-  max_population: -5
   spy_strength: -10
   food_consumption: 5
-  offense: 10
-  tech_costs: 10
+  tech_costs: 15
+  gem_production: -10
 units:
   - name: Brute
     cost:
-      platinum: 350
-      ore: 25
+      platinum: 335
+      ore: 20
     power:
       offense: 4
       defense: 0
   - name: Ogre
     cost:
       platinum: 300
-      ore: 25
+      ore: 20
     power:
       offense: 0
       defense: 3
   - name: Basher
     type: offensive_elite
     cost:
-      platinum: 1000
-      ore: 100
+      platinum: 900
+      ore: 90
     power:
-      offense: 5
-      defense: 2
+      offense: 6
+      defense: 3
     perks:
       reduce_combat_losses: 1
   - name: Smasher
     type: hybrid_elite
     cost:
       platinum: 1400
-      ore: 135
+      ore: 140
     power:
-      offense: 7
-      defense: 7
+      offense: 8
+      defense: 8

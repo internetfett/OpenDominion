@@ -11,7 +11,7 @@ exploring : 3
 converting: 1
 
 perks:
-  max_population: 20
+  max_population: 30
   extra_barren_max_population: 5
   gem_production: 10
   invest_bonus: 10

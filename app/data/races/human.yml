@@ -33,8 +33,8 @@ units:
       platinum: 1000
       ore: 75
     power:
-      offense: 2
-      defense: 6
+      offense: 3
+      defense: 7
     perks:
       fewer_casualties: 25
   - name: Cavalry
@@ -42,7 +42,7 @@ units:
       platinum: 1250
       ore: 100
     power:
-      offense: 6
+      offense: 7
       defense: 3
     perks:
       faster_return: 3

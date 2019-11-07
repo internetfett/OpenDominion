@@ -13,8 +13,6 @@ exploring : 3
 converting: 3
 
 perks:
-  offense: 7.5
-  max_population: -5
   extra_barren_max_population: 5
   food_consumption: -20
   gem_production: 5
@@ -41,14 +39,14 @@ units:
       platinum: 675
       ore: 330
     power:
-      offense: 2
+      offense: 3
       defense: 4
     perks:
-      defense_from_land: mountain,20,2 # land type, ratio%, max
+      defense_from_land: mountain,20,5 # land type, ratio%, max
   - name: Juggernaut
     cost:
       platinum: 775
       ore: 550
     power:
-      offense: 7
-      defense: 3
+      offense: 8
+      defense: 4

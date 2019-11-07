@@ -11,7 +11,7 @@ exploring : 3
 converting: 2
 
 perks:
-  max_population: 12.5
+  max_population: 15
   extra_barren_max_population: 5
   spy_strength: 10
   food_consumption: -30

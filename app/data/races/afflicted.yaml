@@ -11,7 +11,7 @@ converting: 1
 
 perks:
   max_population: 10
-  population_growth: -10
+  population_growth: 10
 units:
   - name: Zombie
     need_boat: true

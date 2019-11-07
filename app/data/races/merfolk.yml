@@ -12,9 +12,12 @@ exploring : 3
 converting: 1
 
 perks:
-  lumber_production: -15
-  food_production: 15
-  max_population: -5
+  lumber_production: -10
+  gem_production: -10
+  platinum_production: -10
+  mana_production: -10
+  food_consumption: 15
+  max_population: -10
   platinum_production: -10
 units:
   - name: Merman

@@ -31,7 +31,6 @@ units:
     need_boat: false
     cost:
       platinum: 200
-      ore: 0
       mana: 50
     power:
       offense: 3
@@ -39,7 +38,6 @@ units:
   - name: Shadow
     cost:
       platinum: 200
-      ore: 0
       mana: 50
     power:
       offense: 0
@@ -49,7 +47,6 @@ units:
   - name: Vision
     cost:
       platinum: 550
-      ore: 0
       mana: 150
     power:
       offense: 0
@@ -60,8 +57,9 @@ units:
     need_boat: false
     cost:
       platinum: 400
-      ore: 0
       mana: 400
     power:
       offense: 5
       defense: 3
+    perks:
+      offense_per_tick: 0.005,2 # amount, max

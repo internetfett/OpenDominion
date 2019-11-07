@@ -86,7 +86,7 @@ class ImprovementCalculator
         {
           foreach($maximumPercentages as $type => $max)
           {
-            $maximumPercentages[$type] = $max *= (1 + $dominion->race->getPerkMultiplier('castle_max'));
+            $maximumPercentages[$type] = $max * (1 + $dominion->race->getPerkMultiplier('castle_max'));
           }
         }
 
@@ -113,7 +113,7 @@ class ImprovementCalculator
             'armory' => 4000,
             'infirmary' => 4000,
             'workshops' => 4000,
-            'observatory' => 4000,
+            'observatory' => 5000,
             'cartography' => 4000,
             'hideouts' => 5000,
             'forestry' => 4000,

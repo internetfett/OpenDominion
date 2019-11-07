@@ -74,7 +74,7 @@ class ImprovementHelper
         $helpStrings = [
             #'science' => 'Improvements to science increase your platinum production.<br><br>Max +20% platinum production.',
             'markets' => 'Markets increase your platinum production.<br><br>Max +20%.',
-            'keep' => 'Keep increases population housing of all buildings except for Barracks.<br><br>Max +15%.',
+            'keep' => 'Keep increases population housing of barren land and all buildings except for Barracks.<br><br>Max +15%.',
             'towers' => 'Towers increase your wizard power, mana production, and reduce damage from offensive spells.<br><br>Max +40%.',
             'forges' => 'Forges increase your offensive power.<br><br>Max +20%.',
             'walls' => 'Walls increase your defensive power.<br><br>Max +20%.',

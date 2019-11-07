@@ -11,42 +11,40 @@ exploring : 3
 converting: 3
 
 perks:
-  wizard_strength: 10
-  spy_strength: 10
-  max_population: -5
-  lumber_production: 10
-  offense: 5
+  wizard_strength: 15
+  spy_strength: 15
+  lumber_production: 20
 units:
   - name: Ranger
     cost:
-      platinum: 275
-      lumber: 50
+      platinum: 300
+      lumber: 15
     power:
       offense: 3
       defense: 0
   - name: Longbowman
     cost:
-      platinum: 325
-      lumber: 20
+      platinum: 350
+      lumber: 15
     power:
       offense: 0
       defense: 4
   - name: Mystic
     cost:
-      platinum: 1100
-      lumber: 20
+      platinum: 1150
+      lumber: 30
     power:
       offense: 0
-      defense: 4
+      defense: 5
     perks:
       defense_from_land: forest,20,5 # land type, ratio%, max
   - name: Druid
     cost:
-      platinum: 1050
-      lumber: 20
+      platinum: 1000
+      lumber: 30
     power:
-      offense: 3
-      defense: 1
+      offense: 3.5
+      defense: 1.5
     perks:
       offense_from_land: forest,20,5 # land type, ratio%, max
       defense_from_land: forest,20,5 # land type, ratio%, max

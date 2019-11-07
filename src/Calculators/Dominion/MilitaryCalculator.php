@@ -731,6 +731,25 @@ class MilitaryCalculator
         return $amount;
     }
 
+    protected function getUnitPowerFromTicksPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $tickPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_tick", null);
+
+        if (!$tickPerkData) {
+            return 0;
+        }
+
+        $buildingType = $buildingPerkData[0];
+        $ratio = (int)$buildingPerkData[1];
+        $max = (int)$buildingPerkData[2];
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+        $landPercentage = ($dominion->{"building_{$buildingType}"} / $totalLand) * 100;
+
+        $powerFromBuilding = $landPercentage / $ratio;
+        $powerFromPerk = min($powerFromBuilding, $max);
+
+        return $powerFromPerk;
+    }
 
     /**
      * Returns the Dominion's morale modifier.

@@ -19,7 +19,8 @@ converting: 1
 perks:
   food_consumption: -25
   mana_production: 15
-  max_population: +26.66
+  max_population: 26.66
+  population_growth: 10
 units:
   - name: Hellhound
     need_boat: true

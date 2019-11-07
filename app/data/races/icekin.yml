@@ -12,8 +12,8 @@ converting: 3
 
 perks:
   food_consumption: -50
-  lumber_production: -10
-  archmage_cost: -150
+  gem_production: -10
+  ore_production: 10
   tech_costs: -10
 units:
   - name: Icebeast
@@ -40,15 +40,15 @@ units:
       offense: 3
       defense: 3
     perks:
-      defense_from_land: mountain,20,3 # land type, ratio%, max
-      counts_as_wizard_offense: 0.2
-      counts_as_wizard_defense: 0.2
+      defense_from_land: mountain,20,5 # land type, ratio%, max
+      counts_as_wizard_offense: 0.25
+      counts_as_wizard_defense: 0.25
   - name: Ice Elemental
     cost:
-      platinum: 1150
-      mana: 10
+      platinum: 1100
+      mana: 15
     power:
       offense: 4
       defense: 3
     perks:
-      offense_raw_wizard_ratio: 0.90,3 # ratio%, max
+      offense_raw_wizard_ratio: 1,4 # ratio%, max
