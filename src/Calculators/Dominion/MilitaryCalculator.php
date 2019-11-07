@@ -741,14 +741,12 @@ class MilitaryCalculator
             return 0;
         }
 
-        #$hourSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
-
-        $hourSinceRoundStarted = now()->startOfHour()->diffInHours($dominion->round->start_date->startOfHour());
+        $hoursSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
 
         $powerPerHour = (float)$hoursPerkData[0];
         $max = (float)$hoursPerkData[1];
 
-        $powerFromHours = $powerPerHour * $hourSinceRoundStarted;
+        $powerFromHours = $powerPerHour * $hoursSinceRoundStarted;
 
         $powerFromHours = min($powerFromTick, $max);
 
