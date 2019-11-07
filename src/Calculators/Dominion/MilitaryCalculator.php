@@ -741,7 +741,8 @@ class MilitaryCalculator
             return 0;
         }
 
-        $hoursSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
+        #$hoursSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
+        $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
         $powerPerHour = (float)$hoursPerkData[0];
         $max = (float)$hoursPerkData[1];
