@@ -18,7 +18,6 @@ perks:
   mana_production: -10
   food_consumption: 15
   max_population: -10
-  platinum_production: -10
 units:
   - name: Merman
     cost:
