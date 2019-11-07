@@ -448,7 +448,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromTicksPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -732,23 +732,23 @@ class MilitaryCalculator
         return $amount;
     }
 
-    protected function getUnitPowerFromTicksPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    protected function getUnitPowerFromHoursPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
-        $tickPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_tick", null);
+        $hoursPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_tick", null);
 
-        if (!$tickPerkData)
+        if (!$hoursPerkData)
         {
             return 0;
         }
 
         $hourSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
 
-        $powerPerTick = (float)$tickPerkData[0];
-        $max = (float)$tickPerkData[1];
+        $powerPerHour = (float)$hoursPerkData[0];
+        $max = (float)$hoursPerkData[1];
 
-        $powerFromTick = $powerPerTick * $hourSinceRoundStarted;
+        $powerFromHours = $powerPerHour * $hourSinceRoundStarted;
 
-        $powerFromPerk = min($powerFromTick, $max);
+        $powerFromHours = min($powerFromTick, $max);
 
         return $powerFromPerk;
     }

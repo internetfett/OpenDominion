@@ -135,7 +135,8 @@ class UnitHelper
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
 
-            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
+            'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
+            'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
@@ -146,6 +147,10 @@ class UnitHelper
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
             'dies_into' => 'When killed, turns into a %1$.',
+
+            # Abandoned
+            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
+
 
         ];
 
