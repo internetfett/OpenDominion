@@ -7,6 +7,9 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use Illuminate\Support\Carbon;
+
 class MilitaryCalculator
 {
     /** @var BuildingCalculator */
