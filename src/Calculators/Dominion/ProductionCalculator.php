@@ -297,8 +297,21 @@ class ProductionCalculator
         $consumption += ($this->populationCalculator->getPopulation($dominion) * $populationConsumption);
 
         // Racial Bonus
-        // todo: getFoodConsumptionRaw & getFoodConsumptionMultiplier?
         $consumption *= (1 + $dominion->race->getPerkMultiplier('food_consumption'));
+
+        // Unit Perk: food_consumption
+        $extraFoodEaten = 0;
+        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
+          {
+            $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
+            $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
+            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
+          }
+        }
+
+        $consumption += $extraFoodEaten;
 
         return $consumption;
     }

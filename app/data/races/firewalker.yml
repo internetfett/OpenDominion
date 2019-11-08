@@ -3,9 +3,6 @@ alignment: good
 description: >-
   <p>The first Firewalkers of this age were brought into this world by foolhardy icekin miners, who tried to cool down lava sources they found in the mountains and caverns.</p>
   <p>This unprovoked attack awoke the Firewalkers from their ancient slumber. They drove out the Icekin from the caverns and set up enormous furnaces to resume their endless pursuit into alchemy.</p>
-
-  <p>The first Firewalker erupted into existence from the smouldering ashes of a greedy scientist that had sought to enrich himself with forbidden alchemical practices, combining chemistry and pyromancy to forge platinum from the earth itself.</p>
-  <p>Turning entire networks of caverns into vast furnaces where they live as one flame, Firewalker alchemies enhanced by pyromantic magics are the most productive in the lands, and their populations spread like wildfire wherever they ignite.</p>
 home_land_type: cavern
 playable: 1
 
@@ -29,7 +26,7 @@ units:
       defense: 3
   - name: Phoenix
     cost:
-      platinum: 900
+      platinum: 1000
     power:
       defense: 6.5
     perks:
@@ -41,5 +38,4 @@ units:
       offense: 7
       defense: 4
     perks:
-      fewer_casualties: 50
-      burns_peasants_on_attack: 2
+      burns_peasants_on_attack: 1

@@ -132,19 +132,22 @@ class UnitHelper
             'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
+
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
 
             'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
             'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
 
+            'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
+
+            'food_consumption' => 'Eats %s bushels of food extra.',
+
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
-            'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
-
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',

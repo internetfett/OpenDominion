@@ -44,6 +44,7 @@ units:
       defense: 22
     perks:
       sink_boats_defense: 1
+      food_consumption: 4
   - name: Kraken
     cost:
       platinum: 2750
