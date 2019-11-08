@@ -11,7 +11,6 @@ converting: 3
 
 perks:
     gem_production: 10
-    food_consumption: 25
     max_population: -10
 units:
   - name: Wyrm

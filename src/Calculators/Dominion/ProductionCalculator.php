@@ -307,7 +307,7 @@ class ProductionCalculator
           {
             $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
             $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
-            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit); 
+            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
           }
         }
 
@@ -753,6 +753,9 @@ class ProductionCalculator
             $dominion->building_school * $techPerSchool,
             $dominion->building_school * (1 - ($dominion->building_school / $this->landCalculator->getTotalLand($dominion)))
         );
+
+        // Unit Perk Production Bonus (Dwarf Unit: Miner)
+        $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
         return $tech;
     }

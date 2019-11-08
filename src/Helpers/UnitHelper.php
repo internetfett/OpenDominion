@@ -132,6 +132,7 @@ class UnitHelper
             'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
+            'tech_production' => 'Each produces %s research points per tick.',
 
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',

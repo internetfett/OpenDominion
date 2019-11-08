@@ -36,25 +36,26 @@ units:
       defense: 1
     perks:
         reduce_combat_losses: 1
+        tech_production: 1
         faster_training: 8
   - name: Fanatic
     cost:
       platinum: 1000
       ore: 50
     power:
-      offense: 1
-      defense: 4
+      offense: 2
+      defense: 5
     perks:
-      offense_from_building: temple,5,3 # building type, ratio%, max
-      defense_from_building: temple,5,3 # building type, ratio%, max
+      offense_from_building: temple,5,2 # building type, ratio%, max
+      defense_from_building: temple,5,2 # building type, ratio%, max
       conversion: 1
   - name: Holy Warrior
     cost:
       platinum: 1400
       ore: 80
     power:
-      offense: 5
+      offense: 6
       defense: 3
     perks:
-      offense_from_building: shrine,5,3 # building type, ratio%, max
+      offense_from_building: shrine,5,2 # building type, ratio%, max
       conversion: 1
