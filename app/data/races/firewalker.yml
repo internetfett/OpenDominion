@@ -42,4 +42,4 @@ units:
       defense: 4
     perks:
       fewer_casualties: 50
-      burns_peasants_on_attack: 10
+      burns_peasants_on_attack: 2

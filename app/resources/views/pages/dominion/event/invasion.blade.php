@@ -257,14 +257,14 @@
                                 </p>
                             @endif
 
-                            @if (isset($event->data['attacker']['peasant_burned']))
+                            @if (isset($event->data['attacker']['peasants_burned']))
                               @if ($event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
-                                  You burn <strong>{{ number_format($event->data['attacker']['peasant_burned']['peasants']) }}</strong> peasants to death.</p>
+                                  You burn <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants to death.</p>
                                 </p>
                               @else
                                 <p class="text-center text-red">
-                                  <strong>{{ number_format($event->data['attacker']['peasant_burned']['peasants']) }}</strong> were burned to death during combat.</p>
+                                  <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> were burned to death during combat.</p>
                                 </p>
                               @endif
                             @endif

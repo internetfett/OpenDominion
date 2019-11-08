@@ -1233,6 +1233,7 @@ class InvadeActionService
             $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
             $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
             $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+            $target->peasants -= $burnedPeasants;
             $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
             $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
 
