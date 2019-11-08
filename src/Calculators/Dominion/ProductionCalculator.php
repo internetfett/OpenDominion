@@ -307,7 +307,7 @@ class ProductionCalculator
           {
             $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
             $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
-            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
+            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit); 
           }
         }
 

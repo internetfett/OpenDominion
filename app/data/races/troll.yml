@@ -12,14 +12,13 @@ converting: 3
 
 perks:
   spy_strength: -10
-  food_consumption: 5
   tech_costs: 15
   gem_production: -10
 units:
   - name: Brute
     cost:
-      platinum: 335
-      ore: 20
+      platinum: 320
+      ore: 30
     power:
       offense: 4
       defense: 0
@@ -48,3 +47,5 @@ units:
     power:
       offense: 8
       defense: 8
+    perks:
+      food_consumption: 0.25

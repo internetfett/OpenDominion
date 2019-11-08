@@ -34,6 +34,7 @@ units:
       defense: 10
     perks:
       fewer_casualties: 25
+      food_consumption: 0.5
   - name: Lesser Dragon
     need_boat: false
     cost:
@@ -43,3 +44,4 @@ units:
       defense: 4
     perks:
       fewer_casualties: 25
+      food_consumption: 0.5
