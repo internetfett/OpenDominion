@@ -1223,6 +1223,23 @@ class InvadeActionService
               ]
           );
         }
+
+        // Firewalker: burns_peasants
+        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants'))
+          {
+            $burningUnits = $units[$unitSlot];
+            $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants');
+            $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
+            $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+            $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
+            $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
+
+          }
+        }
+
+
     }
 
     /**

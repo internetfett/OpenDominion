@@ -1,11 +1,12 @@
 name: Void
 alignment: evil
 description: >-
-  <p>Nothing is known about the Void except that they emerge from deep, abandoned mines high up in the mountains.</p>
-  <p>For reasons not yet laid bare, the Void has aligned with the Empire. For now. Rumours say not even the Empress knows why.</p>
+  <p>Nothing is known about the Void except that they emerge from deep, abandoned mines high up in the Imperial mountains.</p>
+  <p>For reasons not yet laid bare, the Void has aligned with the Empire. For now. Rumours have it not even the Empress knows why.</p>
+  <p>The longer they stay in this world, the stronger they become and the more terrifying the nightmares are.</p>
   <hr />
   <ul>
-  <li>Start with some Shadows for mana production.</li>
+  <li>Start with Visions for mana production.</li>
   <li>All peasants (including unemployed) produce 2.7 plat/hr raw.</li>
   </ul>
 home_land_type: mountain
@@ -18,12 +19,12 @@ converting: 2
 perks:
   cannot_construct: 1
   cannot_tech: 1
-  extra_barren_max_population: 17
-  max_population: 10
+  extra_barren_max_population: 19
+#  max_population: 10 - Removed in favour of turning extra barren to 19 (17*1.1)
   food_consumption: -100
   platinum_production: -20
   can_invest_mana: 1
-  castle_max: 60
+  castle_max: 100
   population_growth: 40
   reduce_conversions: 100
 units:
@@ -62,4 +63,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_per_hour: 0.005,2 # amount, max
+      offense_per_hour: 0.0025,1 # amount, max

@@ -143,6 +143,8 @@ class UnitHelper
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
+            'burns_peasants' => 'Burns %s peasants on invasion unless overwhelmed.',
+
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
