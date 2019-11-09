@@ -4,7 +4,7 @@ description: >-
   <p>A bunch of annoying little shits.</p>
   <p>You no take candle!</p>
 home_land_type: hill
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 3

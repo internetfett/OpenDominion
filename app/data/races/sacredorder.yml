@@ -47,6 +47,7 @@ units:
       offense: 2
       defense: 5
     perks:
+      no_draftee: 1
       offense_from_building: temple,5,2 # building type, ratio%, max
       defense_from_building: temple,5,2 # building type, ratio%, max
       conversion: 1
@@ -59,5 +60,6 @@ units:
       offense: 6
       defense: 3
     perks:
+      no_draftee: 1
       offense_from_building: shrine,5,2 # building type, ratio%, max
       conversion: 1

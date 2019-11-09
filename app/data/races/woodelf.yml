@@ -1,50 +1,50 @@
 name: Wood Elf
 alignment: good
 description: >-
-  <p>Graceful, slender and eerily beautiful, the Wood Elves are among the eldest of the races and keenly attuned with the natural world, seeking to protect their forests from the forces of evil.</p>
-  <p>Though peaceful by nature, Wood Elves are a versatile race, proficient in combat with their deadly archers and magically gifted druids that draw power from the very forest itself, and backed up by powerful wizards and skilled spies that excel at covert ops.</p>
+  <p>Wood Elves are elves which have adapted to living in the forest, having learned to use the trees and bushes to their advantage.</p>
+  <p>They look up to the Sylvan, which they consider to be the caretakers of the forest. The two faction enjoy a mostly peaceful coexistence.</p>
 home_land_type: forest
 playable: 1
 
-attacking: 2
+attacking: 3
 exploring : 3
 converting: 3
 
 perks:
-  wizard_strength: 15
-  spy_strength: 15
+  wizard_strength: 20
+  spy_strength: 20
   lumber_production: 20
 units:
   - name: Ranger
     cost:
       platinum: 300
-      lumber: 15
+      lumber: 25
     power:
       offense: 3
       defense: 0
   - name: Longbowman
     cost:
-      platinum: 350
-      lumber: 15
+      platinum: 400
+      lumber: 25
     power:
       offense: 0
       defense: 4
-  - name: Mystic
+  - name: Warden
     cost:
-      platinum: 1150
-      lumber: 30
+      platinum: 1000
+      lumber: 100
     power:
       offense: 0
       defense: 5
     perks:
       defense_from_land: forest,20,5 # land type, ratio%, max
-  - name: Druid
+  - name: Sentinel
     cost:
-      platinum: 1000
-      lumber: 30
+      platinum: 1200
+      lumber: 150
     power:
-      offense: 3.5
-      defense: 1.5
+      offense: 3
+      defense: 2
     perks:
       offense_from_land: forest,20,5 # land type, ratio%, max
       defense_from_land: forest,20,5 # land type, ratio%, max

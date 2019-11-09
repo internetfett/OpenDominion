@@ -53,7 +53,7 @@ units:
     cost:
       platinum: 0
       ore: 0
-      mana: 0
+      mana: 15
       champion: 1
     power:
       offense: 10

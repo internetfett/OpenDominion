@@ -7,11 +7,11 @@ home_land_type: water
 playable: 1
 
 attacking: 3
-exploring : 1
-converting: 1
+exploring : 3
+converting: 3
 
 perks:
-  max_population: 20
+  max_population: 30
   population_growth: 25
   spy_strength: 10
   food_consumption: -25
@@ -21,6 +21,7 @@ units:
       platinum: 265
     power:
       offense: 3
+      defense: 0
     need_boat: false
   - name: Serpent
     cost:
@@ -32,18 +33,23 @@ units:
     cost:
       platinum: 900
     power:
-      offense: 4
-      defense: 4
+      offense: 5
+      defense: 5
     perks:
-      counts_as_spy_offense: 0.2
-      counts_as_spy_defense: 0.2
+      counts_as_spy_offense: 0.25
+      counts_as_spy_defense: 0.25
+      sink_boats_offense: 1
+      sink_boats_defense: 1
     need_boat: false
-  - name: Lizardman
+  - name: Archasaur
     cost:
       platinum: 1200
     power:
-      offense: 6
-      defense: 2
+      offense: 12
+      defense: 12
     perks:
-      offense_vs_land: water,5,3 # land type, ratio%, max
+      sink_boats_offense: 1
+      sink_boats_defense: 1
+      food_consumption: 1
+      reduce_combat_losses: 1
     need_boat: false
