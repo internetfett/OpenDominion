@@ -71,7 +71,10 @@ class UnitHelper
             'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max +%2$s).',
             'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max +%2$s).',
 
-            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
+            'defense_vs_prestige' => 'Defense increased by 1 for every %1$s prestige of attacker (max +%2$s).',
+            'offense_vs_prestige' => 'Offense increased by 1 for every %1$s prestige of target (max +%2$s).',
+
+            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of attacker (max +%3$s).',
             'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
 
             'defense_vs_goblin' => 'Defense increased by %s against goblins.',
