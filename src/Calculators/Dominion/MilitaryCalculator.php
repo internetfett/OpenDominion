@@ -461,6 +461,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $unit, $powerType);
         }
 
         return $unitPower;
@@ -757,7 +758,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-    protected function getUnitPowerVersusPrestigePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    protected function getUnitPowerFromVersusPrestigePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
     {
         $prestigePerk = $dominion->race->getUnitPerkValueForUnitSlot(
             $unit->slot,
