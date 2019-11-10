@@ -23,14 +23,14 @@ units:
       defense: 0
   - name: Guard
     cost:
-      platinum: 300
-      ore: 25
+      platinum: 275
+      ore: 15
     power:
       offense: 0
       defense: 3
   - name: Voodoo Mage
     cost:
-      platinum: 800
+      platinum: 950
       ore: 0
     power:
       offense: 0
@@ -42,7 +42,7 @@ units:
       platinum: 1050
       ore: 105
     power:
-      offense: 5
+      offense: 3
       defense: 3
     perks:
-      offense_vs_prestige: 500,3 # amount, max
+      offense_vs_prestige: 250,6 # amount, max
