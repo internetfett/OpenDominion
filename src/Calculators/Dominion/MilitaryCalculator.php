@@ -757,6 +757,25 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerVersusPrestigePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    {
+        $prestigePerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_vs_prestige");
+
+        if (!$prestigePerk)
+        {
+            return 0;
+        }
+
+        $amount = (float)$prestigePerk[0];
+        $max = (int)$prestigePerk[1];
+
+        $powerFromPerk = min($target->prestige / $amount, $max);
+
+        return $powerFromPerk;
+    }
+
     /**
      * Returns the Dominion's morale modifier.
      *
