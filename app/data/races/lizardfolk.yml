@@ -41,7 +41,7 @@ units:
       sink_boats_offense: 1
       sink_boats_defense: 1
     need_boat: false
-  - name: Archasaur
+  - name: Archaesaur
     cost:
       platinum: 1200
     power:

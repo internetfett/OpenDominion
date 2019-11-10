@@ -59,7 +59,7 @@ class BankingCalculator
             ],
             'resource_soul' => [
                 'label' => 'Souls',
-                'buy' => 0.5,
+                'buy' => 1.0,
                 'sell' => 0.0,
                 'max' => $dominion->resource_soul,
             ],

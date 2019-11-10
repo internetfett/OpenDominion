@@ -53,6 +53,8 @@
                                     <tr>
                                       @if ($dominion->race->name == 'Growth')
                                         <td>Cells:</td>
+                                      @if ($dominion->race->name == 'Myconid')
+                                        <td>Spores:</td>
                                       @else
                                         <td>Peasants:</td>
                                       @endif
@@ -137,7 +139,13 @@
                                         <td>{{ number_format($infoOp->data['morale']) }}%</td>
                                     </tr>
                                     <tr>
+                                    @if($selectedDominion->race->name == 'Growth')
+                                        <td>Amoeba:</td>
+                                    @elseif($selectedDominion->race->name == 'Myconid')
+                                        <td>Sporelings:</td>
+                                    @else
                                         <td>Draftees:</td>
+                                    @endif
                                         <td>{{ number_format($infoOp->data['military_draftees']) }}</td>
                                     </tr>
                                     <tr>

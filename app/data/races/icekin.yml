@@ -15,7 +15,9 @@ perks:
   food_consumption: -50
   gem_production: -20
   ore_production: 20
-  tech_costs: -10
+  tech_costs: 10
+  archmage_cost: -200
+  research_points_per_acre: 25
 units:
   - name: Icebeast
     cost:
@@ -32,7 +34,7 @@ units:
       ore: 35
     power:
       offense: 0
-      defense: 4
+      defense: 3
     perks:
       reduce_combat_losses: 1
       counts_as_wizard_offense: 0.05

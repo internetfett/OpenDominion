@@ -33,8 +33,7 @@ units:
   - name: Tormentor
     need_boat: true
     cost:
-      platinum: 300
-      ore: 100
+      platinum: 320
       morale: 1
     power:
       offense: 0

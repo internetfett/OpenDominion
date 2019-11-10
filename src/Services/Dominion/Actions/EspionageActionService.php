@@ -124,7 +124,7 @@ class EspionageActionService
             throw new LogicException("Cannot perform unknown operation '{$operationKey}'");
         }
 
-        if ($dominion->spy_strength < 30) {
+        if ($dominion->spy_strength <= 0) {
             throw new GameException("Your spies do not have enough strength to perform {$operationInfo['name']}.");
         }
 
@@ -187,6 +187,8 @@ class EspionageActionService
             } else {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
+
+            $spyStrengthLost = min($spyStrengthLost, $dominion->spy_strength);
 
             $dominion->spy_strength -= $spyStrengthLost;
             $dominion->stat_espionage_success += 1;

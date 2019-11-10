@@ -18,10 +18,10 @@ units:
   - name: Berserk
     need_boat: true
     cost:
-      platinum: 350
+      platinum: 320
       ore: 10
     power:
-      offense: 4
+      offense: 3
       defense: 0
     perks:
       afterlife_norse: 1
@@ -42,12 +42,12 @@ units:
       ore: 200
       mana: 25
     power:
-      offense: 4
+      offense: 3
       defense: 6
     perks:
       fewer_casualties_offense: 50
       fewer_casualties_defense: 25
-      offense_from_prestige: 500,2 # amount, max
+      offense_from_prestige: 250,4 # amount, max
   - name: Einherjar
     need_boat: false
     cost:
@@ -56,10 +56,9 @@ units:
       mana: 15
       champion: 1
     power:
-      offense: 10
+      offense: 8
       defense: 0
     perks:
       no_draftee: 1
       true_immortal: 1
       does_not_count_as_population: 1
-    static_networth: 33

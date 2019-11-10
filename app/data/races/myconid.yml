@@ -1,9 +1,10 @@
-#WIP
+# Peasant = Spores
+# Draftee = Sporeling
 
-name: Mycelia
+name: Myconid
 alignment: good
 description: >-
-  <p>The Mycelia are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
+  <p>The Myconids are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
   <hr />
   <p>Spores ("peasants") produce 1 food/hr instead of the normal 2.7 platinum/hr.</p>
@@ -21,14 +22,11 @@ perks:
   cannot_invade: 1
   cannot_explore: 1
   cannot_construct: 1
-  cannot_improve_castle: 1
   cannot_tech: 1
-  extra_barren_max_population: 15
+  extra_barren_max_population: 10
   peasants_produce_food: 1
-
-  draftee_dp: 0
 units:
-  - name: Sporeling
+  - name: Mycelia
     need_boat: false
     cost:
       food: 50
@@ -37,7 +35,7 @@ units:
       defense: 1
     perks:
       faster_training: 6
-  - name: Fungus
+  - name: Mold
     cost:
       food: 100
       unit1: 1

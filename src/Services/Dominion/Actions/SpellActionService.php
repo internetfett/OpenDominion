@@ -111,7 +111,7 @@ class SpellActionService
             throw new LogicException("Cannot cast unknown spell '{$spellKey}'");
         }
 
-        if ($dominion->wizard_strength < 30) {
+        if ($dominion->wizard_strength <= 0) {
             throw new GameException("Your wizards to not have enough strength to cast {$spellInfo['name']}.");
         }
 
@@ -179,7 +179,10 @@ class SpellActionService
             }
 
             $dominion->resource_mana -= $manaCost;
-            $dominion->wizard_strength -= ($result['wizardStrengthCost'] ?? 5);
+
+            $wizardStrengthLost = $result['wizardStrengthCost'] ?? 5;
+            $wizardStrengthLost = min($wizardStrengthLost, $dominion->wizard_strength);
+            $dominion->wizard_strength -= $wizardStrengthLost;
 
             if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race)) {
                 $dominion->stat_spell_success += 1;
