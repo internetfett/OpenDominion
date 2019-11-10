@@ -109,7 +109,7 @@
                                                     $offenseVsLandTypes[] = explode(',', $offenseVsLandPerk)[0];
                                                 }
 
-                                                $offenseVsPrestigePerk = $unit->getPerkValue('offense_vs_land');
+                                                $offenseVsPrestigePerk = $unit->getPerkValue('offense_vs_prestige');
                                                 if ($offenseVsPrestigePerk) {
                                                     $offenseVsPrestigeTypes[] = explode(',', $offenseVsPrestigePerk)[0];
                                                 }
