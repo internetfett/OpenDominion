@@ -40,7 +40,7 @@
                                     <tr>
                                       @if ($selectedDominion->race->name == 'Growth')
                                         <td>Cells:</td>
-                                      @if ($selectedDominion->race->name == 'Myconid')
+                                      @elseif ($selectedDominion->race->name == 'Myconid')
                                         <td>Spores:</td>
                                       @else
                                         <td>Peasants:</td>
@@ -146,7 +146,7 @@
                                     <tr>
                                       @if ($selectedDominion->race->name == 'Growth')
                                         <td>Amoeba:</td>
-                                      @if ($selectedDominion->race->name == 'Myconid')
+                                      @elseif ($selectedDominion->race->name == 'Myconid')
                                         <td>Sporelings:</td>
                                       @else
                                         <td>Draftees:</td>
