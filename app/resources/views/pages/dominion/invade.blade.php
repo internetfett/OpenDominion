@@ -78,6 +78,7 @@
                                     @php
                                         $offenseVsBuildingTypes = [];
                                         $offenseVsLandTypes = [];
+                                        $offenseVsPrestige = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -189,10 +190,10 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endforeach
-                                    @foreach ($offenseVsPrestige as $prestige)
+                                    @foreach ($offenseVsPrestigeTypes as $prestige)
                                         <tr>
                                             <td colspan="3" class="text-right">
-                                                <b>Enter target {{ ucwords(str_replace('_', ' ', $prestige)) }}:</b>
+                                                <b>Enter target prestige:</b>
                                             </td>
                                             <td>
                                                 <input type="number"
