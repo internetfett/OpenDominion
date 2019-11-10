@@ -769,10 +769,22 @@ class MilitaryCalculator
             return 0;
         }
 
+        if (!empty($calc))
+        {
+            # Override land percentage for invasion calculator
+            if (isset($calc["{$prestige}"])) {
+                $prestige = (float)$prestige;
+            }
+        }
+        else
+        {
+          $prestige = $target->prestige;
+        }
+
         $amount = (float)$prestigePerk[0];
         $max = (int)$prestigePerk[1];
 
-        $powerFromPerk = min($target->prestige / $amount, $max);
+        $powerFromPerk = min($prestige / $amount, $max);
 
         return $powerFromPerk;
     }
