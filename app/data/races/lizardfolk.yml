@@ -18,7 +18,7 @@ perks:
 units:
   - name: Reptile
     cost:
-      platinum: 265
+      platinum: 250
     power:
       offense: 3
       defense: 0
@@ -33,8 +33,8 @@ units:
     cost:
       platinum: 900
     power:
-      offense: 5
-      defense: 5
+      offense: 4
+      defense: 6
     perks:
       counts_as_spy_offense: 0.25
       counts_as_spy_defense: 0.25
@@ -43,13 +43,14 @@ units:
     need_boat: false
   - name: Archaesaur
     cost:
-      platinum: 1200
+      platinum: 2800
     power:
       offense: 12
-      defense: 12
+      defense: 8
     perks:
       sink_boats_offense: 1
       sink_boats_defense: 1
       food_consumption: 1
       reduce_combat_losses: 1
+      pairing_limit: 3,0.1 # Unit slot, amount (max 0.1 of this unit per each Unit 3)
     need_boat: false

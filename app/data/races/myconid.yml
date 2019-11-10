@@ -37,34 +37,34 @@ units:
       faster_training: 6
   - name: Mold
     cost:
-      food: 100
+      food: 300
       unit1: 1
     power:
       offense: 0
       defense: 3
     perks:
+      faster_training: 3
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.001 # Unit Type, Amount
-      land_per_tick: 0.0005
   - name: Psilocybe
     cost:
-      food: 100
+      food: 800
       unit1: 1
     power:
       offense: 0
       defense: 6
     perks:
+      faster_training: 3
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.001 # Unit Type, Amount
-      land_per_tick: 0.0005
+      unit_production: 1,0.0005 # Unit Type, Amount
+      land_per_tick: 0.0003
       mana_production: 0.5
-      counts_as_spy_defense: 0.15
-      counts_as_wizard_defense: 0.15
+      counts_as_spy_defense: 0.1111
+      counts_as_wizard_defense: 0.1111
   - name: Amanita
     cost:
-      food: 100
+      food: 1100
       unit1: 1
     power:
       offense: 0
@@ -74,5 +74,5 @@ units:
       dies_into: 1
       unit_production: 1,0.001 # Unit Type, Amount
       land_per_tick: 0.0005
-      counts_as_spy_offense: 0.25
-      counts_as_wizard_offense: 0.25
+      counts_as_spy_offense: 0.1666
+      counts_as_wizard_offense: 0.1666

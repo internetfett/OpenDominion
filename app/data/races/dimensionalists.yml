@@ -57,7 +57,7 @@ units:
   - name: Ze'Tk
     need_boat: false
     cost:
-      mana: 500
+      mana: 400
     power:
       offense: 4
       defense: 1
