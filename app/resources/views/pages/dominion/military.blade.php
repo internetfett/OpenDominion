@@ -236,7 +236,7 @@
                           @if ($selectedDominion->race->name == 'Norse')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
                           @endif
-                          
+
                           @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                           <br> You were recently invaded, enraging your Spriggan and Leshy.
                           @endif
@@ -258,7 +258,7 @@
                     <p>Here you can mutate your amoeba into military units. Mutating Abscess and Blisters take <b>9 ticks</b> to process, while mutating Cysts and Ulcers take <b>12 ticks</b>.</p>
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} amoeba.</p>
 
-                    @if ($selectedDominion->race->name == 'Myconid')
+                    @elseif ($selectedDominion->race->name == 'Myconid')
                     <p>Here you can grow your sporelings into Mycelia, which can then be grown into Mold, Psilocybe, and Amanita.</p>
                     <p>It takes three ticks to grow Mycelia, six ticks to grow Mold, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} sporelings.</p>
