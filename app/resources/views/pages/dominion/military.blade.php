@@ -219,7 +219,7 @@
                         <div class="pull-right">
                           @if ($selectedDominion->race->name == 'Growth')
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> amoeba available to mutate.
-                          @if ($selectedDominion->race->name == 'Myconid')
+                          @elseif ($selectedDominion->race->name == 'Myconid')
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> sporelings available to grow.
                           @else
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ str_plural('draftee', $selectedDominion->military_draftees) }} available to train.
@@ -228,12 +228,15 @@
                           @if ($selectedDominion->race->name == 'Snow Elf')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.
                           @endif
+
                           @if ($selectedDominion->race->name == 'Demon')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls collected.
                           @endif
+
                           @if ($selectedDominion->race->name == 'Norse')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
                           @endif
+                          
                           @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                           <br> You were recently invaded, enraging your Spriggan and Leshy.
                           @endif
