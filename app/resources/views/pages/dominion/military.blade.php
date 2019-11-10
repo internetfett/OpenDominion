@@ -212,6 +212,8 @@
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                           @if ($selectedDominion->race->name == 'Growth')
                           Mutate
+                          @elseif ($selectedDominion->race->name == 'Myconid')
+                          Grow
                           @else
                           Train
                           @endif

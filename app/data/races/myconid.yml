@@ -9,7 +9,7 @@ description: >-
   <hr />
   <p>Spores ("peasants") produce 1 food/hr instead of the normal 2.7 platinum/hr.</p>
 home_land_type: forest
-playable: 0
+playable: 1
 
 attacking: 0
 exploring : 3
