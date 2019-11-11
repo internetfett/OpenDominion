@@ -216,7 +216,7 @@ class TrainActionService
           {
             // We have land limit for this unit.
             $landLimitedToLandType = 'land_'.$pairingLimit[0]; # Land type
-            $landLimitedToAcres = $pairingLimit[1]; # Acres per unit
+            $landLimitedToAcres = (int)$pairingLimit[1]; # Acres per unit
 
             $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
