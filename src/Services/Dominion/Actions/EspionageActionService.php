@@ -384,7 +384,7 @@ class EspionageActionService
             case 'survey_dominion':
                 $data = [];
 
-                foreach ($this->buildingHelper->getBuildingTypes() as $buildingType) {
+                foreach ($this->buildingHelper->getBuildingTypes($target) as $buildingType) {
                     array_set($data, "constructed.{$buildingType}", $target->{'building_' . $buildingType});
                 }
 

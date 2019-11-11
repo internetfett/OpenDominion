@@ -767,19 +767,21 @@ class MilitaryCalculator
             return 0;
         }
 
+        # Check if calcing on Invade page calculator.
         if (!empty($calc))
         {
             if (isset($calc['prestige']))
             {
-                $prestige = (float) $calc['prestige'];
+                $prestige = intval($calc['prestige']);
             }
         }
+        # Otherwise, SKARPT LÄGE!
         elseif ($target !== null)
         {
             $prestige = $target->prestige;
         }
 
-        $amount = (float)$prestigePerk[0];
+        $amount = (int)$prestigePerk[0];
         $max = (int)$prestigePerk[1];
 
         $powerFromPerk = min($prestige / $amount, $max);

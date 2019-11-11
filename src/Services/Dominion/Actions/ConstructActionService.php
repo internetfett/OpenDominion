@@ -58,7 +58,7 @@ class ConstructActionService
 
         $data = array_only($data, array_map(function ($value) {
             return "building_{$value}";
-        }, $this->buildingHelper->getBuildingTypes()));
+        }, $this->buildingHelper->getBuildingTypes($dominion)));
 
         $data = array_map('\intval', $data);
 

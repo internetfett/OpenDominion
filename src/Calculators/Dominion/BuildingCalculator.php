@@ -36,7 +36,7 @@ class BuildingCalculator
     {
         $totalBuildings = 0;
 
-        foreach ($this->buildingHelper->getBuildingTypes() as $buildingType) {
+        foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType) {
             $totalBuildings += $dominion->{"building_{$buildingType}"};
         }
 

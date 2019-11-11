@@ -7,9 +7,10 @@ use OpenDominion\Models\Race;
 class BuildingHelper
 {
 
-    public function getBuildingTypes(): array
+    public function getBuildingTypes(Dominion $dominion = null): array
     {
-      return [
+
+      $buildings = [
           'home',
           'alchemy',
           'farm',
@@ -29,7 +30,17 @@ class BuildingHelper
           'shrine',
           'barracks',
           'dock',
-      ];
+        ];
+
+        $forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
+
+        if($dominion->race->name == 'Dragon')
+        {
+          $buildings = array_diff($buildings, $forbiddenBuildings);
+        }
+
+
+      return $buildings;
 
     }
 
@@ -105,7 +116,7 @@ class BuildingHelper
             'forest_haven' => 1, // reduce losses on failed spy ops, reduce fireball damage
             'factory' => 2,
             'guard_tower' => 2,
-            'shrine' => 2, // todo for later: increases chance of hero level gain and increase hero bonuses
+            'shrine' => 2,
             'barracks' => 2,
             'dock' => 2,
         ];
