@@ -162,7 +162,6 @@ class UnitHelper
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
             'platinum_upkeep' => 'Costs %s platinum per tick.',
-            'land_limit' => 'You can ',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
 
