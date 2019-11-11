@@ -563,7 +563,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($buildingHelper->getBuildingTypes() as $buildingType)
+                                        @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
                                             <tr>
                                                 <td>{{ ucwords(str_replace('_', ' ', $buildingType)) }}</td>
                                                 @for ($i = 1; $i <= 12; $i++)
