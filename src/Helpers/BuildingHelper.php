@@ -81,7 +81,7 @@ class BuildingHelper
             ],
         ];
 
-        if ($dominion->race !== null)
+        if ($dominion !== null)
         {
           if($dominion->race->name == 'Dragon')
           {
