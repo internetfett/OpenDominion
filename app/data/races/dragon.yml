@@ -3,7 +3,7 @@ alignment: evil
 description: >-
   <p>Dragons of old have returned from beyond the Endless Sea.</p>
 home_land_type: mountain
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3

@@ -757,8 +757,6 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
-        # Observatory
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
         return $tech;
     }
@@ -778,6 +776,9 @@ class ProductionCalculator
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
+
+        # Observatory
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
         return (1 + $multiplier);
     }
