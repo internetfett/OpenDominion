@@ -461,7 +461,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $unit, $powerType);
+            $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
@@ -767,10 +767,19 @@ class MilitaryCalculator
             return 0;
         }
 
+        if (!empty($calc)) {
+            # Override land percentage for invasion calculator
+            if (isset($calc["{$prestige}"])) {
+                $prestige = (float) $calc["{$prestige}"];
+            }
+        } elseif ($target !== null) {
+            $prestige = $target->prestige;
+        }
+
         $amount = (float)$prestigePerk[0];
         $max = (int)$prestigePerk[1];
 
-        $powerFromPerk = min($target->prestige / $amount, $max);
+        $powerFromPerk = min($prestige / $amount, $max);
 
         return $powerFromPerk;
     }

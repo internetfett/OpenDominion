@@ -20,7 +20,7 @@ perks:
 units:
   - name: Summoner
     cost:
-      platinum: 2000
+      platinum: 1000
     power:
       offense: 0
       defense: 0

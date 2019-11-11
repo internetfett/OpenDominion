@@ -82,7 +82,7 @@ class ImprovementHelper
             'armory' => 'Armory decreases your unit platinum and ore training costs.<br><br>Max 20%.',
             'infirmary' => 'Infirmary reduces casualties suffered in battle (offensive and defensive).<br><br>Max 20%.',
             'workshops' => 'Workshop reduces construction and rezoning costs.<br><br>Max 20%.',
-            'observatory' => 'Observatory increases research points gained on attacks and reduces cost of technological advancements.<br><br>Max 20%.',
+            'observatory' => 'Observatory increases research points production and research points gained on attacks.<br><br>Max 20%.',
             'cartography' => 'Cartography increases land discovered on attacks and reduces platinum cost of exploring.<br><br>Max 30%.',
             'hideouts' => 'Hidehouts increase your spy power and reduces spy losses.<br><br>Max 40%.',
             'forestry' => 'Forestry increases your lumber production.<br><br>Max 20%.',

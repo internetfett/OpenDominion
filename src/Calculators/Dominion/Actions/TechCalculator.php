@@ -46,9 +46,6 @@ class TechCalculator
           $techCostBonusMultiplier += $dominion->race->getPerkMultiplier('tech_costs');
         }
 
-        # Observatory
-        $techCostBonusMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
-
         return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostBonusMultiplier));
 
     }
