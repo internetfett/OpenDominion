@@ -769,8 +769,8 @@ class MilitaryCalculator
 
         if (!empty($calc)) {
             # Override land percentage for invasion calculator
-            if (isset($calc["{$prestige}"])) {
-                $prestige = (float) $calc["{$prestige}"];
+            if (isset($calc['prestige'])) {
+                $prestige = (float) $calc['$prestige'];
             }
         } elseif ($target !== null) {
             $prestige = $target->prestige;
