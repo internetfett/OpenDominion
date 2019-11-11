@@ -508,7 +508,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($buildingHelper->getBuildingTypes() as $buildingType)
+                                        @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
                                             @php
                                                 $amount = array_get($infoOp->data, "constructed.{$buildingType}");
                                             @endphp

@@ -28,7 +28,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($buildingHelper->getBuildingTypes() as $buildingType)
+                            @foreach ($buildingHelper->getBuildingTypes($selectedDominion) as $buildingType)
                                 <tr>
                                     <td>
                                         <span data-toggle="tooltip" data-placement="top" title="{{ $buildingHelper->getBuildingHelpString($buildingType) }}">
