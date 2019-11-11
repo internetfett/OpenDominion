@@ -148,7 +148,7 @@ class TrainActionService
             $unitsToTrain[$unitType] = $amountToTrain;
         }
 
-        # Look for pairing_limit and cannot_be_trained
+        # Look for pairing_limit, cannot_be_trained, and land_limit
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {
           if (!$amountToTrain)
@@ -207,6 +207,36 @@ class TrainActionService
             {
               throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
             }
+
+            # Pairing limit check complete.
+            # Check for land limit.
+            $landLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit');
+            if($landLimit)
+            {
+
+              // We have land limit for this unit.
+              $landLimitedToLandType = 'land_'.$pairingLimit[0]; # Land type
+              $landLimitedToAcres = $pairingLimit[1]; # Acres per unit
+
+              $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
+
+              $upperLimit = $acresOfLimitingLandType / $landLimitedToAcres;
+
+              if( # Units trained + Units in Training + Units in Queue + Units to Train
+                  (($dominion->{'military_unit' . $unitSlot} +
+                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $amountToTrain))
+                  >
+                  ($pairingLimitedByTrained * $pairingLimitedTo)
+                )
+              {
+                throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $pairingLimit[0] .'s.');
+              }
+
+
+            }
+
 
             }
           }

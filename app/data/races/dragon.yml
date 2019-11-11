@@ -42,9 +42,10 @@ units:
     need_boat: false
     cost:
       platinum: 10000
+      gems: 1000
     power:
-      offense: 100
-      defense: 100
+      offense: 1000
+      defense: 1000
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
