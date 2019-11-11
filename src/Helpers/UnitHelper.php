@@ -138,6 +138,7 @@ class UnitHelper
 
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
+            'land_limit' => 'You can at most have 1 per %2$s acres of %1$s.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
 
@@ -160,8 +161,10 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
+            'platinum_upkeep' => 'Costs %s platinum per tick.',
+            'land_limit' => 'You can ',
+
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'dies_into' => 'When killed, turns into a %1$.',
 
             # Abandoned
             'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',

@@ -33,12 +33,11 @@ class BuildingHelper
           'dock',
         ];
 
-        $forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
-
+        // Ugly, but works.
         if($dominion->race->name == 'Dragon')
         {
-          #$buildings = array_diff($buildings, $forbiddenBuildings);
-          $buildings = ['home','farm','tower','diamond_mine','lumberyard'];
+          #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
+          $buildings = ['home','farm','tower','diamond_mine','lumberyard', 'ore_mine'];
         }
 
       return $buildings;
@@ -91,6 +90,7 @@ class BuildingHelper
                     'farm',
                 ],
                 'mountain' => [
+                    'ore_mine',
                 ],
                 'swamp' => [
                     'tower',
@@ -102,6 +102,7 @@ class BuildingHelper
                     'lumberyard',
                 ],
                 'hill' => [
+                'barracks',
                 ],
                 'water' => [
                 ],

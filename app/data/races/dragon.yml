@@ -1,46 +1,53 @@
 name: Dragon
 alignment: evil
 description: >-
+  <p>Dragons enslave villagers and b
   <p>Dragons of old have returned from beyond the Endless Sea.</p>
 home_land_type: mountain
 playable: 1
 
-attacking: 3
-exploring : 3
-converting: 3
+attacking: 2
+exploring : 2
+converting: 2
 
 perks:
     gem_production: 10
     max_population: -10
 units:
-  - name: Wyrm
-    need_boat: false
-    cost:
-      platinum: 300
-    power:
-      offense: 4
-  - name: Drake
-    cost:
-      platinum: 300
-    power:
-      defense: 4
-  - name: Wyvern
+  - name: Militia
     need_boat: true
     cost:
-      platinum: 1680
+      platinum: 80
+      ore: 10
+    power:
+      offense: 2
+      defense: 0
+  - name: Guard
+    cost:
+      platinum: 100
+      ore: 35
     power:
       offense: 0
-      defense: 10
+      defense: 3
+  - name: Mercenary
+    need_boat: true
+    cost:
+      platinum: 800
+    power:
+      offense: 5
+      defense: 5
     perks:
-      fewer_casualties: 25
-      food_consumption: 0.5
-  - name: Lesser Dragon
+      platinum_upkeep: 1
+  - name: Dragon
     need_boat: false
     cost:
-      platinum: 1680
+      platinum: 10000
     power:
-      offense: 10
-      defense: 4
+      offense: 100
+      defense: 100
     perks:
+      does_not_count_as_population: 1
+      no_draftee: 1
+      land_limit: mountain,100 # Max 1 unit per 100 acres of Mountain
       fewer_casualties: 25
-      food_consumption: 0.5
+      food_consumption: 2
