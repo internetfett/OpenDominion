@@ -19,7 +19,7 @@
                             <div class="col-md-12 col-lg-6">
                                 @php
                                     /** @var \Illuminate\Support\Collection $buildingTypesLeft */
-                                    $landTypesBuildingTypes = collect($buildingHelper->getBuildingTypesByRace($selectedDominion->race))->filter(function ($buildingTypes, $landType) {
+                                    $landTypesBuildingTypes = collect($buildingHelper->getBuildingTypesByRace($selectedDominion))->filter(function ($buildingTypes, $landType) {
                                         return in_array($landType, ['plain', 'mountain', 'swamp'], true);
                                     });
                                 @endphp
@@ -30,7 +30,7 @@
                             <div class="col-md-12 col-lg-6">
                                 @php
                                     /** @var \Illuminate\Support\Collection $buildingTypesLeft */
-                                    $landTypesBuildingTypes = collect($buildingHelper->getBuildingTypesByRace($selectedDominion->race))->filter(function ($buildingTypes, $landType) {
+                                    $landTypesBuildingTypes = collect($buildingHelper->getBuildingTypesByRace($selectedDominion))->filter(function ($buildingTypes, $landType) {
                                         return in_array($landType, ['cavern', 'forest', 'hill', 'water'], true);
                                     });
                                 @endphp

@@ -41,14 +41,13 @@ class BuildingHelper
           $buildings = ['home','farm','tower','diamond_mine','lumberyard'];
         }
 
-
       return $buildings;
 
     }
 
-    public function getBuildingTypesByRace(Race $race = null): array
+    public function getBuildingTypesByRace(Dominion $dominion = null): array
     {
-        $return = [
+        $buildings = [
             'plain' => [
                 'alchemy',
                 'farm',
@@ -83,15 +82,40 @@ class BuildingHelper
             ],
         ];
 
-        if ($race !== null)
+        if ($dominion->race !== null)
         {
-          if(!$race->getPerkValue('cannot_build_homes'))
+          if(!$dominion->race->getPerkValue('cannot_build_homes'))
           {
             array_unshift($return[$race->home_land_type], 'home');
           }
+
+          if($dominion->race->name == 'Dragon')
+          {
+
+            $buildings = [
+                'plain' => [
+                    'farm',
+                ],
+                'mountain' => [
+                ],
+                'swamp' => [
+                ],
+                'cavern' => [
+                    'diamond_mine',
+                ],
+                'forest' => [
+                    'lumberyard',
+                ],
+                'hill' => [
+                ],
+                'water' => [
+                ],
+            ];
+
+          }
         }
 
-        return $return;
+        return $buildings;
     }
 
     // temp
