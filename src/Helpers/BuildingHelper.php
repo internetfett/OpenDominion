@@ -84,11 +84,6 @@ class BuildingHelper
 
         if ($dominion->race !== null)
         {
-          if(!$dominion->race->getPerkValue('cannot_build_homes'))
-          {
-            array_unshift($return[$dominion->race->home_land_type], 'home');
-          }
-
           if($dominion->race->name == 'Dragon')
           {
 
@@ -113,6 +108,12 @@ class BuildingHelper
             ];
 
           }
+
+          if(!$dominion->race->getPerkValue('cannot_build_homes'))
+          {
+            array_unshift($return[$dominion->race->home_land_type], 'home');
+          }
+
         }
 
         return $buildings;
