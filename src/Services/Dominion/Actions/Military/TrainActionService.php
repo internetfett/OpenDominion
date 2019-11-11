@@ -228,7 +228,7 @@ class TrainActionService
                     $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                     $amountToTrain))
                   >
-                  ($pairingLimitedByTrained * $pairingLimitedTo)
+                  $upperLimit
                 )
               {
                 throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $pairingLimit[0] .'s.');

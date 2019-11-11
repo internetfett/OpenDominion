@@ -51,4 +51,4 @@ units:
       no_draftee: 1
       land_limit: mountain,100 # Max 1 unit per 100 acres of Mountain
       fewer_casualties: 25
-      food_consumption: 2
+      food_consumption: 100
