@@ -233,6 +233,10 @@ class TrainActionService
               {
                 throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $pairingLimit[0] .'s.');
               }
+              else
+              {
+                throw new GameException('Training was somehow alloed.' . $landLimitedToLandType . ':' . $landLimitedToAcres . ':' . $acresOfLimitingLandType . ':' . $upperLimit . ':' . $pairingLimit[0] . ':' . $pairingLimit[1]);
+              }
 
 
             }
