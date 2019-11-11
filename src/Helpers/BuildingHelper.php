@@ -86,7 +86,6 @@ class BuildingHelper
         {
           if($dominion->race->name == 'Dragon')
           {
-
             $buildings = [
                 'plain' => [
                     'farm',
@@ -94,6 +93,7 @@ class BuildingHelper
                 'mountain' => [
                 ],
                 'swamp' => [
+                    'tower',
                 ],
                 'cavern' => [
                     'diamond_mine',
@@ -106,7 +106,6 @@ class BuildingHelper
                 'water' => [
                 ],
             ];
-
           }
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
