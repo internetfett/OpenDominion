@@ -213,7 +213,7 @@ class TrainActionService
             $landLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit');
             if($landLimit)
             {
-
+              die(var_dump($landLimit));
               // We have land limit for this unit.
               $landLimitedToLandType = 'land_'.$pairingLimit[0]; # Land type
               $landLimitedToAcres = $pairingLimit[1]; # Acres per unit
@@ -240,11 +240,6 @@ class TrainActionService
 
 
             }
-            else
-            {
-              throw new GameException(var_dump($dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit')));
-            }
-
 
             }
           }
@@ -412,12 +407,10 @@ class TrainActionService
             $dominion->military_wizards -= $totalCosts['wizard'];
             $dominion->military_archmages -= $totalCosts['archmage'];
 
-
             // Data:
             # unit1 => int
             # unit2 => int
             # et cetera
-
 
             foreach($data as $unit => $amountToTrain)
             {
