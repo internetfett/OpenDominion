@@ -37,7 +37,8 @@ class BuildingHelper
 
         if($dominion->race->name == 'Dragon')
         {
-          $buildings = array_diff($buildings, $forbiddenBuildings);
+          #$buildings = array_diff($buildings, $forbiddenBuildings);
+          $buildings = ['home','farm','tower','diamond_mine','lumberyard'];
         }
 
 
