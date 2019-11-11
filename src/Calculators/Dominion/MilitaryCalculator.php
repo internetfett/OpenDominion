@@ -760,19 +760,22 @@ class MilitaryCalculator
 
     protected function getUnitPowerFromVersusPrestigePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
     {
-        $prestigePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"offense_vs_prestige");
+        $prestigePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "vs_prestige");
 
         if (!$prestigePerk)
         {
             return 0;
         }
 
-        if (!empty($calc)) {
-            # Override land percentage for invasion calculator
-            if (isset($calc['prestige'])) {
-                $prestige = (float) $calc['$prestige'];
+        if (!empty($calc))
+        {
+            if (isset($calc['prestige']))
+            {
+                $prestige = (float) $calc['prestige'];
             }
-        } elseif ($target !== null) {
+        }
+        elseif ($target !== null)
+        {
             $prestige = $target->prestige;
         }
 
