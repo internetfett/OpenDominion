@@ -240,6 +240,10 @@ class TrainActionService
 
 
             }
+            else
+            {
+              throw new GameException(var_dump($dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit')));
+            }
 
 
             }
