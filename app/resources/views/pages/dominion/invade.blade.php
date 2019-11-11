@@ -197,7 +197,7 @@
                                             </td>
                                             <td>
                                                 <input type="number"
-                                                       name="calc[{{ $prestige }}]"
+                                                       name="calc[prestige]"
                                                        class="form-control text-center"
                                                        min="0"
                                                        max="100"
