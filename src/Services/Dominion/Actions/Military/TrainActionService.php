@@ -220,7 +220,7 @@ class TrainActionService
 
             $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
-            $upperLimit = $acresOfLimitingLandType / $landLimitedToAcres;
+            $upperLimit = intval($acresOfLimitingLandType / $landLimitedToAcres);
 
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
