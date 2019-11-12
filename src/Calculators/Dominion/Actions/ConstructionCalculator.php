@@ -213,11 +213,25 @@ class ConstructionCalculator
             $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) / 2);
         }
 
-        return $discountedBuildings + min(
-                floor($platinumToSpend / $platinumCost),
-                floor($lumberToSpend / $lumberCost),
-                ($barrenLand - $discountedBuildings)
-            );
+        # Merfolk perk: no_lumber_construction_cost
+        if($dominion->race->getPerkMultiplier('no_lumber_construction_cost'))
+        {
+          return $discountedBuildings + min(
+                  floor($platinumToSpend / $platinumCost),
+                  ($barrenLand - $discountedBuildings)
+              );
+        }
+        else
+        {
+          return $discountedBuildings + min(
+                  floor($platinumToSpend / $platinumCost),
+                  floor($lumberToSpend / $lumberCost),
+                  ($barrenLand - $discountedBuildings)
+              );
+        }
+
+
+
     }
 
     /**
