@@ -119,7 +119,7 @@ class ProductionCalculator
 
         // Unit Perk Production Reduction (Dragon Unit: Mercenary)
         $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
-        $platinum = min(0, $platinum-$upkeep);
+        $platinum = max(0, $platinum-$upkeep);
 
         return $platinum;
     }
