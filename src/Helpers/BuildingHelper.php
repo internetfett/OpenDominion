@@ -53,41 +53,6 @@ class BuildingHelper
 
     public function getBuildingTypesByRace(Dominion $dominion = null): array
     {
-        $buildings = [
-            'plain' => [
-                'alchemy',
-                'farm',
-                'smithy',
-                'masonry',
-            ],
-            'mountain' => [
-                'ore_mine',
-                'gryphon_nest',
-            ],
-            'swamp' => [
-                'tower',
-                'wizard_guild',
-                'temple',
-            ],
-            'cavern' => [
-                'diamond_mine',
-                'school',
-            ],
-            'forest' => [
-                'lumberyard',
-                'forest_haven',
-            ],
-            'hill' => [
-                'factory',
-                'guard_tower',
-                'shrine',
-                'barracks',
-            ],
-            'water' => [
-                'dock',
-            ],
-        ];
-
         if ($dominion !== null)
         {
           if($dominion->race->name == 'Dragon')
@@ -138,6 +103,43 @@ class BuildingHelper
             array_unshift($buildings[$dominion->race->home_land_type], 'home');
           }
 
+        }
+        else
+        {
+          $buildings = [
+              'plain' => [
+                  'alchemy',
+                  'farm',
+                  'smithy',
+                  'masonry',
+              ],
+              'mountain' => [
+                  'ore_mine',
+                  'gryphon_nest',
+              ],
+              'swamp' => [
+                  'tower',
+                  'wizard_guild',
+                  'temple',
+              ],
+              'cavern' => [
+                  'diamond_mine',
+                  'school',
+              ],
+              'forest' => [
+                  'lumberyard',
+                  'forest_haven',
+              ],
+              'hill' => [
+                  'factory',
+                  'guard_tower',
+                  'shrine',
+                  'barracks',
+              ],
+              'water' => [
+                  'dock',
+              ],
+          ];
         }
 
         return $buildings;
