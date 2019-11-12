@@ -33,15 +33,18 @@ class BuildingHelper
           'dock',
         ];
 
-        // Ugly, but works.
-        if($dominion->race->name == 'Dragon')
+        if($dominion !== null)
         {
-          #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
-          $buildings = ['home','farm','tower','diamond_mine','lumberyard', 'ore_mine'];
-        }
-        if($dominion->race->name == 'Merfolk')
-        {
-          $buildings = ['home','farm','tower','diamond_mine','temple','shrine'];
+          // Ugly, but works.
+          if($dominion->race->name == 'Dragon')
+          {
+            #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
+            $buildings = ['home','farm','tower','diamond_mine','lumberyard', 'ore_mine'];
+          }
+          if($dominion->race->name == 'Merfolk')
+          {
+            $buildings = ['home','farm','tower','diamond_mine','temple','shrine'];
+          }
         }
 
       return $buildings;
