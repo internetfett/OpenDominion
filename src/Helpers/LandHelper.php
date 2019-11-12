@@ -39,13 +39,15 @@ class LandHelper
           'dock' => 'water',
         ];
       }
-      if($race->name == 'Merfolk')
+      elseif($race->name == 'Merfolk')
       {
+        $buildings = [
           'farm' => 'water',
           'tower' => 'water',
           'temple' => 'water',
           'diamond_mine' => 'water',
           'shrine' => 'water',
+        ];
       }
       else
       {
@@ -69,7 +71,7 @@ class LandHelper
             'barracks' => 'hill',
             'dock' => 'water',
         ];
-    }
+      }
 
         $buildings = (['home' => $race->home_land_type] + $return);
 
