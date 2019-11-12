@@ -73,7 +73,7 @@ class LandHelper
         ];
       }
 
-        $buildings = (['home' => $race->home_land_type] + $return);
+        $buildings = (['home' => $race->home_land_type] + $buildings);
 
         return $buildings;
     }
