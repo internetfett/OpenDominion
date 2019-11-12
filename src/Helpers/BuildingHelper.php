@@ -114,13 +114,15 @@ class BuildingHelper
           }
           if($dominion->race->name == 'Merfolk')
           {
-            'water' => [
-              'farm',
-              'tower',
-              'temple',
-              'diamond_mine',
-              'shrine',
-            ],
+            $buildings = [
+                'water' => [
+                  'farm',
+                  'tower',
+                  'temple',
+                  'diamond_mine',
+                  'shrine',
+                ],
+            ];
           }
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
