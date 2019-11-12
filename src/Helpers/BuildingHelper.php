@@ -93,11 +93,13 @@ class BuildingHelper
           if($dominion->race->name == 'Dragon')
           {
             $buildings = [
+                'plain' => [],
                 'mountain' => [
                     'tower',
                     'farm',
                     'ore_mine',
                 ],
+                'swamp' => [],
                 'cavern' => [
                     'diamond_mine',
                 ],
@@ -115,6 +117,12 @@ class BuildingHelper
           if($dominion->race->name == 'Merfolk')
           {
             $buildings = [
+                'plain' => [],
+                'mountain' => [],
+                'swamp' => [],
+                'cavern' => [],
+                'forest' => [],
+                'hill' => [],
                 'water' => [
                   'farm',
                   'tower',
