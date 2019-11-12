@@ -364,6 +364,9 @@ class SpellActionService
                     'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2),
                     'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3),
                     'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4),
+                    'military_spies' => $target->military_spies,
+                    'military_wizards' => $target->military_wizards,
+                    'military_archmages' => $target->military_archmages,
 
                     'recently_invaded_count' => $this->militaryCalculator->getRecentlyInvadedCount($target),
 
