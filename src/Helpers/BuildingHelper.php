@@ -90,14 +90,10 @@ class BuildingHelper
           if($dominion->race->name == 'Dragon')
           {
             $buildings = [
-                'plain' => [
-                    'farm',
-                ],
                 'mountain' => [
-                    'ore_mine',
-                ],
-                'swamp' => [
                     'tower',
+                    'farm',
+                    'ore_mine',
                 ],
                 'cavern' => [
                     'diamond_mine',
@@ -106,9 +102,10 @@ class BuildingHelper
                     'lumberyard',
                 ],
                 'hill' => [
-                'barracks',
+                  'barracks',
                 ],
                 'water' => [
+                    'dock',
                 ],
             ];
           }

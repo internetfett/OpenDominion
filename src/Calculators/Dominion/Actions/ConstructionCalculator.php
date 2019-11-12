@@ -116,7 +116,14 @@ class ConstructionCalculator
      */
     public function getLumberCost(Dominion $dominion): int
     {
+      if($dominion->race->getPerkMultiplier('no_lumber_construction_cost'))
+      {
+        return 0;
+      }
+      else
+      {
         return ($this->getLumberCostRaw($dominion) * $this->getLumberCostMultiplier($dominion));
+      }
     }
 
     /**
