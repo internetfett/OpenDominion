@@ -97,6 +97,11 @@ class ProductionCalculator
         {
             $platinum += $dominion->peasants * $peasantTax;
         }
+        // Merfolk: peasants_produce_food (i.e. no plat from peasants)
+        elseif($dominion->race->getPerkValue('peasants_produce_food'))
+        {
+          $platinum = 0;
+        }
         else
         {
             // Peasant Tax
@@ -104,12 +109,17 @@ class ProductionCalculator
         }
 
         // Spell: Alchemist Flame
-        if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame')) {
+        if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame'))
+        {
             $platinumPerAlchemy += $spellAlchemistFlameAlchemyBonus;
         }
 
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
+
+        // Unit Perk Production Reduction (Dragon Unit: Mercenary)
+        $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
+        $platinum = min(0, $platinum-$upkeep);
 
         return $platinum;
     }

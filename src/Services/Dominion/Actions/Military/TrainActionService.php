@@ -216,7 +216,7 @@ class TrainActionService
           {
             // We have land limit for this unit.
             $landLimitedToLandType = 'land_'.$landLimit[0]; # Land type
-            $landLimitedToAcres = (int)$landLimit[1]; # Acres per unit
+            $landLimitedToAcres = (float)$landLimit[1]; # Acres per unit
 
             $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
@@ -233,8 +233,6 @@ class TrainActionService
             {
               throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $landLimit[0] .'s.');
             }
-
-
           }
 
         }

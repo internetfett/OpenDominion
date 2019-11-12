@@ -1,18 +1,21 @@
 name: Dragon
 alignment: evil
 description: >-
-  <p>Dragons enslave villagers and b
-  <p>Dragons of old have returned from beyond the Endless Sea.</p>
+  <p>Dragons enslave small mountain villages. There is an uneasy coexistence between the servant villagers and their dragon masters, continioned on hard labour by the villagers to provide the dragons with food which to eat and gems upon which to slumber.</p>
+  <p>To keep themselves safe from fortune-seeking would-be dragonslayers and Commonwealth harrassment, the villagers have formed a tattered army of peasants armed with scythes, sickles, and rudimentary bows. They complement this with for-hire Mercenaries to provide basic protection from those seeking to take their lands.</p>
+  <p>Solitary beings, the dragons require vast distance between each other. They will however band together to protect their mountain ranges and its villages. And, of course, to take over new lands.</p>
 home_land_type: mountain
 playable: 1
 
 attacking: 2
-exploring : 2
+exploring : 0
 converting: 2
 
 perks:
     gem_production: 10
     max_population: -10
+    population_growth: -10
+    cannot_explore: 1
 units:
   - name: Militia
     need_boat: true
@@ -22,33 +25,40 @@ units:
     power:
       offense: 2
       defense: 0
-  - name: Guard
+    perks:
+      faster_training: 7
+  - name: Lookout
     cost:
       platinum: 100
       ore: 35
     power:
       offense: 0
       defense: 3
+    perks:
+      faster_training: 7
   - name: Mercenary
     need_boat: true
     cost:
-      platinum: 800
+      platinum: 500
     power:
-      offense: 5
-      defense: 5
+      offense: 6
+      defense: 6
     perks:
-      platinum_upkeep: 1
+      platinum_upkeep: 0.5
+      no_draftee: 1
   - name: Dragon
     need_boat: false
     cost:
-      platinum: 10000
-      gems: 1000
+      platinum: 3000
+      gems: 2000
     power:
       offense: 1000
       defense: 1000
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      land_limit: mountain,100 # Max 1 unit per 100 acres of Mountain
+      fewer_casualties_offense: -90
+      fewer_casualties_defense: -50
+      land_limit: mountain,6 # Max 1 unit per 6 acres of Mountain
       fewer_casualties: 25
-      food_consumption: 100
+      food_consumption: 10

@@ -39,6 +39,10 @@ class BuildingHelper
           #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
           $buildings = ['home','farm','tower','diamond_mine','lumberyard', 'ore_mine'];
         }
+        if($dominion->race->name == 'Merfolk')
+        {
+          $buildings = ['home','farm','tower','diamond_mine','temple','shrine'];
+        }
 
       return $buildings;
 
@@ -107,6 +111,16 @@ class BuildingHelper
                 'water' => [
                 ],
             ];
+          }
+          if($dominion->race->name == 'Merfolk')
+          {
+            'water' => [
+              'farm',
+              'tower',
+              'temple',
+              'diamond_mine',
+              'shrine',
+            ],
           }
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
