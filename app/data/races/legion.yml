@@ -31,6 +31,7 @@ units:
     perks:
       plunders_resources_on_attack: 1
       faster_return: 2
+      offense_from_military: 1 # Gets up to +1 OP per % military
   - name: Dark Elf
     type: hybrid_elite
     need_boat: true
@@ -44,6 +45,7 @@ units:
       counts_as_wizard_offense: 0.2
       counts_as_wizard_defense: 0.2
       faster_return: 2
+      offense_from_military: 1 # Gets up to +1 OP per % military
   - name: Lizardfolk
     type: hybrid_elite
     need_boat: false
@@ -57,6 +59,7 @@ units:
       counts_as_spy_offense: 0.2
       counts_as_spy_defense: 0.2
       faster_return: 2
+      offense_from_military: 1 # Gets up to +1 OP per % military
   - name: Troll
     type: hybrid_elite
     need_boat: true
@@ -69,3 +72,4 @@ units:
     perks:
       fewer_casualties: 50
       faster_return: 2
+      offense_from_military: 1 # Gets up to +1 OP per % military

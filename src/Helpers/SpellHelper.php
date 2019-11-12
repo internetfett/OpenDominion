@@ -359,7 +359,7 @@ class SpellHelper
                 'key' => 'portal',
                 'mana_cost' => 12,
                 'duration' => 1,
-                'cooldown' => 18, # 0.5 times/day.
+                'cooldown' => 6*4, # 0.5 times/day.
                 'races' => collect(['Dimensionalists']),
             ],
             [

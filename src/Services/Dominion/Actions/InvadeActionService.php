@@ -1595,8 +1595,8 @@ class InvadeActionService
     protected function getDefensivePowerWithTemples(Dominion $dominion, Dominion $target): float
     {
         // Values (percentages)
-        $dpReductionPerTemple = 1.75;
-        $templeMaxDpReduction = 35;
+        $dpReductionPerTemple = 2;
+        $templeMaxDpReduction = 40;
         $ignoreDraftees = false;
 
         $dpMultiplierReduction = min(

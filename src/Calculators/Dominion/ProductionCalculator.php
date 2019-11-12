@@ -97,7 +97,7 @@ class ProductionCalculator
         {
             $platinum += $dominion->peasants * $peasantTax;
         }
-        // Merfolk: peasants_produce_food (i.e. no plat from peasants)
+        // Myconid: peasants_produce_food (i.e. no plat from peasants)
         elseif($dominion->race->getPerkValue('peasants_produce_food'))
         {
           $platinum = 0;

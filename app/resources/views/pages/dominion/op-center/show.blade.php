@@ -158,15 +158,15 @@
                                     </tr>
                                     <tr>
                                         <td>Spies:</td>
-                                        <td>???</td>
+                                        <td>{{ number_format($infoOp->data['military_spies']) }}</td>
                                     </tr>
                                     <tr>
                                         <td>Wizards:</td>
-                                        <td>???</td>
+                                        <td>{{ number_format($infoOp->data['military_wizards']) }}</td>
                                     </tr>
                                     <tr>
                                         <td>ArchMages:</td>
-                                        <td>???</td>
+                                        <td>{{ number_format($infoOp->data['military_archmages']) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
