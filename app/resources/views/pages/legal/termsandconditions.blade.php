@@ -9,7 +9,7 @@
     </div>
     <div class="box-body">
 
-      <p>Last updated: October 03, 2019</p>
+      <p>Last updated: November 13, 2019</p>
 
       <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the {{ $website_url }} website (the "Service") operated by {{ $website_name }} ("us", "we", or "our").</p>
 
@@ -45,13 +45,11 @@
 
       <p>You are only allowed to have one dominion per round per account.</p>
 
-      <p>Until further notice, it is permitted to have multiple accounts and, as such, multiple dominions per round. However, you must not use this to give yourself or anyone specific an unfair advantage or otherwise be abusive.</p>
-
-      <p>Your dominion name or ruler name must not be offensive or misleading.</p>
+      <p>Your dominion name or ruler name must not be offensive, abusive, or misleading.</p>
 
       <p>You may not use any tools, software, application, scripts, or otherwise to automate any activities in the game.</p>
 
-      <p>You must not in any way cooperate with another realm or dominions in other realms, such as Non-Aggression Pacts (“NAP”) or alliances.</p>
+      <p>You must not in any way cooperate with another realm or dominions in other realms, such as Non-Aggression Pacts (“NAP”), alliances, or sharing game information.</p>
 
       <p>You must not in any way intentionally take any action which directly or indirectly benefits another realm or a dominion in another realm.</p>
 
@@ -73,7 +71,7 @@
 
       <h3>Termination</h3>
 
-      <p>We may terminate or suspend access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
+      <p>We may terminate or suspend, limit, and/or restrict access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
 
       <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</p>
 
