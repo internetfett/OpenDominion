@@ -372,11 +372,11 @@ class SpellHelper
             ],
             [
                 'name' => 'Underground Caves',
-                'description' => 'Psilocybe research point production replaced by gem production.',
+                'description' => 'Psilocybe research point production replaced by gem production (10x).',
                 'key' => 'underground_caves',
                 'mana_cost' => 5,
                 'duration' => 12*4,
-                'races' => collect(['Mycelia']),
+                'races' => collect(['Myconid']),
             ],
 
         ]);
