@@ -36,7 +36,7 @@ units:
       defense: 1
     perks:
         reduce_combat_losses: 1
-        tech_production: 1
+        tech_production: 0.03
         faster_training: 8
   - name: Fanatic
     cost:

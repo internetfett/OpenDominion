@@ -30,7 +30,7 @@ units:
   - name: Adept
     type: hybrid_elite
     cost:
-      platinum: 1050
+      platinum: 1100
       ore: 0
     power:
       offense: 4
@@ -40,10 +40,10 @@ units:
       counts_as_wizard_defense: 0.4
       offense_from_building: wizard_guild,10,5 # building type, ratio%, max
       defense_from_building: wizard_guild,10,5 # building type, ratio%, max
-      tech_production: 0.5
+      tech_production: 0.06
   - name: Spirit Warrior
     cost:
-      platinum: 1000
+      platinum: 1200
       mana: 15
     power:
       offense: 7

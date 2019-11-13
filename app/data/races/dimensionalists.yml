@@ -16,7 +16,7 @@ converting: 2
 
 perks:
   construction_cost: 15
-  max_population: -20
+  max_population: -50
   cannot_build_homes: 1
   food_consumption: -80
 units:

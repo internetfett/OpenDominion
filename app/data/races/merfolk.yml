@@ -14,11 +14,9 @@ exploring : 3
 converting: 1
 
 perks:
-  lumber_production: -10
   gem_production: -10
   platinum_production: -10
   mana_production: -10
-  food_consumption: 25
   max_population: -15
   no_lumber_construction_cost: 1
 units:
@@ -47,7 +45,7 @@ units:
       defense: 22
     perks:
       sink_boats_defense: 1
-      food_consumption: 0.5
+      food_consumption: 1
       land_limit: water,0.22 # Max 1 unit per 0.22 acres of Water (4.54 Krakens/acre)
   - name: Kraken
     cost:
@@ -58,6 +56,6 @@ units:
     perks:
       sink_boats_offense: 1
       sink_boats_defense: 1
-      food_consumption: 0.25
+      food_consumption: 0.75
       land_limit: water,0.17 # Max 1 unit per 0.17 acres of Water (5.88 Krakens/acre)
     need_boat: false

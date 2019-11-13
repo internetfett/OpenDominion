@@ -7,7 +7,7 @@ description: >-
   <p>The Myconids are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
   <hr />
-  <p>Spores ("peasants") produce 10 food/hr instead of the normal 2.7 platinum/hr.</p>
+  <p>Spores ("peasants") produce 8 food/hr instead of the normal 2.7 platinum/hr.</p>
   <p>Starting resources:</p>
   <ul>
   <li>1,000,000 food.</li>
@@ -58,7 +58,6 @@ units:
       offense: 0
       defense: 9
     perks:
-      faster_training: 3
       no_draftee: 1
       #dies_into: 1
       #unit_production: 1,0.0005 # Unit Type, Amount
