@@ -4,6 +4,7 @@ namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 
 class ConstructionCalculator
@@ -14,16 +15,23 @@ class ConstructionCalculator
     /** @var LandCalculator */
     protected $landCalculator;
 
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
+
     /**
      * ConstructionCalculator constructor.
      *
      * @param BuildingCalculator $buildingCalculator
      * @param LandCalculator $landCalculator
      */
-    public function __construct(BuildingCalculator $buildingCalculator, LandCalculator $landCalculator)
+    public function __construct(
+        BuildingCalculator $buildingCalculator,
+        LandCalculator $landCalculator,
+        ImprovementCalculator $improvementCalculator)
     {
         $this->buildingCalculator = $buildingCalculator;
         $this->landCalculator = $landCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -108,7 +116,14 @@ class ConstructionCalculator
      */
     public function getLumberCost(Dominion $dominion): int
     {
+      if($dominion->race->getPerkMultiplier('no_lumber_construction_cost'))
+      {
+        return 0;
+      }
+      else
+      {
         return ($this->getLumberCostRaw($dominion) * $this->getLumberCostMultiplier($dominion));
+      }
     }
 
     /**
@@ -198,11 +213,25 @@ class ConstructionCalculator
             $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) / 2);
         }
 
-        return $discountedBuildings + min(
-                floor($platinumToSpend / $platinumCost),
-                floor($lumberToSpend / $lumberCost),
-                ($barrenLand - $discountedBuildings)
-            );
+        # Merfolk perk: no_lumber_construction_cost
+        if($dominion->race->getPerkMultiplier('no_lumber_construction_cost'))
+        {
+          return $discountedBuildings + min(
+                  floor($platinumToSpend / $platinumCost),
+                  ($barrenLand - $discountedBuildings)
+              );
+        }
+        else
+        {
+          return $discountedBuildings + min(
+                  floor($platinumToSpend / $platinumCost),
+                  floor($lumberToSpend / $lumberCost),
+                  ($barrenLand - $discountedBuildings)
+              );
+        }
+
+
+
     }
 
     /**
@@ -215,6 +244,8 @@ class ConstructionCalculator
     {
         $multiplier = 0;
 
+        $maxReduction = -90;
+
         // Values (percentages)
         $factoryReduction = 4;
         $factoryReductionMax = 75;
@@ -224,6 +255,11 @@ class ConstructionCalculator
             (($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * $factoryReduction),
             ($factoryReductionMax / 100)
         );
+
+        # Workshops
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
+
+        $multiplier = max($multiplier, $maxReduction);
 
         return (1 + $multiplier);
     }

@@ -93,7 +93,7 @@ class LandCalculator
      */
     public function getBarrenLandByLandType(Dominion $dominion): array
     {
-        $buildingTypesbyLandType = $this->buildingHelper->getBuildingTypesByRace($dominion->race);
+        $buildingTypesbyLandType = $this->buildingHelper->getBuildingTypesByRace($dominion);
 
         $return = [];
 

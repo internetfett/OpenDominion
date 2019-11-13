@@ -4,6 +4,8 @@ description: >-
   <p>An aquatic race that lives in beautiful coral reefs where food is plentiful, Merfolk are the benevolent guardians of the great oceans.</p>
   <p>Though typically peaceful, Merfolk are legendary for their wrath when angered, summoning terrors of the deep to destroy entire naval fleets with the thrashing tentacles of ravenous krakens. The chilling and alluring call of the piren might be the last thing you ever hear... before you're snatched from your ship and dragged down to the bottom of the cold, dark sea.</p>
   <p>Mighty Charybdis is always lurking in the depths. When called upon, he will ravage any enemy ships or flying units which dare draw close.</p>
+  <hr />
+  <p>Merfolk can only build Homes, Farms, Towers, Temples, Diamond Mines, and Shrines, all of which are built in water.</p>
 home_land_type: water
 playable: 1
 
@@ -12,10 +14,13 @@ exploring : 3
 converting: 1
 
 perks:
-  lumber_production: -15
-  food_production: 15
-  max_population: -5
+  lumber_production: -10
+  gem_production: -10
   platinum_production: -10
+  mana_production: -10
+  food_consumption: 25
+  max_population: -15
+  no_lumber_construction_cost: 1
 units:
   - name: Merman
     cost:
@@ -42,6 +47,8 @@ units:
       defense: 22
     perks:
       sink_boats_defense: 1
+      food_consumption: 0.5
+      land_limit: water,0.22 # Max 1 unit per 0.22 acres of Water (4.54 Krakens/acre)
   - name: Kraken
     cost:
       platinum: 2750
@@ -51,4 +58,6 @@ units:
     perks:
       sink_boats_offense: 1
       sink_boats_defense: 1
+      food_consumption: 0.25
+      land_limit: water,0.17 # Max 1 unit per 0.17 acres of Water (5.88 Krakens/acre)
     need_boat: false

@@ -19,7 +19,7 @@ converting: 2
 perks:
   mana_production: 10
   food_consumption: -25
-  max_population: -10
+  max_population: -5
   gryphon_nests_generates_wild_yetis: 1
 units:
   - name: Arbalist

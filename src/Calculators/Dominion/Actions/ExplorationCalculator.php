@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 
@@ -10,6 +11,9 @@ class ExplorationCalculator
 {
     /** @var LandCalculator */
     protected $landCalculator;
+
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
 
     /** @var GuardMembershipService */
     protected $guardMembershipService;
@@ -22,10 +26,12 @@ class ExplorationCalculator
      */
     public function __construct(
         LandCalculator $landCalculator,
-        GuardMembershipService $guardMembershipService)
+        GuardMembershipService $guardMembershipService,
+        ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->guardMembershipService = $guardMembershipService;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -60,6 +66,12 @@ class ExplorationCalculator
             $multiplier += 0.25;
         }
 
+        # Improvement: Cartography
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
+
+        # Cap explore plat reduction to 50%.
+        $multiplier = max($multiplier,0.50);
+
         return round($platinum * $multiplier);
     }
 
@@ -87,6 +99,7 @@ class ExplorationCalculator
 
         // Techs
         $draftees += $dominion->getTechPerkValue('explore_draftee_cost');
+
         # Minimum dratee cost is 3
         if ($draftees < 3) {
             $draftees = 3;

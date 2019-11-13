@@ -196,6 +196,10 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'peasants produce food';
                 $booleanValue = true;
+            case 'no_lumber_construction_cost':
+                $negativeBenefit = true;
+                $description = 'no lumber construction cost';
+                $booleanValue = true;
                 break;
             default:
                 return '';
@@ -429,6 +433,10 @@ class RaceHelper
                 $description = 'Peasants produce food';
                 $booleanValue = true;
                 break;
+            case 'no_lumber_construction_cost':
+                $negativeBenefit = true;
+                $description = 'No lumber construction cost';
+                $booleanValue = true;
             default:
                 return null;
         }

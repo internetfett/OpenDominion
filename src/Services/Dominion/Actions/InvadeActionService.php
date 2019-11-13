@@ -9,6 +9,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
@@ -100,6 +101,9 @@ class InvadeActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -147,7 +151,8 @@ class InvadeActionService
         ProtectionService $protectionService,
         QueueService $queueService,
         RangeCalculator $rangeCalculator,
-        SpellCalculator $spellCalculator
+        SpellCalculator $spellCalculator,
+        ImprovementCalculator $improvementCalculator
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -158,6 +163,7 @@ class InvadeActionService
         $this->queueService = $queueService;
         $this->rangeCalculator = $rangeCalculator;
         $this->spellCalculator = $spellCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -781,43 +787,23 @@ class InvadeActionService
             $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
             $landGained = ($landConquered + $landGenerated);
 
+            $landGeneratedMultiplier = 1;
+
             // Add 20% to generated if Nomad spell Campaign is enabled.
             if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
             {
-                $landGenerated *= 1.2;
+                $landGeneratedMultiplier += 0.20;
             }
+
+            // Improvement: Cartography
+            $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
+
+            $landGenerated = $landGenerated * $landGeneratedMultiplier;
 
             # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
             {
                 $landGenerated = 0;
-            }
-
-            // Racial Spell: Erosion (Lizardfolk, Merfolk) - ABANDONED
-            if ($this->spellCalculator->isSpellActive($dominion, 'erosion')) {
-                // todo: needs a more generic solution later
-                $landRezoneType = 'water';
-                $landRezonePercentage = 20;
-
-                $landRezonedConquered = (int)ceil($landConquered * ($landRezonePercentage / 100));
-                $landRezonedGenerated = (int)round($landRezonedConquered * ($bonusLandRatio - 1));
-                $landGenerated -= $landRezonedGenerated;
-                $landGained -= ($landRezonedConquered + $landRezonedGenerated);
-
-                if (!isset($landGainedPerLandType["land_{$landRezoneType}"])) {
-                    $landGainedPerLandType["land_{$landRezoneType}"] = 0;
-                }
-                $landGainedPerLandType["land_{$landRezoneType}"] += ($landRezonedConquered + $landRezonedGenerated);
-
-                if (!isset($this->invasionResult['attacker']['landGenerated'][$landRezoneType])) {
-                    $this->invasionResult['attacker']['landGenerated'][$landRezoneType] = 0;
-                }
-                $this->invasionResult['attacker']['landGenerated'][$landRezoneType] += $landRezonedGenerated;
-
-                if (!isset($this->invasionResult['attacker']['landErosion'])) {
-                    $this->invasionResult['attacker']['landErosion'] = 0;
-                }
-                $this->invasionResult['attacker']['landErosion'] += ($landRezonedConquered + $landRezonedGenerated);
             }
 
             $landGained = ($landConquered + $landGenerated);
@@ -1083,16 +1069,21 @@ class InvadeActionService
           $researchPointsPerAcre = 20;
         }
 
+        $researchPointsPerAcreMultiplier = 1;
+
+        # Increase RP per acre
         if($dominion->race->getPerkMultiplier('research_points_per_acre'))
         {
-          $researchPointsPerAcre *= (1 + $dominion->race->getPerkMultiplier('research_points_per_acre'));
+          $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
         }
+
+        $researchPointsPerAcreMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful) {
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
 
-            $researchPointsGained = $landConquered * $researchPointsPerAcre;
+            $researchPointsGained = $landConquered * $researchPointsPerAcre * $researchPointsPerAcreMultiplier;
             $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
 
             $this->queueService->queueResources(
@@ -1232,6 +1223,24 @@ class InvadeActionService
               ]
           );
         }
+
+        // Firewalker: burns_peasants
+        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack'))
+          {
+            $burningUnits = $units[$unitSlot];
+            $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
+            $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
+            $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+            $target->peasants -= $burnedPeasants;
+            $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
+            $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
+
+          }
+        }
+
+
     }
 
     /**
@@ -1586,8 +1595,8 @@ class InvadeActionService
     protected function getDefensivePowerWithTemples(Dominion $dominion, Dominion $target): float
     {
         // Values (percentages)
-        $dpReductionPerTemple = 1.75;
-        $templeMaxDpReduction = 35;
+        $dpReductionPerTemple = 2;
+        $templeMaxDpReduction = 40;
         $ignoreDraftees = false;
 
         $dpMultiplierReduction = min(

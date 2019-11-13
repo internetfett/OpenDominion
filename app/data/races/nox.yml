@@ -51,8 +51,8 @@ units:
       platinum: 1200
       mana: 15
     power:
-      offense: 5
-      defense: 2
+      offense: 6
+      defense: 2.5
     perks:
       fewer_casualties: 80
       counts_as_wizard_offense: 0.1

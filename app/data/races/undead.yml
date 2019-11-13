@@ -11,16 +11,16 @@ exploring : 1
 converting: 1
 
 perks:
-  max_population: 15
+  max_population: 20
   mana_production: 10
-  food_consumption: -75
+  food_consumption: -80
 units:
   - name: Skeleton
     need_boat: false
     cost:
       platinum: 225
     power:
-      offense: 2.5
+      offense: 3
       defense: 0
     perks:
       immortal: 1
@@ -29,29 +29,29 @@ units:
       platinum: 225
     power:
       offense: 0
-      defense: 2.5
+      defense: 3
     perks:
       immortal: 1
   - name: Revenant
     need_boat: false
     cost:
-      platinum: 900
+      platinum: 1000
       mana: 10
     power:
-      offense: 2
-      defense: 4
+      offense: 3
+      defense: 5
     perks:
       immortal: 1
-      conversion: 12 # slot 1 and slot 2 aka specs
+      staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
   - name: Wraith
     need_boat: false
     cost:
-      platinum: 1100
+      platinum: 1000
       mana: 10
     power:
-      offense: 4
+      offense: 5
       defense: 3
     perks:
       immortal: 1
       staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
-      offense_raw_wizard_ratio: 1,1 # ratio%, max
+      offense_raw_wizard_ratio: 1,2 # ratio%, max

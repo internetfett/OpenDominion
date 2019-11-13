@@ -231,13 +231,11 @@
                             @if (isset($event->data['attacker']['plunder']))
                                 @if ($event->source->id === $selectedDominion->id)
                                     <p class="text-center text-green">
-                                        {{-- todo: remove hardcoded Hobgoblin mention? --}}
                                         Your units plunder {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems.
                                     </p>
                                 @else
                                     <p class="text-center text-red">
-                                        {{-- todo: remove hardcoded Hobgoblin mention? --}}
-                                        You lost {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems due to plundering.
+                                        The enemy soldiers plunder {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }}.
                                     </p>
                                 @endif
                             @endif
@@ -253,11 +251,22 @@
                                 </p>
                             @endif
 
-
                             @if (isset($event->data['attacker']['champion']) && $event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
                                   {{ $unitHelper->getChampionsString($event->data['attacker']['champion']['champions']) }}
                                 </p>
+                            @endif
+
+                            @if (isset($event->data['attacker']['peasants_burned']))
+                              @if ($event->source->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                                  You burn <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants to death.</p>
+                                </p>
+                              @else
+                                <p class="text-center text-red">
+                                  <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> were burned to death during combat.</p>
+                                </p>
+                              @endif
                             @endif
 
                         </div>

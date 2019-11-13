@@ -3,7 +3,7 @@ alignment: good
 description: >-
   <p>The Sacred Order was created by Humans who felt that Crusades should be lifelong struggles to reach the Divines.</p>
   <p>Monks are responsible for providing stable defenses, while Fanatics are seen both defending the holy land and conquering more, strengthened by Temples to the Divines.</p>
-  <p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors.</p>
+  <p>Fanatics can convert some enemy soldiers into Martyrs, which join the infantry alongside the mighty Holy Warriors and Fanatics, which are elite Monks.</p>
 home_land_type: plain
 playable: 1
 
@@ -36,25 +36,30 @@ units:
       defense: 1
     perks:
         reduce_combat_losses: 1
+        tech_production: 1
         faster_training: 8
   - name: Fanatic
     cost:
       platinum: 1000
       ore: 50
+      unit2: 1
     power:
-      offense: 1
-      defense: 4
+      offense: 2
+      defense: 5
     perks:
-      offense_from_building: temple,5,3 # building type, ratio%, max
-      defense_from_building: temple,5,3 # building type, ratio%, max
+      no_draftee: 1
+      offense_from_building: temple,5,2 # building type, ratio%, max
+      defense_from_building: temple,5,2 # building type, ratio%, max
       conversion: 1
   - name: Holy Warrior
     cost:
       platinum: 1400
       ore: 80
+      unit2: 1
     power:
-      offense: 5
+      offense: 6
       defense: 3
     perks:
-      offense_from_building: shrine,5,3 # building type, ratio%, max
+      no_draftee: 1
+      offense_from_building: shrine,5,2 # building type, ratio%, max
       conversion: 1

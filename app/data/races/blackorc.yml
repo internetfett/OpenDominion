@@ -12,7 +12,6 @@ converting: 1
 perks:
   food_consumption: 20
   lumber_production: 50
-  max_population: -7.5
 units:
   - name: Impaler
     cost:

@@ -9,6 +9,6 @@ class EspionageCalculator
     // todo: clean this up
     public function canPerform(Dominion $dominion, string $operationKey): bool
     {
-        return ($dominion->spy_strength >= 30);
+        return ($dominion->spy_strength >= 0);
     }
 }

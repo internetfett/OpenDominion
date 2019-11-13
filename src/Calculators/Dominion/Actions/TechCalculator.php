@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Tech;
 
@@ -11,14 +12,20 @@ class TechCalculator
     /** @var LandCalculator */
     protected $landCalculator;
 
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
+
     /**
      * TechCalculator constructor.
      *
      * @param LandCalculator $landCalculator
      */
-    public function __construct(LandCalculator $landCalculator)
+    public function __construct(
+        LandCalculator $landCalculator,
+        ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
@@ -30,16 +37,17 @@ class TechCalculator
     public function getTechCost(Dominion $dominion): int
     {
         $techCostMultiplier = 5;
+        $techCostBonusMultiplier = 1;
         $minimumCost = intval(1000 * $techCostMultiplier);
 
-        $techCost = max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion)));
-
+        # Perk
         if($dominion->race->getPerkMultiplier('tech_costs'))
         {
-          $techCost *= (1 + $dominion->race->getPerkMultiplier('tech_costs'));
+          $techCostBonusMultiplier += $dominion->race->getPerkMultiplier('tech_costs');
         }
 
-        return $techCost;
+        return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostBonusMultiplier));
+
     }
 
     /**

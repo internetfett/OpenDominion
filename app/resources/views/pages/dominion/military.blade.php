@@ -212,6 +212,8 @@
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                           @if ($selectedDominion->race->name == 'Growth')
                           Mutate
+                          @elseif ($selectedDominion->race->name == 'Myconid')
+                          Grow
                           @else
                           Train
                           @endif
@@ -219,18 +221,24 @@
                         <div class="pull-right">
                           @if ($selectedDominion->race->name == 'Growth')
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> amoeba available to mutate.
+                          @elseif ($selectedDominion->race->name == 'Myconid')
+                            You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> sporelings available to grow.
                           @else
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ str_plural('draftee', $selectedDominion->military_draftees) }} available to train.
                           @endif
+
                           @if ($selectedDominion->race->name == 'Snow Elf')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.
                           @endif
+
                           @if ($selectedDominion->race->name == 'Demon')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls collected.
                           @endif
+
                           @if ($selectedDominion->race->name == 'Norse')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
                           @endif
+
                           @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                           <br> You were recently invaded, enraging your Spriggan and Leshy.
                           @endif
@@ -251,10 +259,17 @@
                     @if ($selectedDominion->race->name == 'Growth')
                     <p>Here you can mutate your amoeba into military units. Mutating Abscess and Blisters take <b>9 ticks</b> to process, while mutating Cysts and Ulcers take <b>12 ticks</b>.</p>
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} amoeba.</p>
+
+                    @elseif ($selectedDominion->race->name == 'Myconid')
+                    <p>Here you can grow your sporelings into Mycelia, which can then be grown into Mold, Psilocybe, and Amanita.</p>
+                    <p>It takes three ticks to grow Mycelia, six ticks to grow Mold, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
+                    <p>You have {{ number_format($selectedDominion->military_draftees) }} sporelings.</p>
+
                     @else
                     <p>Here you can train your draftees into stronger military units. Training specialist units take <b>9 ticks</b> to process, while training your other units take <b>12 ticks</b>.</p>
                     <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->military_draftees) }} {{ str_plural('draftee', $selectedDominion->military_draftees) }}.</p>
                     @endif
+
                     <p>You may also <a href="{{ route('dominion.military.release') }}">release your troops</a> if you wish.</p>
                 </div>
             </div>
@@ -279,6 +294,8 @@
                             <tr>
                               @if ($selectedDominion->race->name == 'Growth')
                                 <td class="text-center">Cells</td>
+                              @elseif ($selectedDominion->race->name == 'Myconid')
+                                <td class="text-center">Spores</td>
                               @else
                                 <td class="text-center">Peasants</td>
                               @endif
@@ -302,7 +319,11 @@
             @if ($selectedDominion->race->name !== 'Growth')
             <div class="box">
                 <div class="box-header with-border">
+                    @if ($selectedDominion->race->name == 'Myconid')
+                    <h3 class="box-title">Sporelings</h3>
+                    @else
                     <h3 class="box-title">Draftees</h3>
+                    @endif
                 </div>
                 <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                     @csrf
@@ -314,7 +335,11 @@
                             </colgroup>
                             <tbody>
                                 <tr>
+                                    @if ($selectedDominion->race->name == 'Myconid')
+                                    <td class="text-center">Germination:</td>
+                                    @else
                                     <td class="text-center">Draft Rate:</td>
+                                    @endif
                                     <td class="text-center">
                                         <input type="number" name="draft_rate" class="form-control text-center"
                                                style="display: inline-block; width: 80px;" placeholder="0" min="0"

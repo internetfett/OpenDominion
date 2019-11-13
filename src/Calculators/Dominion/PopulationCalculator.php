@@ -161,7 +161,7 @@ class PopulationCalculator
         $housingPerConstructingBuilding = 15; // todo: check how many constructing home/barracks houses
 
         // Constructed buildings
-        foreach ($this->buildingHelper->getBuildingTypes() as $buildingType) {
+        foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType) {
             switch ($buildingType) {
                 case 'home':
                     $housing = $housingPerHome;
