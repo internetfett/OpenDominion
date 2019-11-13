@@ -30,9 +30,6 @@ class MilitaryCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
-    /** @var PopulationCalculator */
-    private $populationCalculator;
-
     /**
      * MilitaryCalculator constructor.
      *
@@ -49,8 +46,7 @@ class MilitaryCalculator
         LandCalculator $landCalculator,
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
-        SpellCalculator $spellCalculator,
-        PopulationCalculator $populationCalculator)
+        SpellCalculator $spellCalculator)
     {
         $this->buildingCalculator = $buildingCalculator;
         $this->improvementCalculator = $improvementCalculator;
@@ -58,7 +54,6 @@ class MilitaryCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
-        $this->populationCalculator = $populationCalculator;
     }
 
     /**
@@ -790,23 +785,6 @@ class MilitaryCalculator
         $max = (int)$prestigePerk[1];
 
         $powerFromPerk = min($prestige / $amount, $max);
-
-        return $powerFromPerk;
-    }
-
-    protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Dominion $target = null, Unit $unit): float
-    {
-        $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "offense_from_military_percentage");
-
-        if (!$militaryPercentagePerk)
-        {
-            return 0;
-        }
-
-        $militaryPercentage = $populationCalculator->getPopulationMilitary($dominion);
-        $max = 1;
-
-        $powerFromPerk = $militaryPercentage * $militaryPercentagePerk;
 
         return $powerFromPerk;
     }
