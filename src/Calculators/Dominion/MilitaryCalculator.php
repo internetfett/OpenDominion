@@ -9,7 +9,6 @@ use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
 use Illuminate\Support\Carbon;
-use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class MilitaryCalculator
 {
@@ -51,8 +50,7 @@ class MilitaryCalculator
         LandCalculator $landCalculator,
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
-        SpellCalculator $spellCalculator,
-        PopulationCalculator $populationCalculator
+        SpellCalculator $spellCalculator
         )
     {
         $this->buildingCalculator = $buildingCalculator;
@@ -61,7 +59,6 @@ class MilitaryCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
-        $this->populationCalculator = $populationCalculator;
     }
 
     /**
@@ -460,7 +457,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
+        #$unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -798,6 +795,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+/* ABANDONED - causes memory leak?
     protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_from_military_percentage");
@@ -813,6 +811,7 @@ class MilitaryCalculator
 
         return $powerFromPerk;
     }
+*/
 
     /**
      * Returns the Dominion's morale modifier.
