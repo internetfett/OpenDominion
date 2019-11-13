@@ -9,6 +9,7 @@ use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
 use Illuminate\Support\Carbon;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class MilitaryCalculator
 {
