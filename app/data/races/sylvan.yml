@@ -6,7 +6,7 @@ description: >-
   <p>Those found destroying forest under Sylvan protection end up regretting it.</p>
   <p>Their affinity for nature makes them excellent at exploration, and highly proficient spellcasters.</p>
 home_land_type: forest
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3
