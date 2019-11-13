@@ -90,6 +90,8 @@ class DominionFactory
         $startingResources['unit3'] = 0;
         $startingResources['unit4'] = 0;
         $startingResources['spies'] = 0;
+        $startingResources['wizards'] = 0;
+        $startingResources['archmages'] = 0;
 
         # RACE/FACTION SPECIFIC RESOURCES
 
@@ -99,35 +101,48 @@ class DominionFactory
           $startingResources['ore'] = intval($startingResources['ore'] * 3);
           $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
         }
+
         // Ore-free races: no ore
-        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Spirit','Wood Elf','Dragon','Growth','Lizardfolk','Nox','Undead','Void');
+        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Myconid', 'Spirit','Wood Elf','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Void');
         if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
         }
+
         // Food-free races: no food
         if($race->getPerkMultiplier('food_consumption') == -1)
         {
           $startingResources['food'] = 0;
         }
+
         // Boat-free races: no boats
-        $boatFreeRaces = array('Lux','Merfolk','Spirit','Dragon','Growth','Lizardfolk','Undead','Void');
+        $boatFreeRaces = array('Lux','Merfolk','Myconid','Spirit','Dimensionalists','Growth','Lizardfolk','Undead','Void');
         if(in_array($race->name, $boatFreeRaces))
         {
           $startingResources['boats'] = 0;
         }
+
         // Mana-cost races: triple Mana
-        $manaCostRaces = array('Lux','Norse','Snow Elf','Nox','Undead','Void');
+        $manaCostRaces = array('Lux','Norse','Snow Elf','Nox','Undead','Void','Icekin');
         if(in_array($race->name, $manaCostRaces))
         {
           $startingResources['mana'] = $startingResources['mana']*3;
         }
+
+        // Lumber-free races: no lumber or Lumberyards
+        if($race->getPerkMultiplier('no_lumber_construction_cost'))
+        {
+          $startingResources['lumber'] = 0;
+          $startingBuildings['lumberyard'] = 0;
+        }
+
         // For cannot_improve_castle races: replace Gems with Platinum.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
         {
           $startingResources['platinum'] += $startingResources['gems'] * 2;
           $startingResources['gems'] = 0;
         }
+
         // For cannot_construct races: replace half of Lumber with Platinum.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
@@ -135,6 +150,7 @@ class DominionFactory
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
         }
+
         // Growth: extra food, no platinum, no gems, higher draft rate, and enough Unit3 to equal 80 farms.
         if($race->name == 'Growth')
         {
@@ -145,12 +161,23 @@ class DominionFactory
 
           $startingResources['unit3'] = intval((80 * 80) / 3);
         }
+
+        // Myconid: extra food, no platinum; and gets enough Psilocybe for mana production equivalent to 40 Towers
+        if($race->name == 'Myconid')
+        {
+          $startingResources['platinum'] = 0;
+          $startingResources['food'] = $acresBase * 1000;
+
+          $startingResources['unit3'] = intval((40 * 25) / 1);
+        }
+
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
           $startingResources['morale'] = 666;
           $startingResources['soul'] = 2000;
         }
+
         // Void: gets half of plat for troops as mana; and gets enough Visions for mana production equivalent of 80 Towers
         if($race->name == 'Void')
         {
@@ -210,9 +237,9 @@ class DominionFactory
             'military_unit2' => intval($startingResources['unit2'] * $startingResourcesMultiplier),
             'military_unit3' => intval($startingResources['unit3'] * $startingResourcesMultiplier),
             'military_unit4' => intval($startingResources['unit4'] * $startingResourcesMultiplier),
-            'military_spies' => intval(0 * $startingResourcesMultiplier),
-            'military_wizards' => intval(0 * $startingResourcesMultiplier),
-            'military_archmages' => intval(0 * $startingResourcesMultiplier),
+            'military_spies' => intval($startingResources['spies'] * $startingResourcesMultiplier),
+            'military_wizards' => intval($startingResources['wizards'] * $startingResourcesMultiplier),
+            'military_archmages' => intval($startingResources['archmages']0 * $startingResourcesMultiplier),
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
@@ -310,7 +337,7 @@ class DominionFactory
                 'water' => 0,
             ];
           }
-          elseif($race->name == 'Mycelia')
+          elseif($race->name == 'Myconid')
           {
             return [
                 'plain' => 0,

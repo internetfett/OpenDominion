@@ -6,6 +6,7 @@ description: >-
   <p>Dark Elves, Nox, and Nomads have been seen joining the cult. A few other corrupt minds have joined its devotion to the impossible, black expanses.</p>
   <hr />
   <p>In order to attack, a Portal must be opened and used quickly, before it closes. Surviving units return when the portal closes.</p>
+  <p>You start with 333 Summoners.</p>
 home_land_type: swamp
 playable: 1
 
@@ -15,7 +16,7 @@ converting: 2
 
 perks:
   construction_cost: 15
-  max_population: -50
+  max_population: -20
   cannot_build_homes: 1
   food_consumption: -80
 units:
@@ -31,7 +32,7 @@ units:
   - name: Tl'Tl
     need_boat: false
     cost:
-      mana: 50
+      mana: 15
     power:
       offense: 1
       defense: 2
@@ -45,7 +46,7 @@ units:
   - name: Sft'Rm
     #need_boat: false
     cost:
-      mana: 100
+      mana: 20
     power:
       offense: 0
       defense: 4
@@ -58,7 +59,7 @@ units:
   - name: Ze'Tk
     need_boat: false
     cost:
-      mana: 400
+      mana: 40
     power:
       offense: 4
       defense: 1

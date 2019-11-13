@@ -198,7 +198,7 @@ class RaceHelper
                 $booleanValue = true;
                 break;
             case 'no_lumber_construction_cost':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'no lumber construction cost';
                 $booleanValue = true;
                 break;
@@ -435,7 +435,7 @@ class RaceHelper
                 $booleanValue = true;
                 break;
             case 'no_lumber_construction_cost':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'No lumber construction cost';
                 $booleanValue = true;
                 break;

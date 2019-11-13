@@ -51,16 +51,14 @@ units:
   - name: Dragon
     need_boat: false
     cost:
-      platinum: 3000
-      gems: 2000
+      gems: 1500
     power:
       offense: 1000
       defense: 1000
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      fewer_casualties_offense: -90
-      fewer_casualties_defense: -50
+      fewer_casualties_offense: 90
+      fewer_casualties_defense: 50
       land_limit: mountain,6 # Max 1 unit per 6 acres of Mountain
-      fewer_casualties: 25
-      food_consumption: 10
+      food_consumption: 55

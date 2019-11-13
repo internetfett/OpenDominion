@@ -359,7 +359,7 @@ class SpellHelper
                 'key' => 'portal',
                 'mana_cost' => 12,
                 'duration' => 1,
-                'cooldown' => 6*4, # 0.5 times/day.
+                'cooldown' => 6*4, # Every 6 hours.
                 'races' => collect(['Dimensionalists']),
             ],
             [
@@ -371,9 +371,9 @@ class SpellHelper
                 'races' => collect(['Legion']),
             ],
             [
-                'name' => 'Hallucinations',
-                'description' => '33% chance to divert information-gathering spy and wizard operations to the performing dominion.',
-                'key' => 'hallucinations',
+                'name' => 'Underground Caves',
+                'description' => 'Psilocybe research point production replaced by gem production.',
+                'key' => 'underground_caves',
                 'mana_cost' => 5,
                 'duration' => 12*4,
                 'races' => collect(['Mycelia']),

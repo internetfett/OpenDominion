@@ -8,6 +8,10 @@ description: >-
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
   <hr />
   <p>Spores ("peasants") produce 1 food/hr instead of the normal 2.7 platinum/hr.</p>
+  <p>Starting resources:</p>
+  <ul>
+  <li>1,000,000 food</li>
+  <li>1,000 Psilocybe.</li>
 home_land_type: forest
 playable: 1
 
@@ -22,14 +26,13 @@ perks:
   cannot_invade: 1
   cannot_explore: 1
   cannot_construct: 1
-  cannot_tech: 1
   extra_barren_max_population: 10
   peasants_produce_food: 1
 units:
   - name: Mycelia
     need_boat: false
     cost:
-      food: 50
+      food: 100
     power:
       offense: 0
       defense: 1
@@ -37,7 +40,7 @@ units:
       faster_training: 6
   - name: Mold
     cost:
-      food: 300
+      food: 25
       unit1: 1
     power:
       offense: 0
@@ -45,34 +48,35 @@ units:
     perks:
       faster_training: 3
       no_draftee: 1
-      dies_into: 1
+      #dies_into: 1
   - name: Psilocybe
     cost:
-      food: 800
+      food: 1000
       unit1: 1
     power:
       offense: 0
-      defense: 6
+      defense: 9
     perks:
       faster_training: 3
       no_draftee: 1
-      dies_into: 1
-      unit_production: 1,0.0005 # Unit Type, Amount
-      land_per_tick: 0.0003
-      mana_production: 0.5
-      counts_as_spy_defense: 0.1111
+      #dies_into: 1
+      #unit_production: 1,0.0005 # Unit Type, Amount
+      #land_per_tick: 0.0003
+      mana_production: 1
+      tech_production: 0.5
+      counts_as_wizard_offense: 0.1111
       counts_as_wizard_defense: 0.1111
   - name: Amanita
     cost:
-      food: 1100
+      food: 1000
       unit1: 1
     power:
       offense: 0
       defense: 9
     perks:
       no_draftee: 1
-      dies_into: 1
+      #dies_into: 1
       unit_production: 1,0.001 # Unit Type, Amount
       land_per_tick: 0.0005
-      counts_as_spy_offense: 0.1666
-      counts_as_wizard_offense: 0.1666
+      counts_as_spy_offense: 0.1111
+      counts_as_spy_defense: 0.1111

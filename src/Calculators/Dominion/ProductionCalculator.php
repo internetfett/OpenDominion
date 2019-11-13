@@ -700,6 +700,13 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
 
+        // Myconid spell: if Underground Caves is cast, the tech_production
+        // bonus on Psilocybe becomes a gem production bonus.
+        if ($this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
+        {
+            $gems += $dominion->getUnitPerkProductionBonus('tech_production');
+        }
+
         return $gems;
     }
 
@@ -764,9 +771,12 @@ class ProductionCalculator
             $dominion->building_school * (1 - ($dominion->building_school / $this->landCalculator->getTotalLand($dominion)))
         );
 
-        // Unit Perk Production Bonus (Dwarf Unit: Miner)
-        $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-
+        // Unit Perk Production Bonus (Myconid Psilocybe and Dark Elf Adept)
+        # Only if the spell Underground Caves isn't cast (which it never is for Dark Elf).
+        if (!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
+        {
+            $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+        }
 
         return $tech;
     }
