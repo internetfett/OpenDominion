@@ -789,6 +789,23 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Dominion $target = null, Unit $unit): float
+    {
+        $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "offense_from_military_percentage");
+
+        if (!$militaryPercentagePerk)
+        {
+            return 0;
+        }
+
+        $militaryPercentage = $this->getPopulationMilitary($dominion);
+        $max = 1;
+
+        $powerFromPerk = $militaryPercentage * $militaryPercentagePerk;
+
+        return $powerFromPerk;
+    }
+
     /**
      * Returns the Dominion's morale modifier.
      *

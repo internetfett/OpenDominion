@@ -554,16 +554,16 @@ class EspionageActionService
             case 'steal_platinum':
                 $resource = 'platinum';
                 $constraints = [
-                    'target_amount' => 2,
+                    'target_amount' => 2/4,
                     'self_production' => 150,
-                    'spy_carries' => 45,
+                    'spy_carries' => 45/4,
                 ];
                 break;
 
             case 'steal_food':
                 $resource = 'food';
                 $constraints = [
-                    'target_amount' => 2,
+                    'target_amount' => 2/4,
                     'self_production' => 0,
                     'spy_carries' => 0,
                 ];
@@ -574,34 +574,34 @@ class EspionageActionService
                 $constraints = [
                     'target_amount' => 5,
                     'self_production' => 150,
-                    'spy_carries' => 50,
+                    'spy_carries' => 50/4,
                 ];
                 break;
 
             case 'steal_mana':
                 $resource = 'mana';
                 $constraints = [
-                    'target_amount' => 3,
+                    'target_amount' => 3/4,
                     'self_production' => 150,
-                    'spy_carries' => 50,
+                    'spy_carries' => 50/4,
                 ];
                 break;
 
             case 'steal_ore':
                 $resource = 'ore';
                 $constraints = [
-                    'target_amount' => 5,
+                    'target_amount' => 5/4,
                     'self_production' => 150,
-                    'spy_carries' => 50,
+                    'spy_carries' => 50/4,
                 ];
                 break;
 
             case 'steal_gems':
                 $resource = 'gems';
                 $constraints = [
-                    'target_amount' => 2,
+                    'target_amount' => 2/4,
                     'self_production' => 100,
-                    'spy_carries' => 50,
+                    'spy_carries' => 50/4,
                 ];
                 break;
 
@@ -610,7 +610,7 @@ class EspionageActionService
                 $constraints = [
                     'target_amount' => 2,
                     'self_production' => 0,
-                    'spy_carries' => 0.25,
+                    'spy_carries' => 1,
                 ];
                 break;
 
