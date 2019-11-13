@@ -11,7 +11,7 @@ exploring : 2
 converting: 1
 
 perks:
-  max_population: 10
+  max_population: 20
 units:
   - name: Warg
     cost:
@@ -34,18 +34,18 @@ units:
       ore: 55
     power:
       offense: 4
-      defense: 4
+      defense: 5
     perks:
       fewer_casualties_defense: 25
       fewer_casualties_offense: 50
-      offense_from_pairing: 4,1 # slot, amount
+      offense_from_pairing: 4,2 # slot, amount
       conversion: 3 # Werewolves
   - name: Garou
     cost:
-      platinum: 1100
-      ore: 90
+      platinum: 1000
+      ore: 80
     power:
-      offense: 6
+      offense: 7
       defense: 0
     perks:
       conversion: 3 # Werewolves

@@ -10,13 +10,12 @@ exploring : 2
 converting: 1
 
 perks:
-  extra_barren_max_population: 15
+  extra_barren_max_population: 20
   cannot_construct: 1
   cannot_train_archmages: 1
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
-
 units:
   - name: Scarab
     need_boat: false

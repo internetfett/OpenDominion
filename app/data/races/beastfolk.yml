@@ -14,7 +14,7 @@ description: >-
   <li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
   <li>Spy Strength increased by Caverns %.</li>
   <hr />
-  <p>Beastfolk Smithies are 2.5% reduction for every 1% Smithies (max 50%) instead of 2.0% per 1% Smithies (max 40%).</p> 
+  <p>Beastfolk Smithies are 2.5% reduction for every 1% Smithies (max 50%) instead of 2.0% per 1% Smithies (max 40%).</p>
 home_land_type: forest
 playable: 1
 
@@ -26,6 +26,7 @@ perks:
   extra_barren_max_population: 10
   cannot_improve_castle: 1
   cannot_train_archmages: 1
+  max_population: 10
 units:
   - name: Boarman
     cost:

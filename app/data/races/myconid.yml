@@ -1,14 +1,15 @@
-#WIP
+# Peasant = Spores
+# Draftee = Sporeling
 
-name: Mycelia
+name: Myconid
 alignment: good
 description: >-
-  <p>The Mycelia are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
+  <p>The Myconids are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
   <hr />
   <p>Spores ("peasants") produce 1 food/hr instead of the normal 2.7 platinum/hr.</p>
 home_land_type: forest
-playable: 0
+playable: 1
 
 attacking: 0
 exploring : 3
@@ -21,14 +22,11 @@ perks:
   cannot_invade: 1
   cannot_explore: 1
   cannot_construct: 1
-  cannot_improve_castle: 1
   cannot_tech: 1
-  extra_barren_max_population: 15
+  extra_barren_max_population: 10
   peasants_produce_food: 1
-
-  draftee_dp: 0
 units:
-  - name: Sporeling
+  - name: Mycelia
     need_boat: false
     cost:
       food: 50
@@ -37,36 +35,36 @@ units:
       defense: 1
     perks:
       faster_training: 6
-  - name: Fungus
+  - name: Mold
     cost:
-      food: 100
+      food: 300
       unit1: 1
     power:
       offense: 0
       defense: 3
     perks:
+      faster_training: 3
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.001 # Unit Type, Amount
-      land_per_tick: 0.0005
   - name: Psilocybe
     cost:
-      food: 100
+      food: 800
       unit1: 1
     power:
       offense: 0
       defense: 6
     perks:
+      faster_training: 3
       no_draftee: 1
       dies_into: 1
-      unit_production: 1,0.001 # Unit Type, Amount
-      land_per_tick: 0.0005
+      unit_production: 1,0.0005 # Unit Type, Amount
+      land_per_tick: 0.0003
       mana_production: 0.5
-      counts_as_spy_defense: 0.15
-      counts_as_wizard_defense: 0.15
+      counts_as_spy_defense: 0.1111
+      counts_as_wizard_defense: 0.1111
   - name: Amanita
     cost:
-      food: 100
+      food: 1100
       unit1: 1
     power:
       offense: 0
@@ -76,5 +74,5 @@ units:
       dies_into: 1
       unit_production: 1,0.001 # Unit Type, Amount
       land_per_tick: 0.0005
-      counts_as_spy_offense: 0.25
-      counts_as_wizard_offense: 0.25
+      counts_as_spy_offense: 0.1666
+      counts_as_wizard_offense: 0.1666

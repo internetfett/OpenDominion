@@ -124,7 +124,7 @@ class EspionageActionService
             throw new LogicException("Cannot perform unknown operation '{$operationKey}'");
         }
 
-        if ($dominion->spy_strength < 30) {
+        if ($dominion->spy_strength <= 0) {
             throw new GameException("Your spies do not have enough strength to perform {$operationInfo['name']}.");
         }
 
@@ -187,6 +187,8 @@ class EspionageActionService
             } else {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
+
+            $spyStrengthLost = min($spyStrengthLost, $dominion->spy_strength);
 
             $dominion->spy_strength -= $spyStrengthLost;
             $dominion->stat_espionage_success += 1;
@@ -253,6 +255,9 @@ class EspionageActionService
 
                 // Techs
                 $spiesKilledPercentage += $dominion->getTechPerkMultiplier('spy_losses');
+
+                // Techs
+                $spiesKilledPercentage -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
 
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
@@ -379,7 +384,7 @@ class EspionageActionService
             case 'survey_dominion':
                 $data = [];
 
-                foreach ($this->buildingHelper->getBuildingTypes() as $buildingType) {
+                foreach ($this->buildingHelper->getBuildingTypes($target) as $buildingType) {
                     array_set($data, "constructed.{$buildingType}", $target->{'building_' . $buildingType});
                 }
 

@@ -97,6 +97,11 @@ class ProductionCalculator
         {
             $platinum += $dominion->peasants * $peasantTax;
         }
+        // Myconid: peasants_produce_food (i.e. no plat from peasants)
+        elseif($dominion->race->getPerkValue('peasants_produce_food'))
+        {
+          $platinum = 0;
+        }
         else
         {
             // Peasant Tax
@@ -104,12 +109,17 @@ class ProductionCalculator
         }
 
         // Spell: Alchemist Flame
-        if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame')) {
+        if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame'))
+        {
             $platinumPerAlchemy += $spellAlchemistFlameAlchemyBonus;
         }
 
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
+
+        // Unit Perk Production Reduction (Dragon Unit: Mercenary)
+        $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
+        $platinum = max(0, $platinum-$upkeep);
 
         return $platinum;
     }
@@ -153,8 +163,8 @@ class ProductionCalculator
         // Spell: Midas Touch
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'midas_touch', $spellMidasTouch);
 
-        // Improvement: Science
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science');
+        // Improvement: Markets (formerly "Science")
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
         // Guard Tax
         if ($this->guardMembershipService->isGuardMember($dominion)) {
@@ -297,8 +307,21 @@ class ProductionCalculator
         $consumption += ($this->populationCalculator->getPopulation($dominion) * $populationConsumption);
 
         // Racial Bonus
-        // todo: getFoodConsumptionRaw & getFoodConsumptionMultiplier?
         $consumption *= (1 + $dominion->race->getPerkMultiplier('food_consumption'));
+
+        // Unit Perk: food_consumption
+        $extraFoodEaten = 0;
+        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
+          {
+            $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
+            $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
+            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
+          }
+        }
+
+        $consumption += $extraFoodEaten;
 
         return $consumption;
     }
@@ -318,10 +341,10 @@ class ProductionCalculator
         // Values (percentages)
         $foodDecay = 1;
 
-        // Racial Spell: Metabolism (Growth)
-        #if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
-        #    $foodDecay = $foodDecay / 2;
-        #}
+        // Improvement: Granaries
+        $multiplier = 1 - $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
+
+        $foodDecay *= $multiplier;
 
         $decay += ($dominion->resource_food * ($foodDecay / 100));
 
@@ -406,6 +429,9 @@ class ProductionCalculator
         // Spell: Gaia's Blessing
         $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'gaias_blessing', $spellGaiasBlessing);
 
+        // Improvement: Forestry
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
+
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
@@ -424,6 +450,11 @@ class ProductionCalculator
 
         // Values (percentages)
         $lumberDecay = 1;
+
+        // Improvement: Granaries
+        $multiplier = 1 - $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
+
+        $lumberDecay *= $multiplier;
 
         $decay += ($dominion->resource_lumber * ($lumberDecay / 100));
 
@@ -624,6 +655,9 @@ class ProductionCalculator
             'mining_strength' => $spellMiningStrength,
         ]);
 
+        // Improvement: Refinery
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
+
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
@@ -730,6 +764,10 @@ class ProductionCalculator
             $dominion->building_school * (1 - ($dominion->building_school / $this->landCalculator->getTotalLand($dominion)))
         );
 
+        // Unit Perk Production Bonus (Dwarf Unit: Miner)
+        $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+
+
         return $tech;
     }
 
@@ -748,6 +786,9 @@ class ProductionCalculator
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
+
+        # Observatory
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
         return (1 + $multiplier);
     }

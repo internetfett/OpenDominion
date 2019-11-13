@@ -1,8 +1,9 @@
 name: Icekin
 alignment: evil
 description: >-
-  <p>Slow, lumbering elementals of frost and stone, Icekin emerged from the snow-capped mountains as a counterweight to unnatural the pyromancy experiments that created the Firewalkers.</p>
-  <p>Their creeping cold expands ever outwards, insistent, transforming the lands around them with a white permafrost and hijacking the weather with seemingly never-ending blizzards. Icekin can become an immense military threat once they become well fortified.</p>
+  <p>Slow, lumbering elementals of frost and stone, Icekin were long hidden behind blizzards and enormous snow-tipped mountains.</p>
+  <p>After long wars with the Snow Elves and failing to put out fires brought on by lava in deep mines which ultimately brought the Firewalkers back to live, Icekin have joined the Empire as among the most powerful wizards in the Imperial Academy of Dark Arts.</p>
+  <p>While Ice Elementals do most of the fighting, it is the Frost Mages and Snow Witches which are in control of the Icekin domains.</p>
 home_land_type: mountain
 playable: 1
 
@@ -12,43 +13,50 @@ converting: 3
 
 perks:
   food_consumption: -50
-  lumber_production: -10
-  archmage_cost: -150
-  tech_costs: -10
+  gem_production: -20
+  ore_production: 20
+  tech_costs: 10
+  archmage_cost: -200
+  research_points_per_acre: 25
 units:
   - name: Icebeast
     cost:
       platinum: 300
-      ore: 0
+      ore: 10
     power:
       offense: 3
       defense: 0
+    perks:
+      offense_raw_wizard_ratio: 4,1 # ratio%, max
   - name: Snow Witch
     cost:
       platinum: 350
-      ore: 25
+      ore: 35
     power:
       offense: 0
       defense: 3
     perks:
       reduce_combat_losses: 1
-  - name: FrostMage # Leave the space out, for nostalgic reasons
+      counts_as_wizard_offense: 0.05
+      counts_as_wizard_defense: 0.05
+  - name: Frost Mage
     cost:
       platinum: 1000
-      ore: 50
+      ore: 100
     power:
-      offense: 3
-      defense: 3
+      offense: 4
+      defense: 4
     perks:
-      defense_from_land: mountain,20,3 # land type, ratio%, max
-      counts_as_wizard_offense: 0.2
-      counts_as_wizard_defense: 0.2
+      defense_from_land: mountain,20,5
+      counts_as_wizard_offense: 0.25
+      counts_as_wizard_defense: 0.25
   - name: Ice Elemental
     cost:
-      platinum: 1150
-      mana: 10
+      platinum: 1100
+      ore: 50
+      mana: 15
     power:
       offense: 4
       defense: 3
     perks:
-      offense_raw_wizard_ratio: 0.90,3 # ratio%, max
+      offense_raw_wizard_ratio: 1,4 # ratio%, max

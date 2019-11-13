@@ -182,15 +182,15 @@
                                         </tr>
                                         <tr>
                                             <td>Spies:</td>
-                                            <td>???</td>
+                                            <td>{{ number_format($infoOp->data['military_spies']) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Wizards:</td>
-                                            <td>???</td>
+                                            <td>{{ number_format($infoOp->data['military_wizards']) }}</td>
                                         </tr>
                                         <tr>
                                             <td>ArchMages:</td>
-                                            <td>???</td>
+                                            <td>{{ number_format($infoOp->data['military_archmages']) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -508,7 +508,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($buildingHelper->getBuildingTypes() as $buildingType)
+                                        @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
                                             @php
                                                 $amount = array_get($infoOp->data, "constructed.{$buildingType}");
                                             @endphp
@@ -563,7 +563,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($buildingHelper->getBuildingTypes() as $buildingType)
+                                        @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
                                             <tr>
                                                 <td>{{ ucwords(str_replace('_', ' ', $buildingType)) }}</td>
                                                 @for ($i = 1; $i <= 12; $i++)

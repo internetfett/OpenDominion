@@ -7,6 +7,9 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use Illuminate\Support\Carbon;
+
 class MilitaryCalculator
 {
     /** @var BuildingCalculator */
@@ -448,6 +451,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -457,6 +461,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
@@ -731,6 +736,58 @@ class MilitaryCalculator
         return $amount;
     }
 
+    protected function getUnitPowerFromHoursPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $hoursPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_hour", null);
+
+        if (!$hoursPerkData)
+        {
+            return 0;
+        }
+
+        #$hoursSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
+        $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
+
+        $powerPerHour = (float)$hoursPerkData[0];
+        $max = (float)$hoursPerkData[1];
+
+        $powerFromHours = $powerPerHour * $hoursSinceRoundStarted;
+
+        $powerFromPerk = min($powerFromHours, $max);
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromVersusPrestigePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
+    {
+        $prestigePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "vs_prestige");
+
+        if (!$prestigePerk)
+        {
+            return 0;
+        }
+
+        # Check if calcing on Invade page calculator.
+        if (!empty($calc))
+        {
+            if (isset($calc['prestige']))
+            {
+                $prestige = intval($calc['prestige']);
+            }
+        }
+        # Otherwise, SKARPT LÄGE!
+        elseif ($target !== null)
+        {
+            $prestige = $target->prestige;
+        }
+
+        $amount = (int)$prestigePerk[0];
+        $max = (int)$prestigePerk[1];
+
+        $powerFromPerk = min($prestige / $amount, $max);
+
+        return $powerFromPerk;
+    }
 
     /**
      * Returns the Dominion's morale modifier.
@@ -795,14 +852,14 @@ class MilitaryCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('spy_strength');
 
-      // Beastfolk: Cavern increases Spy Strength
-      if($dominion->race->name == 'Beastfolk')
-      {
-        $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion))  * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
-      }
+        # Hideouts
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
 
-        // Wonder: Great Oracle (+30%)
-        // todo
+        // Beastfolk: Cavern increases Spy Strength
+        if($dominion->race->name == 'Beastfolk')
+        {
+          $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion));
+        }
 
         return (1 + $multiplier);
     }

@@ -14,7 +14,6 @@ converting: 3
 
 perks:
   food_consumption: -50
-  max_population: -10
 units:
   - name: Bombardier
     need_boat: false

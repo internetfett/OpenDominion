@@ -111,7 +111,7 @@ class SpellActionService
             throw new LogicException("Cannot cast unknown spell '{$spellKey}'");
         }
 
-        if ($dominion->wizard_strength < 30) {
+        if ($dominion->wizard_strength <= 0) {
             throw new GameException("Your wizards to not have enough strength to cast {$spellInfo['name']}.");
         }
 
@@ -179,7 +179,10 @@ class SpellActionService
             }
 
             $dominion->resource_mana -= $manaCost;
-            $dominion->wizard_strength -= ($result['wizardStrengthCost'] ?? 5);
+
+            $wizardStrengthLost = $result['wizardStrengthCost'] ?? 5;
+            $wizardStrengthLost = min($wizardStrengthLost, $dominion->wizard_strength);
+            $dominion->wizard_strength -= $wizardStrengthLost;
 
             if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race)) {
                 $dominion->stat_spell_success += 1;
@@ -361,6 +364,9 @@ class SpellActionService
                     'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2),
                     'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3),
                     'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4),
+                    'military_spies' => $target->military_spies,
+                    'military_wizards' => $target->military_wizards,
+                    'military_archmages' => $target->military_archmages,
 
                     'recently_invaded_count' => $this->militaryCalculator->getRecentlyInvadedCount($target),
 

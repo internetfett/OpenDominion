@@ -23,7 +23,7 @@ class ChangeDraftRateActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if (($draftRate < 0) || ($draftRate > 90)) {
+        if (($draftRate < 0) || ($draftRate > 100)) {
             throw new RuntimeException('Draft rate not changed due to bad input.');
         }
 

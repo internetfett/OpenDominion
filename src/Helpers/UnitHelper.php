@@ -71,7 +71,10 @@ class UnitHelper
             'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max +%2$s).',
             'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max +%2$s).',
 
-            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
+            'defense_vs_prestige' => 'Defense increased by 1 for every %1$s prestige of attacker (max +%2$s).',
+            'offense_vs_prestige' => 'Offense increased by 1 for every %1$s prestige of target (max +%2$s).',
+
+            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of attacker (max +%3$s).',
             'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
 
             'defense_vs_goblin' => 'Defense increased by %s against goblins.',
@@ -118,34 +121,53 @@ class UnitHelper
             'mana_production' => 'Each unit generates %s mana per tick.',
             'lumber_production' => 'Each unit collects %s lumber per tick.',
             'food_production' => 'Each unit produces %s food per tick.',
+            'gem_production' => 'Each unit mines %s gems per tick.',
+            'tech_production' => 'Each unit produces %s research points per tick.',
+
+            'mana_drain' => 'Each unit drains %s mana per tick.',
+            'platinum_upkeep' => 'Costs %s platinum per tick.',
+            'food_consumption' => 'Eats %s bushels of food extra.',
+
+            'cannot_be_trained' => 'Unit cannot be trained.',
+            'instant_training' => 'Summoned immediately.',
+            'faster_training' => 'Trains %s ticks faster.',
+
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
             'afterlife_norse' => 'Upon honourable death (successful invasions over 75%), becomes a legendary champion and can be recalled into services as an Einherjar.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
-            'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
-            'gem_production' => 'Each unit mines %s gems per tick.',
+
+
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
+            'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
-            'mana_drain' => 'Each unit drains %s mana per tick.',
-            'cannot_be_trained' => 'Unit cannot be trained.',
-            'instant_training' => 'Summoned immediately.',
-            'faster_training' => 'Trains %s ticks faster.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
+
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
 
-            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
+            'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
+            'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
+
+            'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
+
+            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
+            'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
+
+            'offense_from_military_percentage' => 'Gains +1x(Military%%) OP, max +1 at 100%% military.',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
-            'dies_into' => 'When killed, turns into a %1$.',
+
+            # Abandoned
+            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
+
 
         ];
 

@@ -3,14 +3,14 @@ alignment: good
 description: >-
   <p>Another off-shoot from Humans, the Templars are a small, pious community taking up residence in the hills.</p>
 home_land_type: hill
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 3
 converting: 3
 
 perks:
-  gem_production: 5
+  gem_production: 10
 units:
   - name: Crusader
     need_boat: true

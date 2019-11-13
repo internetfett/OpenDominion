@@ -26,7 +26,32 @@ class LandHelper
 
     public function getLandTypesByBuildingType(Race $race): array
     {
-        $return = [
+
+      if($race->name == 'Dragon')
+      {
+        $buildings = [
+          'tower' => 'mountain',
+          'farm' => 'mountain',
+          'ore_mine' => 'mountain',
+          'diamond_mine' => 'cavern',
+          'lumberyard' => 'forest',
+          'barracks' => 'hill',
+          'dock' => 'water',
+        ];
+      }
+      elseif($race->name == 'Merfolk')
+      {
+        $buildings = [
+          'farm' => 'water',
+          'tower' => 'water',
+          'temple' => 'water',
+          'diamond_mine' => 'water',
+          'shrine' => 'water',
+        ];
+      }
+      else
+      {
+        $buildings = [
             'alchemy' => 'plain',
             'farm' => 'plain',
             'smithy' => 'plain',
@@ -46,10 +71,11 @@ class LandHelper
             'barracks' => 'hill',
             'dock' => 'water',
         ];
+      }
 
-        $return = (['home' => $race->home_land_type] + $return);
+        $buildings = (['home' => $race->home_land_type] + $buildings);
 
-        return $return;
+        return $buildings;
     }
 
     public function getLandTypeIconHtml(string $landType): string

@@ -3,13 +3,15 @@
 namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Dominion;
 
 class BuildingHelper
 {
 
-    public function getBuildingTypes(): array
+    public function getBuildingTypes(Dominion $dominion = null): array
     {
-      return [
+
+      $buildings = [
           'home',
           'alchemy',
           'farm',
@@ -29,56 +31,118 @@ class BuildingHelper
           'shrine',
           'barracks',
           'dock',
-      ];
-
-    }
-
-    public function getBuildingTypesByRace(Race $race = null): array
-    {
-        $return = [
-            'plain' => [
-                'alchemy',
-                'farm',
-                'smithy',
-                'masonry',
-            ],
-            'mountain' => [
-                'ore_mine',
-                'gryphon_nest',
-            ],
-            'swamp' => [
-                'tower',
-                'wizard_guild',
-                'temple',
-            ],
-            'cavern' => [
-                'diamond_mine',
-                'school',
-            ],
-            'forest' => [
-                'lumberyard',
-                'forest_haven',
-            ],
-            'hill' => [
-                'factory',
-                'guard_tower',
-                'shrine',
-                'barracks',
-            ],
-            'water' => [
-                'dock',
-            ],
         ];
 
-        if ($race !== null)
+        if($dominion !== null)
         {
-          if(!$race->getPerkValue('cannot_build_homes'))
+          // Ugly, but works.
+          if($dominion->race->name == 'Dragon')
           {
-            array_unshift($return[$race->home_land_type], 'home');
+            #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
+            $buildings = ['home','farm','tower','diamond_mine','lumberyard', 'ore_mine'];
+          }
+          if($dominion->race->name == 'Merfolk')
+          {
+            $buildings = ['home','farm','tower','diamond_mine','temple','shrine'];
           }
         }
 
-        return $return;
+      return $buildings;
+
+    }
+
+    public function getBuildingTypesByRace(Dominion $dominion = null): array
+    {
+        if ($dominion !== null)
+        {
+          if($dominion->race->name == 'Dragon')
+          {
+            $buildings = [
+                'plain' => [],
+                'mountain' => [
+                    'tower',
+                    'farm',
+                    'ore_mine',
+                ],
+                'swamp' => [],
+                'cavern' => [
+                    'diamond_mine',
+                ],
+                'forest' => [
+                    'lumberyard',
+                ],
+                'hill' => [
+                  'barracks',
+                ],
+                'water' => [
+                    'dock',
+                ],
+            ];
+          }
+          if($dominion->race->name == 'Merfolk')
+          {
+            $buildings = [
+                'plain' => [],
+                'mountain' => [],
+                'swamp' => [],
+                'cavern' => [],
+                'forest' => [],
+                'hill' => [],
+                'water' => [
+                  'farm',
+                  'tower',
+                  'temple',
+                  'diamond_mine',
+                  'shrine',
+                ],
+            ];
+          }
+
+          if(!$dominion->race->getPerkValue('cannot_build_homes'))
+          {
+            array_unshift($buildings[$dominion->race->home_land_type], 'home');
+          }
+
+        }
+        else
+        {
+          $buildings = [
+              'plain' => [
+                  'alchemy',
+                  'farm',
+                  'smithy',
+                  'masonry',
+              ],
+              'mountain' => [
+                  'ore_mine',
+                  'gryphon_nest',
+              ],
+              'swamp' => [
+                  'tower',
+                  'wizard_guild',
+                  'temple',
+              ],
+              'cavern' => [
+                  'diamond_mine',
+                  'school',
+              ],
+              'forest' => [
+                  'lumberyard',
+                  'forest_haven',
+              ],
+              'hill' => [
+                  'factory',
+                  'guard_tower',
+                  'shrine',
+                  'barracks',
+              ],
+              'water' => [
+                  'dock',
+              ],
+          ];
+        }
+
+        return $buildings;
     }
 
     // temp
@@ -105,7 +169,7 @@ class BuildingHelper
             'forest_haven' => 1, // reduce losses on failed spy ops, reduce fireball damage
             'factory' => 2,
             'guard_tower' => 2,
-            'shrine' => 2, // todo for later: increases chance of hero level gain and increase hero bonuses
+            'shrine' => 2,
             'barracks' => 2,
             'dock' => 2,
         ];

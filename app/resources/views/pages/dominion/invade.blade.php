@@ -78,6 +78,7 @@
                                     @php
                                         $offenseVsBuildingTypes = [];
                                         $offenseVsLandTypes = [];
+                                        $offenseVsPrestige = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -107,6 +108,11 @@
                                                 $offenseVsLandPerk = $unit->getPerkValue('offense_vs_land');
                                                 if ($offenseVsLandPerk) {
                                                     $offenseVsLandTypes[] = explode(',', $offenseVsLandPerk)[0];
+                                                }
+
+                                                $offenseVsPrestigePerk = $unit->getPerkValue('offense_vs_prestige');
+                                                if ($offenseVsPrestigePerk) {
+                                                    $offenseVsPrestige[] = explode(',', $offenseVsPrestigePerk)[0];
                                                 }
 
                                             }
@@ -175,6 +181,23 @@
                                             <td>
                                                 <input type="number"
                                                        name="calc[{{ $landType }}_percent]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       max="100"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach ($offenseVsPrestige as $prestige)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter target prestige:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc[prestige]"
                                                        class="form-control text-center"
                                                        min="0"
                                                        max="100"

@@ -58,7 +58,7 @@ class ConstructActionService
 
         $data = array_only($data, array_map(function ($value) {
             return "building_{$value}";
-        }, $this->buildingHelper->getBuildingTypes()));
+        }, $this->buildingHelper->getBuildingTypes($dominion)));
 
         $data = array_map('\intval', $data);
 
@@ -100,7 +100,8 @@ class ConstructActionService
         }
 
         foreach ($buildingsByLandType as $landType => $amount) {
-            if ($amount > $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType)) {
+            if ($amount > $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType))
+            {
                 throw new GameException("You do not have enough barren land to construct {$totalBuildingsToConstruct} buildings.");
             }
         }
