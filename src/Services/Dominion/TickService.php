@@ -541,7 +541,9 @@ class TickService
 
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
           {
-            $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+#            $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+            $landPerTick = $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
+            $acresToExplore += intval($landPerTick) + (rand(0,1) < fmod($landPerTick, 1) ? 1 : 0);
           }
 
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))

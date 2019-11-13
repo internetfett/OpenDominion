@@ -7,11 +7,12 @@ description: >-
   <p>The Myconids are network of semi-independent sentient Fungus, Psilocybe, and Amanita, which are born from Spores. They also produce Spores and if struck down in combat, return as Spores.</p>
   <p>Whether they cannot or simply do not want to, Mycelia do not invade other dominions. They only gain land by spreading the Mycelia through their units.</p>
   <hr />
-  <p>Spores ("peasants") produce 1 food/hr instead of the normal 2.7 platinum/hr.</p>
+  <p>Spores ("peasants") produce 10 food/hr instead of the normal 2.7 platinum/hr.</p>
   <p>Starting resources:</p>
   <ul>
-  <li>1,000,000 food</li>
+  <li>1,000,000 food.</li>
   <li>1,000 Psilocybe.</li>
+  </ul>
 home_land_type: forest
 playable: 1
 
@@ -63,7 +64,7 @@ units:
       #unit_production: 1,0.0005 # Unit Type, Amount
       #land_per_tick: 0.0003
       mana_production: 1
-      tech_production: 0.5
+      tech_production: 0.01
       counts_as_wizard_offense: 0.1111
       counts_as_wizard_defense: 0.1111
   - name: Amanita

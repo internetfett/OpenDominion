@@ -226,7 +226,7 @@ class ProductionCalculator
         // Racial Perk: peasants_produce_food
         if($dominion->race->getPerkValue('peasants_produce_food'))
         {
-          $food += $dominion->peasants;
+          $food += $dominion->peasants * 10;
         }
 
         // Racial Spell: Metabolism (Growth) - Double food production
@@ -775,7 +775,7 @@ class ProductionCalculator
         # Only if the spell Underground Caves isn't cast (which it never is for Dark Elf).
         if (!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
         {
-            $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+            $tech += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
         }
 
         return $tech;
