@@ -30,6 +30,9 @@ class MilitaryCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var PopulationCalculator */
+    protected $populationCalculator;
+
     /**
      * MilitaryCalculator constructor.
      *
@@ -39,6 +42,7 @@ class MilitaryCalculator
      * @param PrestigeCalculator $prestigeCalculator
      * @param QueueService $queueService
      * @param SpellCalculator $spellCalculator
+     * @param PopulationCalculator $populationCalculator
      */
     public function __construct(
         BuildingCalculator $buildingCalculator,
@@ -46,7 +50,9 @@ class MilitaryCalculator
         LandCalculator $landCalculator,
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
-        SpellCalculator $spellCalculator)
+        SpellCalculator $spellCalculator,
+        PopulationCalculator $populationCalculator,
+        )
     {
         $this->buildingCalculator = $buildingCalculator;
         $this->improvementCalculator = $improvementCalculator;
@@ -54,6 +60,7 @@ class MilitaryCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
+        $this->populationCalculator = $populationCalculator;
     }
 
     /**
