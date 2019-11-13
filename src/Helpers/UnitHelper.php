@@ -125,6 +125,8 @@ class UnitHelper
             'tech_production' => 'Each unit produces %s research points per tick.',
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
+            'platinum_upkeep' => 'Costs %s platinum per tick.',
+            'food_consumption' => 'Eats %s bushels of food extra.',
 
             'cannot_be_trained' => 'Unit cannot be trained.',
             'instant_training' => 'Summoned immediately.',
@@ -150,8 +152,6 @@ class UnitHelper
 
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
 
-            'food_consumption' => 'Eats %s bushels of food extra.',
-
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
             # TBD
@@ -161,7 +161,7 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
-            'platinum_upkeep' => 'Costs %s platinum per tick.',
+            'offense_from_military_percentage' => 'Gains +1x(Military %) OP, max +1 at 100% military.';
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
 
