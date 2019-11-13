@@ -51,7 +51,7 @@ class MilitaryCalculator
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
         SpellCalculator $spellCalculator,
-        PopulationCalculator $populationCalculator,
+        PopulationCalculator $populationCalculator
         )
     {
         $this->buildingCalculator = $buildingCalculator;
