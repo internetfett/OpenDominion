@@ -790,7 +790,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-    protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Unit $unit): float
+    protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "from_military_percentage");
 
