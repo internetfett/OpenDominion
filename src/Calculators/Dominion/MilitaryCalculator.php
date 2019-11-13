@@ -452,6 +452,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -785,6 +786,22 @@ class MilitaryCalculator
         $max = (int)$prestigePerk[1];
 
         $powerFromPerk = min($prestige / $amount, $max);
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Unit $unit): float
+    {
+        $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "from_military_percentage");
+
+        if (!$militaryPercentagePerk)
+        {
+            return 0;
+        }
+
+        $militaryPercentage = $populationCalculator->getPopulationMilitary($dominion);
+
+        $powerFromPerk = $militaryPercentagePerk * $militaryPercentage;
 
         return $powerFromPerk;
     }
