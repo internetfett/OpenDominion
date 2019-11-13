@@ -438,6 +438,7 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'No lumber construction cost';
                 $booleanValue = true;
+                break;
             default:
                 return null;
         }
