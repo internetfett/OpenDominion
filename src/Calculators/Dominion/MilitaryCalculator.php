@@ -30,6 +30,9 @@ class MilitaryCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var PopulationCalculator */
+    private $populationCalculator;
+
     /**
      * MilitaryCalculator constructor.
      *
@@ -46,7 +49,8 @@ class MilitaryCalculator
         LandCalculator $landCalculator,
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
-        SpellCalculator $spellCalculator)
+        SpellCalculator $spellCalculator,
+        PopulationCalculator $populationCalculator)
     {
         $this->buildingCalculator = $buildingCalculator;
         $this->improvementCalculator = $improvementCalculator;
@@ -54,6 +58,7 @@ class MilitaryCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
+        $this->populationCalculator = $populationCalculator;
     }
 
     /**
@@ -798,7 +803,7 @@ class MilitaryCalculator
             return 0;
         }
 
-        $militaryPercentage = $this->getPopulationMilitary($dominion);
+        $militaryPercentage = $populationCalculator->getPopulationMilitary($dominion);
         $max = 1;
 
         $powerFromPerk = $militaryPercentage * $militaryPercentagePerk;
