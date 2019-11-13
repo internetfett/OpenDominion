@@ -64,7 +64,7 @@ units:
       #unit_production: 1,0.0005 # Unit Type, Amount
       #land_per_tick: 0.0003
       mana_production: 1
-      tech_production: 0.01
+      tech_production: 0.05
       counts_as_wizard_offense: 0.1111
       counts_as_wizard_defense: 0.1111
   - name: Amanita

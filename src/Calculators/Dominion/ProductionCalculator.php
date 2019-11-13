@@ -704,7 +704,7 @@ class ProductionCalculator
         // bonus on Psilocybe becomes a gem production bonus.
         if ($this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
         {
-            $gems += $dominion->getUnitPerkProductionBonus('tech_production');
+            $gems += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
         }
 
         return $gems;
@@ -775,7 +775,7 @@ class ProductionCalculator
         # Only if the spell Underground Caves isn't cast (which it never is for Dark Elf).
         if (!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
         {
-            $tech += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
+            $tech += $dominion->getUnitPerkProductionBonus('tech_production');
         }
 
         return $tech;
