@@ -7,7 +7,7 @@ description: >-
   <hr />
   <p>In order to attack, a Portal must be opened and used quickly, before it closes. Surviving units return when the portal closes.</p>
 home_land_type: swamp
-playable: 0
+playable: 1
 
 attacking: 2
 exploring : 2
