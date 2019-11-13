@@ -239,7 +239,7 @@ class DominionFactory
             'military_unit4' => intval($startingResources['unit4'] * $startingResourcesMultiplier),
             'military_spies' => intval($startingResources['spies'] * $startingResourcesMultiplier),
             'military_wizards' => intval($startingResources['wizards'] * $startingResourcesMultiplier),
-            'military_archmages' => intval($startingResources['archmages']0 * $startingResourcesMultiplier),
+            'military_archmages' => intval($startingResources['archmages'] * $startingResourcesMultiplier),
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
