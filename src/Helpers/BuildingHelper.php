@@ -141,7 +141,7 @@ class BuildingHelper
 
         }
 
-        array_unshift($buildings[$dominion->race->home_land_type], 'home');
+        #array_unshift($buildings[$dominion->race->home_land_type], 'home');
 
         return $buildings;
     }
