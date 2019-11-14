@@ -24,7 +24,7 @@ class DailyBonusesActionService
             throw new GameException('You already claimed your resource bonus for today.');
         }
 
-        if($dominion->race->name == 'Growth')
+        if($dominion->race->name == 'Growth' or $dominion->race->name == 'Myconid')
         {
           $resourceType = 'resource_food';
           $amountModifier = 1;

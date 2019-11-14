@@ -188,6 +188,12 @@ class DominionFactory
           $startingResources['unit3'] = intval((80 * 25) / 4);
         }
 
+        // Dimensionalists: starts with 333 Summoners.
+        if($race->name == 'Dimensionalists')
+        {
+          $startingResources['unit3'] = intval(333 * $startingResourcesMultiplier);
+        }
+
         return Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
