@@ -53,50 +53,47 @@ class BuildingHelper
 
     public function getBuildingTypesByRace(Dominion $dominion = null): array
     {
-        if ($dominion !== null)
+        if($dominion !== null and $dominion->race->name == 'Dragon')
         {
-          if($dominion->race->name == 'Dragon')
-          {
-            $buildings = [
-                'plain' => [],
-                'mountain' => [
-                    'tower',
-                    'farm',
-                    'ore_mine',
-                ],
-                'swamp' => [],
-                'cavern' => [
-                    'diamond_mine',
-                ],
-                'forest' => [
-                    'lumberyard',
-                ],
-                'hill' => [
-                  'barracks',
-                ],
-                'water' => [
-                    'dock',
-                ],
-            ];
-          }
-          if($dominion->race->name == 'Merfolk')
-          {
-            $buildings = [
-                'plain' => [],
-                'mountain' => [],
-                'swamp' => [],
-                'cavern' => [],
-                'forest' => [],
-                'hill' => [],
-                'water' => [
-                  'farm',
+          $buildings = [
+              'plain' => [],
+              'mountain' => [
                   'tower',
-                  'temple',
+                  'farm',
+                  'ore_mine',
+              ],
+              'swamp' => [],
+              'cavern' => [
                   'diamond_mine',
-                  'shrine',
-                ],
-            ];
-          }
+              ],
+              'forest' => [
+                  'lumberyard',
+              ],
+              'hill' => [
+                'barracks',
+              ],
+              'water' => [
+                  'dock',
+              ],
+          ];
+        }
+        elseif($dominion !== null and $dominion->race->name == 'Merfolk')
+        {
+          $buildings = [
+              'plain' => [],
+              'mountain' => [],
+              'swamp' => [],
+              'cavern' => [],
+              'forest' => [],
+              'hill' => [],
+              'water' => [
+                'farm',
+                'tower',
+                'temple',
+                'diamond_mine',
+                'shrine',
+              ],
+          ];
         }
         else
         {
@@ -139,9 +136,9 @@ class BuildingHelper
 
         if(!$dominion->race->getPerkValue('cannot_build_homes'))
         {
-          #array_unshift($buildings[$dominion->race->home_land_type], 'home');
+          array_unshift($buildings[$dominion->race->home_land_type], 'home');
 
-          $buildings[$dominion->race->home_land_type][] = 'home';
+          #$buildings[$dominion->race->home_land_type][] = 'home';
         }
 
         return $buildings;
