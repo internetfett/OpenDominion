@@ -51,7 +51,7 @@ units:
   - name: Dragon
     need_boat: false
     cost:
-      gems: 1500
+      gem: 1500
     power:
       offense: 1000
       defense: 1000
