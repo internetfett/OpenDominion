@@ -53,86 +53,87 @@ class BuildingHelper
 
     public function getBuildingTypesByRace(Dominion $dominion = null): array
     {
-        if($dominion !== null and $dominion->race->name == 'Dragon')
-        {
-          $buildings = [
-              'plain' => [],
-              'mountain' => [
-                  'tower',
-                  'farm',
-                  'ore_mine',
-              ],
-              'swamp' => [],
-              'cavern' => [
-                  'diamond_mine',
-              ],
-              'forest' => [
-                  'lumberyard',
-              ],
-              'hill' => [
-                'barracks',
-              ],
-              'water' => [
-                  'dock',
-              ],
-          ];
-        }
-        elseif($dominion !== null and $dominion->race->name == 'Merfolk')
-        {
-          $buildings = [
-              'plain' => [],
-              'mountain' => [],
-              'swamp' => [],
-              'cavern' => [],
-              'forest' => [],
-              'hill' => [],
-              'water' => [
-                'farm',
-                'tower',
-                'temple',
-                'diamond_mine',
-                'shrine',
-              ],
-          ];
-        }
-        else
-        {
-          $buildings = [
-              'plain' => [
-                  'alchemy',
-                  'farm',
-                  'smithy',
-                  'masonry',
-              ],
-              'mountain' => [
-                  'ore_mine',
-                  'gryphon_nest',
-              ],
-              'swamp' => [
-                  'tower',
-                  'wizard_guild',
-                  'temple',
-              ],
-              'cavern' => [
-                  'diamond_mine',
-                  'school',
-              ],
-              'forest' => [
-                  'lumberyard',
-                  'forest_haven',
-              ],
-              'hill' => [
-                  'factory',
-                  'guard_tower',
-                  'shrine',
-                  'barracks',
-              ],
-              'water' => [
-                  'dock',
-              ],
-          ];
-        }
 
+      $buildings = [
+          'plain' => [
+              'alchemy',
+              'farm',
+              'smithy',
+              'masonry',
+          ],
+          'mountain' => [
+              'ore_mine',
+              'gryphon_nest',
+          ],
+          'swamp' => [
+              'tower',
+              'wizard_guild',
+              'temple',
+          ],
+          'cavern' => [
+              'diamond_mine',
+              'school',
+          ],
+          'forest' => [
+              'lumberyard',
+              'forest_haven',
+          ],
+          'hill' => [
+              'factory',
+              'guard_tower',
+              'shrine',
+              'barracks',
+          ],
+          'water' => [
+              'dock',
+          ],
+      ];
+
+        if($dominion !== null)
+        {
+          if($dominion->race->name == 'Dragon')
+          {
+            $buildings = [
+                'plain' => [],
+                'mountain' => [
+                    'tower',
+                    'farm',
+                    'ore_mine',
+                ],
+                'swamp' => [],
+                'cavern' => [
+                    'diamond_mine',
+                ],
+                'forest' => [
+                    'lumberyard',
+                ],
+                'hill' => [
+                  'barracks',
+                ],
+                'water' => [
+                    'dock',
+                ],
+            ];
+          }
+          elseif($dominion->race->name == 'Merfolk')
+          {
+            $buildings = [
+                'plain' => [],
+                'mountain' => [],
+                'swamp' => [],
+                'cavern' => [],
+                'forest' => [],
+                'hill' => [],
+                'water' => [
+                  'farm',
+                  'tower',
+                  'temple',
+                  'diamond_mine',
+                  'shrine',
+                ],
+            ];
+          }
+        }
 
         if(!$dominion->race->getPerkValue('cannot_build_homes'))
         {

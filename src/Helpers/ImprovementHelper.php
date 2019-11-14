@@ -57,7 +57,7 @@ class ImprovementHelper
             'armory' => '-%s%% unit training costs',
             'infirmary' => '-%s%% casualties in battle',
             'workshops' => '-%s%% construction and rezoning costs',
-            'observatory' => '+%1$s%% research points gained on attacks, -%1$s%% cost of technologies',
+            'observatory' => '+%1$s%% research points gained on attacks and research point production',
             'cartography' => '+%s%% land explored and land discovered on attacks',
             'hideouts' => '+%1$s%% spy power, -%1$s%% spy losses',
             'forestry' => '+%s%% lumber production',

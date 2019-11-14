@@ -260,7 +260,6 @@ class TrainingCalculator
             'unit3' => 'military_unit3',
             'unit4' => 'military_unit4',
 
-
             'spy' => 'military_spies',
             'wizard' => 'military_wizards',
             'archmage' => 'military_archmages',

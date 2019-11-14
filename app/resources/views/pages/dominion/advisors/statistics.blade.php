@@ -311,7 +311,7 @@
                                             <tr>
                                                 @if ($selectedDominion->race->name == 'Growth')
                                                     <td>Cells:</td>
-                                                @if ($selectedDominion->race->name == 'Myconid')
+                                                @elseif ($selectedDominion->race->name == 'Myconid')
                                                     <td>Spores:</td>
                                                 @else
                                                     <td>Peasant Population:</td>
