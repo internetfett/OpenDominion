@@ -457,7 +457,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
-        #$unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -795,7 +795,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-/* ABANDONED - causes memory leak?
+
     protected function getUnitPowerFromMilitaryPercentagePerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $militaryPercentagePerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_from_military_percentage");
@@ -805,13 +805,23 @@ class MilitaryCalculator
             return 0;
         }
 
-        $militaryPercentage = $populationCalculator->getPopulationMilitary($dominion);
+        $military = 0;
+        $military = $dominion->military_unit1;
+        $military = $dominion->military_unit2;
+        $military = $dominion->military_unit3;
+        $military = $dominion->military_unit4;
+        $military = $dominion->military_spies;
+        $military = $dominion->military_wizards;
+        $military = $dominion->military_archmages;
+        $military = $dominion->military_draftees;
 
-        $powerFromPerk = $militaryPercentagePerk * $militaryPercentage;
+        $militaryPercentage = min(1, $military / ($military + $dominion->peasants));
+
+        $powerFromPerk = min($militaryPercentagePerk * $militaryPercentage, 1);
 
         return $powerFromPerk;
     }
-*/
+
 
     /**
      * Returns the Dominion's morale modifier.
