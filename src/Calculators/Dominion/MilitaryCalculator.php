@@ -806,14 +806,14 @@ class MilitaryCalculator
         }
 
         $military = 0;
-        $military = $dominion->military_unit1;
-        $military = $dominion->military_unit2;
-        $military = $dominion->military_unit3;
-        $military = $dominion->military_unit4;
-        $military = $dominion->military_spies;
-        $military = $dominion->military_wizards;
-        $military = $dominion->military_archmages;
-        $military = $dominion->military_draftees;
+        $military += $dominion->military_unit1;
+        $military += $dominion->military_unit2;
+        $military += $dominion->military_unit3;
+        $military += $dominion->military_unit4;
+        $military += $dominion->military_spies;
+        $military += $dominion->military_wizards;
+        $military += $dominion->military_archmages;
+        $military += $dominion->military_draftees;
 
         $militaryPercentage = min(1, $military / ($military + $dominion->peasants));
 
