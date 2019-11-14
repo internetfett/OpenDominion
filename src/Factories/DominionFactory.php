@@ -349,6 +349,18 @@ class DominionFactory
                 'water' => 0,
             ];
           }
+          elseif($race->name == 'Merfolk')
+          {
+            return [
+                'plain' => 0,
+                'mountain' => 0,
+                'swamp' => 0,
+                'cavern' => 0,
+                'forest' => 0,
+                'hill' => 0,
+                'water' => 1000-80-50,
+            ];
+          }
         }
         else
         {
