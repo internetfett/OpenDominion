@@ -161,7 +161,7 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
-            'offense_from_military_percentage' => 'Gains +1x(Military%%) OP, max +1 at 100%% military.',
+            'offense_from_military_percentage' => 'Gains +1x(Military%%) OP, max +1 at 100%% military. Only counts <em>trained</em> military units.',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
 

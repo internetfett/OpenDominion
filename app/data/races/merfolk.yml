@@ -39,7 +39,7 @@ units:
       sink_boats_defense: 1
   - name: Leviathan
     cost:
-      platinum: 4000
+      platinum: 2800
     power:
       offense: 0
       defense: 22
@@ -49,7 +49,7 @@ units:
       land_limit: water,0.22 # Max 1 unit per 0.22 acres of Water (4.54 Krakens/acre)
   - name: Kraken
     cost:
-      platinum: 2750
+      platinum: 1650
     power:
       offense: 12
       defense: 7
