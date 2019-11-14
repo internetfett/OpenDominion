@@ -52,8 +52,9 @@ class DominionFactory
         $acresBase = 1000;
 
         // Give +0.35% starting resources per hour late, max +50%.
-        $hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
-        $startingResourcesMultiplier = 1 + min(0.50, $hourSinceRoundStarted/300);
+        #$hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
+        $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
+        $startingResourcesMultiplier = 1 + min(0.50, $hoursSinceRoundStarted/300);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
@@ -191,7 +192,7 @@ class DominionFactory
         // Dimensionalists: starts with 333 Summoners.
         if($race->name == 'Dimensionalists')
         {
-          $startingResources['unit3'] = intval(333 * $startingResourcesMultiplier);
+          $startingResources['unit1'] = intval(333 * $startingResourcesMultiplier);
         }
 
         return Dominion::create([
