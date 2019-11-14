@@ -97,12 +97,6 @@ class BuildingHelper
                 ],
             ];
           }
-
-          if(!$dominion->race->getPerkValue('cannot_build_homes'))
-          {
-            array_unshift($buildings[$dominion->race->home_land_type], 'home');
-          }
-
         }
         else
         {
@@ -140,6 +134,14 @@ class BuildingHelper
                   'dock',
               ],
           ];
+        }
+
+
+        if(!$dominion->race->getPerkValue('cannot_build_homes'))
+        {
+          array_unshift($buildings[$dominion->race->home_land_type], 'home');
+
+          #$buildings[$dominion->race->home_land_type][] = 'home';
         }
 
         return $buildings;
