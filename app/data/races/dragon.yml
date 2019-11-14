@@ -60,5 +60,5 @@ units:
       no_draftee: 1
       fewer_casualties_offense: 90
       fewer_casualties_defense: 50
-      land_limit: mountain,6 # Max 1 unit per 6 acres of Mountain
+      land_limit: mountain,0.15 # Max 1 unit per 6 acres of Mountain
       food_consumption: 55
