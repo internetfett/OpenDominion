@@ -203,7 +203,7 @@ class BuildingHelper
             'gryphon_nest' => 'Increases offensive power.<br><br>Power increased by +2% per 1% owned, up to a maximum of +40% at 20% owned.',
             'tower' => 'Produces 25 mana per hour.',
             'wizard_guild' => 'Increases Wizard Strength refresh rate, reduces Wizard and ArchMages training cost and reduces spell costs.<br><br>Wizard Strength refresh rate increased by 0.1% per 1% owned, up to a maximum of 2% at 20% owned.<br>Wizard and ArchMage training and spell costs reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned.',
-            'temple' => 'Increases population growth and reduces defensive bonuses of dominions you invade.<br><br>Population growth increased by 6% per 1% owned.<br>Defensive bonuses reduced by 1.5% per 1% owned, up to a maximum of 25% at 16.7% owned.',
+            'temple' => 'Increases population growth and reduces defensive bonuses of dominions you invade.<br><br>Population growth increased by 6% per 1% owned.<br>Defensive bonuses reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned.',
             'diamond_mine' => 'Produces 15 gems per hour.',
             'school' => 'Produces research points.',
             'lumberyard' => 'Produces 50 lumber per hour.',
