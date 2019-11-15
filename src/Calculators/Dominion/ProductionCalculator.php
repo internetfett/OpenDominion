@@ -506,7 +506,7 @@ class ProductionCalculator
         // Building: Tower
         $mana += ($dominion->building_tower * $manaPerTower);
 
-        // Unit Perk Production Bonus (Void Unit: Vision)
+        // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
 
         return $mana;
@@ -571,6 +571,7 @@ class ProductionCalculator
     {
         $manaDecay = $this->getManaDecay($dominion);
 
+/*
         if($dominion->resource_mana < $manaDecay)
         {
           return round($dominion->resource_mana*-1);
@@ -579,8 +580,8 @@ class ProductionCalculator
         {
           return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
         }
-
-        #return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
+*/
+        return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
     }
 
     //</editor-fold>

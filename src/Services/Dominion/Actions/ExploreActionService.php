@@ -12,7 +12,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
-use OpenDominion\Services\Dominion\ProtectionService;
+#use OpenDominion\Services\Dominion\ProtectionService;
 
 class ExploreActionService
 {
@@ -28,8 +28,8 @@ class ExploreActionService
     protected $queueService;
 
 
-    /** @var ProtectionService */
-    protected $protectionService;
+#    /** @var ProtectionService */
+#    protected $protectionService;
 
     /**
      * @var int The minimum morale required to explore
@@ -44,7 +44,7 @@ class ExploreActionService
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
-        $this->protectionService = $protectionService;
+#        $this->protectionService = $protectionService;
     }
 
     /**
@@ -99,9 +99,11 @@ class ExploreActionService
             throw new GameException('You do not have enough morale to explore');
         }
 
+        /* Re-enabled.
         if ($this->protectionService->isUnderProtection($dominion)) {
             throw new GameException('You are currently under protection and may not explore during that time');
         }
+        */
 
         // todo: refactor. see training action service. same with other action services
         $newMorale = max(0, ($dominion->morale - $this->explorationCalculator->getMoraleDrop($totalLandToExplore)));

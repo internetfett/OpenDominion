@@ -13,15 +13,6 @@
             </div>
         </div>
     </div>
-@elseif ($protectionService->isUnderProtection($selectedDominion))
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
-        </div>
-        <div class="box-body">
-            You are currently under protection for <b>{{ number_format($protectionService->getUnderProtectionHoursLeft($selectedDominion), 2) }}</b> more hours and may not explore during that time.
-        </div>
-    </div>
 @elseif ($selectedDominion->morale < 20)
     <div class="box box-primary">
         <div class="box-header with-border">
