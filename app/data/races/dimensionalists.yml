@@ -22,11 +22,13 @@ perks:
 units:
   - name: Summoner
     cost:
-      platinum: 1000
+      platinum: 3000
+      wizard: 1
     power:
       offense: 0
       defense: 0
     perks:
+        faster_training: 3
         counts_as_wizard_offense: 0.25
         counts_as_wizard_defense: 0.25
   - name: Tl'Tl
