@@ -137,22 +137,21 @@ class UnitHelper
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 
-
             'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
 
-            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded.',
-            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded.',
+            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours).',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours).',
 
             'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
             'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
 
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
 
-            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
+            'land_per_tick' => 'Explores %1$s acres of home land per tick. Land takes 12 ticks to arrive.',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
