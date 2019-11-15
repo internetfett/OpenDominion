@@ -559,10 +559,11 @@ class TickService
         {
           $hours = 12;
           $homeLandType = 'land_' . $dominion->race->home_land_type;
-
           $data = array($homeLandType => $acresToExplore);
 
-          $this->queueService->queueResources('exploration', $dominion, $data, $hours);
+          #$this->queueService->queueResources('exploration', $dominion, $data, $hours);
+          $tick->generated_land = $acresToExplore;
+
           unset($data);
         }
 
