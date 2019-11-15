@@ -170,7 +170,7 @@ class DominionFactory
         if($race->name == 'Myconid')
         {
           $startingResources['platinum'] = 0;
-          $startingResources['food'] = $acresBase * 1000;
+          $startingResources['food'] = $acresBase * 500;
 
           $startingResources['unit3'] = intval((40 * 25) / 1);
         }
