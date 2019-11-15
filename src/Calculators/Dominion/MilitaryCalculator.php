@@ -832,7 +832,7 @@ class MilitaryCalculator
         {
           if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
           {
-            $military += getTotalUnitsForSlot($dominion, $unitSlot);
+            $military += $this->getTotalUnitsForSlot($dominion, $unitSlot);
             $military += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unitSlot}");
           }
         }
