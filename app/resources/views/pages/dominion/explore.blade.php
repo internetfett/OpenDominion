@@ -13,13 +13,13 @@
             </div>
         </div>
     </div>
-@elseif ($selectedDominion->morale < 20)
+@elseif ($selectedDominion->morale < 50)
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
         </div>
         <div class="box-body">
-            Your military needs at least 20% morale to explore. Your military currently has {{ $selectedDominion->morale }}% morale.
+            Your military needs at least 50% morale to explore. Your military currently has {{ $selectedDominion->morale }}% morale.
         </div>
     </div>
 @elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)

@@ -39,7 +39,7 @@ class ExploreActionService
     /**
      * ExplorationActionService constructor.
      */
-    public function __construct(ProtectionService $protectionService)
+    public function __construct(/*ProtectionService $protectionService*/)
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
