@@ -226,7 +226,7 @@ class ProductionCalculator
         // Racial Perk: peasants_produce_food
         if($dominion->race->getPerkValue('peasants_produce_food'))
         {
-          $food += $dominion->peasants * 8;
+          $food += $dominion->peasants * 4;
         }
 
         // Racial Spell: Metabolism (Growth) - Double food production
