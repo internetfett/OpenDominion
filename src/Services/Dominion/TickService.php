@@ -563,7 +563,7 @@ class TickService
           $data = array($homeLandType => $acresToExplore);
 
           $this->queueService->queueResources('exploration', $dominion, $data, $hours);
-          unset($acresToExplore);
+          unset($data);
         }
 
 
