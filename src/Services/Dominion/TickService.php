@@ -132,13 +132,15 @@ class TickService
                         'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
                         'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
                         'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),
+
                         'dominions.land_plain' => DB::raw('dominions.land_plain + dominion_tick.land_plain'),
                         'dominions.land_mountain' => DB::raw('dominions.land_mountain + dominion_tick.land_mountain'),
                         'dominions.land_swamp' => DB::raw('dominions.land_swamp + dominion_tick.land_swamp'),
                         'dominions.land_cavern' => DB::raw('dominions.land_cavern + dominion_tick.land_cavern'),
-                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest'),
+                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest + dominion_tick.generated_land'),
                         'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                         'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
+
                         'dominions.discounted_land' => DB::raw('dominions.discounted_land + dominion_tick.discounted_land'),
                         'dominions.building_home' => DB::raw('dominions.building_home + dominion_tick.building_home'),
                         'dominions.building_alchemy' => DB::raw('dominions.building_alchemy + dominion_tick.building_alchemy'),
