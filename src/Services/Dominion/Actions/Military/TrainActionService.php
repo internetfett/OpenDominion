@@ -457,7 +457,6 @@ class TrainActionService
               // If not instant training, queue resource.
               else
               {
-                $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
                 # Default state
                 $data = array($unit => $amountToTrain);
 
@@ -474,6 +473,8 @@ class TrainActionService
                 $hours = max($hours,1);
 
                 $this->queueService->queueResources('training', $dominion, $data, $hours);
+
+                $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
               }
 
               #unset($hours);
