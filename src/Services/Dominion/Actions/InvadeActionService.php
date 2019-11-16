@@ -270,7 +270,7 @@ class InvadeActionService
 
             $this->handleMoraleChanges($dominion, $target);
             $this->handleLandGrabs($dominion, $target);
-            $this->handleResearchPoints($dominion, $units);
+            $this->handleResearchPoints($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1057,7 +1057,7 @@ class InvadeActionService
      * @param Dominion $dominion
      * @param array $units
      */
-    protected function handleResearchPoints(Dominion $dominion, array $units): void
+    protected function handleResearchPoints(Dominion $dominion, Dominion $target, array $units): void
     {
 
         # No RP for non-tech races and in-realm invasions.
