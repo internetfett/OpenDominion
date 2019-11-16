@@ -112,13 +112,6 @@ class ConstructActionService
 
 
         DB::transaction(function () use ($dominion, $data, $platinumCost, $lumberCost, $totalBuildingsToConstruct) {
-            $dominion->fill([
-                'resource_platinum' => ($dominion->resource_platinum - $platinumCost),
-                'resource_lumber' => ($dominion->resource_lumber - $lumberCost),
-                'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
-            ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
-
-
             $hours = 12;
             # Gnome: increased construction speed
             if($dominion->race->getPerkValue('increased_construction_speed'))
@@ -127,6 +120,12 @@ class ConstructActionService
             }
 
             $this->queueService->queueResources('construction', $dominion, $data, $hours);
+
+            $dominion->fill([
+                'resource_platinum' => ($dominion->resource_platinum - $platinumCost),
+                'resource_lumber' => ($dominion->resource_lumber - $lumberCost),
+                'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
+            ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
         });
 
         return [
