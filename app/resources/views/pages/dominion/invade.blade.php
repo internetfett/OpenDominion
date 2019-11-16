@@ -365,6 +365,10 @@
                     <hr />
                     <p><strong>You were recently invaded, enraging your Spriggan and Leshy.</strong></p>
                     @endif
+                    @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
+                    <hr />
+                    <p><strong>Empire:</strong> in-realm invasions do not yield any prestige, research points, or generated acres. All you get is the acres you conquer.</p>
+                    @endif
                 </div>
             </div>
         </div>

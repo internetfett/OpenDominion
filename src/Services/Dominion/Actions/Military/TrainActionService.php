@@ -358,9 +358,9 @@ class TrainActionService
                 )
 
                   // If all the above is greater than Factories*2*Science
-                  > ($dominion->building_factory * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'science'))))
+                  > ($dominion->building_factory * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops'))))
           {
-            throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by Science.');
+            throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by improvements into Workshops.');
           }
         }
 
