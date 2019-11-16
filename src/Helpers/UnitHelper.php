@@ -151,7 +151,7 @@ class UnitHelper
 
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
 
-            'land_per_tick' => 'Explores %1$s acres of home land per tick. Land takes 12 ticks to arrive.',
+            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
             # TBD
             'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
@@ -160,7 +160,7 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
-            'offense_from_military_percentage' => 'Gains +1x(Military%%) OP, max +1 at 100%% military. Only counts <em>trained</em> military units.',
+            'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military..',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
 
