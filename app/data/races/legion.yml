@@ -19,6 +19,7 @@ perks:
   cannot_build_homes: 1
   prestige_gains: 20
   food_consumption: -25
+  boat_capacity: 10
 units:
   - name: Goblin
     type: hybrid_elite
