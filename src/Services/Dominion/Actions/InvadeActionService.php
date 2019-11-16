@@ -1060,7 +1060,8 @@ class InvadeActionService
     protected function handleResearchPoints(Dominion $dominion, array $units): void
     {
 
-        if($dominion->race->getPerkValue('cannot_tech'))
+        # No RP for non-tech races and in-realm invasions.
+        if($dominion->race->getPerkValue('cannot_tech') or $dominion->realm->id == $target->realm->id)
         {
           $researchPointsPerAcre = 0;
         }
