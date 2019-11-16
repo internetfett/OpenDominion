@@ -30,8 +30,8 @@ class MilitaryCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
-    /** @var PopulationCalculator */
-    protected $populationCalculator;
+    /** @var bool */
+    protected $forTick = false;
 
     /**
      * MilitaryCalculator constructor.
@@ -42,7 +42,6 @@ class MilitaryCalculator
      * @param PrestigeCalculator $prestigeCalculator
      * @param QueueService $queueService
      * @param SpellCalculator $spellCalculator
-     * @param PopulationCalculator $populationCalculator
      */
     public function __construct(
         BuildingCalculator $buildingCalculator,
@@ -59,6 +58,15 @@ class MilitaryCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
+    }
+
+    /** 
+     * Toggle if this calculator should include the following hour's resources.
+     */
+    public function setForTick(bool $value)
+    {
+        $this->forTick = $value;
+        $this->queueService->setForTick($value);
     }
 
     /**
