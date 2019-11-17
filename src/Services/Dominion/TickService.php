@@ -564,7 +564,7 @@ class TickService
           unset($data);
         }
 
-        if($unitsToGenerate)
+        if(isset($unitsToGenerate))
         {
           $tick->generated_unit1 = $unitsToGenerate[1];
           $tick->generated_unit2 = $unitsToGenerate[2];
