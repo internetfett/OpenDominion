@@ -564,8 +564,15 @@ class TickService
           unset($data);
         }
 
+        if($unitsToGenerate)
+        {
+          $tick->generated_unit1 = $unitsToGenerate[1];
+          $tick->generated_unit2 = $unitsToGenerate[2];
+          $tick->generated_unit3 = $unitsToGenerate[3];
+          $tick->generated_unit4 = $unitsToGenerate[4];
+        }
+        unset($unitsToGenerate);
 
-        #$tick->spores =
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later

@@ -25,8 +25,8 @@ units:
     type: hybrid_elite
     need_boat: true
     cost:
-      platinum: 400
-      ore: 40
+      platinum: 800
+      ore: 80
     power:
       offense: 4
       defense: 4
@@ -38,8 +38,8 @@ units:
     type: hybrid_elite
     need_boat: true
     cost:
-      platinum: 400
-      ore: 40
+      platinum: 800
+      ore: 80
     power:
       offense: 4
       defense: 4
@@ -52,8 +52,8 @@ units:
     type: hybrid_elite
     need_boat: false
     cost:
-      platinum: 400
-      ore: 40
+      platinum: 800
+      ore: 80
     power:
       offense: 4
       defense: 4
@@ -66,8 +66,8 @@ units:
     type: hybrid_elite
     need_boat: true
     cost:
-      platinum: 400
-      ore: 40
+      platinum: 800
+      ore: 80
     power:
       offense: 4
       defense: 4
