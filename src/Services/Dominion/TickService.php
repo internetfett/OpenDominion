@@ -566,19 +566,19 @@ class TickService
 
         if(isset($unitsToGenerate))
         {
-          if($unitsToGenerate[1] > 0)
+          if(isset($unitsToGenerate[1]))
           {
             $tick->generated_unit1 = $unitsToGenerate[1];
           }
-          if($unitsToGenerate[2] > 0)
+          if(isset($unitsToGenerate[2]))
           {
             $tick->generated_unit2 = $unitsToGenerate[2];
           }
-          if($unitsToGenerate[3] > 0)
+          if(isset($unitsToGenerate[3]))
           {
             $tick->generated_unit3 = $unitsToGenerate[3];
           }
-          if($unitsToGenerate[4] > 0)
+          if(isset($unitsToGenerate[4]))
           {
             $tick->generated_unit4 = $unitsToGenerate[4];
           }
