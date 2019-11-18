@@ -105,7 +105,7 @@ class ImprovementHelper
     }
 
     public function getImprovementIcon(string $improvement): string
-    {
+    {  
         $icons = [
             'markets' => 'telescope',
             'keep' => 'capitol',
