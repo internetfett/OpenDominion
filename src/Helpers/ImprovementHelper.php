@@ -105,7 +105,7 @@ class ImprovementHelper
     }
 
     public function getImprovementIcon(string $improvement): string
-    {  
+    {
         $icons = [
             'markets' => 'telescope',
             'keep' => 'capitol',
@@ -125,7 +125,7 @@ class ImprovementHelper
             'tissue' => 'thorny-vine',
         ];
 
-        return 'fa fa-' . $icon[$improvement] . ' fa-fw';
+        return '<i class="fa fa-' . $icons[$improvement] . ' fa-fw"></i>';
     }
 
 }
