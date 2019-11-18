@@ -16,7 +16,6 @@ converting: 3
 
 perks:
   exchange_bonus: 25
-  platinum_production: 5
 units:
   - name: Ensign
     need_boat: true

@@ -49,6 +49,7 @@ units:
     #need_boat: false
     cost:
       mana: 130
+      gem: 100
     power:
       offense: 0
       defense: 4
@@ -56,17 +57,16 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 0.05
-      #faster_return: 11
       pairing_limit: 1,11 # Unit slot, amount
   - name: Ze'Tk
     need_boat: false
     cost:
-      mana: 130
+      mana: 165
+      gem: 100
     power:
       offense: 4
-      defense: 1
+      defense: 2
     perks:
-      true_immortal: 1
       no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 0.1
