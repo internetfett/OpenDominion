@@ -125,7 +125,7 @@ class ImprovementHelper
             'tissue' => 'thorny-vine',
         ];
 
-        return '<i class="fa fa-' . $icons[$improvement] . ' fa-fw"></i>';
+        return $icons[$improvement];
     }
 
 }
