@@ -126,5 +126,6 @@ class ImprovementHelper
         ];
 
         return 'fa fa-' . $icon[$improvement] . ' fa-fw';
+    }
 
 }
