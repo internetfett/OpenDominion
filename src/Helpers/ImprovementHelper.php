@@ -107,7 +107,7 @@ class ImprovementHelper
     public function getImprovementIcon(string $improvement): string
     {
         $icons = [
-            'markets' => 'telescope',
+            'markets' => 'hive-emblem',
             'keep' => 'capitol',
             'towers' => 'fairy-wand',
             'forges' => 'forging',
@@ -116,7 +116,7 @@ class ImprovementHelper
             'armory' => 'helmet',
             'infirmary' => 'health',
             'workshops' => 'nails',
-            'observatory' => 'home',
+            'observatory' => 'telescope',
             'cartography' => 'scroll-unfurled',
             'hideouts' => 'hood',
             'forestry' => 'pine-tree',
