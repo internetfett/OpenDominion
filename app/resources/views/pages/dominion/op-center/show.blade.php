@@ -354,7 +354,6 @@
                                       <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
                                         {{ ucfirst($improvementType) }}
                                         {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
-                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
                                     </td>
                                     <td>
                                         {{ sprintf(
