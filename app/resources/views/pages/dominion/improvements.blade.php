@@ -30,7 +30,7 @@
                             @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                 <tr>
                                     <td>
-                                        {{ $improvementHelper->getImprovementIcon($improvementType) }}
+                                        <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
                                         {{ ucfirst($improvementType) }}
                                         {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
@@ -107,10 +107,9 @@
                                 @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                     <tr>
                                         <td>
-                                            <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw"></i>
+                                            <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
                                             {{ ucfirst($improvementType) }}
                                             {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
-                                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
                                         </td>
                                         <td>
                                             {{ sprintf(
