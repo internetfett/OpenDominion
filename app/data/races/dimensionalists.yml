@@ -49,7 +49,7 @@ units:
     #need_boat: false
     cost:
       mana: 130
-      gem: 100
+      #gem: 100
     power:
       offense: 0
       defense: 4
@@ -62,7 +62,7 @@ units:
     need_boat: false
     cost:
       mana: 165
-      gem: 100
+      #gem: 100
     power:
       offense: 4
       defense: 2
