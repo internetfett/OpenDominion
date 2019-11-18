@@ -30,7 +30,7 @@
                             @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                 <tr>
                                     <td>
-                                        Icon: {{ getImprovementIcon($improvementType) }} /
+                                        {{ getImprovementIcon($improvementType) }}
                                         {{ ucfirst($improvementType) }}
                                         {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
@@ -107,6 +107,7 @@
                                 @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                     <tr>
                                         <td>
+                                            {{ getImprovementIcon($improvementType) }}
                                             {{ ucfirst($improvementType) }}
                                             {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                             <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
