@@ -103,4 +103,28 @@ class ImprovementHelper
 
         return null;
     }
+
+    public function getImprovementIcon(string $improvement): string
+    {
+        $icons = [
+            'markets' => 'telescope',
+            'keep' => 'capitol',
+            'towers' => 'fairy-wand',
+            'forges' => 'crossed-swords',
+            'walls' => 'shield',
+            'harbor' => 'anchor',
+            'armory' => 'hammer',
+            'infirmary' => 'health',
+            'workshops' => 'forging',
+            'observatory' => 'home',
+            'cartography' => 'telescope',
+            'hideouts' => 'user-secret',
+            'forestry' => 'pine-tree',
+            'refinery' => 'large-hammer',
+            'granaries' => 'vase',
+            'tissue' => 'thorny-vine',
+        ];
+
+        return 'fa fa-' . $icon[$improvement] . ' fa-fw';
+
 }

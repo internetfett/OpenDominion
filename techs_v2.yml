@@ -1,0 +1,39 @@
+# Ladder: casualties
+
+casualties_level1:
+  name: Casualties Level I
+  perks:
+    fewer_casualties_offense: 5
+    fewer_casualties_defense: 5
+
+casualties_level2:
+  name: Casualties Level I
+  perks:
+    fewer_casualties_offense: 10
+    fewer_casualties_defense: 10
+  requires:
+    - casualties_level1
+
+casualties_level3:
+  name: Casualties Level I
+  perks:
+    fewer_casualties_offense: 15
+    fewer_casualties_defense: 15
+  requires:
+    - casualties_level2
+
+casualties_level4:
+  name: Casualties Level I
+  perks:
+    fewer_casualties_offense: 20
+    fewer_casualties_defense: 20
+  requires:
+    - casualties_level3
+
+casualties_level5:
+  name: Casualties Level I
+  perks:
+    fewer_casualties_offense: 25
+    fewer_casualties_defense: 25
+  requires:
+    - casualties_level4

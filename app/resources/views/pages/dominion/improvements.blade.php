@@ -30,6 +30,8 @@
                             @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                 <tr>
                                     <td>
+                                        {{ getImprovementIcon($improvementType) }}
+                                        &nbsp;
                                         {{ ucfirst($improvementType) }}
                                         {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
