@@ -18,19 +18,19 @@ class ImprovementHelper
             #'science',
             'markets',
             'keep',
-            'towers',
             'forges',
             'walls',
             'harbor',
+            'granaries',
             'armory',
             'infirmary',
             'workshops',
             'observatory',
             'cartography',
+            'towers',
             'hideouts',
             'forestry',
             'refinery',
-            'granaries',
           );
       }
 
