@@ -107,7 +107,7 @@
                                 @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
                                     <tr>
                                         <td>
-                                            <i class="fa fa-'{{ $improvementHelper->getImprovementIcon($improvementType) }}' fa-fw"></i>;
+                                            <i class="fa fa-{{ $improvementHelper->getImprovementIcon($improvementType) }} fa-fw"></i>
                                             {{ ucfirst($improvementType) }}
                                             {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                             <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
