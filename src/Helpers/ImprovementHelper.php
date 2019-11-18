@@ -20,8 +20,6 @@ class ImprovementHelper
             'keep',
             'forges',
             'walls',
-            'harbor',
-            'granaries',
             'armory',
             'infirmary',
             'workshops',
@@ -29,6 +27,8 @@ class ImprovementHelper
             'cartography',
             'towers',
             'hideouts',
+            'granaries',
+            'harbor',
             'forestry',
             'refinery',
           );
