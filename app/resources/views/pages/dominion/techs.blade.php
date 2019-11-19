@@ -39,6 +39,9 @@
                                             <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
                                         @endif
                                     </td>
+                                    @if($tech->prerequisites, $unlockedTechs)) != 0)
+                                    <p>XPXP</p>
+                                    @endif
                                     <td class="{{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'text-muted' : 'text-default' }}"><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $tech->name }}</label></td>
                                     <td><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $techHelper->getTechDescription($tech) }}</label></td>
                                     <td>
