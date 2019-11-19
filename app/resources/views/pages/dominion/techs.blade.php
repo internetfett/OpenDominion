@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             @foreach ($techs as $tech)
-                            @if(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0)
+                            @if(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0 or in_array($tech->key, $unlockedTechs))
                                 <tr class="{{ in_array($tech->key, $unlockedTechs) ? 'text-green' : 'text-default' }}">
                                     <td class="text-center">
                                         @if(in_array($tech->key, $unlockedTechs))
@@ -41,6 +41,7 @@
                                         @endif
                                     </td>
                                       <td class="text-normal"><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $tech->name }}</label></td>
+
                                     <td><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $techHelper->getTechDescription($tech) }}</label></td>
                                     <td>
                                         @if ($tech->prerequisites)
