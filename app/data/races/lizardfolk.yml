@@ -52,5 +52,5 @@ units:
       sink_boats_defense: 1
       food_consumption: 0.75
       reduce_combat_losses: 1
-      pairing_limit: 3,0.25 # Unit slot, amount (max 0.1 of this unit per each Unit 3)
+      pairing_limit: 3,0.5 # Unit slot, amount (max 0.1 of this unit per each Unit 3)
     need_boat: false
