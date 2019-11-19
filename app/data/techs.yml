@@ -1,14 +1,14 @@
 # <Ladder: Casualties>
 
 casualties_level1:
-  name: Casualties (Level 1/6)
+  name: Casualties (Lvl 1/6)
   enabled: 1
   perks:
     fewer_casualties_offense: 5
     fewer_casualties_defense: 5
 
 casualties_level2:
-  name: Casualties (Level 2/6)
+  name: Casualties (Lvl 2/6)
   enabled: 1
   perks:
     fewer_casualties_offense: 10
@@ -17,7 +17,7 @@ casualties_level2:
     - casualties_level1
 
 casualties_level3:
-  name: Casualties (Level 3/6)
+  name: Casualties (Lvl 3/6)
   enabled: 1
   perks:
     fewer_casualties_offense: 15
@@ -26,7 +26,7 @@ casualties_level3:
     - casualties_level2
 
 casualties_level4:
-  name: Casualties (Level 4/6)
+  name: Casualties (Lvl 4/6)
   enabled: 1
   perks:
     fewer_casualties_offense: 20
@@ -35,7 +35,7 @@ casualties_level4:
     - casualties_level3
 
 casualties_level5:
-  name: Casualties (Level 5/6)
+  name: Casualties (Lvl 5/6)
   enabled: 1
   perks:
     fewer_casualties_offense: 25
@@ -44,7 +44,7 @@ casualties_level5:
     - casualties_level4
 
 casualties_level6:
-  name: Casualties (Level 6/6)
+  name: Casualties (Lvl 6/6)
   enabled: 1
   perks:
     fewer_casualties_offense: 25
@@ -57,13 +57,13 @@ casualties_level6:
 # <Ladder: Training Costs>
 
 training_costs_level1:
-  name: Training Costs (Level 1/6)
+  name: Training Costs (Lvl 1/6)
   enabled: 1
   perks:
     military_cost: -2.5
 
 training_costs_level2:
-  name: Training Costs (Level 2/6)
+  name: Training Costs (Lvl 2/6)
   enabled: 1
   perks:
     military_cost: -5
@@ -71,7 +71,7 @@ training_costs_level2:
     - training_costs_level1
 
 training_costs_level3:
-  name: Training Costs (Level 3/6)
+  name: Training Costs (Lvl 3/6)
   enabled: 1
   perks:
     military_cost: -7.5
@@ -79,7 +79,7 @@ training_costs_level3:
     - training_costs_level2
 
 training_costs_level4:
-  name: Training Costs (Level 4/6)
+  name: Training Costs (Lvl 4/6)
   enabled: 1
   perks:
     military_cost: -10
@@ -87,7 +87,7 @@ training_costs_level4:
     - training_costs_level3
 
 training_costs_level5:
-  name: Training Costs (Level 5/6)
+  name: Training Costs (Lvl 5/6)
   enabled: 1
   perks:
     military_cost: -12.5
@@ -95,7 +95,7 @@ training_costs_level5:
     - training_costs_level4
 
 training_costs_level6:
-  name: Training Costs (Level 6/6)
+  name: Training Costs (Lvl 6/6)
   enabled: 1
   perks:
     military_cost: -15
@@ -108,13 +108,13 @@ training_costs_level6:
 # <Ladder: Offensive Power>
 
 offensive_power_level1:
-  name: Offensive Power (Level 1/6)
+  name: Offensive Power (Lvl 1/6)
   enabled: 1
   perks:
     offense: -2.5
 
 offensive_power_level2:
-  name: Offensive Power (Level 2/6)
+  name: Offensive Power (Lvl 2/6)
   enabled: 1
   perks:
     offense: -5
@@ -122,7 +122,7 @@ offensive_power_level2:
     - offensive_power_level1
 
 offensive_power_level3:
-  name: Offensive Power (Level 3/6)
+  name: Offensive Power (Lvl 3/6)
   enabled: 1
   perks:
     offense: -7.5
@@ -130,7 +130,7 @@ offensive_power_level3:
     - offensive_power_level2
 
 offensive_power_level4:
-  name: Offensive Power (Level 4/6)
+  name: Offensive Power (Lvl 4/6)
   enabled: 1
   perks:
     offense: -10
@@ -138,7 +138,7 @@ offensive_power_level4:
     - offensive_power_level3
 
 offensive_power_level5:
-  name: Offensive Power (Level 5/6)
+  name: Offensive Power (Lvl 5/6)
   enabled: 1
   perks:
     offense: -12.5
@@ -146,7 +146,7 @@ offensive_power_level5:
     - offensive_power_level4
 
 offensive_power_level6:
-  name: Offensive Power (Level 6/6)
+  name: Offensive Power (Lvl 6/6)
   enabled: 1
   perks:
     offense: -15
@@ -158,14 +158,14 @@ offensive_power_level6:
 # <Ladder: Construction and Rezoning Costs>
 
 construction_rezoning_level1:
-  name: Construction and Rezoning Costs (Level 1/6)
+  name: Construction and Rezoning Costs (Lvl 1/6)
   enabled: 1
   perks:
     construction_cost: -5
     rezone_cost: -5
 
 construction_rezoning_level2:
-  name: Construction and Rezoning Costs (Level 2/6)
+  name: Construction and Rezoning Costs (Lvl 2/6)
   enabled: 1
   perks:
     construction_cost: -10
@@ -174,7 +174,7 @@ construction_rezoning_level2:
     - construction_rezoning_level1
 
 construction_rezoning_level3:
-  name: Construction and Rezoning Costs (Level 3/6)
+  name: Construction and Rezoning Costs (Lvl 3/6)
   enabled: 1
   perks:
     construction_cost: -15
@@ -183,7 +183,7 @@ construction_rezoning_level3:
     - construction_rezoning_level2
 
 construction_rezoning_level4:
-  name: Construction and Rezoning Costs (Level 4/6)
+  name: Construction and Rezoning Costs (Lvl 4/6)
   enabled: 1
   perks:
     construction_cost: -20
@@ -192,7 +192,7 @@ construction_rezoning_level4:
     - construction_rezoning_level3
 
 construction_rezoning_level5:
-  name: Construction and Rezoning Costs (Level 5/6)
+  name: Construction and Rezoning Costs (Lvl 5/6)
   enabled: 1
   perks:
     construction_cost: -25
@@ -201,7 +201,7 @@ construction_rezoning_level5:
     - construction_rezoning_level4
 
 construction_rezoning_level6:
-  name: Construction and Rezoning Costs (Level 6/6)
+  name: Construction and Rezoning Costs (Lvl 6/6)
   enabled: 1
   perks:
     construction_cost: -30
@@ -214,13 +214,13 @@ construction_rezoning_level6:
 # <Ladder: Explore Platinum Costs>
 
 explore_platinum_level1:
-  name: Explore Platinum Costs (Level 1/6)
+  name: Explore Platinum Costs (Lvl 1/6)
   enabled: 1
   perks:
     explore_platinum_cost: -5
 
 explore_platinum_level2:
-  name: Explore Platinum Costs (Level 2/6)
+  name: Explore Platinum Costs (Lvl 2/6)
   enabled: 1
   perks:
     explore_platinum_cost: -10
@@ -228,7 +228,7 @@ explore_platinum_level2:
     - explore_platinum_level1
 
 explore_platinum_level3:
-  name: Explore Platinum Costs (Level 3/6)
+  name: Explore Platinum Costs (Lvl 3/6)
   enabled: 1
   perks:
     explore_platinum_cost: -15
@@ -236,7 +236,7 @@ explore_platinum_level3:
     - explore_platinum_level2
 
 explore_platinum_level4:
-  name: Explore Platinum Costs (Level 4/6)
+  name: Explore Platinum Costs (Lvl 4/6)
   enabled: 1
   perks:
     explore_platinum_cost: -20
@@ -244,7 +244,7 @@ explore_platinum_level4:
     - explore_platinum_level3
 
 explore_platinum_level5:
-  name: Explore Platinum Costs (Level 5/6)
+  name: Explore Platinum Costs (Lvl 5/6)
   enabled: 1
   perks:
     explore_platinum_cost: -25
@@ -252,7 +252,7 @@ explore_platinum_level5:
     - explore_platinum_level4
 
 explore_platinum_level6:
-  name: Explore Platinum Costs (Level 6/6)
+  name: Explore Platinum Costs (Lvl 6/6)
   enabled: 1
   perks:
     explore_platinum_cost: -30
@@ -264,13 +264,13 @@ explore_platinum_level6:
 # <Ladder: Explore Draftee Costs>
 
 explore_draftee_level1:
-  name: Explore Draftee Costs (Level 1/6)
+  name: Explore Draftee Costs (Lvl 1/6)
   enabled: 1
   perks:
     explore_draftee_cost: -1
 
 explore_draftee_level2:
-  name: Explore Draftee Costs (Level 2/6)
+  name: Explore Draftee Costs (Lvl 2/6)
   enabled: 1
   perks:
     explore_draftee_cost: -2
@@ -278,7 +278,7 @@ explore_draftee_level2:
     - explore_draftee_level1
 
 explore_draftee_level3:
-  name: Explore Draftee Costs (Level 3/6)
+  name: Explore Draftee Costs (Lvl 3/6)
   enabled: 1
   perks:
     explore_draftee_cost: -3
@@ -286,7 +286,7 @@ explore_draftee_level3:
     - explore_draftee_level2
 
 explore_draftee_level4:
-  name: Explore Draftee Costs (Level 4/6)
+  name: Explore Draftee Costs (Lvl 4/6)
   enabled: 1
   perks:
     explore_draftee_cost: -4
@@ -294,7 +294,7 @@ explore_draftee_level4:
     - explore_draftee_level3
 
 explore_draftee_level5:
-  name: Explore Draftee Costs (Level 5/6)
+  name: Explore Draftee Costs (Lvl 5/6)
   enabled: 1
   perks:
     explore_draftee_cost: -5
@@ -302,7 +302,7 @@ explore_draftee_level5:
     - explore_draftee_level4
 
 explore_draftee_level6:
-  name: Explore Draftee Costs (Level 6/6)
+  name: Explore Draftee Costs (Lvl 6/6)
   enabled: 1
   perks:
     explore_draftee_cost: -6
@@ -314,14 +314,14 @@ explore_draftee_level6:
 # <Ladder: Spy Costs and Losses Costs>
 
 spy_costs_losses_level1:
-  name: Spy Costs and Losses (Level 1/6)
+  name: Spy Costs and Losses (Lvl 1/6)
   enabled: 1
   perks:
     spy_cost: -5
     spy_losses: -5
 
 spy_costs_losses_level2:
-  name: Spy Costs and Losses (Level 2/6)
+  name: Spy Costs and Losses (Lvl 2/6)
   enabled: 1
   perks:
     spy_cost: -10
@@ -330,7 +330,7 @@ spy_costs_losses_level2:
     - spy_costs_losses_level1
 
 spy_costs_losses_level3:
-  name: Spy Costs and Losses (Level 3/6)
+  name: Spy Costs and Losses (Lvl 3/6)
   enabled: 1
   perks:
     spy_cost: -15
@@ -339,7 +339,7 @@ spy_costs_losses_level3:
     - spy_costs_losses_level2
 
 spy_costs_losses_level4:
-  name: Spy Costs and Losses (Level 4/6)
+  name: Spy Costs and Losses (Lvl 4/6)
   enabled: 1
   perks:
     spy_cost: -20
@@ -348,7 +348,7 @@ spy_costs_losses_level4:
     - spy_costs_losses_level3
 
 spy_costs_losses_level5:
-  name: Spy Costs and Losses (Level 5/6)
+  name: Spy Costs and Losses (Lvl 5/6)
   enabled: 1
   perks:
     spy_cost: -25
@@ -357,7 +357,7 @@ spy_costs_losses_level5:
     - spy_costs_losses_level4
 
 spy_costs_losses_level6:
-  name: Spy Costs and Losses (Level 6/6)
+  name: Spy Costs and Losses (Lvl 6/6)
   enabled: 1
   perks:
     spy_cost: -30
@@ -371,14 +371,14 @@ spy_costs_losses_level6:
 # <Ladder: Spy Strength and Recovery Costs>
 
 spy_strength_and_recovery_level1:
-  name: Spy Strength and Recovery (Level 1/6)
+  name: Spy Strength and Recovery (Lvl 1/6)
   enabled: 1
   perks:
     spy_strength: 2.5
     spy_strength_recovery: 0
 
 spy_strength_and_recovery_level2:
-  name: Spy Strength and Recovery (Level 2/6)
+  name: Spy Strength and Recovery (Lvl 2/6)
   enabled: 1
   perks:
     spy_strength: 5
@@ -387,7 +387,7 @@ spy_strength_and_recovery_level2:
     - spy_strength_and_recovery_level1
 
 spy_strength_and_recovery_level3:
-  name: Spy Strength and Recovery (Level 3/6)
+  name: Spy Strength and Recovery (Lvl 3/6)
   enabled: 1
   perks:
     spy_strength: 7.5
@@ -396,7 +396,7 @@ spy_strength_and_recovery_level3:
     - spy_strength_and_recovery_level2
 
 spy_strength_and_recovery_level4:
-  name: Spy Strength and Recovery (Level 4/6)
+  name: Spy Strength and Recovery (Lvl 4/6)
   enabled: 1
   perks:
     spy_strength: 10
@@ -405,7 +405,7 @@ spy_strength_and_recovery_level4:
     - spy_strength_and_recovery_level3
 
 spy_strength_and_recovery_level5:
-  name: Spy Strength and Recovery (Level 5/6)
+  name: Spy Strength and Recovery (Lvl 5/6)
   enabled: 1
   perks:
     spy_strength: 12.5
@@ -414,7 +414,7 @@ spy_strength_and_recovery_level5:
     - spy_strength_and_recovery_level4
 
 spy_strength_and_recovery_level6:
-  name: Spy Strength and Recovery (Level 6/6)
+  name: Spy Strength and Recovery (Lvl 6/6)
   enabled: 1
   perks:
     spy_strength: 15
@@ -427,14 +427,14 @@ spy_strength_and_recovery_level6:
 # <Ladder: Spy Costs and Losses Costs>
 
 wiz_and_spell_costs_level1:
-  name: Wizard and Spell Costs (Level 1/6)
+  name: Wizard and Spell Costs (Lvl 1/6)
   enabled: 1
   perks:
     wizard_cost: -5
     spell_cost: -5
 
 wiz_and_spell_costs_level2:
-  name: Wizard and Spell Costs (Level 2/6)
+  name: Wizard and Spell Costs (Lvl 2/6)
   enabled: 1
   perks:
     wizard_cost: -10
@@ -443,7 +443,7 @@ wiz_and_spell_costs_level2:
     - wiz_and_spell_costs_level1
 
 wiz_and_spell_costs_level3:
-  name: Wizard and Spell Costs (Level 3/6)
+  name: Wizard and Spell Costs (Lvl 3/6)
   enabled: 1
   perks:
     wizard_cost: -15
@@ -452,7 +452,7 @@ wiz_and_spell_costs_level3:
     - wiz_and_spell_costs_level2
 
 wiz_and_spell_costs_level4:
-  name: Wizard and Spell Costs (Level 4/6)
+  name: Wizard and Spell Costs (Lvl 4/6)
   enabled: 1
   perks:
     wizard_cost: -20
@@ -461,7 +461,7 @@ wiz_and_spell_costs_level4:
     - wiz_and_spell_costs_level3
 
 wiz_and_spell_costs_level5:
-  name: Wizard and Spell Costs (Level 5/6)
+  name: Wizard and Spell Costs (Lvl 5/6)
   enabled: 1
   perks:
     wizard_cost: -25
@@ -470,7 +470,7 @@ wiz_and_spell_costs_level5:
     - wiz_and_spell_costs_level4
 
 wiz_and_spell_costs_level6:
-  name: Wizard and Spell Costs (Level 6/6)
+  name: Wizard and Spell Costs (Lvl 6/6)
   enabled: 1
   perks:
     wizard_cost: -30
@@ -483,14 +483,14 @@ wiz_and_spell_costs_level6:
 # <Ladder: Wizard Strength and Recovery Costs>
 
 wiz_strength_and_recovery_level1:
-  name: Wizard Strength and Recovery (Level 1/6)
+  name: Wizard Strength and Recovery (Lvl 1/6)
   enabled: 1
   perks:
     wizard_strength: 2.5
     wizard_strength_recovery: 0
 
 wiz_strength_and_recovery_level2:
-  name: Wizard Strength and Recovery (Level 2/6)
+  name: Wizard Strength and Recovery (Lvl 2/6)
   enabled: 1
   perks:
     wizard_strength: 5
@@ -499,7 +499,7 @@ wiz_strength_and_recovery_level2:
     - wiz_strength_and_recovery_level1
 
 wiz_strength_and_recovery_level3:
-  name: Wizard Strength and Recovery (Level 3/6)
+  name: Wizard Strength and Recovery (Lvl 3/6)
   enabled: 1
   perks:
     wizard_strength: 7.5
@@ -508,7 +508,7 @@ wiz_strength_and_recovery_level3:
     - wiz_strength_and_recovery_level2
 
 wiz_strength_and_recovery_level4:
-  name: Wizard Strength and Recovery (Level 4/6)
+  name: Wizard Strength and Recovery (Lvl 4/6)
   enabled: 1
   perks:
     wizard_strength: 10
@@ -517,7 +517,7 @@ wiz_strength_and_recovery_level4:
     - wiz_strength_and_recovery_level3
 
 wiz_strength_and_recovery_level5:
-  name: Wizard Strength and Recovery (Level 5/6)
+  name: Wizard Strength and Recovery (Lvl 5/6)
   enabled: 1
   perks:
     wizard_strength: 12.5
@@ -526,7 +526,7 @@ wiz_strength_and_recovery_level5:
     - wiz_strength_and_recovery_level4
 
 wiz_strength_and_recovery_level6:
-  name: Wizard Strength and Recovery (Level 6/6)
+  name: Wizard Strength and Recovery (Lvl 6/6)
   enabled: 1
   perks:
     wizard_strength: 15
@@ -539,13 +539,13 @@ wiz_strength_and_recovery_level6:
 # <Ladder: Food Production>
 
 food_production_level1:
-  name: Food Production (Level 1/6)
+  name: Food Production (Lvl 1/6)
   enabled: 1
   perks:
     food_production: 2.5
 
 food_production_level2:
-  name: Food Production (Level 2/6)
+  name: Food Production (Lvl 2/6)
   enabled: 1
   perks:
     food_production: 5
@@ -553,7 +553,7 @@ food_production_level2:
     - food_production_level1
 
 food_production_level3:
-  name: Food Productionvery (Level 3/6)
+  name: Food Productionvery (Lvl 3/6)
   enabled: 1
   perks:
     food_production: 7.5
@@ -561,7 +561,7 @@ food_production_level3:
     - food_production_level2
 
 food_production_level4:
-  name: Food Production (Level 4/6)
+  name: Food Production (Lvl 4/6)
   enabled: 1
   perks:
     food_production: 10
@@ -569,7 +569,7 @@ food_production_level4:
     - food_production_level3
 
 food_production_level5:
-  name: Food Production (Level 5/6)
+  name: Food Production (Lvl 5/6)
   enabled: 1
   perks:
     food_production: 12.5
@@ -577,7 +577,7 @@ food_production_level5:
     - food_production_level4
 
 food_production_level6:
-  name: Food Production (Level 6/6)
+  name: Food Production (Lvl 6/6)
   enabled: 1
   perks:
     food_production: 15
@@ -590,13 +590,13 @@ food_production_level6:
 # <Ladder: Gem Production>
 
 gem_production_level1:
-  name: Gem Production (Level 1/6)
+  name: Gem Production (Lvl 1/6)
   enabled: 1
   perks:
     gem_production: 2.5
 
 gem_production_level2:
-  name: Gem Production (Level 2/6)
+  name: Gem Production (Lvl 2/6)
   enabled: 1
   perks:
     gem_production: 5
@@ -604,7 +604,7 @@ gem_production_level2:
     - gem_production_level1
 
 gem_production_level3:
-  name: Gem Production (Level 3/6)
+  name: Gem Production (Lvl 3/6)
   enabled: 1
   perks:
     gem_production: 7.5
@@ -612,7 +612,7 @@ gem_production_level3:
     - gem_production_level2
 
 gem_production_level4:
-  name: Gem Production (Level 4/6)
+  name: Gem Production (Lvl 4/6)
   enabled: 1
   perks:
     gem_production: 10
@@ -620,7 +620,7 @@ gem_production_level4:
     - gem_production_level3
 
 gem_production_level5:
-  name: Gem Production (Level 5/6)
+  name: Gem Production (Lvl 5/6)
   enabled: 1
   perks:
     gem_production: 12.5
@@ -628,7 +628,7 @@ gem_production_level5:
     - gem_production_level4
 
 gem_production_level6:
-  name: Gem Production (Level 6/6)
+  name: Gem Production (Lvl 6/6)
   enabled: 1
   perks:
     gem_production: 15
@@ -641,13 +641,13 @@ gem_production_level6:
 # <Ladder: Lumber Production>
 
 lumber_production_level1:
-  name: Lumber Production (Level 1/6)
+  name: Lumber Production (Lvl 1/6)
   enabled: 1
   perks:
     lumber_production: 2.5
 
 lumber_production_level2:
-  name: Lumber Production (Level 2/6)
+  name: Lumber Production (Lvl 2/6)
   enabled: 1
   perks:
     lumber_production: 5
@@ -655,7 +655,7 @@ lumber_production_level2:
     - lumber_production_level1
 
 lumber_production_level3:
-  name: Lumber Production (Level 3/6)
+  name: Lumber Production (Lvl 3/6)
   enabled: 1
   perks:
     lumber_production: 7.5
@@ -663,7 +663,7 @@ lumber_production_level3:
     - lumber_production_level2
 
 lumber_production_level4:
-  name: Lumber Production (Level 4/6)
+  name: Lumber Production (Lvl 4/6)
   enabled: 1
   perks:
     lumber_production: 10
@@ -671,7 +671,7 @@ lumber_production_level4:
     - lumber_production_level3
 
 lumber_production_level5:
-  name: Lumber Production (Level 5/6)
+  name: Lumber Production (Lvl 5/6)
   enabled: 1
   perks:
     lumber_production: 12.5
@@ -679,7 +679,7 @@ lumber_production_level5:
     - lumber_production_level4
 
 lumber_production_level6:
-  name: Lumber Production (Level 6/6)
+  name: Lumber Production (Lvl 6/6)
   enabled: 1
   perks:
     lumber_production: 15
@@ -692,13 +692,13 @@ lumber_production_level6:
 # <Ladder: Mana Production>
 
 mana_production_level1:
-  name: Mana Production (Level 1/6)
+  name: Mana Production (Lvl 1/6)
   enabled: 1
   perks:
     mana_production: 2.5
 
 mana_production_level2:
-  name: Mana Production (Level 2/6)
+  name: Mana Production (Lvl 2/6)
   enabled: 1
   perks:
     mana_production: 5
@@ -706,7 +706,7 @@ mana_production_level2:
     - mana_production_level1
 
 mana_production_level3:
-  name: Mana Production (Level 3/6)
+  name: Mana Production (Lvl 3/6)
   enabled: 1
   perks:
     mana_production: 7.5
@@ -714,7 +714,7 @@ mana_production_level3:
     - mana_production_level2
 
 mana_production_level4:
-  name: Mana Production (Level 4/6)
+  name: Mana Production (Lvl 4/6)
   enabled: 1
   perks:
     mana_production: 10
@@ -722,7 +722,7 @@ mana_production_level4:
     - mana_production_level3
 
 mana_production_level5:
-  name: Mana Production (Level 5/6)
+  name: Mana Production (Lvl 5/6)
   enabled: 1
   perks:
     mana_production: 12.5
@@ -730,7 +730,7 @@ mana_production_level5:
     - mana_production_level4
 
 mana_production_level6:
-  name: Mana Production (Level 6/6)
+  name: Mana Production (Lvl 6/6)
   enabled: 1
   perks:
     mana_production: 15
@@ -742,13 +742,13 @@ mana_production_level6:
 # <Ladder: Ore Production>
 
 ore_production_level1:
-  name: Ore Production (Level 1/6)
+  name: Ore Production (Lvl 1/6)
   enabled: 1
   perks:
     ore_production: 2.5
 
 ore_production_level2:
-  name: Ore Production (Level 2/6)
+  name: Ore Production (Lvl 2/6)
   enabled: 1
   perks:
     ore_production: 5
@@ -756,7 +756,7 @@ ore_production_level2:
     - ore_production_level1
 
 ore_production_level3:
-  name: Ore Production (Level 3/6)
+  name: Ore Production (Lvl 3/6)
   enabled: 1
   perks:
     ore_production: 7.5
@@ -764,7 +764,7 @@ ore_production_level3:
     - ore_production_level2
 
 ore_production_level4:
-  name: Ore Production (Level 4/6)
+  name: Ore Production (Lvl 4/6)
   enabled: 1
   perks:
     ore_production: 10
@@ -772,7 +772,7 @@ ore_production_level4:
     - ore_production_level3
 
 ore_production_level5:
-  name: Ore Production (Level 5/6)
+  name: Ore Production (Lvl 5/6)
   enabled: 1
   perks:
     ore_production: 12.5
@@ -780,7 +780,7 @@ ore_production_level5:
     - ore_production_level4
 
 ore_production_level6:
-  name: Ore Production (Level 6/6)
+  name: Ore Production (Lvl 6/6)
   enabled: 1
   perks:
     ore_production: 15
@@ -793,13 +793,13 @@ ore_production_level6:
 # <Ladder: Platinum Production>
 
 platinum_production_level1:
-  name: Platinum Production (Level 1/6)
+  name: Platinum Production (Lvl 1/6)
   enabled: 1
   perks:
     platinum_production: 2.5
 
 platinum_production_level2:
-  name: Platinum Production (Level 2/6)
+  name: Platinum Production (Lvl 2/6)
   enabled: 1
   perks:
     platinum_production: 5
@@ -807,7 +807,7 @@ platinum_production_level2:
     - platinum_production_level1
 
 platinum_production_level3:
-  name: Platinum Production (Level 3/6)
+  name: Platinum Production (Lvl 3/6)
   enabled: 1
   perks:
     platinum_production: 7.5
@@ -815,7 +815,7 @@ platinum_production_level3:
     - platinum_production_level2
 
 platinum_production_level4:
-  name: Platinum Production (Level 4/6)
+  name: Platinum Production (Lvl 4/6)
   enabled: 1
   perks:
     platinum_production: 10
@@ -823,7 +823,7 @@ platinum_production_level4:
     - platinum_production_level3
 
 platinum_production_level5:
-  name: Platinum Production (Level 5/6)
+  name: Platinum Production (Lvl 5/6)
   enabled: 1
   perks:
     platinum_production: 12.5
@@ -831,7 +831,7 @@ platinum_production_level5:
     - platinum_production_level4
 
 platinum_production_level6:
-  name: Platinum Production (Level 6/6)
+  name: Platinum Production (Lvl 6/6)
   enabled: 1
   perks:
     platinum_production: 15
