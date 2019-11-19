@@ -38,7 +38,7 @@ casualties_level5:
   requires:
     - casualties_level4
 
-casualties_level5:
+casualties_level6:
   name: Casualties Level VI
   perks:
     fewer_casualties_offense: 25
