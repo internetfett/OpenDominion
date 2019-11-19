@@ -111,13 +111,13 @@ offensive_power_level1:
   name: Offensive Power (Lvl 1/6)
   enabled: 1
   perks:
-    offense: -2.5
+    offense: 2.5
 
 offensive_power_level2:
   name: Offensive Power (Lvl 2/6)
   enabled: 1
   perks:
-    offense: -5
+    offense: 5
   requires:
     - offensive_power_level1
 
@@ -125,7 +125,7 @@ offensive_power_level3:
   name: Offensive Power (Lvl 3/6)
   enabled: 1
   perks:
-    offense: -7.5
+    offense: 7.5
   requires:
     - offensive_power_level2
 
@@ -133,7 +133,7 @@ offensive_power_level4:
   name: Offensive Power (Lvl 4/6)
   enabled: 1
   perks:
-    offense: -10
+    offense: 10
   requires:
     - offensive_power_level3
 
@@ -141,7 +141,7 @@ offensive_power_level5:
   name: Offensive Power (Lvl 5/6)
   enabled: 1
   perks:
-    offense: -12.5
+    offense: 12.5
   requires:
     - offensive_power_level4
 
@@ -149,7 +149,7 @@ offensive_power_level6:
   name: Offensive Power (Lvl 6/6)
   enabled: 1
   perks:
-    offense: -15
+    offense: 15
   requires:
     - offensive_power_level5
 
