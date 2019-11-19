@@ -31,6 +31,7 @@
                                 </tr>
                             </thead>
                             @foreach ($techs as $tech)
+                            @if(count(array_diff($tech->prerequisites, $unlockedTechs)) != 0)
                                 <tr class="{{ in_array($tech->key, $unlockedTechs) ? 'text-green' : 'text-default' }}">
                                     <td class="text-center">
                                         @if(in_array($tech->key, $unlockedTechs))
@@ -39,11 +40,7 @@
                                             <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
                                         @endif
                                     </td>
-                                    @if(count(array_diff($tech->prerequisites, $unlockedTechs)) != 0)
-                                      <td class="text-muted"><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $tech->name }}</label></td>
-                                    @else
                                       <td class="text-normal"><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $tech->name }}</label></td>
-                                    @endif
                                     <td><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $techHelper->getTechDescription($tech) }}</label></td>
                                     <td>
                                         @if ($tech->prerequisites)
@@ -55,6 +52,7 @@
                                         @endif
                                     </td>
                                 </tr>
+                            @endif
                             @endforeach
                         </table>
                     </div>
