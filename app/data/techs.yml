@@ -47,8 +47,8 @@ casualties_level6:
   name: Casualties (Lvl 6/6)
   enabled: 1
   perks:
-    fewer_casualties_offense: 25
-    fewer_casualties_defense: 25
+    fewer_casualties_offense: 30
+    fewer_casualties_defense: 30
   requires:
     - casualties_level5
 
