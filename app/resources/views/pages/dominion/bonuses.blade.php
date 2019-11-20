@@ -8,7 +8,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-plus"></i> Daily bonuses</h3>
+                    <h3 class="box-title"><i class="fa fa-plus"></i> Daily Bonus</h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -16,17 +16,8 @@
                             <form action="{{ route('dominion.bonuses.land') }}" method="post" role="form">
                                 @csrf
                                 <button type="submit" name="land" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land ? 'disabled' : null }}>
-                                    <i class="ra ra-honeycomb ra-lg"></i>
-                                    Land Bonus
-                                </button>
-                            </form>
-                        </div>
-                        <div class="col-xs-6 text-center">
-                            <form action="{{ route('dominion.bonuses.platinum') }}" method="post" role="form">
-                                @csrf
-                                <button type="submit" name="platinum" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_platinum ? 'disabled' : null }}>
-                                    <i class="ra ra-gold-bar ra-lg"></i>
-                                    Resource Bonus
+                                    <i class="ra scroll-unfurled ra-lg"></i>
+                                    Claim Daily Land Bonus
                                 </button>
                             </form>
                         </div>
@@ -54,8 +45,8 @@
 
                         <div class="col-md-4 text-center">
                             <h4>Rate on PBBG.com</h4>
-                            <p><a href="https://pbbg.com" target="_blank">PBBG.com</a> is a directory listing of Persistent Browser-Based Games (or PBBG for short), like OpenDominion is!</p>
-                            <p>Consider <a href="https://pbbg.com/games/opendominion" target="_blank">rating the project on PBBG.com</a> and share your experience with it, so other people (including potentially new players) know what to expect!</p>
+                            <p><a href="https://pbbg.com" target="_blank">PBBG.com</a> is a directory listing of Persistent Browser-Based Games (PBBG) such as OD Arena.</p>
+                            <p>Consider <a href="https://pbbg.com/games/odarena" target="_blank">rating the project on PBBG.com</a> and share your experience with it, to help new players find the game!</p>
                         </div>
 
                         @if ($patreonPledgeLink = config('app.patreon_pledge_link'))
@@ -72,7 +63,7 @@
                     </div>
                 </div>
                 <div class="box-footer">
-                    <p>Thank you for your attention, and please enjoy playing OpenDominion!</p>
+                    <p>Thank you for your attention, and please enjoy playing OD Arena!</p>
                 </div>
             </div>
         </div>
@@ -83,9 +74,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>The Resource Bonus instantly gives you {{ number_format($selectedDominion->peasants * 4) }} platinum, ore (Gnome, Imperial Gnome), mana (Void), or food (Growth, Myconid).</p>
-                    <p>The Land Bonus instantly gives you some barren acres of {{ str_plural($selectedDominion->race->home_land_type) }}. You have a 0.50% chance to get 100 acres, otherwise you get a random amount between 10 and 40 acres</p>
-                    <p>Both bonuses can be claimed once per day.</p>
+                    <p>The Daily Land Bonus instantly gives you some barren acres of {{ str_plural($selectedDominion->race->home_land_type) }}. You have a 0.50% chance to get 100 acres, otherwise you get a random amount between 10 and 40 acres</p>
                 </div>
             </div>
         </div>

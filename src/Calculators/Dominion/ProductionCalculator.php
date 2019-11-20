@@ -764,13 +764,9 @@ class ProductionCalculator
         $tech = 0;
 
         // Values
-        $techPerSchool = 0.5;
+        $techPerSchool = 1;
 
-        // Building: School
-        $tech += max(
-            $dominion->building_school * $techPerSchool,
-            $dominion->building_school * (1 - ($dominion->building_school / $this->landCalculator->getTotalLand($dominion)))
-        );
+        $tech = $dominion->building_school * $techPerSchool;
 
         // Unit Perk Production Bonus (Myconid Psilocybe and Dark Elf Adept)
         # Only if the spell Underground Caves isn't cast (which it never is for Dark Elf).

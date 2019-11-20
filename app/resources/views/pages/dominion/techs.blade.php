@@ -10,7 +10,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-flask"></i> Technological Advances</h3>
+                    <h3 class="box-title"><i class="fa fa-flask"></i> Technological Advancements</h3>
                 </div>
                 <form action="{{ route('dominion.techs') }}" method="post" role="form">
                     @csrf
@@ -70,8 +70,8 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>You can obtain technical advancements by reaching appropriate levels of research points. The costs of each advancement will scale with your land size, and has a minimum of 3780 points. Some advancements require others before you can select them. Please consult the tech tree below.</p>
-                    <p>If you pick a tech that has the same bonus as another tech, only the highest technology bonus counts (they do not stack). For example, Military Genius adds +5% offense and Magical Weaponry provides +10% offense. If you obtain both, only the 10% bonus would apply.</p>
+                    <p>You can unlock technological advancements by producing enough research points. The cost of each advancement is <pre>5 x (Land Size)</pre>.</p>
+                    <p>Each advancement improves an aspect of your dominion. Only the highest advancement counts. If you have unlocked Level 1 and Level 2, only the bonus from the Level 2 advancement counts.</p>
                     <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} research points</b>.</p>
                     <p>You currently need {{ number_format($techCalculator->getTechCost($selectedDominion)) }} research points to unlock a new tech.</p>
                 </div>

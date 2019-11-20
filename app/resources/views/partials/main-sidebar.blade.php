@@ -24,9 +24,6 @@
                         <i class="fa fa-plus fa-fw"></i>
                         <span>Daily Bonus</span>
                         <span class="pull-right-container">
-                            @if (!$selectedDominion->daily_platinum)
-                                <span class="label label-primary pull-right">P</span>
-                            @endif
                             @if (!$selectedDominion->daily_land)
                                 <span class="label label-primary pull-right">L</span>
                             @endif

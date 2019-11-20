@@ -54,7 +54,7 @@ class ImprovementHelper
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
-            'armory' => '-%s%% unit training costs',
+            'armory' => '-%s%% military training platinum and ore costs',
             'infirmary' => '-%s%% casualties in battle',
             'workshops' => '-%s%% construction and rezoning costs',
             'observatory' => '+%1$s%% research points gained on attacks and research point production',

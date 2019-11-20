@@ -12,7 +12,7 @@ class TechHelper
             // Military related
             'defense' => '%s%% defensive power',
             'offense' => '%s%% offensive power',
-            'military_cost' => '%s%% military training cost',
+            'military_cost' => '%s%% military training platinum, ore, and lumber costs',
 
             // Casualties related
             'fewer_casualties_defense' => '%s%% fewer casualties on defense',
