@@ -13,7 +13,6 @@
 
             @endphp
         @endif
-        <span class="hidden-xs">Version: </span>{!! $version !!}
         <br>
     </div>
 
