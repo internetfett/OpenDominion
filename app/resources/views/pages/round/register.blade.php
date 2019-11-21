@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
-@section('page-header', "Register to round {$round->number} ({$round->league->description})")
+@section('page-header', "Register to Round {$round->number} of OD Arena")
 
 @section('content')
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Register to round {{ $round->name }} (#{{ $round->number }})</h3>
+            <h3 class="box-title">Register to round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>
         </div>
         <form action="{{ route('round.register', $round) }}" method="post" class="form-horizontal" role="form">
             @csrf
