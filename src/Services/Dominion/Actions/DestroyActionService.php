@@ -27,7 +27,7 @@ class DestroyActionService
 
         $totalBuildingsToDestroy = array_sum($data);
 
-        if ($totalBuildingsToDestroy === 0) {
+        if ($totalBuildingsToDestroy < 0) {
             throw new GameException('The destruction was not completed due to bad input.');
         }
 

@@ -33,7 +33,7 @@ class ImproveActionService
 
         $totalResourcesToInvest = array_sum($data);
 
-        if ($totalResourcesToInvest === 0) {
+        if ($totalResourcesToInvest < 0) {
             throw new GameException('Investment aborted due to bad input.');
         }
 

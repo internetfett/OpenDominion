@@ -247,6 +247,13 @@ class InvadeActionService
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule)');
             }
 
+            foreach($units as $amount)
+            {
+               if($amount < 0) {
+                   throw new GameException('Invasion was canceled due to bad input.');
+               }
+             }
+
             if ($dominion->race->getPerkValue('cannot_invade ') == 1)
             {
                 throw new GameException('Your faction is unable to invade.');
