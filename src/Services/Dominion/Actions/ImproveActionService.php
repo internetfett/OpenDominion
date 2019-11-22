@@ -133,7 +133,7 @@ class ImproveActionService
             'food' => 1,
         ];
 
-        if($dominion->race->getPerkValue('ore_improvement_points'))
+        if(isset($dominion) and $dominion->race->getPerkValue('ore_improvement_points'))
         {
           $worth['ore'] *= (1 + $dominion->race->getPerkValue('ore_improvement_points'));
         }
