@@ -89,7 +89,7 @@ class ProductionCalculator
 
         // Values
         $peasantTax = 2.7;
-        $spellAlchemistFlameAlchemyBonus = 15;
+        #$spellAlchemistFlameAlchemyBonus = 30;
         $platinumPerAlchemy = 45;
 
         // Race specialty: Void peasants
@@ -111,7 +111,7 @@ class ProductionCalculator
         // Spell: Alchemist Flame
         if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame'))
         {
-            $platinumPerAlchemy += $spellAlchemistFlameAlchemyBonus;
+            $platinumPerAlchemy += 30;
         }
 
         // Building: Alchemy
