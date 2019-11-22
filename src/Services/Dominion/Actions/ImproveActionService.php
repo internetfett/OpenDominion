@@ -50,7 +50,7 @@ class ImproveActionService
             throw new GameException("You do not have enough {$resource} to invest.");
         }
 
-        $worth = $this->getImprovementWorth();
+        $worth = $this->getImprovementWorth($dominion);
 
         foreach ($data as $improvementType => $amount) {
             if ($amount === 0) {
@@ -75,7 +75,7 @@ class ImproveActionService
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
         return [
-            'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest),
+            'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),
             'data' => [
                 'totalResourcesInvested' => $totalResourcesToInvest,
                 'resourceInvested' => $resource,
@@ -91,7 +91,7 @@ class ImproveActionService
      * @param int $totalResourcesToInvest
      * @return string
      */
-    protected function getReturnMessageString(string $resource, array $data, int $totalResourcesToInvest): string
+    protected function getReturnMessageString(string $resource, array $data, int $totalResourcesToInvest, Dominion $dominion): string
     {
         $worth = $this->getImprovementWorth();
 
@@ -121,9 +121,10 @@ class ImproveActionService
      *
      * @return array
      */
-    public function getImprovementWorth(): array
+    public function getImprovementWorth(Dominion $dominion = NULL): array
     {
-        return [
+
+        $worth = [
             'platinum' => 1,
             'lumber' => 2,
             'ore' => 2,
@@ -131,5 +132,12 @@ class ImproveActionService
             'gems' => 12,
             'food' => 1,
         ];
+
+        if($dominion->race->getPerkValue('ore_improvement_points'))
+        {
+          $worth['ore'] *= (1 + $dominion->race->getPerkValue('ore_improvement_points'));
+        }
+
+        return $worth;
     }
 }

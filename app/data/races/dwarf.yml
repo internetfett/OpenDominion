@@ -13,7 +13,7 @@ converting: 1
 perks:
   max_population: 15
   extra_barren_max_population: 10
-  ore_improvement_points: 200
+  ore_improvement_points: 100
 units:
   - name: Soldier
     cost:
@@ -39,7 +39,7 @@ units:
       ore: 0
     power:
       offense: 5
-      defense: 5
+      defense: 5.5
     perks:
       reduce_combat_losses: 1
       counts_as_wizard_offense: 0.333
@@ -50,4 +50,4 @@ units:
       ore: 300
     power:
       offense: 8
-      defense: 2
+      defense: 2.5
