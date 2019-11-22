@@ -789,7 +789,6 @@ ore_production_level6:
 
 # </Ladder: Ore Production>
 
-
 # <Ladder: Platinum Production>
 
 platinum_production_level1:
@@ -839,3 +838,53 @@ platinum_production_level6:
     - platinum_production_level5
 
 # </Ladder: Platinum Production>
+
+# <Ladder: Population>
+
+population_level1:
+  name: Population (Lvl 1/6)
+  enabled: 1
+  perks:
+    max_population: 1.25
+
+population_level2:
+  name: Population (Lvl 2/6)
+  enabled: 1
+  perks:
+    max_population: 2.5
+  requires:
+    - population_level1
+
+population_level3:
+  name: Population (Lvl 3/6)
+  enabled: 1
+  perks:
+    max_population: 3.75
+  requires:
+    - population_level2
+
+population_level4:
+  name: Population (Lvl 4/6)
+  enabled: 1
+  perks:
+    max_population: 5
+  requires:
+    - population_level3
+
+population_level5:
+  name: Population (Lvl 5/6)
+  enabled: 1
+  perks:
+    max_population: 6.25
+  requires:
+    - population_level4
+
+population_level6:
+  name: Population (Lvl 6/6)
+  enabled: 1
+  perks:
+    max_population: 7.5
+  requires:
+    - population_level5
+
+# </Ladder: Population>

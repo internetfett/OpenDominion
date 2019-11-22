@@ -312,38 +312,49 @@ class TrainingCalculator
           $smithiesReductionMax = 50;
         }
 
-        // Never discount these resources. -- Replaced
-        #$exemptResourceTypes = array('mana','food','gem','boat','prestige','champion','soul','unit1','unit2','unit3','unit4','morale','wild_yeti');
+        # Smithies: discount Platinum and Ore (for non-Gnomes)
+        # Armory: discounts Platinum and Ore (for all)
+        # Techs: discounts Platinum, Ore, and Lumber (for all)
 
         // Only discount these resources.
-        $discountableResourceTypes = array('platinum', 'ore');
+        $discountableResourceTypesBySmithies = ['platinum', 'ore'];
+        $discountableResourceTypesByArmory = ['platinum', 'ore'];
+        $discountableResourceTypesByTech = ['platinum', 'ore', 'lumber'];
+
+        $racesExemptFromOreDiscountBySmithies = ['Gnome', 'Imperial Gnome'];
 
         // Smithies
-        $exemptRaces = array('Gnome', 'Imperial Gnome');
-
-        # Apply smithies to non-exempt resources (to platinum and ore)
-        if(in_array($resourceType,$discountableResourceTypes))
+        if(in_array($resourceType,$discountableResourceTypesBySmithies))
         {
-          $multiplier -= min(
-              (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),
-              ($smithiesReductionMax / 100)
-          );
-
-          // Start multiplier back to zero if Ore and a Gnomish race.
           if($resourceType == 'ore' and in_array($dominion->race->name, $exemptRaces))
           {
             $multiplier = 0;
           }
+          elseif($resourceType !== 'lumber')
+          {
+            $multiplier -= min(
+                (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),
+                ($smithiesReductionMax / 100)
+            );
+          }
+        }
 
+        // Armory
+        if(in_array($resourceType,$discountableResourceTypesByArmory))
+        {
           // Armory
           if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
           {
               $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
           }
-          // Techs
-          $multiplier += $dominion->getTechPerkMultiplier('military_cost');
-
         }
+
+        // Techs
+        if(in_array($resourceType,$discountableResourceTypesByTech))
+        {
+          $multiplier += $dominion->getTechPerkMultiplier('military_cost');
+        }
+
 
         $multiplier = max(-0.50, $multiplier);
 
