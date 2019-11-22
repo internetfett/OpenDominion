@@ -93,7 +93,7 @@ class ImproveActionService
      */
     protected function getReturnMessageString(string $resource, array $data, int $totalResourcesToInvest, Dominion $dominion): string
     {
-        $worth = $this->getImprovementWorth();
+        $worth = $this->getImprovementWorth($dominion);
 
         $investmentStringParts = [];
 
