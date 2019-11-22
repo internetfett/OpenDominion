@@ -4,28 +4,28 @@ description: >-
   <p>Dwarves are a short and ill-tempered race well-known for their majestic beards, their love of ale and tireless labour. Their spirited chants and songs echo long into the night as they hollow out entire mountains for their ore.</p>
   <p>Dwarven mines are the most productive in the lands, producing a steady flow of ore used to fortify their great cities, and craft legendary Dwarven armour for their military forces.</p>
 home_land_type: mountain
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 2
 converting: 1
 
 perks:
-  max_population: 12.5
-  extra_barren_max_population: 5
-  ore_production: 10
+  max_population: 15
+  extra_barren_max_population: 10
+  ore_improvement_points: 200
 units:
   - name: Soldier
     cost:
-      platinum: 275
-      ore: 25
+      platinum: 200
+      ore: 50
     power:
       offense: 3
       defense: 0
   - name: Miner
     cost:
-      platinum: 350
-      ore: 25
+      platinum: 300
+      ore: 75
     power:
       offense: 0
       defense: 3
@@ -35,17 +35,19 @@ units:
   - name: Cleric
     type: hybrid_elite
     cost:
-      platinum: 760
+      platinum: 800
       ore: 0
     power:
-      offense: 4
-      defense: 4
+      offense: 5
+      defense: 5
     perks:
       reduce_combat_losses: 1
+      counts_as_wizard_offense: 0.333
+      counts_as_wizard_defense: 0.333
   - name: Warrior
     cost:
-      platinum: 1250
-      ore: 110
+      platinum: 1000
+      ore: 300
     power:
-      offense: 7
+      offense: 8
       defense: 2

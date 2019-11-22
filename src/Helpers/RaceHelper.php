@@ -202,6 +202,10 @@ class RaceHelper
                 $description = 'no lumber construction cost';
                 $booleanValue = true;
                 break;
+            case 'ore_improvement_points':
+                $negativeBenefit = false;
+                $description = 'improvement points from ore';
+                break;
             default:
                 return '';
         }
@@ -438,6 +442,10 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'No lumber construction cost';
                 $booleanValue = true;
+                break;
+            case 'ore_improvement_points':
+                $negativeBenefit = false;
+                $description = 'Improvement points from ore';
                 break;
             default:
                 return null;
