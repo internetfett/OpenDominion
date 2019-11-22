@@ -135,7 +135,7 @@ class ImproveActionService
 
         if(isset($dominion) and $dominion->race->getPerkValue('ore_improvement_points'))
         {
-          $worth['ore'] *= (1 + $dominion->race->getPerkValue('ore_improvement_points'));
+          $worth['ore'] *= (1 + $dominion->race->getPerkValue('ore_improvement_points') / 100);
         }
 
         return $worth;
