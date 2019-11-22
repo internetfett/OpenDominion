@@ -326,7 +326,7 @@ class TrainingCalculator
         // Smithies
         if(in_array($resourceType,$discountableResourceTypesBySmithies))
         {
-          if($resourceType == 'ore' and in_array($dominion->race->name, $exemptRaces))
+          if($resourceType == 'ore' and in_array($dominion->race->name, $racesExemptFromOreDiscountBySmithies))
           {
             $multiplier = 0;
           }
