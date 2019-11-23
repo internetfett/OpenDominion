@@ -2,14 +2,14 @@
 
 casualties_level1:
   name: Casualties (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     fewer_casualties_offense: 5
     fewer_casualties_defense: 5
 
 casualties_level2:
   name: Casualties (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     fewer_casualties_offense: 10
     fewer_casualties_defense: 10
@@ -18,7 +18,7 @@ casualties_level2:
 
 casualties_level3:
   name: Casualties (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     fewer_casualties_offense: 15
     fewer_casualties_defense: 15
@@ -27,7 +27,7 @@ casualties_level3:
 
 casualties_level4:
   name: Casualties (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     fewer_casualties_offense: 20
     fewer_casualties_defense: 20
@@ -36,7 +36,7 @@ casualties_level4:
 
 casualties_level5:
   name: Casualties (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     fewer_casualties_offense: 25
     fewer_casualties_defense: 25
@@ -45,7 +45,7 @@ casualties_level5:
 
 casualties_level6:
   name: Casualties (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     fewer_casualties_offense: 30
     fewer_casualties_defense: 30
@@ -58,13 +58,13 @@ casualties_level6:
 
 training_costs_level1:
   name: Training Costs (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     military_cost: -2.5
 
 training_costs_level2:
   name: Training Costs (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     military_cost: -5
   requires:
@@ -72,7 +72,7 @@ training_costs_level2:
 
 training_costs_level3:
   name: Training Costs (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     military_cost: -7.5
   requires:
@@ -80,7 +80,7 @@ training_costs_level3:
 
 training_costs_level4:
   name: Training Costs (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     military_cost: -10
   requires:
@@ -88,7 +88,7 @@ training_costs_level4:
 
 training_costs_level5:
   name: Training Costs (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     military_cost: -12.5
   requires:
@@ -96,7 +96,7 @@ training_costs_level5:
 
 training_costs_level6:
   name: Training Costs (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     military_cost: -15
   requires:
@@ -109,13 +109,13 @@ training_costs_level6:
 
 offensive_power_level1:
   name: Offensive Power (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     offense: 2.5
 
 offensive_power_level2:
   name: Offensive Power (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     offense: 5
   requires:
@@ -123,7 +123,7 @@ offensive_power_level2:
 
 offensive_power_level3:
   name: Offensive Power (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     offense: 7.5
   requires:
@@ -131,7 +131,7 @@ offensive_power_level3:
 
 offensive_power_level4:
   name: Offensive Power (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     offense: 10
   requires:
@@ -139,7 +139,7 @@ offensive_power_level4:
 
 offensive_power_level5:
   name: Offensive Power (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     offense: 12.5
   requires:
@@ -147,7 +147,7 @@ offensive_power_level5:
 
 offensive_power_level6:
   name: Offensive Power (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     offense: 15
   requires:
@@ -159,14 +159,14 @@ offensive_power_level6:
 
 construction_rezoning_level1:
   name: Construction and Rezoning Costs (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     construction_cost: -5
     rezone_cost: -5
 
 construction_rezoning_level2:
   name: Construction and Rezoning Costs (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     construction_cost: -10
     rezone_cost: -10
@@ -175,7 +175,7 @@ construction_rezoning_level2:
 
 construction_rezoning_level3:
   name: Construction and Rezoning Costs (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     construction_cost: -15
     rezone_cost: -15
@@ -184,7 +184,7 @@ construction_rezoning_level3:
 
 construction_rezoning_level4:
   name: Construction and Rezoning Costs (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     construction_cost: -20
     rezone_cost: -20
@@ -193,7 +193,7 @@ construction_rezoning_level4:
 
 construction_rezoning_level5:
   name: Construction and Rezoning Costs (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     construction_cost: -25
     rezone_cost: -25
@@ -202,7 +202,7 @@ construction_rezoning_level5:
 
 construction_rezoning_level6:
   name: Construction and Rezoning Costs (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     construction_cost: -30
     rezone_cost: -30
@@ -215,13 +215,13 @@ construction_rezoning_level6:
 
 explore_platinum_level1:
   name: Explore Platinum Costs (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     explore_platinum_cost: -5
 
 explore_platinum_level2:
   name: Explore Platinum Costs (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     explore_platinum_cost: -10
   requires:
@@ -229,7 +229,7 @@ explore_platinum_level2:
 
 explore_platinum_level3:
   name: Explore Platinum Costs (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     explore_platinum_cost: -15
   requires:
@@ -237,7 +237,7 @@ explore_platinum_level3:
 
 explore_platinum_level4:
   name: Explore Platinum Costs (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     explore_platinum_cost: -20
   requires:
@@ -245,7 +245,7 @@ explore_platinum_level4:
 
 explore_platinum_level5:
   name: Explore Platinum Costs (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     explore_platinum_cost: -25
   requires:
@@ -253,7 +253,7 @@ explore_platinum_level5:
 
 explore_platinum_level6:
   name: Explore Platinum Costs (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     explore_platinum_cost: -30
   requires:
@@ -265,13 +265,13 @@ explore_platinum_level6:
 
 explore_draftee_level1:
   name: Explore Draftee Costs (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     explore_draftee_cost: -1
 
 explore_draftee_level2:
   name: Explore Draftee Costs (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     explore_draftee_cost: -2
   requires:
@@ -279,7 +279,7 @@ explore_draftee_level2:
 
 explore_draftee_level3:
   name: Explore Draftee Costs (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     explore_draftee_cost: -3
   requires:
@@ -287,7 +287,7 @@ explore_draftee_level3:
 
 explore_draftee_level4:
   name: Explore Draftee Costs (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     explore_draftee_cost: -4
   requires:
@@ -295,7 +295,7 @@ explore_draftee_level4:
 
 explore_draftee_level5:
   name: Explore Draftee Costs (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     explore_draftee_cost: -5
   requires:
@@ -303,7 +303,7 @@ explore_draftee_level5:
 
 explore_draftee_level6:
   name: Explore Draftee Costs (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     explore_draftee_cost: -6
   requires:
@@ -315,14 +315,14 @@ explore_draftee_level6:
 
 spy_costs_losses_level1:
   name: Spy Costs and Losses (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     spy_cost: -5
     spy_losses: -5
 
 spy_costs_losses_level2:
   name: Spy Costs and Losses (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     spy_cost: -10
     spy_losses: -10
@@ -331,7 +331,7 @@ spy_costs_losses_level2:
 
 spy_costs_losses_level3:
   name: Spy Costs and Losses (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     spy_cost: -15
     spy_losses: -15
@@ -340,7 +340,7 @@ spy_costs_losses_level3:
 
 spy_costs_losses_level4:
   name: Spy Costs and Losses (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     spy_cost: -20
     spy_losses: -20
@@ -349,7 +349,7 @@ spy_costs_losses_level4:
 
 spy_costs_losses_level5:
   name: Spy Costs and Losses (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     spy_cost: -25
     spy_losses: -25
@@ -358,7 +358,7 @@ spy_costs_losses_level5:
 
 spy_costs_losses_level6:
   name: Spy Costs and Losses (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     spy_cost: -30
     spy_losses: -30
@@ -372,14 +372,14 @@ spy_costs_losses_level6:
 
 spy_strength_and_recovery_level1:
   name: Spy Strength and Recovery (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     spy_strength: 2.5
     spy_strength_recovery: 0
 
 spy_strength_and_recovery_level2:
   name: Spy Strength and Recovery (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     spy_strength: 5
     spy_strength_recovery: 0
@@ -388,7 +388,7 @@ spy_strength_and_recovery_level2:
 
 spy_strength_and_recovery_level3:
   name: Spy Strength and Recovery (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     spy_strength: 7.5
     spy_strength_recovery: 1
@@ -397,7 +397,7 @@ spy_strength_and_recovery_level3:
 
 spy_strength_and_recovery_level4:
   name: Spy Strength and Recovery (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     spy_strength: 10
     spy_strength_recovery: 1
@@ -406,7 +406,7 @@ spy_strength_and_recovery_level4:
 
 spy_strength_and_recovery_level5:
   name: Spy Strength and Recovery (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     spy_strength: 12.5
     spy_strength_recovery: 1
@@ -415,7 +415,7 @@ spy_strength_and_recovery_level5:
 
 spy_strength_and_recovery_level6:
   name: Spy Strength and Recovery (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     spy_strength: 15
     spy_strength_recovery: 2
@@ -428,14 +428,14 @@ spy_strength_and_recovery_level6:
 
 wiz_and_spell_costs_level1:
   name: Wizard and Spell Costs (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     wizard_cost: -5
     spell_cost: -5
 
 wiz_and_spell_costs_level2:
   name: Wizard and Spell Costs (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     wizard_cost: -10
     spell_cost: -10
@@ -444,7 +444,7 @@ wiz_and_spell_costs_level2:
 
 wiz_and_spell_costs_level3:
   name: Wizard and Spell Costs (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     wizard_cost: -15
     spell_cost: -15
@@ -453,7 +453,7 @@ wiz_and_spell_costs_level3:
 
 wiz_and_spell_costs_level4:
   name: Wizard and Spell Costs (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     wizard_cost: -20
     spell_cost: -20
@@ -462,7 +462,7 @@ wiz_and_spell_costs_level4:
 
 wiz_and_spell_costs_level5:
   name: Wizard and Spell Costs (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     wizard_cost: -25
     spell_cost: -25
@@ -471,7 +471,7 @@ wiz_and_spell_costs_level5:
 
 wiz_and_spell_costs_level6:
   name: Wizard and Spell Costs (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     wizard_cost: -30
     spell_cost: -30
@@ -484,14 +484,14 @@ wiz_and_spell_costs_level6:
 
 wiz_strength_and_recovery_level1:
   name: Wizard Strength and Recovery (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     wizard_strength: 2.5
     wizard_strength_recovery: 0
 
 wiz_strength_and_recovery_level2:
   name: Wizard Strength and Recovery (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     wizard_strength: 5
     wizard_strength_recovery: 0
@@ -500,7 +500,7 @@ wiz_strength_and_recovery_level2:
 
 wiz_strength_and_recovery_level3:
   name: Wizard Strength and Recovery (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     wizard_strength: 7.5
     wizard_strength_recovery: 1
@@ -509,7 +509,7 @@ wiz_strength_and_recovery_level3:
 
 wiz_strength_and_recovery_level4:
   name: Wizard Strength and Recovery (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     wizard_strength: 10
     wizard_strength_recovery: 1
@@ -518,7 +518,7 @@ wiz_strength_and_recovery_level4:
 
 wiz_strength_and_recovery_level5:
   name: Wizard Strength and Recovery (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     wizard_strength: 12.5
     wizard_strength_recovery: 1
@@ -527,7 +527,7 @@ wiz_strength_and_recovery_level5:
 
 wiz_strength_and_recovery_level6:
   name: Wizard Strength and Recovery (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     wizard_strength: 15
     wizard_strength_recovery: 2
@@ -540,13 +540,13 @@ wiz_strength_and_recovery_level6:
 
 food_production_level1:
   name: Food Production (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     food_production: 2.5
 
 food_production_level2:
   name: Food Production (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     food_production: 5
   requires:
@@ -554,7 +554,7 @@ food_production_level2:
 
 food_production_level3:
   name: Food Productionvery (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     food_production: 7.5
   requires:
@@ -562,7 +562,7 @@ food_production_level3:
 
 food_production_level4:
   name: Food Production (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     food_production: 10
   requires:
@@ -570,7 +570,7 @@ food_production_level4:
 
 food_production_level5:
   name: Food Production (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     food_production: 12.5
   requires:
@@ -578,7 +578,7 @@ food_production_level5:
 
 food_production_level6:
   name: Food Production (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     food_production: 15
   requires:
@@ -591,13 +591,13 @@ food_production_level6:
 
 gem_production_level1:
   name: Gem Production (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     gem_production: 2.5
 
 gem_production_level2:
   name: Gem Production (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     gem_production: 5
   requires:
@@ -605,7 +605,7 @@ gem_production_level2:
 
 gem_production_level3:
   name: Gem Production (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     gem_production: 7.5
   requires:
@@ -613,7 +613,7 @@ gem_production_level3:
 
 gem_production_level4:
   name: Gem Production (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     gem_production: 10
   requires:
@@ -621,7 +621,7 @@ gem_production_level4:
 
 gem_production_level5:
   name: Gem Production (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     gem_production: 12.5
   requires:
@@ -629,7 +629,7 @@ gem_production_level5:
 
 gem_production_level6:
   name: Gem Production (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     gem_production: 15
   requires:
@@ -642,13 +642,13 @@ gem_production_level6:
 
 lumber_production_level1:
   name: Lumber Production (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     lumber_production: 2.5
 
 lumber_production_level2:
   name: Lumber Production (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     lumber_production: 5
   requires:
@@ -656,7 +656,7 @@ lumber_production_level2:
 
 lumber_production_level3:
   name: Lumber Production (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     lumber_production: 7.5
   requires:
@@ -664,7 +664,7 @@ lumber_production_level3:
 
 lumber_production_level4:
   name: Lumber Production (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     lumber_production: 10
   requires:
@@ -672,7 +672,7 @@ lumber_production_level4:
 
 lumber_production_level5:
   name: Lumber Production (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     lumber_production: 12.5
   requires:
@@ -680,7 +680,7 @@ lumber_production_level5:
 
 lumber_production_level6:
   name: Lumber Production (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     lumber_production: 15
   requires:
@@ -693,13 +693,13 @@ lumber_production_level6:
 
 mana_production_level1:
   name: Mana Production (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     mana_production: 2.5
 
 mana_production_level2:
   name: Mana Production (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     mana_production: 5
   requires:
@@ -707,7 +707,7 @@ mana_production_level2:
 
 mana_production_level3:
   name: Mana Production (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     mana_production: 7.5
   requires:
@@ -715,7 +715,7 @@ mana_production_level3:
 
 mana_production_level4:
   name: Mana Production (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     mana_production: 10
   requires:
@@ -723,7 +723,7 @@ mana_production_level4:
 
 mana_production_level5:
   name: Mana Production (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     mana_production: 12.5
   requires:
@@ -731,7 +731,7 @@ mana_production_level5:
 
 mana_production_level6:
   name: Mana Production (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     mana_production: 15
   requires:
@@ -743,13 +743,13 @@ mana_production_level6:
 
 ore_production_level1:
   name: Ore Production (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     ore_production: 2.5
 
 ore_production_level2:
   name: Ore Production (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     ore_production: 5
   requires:
@@ -757,7 +757,7 @@ ore_production_level2:
 
 ore_production_level3:
   name: Ore Production (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     ore_production: 7.5
   requires:
@@ -765,7 +765,7 @@ ore_production_level3:
 
 ore_production_level4:
   name: Ore Production (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     ore_production: 10
   requires:
@@ -773,7 +773,7 @@ ore_production_level4:
 
 ore_production_level5:
   name: Ore Production (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     ore_production: 12.5
   requires:
@@ -781,7 +781,7 @@ ore_production_level5:
 
 ore_production_level6:
   name: Ore Production (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     ore_production: 15
   requires:
@@ -793,13 +793,13 @@ ore_production_level6:
 
 platinum_production_level1:
   name: Platinum Production (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     platinum_production: 2.5
 
 platinum_production_level2:
   name: Platinum Production (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     platinum_production: 5
   requires:
@@ -807,7 +807,7 @@ platinum_production_level2:
 
 platinum_production_level3:
   name: Platinum Production (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     platinum_production: 7.5
   requires:
@@ -815,7 +815,7 @@ platinum_production_level3:
 
 platinum_production_level4:
   name: Platinum Production (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     platinum_production: 10
   requires:
@@ -823,7 +823,7 @@ platinum_production_level4:
 
 platinum_production_level5:
   name: Platinum Production (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     platinum_production: 12.5
   requires:
@@ -831,7 +831,7 @@ platinum_production_level5:
 
 platinum_production_level6:
   name: Platinum Production (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     platinum_production: 15
   requires:
@@ -843,13 +843,13 @@ platinum_production_level6:
 
 population_level1:
   name: Population (Lvl 1/6)
-  cost_multiplier: 1
+  cost_multiplier: 0
   perks:
     max_population: 1.25
 
 population_level2:
   name: Population (Lvl 2/6)
-  cost_multiplier: 1
+  cost_multiplier: 10
   perks:
     max_population: 2.5
   requires:
@@ -857,7 +857,7 @@ population_level2:
 
 population_level3:
   name: Population (Lvl 3/6)
-  cost_multiplier: 1
+  cost_multiplier: 20
   perks:
     max_population: 3.75
   requires:
@@ -865,7 +865,7 @@ population_level3:
 
 population_level4:
   name: Population (Lvl 4/6)
-  cost_multiplier: 1
+  cost_multiplier: 30
   perks:
     max_population: 5
   requires:
@@ -873,7 +873,7 @@ population_level4:
 
 population_level5:
   name: Population (Lvl 5/6)
-  cost_multiplier: 1
+  cost_multiplier: 40
   perks:
     max_population: 6.25
   requires:
@@ -881,7 +881,7 @@ population_level5:
 
 population_level6:
   name: Population (Lvl 6/6)
-  cost_multiplier: 1
+  cost_multiplier: 50
   perks:
     max_population: 7.5
   requires:

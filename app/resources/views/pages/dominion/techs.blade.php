@@ -76,7 +76,7 @@
                 <div class="box-body">
                     <p>You can unlock technological advancements by producing enough experience points.</p>
                     <p>Each advancement improves an aspect of your dominion. Only the highest advancement counts. If you have unlocked Level 1 and Level 2, only the bonus from the Level 2 advancement counts.</p>
-                    <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} experience points</b>.</p>
+                    <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} experience points</b> (XP).</p>
                 </div>
             </div>
         </div>
