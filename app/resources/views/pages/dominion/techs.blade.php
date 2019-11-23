@@ -54,7 +54,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        {{ number_format(getTechCost($selectedDominion, $tech)) }}
+                                        {{ number_format($techCalculator->getTechCost($selectedDominion, $tech)) }}
                                     </td>
                                 </tr>
                             @endif
