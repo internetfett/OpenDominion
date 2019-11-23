@@ -37,7 +37,7 @@ class TechCalculator
     public function getTechCost(Dominion $dominion, Tech $techToUnlock): int
     {
 
-        $techToUnlock = Tech::where('key', $key)->first();
+        $techToUnlock = Tech::where('key', $$techToUnlock->key)->first();
 
         $techCostMultiplier *= (1 + $techToUnock->cost_multiplier / 100);
 
