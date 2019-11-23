@@ -49,7 +49,8 @@ class TechHelper
             'prestige_gains' => '%s%% higher prestige gains',
             'improvements' => '%s%% higher improvement bonus',
             'conversions' => '%s%% more conversions (only applicable to converting units)',
-            
+            'barracks_housing' => '%s%% more unit housing per barracks',
+
         ];
 
         $perkStrings = [];

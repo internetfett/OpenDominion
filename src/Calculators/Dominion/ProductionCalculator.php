@@ -754,7 +754,7 @@ class ProductionCalculator
      * Returns the Dominion's raw tech production.
      *
      * Research points are produced by:
-     * - Building: School (15 per)
+     * - Prestige: Prestige/tick
      *
      * @param Dominion $dominion
      * @return float
@@ -763,17 +763,7 @@ class ProductionCalculator
     {
         $tech = 0;
 
-        // Values
-        $techPerSchool = 1;
-
-        $tech = $dominion->building_school * $techPerSchool;
-
-        // Unit Perk Production Bonus (Myconid Psilocybe and Dark Elf Adept)
-        # Only if the spell Underground Caves isn't cast (which it never is for Dark Elf).
-        if (!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
-        {
-            $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-        }
+        $tech = $dominion->prestige;
 
         return $tech;
     }

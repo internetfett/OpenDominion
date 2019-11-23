@@ -31,7 +31,6 @@ units:
       defense: 3
     perks:
       ore_production: 2
-      gem_production: 0.5
   - name: Cleric
     type: hybrid_elite
     cost:
