@@ -9,7 +9,7 @@ description: >-
   <p>Starts with 666% Morale and 2,000 Souls.</p>
   <hr />
   <p>Instead of National Bank, Demons have Sacrificial Altar where peasants can be sacrificed for either 0.5 Soul or 4 bushels of food.</p>
-home_land_type: cavern
+home_land_type: mountain
 playable: 1
 
 attacking: 3

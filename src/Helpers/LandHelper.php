@@ -12,7 +12,7 @@ class LandHelper
             'plain',
             'mountain',
             'swamp',
-            'cavern',
+            #'cavern',
             'forest',
             'hill',
             'water',
@@ -33,7 +33,7 @@ class LandHelper
           'tower' => 'mountain',
           'farm' => 'mountain',
           'ore_mine' => 'mountain',
-          'diamond_mine' => 'cavern',
+          'diamond_mine' => 'mountain',
           'lumberyard' => 'forest',
           'barracks' => 'hill',
           'dock' => 'water',
@@ -61,8 +61,8 @@ class LandHelper
             'tower' => 'swamp',
             'wizard_guild' => 'swamp',
             'temple' => 'swamp',
-            'diamond_mine' => 'cavern',
-            'school' => 'cavern',
+            'diamond_mine' => 'mountain',
+            #'school' => 'cavern',
             'lumberyard' => 'forest',
             'forest_haven' => 'forest',
             'factory' => 'hill',
@@ -90,8 +90,8 @@ class LandHelper
             case 'swamp':
                 return '<i class="ra ra-skull text-black"></i>';
 
-            case 'cavern':
-                return '<i class="ra ra-mining-diamonds text-blue"></i>';
+            #case 'cavern':
+            #    return '<i class="ra ra-mining-diamonds text-blue"></i>';
 
             case 'forest':
                 return '<i class="ra ra-pine-tree text-green"></i>';

@@ -106,7 +106,7 @@ class ExploreActionService
             throw new GameException('You do not have enough morale to explore');
         }
 
-        /* Re-enabled.
+        /*
         if ($this->protectionService->isUnderProtection($dominion)) {
             throw new GameException('You are currently under protection and may not explore during that time');
         }
@@ -122,6 +122,17 @@ class ExploreActionService
         $drafteeCost = ($this->explorationCalculator->getDrafteeCost($dominion) * $totalLandToExplore);
         $newDraftees = ($dominion->military_draftees - $drafteeCost);
 
+        if($dominion->race->getPerkValue('cannot_tech'))
+        {
+          $researchPointsPerAcre = 0;
+        }
+        else
+        {
+          $researchPointsPerAcre = 10;
+        }
+
+        $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
+
         DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore) {
             $this->queueService->queueResources('exploration', $dominion, $data);
 
@@ -129,16 +140,18 @@ class ExploreActionService
             $dominion->fill([
                 'morale' => $newMorale,
                 'resource_platinum' => $newPlatinum,
+                'resource_tech' => $researchPointsGained,
                 'military_draftees' => $newDraftees,
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
         });
 
         return [
             'message' => sprintf(
-                'Exploration begun at a cost of %s platinum and %s %s. Your orders for exploration disheartens the military, and morale drops %d%%.',
+                'Exploration begun at a cost of %s platinum and %s %s. When exploration is completed, you will earn %s experience points. Your orders for exploration disheartens the military, and morale drops %d%%.',
                 number_format($platinumCost),
                 number_format($drafteeCost),
                 str_plural('draftee', $drafteeCost),
+                number_format($researchPointsPerAcre),
                 $moraleDrop
             ),
             'data' => [

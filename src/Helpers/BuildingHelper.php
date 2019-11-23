@@ -23,7 +23,7 @@ class BuildingHelper
           'wizard_guild',
           'temple',
           'diamond_mine',
-          'school',
+          #'school',
           'lumberyard',
           'forest_haven',
           'factory',
@@ -64,16 +64,17 @@ class BuildingHelper
           'mountain' => [
               'ore_mine',
               'gryphon_nest',
+              'diamond_mine',
           ],
           'swamp' => [
               'tower',
               'wizard_guild',
               'temple',
-          ],
+          ],/*
           'cavern' => [
               'diamond_mine',
               'school',
-          ],
+          ],*/
           'forest' => [
               'lumberyard',
               'forest_haven',
@@ -99,11 +100,13 @@ class BuildingHelper
                     'tower',
                     'farm',
                     'ore_mine',
+                        'diamond_mine',
                 ],
                 'swamp' => [],
+                /*
                 'cavern' => [
-                    'diamond_mine',
                 ],
+                */
                 'forest' => [
                     'lumberyard',
                 ],
@@ -121,7 +124,7 @@ class BuildingHelper
                 'plain' => [],
                 'mountain' => [],
                 'swamp' => [],
-                'cavern' => [],
+                #'cavern' => [],
                 'forest' => [],
                 'hill' => [],
                 'water' => [
@@ -165,7 +168,7 @@ class BuildingHelper
             'wizard_guild' => 2,
             'temple' => 2,
             'diamond_mine' => 2,
-            'school' => 2,
+            #'school' => 2,
             'lumberyard' => 2,
             'forest_haven' => 1, // reduce losses on failed spy ops, reduce fireball damage
             'factory' => 2,
@@ -205,7 +208,7 @@ class BuildingHelper
             'wizard_guild' => 'Increases Wizard Strength refresh rate, reduces Wizard and ArchMages training cost and reduces spell costs.<br><br>Wizard Strength refresh rate increased by 0.1% per 1% owned, up to a maximum of 2% at 20% owned.<br>Wizard and ArchMage training and spell costs reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned.',
             'temple' => 'Increases population growth and reduces defensive bonuses of dominions you invade.<br><br>Population growth increased by 6% per 1% owned.<br>Defensive bonuses reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned.',
             'diamond_mine' => 'Produces 15 gems per tick.',
-            'school' => 'Produces 1 experience point per tick.',
+            #'school' => 'Produces 1 experience point per tick.',
             'lumberyard' => 'Produces 50 lumber per tick.',
             'forest_haven' => 'Increases peasant defense, reduces losses on failed spy ops, reduces incoming Fireball damage and reduces platinum theft.<br><br>Each Forest Haven gives 20 peasants 0.75 defense each.<br>Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.<br>Fireball damage and platinum theft reduced by 8% per 1% owned, up to a maximum of 80% at 10% owned.',
             'factory' => 'Reduces construction and land rezoning costs.<br><br>Construction costs reduced by 4% per 1% owned, up to a maximum of 75% at 18.75% owned.<br>Rezoning costs reduced by 3% per 1% owned, up to a maximum of 75% at 25% owned.',

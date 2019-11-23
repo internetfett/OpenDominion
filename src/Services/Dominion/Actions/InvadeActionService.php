@@ -1051,15 +1051,7 @@ class InvadeActionService
     }
 
     /**
-     * Handles experience point generation for attacker.
-     *
-     * Original formula:
-     * (Conquered acres) * max([(Days into the round)/3], 10)
-     * - Past day 30 of the round, RP gains by attacking goes up and peaks at 16.6667 on day 50
-     * - This number is increased by 50% in the Base Ruleset.
-     *
-     * Removing days into round portion of the formula in favor of a static coefficient.
-     * For base ruleset, the range for the coefficent was 15-25. We are using 20 instead.
+     * Handles experience point (research point) generation for attacker.
      *
      * @param Dominion $dominion
      * @param array $units

@@ -379,7 +379,7 @@ class DominionFactory
                 'plain' => 150-80,
                 'mountain' => 150,
                 'swamp' => 150-50,
-                'cavern' => 150,
+                'cavern' => 0,
                 'forest' => 150-50,
                 'hill' => 150,
                 'water' => 100,

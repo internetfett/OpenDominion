@@ -206,6 +206,10 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'improvement points from ore';
                 break;
+            case 'research_points_per_acre':
+                $negativeBenefit = false;
+                $description = 'experience points per acre on invasions';
+                break;
             default:
                 return '';
         }
@@ -446,6 +450,10 @@ class RaceHelper
             case 'ore_improvement_points':
                 $negativeBenefit = false;
                 $description = 'Improvement points from ore';
+                break;
+            case 'research_points_per_acre':
+                $negativeBenefit = false;
+                $description = 'Experience points per acre on invasions';
                 break;
             default:
                 return null;
