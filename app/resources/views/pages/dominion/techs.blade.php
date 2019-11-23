@@ -63,7 +63,7 @@
                     </div>
                     <div class="box-footer">
                         <!-- <button type="submit" class="btn btn-primary" {{ ($techCalculator->getTechCost($selectedDominion) > $selectedDominion->resource_tech || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button> -->
-                        <button type="submit" class="btn btn-primary" {{ ($techCalculator->getTechCost($selectedDominion) > $selectedDominion->resource_tech || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button>
+                        <button type="submit" class="btn btn-primary">Unlock</button>
                     </div>
                 </form>
             </div>
