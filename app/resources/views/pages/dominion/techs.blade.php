@@ -28,6 +28,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Requires</th>
+                                    <th>XP Cost</th>
                                 </tr>
                             </thead>
                             @foreach ($techs as $tech)
@@ -52,12 +53,16 @@
                                             -
                                         @endif
                                     </td>
+                                    <td>
+                                        {{ number_format(getTechCost($selectedDominion, $tech)) }}
+                                    </td>
                                 </tr>
                             @endif
                             @endforeach
                         </table>
                     </div>
                     <div class="box-footer">
+                        <!-- <button type="submit" class="btn btn-primary" {{ ($techCalculator->getTechCost($selectedDominion) > $selectedDominion->resource_tech || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button> -->
                         <button type="submit" class="btn btn-primary" {{ ($techCalculator->getTechCost($selectedDominion) > $selectedDominion->resource_tech || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button>
                     </div>
                 </form>
@@ -70,10 +75,9 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>You can unlock technological advancements by producing enough experience points. The cost of each advancement is 5 experience points per acre.</p>
+                    <p>You can unlock technological advancements by producing enough experience points.</p>
                     <p>Each advancement improves an aspect of your dominion. Only the highest advancement counts. If you have unlocked Level 1 and Level 2, only the bonus from the Level 2 advancement counts.</p>
                     <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} experience points</b>.</p>
-                    <p>You currently need {{ number_format($techCalculator->getTechCost($selectedDominion)) }} experience points to unlock a new tech.</p>
                 </div>
             </div>
         </div>
