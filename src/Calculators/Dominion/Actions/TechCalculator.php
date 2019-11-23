@@ -39,7 +39,7 @@ class TechCalculator
 
         $techToUnlock = Tech::where('key', $techToUnlock->key)->first();
 
-        $techCostMultiplier *= (1 + $techToUnock->cost_multiplier / 100);
+        $techCostMultiplier *= (1 + $techToUnlock->cost_multiplier / 100);
 
         #$techCostMultiplier = 5;
         $techCostBonusMultiplier = 1;
