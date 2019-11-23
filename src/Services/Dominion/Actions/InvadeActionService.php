@@ -1051,7 +1051,7 @@ class InvadeActionService
     }
 
     /**
-     * Handles research point generation for attacker.
+     * Handles experience point generation for attacker.
      *
      * Original formula:
      * (Conquered acres) * max([(Days into the round)/3], 10)

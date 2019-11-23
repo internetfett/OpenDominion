@@ -183,9 +183,9 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'cost of technological advancements';
                 break;
-            case 'research_points_per_acre':
+            case 'experience_points_per_acre':
                 $negativeBenefit = false;
-                $description = 'research points gained per acre on successful invasions';
+                $description = 'experience points gained per acre on successful invasions';
                 break;
             case 'cannot_tech':
                 $negativeBenefit = true;
@@ -424,9 +424,9 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Cost of technological advancements';
                 break;
-            case 'research_points_per_acre':
+            case 'experience_points_per_acre':
                 $negativeBenefit = false;
-                $description = 'Research points gained per acre on successful invasions';
+                $description = 'Experience points gained per acre on successful invasions';
                 break;
             case 'cannot_tech':
                 $negativeBenefit = true;

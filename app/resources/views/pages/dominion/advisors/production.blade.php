@@ -88,7 +88,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Research points:</td>
+                                        <td>Experience points:</td>
                                         <td>
                                             @if ($techProduction = $productionCalculator->getTechProduction($selectedDominion))
                                                 <span class="text-green">+{{ number_format($techProduction) }}</span>

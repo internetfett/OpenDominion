@@ -122,7 +122,7 @@ class UnitHelper
             'lumber_production' => 'Each unit collects %s lumber per tick.',
             'food_production' => 'Each unit produces %s food per tick.',
             'gem_production' => 'Each unit mines %s gems per tick.',
-            'tech_production' => 'Each unit produces %s research points per tick.',
+            'tech_production' => 'Each unit produces %s experience points per tick.',
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'platinum_upkeep' => 'Costs %s platinum per tick.',

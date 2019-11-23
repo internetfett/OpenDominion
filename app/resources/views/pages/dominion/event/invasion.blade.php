@@ -191,14 +191,14 @@
                             @if (isset($event->data['result']['overwhelmed']) && $event->data['result']['overwhelmed'])
                                 <p class="text-center text-red">
                                     @if ($event->source->id === $selectedDominion->id)
-                                        Because you were severely outmatched, you suffered extra casualties.
+                                        Because you were severely outmatched, you suffer extra casualties.
                                     @else
-                                        Because {{ $event->source->name }} (# {{ $event->source->realm->number }}) was severely outmatched, they suffered extra casualties.
+                                        Because {{ $event->source->name }} (# {{ $event->source->realm->number }}) was severely outmatched, they suffer extra casualties.
                                     @endif
                                 </p>
                             @endif
 
-                            {{-- Only show prestige / research point gains if we are the attacker --}}
+                            {{-- Only show prestige / experience point gains if we are the attacker --}}
                             @if ($event->source->id === $selectedDominion->id)
                                 @if (isset($event->data['attacker']['prestigeChange']))
                                     @php
@@ -216,26 +216,17 @@
                                 @endif
                                 @if (isset($event->data['attacker']['researchPoints']))
                                     <p class="text-center text-green">
-                                        You gain <b>{{ number_format($event->data['attacker']['researchPoints']) }}</b> research points.
-                                    </p>
-                                @endif
-                            @endif
-
-                            @if (isset($event->data['attacker']['landErosion']))
-                                @if ($event->source->id === $selectedDominion->id)
-                                    <p class="text-center text-green">
-                                        Additionally, {{ number_format($event->data['attacker']['landErosion']) }} acres will be converted to water due to erosion.
+                                        You gain <b>{{ number_format($event->data['attacker']['researchPoints']) }}</b> experience points.
                                     </p>
                                 @endif
                             @endif
                             @if (isset($event->data['attacker']['plunder']))
                                 @if ($event->source->id === $selectedDominion->id)
                                     <p class="text-center text-green">
-                                        Your units plunder {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems.
-                                    </p>
                                 @else
                                     <p class="text-center text-red">
-                                        The enemy soldiers plunder {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }}.
+                                @endif
+                                    {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems were plundered.
                                     </p>
                                 @endif
                             @endif
@@ -260,13 +251,11 @@
                             @if (isset($event->data['attacker']['peasants_burned']))
                               @if ($event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
-                                  You burn <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants to death.</p>
-                                </p>
                               @else
                                 <p class="text-center text-red">
-                                  <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> were burned to death during combat.</p>
-                                </p>
                               @endif
+                                  Magma Giants burn <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants to death during combat.</p>
+                                </p>
                             @endif
 
                         </div>

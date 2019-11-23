@@ -244,7 +244,7 @@ class NotificationHelper
             case 'hourly_dominion.returning_completed':
                 $units = collect($data)->filter(
                     function ($value, $key) {
-                        // Disregard prestige and research points
+                        // Disregard prestige and experience points
                         if(strpos($key, 'military_') === 0) {
                             return $value;
                         }

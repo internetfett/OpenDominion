@@ -134,7 +134,7 @@
                                             <td>{{ number_format($infoOp->data['resource_gems']) }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Research Points:</td>
+                                            <td>Experience points:</td>
                                             <td>{{ number_format($infoOp->data['resource_tech']) }}</td>
                                         </tr>
                                         <tr>

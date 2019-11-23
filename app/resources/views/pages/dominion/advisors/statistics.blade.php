@@ -406,7 +406,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Research Points:</td>
+                                                <td>Experience Points:</td>
                                                 <td>
                                                     <strong>{{ number_format($selectedDominion->stat_total_tech_production) }}</strong>
                                                 </td>

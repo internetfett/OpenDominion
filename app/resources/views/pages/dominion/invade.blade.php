@@ -367,7 +367,7 @@
                     @endif
                     @if ($selectedDominion->race->alignment == 'evil')
                     <hr />
-                    <p><strong>Empire:</strong> in-realm invasions do not yield any prestige, research points, or generated acres. All you get is the acres you conquer.</p>
+                    <p><strong>Empire:</strong> in-realm invasions do not yield any prestige, experience points, or generated acres. All you get is the acres you conquer.</p>
                     @endif
                 </div>
             </div>

@@ -740,7 +740,7 @@ class ProductionCalculator
     //<editor-fold desc="Tech">
 
     /**
-     * Returns the Dominion's research point production.
+     * Returns the Dominion's experience point production.
      *
      * @param Dominion $dominion
      * @return int
@@ -753,7 +753,7 @@ class ProductionCalculator
     /**
      * Returns the Dominion's raw tech production.
      *
-     * Research points are produced by:
+     * Experience points are produced by:
      * - Prestige: Prestige/tick
      *
      * @param Dominion $dominion
@@ -769,9 +769,9 @@ class ProductionCalculator
     }
 
     /**
-     * Returns the Dominion's research point production multiplier.
+     * Returns the Dominion's experience point production multiplier.
      *
-     * Research point production is modified by:
+     * Experience point production is modified by:
      * - Racial Bonus
      *
      * @param Dominion $dominion

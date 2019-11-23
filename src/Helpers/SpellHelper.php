@@ -372,7 +372,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Underground Caves',
-                'description' => 'Psilocybe research point production replaced by gem production (10x).',
+                'description' => 'Psilocybe experience point production replaced by gem production (10x).',
                 'key' => 'underground_caves',
                 'mana_cost' => 5,
                 'duration' => 12*4,

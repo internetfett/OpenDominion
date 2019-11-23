@@ -29,14 +29,19 @@ class TechCalculator
     }
 
     /**
-     * Returns the Dominion's current research point cost to unlock a new tech.
+     * Returns the Dominion's current experience point cost to unlock a new tech.
      *
      * @param Dominion $dominion
      * @return int
      */
-    public function getTechCost(Dominion $dominion): int
+    public function getTechCost(Dominion $dominion, Tech $techToUnlock): int
     {
-        $techCostMultiplier = 5;
+
+        $techToUnlock = Tech::where('key', $key)->first();
+
+        $techCostMultiplier *= (1 + $techToUnock->cost_multiplier / 100);
+
+        #$techCostMultiplier = 5;
         $techCostBonusMultiplier = 1;
         $minimumCost = intval(1000 * $techCostMultiplier);
 
