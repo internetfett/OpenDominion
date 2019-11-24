@@ -138,6 +138,11 @@ class ImproveActionService
           $worth['ore'] *= (1 + $dominion->race->getPerkValue('ore_improvement_points') / 100);
         }
 
+        if(isset($dominion) and $dominion->getTechPerkMultiplier('gemcutting'))
+        {
+          $worth['gems'] *= (1 + $dominion->race->getPerkValue('gemcutting') / 100);
+        }
+
         return $worth;
     }
 }

@@ -68,7 +68,7 @@ class PopulationCalculator
         $this->unitHelper = $unitHelper;
     }
 
-    /** 
+    /**
      * Toggle if this calculator should include the following hour's resources.
      */
     public function setForTick(bool $value)
@@ -263,6 +263,12 @@ class PopulationCalculator
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
           $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
+        }
+
+        // Tech
+        if($dominion->getTechPerkMultiplier('barracks_housing'))
+        {
+          $troopsPerBarracks += $dominion->getTechPerkMultiplier('barracks_housing');
         }
 
         return min(

@@ -419,10 +419,19 @@ class InvadeActionService
 
             $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
+            // Racial perk
             if($dominion->race->getPerkMultiplier('prestige_gains'))
             {
-              $attackerPrestigeChange *= (1 + $dominion->race->getPerkMultiplier('prestige_gains'));
+              $attackerPrestigeChangeMultiplier = $dominion->race->getPerkMultiplier('prestige_gains');
             }
+
+            // Tech
+            if($dominion->getTechPerkMultiplier('prestige_gains'))
+            {
+              $attackerPrestigeChangeMultiplier = $dominion->getTechPerkMultiplier('prestige_gains');
+            }
+
+            $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
 
@@ -963,10 +972,16 @@ class InvadeActionService
         $conversionBaseMultiplier = 0.06;
         $spellParasiticHungerMultiplier = 50;
 
-        $conversionMultiplier = (
-            $conversionBaseMultiplier *
-            (1 + $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'parasitic_hunger', $spellParasiticHungerMultiplier))
-        );
+        // Parasitic Hunger
+        $conversionMultiplier = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'parasitic_hunger', $spellParasiticHungerMultiplier))
+
+        // Tech
+        if($dominion->getTechPerkMultiplier('conversions'))
+        {
+          $conversionMultiplier += $dominion->getTechPerkMultiplier('conversions');
+        }
+
+        $conversionBaseMultiplier *= (1 + $conversionMultiplier);
 
         $totalConvertingUnits = 0;
 

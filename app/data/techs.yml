@@ -888,3 +888,304 @@ population_level6:
     - population_level5
 
 # </Ladder: Population>
+
+# <Ladder: Prestige>
+
+prestige_level1:
+  name: Prestige (Lvl 1/6)
+  cost_multiplier: 0
+  perks:
+    prestige_gains: 2.5
+
+prestige_level2:
+  name: Prestige (Lvl 2/6)
+  cost_multiplier: 10
+  perks:
+    prestige_gains: 5
+  requires:
+    - prestige_level1
+
+prestige_level3:
+  name: Prestige (Lvl 3/6)
+  cost_multiplier: 20
+  perks:
+    prestige_gains: 7.5
+  requires:
+    - prestige_level2
+
+prestige_level4:
+  name: Prestige (Lvl 4/6)
+  cost_multiplier: 30
+  perks:
+    prestige_gains: 10
+  requires:
+    - prestige_level3
+
+prestige_level5:
+  name: Prestige (Lvl 5/6)
+  cost_multiplier: 40
+  perks:
+    prestige_gains: 12.5
+  requires:
+    - prestige_level4
+
+prestige_level6:
+  name: Prestige (Lvl 6/6)
+  cost_multiplier: 50
+  perks:
+    prestige_gains: 15
+  requires:
+    - prestige_level5
+
+# </Ladder: Prestige>
+
+# <Ladder: Improvements>
+
+improvements_level1:
+  name: Improvements (Lvl 1/6)
+  cost_multiplier: 0
+  perks:
+    improvements: 5
+
+improvements_level2:
+  name: Improvements (Lvl 2/6)
+  cost_multiplier: 10
+  perks:
+    improvements: 10
+  requires:
+    - improvements_level1
+
+improvements_level3:
+  name: Improvements (Lvl 3/6)
+  cost_multiplier: 20
+  perks:
+    improvements: 15
+  requires:
+    - improvements_level2
+
+improvements_level4:
+  name: Improvements (Lvl 4/6)
+  cost_multiplier: 30
+  perks:
+    improvements: 20
+  requires:
+    - improvements_level3
+
+improvements_level5:
+  name: Improvements (Lvl 5/6)
+  cost_multiplier: 40
+  perks:
+    improvements: 25
+  requires:
+    - improvements_level4
+
+improvements_level6:
+  name: Improvements (Lvl 6/6)
+  cost_multiplier: 50
+  perks:
+    improvements: 30
+  requires:
+    - improvements_level5
+
+# </Ladder: Improvements>
+
+# <Ladder: Conversions>
+
+conversions_level1:
+  name: Conversions (Lvl 1/6)
+  cost_multiplier: 0
+  perks:
+    conversions: 2.5
+
+conversions_level2:
+  name: Conversions (Lvl 2/6)
+  cost_multiplier: 10
+  perks:
+    conversions: 5
+  requires:
+    - conversions_level1
+
+conversions_level3:
+  name: Conversions (Lvl 3/6)
+  cost_multiplier: 20
+  perks:
+    conversions: 7.5
+  requires:
+    - conversions_level2
+
+conversions_level4:
+  name: Conversions (Lvl 4/6)
+  cost_multiplier: 30
+  perks:
+    conversions: 10
+  requires:
+    - conversions_level3
+
+conversions_level5:
+  name: Conversions (Lvl 5/6)
+  cost_multiplier: 40
+  perks:
+    conversions: 12.5
+  requires:
+    - conversions_level4
+
+conversions_level6:
+  name: Conversions (Lvl 6/6)
+  cost_multiplier: 50
+  perks:
+    conversions: 15
+  requires:
+    - conversions_level5
+
+# </Ladder: Conversions>
+
+# <Ladder: Barracks Housing>
+
+barracks_housing_level1:
+  name: Conversions (Lvl 1/6)
+  cost_multiplier: 0
+  perks:
+    barracks_housing: 1.25
+
+barracks_housing_level2:
+  name: Conversions (Lvl 2/6)
+  cost_multiplier: 10
+  perks:
+    barracks_housing: 2.5
+  requires:
+    - barracks_housing_level1
+
+barracks_housing_level3:
+  name: Conversions (Lvl 3/6)
+  cost_multiplier: 20
+  perks:
+    barracks_housing: 3.75
+  requires:
+    - barracks_housing_level2
+
+barracks_housing_level4:
+  name: Conversions (Lvl 4/6)
+  cost_multiplier: 30
+  perks:
+    barracks_housing: 5
+  requires:
+    - barracks_housing_level3
+
+barracks_housing_level5:
+  name: Conversions (Lvl 5/6)
+  cost_multiplier: 40
+  perks:
+    barracks_housing: 6.25
+  requires:
+    - barracks_housing_level4
+
+barracks_housing_level6:
+  name: Conversions (Lvl 6/6)
+  cost_multiplier: 50
+  perks:
+    barracks_housing: 7.5
+  requires:
+    - barracks_housing_level5
+
+# </Ladder: Barracks Housing>
+
+# <Ladder: Gemcutting>
+
+gemcutting_level1:
+  name: Gemcutting (Lvl 1/6)
+  cost_multiplier: 0
+  perks:
+    gemcutting: 2.5
+
+gemcutting_level2:
+  name: Gemcutting (Lvl 2/6)
+  cost_multiplier: 10
+  perks:
+    gemcutting: 5
+  requires:
+    - gemcutting_level1
+
+gemcutting_level3:
+  name: Gemcutting (Lvl 3/6)
+  cost_multiplier: 20
+  perks:
+    gemcutting: 7.5
+  requires:
+    - gemcutting_level2
+
+gemcutting_level4:
+  name: Gemcutting (Lvl 4/6)
+  cost_multiplier: 30
+  perks:
+    gemcutting: 10
+  requires:
+    - gemcutting_level3
+
+gemcutting_level5:
+  name: Gemcutting (Lvl 5/6)
+  cost_multiplier: 40
+  perks:
+    gemcutting: 12.5
+  requires:
+    - gemcutting_level4
+
+gemcutting_level6:
+  name: Gemcutting (Lvl 6/6)
+  cost_multiplier: 50
+  perks:
+    gemcutting: 15
+  requires:
+    - gemcutting_level5
+
+# </Ladder: Gemcutting>
+
+
+# <Ladder: Platinum Interest>
+
+platinum_interest_level1:
+  name: Platinum Interest (Lvl 1/6)
+  cost_multiplier: 0
+  perks:
+    platinum_interest: 0.25
+
+platinum_interest_level2:
+  name: Platinum Interest (Lvl 2/6)
+  cost_multiplier: 10
+  perks:
+    platinum_interest: 0.5
+  requires:
+    - platinum_interest_level1
+
+platinum_interest_level3:
+  name: Platinum Interest (Lvl 3/6)
+  cost_multiplier: 20
+  perks:
+    platinum_interest: 0.75
+  requires:
+    - platinum_interest_level2
+
+platinum_interest_level4:
+  name: Platinum Interest (Lvl 4/6)
+  cost_multiplier: 30
+  perks:
+    platinum_interest: 1
+  requires:
+    - platinum_interest_level3
+
+platinum_interest_level5:
+  name: Platinum Interest (Lvl 5/6)
+  cost_multiplier: 40
+  perks:
+    platinum_interest: 1.25
+  requires:
+    - platinum_interest_level4
+
+platinum_interest_level6:
+  name: Platinum Interest (Lvl 6/6)
+  cost_multiplier: 50
+  perks:
+    platinum_interest: 1.5
+  requires:
+    - platinum_interest_level5
+
+# </Ladder: Platinum Interest>

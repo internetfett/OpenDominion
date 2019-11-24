@@ -16,38 +16,40 @@ perks:
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
+  immune_to_lightning_bolt: 1
+  draftee_dp: 0
+  draftee_mana_production: 9
 units:
   - name: Scarab
     need_boat: false
     cost:
-      platinum: 275
+      platinum: 200
     power:
       offense: 3
       defense: 0
   - name: Burrower
     cost:
-      platinum: 250
+      platinum: 300
     power:
-      offense: 4
+      offense: 0
       defense: 4
     perks:
       immortal_except_vs: Swarm
   - name: Arachnid
     need_boat: false
     cost:
-      platinum: 1200
+      platinum: 1100
     power:
       offense: 4
-      defense: 6
+      defense: 7
     perks:
       converts_to_cocoons: 1
   - name: Naga
     need_boat: false
     cost:
-      platinum: 400
-      ore: 40
+      platinum: 800
     power:
       offense: 5
       defense: 3
     perks:
-      offense_from_barren_land: 5,3 # ratio%, max
+      offense_from_barren_land: 5,5 # ratio%, max
