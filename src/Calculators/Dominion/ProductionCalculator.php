@@ -117,8 +117,16 @@ class ProductionCalculator
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
 
+        // Tech: Interest (% of stockpile)
+        if($dominion->getTechPerkMultiplier('platinum_interest'))
+        {
+          $platinum += $dominion->resource_platinum * $dominion->getTechPerkMultiplier('platinum_interest');
+        }
+
+
         // Unit Perk Production Reduction (Dragon Unit: Mercenary)
         $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
+
         $platinum = max(0, $platinum-$upkeep);
 
         return $platinum;
