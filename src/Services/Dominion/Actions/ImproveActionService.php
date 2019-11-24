@@ -140,7 +140,7 @@ class ImproveActionService
 
         if(isset($dominion) and $dominion->getTechPerkMultiplier('gemcutting'))
         {
-          $worth['gems'] *= (1 + $dominion->race->getPerkValue('gemcutting') / 100);
+          $worth['gems'] *= (1 + $dominion->getPerkValue('gemcutting') / 100);
         }
 
         return $worth;
