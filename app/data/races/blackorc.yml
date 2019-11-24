@@ -12,6 +12,9 @@ converting: 1
 perks:
   food_consumption: 20
   lumber_production: 50
+  prestige_gains: 100
+  max_population: 10
+  barracks_housing: 18
 units:
   - name: Impaler
     cost:
@@ -54,4 +57,4 @@ units:
       defense: 3
     perks:
       offense_from_pairing: 1,2,10 # slot, amount, num required
-      fewer_casualties: 33
+      reduce_combat_losses: 1
