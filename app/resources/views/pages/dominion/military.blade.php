@@ -26,8 +26,7 @@
                             <thead>
                                 <tr>
                                     <th>Unit</th>
-                                    <th class="text-center">OP</th>
-                                    <th class="text-center">DP</th>
+                                    <th class="text-center">OP / DP</th>
                                     <th class="text-center">Trained</th>
                                     <th class="text-center">Training</th>
                                     <th class="text-center">Cost</th>
@@ -65,8 +64,7 @@
                                                 @else
                                                     {{ (strpos($offensivePower, '.') !== false) ? number_format($offensivePower, 2) : number_format($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
                                                 @endif
-                                            </td>
-                                            <td class="text-center">   <!-- DP -->
+                                                &nbsp;/&nbsp;
                                                 @if ($defensivePower === 0)
                                                     <span class="text-muted">0</span>
                                                 @else
