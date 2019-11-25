@@ -48,4 +48,4 @@ units:
       offense: 3
       defense: 4
     perks:
-      offense_from_victories: 0.5,5 # +0.5 OP per Victory, max +5 (at 10 Vicotires)
+      offense_from_victories: 0.5,5 # +0.5 OP per Victory, max +5 (at 10 Victories)

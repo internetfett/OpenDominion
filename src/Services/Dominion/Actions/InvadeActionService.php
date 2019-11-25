@@ -202,12 +202,13 @@ class InvadeActionService
             }
 
             // Commonwealth (good) cannot invade in-realm
-            if($dominion->realm->alignment == 'good' and $dominion->realm->alignment == $target->realm->alignment)
-            {
+            #if($dominion->realm->alignment == 'good' and $dominion->realm->alignment == $target->realm->alignment)
+            #{
+            # No in-realm invasions
               if ($dominion->realm->id === $target->realm->id) {
                   throw new GameException('You may not invade other dominions of the Commonwealth.');
               }
-            }
+            #}
 
             // Cannot invade yourself
             if ($dominion->id == $target->id)

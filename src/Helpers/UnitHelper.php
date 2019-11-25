@@ -163,6 +163,7 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
+            'offense_from_victories' => 'Offense by %1$s for every victory (max +%2$s).',
 
             # Abandoned
             'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',

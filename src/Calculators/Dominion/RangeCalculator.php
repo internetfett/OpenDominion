@@ -168,7 +168,8 @@ class RangeCalculator
         // todo: this doesn't belong here since it touches the db. Move to RangeService?
 
         // Allow evil (Empire) to target in-realm.
-
+        # Removed as of Round 11.
+        /*
         if($self->race->alignment == 'evil')
         {
 
@@ -196,7 +197,7 @@ class RangeCalculator
         }
         else
         {
-
+        */
           return $self->round->dominions()
               ->with(['realm', 'round'])
               ->get()
@@ -217,8 +218,9 @@ class RangeCalculator
                   return $this->landCalculator->getTotalLand($dominion);
               })
               ->values();
-
+        /*
         }
+        */
 
 
     }

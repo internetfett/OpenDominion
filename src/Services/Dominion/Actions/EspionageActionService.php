@@ -140,12 +140,15 @@ class EspionageActionService
             throw new GameException('You cannot perform espionage operations on targets outside of your range');
         }
 
-        if ($this->espionageHelper->isResourceTheftOperation($operationKey)) {
-            if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START) {
-                throw new GameException('You cannot perform resource theft for the first two days of the round');
+        if ($this->espionageHelper->isResourceTheftOperation($operationKey))
+        {
+            if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START)
+            {
+                throw new GameException('You cannot perform resource theft for the first day of the round');
             }
             #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
-            if (!$this->rangeCalculator->isInRange($dominion, $target)) {
+            if (!$this->rangeCalculator->isInRange($dominion, $target))
+            {
                 throw new GameException('You cannot perform resource theft on targets outside of your range');
             }
         }
@@ -154,12 +157,13 @@ class EspionageActionService
             throw new GameException('Nice try, but you cannot perform espionage operations cross-round');
         }
 
-        if($dominion->race->alignment == 'good')
-        {
+        #if($dominion->race->alignment == 'good')
+        #{
+        # No in-realm ops.
           if ($dominion->realm->id === $target->realm->id) {
               throw new GameException('Nice try, but you cannot perform espionage oprations on your realmies');
           }
-        }
+        #}
 
         $result = null;
 
