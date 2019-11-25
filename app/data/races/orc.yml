@@ -37,15 +37,15 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 3
+      defense: 4
     perks:
-      defense_from_prestige: 250,6 # amount, max
+      defense_from_prestige: 250,8 # amount, max
   - name: Bone Breaker
     cost:
-      platinum: 1050
-      ore: 105
+      platinum: 800
+      ore: 100
     power:
       offense: 3
-      defense: 3
+      defense: 4
     perks:
-      offense_vs_prestige: 250,6 # amount, max
+      offense_from_victories: 0.5,5 # +0.5 OP per Victory, max +5 (at 10 Vicotires)

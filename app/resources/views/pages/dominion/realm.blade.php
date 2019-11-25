@@ -30,7 +30,7 @@
                                 @if ($isOwnRealm && $selectedDominion->pack !== null)
                                     <th class="text-center">Player from Pack</th>
                                 @endif
-                                <th class="text-center">Race</th>
+                                <th class="text-center">Faction</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
                             </tr>
@@ -71,7 +71,7 @@
                                             @endif
 
                                             @if ($dominion->id === $selectedDominion->id)
-                                                <b>{{ $dominion->name }}</b> (you)
+                                                <b>{{ $dominion->name }}</b>
                                             @else
                                                 @if ($isOwnRealm)
                                                     {{ $dominion->name }}
