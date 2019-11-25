@@ -228,7 +228,6 @@
                                 @endif
                                     {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems were plundered.
                                     </p>
-                                @endif
                             @endif
                             @if (isset($event->data['attacker']['conversion']) && $event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
