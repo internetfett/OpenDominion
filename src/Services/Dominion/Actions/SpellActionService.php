@@ -345,6 +345,7 @@ class SpellActionService
                     'employment' => $this->populationCalculator->getEmploymentPercentage($target),
                     'networth' => $this->networthCalculator->getDominionNetworth($target),
                     'prestige' => $target->prestige,
+                    'victories' => $target->stat_attacking_success,
 
                     'resource_platinum' => $target->resource_platinum,
                     'resource_food' => $target->resource_food,
