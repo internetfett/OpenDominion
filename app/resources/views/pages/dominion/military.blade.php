@@ -21,7 +21,6 @@
                                 <col width="100">
                                 <col width="150">
                                 <col width="150">
-                                <col width="100">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -29,8 +28,8 @@
                                     <th class="text-center">OP / DP</th>
                                     <th class="text-center">Trained</th>
                                     <th class="text-center">Training</th>
-                                    <th class="text-center">Cost</th>
                                     <th class="text-center">Train</th>
+                                    <th class="text-center">Cost</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,6 +82,20 @@
                                         <td class="text-center">
                                             {{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
                                         </td>
+                                        <td class="text-center">  <!-- Train -->
+                                          @if ($selectedDominion->race->getPerkValue('cannot_train_spies') and $unitType == 'spies')
+                                            &mdash;
+                                          @elseif ($selectedDominion->race->getPerkValue('cannot_train_wizards') and $unitType == 'wizards')
+                                            &mdash;
+                                          @elseif ($selectedDominion->race->getPerkValue('cannot_train_archmages') and $unitType == 'archmages')
+                                            &mdash;
+                                          @elseif ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval($unitType), 'cannot_be_trained'))
+                                            &mdash;
+                                          @else
+                                            <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                          @endif
+                                        </td>
+
                                         <td class="text-center">  <!-- Cost -->
                                             @php
                                                 // todo: move this shit to view presenter or something
@@ -184,19 +197,6 @@
 
                                                 echo implode(',<br>', $labelParts);
                                             @endphp
-                                        </td>
-                                        <td class="text-center">  <!-- Train -->
-                                          @if ($selectedDominion->race->getPerkValue('cannot_train_spies') and $unitType == 'spies')
-                                            &mdash;
-                                          @elseif ($selectedDominion->race->getPerkValue('cannot_train_wizards') and $unitType == 'wizards')
-                                            &mdash;
-                                          @elseif ($selectedDominion->race->getPerkValue('cannot_train_archmages') and $unitType == 'archmages')
-                                            &mdash;
-                                          @elseif ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval($unitType), 'cannot_be_trained'))
-                                            &mdash;
-                                          @else
-                                            <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                          @endif
                                         </td>
                                     </tr>
                                 @endforeach
