@@ -57,7 +57,7 @@
                                                     return starts_with($perk->key, ['defense_from_', 'defense_staggered_', 'defense_vs_']);
                                                 })->count() > 0;
                                             @endphp
-                                            <td class="text-center">  <!-- OP -->
+                                            <td class="text-center">  <!-- OP / DP -->
                                                 @if ($offensivePower === 0)
                                                     <span class="text-muted">0</span>
                                                 @else
@@ -74,7 +74,7 @@
                                                 {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
                                             </td>
                                         @else
-                                            <td class="text-center">&nbsp;</td>
+                                            <td class="text-center">&mdash;</td>
                                             <td class="text-center">  <!-- If Spy/Wiz/AM -->
                                                 {{ number_format($selectedDominion->{'military_' . $unitType}) }}
                                             </td>
