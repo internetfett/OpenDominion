@@ -50,14 +50,14 @@ class TechActionService
 
         // Check prerequisites
         if (!$this->techCalculator->hasPrerequisites($dominion, $techToUnlock)) {
-            throw new GameException('You do not meet the requirements to unlock this advancements.');
+            throw new GameException('You do not meet the requirements to unlock this advancement.');
         }
 
         // Check experience point
         $techCost = $this->techCalculator->getTechCost($dominion, $techToUnlock);
         if ($dominion->resource_tech < $techCost) {
             throw new GameException(sprintf(
-                'You do not have the required %s experience points to unlock this advancements.',
+                'You do not have the required %s experience points to unlock this advancement.',
                 number_format($techCost)
             ));
         }

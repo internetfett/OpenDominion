@@ -13,11 +13,10 @@ converting: 3
 
 perks:
   food_consumption: -50
-  gem_production: -20
+  gem_production: -25
   ore_production: 20
   tech_costs: 10
   archmage_cost: -200
-  research_points_per_acre: 25
 units:
   - name: Icebeast
     cost:
