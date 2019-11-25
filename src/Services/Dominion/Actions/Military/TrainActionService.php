@@ -82,7 +82,7 @@ class TrainActionService
 
         $totalUnitsToTrain = array_sum($data);
 
-        if ($totalUnitsToTrain < 0)
+        if ($totalUnitsToTrain < 0 or $totalUnitsToTrain == NULL)
         {
             throw new GameException('Training aborted due to bad input.');
         }
