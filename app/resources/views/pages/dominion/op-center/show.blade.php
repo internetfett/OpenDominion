@@ -70,6 +70,10 @@
                                         <td>Prestige:</td>
                                         <td>{{ number_format($infoOp->data['prestige']) }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Victories:</td>
+                                        <td>{{ number_format($infoOp->data['victories']) }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -110,7 +110,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Attacking success:</td>
+                                        <td>Attacking victory:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_attacking_success) }}</strong>
                                         </td>

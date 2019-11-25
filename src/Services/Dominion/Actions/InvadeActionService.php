@@ -281,12 +281,22 @@ class InvadeActionService
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
+            # Only count hits over 75% and not in-realm as victories.
+            if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75 and $dominion->realm->id !== $target->realm->id)
+            {
+              $countsAsVictory = 1;
+            }
+            else
+            {
+              $countsAsVictory = 0;
+            }
+
             // Stat changes
             // todo: move to own method
             if ($this->invasionResult['result']['success']) {
                 $dominion->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
                 $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
-                $dominion->stat_attacking_success += 1;
+                $dominion->stat_attacking_success += $countsAsVictory;
             } else {
                 $target->stat_defending_success += 1;
             }

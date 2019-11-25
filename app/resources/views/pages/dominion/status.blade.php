@@ -59,6 +59,10 @@
                                         <td>Prestige:</td>
                                         <td>{{ number_format($selectedDominion->prestige) }}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Victories:</td>
+                                        <td>{{ number_format($selectedDominion->stat_attacking_success) }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
