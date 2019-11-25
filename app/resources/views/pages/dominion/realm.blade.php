@@ -80,7 +80,7 @@
                                                 @endif
                                             @endif
 
-                                            @if ($isOwnRealm && $dominion->round->isActive() && $dominion->user->isOnline())
+                                            @if ($isOwnRealm && $dominion->round->isActive() && $dominion->user->isOnline() and $dominion->id !== $selectedDominion->id)
                                                 <span class="label label-success">Online</span>
                                             @endif
                                         </td>
