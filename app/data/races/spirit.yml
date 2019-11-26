@@ -15,7 +15,7 @@ perks:
   max_population: -10
 units:
   - name: Wisp
-    type: hybrid_specialist
+    type: hybrid_elite
     need_boat: false
     cost:
       platinum: 200
@@ -28,7 +28,7 @@ units:
       staggered_conversion: 40;1,85;2
   - name: Banshee
     need_boat: false
-      type: hybrid_specialist
+      type: hybrid_elite
     cost:
       platinum: 500
       ore: 0
