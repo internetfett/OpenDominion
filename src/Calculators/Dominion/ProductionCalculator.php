@@ -97,8 +97,8 @@ class ProductionCalculator
         {
             $platinum += $dominion->peasants * $peasantTax;
         }
-        // Myconid: peasants_produce_food (i.e. no plat from peasants)
-        elseif($dominion->race->getPerkValue('peasants_produce_food'))
+        // Myconid: no plat from peasants
+        elseif($dominion->race->name == 'Myconid')
         {
           $platinum = 0;
         }
@@ -234,7 +234,7 @@ class ProductionCalculator
         // Racial Perk: peasants_produce_food
         if($dominion->race->getPerkValue('peasants_produce_food'))
         {
-          $food += $dominion->peasants * 4;
+          $food += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_food');
         }
 
         // Racial Spell: Metabolism (Growth) - Double food production

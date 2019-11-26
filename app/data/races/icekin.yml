@@ -56,6 +56,7 @@ units:
       mana: 15
     power:
       offense: 4
-      defense: 3
+      defense: 1
     perks:
       offense_raw_wizard_ratio: 1,4 # ratio%, max
+      defense_from_land: mountain,20,5

@@ -14,8 +14,8 @@ converting: 3
 
 perks:
   extra_barren_max_population: 5
-  food_consumption: -20
-  gem_production: 5
+  food_consumption: -25
+  gem_production: 10
   increased_construction_speed: 3
 units:
   - name: Suicide Squad
@@ -36,8 +36,8 @@ units:
       defense: 3
   - name: Rockapult
     cost:
-      platinum: 675
-      ore: 330
+      platinum: 700
+      ore: 300
     power:
       offense: 3
       defense: 4
@@ -45,8 +45,8 @@ units:
       defense_from_land: mountain,20,5 # land type, ratio%, max
   - name: Juggernaut
     cost:
-      platinum: 775
-      ore: 550
+      platinum: 800
+      ore: 500
     power:
       offense: 8
       defense: 4

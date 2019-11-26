@@ -13,7 +13,6 @@ converting: 2
 perks:
   max_population: 20
   extra_barren_max_population: 10
-  spy_strength: 10
   food_consumption: -30
 units:
   - name: Slinger
@@ -29,11 +28,11 @@ units:
       defense: 3
   - name: Master Thief
     cost:
-      platinum: 800
+      platinum: 900
       ore: 50
     power:
       offense: 3
-      defense: 5
+      defense: 6
     perks:
       counts_as_spy_offense: 0.333
       counts_as_spy_defense: 0.333

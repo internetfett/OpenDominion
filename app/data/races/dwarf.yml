@@ -37,8 +37,8 @@ units:
       platinum: 800
       ore: 0
     power:
-      offense: 5
-      defense: 5.5
+      offense: 4
+      defense: 6
     perks:
       reduce_combat_losses: 1
       counts_as_wizard_offense: 0.333
@@ -49,4 +49,4 @@ units:
       ore: 200
     power:
       offense: 8
-      defense: 2.5
+      defense: 3

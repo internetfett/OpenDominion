@@ -24,6 +24,7 @@ perks:
   reduce_conversions: 50
   tissue_improvement: 1
   draftee_dp: 0.01
+  peasants_produce_food: 0.5
 units:
   - name: Abscess
     need_boat: false
@@ -58,7 +59,7 @@ units:
       defense: 2
     perks:
         mana_production: 0.05
-        food_production: 1.5
+        food_production: 1.00
   - name: Ulcer
     need_boat: false
     cost:

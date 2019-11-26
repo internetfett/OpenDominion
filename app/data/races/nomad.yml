@@ -11,9 +11,9 @@ exploring : 3
 converting: 3
 
 perks:
-  food_consumption: -10
+  food_consumption: -15
   extra_barren_max_population: 5
-  construction_cost: -10
+  construction_cost: -25
 units:
   - name: Fighter
     cost:
@@ -36,7 +36,7 @@ units:
       platinum: 1050
       ore: 75
     power:
-      offense: 2
+      offense: 3
       defense: 7
   - name: Horse Archer
     cost:

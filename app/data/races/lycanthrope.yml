@@ -11,19 +11,17 @@ exploring : 2
 converting: 1
 
 perks:
-  max_population: 20
+  max_population: 30
 units:
   - name: Warg
     cost:
       platinum: 250
-      food: 25
     power:
       offense: 3
       defense: 0
   - name: Ratman
     cost:
       platinum: 250
-      ore: 0
     power:
       offense: 0
       defense: 3
@@ -31,7 +29,6 @@ units:
     type: hybrid_elite
     cost:
       platinum: 850
-      ore: 55
     power:
       offense: 4
       defense: 5
@@ -42,8 +39,7 @@ units:
       conversion: 3 # Werewolves
   - name: Garou
     cost:
-      platinum: 1000
-      ore: 80
+      platinum: 900
     power:
       offense: 7
       defense: 0

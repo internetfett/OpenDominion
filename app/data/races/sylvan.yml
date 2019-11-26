@@ -13,7 +13,8 @@ exploring : 3
 converting: 1
 
 perks:
-  food_consumption: -15
+  food_consumption: -25
+  lumber_production: 25
 units:
   - name: Leshy
     cost:

@@ -12,14 +12,14 @@ converting: 3
 
 perks:
   max_population: 160
-  construction_cost: -20
-  spy_strength: -30
-  wizard_strength: -30
+  construction_cost: -25
+  spy_strength: -20
+  wizard_strength: -20
   food_consumption: -50
   boat_capacity: 70
   platinum_production: -15
   population_growth: 100
-  explore_cost: 10
+  explore_cost: 15
   reduce_conversions: 25
   draftee_dp: 0.1
 units:
