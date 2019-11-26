@@ -77,6 +77,8 @@
                                               <td class="text-center">&mdash;</td>
                                               <td class="text-center">  <!-- If Spy/Wiz/AM -->
                                                   {{ number_format($selectedDominion->{'military_' . $unitType}) }}
+                                                  <br>
+                                                  ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
                                               </td>
                                               @endif
                                         <td class="text-center">  <!-- Train -->
