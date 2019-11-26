@@ -26,8 +26,7 @@
                                 <tr>
                                     <th>Unit</th>
                                     <th class="text-center">OP / DP</th>
-                                    <th class="text-center">Trained</th>
-                                    <th class="text-center">Training</th>
+                                    <th class="text-center">Trained<br>(Training)</th>
                                     <th class="text-center">Train</th>
                                     <th class="text-center">Cost</th>
                                 </tr>
@@ -41,47 +40,46 @@
                                                 {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                             </span>
                                         </td>
-                                        @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
-                                            @php
-                                                $unit = $selectedDominion->race->units->filter(function ($unit) use ($unitType) {
-                                                    return ($unit->slot == (int)str_replace('unit', '', $unitType));
-                                                })->first();
+                                          @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+                                              @php
+                                                  $unit = $selectedDominion->race->units->filter(function ($unit) use ($unitType) {
+                                                      return ($unit->slot == (int)str_replace('unit', '', $unitType));
+                                                  })->first();
 
-                                                $offensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'offense');
-                                                $defensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'defense');
+                                                  $offensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'offense');
+                                                  $defensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'defense');
 
-                                                $hasDynamicOffensivePower = $unit->perks->filter(static function ($perk) {
-                                                    return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_']);
-                                                })->count() > 0;
-                                                $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
-                                                    return starts_with($perk->key, ['defense_from_', 'defense_staggered_', 'defense_vs_']);
-                                                })->count() > 0;
-                                            @endphp
-                                            <td class="text-center">  <!-- OP / DP -->
-                                                @if ($offensivePower === 0)
-                                                    <span class="text-muted">0</span>
-                                                @else
-                                                    {{ (strpos($offensivePower, '.') !== false) ? number_format($offensivePower, 2) : number_format($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
-                                                @endif
-                                                &nbsp;/&nbsp;
-                                                @if ($defensivePower === 0)
-                                                    <span class="text-muted">0</span>
-                                                @else
-                                                    {{ (strpos($defensivePower, '.') !== false) ? number_format($defensivePower, 2) : number_format($defensivePower) }}{{ $hasDynamicDefensivePower ? '*' : null }}
-                                                @endif
-                                            </td>
-                                            <td class="text-center">  <!-- Trained -->
-                                                {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
-                                            </td>
-                                        @else
-                                            <td class="text-center">&mdash;</td>
-                                            <td class="text-center">  <!-- If Spy/Wiz/AM -->
-                                                {{ number_format($selectedDominion->{'military_' . $unitType}) }}
-                                            </td>
-                                        @endif
-                                        <td class="text-center">
-                                            {{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
-                                        </td>
+                                                  $hasDynamicOffensivePower = $unit->perks->filter(static function ($perk) {
+                                                      return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_']);
+                                                  })->count() > 0;
+                                                  $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
+                                                      return starts_with($perk->key, ['defense_from_', 'defense_staggered_', 'defense_vs_']);
+                                                  })->count() > 0;
+                                              @endphp
+                                              <td class="text-center">  <!-- OP / DP -->
+                                                  @if ($offensivePower === 0)
+                                                      <span class="text-muted">0</span>
+                                                  @else
+                                                      {{ (strpos($offensivePower, '.') !== false) ? number_format($offensivePower, 2) : number_format($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
+                                                  @endif
+                                                  &nbsp;/&nbsp;
+                                                  @if ($defensivePower === 0)
+                                                      <span class="text-muted">0</span>
+                                                  @else
+                                                      {{ (strpos($defensivePower, '.') !== false) ? number_format($defensivePower, 2) : number_format($defensivePower) }}{{ $hasDynamicDefensivePower ? '*' : null }}
+                                                  @endif
+                                              </td>
+                                              <td class="text-center">  <!-- Trained -->
+                                                  {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
+                                                  <br>
+                                                  ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                              </td>
+                                          @else
+                                              <td class="text-center">&mdash;</td>
+                                              <td class="text-center">  <!-- If Spy/Wiz/AM -->
+                                                  {{ number_format($selectedDominion->{'military_' . $unitType}) }}
+                                              </td>
+                                              @endif
                                         <td class="text-center">  <!-- Train -->
                                           @if ($selectedDominion->race->getPerkValue('cannot_train_spies') and $unitType == 'spies')
                                             &mdash;

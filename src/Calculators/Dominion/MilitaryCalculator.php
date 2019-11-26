@@ -60,7 +60,7 @@ class MilitaryCalculator
         $this->spellCalculator = $spellCalculator;
     }
 
-    /** 
+    /**
      * Toggle if this calculator should include the following hour's resources.
      */
     public function setForTick(bool $value)
@@ -269,7 +269,7 @@ class MilitaryCalculator
         $dp = 0;
 
         // Values
-        $minDPPerAcre = 1.5;
+        $minDPPerAcre = 10; # LandDP
         $dpPerDraftee = 1;
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
