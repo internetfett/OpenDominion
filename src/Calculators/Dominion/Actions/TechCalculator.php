@@ -52,6 +52,9 @@ class TechCalculator
           $techCostBonusMultiplier += $dominion->race->getPerkMultiplier('tech_costs');
         }
 
+        # Minimum also affected by tech cost multiplier.
+        $minimumCost *= $techCostBonusMultiplier;
+
         return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostBonusMultiplier));
 
     }
