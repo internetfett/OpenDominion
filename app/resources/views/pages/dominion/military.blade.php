@@ -70,15 +70,21 @@
                                               </td>
                                               <td class="text-center">  <!-- Trained -->
                                                   {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
+
+                                                  @if($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType} > 0)
                                                   <br>
                                                   ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                                  @endif
                                               </td>
                                           @else
                                               <td class="text-center">&mdash;</td>
                                               <td class="text-center">  <!-- If Spy/Wiz/AM -->
                                                   {{ number_format($selectedDominion->{'military_' . $unitType}) }}
+
+                                                  @if($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType} > 0)
                                                   <br>
                                                   ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                                  @endif
                                               </td>
                                               @endif
                                         <td class="text-center">  <!-- Train -->
