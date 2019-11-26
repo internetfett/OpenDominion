@@ -39,7 +39,7 @@ class TechCalculator
 
         $techToUnlock = Tech::where('key', $techToUnlock->key)->first();
 
-        $techCostMultiplier = 5;
+        $techCostMultiplier = 10;
         $techCostMultiplier *= (1 + $techToUnlock->cost_multiplier / 100);
 
         $minimumCost = 10000;
@@ -51,9 +51,6 @@ class TechCalculator
         {
           $techCostBonusMultiplier += $dominion->race->getPerkMultiplier('tech_costs');
         }
-
-        # Minimum also affected by tech cost multiplier.
-        $minimumCost *= $techCostMultiplier;
 
         return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostBonusMultiplier));
 
