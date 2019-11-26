@@ -53,7 +53,7 @@ class TechCalculator
         }
 
         # Minimum also affected by tech cost multiplier.
-        $minimumCost *= $techCostBonusMultiplier;
+        $minimumCost *= $techCostMultiplier;
 
         return max($minimumCost, ($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $techCostBonusMultiplier));
 
