@@ -475,6 +475,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);          
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
         }
 
@@ -729,6 +730,41 @@ class MilitaryCalculator
         }
 
         $powerFromLand = $landPercentage / $ratio;
+        if ($max < 0) {
+            $powerFromPerk = max(-1 * $powerFromLand, $max);
+        } else {
+            $powerFromPerk = min($powerFromLand, $max);
+        }
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromVersusBarrenLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    {
+        if ($target === null && empty($calc)) {
+            return 0;
+        }
+
+        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_barren_land", null);
+        if(!$versusLandPerkData) {
+            return 0;
+        }
+
+        $ratio = (int)$versusLandPerkData[0];
+        $max = (int)$versusLandPerkData[1];
+
+        $barrenLandPercentage = 0;
+        if (!empty($calc)) {
+            # Override land percentage for invasion calculator
+            if (isset($calc["barren_percent"])) {
+                $landPercentage = (float) $calc["barren_percent"];
+            }
+        } elseif ($target !== null) {
+            $totalLand = $this->landCalculator->getTotalLand($target);
+            $barrenLandPercentage = ($this->landCalculator->getTotalBarrenLand($target) / $totalLand) * 100;
+        }
+
+        $powerFromLand = $barrenLandPercentage / $ratio;
         if ($max < 0) {
             $powerFromPerk = max(-1 * $powerFromLand, $max);
         } else {

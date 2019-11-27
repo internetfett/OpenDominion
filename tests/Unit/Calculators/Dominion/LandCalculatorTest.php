@@ -113,6 +113,7 @@ class LandCalculatorTest extends AbstractBrowserKitTestCase
                 'masonry',
             ],
             'mountain' => [
+                'diamond_mine',
                 'ore_mine',
                 'gryphon_nest',
             ],
@@ -121,10 +122,12 @@ class LandCalculatorTest extends AbstractBrowserKitTestCase
                 'wizard_guild',
                 'temple',
             ],
+            /*
             'cavern' => [
                 'diamond_mine',
                 'school',
             ],
+            */
             'forest' => [
                 'lumberyard',
                 'forest_haven',
@@ -172,7 +175,7 @@ class LandCalculatorTest extends AbstractBrowserKitTestCase
             'plain',
             'mountain',
             'swamp',
-            'cavern',
+            #'cavern',
             'forest',
             'hill',
             'water',

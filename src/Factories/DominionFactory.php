@@ -376,12 +376,12 @@ class DominionFactory
         else
         {
             return [
-                'plain' => 150-80,
-                'mountain' => 150,
+                'plain' => 200-80,
+                'mountain' => 200,
                 'swamp' => 150-50,
                 'cavern' => 0,
                 'forest' => 150-50,
-                'hill' => 150,
+                'hill' => 200,
                 'water' => 100,
             ];
         }

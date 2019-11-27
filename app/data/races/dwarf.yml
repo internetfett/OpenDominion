@@ -11,7 +11,7 @@ exploring : 2
 converting: 1
 
 perks:
-  max_population: 15
+  max_population: 10
   extra_barren_max_population: 10
   ore_improvement_points: 100
 units:
@@ -34,8 +34,8 @@ units:
   - name: Cleric
     type: hybrid_elite
     cost:
-      platinum: 800
-      ore: 0
+      platinum: 1000
+      ore: 100
     power:
       offense: 4
       defense: 6

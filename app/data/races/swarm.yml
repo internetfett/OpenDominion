@@ -3,7 +3,7 @@ alignment: evil
 description: >-
   <p>Nothing to see here, folks.</p>
 home_land_type: plain
-playable: 0
+playable: 1
 
 attacking: 2
 exploring : 2
@@ -52,4 +52,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_from_barren_land: 5,5 # ratio%, max
+      offense_vs_barren_land: 5,5 # ratio%, max
