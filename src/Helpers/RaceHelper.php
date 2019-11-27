@@ -452,7 +452,7 @@ class RaceHelper
                 break;
             case 'peasants_produce_food':
                 $negativeBenefit = true;
-                $description = 'food/tick per peasant';
+                $description = 'Food/tick per peasant';
                 break;
             case 'no_lumber_construction_cost':
                 $negativeBenefit = false;
