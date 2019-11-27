@@ -838,7 +838,9 @@ class InvadeActionService
             # No generated acres for multiple invasions on the same target by
             # the same attacker within a time period defined in the function.
             # Currently six hours, as of writing.
-            if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($dominion, $attacker) > 0)
+            # $target = defender
+            # $dominion = attacker
+            if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) > 0)
             {
               $landGeneratedMultiplier = 0;
             }
