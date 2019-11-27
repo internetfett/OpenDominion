@@ -372,6 +372,18 @@ class DominionFactory
                 'water' => 1000-80-50,
             ];
           }
+          elseif($race->name == 'Swarm')
+          {
+            return [
+                'plain' => 1000,
+                'mountain' => 0,
+                'swamp' => 0,
+                'cavern' => 0,
+                'forest' => 0,
+                'hill' => 0,
+                'water' => 0,
+            ];
+          }
         }
         else
         {
