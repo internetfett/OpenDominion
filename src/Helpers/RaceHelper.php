@@ -499,16 +499,31 @@ class RaceHelper
             } else {
                 $result['value'] = "<span class=\"text-red\">{$valueString}</span>";
             }
-        } else {
+        }
+        else
+        {
             $prefix = '+';
-            if($booleanValue) {
+            if($booleanValue === true)
+            {
                 $valueString = 'Yes';
                 $prefix = '';
             }
+            elseif($booleanValue == 'static')
+            {
+              $valueString = '';
+              $prefix = '';
+            }
 
-            if ($negativeBenefit) {
+            if ($negativeBenefit === true)
+            {
                 $result['value'] = "<span class=\"text-red\">{$prefix}{$valueString}</span>";
-            } else {
+            }
+            elseif($booleanValue == 'static')
+            {
+                $result['value'] = "<span class=\"text-blue\">{$prefix}{$valueString}</span>";
+            }
+            else
+            {
                 $result['value'] = "<span class=\"text-green\">{$prefix}{$valueString}</span>";
             }
         }
