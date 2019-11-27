@@ -8,6 +8,7 @@ use OpenDominion\Models\RacePerkType;
 
 class RaceHelper
 {
+/*
     public function getPerkDescriptionHtml(RacePerkType $perkType): string
     {
         switch($perkType->key) {
@@ -237,7 +238,7 @@ class RaceHelper
             }
         }
     }
-
+*/
     public function getPerkDescriptionHtmlWithValue(RacePerkType $perkType): ?array
     {
         $valueType = '%';
