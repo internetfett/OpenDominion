@@ -43,6 +43,10 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'immortal wizards';
                 break;
+            case 'immortal_spies':
+                $negativeBenefit = false;
+                $description = 'immortal spies';
+                break;
             case 'invest_bonus':
                 $negativeBenefit = false;
                 $description = 'castle bonuses';
@@ -209,6 +213,11 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'experience points per acre on invasions';
                 break;
+            case 'immune_to_lightning_bolt':
+                $negativeBenefit = false;
+                $description = 'no damage from lightning bolts';
+                $booleanValue = true;
+                break;
             default:
                 return '';
         }
@@ -266,6 +275,11 @@ class RaceHelper
             case 'immortal_wizards':
                 $negativeBenefit = false;
                 $description = 'Immortal wizards';
+                $booleanValue = true;
+                break;
+            case 'immortal_spies':
+                $negativeBenefit = false;
+                $description = 'Immortal spies';
                 $booleanValue = true;
                 break;
             case 'invest_bonus':
@@ -453,6 +467,11 @@ class RaceHelper
             case 'research_points_per_acre':
                 $negativeBenefit = false;
                 $description = 'Experience points per acre on invasions';
+                break;
+            case 'immune_to_lightning_bolt':
+                $negativeBenefit = false;
+                $description = 'No damage from lightning bolts';
+                $booleanValue = true;
                 break;
             default:
                 return null;
