@@ -430,6 +430,8 @@ class InvadeActionService
 
             $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
+            $attackerPrestigeChangeMultiplier = 0;
+
             // Racial perk
             if($dominion->race->getPerkMultiplier('prestige_gains'))
             {
