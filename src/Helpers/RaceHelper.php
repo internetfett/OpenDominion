@@ -199,6 +199,7 @@ class RaceHelper
             case 'peasants_produce_food':
                 $negativeBenefit = true;
                 $description = 'food/tick per peasant';
+                $booleanValue = 'static';
                 break;
             case 'no_lumber_construction_cost':
                 $negativeBenefit = false;
@@ -496,7 +497,13 @@ class RaceHelper
             if ($negativeBenefit === true)
             {
                 $result['value'] = "<span class=\"text-green\">{$valueString}</span>";
-            } else {
+            }
+            elseif($booleanValue == 'static')
+            {
+                $result['value'] = "<span class=\"text-blue\">{$valueString}</span>";
+            }
+            else
+            {
                 $result['value'] = "<span class=\"text-red\">{$valueString}</span>";
             }
         }
@@ -510,7 +517,7 @@ class RaceHelper
             }
             elseif($booleanValue == 'static')
             {
-              $valueString = '';
+              $valueString = $perkType->pivot->value;
               $prefix = '';
             }
 
