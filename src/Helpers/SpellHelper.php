@@ -249,7 +249,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Campaign',
-                'description' => '+15% land generated for successful attack',
+                'description' => '+25% land generated for successful attack',
                 'key' => 'campaign',
                 'mana_cost' => 10,
                 'duration' => 1*4,

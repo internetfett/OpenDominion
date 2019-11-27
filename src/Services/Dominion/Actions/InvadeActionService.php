@@ -819,7 +819,7 @@ class InvadeActionService
             // Add 20% to generated if Nomad spell Campaign is enabled.
             if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
             {
-                $landGeneratedMultiplier += 0.20;
+                $landGeneratedMultiplier += 0.25;
             }
 
             // Improvement: Cartography
