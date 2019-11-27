@@ -842,7 +842,7 @@ class InvadeActionService
             # $dominion = attacker
             if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) > 0)
             {
-              $landGeneratedMultiplier = 0;
+              $landGenerated = 0;
             }
 
             $landGained = ($landConquered + $landGenerated);
