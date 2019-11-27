@@ -992,7 +992,7 @@ class InvadeActionService
         $spellParasiticHungerMultiplier = 50;
 
         // Parasitic Hunger
-        $conversionMultiplier = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'parasitic_hunger', $spellParasiticHungerMultiplier))
+        $conversionMultiplier = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'parasitic_hunger', $spellParasiticHungerMultiplier);
 
         // Tech
         if($dominion->getTechPerkMultiplier('conversions'))
