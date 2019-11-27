@@ -161,7 +161,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Alchemist Flame',
-                'description' => '+15 alchemy platinum production',
+                'description' => '+30 alchemy platinum production',
                 'key' => 'alchemist_flame',
                 'mana_cost' => 10,
                 'duration' => 12*4,

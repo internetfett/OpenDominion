@@ -475,7 +475,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);          
+            $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
         }
 
@@ -1078,7 +1078,7 @@ class MilitaryCalculator
     /**
      * Returns the number of time the Dominion was recently invaded.
      *
-     * 'Recent' refers to the past 24 hours.
+     * 'Recent' refers to the past 6 hours.
      *
      * @param Dominion $dominion
      * @return int
@@ -1096,11 +1096,48 @@ class MilitaryCalculator
             ])
             ->get();
 
-        if ($invasionEvents->isEmpty()) {
+        if ($invasionEvents->isEmpty())
+        {
             return 0;
         }
 
         $invasionEvents = $invasionEvents->filter(function (GameEvent $event) {
+            return !$event->data['result']['overwhelmed'];
+        });
+
+        return $invasionEvents->count();
+    }
+
+
+    /**
+     * Returns the number of time the Dominion was recently invaded.
+     *
+     * 'Recent' refers to the past 6 hours.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getRecentlyInvadedCountByAttacker(Dominion $dominion, Dominion $attacker): int
+    {
+        // todo: this touches the db. should probably be in invasion or military service instead
+        $invasionEvents = GameEvent::query()
+            #->where('created_at', '>=', now()->subDay(1))
+            ->where('created_at', '>=', now()->subHours(6))
+            ->where([
+                'target_type' => Dominion::class,
+                'target_id' => $dominion->id,
+                'source_id' => $attacker->id,
+                'type' => 'invasion',
+            ])
+            ->get();
+
+        if ($invasionEvents->isEmpty())
+        {
+            return 0;
+        }
+
+        $invasionEvents = $invasionEvents->filter(function (GameEvent $event)
+        {
             return !$event->data['result']['overwhelmed'];
         });
 

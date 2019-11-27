@@ -162,7 +162,7 @@ class RaceHelper
                 break;
           case 'tissue_improvement':
                 $negativeBenefit = false;
-                $description = 'Can improve tissue (only)';
+                $description = 'Tissue improvements';
                 $booleanValue = true;
                 break;
           case 'does_not_kill':
@@ -182,7 +182,6 @@ class RaceHelper
             case 'draftee_dp':
                 $negativeBenefit = true;
                 $description = 'DP per draftee';
-                $valueType = '';
                 $booleanValue = 'static';
                 break;
             case 'increased_construction_speed':
