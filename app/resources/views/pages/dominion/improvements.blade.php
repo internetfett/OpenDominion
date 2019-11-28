@@ -91,9 +91,9 @@
                         <table class="table">
                             <colgroup>
                                 <col width="150">
+                                <col width="100">
+                                <col width="100">
                                 <col>
-                                <col width="100">
-                                <col width="100">
                             </colgroup>
                             <thead>
                                 <tr>
