@@ -98,9 +98,9 @@
                             <thead>
                                 <tr>
                                     <th>Part</th>
+                                    <th class="text-center">Invest</th>
                                     <th>Rating</th>
                                     <th class="text-center">Invested</th>
-                                    <th class="text-center">Invest</th>
                                 </tr>
                             </thead>
                             <tbody>
