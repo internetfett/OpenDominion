@@ -66,6 +66,9 @@ class ConstructionCalculator
         $platinum *= 1.53;
         $platinum += 850;
 
+        # ODA: Reduced by 25% as of Round 11.
+        $platinum *= 0.75;
+
         return round($platinum);
     }
 
@@ -102,7 +105,8 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
-            $totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) / 2);
+            #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
+            $totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.75);
         }
 
         return $totalPlatinumCost;
@@ -147,6 +151,9 @@ class ConstructionCalculator
         $lumber *= 0.35;
         $lumber += 87.5;
 
+        # ODA: Reduced by 25% as of Round 11.
+        $lumber *= 0.75;
+
         return round($lumber);
     }
 
@@ -176,7 +183,8 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
-            $totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) / 2);
+            #$totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) / 2);
+            $totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) * 0.75);
         }
 
         return $totalLumberCost;

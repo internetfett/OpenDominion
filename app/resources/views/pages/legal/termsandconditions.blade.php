@@ -35,7 +35,7 @@
 
       <p>Your username must not be offensive or misleading. This includes profanity, slurs, and names which may cause confusion.</p>
 
-      <p>Accounts are personal and must not be shared. One person per account: only one person is permitted to make use of an account. One account per person: you may only have one account.</p>
+      <p>Accounts are personal and must not be shared. One person per account: only one person is permitted to make use of an account.</p>
 
       <p>If your account is suspended or banned, you are not permitted to open a new account or use another account.</p>
 
@@ -43,7 +43,7 @@
 
       <h3>Game Rules</h3>
 
-      <p>You are only allowed to have one dominion per round per account.</p>
+      <p>You are only allowed to have one dominion per round.</p>
 
       <p>Your dominion name or ruler name must not be offensive, abusive, or misleading.</p>
 
