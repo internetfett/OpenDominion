@@ -9,7 +9,7 @@
     </div>
     <div class="box-body">
 
-      <p>Last updated: November 13, 2019</p>
+      <p>Last updated: November 28, 2019</p>
 
       <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the {{ $website_url }} website (the "Service") operated by {{ $website_name }} ("us", "we", or "our").</p>
 
