@@ -92,8 +92,8 @@
                             <colgroup>
                                 <col width="150">
                                 <col width="100">
-                                <col width="100">
                                 <col>
+                                <col width="100">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -112,7 +112,7 @@
                                             {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
                                         <td>
                                             {{ sprintf(
