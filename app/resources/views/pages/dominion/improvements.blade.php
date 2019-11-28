@@ -22,8 +22,8 @@
                     <table class="table">
                         <colgroup>
                             <col width="150">
-                            <col>
                             <col width="100">
+                            <col>
                             <col width="100">
                         </colgroup>
                         <tbody>
@@ -35,6 +35,9 @@
                                         {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
                                     </td>
+                                    <td class="text-center">
+                                        <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                    </td>
                                     <td>
                                         {{ sprintf(
                                             $improvementHelper->getImprovementRatingString($improvementType),
@@ -42,9 +45,6 @@
                                         ) }}
                                     </td>
                                     <td class="text-center">{{ number_format($selectedDominion->{'improvement_' . $improvementType}) }}</td>
-                                    <td class="text-center">
-                                        <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

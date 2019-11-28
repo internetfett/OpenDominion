@@ -1110,19 +1110,18 @@ class MilitaryCalculator
 
 
     /**
-     * Returns the number of time the Dominion was recently invaded.
+     * Returns the number of time the Dominion was recently invaded by the attacker.
      *
      * 'Recent' refers to the past 6 hours.
      *
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCountByAttacker(Dominion $dominion, Dominion $attacker): int
+    public function getRecentlyInvadedCountByAttacker(Dominion $dominion, Dominion $attacker, int $hours = 3): int
     {
-        // todo: this touches the db. should probably be in invasion or military service instead
         $invasionEvents = GameEvent::query()
             #->where('created_at', '>=', now()->subDay(1))
-            ->where('created_at', '>=', now()->subHours(6))
+            ->where('created_at', '>=', now()->subHours($hours))
             ->where([
                 'target_type' => Dominion::class,
                 'target_id' => $dominion->id,
