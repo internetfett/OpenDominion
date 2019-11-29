@@ -6,11 +6,11 @@
     <div class="box">
         <div class="box-body">
             @if ($dominions->isEmpty())
-                <p>Welcome to OD Arena.</p>
+                <p>Welcome to OD Arena!</p>
                 <p>To start playing, please register in a round below.</p>
             @else
-                <p>Welcome back, {{ Auth::user()->display_name }}.</p>
-                <p>Select one of your dominions below to go to its status screen.</p>
+                <p>Welcome back to the Arena, {{ Auth::user()->display_name }}!</p>
+                <p>Select a dominion below to go to its status screen.</p>
             @endif
         </div>
     </div>
@@ -26,7 +26,15 @@
                 @if ($dominions->isEmpty())
 
                     <div class="box-body">
-                        <p>You have no active dominions. Register in a round to create a dominion.</p>
+                        <p>Are you ready to join the fray? Click the Register button to join the current round.</p>
+                        @if ($discordInviteLink = config('app.discord_invite_link'))
+                            <p>If you need any help, come join us on Discord.</p>
+                            <p style="padding: 0 20px;">
+                                <a href="{{ $discordInviteLink }}" target="_blank">
+                                    <img src="{{ asset('assets/app/images/join-the-discord.png') }}" alt="Join the Discord" class="img-responsive">
+                                </a>
+                            </p>
+                        @endif
                     </div>
 
                 @else
@@ -34,22 +42,25 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
+                                <col width="80">
                                 <col>
                                 <col width="200">
-                                <col width="80">
                                 <col width="80">
                             </colgroup>
                             <thead>
                                 <tr>
+                                    <th class="text-center">Round</th>
                                     <th>Name</th>
                                     <th class="text-center">Realm</th>
                                     <th class="text-center">Faction</th>
-                                    <th class="text-center">Round</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($dominions->all() as $dominion)
                                     <tr>
+                                        <td class="text-center">
+                                            {{ $dominion->round->number }}
+                                        </td>
                                         <td>
                                             @if ($dominion->isSelectedByAuthUser())
                                                 <a href="{{ route('dominion.status') }}">{{ $dominion->name }}</a>
@@ -60,7 +71,7 @@
                                                 @endif
 
                                                 @if ($dominion->isLocked())
-                                                    <span class="label label-danger">Locked</span>
+                                                    <span class="label label-danger">Finished</span>
                                                 @endif
                                             @else
                                                 <form action="{{ route('dominion.select', $dominion) }}" method="post">
@@ -72,7 +83,7 @@
                                                     @endif
 
                                                     @if ($dominion->isLocked())
-                                                        <span class="label label-danger">Locked</span>
+                                                        <span class="label label-danger">Finished</span>
                                                     @endif
                                                 </form>
                                             @endif
@@ -82,9 +93,6 @@
                                         </td>
                                         <td class="text-center">
                                             {{ $dominion->race->name }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ $dominion->round->number }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -114,14 +122,14 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
-                                <col width="40">
+                                <col width="80">
                                 <col>
                                 <col width="160">
                                 <col width="80">
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th class="text-center">#</th>
+                                    <th class="text-center">Round</th>
                                     <th>Name</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Register</th>
