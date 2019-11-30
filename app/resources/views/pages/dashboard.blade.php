@@ -50,9 +50,9 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Round</th>
-                                    <th>Name</th>
-                                    <th class="text-center">Realm</th>
+                                    <th>Dominion</th>
                                     <th class="text-center">Faction</th>
+                                    <th class="text-center">Realm</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,10 +89,10 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            #{{ $dominion->realm->number }}: {{ $dominion->realm->name }}
+                                            {{ $dominion->race->name }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $dominion->race->name }}
+                                            #{{ $dominion->realm->number }}: {{ $dominion->realm->name }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -130,7 +130,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Round</th>
-                                    <th>Name</th>
+                                    <th>Chapter</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Register</th>
                                 </tr>

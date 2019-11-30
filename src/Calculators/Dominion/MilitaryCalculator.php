@@ -466,6 +466,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -888,6 +889,22 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromVictoriesPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $victoriesPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_from_victories");
+
+        if (!$victoriesPerk)
+        {
+            return 0;
+        }
+
+        $powerPerVictory = (float)$victoriesPerk[0];
+        $max = (float)$victoriesPerk[1];
+
+        $powerFromPerk = min($powerPerVictory, $max);
+
+        return $powerFromPerk;
+    }
 
     /**
      * Returns the Dominion's morale modifier.
