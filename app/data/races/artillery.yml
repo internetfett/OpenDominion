@@ -35,10 +35,12 @@ units:
       fixed_casualties: 100
       offense_from_pairing: 4,4 # slot, amount
       defense_from_pairing: 4,4 # slot, amount
+      damages_improvements_on_attack: 10000
   - name: Burning Cannonball
     cost:
-      platinum: 1100
-      mana: 10
+      platinum: 1000
+      ore: 250
+      mana: 25
     power:
       offense: 1
       defense: 0
@@ -47,14 +49,14 @@ units:
       does_not_count_as_population: 1
       fixed_casualties: 100
       offense_from_pairing: 4,9 # slot, amount
+      burns_peasants_on_attack: 0.25
   - name: Cannon
     cost:
-      platinum: 600
-      ore: 300
-      gem: 2
+      platinum: 500
+      ore: 1000
     power:
       offense: 1
-      defense: 0
+      defense: 1
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
