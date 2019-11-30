@@ -6,14 +6,14 @@ description: >-
   <p>Each Bombardier can operate up to ten Cannons.</p>
   <p>Cannonballs are destroyed upon impact.</p>
 home_land_type: hill
-playable: 0
+playable: 1
 
 attacking: 2
 exploring : 3
 converting: 3
 
 perks:
-  food_consumption: -50
+  food_consumption: -75
 units:
   - name: Bombardier
     need_boat: false
@@ -54,7 +54,7 @@ units:
       gem: 2
     power:
       offense: 1
-      defense: 1
+      defense: 0
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
