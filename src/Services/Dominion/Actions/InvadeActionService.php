@@ -20,6 +20,9 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+# ODA
+use OpenDominion\Helpers\ImprovementHelper;
+
 class InvadeActionService
 {
     use DominionGuardsTrait;
@@ -104,6 +107,9 @@ class InvadeActionService
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    /** @var ImprovementHelper */
+    protected $improvementHelper;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -152,7 +158,8 @@ class InvadeActionService
         QueueService $queueService,
         RangeCalculator $rangeCalculator,
         SpellCalculator $spellCalculator,
-        ImprovementCalculator $improvementCalculator
+        ImprovementCalculator $improvementCalculator,
+        ImprovementHelper $improvementHelper
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -164,6 +171,7 @@ class InvadeActionService
         $this->rangeCalculator = $rangeCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
+        $this->improvementHelper = $improvementHelper;
     }
 
     /**
@@ -1262,7 +1270,7 @@ class InvadeActionService
           );
         }
 
-        // Firewalker: burns_peasants
+        // Firewalker/Artillery: burns_peasants
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack'))
@@ -1274,6 +1282,45 @@ class InvadeActionService
             $target->peasants -= $burnedPeasants;
             $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
             $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
+
+          }
+        }
+
+
+        // Artillery: damages_improvements_on_attack
+        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack'))
+          {
+            $damagingUnits = $units[$unitSlot];
+            $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
+            $damageDone = $damagingUnits * $damagePerUnit;
+
+            # Calculate target's total imp points, where imp points > 0.
+            foreach ($this->improvementHelper->getImprovementTypes($target->race->name) as $type)
+            {
+              if($target->{'improvement_' . $type} > 0)
+              {
+                $castleToDamage[$type] = $target->{'improvement_' . $type};
+              }
+            }
+            $castleTotal = array_sum($castleToDamage);
+
+            # Calculate how much of damage should be applied to each type.
+            foreach ($castleToDamage as $type => $points)
+            {
+              # The ratio this improvement type is of the total amount of imp points.
+              $typeDamageRatio = $points / $castleTotal;
+
+              # The ratio is applied to the damage done.
+              $typeDamageDone = intval($damageDone * $typeDamageRatio);
+
+              # Do the damage.
+              $target->{'improvement_' . $type} -= min($target->{'improvement_' . $type}, $typeDamageDone);
+            }
+
+            $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damageDone;
+            $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
 
           }
         }

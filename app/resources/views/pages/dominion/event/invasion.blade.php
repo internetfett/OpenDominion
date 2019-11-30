@@ -253,7 +253,7 @@
                               @else
                                 <p class="text-center text-red">
                               @endif
-                                  Magma Giants burn <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants to death during combat.</p>
+                                  <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants were burned to death.</p>
                                 </p>
                             @endif
 

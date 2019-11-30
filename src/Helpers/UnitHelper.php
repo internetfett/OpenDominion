@@ -150,6 +150,7 @@ class UnitHelper
             'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
 
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
+            'damages_improvements_on_attack' => 'Does %s damage to target\'s castle.',
 
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
