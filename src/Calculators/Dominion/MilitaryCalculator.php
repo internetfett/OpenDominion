@@ -898,10 +898,12 @@ class MilitaryCalculator
             return 0;
         }
 
+        $victories = $dominion->stat_attacking_success;
+
         $powerPerVictory = (float)$victoriesPerk[0];
         $max = (float)$victoriesPerk[1];
 
-        $powerFromPerk = min($powerPerVictory, $max);
+        $powerFromPerk = min($powerPerVictory * $victories, $max);
 
         return $powerFromPerk;
     }
