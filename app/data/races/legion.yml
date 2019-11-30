@@ -3,7 +3,7 @@ alignment: evil
 description: >-
   <p>The Legion is the Empress' latest creation. By taking the most promising younglings from all corners of the Empire away from their families and into lifelong servitude, the Empress is forging an army of total loyalty and devotion to the art of bloodshed.</p>
   <p>Each unit (<em>Legionaire</em>) of the Legion is trained to equal strength. The only thing separating one from another is their ancestral special ability.</p>
-home_land_type: plain
+home_land_type: hill
 playable: 1
 
 attacking: 2
