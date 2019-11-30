@@ -46,7 +46,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       fixed_casualties: 100
-      offense_from_pairing: 4,4 # slot, amount
+      offense_from_pairing: 1,4 # slot, amount
       damages_improvements_on_attack: 10000
   - name: Burning Cannonball
     cost:
@@ -60,5 +60,5 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       fixed_casualties: 100
-      offense_from_pairing: 4,9 # slot, amount
+      offense_from_pairing: 1,9 # slot, amount
       burns_peasants_on_attack: 2
