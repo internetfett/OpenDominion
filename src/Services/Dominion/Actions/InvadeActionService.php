@@ -1273,7 +1273,7 @@ class InvadeActionService
         // Firewalker/Artillery: burns_peasants
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack'))
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and $units[$unitSlot] > 0)
           {
             $burningUnits = $units[$unitSlot];
             $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
@@ -1290,7 +1290,7 @@ class InvadeActionService
         // Artillery: damages_improvements_on_attack
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack'))
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and $units[$unitSlot] > 0)
           {
             $damagingUnits = $units[$unitSlot];
             $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
