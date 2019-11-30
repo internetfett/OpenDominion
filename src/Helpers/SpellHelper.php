@@ -149,7 +149,7 @@ class SpellHelper
                 'key' => 'miners_sight',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Dwarf', 'Gnome']),
+                'races' => collect(['Dwarf', 'Gnome', 'Artillery']),
             ],
             [
                 'name' => 'Killing Rage',
@@ -213,7 +213,7 @@ class SpellHelper
                 'key' => 'warsong',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Sylvan', 'Templars']),
+                'races' => collect(['Wood Elf', 'Templars']),
             ],
             [
                 'name' => 'Regeneration',
@@ -237,7 +237,7 @@ class SpellHelper
                 'key' => 'gaias_blessing',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Wood Elf']),
+                'races' => collect(['Sylvan']),
             ],
             [
                 'name' => 'Nightfall',

@@ -14,9 +14,10 @@ converting: 3
 
 perks:
   food_consumption: -75
+  cannot_build_homes: 1
 units:
   - name: Bombardier
-    need_boat: false
+    type: defensive_specialist
     cost:
       platinum: 800
       ore: 150
@@ -24,6 +25,7 @@ units:
       offense: 0
       defense: 8
   - name: Cannon
+    type: machinery_elite
     cost:
       platinum: 500
       ore: 1000
@@ -37,8 +39,9 @@ units:
       pairing_limit: 1,10
       faster_return: 11
   - name: Cannonball
+    type: machinery_elite
     cost:
-      ore: 500
+      ore: 200
     power:
       offense: 1
       defense: 0
@@ -49,6 +52,7 @@ units:
       offense_from_pairing: 2,4 # slot, amount
       damages_improvements_on_attack: 10000
   - name: Burning Cannonball
+    type: machinery_elite
     cost:
       platinum: 1000
       ore: 250

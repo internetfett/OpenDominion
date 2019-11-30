@@ -354,16 +354,30 @@ class UnitHelper
             })->first();
             if ($unit->type) {
                 list($type, $proficiency) = explode('_', $unit->type);
-                if (strtolower($type) == 'offensive') {
+
+                if (strtolower($type) == 'offensive')
+                {
                     $iconClass = 'ra ra-sword';
-                } elseif (strtolower($type) == 'defensive') {
+                }
+                elseif (strtolower($type) == 'defensive')
+                {
                     $iconClass = 'ra ra-shield';
-                } elseif (strtolower($type) == 'hybrid') {
+                }
+                elseif (strtolower($type) == 'hybrid')
+                {
                     $iconClass = 'ra ra-crossed-swords';
                 }
-                if (strtolower($proficiency) == 'specialist') {
+                elseif (strtolower($type) == 'machinery')
+                {
+                    $iconClass = 'ra ra-cog';
+                }
+
+                if (strtolower($proficiency) == 'specialist')
+                {
                     $colorClass = 'text-green';
-                } elseif (strtolower($proficiency) == 'elite') {
+                }
+                elseif (strtolower($proficiency) == 'elite')
+                {
                     $colorClass = 'text-light-blue';
                 }
             }
