@@ -1285,7 +1285,7 @@ class InvadeActionService
               $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
               $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
 
-            }            
+            }
           }
         }
 
@@ -1296,7 +1296,7 @@ class InvadeActionService
           if($units[$unitSlot] > 0)
           {
 
-            if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and )
+            if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack'))
             {
               $damagingUnits = $units[$unitSlot];
               $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
