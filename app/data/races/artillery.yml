@@ -26,6 +26,7 @@ units:
       defense: 8
   - name: Cannon
     type: machinery_elite
+    need_boat: false
     cost:
       platinum: 500
       ore: 1000
@@ -40,6 +41,7 @@ units:
       faster_return: 11
   - name: Cannonball
     type: machinery_elite
+    need_boat: false
     cost:
       ore: 200
     power:
@@ -50,9 +52,10 @@ units:
       does_not_count_as_population: 1
       fixed_casualties: 100
       offense_from_pairing: 2,4 # slot, amount
-      damages_improvements_on_attack: 10000
+      damages_improvements_on_attack: 20
   - name: Burning Cannonball
     type: machinery_elite
+    need_boat: false
     cost:
       platinum: 1000
       ore: 250
