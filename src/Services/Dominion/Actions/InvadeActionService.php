@@ -282,13 +282,13 @@ class InvadeActionService
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
-            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties);
+            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $this->invasionResult['attacker']['unitsSent']);
 
             $this->handleMoraleChanges($dominion, $target);
             $this->handleLandGrabs($dominion, $target);
             $this->handleResearchPoints($dominion, $target, $units);
 
-            #$this->invasionResult['attacker']['unitsSent'] = $units;
+            $this->invasionResult['attacker']['unitsSent'] = $units;
 
             # Only count successful, non-in-realm hits over 75% as victories.
             if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
@@ -1150,7 +1150,7 @@ class InvadeActionService
      * @param Dominion $target
      * @param array $units
      */
-    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties): void
+    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties, array $unitsSent): void
     {
         // todo: just hobgoblin plunder atm, need a refactor later to take into
         //       account more post-combat unit-perk-related stuff
@@ -1287,7 +1287,7 @@ class InvadeActionService
             // Firewalker/Artillery: burns_peasants
             if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and $units[$unitSlot] > 0)
             {
-              $burningUnits = $this->invasionResult['attacker']['unitsSent'][$unitSlot];
+              $burningUnits = $unitsSent[$unitSlot];
               $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
 
               # If target has less than 1000 peasants, we don't burn any.
@@ -1310,7 +1310,7 @@ class InvadeActionService
           // Artillery: damages_improvements_on_attack
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and $units[$unitSlot] > 0)
           {
-            $damagingUnits = $this->invasionResult['attacker']['unitsSent'][$unitSlot];
+            $damagingUnits = $unitsSent[$unitSlot];
             $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
             $damageDone = $damagingUnits * $damagePerUnit;
 
