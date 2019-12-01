@@ -52,7 +52,7 @@ units:
       does_not_count_as_population: 1
       fixed_casualties: 100
       offense_from_pairing: 2,4 # slot, amount
-      damages_improvements_on_attack: 20
+      damages_improvements_on_attack: 100
   - name: Burning Cannonball
     type: machinery_elite
     need_boat: false
