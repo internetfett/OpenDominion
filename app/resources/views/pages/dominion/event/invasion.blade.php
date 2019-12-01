@@ -257,6 +257,17 @@
                                 </p>
                             @endif
 
+
+                            @if (isset($event->data['attacker']['improvements_damage']))
+                              @if ($event->source->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                              @else
+                                <p class="text-center text-red">
+                              @endif
+                                  Improvements suffer <strong>{{ number_format($event->data['attacker']['peasants_burned']['improvement_points']) }}</strong> points worth of damage.</p>
+                                </p>
+                            @endif
+
                         </div>
                     </div>
                 </div>
