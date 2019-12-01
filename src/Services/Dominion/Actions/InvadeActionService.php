@@ -277,12 +277,14 @@ class InvadeActionService
             $this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units);
 
+            $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
+
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target);
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
-            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $this->invasionResult['attacker']['unitsSent']);
+            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
 
             $this->handleMoraleChanges($dominion, $target);
             $this->handleLandGrabs($dominion, $target);
@@ -1150,7 +1152,7 @@ class InvadeActionService
      * @param Dominion $target
      * @param array $units
      */
-    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties, array $unitsSent): void
+    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties): void
     {
         // todo: just hobgoblin plunder atm, need a refactor later to take into
         //       account more post-combat unit-perk-related stuff
@@ -1270,16 +1272,25 @@ class InvadeActionService
           );
         }
 
+    }
 
-        /*
-            Go through every unit slot and look for post-invasion perks:
-            - burns_peasants_on_attack
-            - damages_improvements_on_attack
+    /**
+     * Handles perks that trigger on invasion.
+     *  Go through every unit slot and look for post-invasion perks:
+     *  - burns_peasants_on_attack
+     * - damages_improvements_on_attack
+     *
+     * If a perk is found, see if any of that unit were sent on invasion.
+     *
+     * If perk is found and units were sent, calculate and take the action.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $target
+     * @param array $units
+     */
+    protected function handleDuringInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units): void
+    {
 
-            If a perk is found, see if any of that unit were sent on invasion.
-
-            If perk is found and units were sent, calculate and take the action.
-        */
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
           if(isset($units[$unitSlot]))
@@ -1287,7 +1298,7 @@ class InvadeActionService
             // Firewalker/Artillery: burns_peasants
             if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and $units[$unitSlot] > 0)
             {
-              $burningUnits = $unitsSent[$unitSlot];
+              $burningUnits = $units[$unitSlot];
               $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
 
               # If target has less than 1000 peasants, we don't burn any.
@@ -1310,7 +1321,7 @@ class InvadeActionService
           // Artillery: damages_improvements_on_attack
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and $units[$unitSlot] > 0)
           {
-            $damagingUnits = $unitsSent[$unitSlot];
+            $damagingUnits = $units[$unitSlot];
             $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
             $damageDone = $damagingUnits * $damagePerUnit;
 
@@ -1342,7 +1353,6 @@ class InvadeActionService
 
           }
         }
-
     }
 
     /**
