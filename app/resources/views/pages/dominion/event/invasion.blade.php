@@ -264,7 +264,7 @@
                               @else
                                 <p class="text-center text-red">
                               @endif
-                                  Improvements suffer <strong>{{ number_format($event->data['attacker']['peasants_burned']['improvement_points']) }}</strong> points worth of damage.</p>
+                                  Improvements suffer <strong>{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }}</strong> points worth of damage.</p>
                                 </p>
                             @endif
 
