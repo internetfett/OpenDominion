@@ -1275,7 +1275,8 @@ class InvadeActionService
     }
 
     /**
-     * Handles perks that trigger on invasion.
+     *  Handles perks that trigger DURING the battle (before casualties).
+     *
      *  Go through every unit slot and look for post-invasion perks:
      *  - burns_peasants_on_attack
      * - damages_improvements_on_attack
