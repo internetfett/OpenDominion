@@ -276,7 +276,6 @@ class InvadeActionService
 
             $this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units);
-
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
@@ -1291,36 +1290,35 @@ class InvadeActionService
      */
     protected function handleDuringInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units): void
     {
-
+      # Ignore if attacker is overwhelmed.
+      if(!$this->invasionResult['result']['overwhelmed'])
+      {
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
-          if(isset($units[$unitSlot]))
+          // Firewalker/Artillery: burns_peasants
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
           {
-            // Firewalker/Artillery: burns_peasants
-            if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and $units[$unitSlot] > 0)
+            $burningUnits = $units[$unitSlot];
+            $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
+
+            # If target has less than 1000 peasants, we don't burn any.
+            if($target->peasants < 1000)
             {
-              $burningUnits = $units[$unitSlot];
-              $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
-
-              # If target has less than 1000 peasants, we don't burn any.
-              if($target->peasants < 1000)
-              {
-                $burnedPeasants = 0;
-              }
-              else
-              {
-                $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
-                $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
-              }
-              $target->peasants -= $burnedPeasants;
-              $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
-              $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
-
+              $burnedPeasants = 0;
             }
+            else
+            {
+              $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
+              $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+            }
+            $target->peasants -= $burnedPeasants;
+            $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
+            $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
+
           }
 
           // Artillery: damages_improvements_on_attack
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and $units[$unitSlot] > 0)
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
           {
             $damagingUnits = $units[$unitSlot];
             $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
@@ -1354,6 +1352,8 @@ class InvadeActionService
 
           }
         }
+      }
+
     }
 
     /**
