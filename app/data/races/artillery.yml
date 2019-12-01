@@ -21,8 +21,7 @@ units:
   - name: Bombardier
     type: defensive_elite
     cost:
-      platinum: 800
-      ore: 150
+      platinum: 1000
     power:
       offense: 0
       defense: 8
@@ -59,9 +58,8 @@ units:
     type: machinery_elite
     need_boat: false
     cost:
-      platinum: 1000
-      ore: 250
-      mana: 25
+      ore: 400
+      mana: 50
     power:
       offense: 1
       defense: 0
