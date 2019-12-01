@@ -1,7 +1,8 @@
 name: Artillery
 alignment: evil
 description: >-
-  <p>Designed by the Imperial Gnomes but operated by the more expendable and numerous Goblins, the Artillery is the Empire's response to the Snow Elf and its powerful Trebuchets.</p>
+  <p>Designed by the Imperial Gnomes but operated by the more expendable and numerous trolls, the Artillery is the Empire's response to the Snow Elf and its powerful Trebuchets.</p>
+  <p>Enormous cannons are built into the hillsides, from which they fire cannonballs at the target.</p>
   <hr />
   <p>Each Bombardier can operate up to ten Cannons.</p>
   <p>Cannonballs are destroyed upon impact.</p>
@@ -13,11 +14,12 @@ exploring : 3
 converting: 3
 
 perks:
+  max_population: -20
   food_consumption: -75
   cannot_build_homes: 1
 units:
   - name: Bombardier
-    type: defensive_specialist
+    type: defensive_elite
     cost:
       platinum: 800
       ore: 150

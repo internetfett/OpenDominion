@@ -1320,22 +1320,26 @@ class InvadeActionService
           // Artillery: damages_improvements_on_attack
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
           {
+
+            $damageReductionFromMasonries = 1 - (($dominion->building_masonry * 0.75) / $this->landCalculator->getTotalLand($dominion));
+
             $damagingUnits = $units[$unitSlot];
             $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
-            $damageDone = $damagingUnits * $damagePerUnit;
+            $damageDone = $damagingUnits * $damagePerUnit * $damageReductionFromMasonries;
+
 
             # Calculate target's total imp points, where imp points > 0.
             foreach ($this->improvementHelper->getImprovementTypes($target->race->name) as $type)
             {
               if($target->{'improvement_' . $type} > 0)
               {
-                $castleToDamage[$type] = $target->{'improvement_' . $type};
+                $castleToBeDamaged[$type] = $target->{'improvement_' . $type};
               }
             }
-            $castleTotal = array_sum($castleToDamage);
+            $castleTotal = array_sum($castleToBeDamaged);
 
             # Calculate how much of damage should be applied to each type.
-            foreach ($castleToDamage as $type => $points)
+            foreach ($castleToBeDamaged as $type => $points)
             {
               # The ratio this improvement type is of the total amount of imp points.
               $typeDamageRatio = $points / $castleTotal;

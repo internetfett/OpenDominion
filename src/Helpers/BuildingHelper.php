@@ -201,7 +201,7 @@ class BuildingHelper
             'alchemy' => 'Produces 45 platinum per tick.',
             'farm' => 'Produces 80 bushels of food per tick.<br><br>Each person eats 0.25 of a bushel of food per tick.',
             'smithy' => 'Reduces military unit training platinum and ore costs.<br><br>Training cost reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned. Does not affect Gnome ore costs.',
-            'masonry' => 'Increases castle bonuses and reduces Lightning Bolt damage.<br><br>Bonuses increased by 2.75% per 1% owned.<br>Lightning Bolt damage reduced by 0.75% per 1% owned, up to a maximum of 25% at 33.3% owned.',
+            'masonry' => 'Increases castle bonuses and reduces damage done to castle.<br><br>Bonuses increased by 2.75% per 1% owned.<br>Damage reduced by 0.75% per 1% owned, up to a maximum of 25% at 33.3% owned.',
             'ore_mine' => 'Produces 60 ore per tick.',
             'gryphon_nest' => 'Increases offensive power.<br><br>Power increased by +2% per 1% owned, up to a maximum of +40% at 20% owned.',
             'tower' => 'Produces 25 mana per tick.',
