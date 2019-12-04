@@ -221,20 +221,4 @@ class BuildingHelper
         return $helpStrings[$buildingType] ?: null;
     }
 
-    // Unused.
-    public function getBuildingMaxStorage(string $buildingType): ?string
-    {
-
-        $ticksWorthOfStorage = 96;
-
-        $maxStorage = [
-          'alchemy' = 45 * $ticksWorthOfStorage,
-          'farm' = 80 * $ticksWorthOfStorage,
-          'ore_mine' = 60 * $ticksWorthOfStorage,
-          'diamond_mine' = 15 * $ticksWorthOfStorage,
-          'lumberyard' = 50 * $ticksWorthOfStorage,
-        ];
-
-        return $maxStorage[$buildingType];
-    }
 }
