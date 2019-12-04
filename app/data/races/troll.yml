@@ -13,7 +13,7 @@ converting: 3
 perks:
   spy_strength: -10
   tech_costs: 15
-  gem_production: -10
+  invest_bonus: -15
 units:
   - name: Brute
     cost:
@@ -42,8 +42,8 @@ units:
   - name: Smasher
     type: hybrid_elite
     cost:
-      platinum: 1400
-      ore: 140
+      platinum: 1300
+      ore: 130
     power:
       offense: 8
       defense: 8

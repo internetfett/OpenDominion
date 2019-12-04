@@ -54,10 +54,10 @@ class DominionFactory
         // Starting resources are based on this.
         $acresBase = 1000;
 
-        // Give +0.35% starting resources per hour late, max +50%.
+        // Give +0.50% starting resources per hour late, max +100%.
         #$hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
         $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
-        $startingResourcesMultiplier = 1 + min(0.50, $hoursSinceRoundStarted/300);
+        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.05);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
@@ -65,14 +65,14 @@ class DominionFactory
 
         # RESOURCES
         $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
-        $startingResources['platinum'] = 2000 * $acresBase; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500
+        $startingResources['platinum'] = 2000 * $acresBase * 0.75; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500 - As of round 11, reduced by 25%
         $startingResources['platinum'] += 350 * $acresBase; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
         $startingResources['platinum'] += $platForTroops;
         $startingResources['ore'] = intval($platForTroops * 0.15); # For troops: 15% of plat for troops in ore
 
         $startingResources['gems'] = 20 * $acresBase;
 
-        $startingResources['lumber'] = 355 * $acresBase; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500
+        $startingResources['lumber'] = 355 * $acresBase * 0.75; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500 - As of round 11, reduced by 25%
 
         $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
         $startingResources['mana'] = 20 * $acresBase; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000

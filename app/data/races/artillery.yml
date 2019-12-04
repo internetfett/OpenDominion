@@ -15,7 +15,6 @@ converting: 3
 
 perks:
   max_population: -20
-  food_consumption: -75
   cannot_build_homes: 1
 units:
   - name: Bombardier
@@ -30,7 +29,8 @@ units:
     need_boat: false
     cost:
       platinum: 500
-      ore: 1000
+      ore: 500
+      lumber: 100
     power:
       offense: 1
       defense: 0

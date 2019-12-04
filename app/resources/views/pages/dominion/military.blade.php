@@ -154,19 +154,10 @@
                                                             break;
 
                                                         case 'unit1':
-                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit1', $value);
-                                                            break;
-
                                                         case 'unit2':
-                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit2', $value);
-                                                            break;
-
                                                         case 'unit3':
-                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit3', $value);
-                                                            break;
-
                                                         case 'unit4':
-                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Unit4', $value);
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $selectedDominion->race), $value);
                                                             break;
 
                                                         case 'morale':
