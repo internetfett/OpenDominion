@@ -29,7 +29,7 @@ perks:
   construction_cost_only_food: 1
   can_only_build_mycelia: 1
   cannot_build_homes: 1
-  peasants_produce_food: 4
+  peasants_produce_food: 2
 units:
   - name: Mushroom
     need_boat: false

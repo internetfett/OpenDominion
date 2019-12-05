@@ -206,6 +206,8 @@
                           Mutate
                           @elseif ($selectedDominion->race->name == 'Myconid')
                           Grow
+                          @elseif ($selectedDominion->race->name == 'Swarm')
+                          Hatch
                           @else
                           Train
                           @endif
@@ -215,6 +217,8 @@
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> amoeba available to mutate.
                           @elseif ($selectedDominion->race->name == 'Myconid')
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> sporelings available to grow.
+                          @elseif ($selectedDominion->race->name == 'Swarm')
+                            You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> cocoons available to hatch.
                           @else
                             You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ str_plural('draftee', $selectedDominion->military_draftees) }} available to train.
                           @endif
@@ -253,9 +257,13 @@
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} amoeba.</p>
 
                     @elseif ($selectedDominion->race->name == 'Myconid')
-                    <p>Here you can grow your sporelings into Mycelia, which can then be grown into Mold, Psilocybe, and Amanita.</p>
+                    <p>Here you can grow your sporelings into Mushrooms, which can then be grown into Mold, Psilocybe, and Amanita.</p>
                     <p>It takes three ticks to grow Mycelia, six ticks to grow Mold, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} sporelings.</p>
+
+                    @elseif ($selectedDominion->race->name == 'Swarm')
+                    <p>Here you can hatch your cocoons into units.</p>
+                    <p>You have {{ number_format($selectedDominion->military_draftees) }} cocoons.</p>
 
                     @else
                     <p>Here you can train your draftees into stronger military units. Training specialist units take <b>9 ticks</b> to process, while training your other units take <b>12 ticks</b>.</p>
@@ -288,6 +296,8 @@
                                 <td class="text-center">Cells</td>
                               @elseif ($selectedDominion->race->name == 'Myconid')
                                 <td class="text-center">Spores</td>
+                              @elseif ($selectedDominion->race->name == 'Swarm')
+                                <td class="text-center">Larvae</td>
                               @else
                                 <td class="text-center">Peasants</td>
                               @endif
@@ -313,6 +323,8 @@
                 <div class="box-header with-border">
                     @if ($selectedDominion->race->name == 'Myconid')
                     <h3 class="box-title">Sporelings</h3>
+                    @if ($selectedDominion->race->name == 'Swarm')
+                    <h3 class="box-title">Cocoons</h3>
                     @else
                     <h3 class="box-title">Draftees</h3>
                     @endif

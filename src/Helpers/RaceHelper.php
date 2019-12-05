@@ -274,6 +274,12 @@ class RaceHelper
                 $description = 'Can only build Mycelia';
                 $booleanValue = true;
                 break;
+            case 'draftee_mana_production':
+                $negativeBenefit = false;
+                $description = 'Draftees (cocoons) produce mana';
+                $description = 'Mana/tick per cocoon';
+                $booleanValue = 'static';
+                break;
             default:
                 return null;
         }

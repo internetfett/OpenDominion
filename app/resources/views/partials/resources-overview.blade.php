@@ -38,7 +38,9 @@
                         @if ($selectedDominion->race->name == 'Growth')
                         <div class="col-lg-6"><b>Cells:</b></div>
                         @elseif ($selectedDominion->race->name == 'Myconid')
-                        <div class="col-lg-6"><b>Sporelings:</b></div>
+                        <div class="col-lg-6"><b>Spores:</b></div>
+                        @elseif ($selectedDominion->race->name == 'Swarm')
+                        <div class="col-lg-6"><b>Larvae:</b></div>
                         @else
                         <div class="col-lg-6"><b>Peasants:</b></div>
                         @endif

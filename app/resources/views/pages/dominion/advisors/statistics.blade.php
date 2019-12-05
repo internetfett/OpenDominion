@@ -313,6 +313,8 @@
                                                     <td>Cells:</td>
                                                 @elseif ($selectedDominion->race->name == 'Myconid')
                                                     <td>Spores:</td>
+                                                @elseif ($selectedDominion->race->name == 'Swarm')
+                                                    <td>Larvae:</td>
                                                 @else
                                                     <td>Peasant Population:</td>
                                                 @endif
