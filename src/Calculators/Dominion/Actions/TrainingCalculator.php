@@ -312,7 +312,7 @@ class TrainingCalculator
           $smithiesReductionMax = 50;
         }
 
-        # Smithies: discount Platinum and Ore (for non-Gnomes)
+        # Smithies: discount Platinum (for all) and Ore (for non-Gnomes)
         # Armory: discounts Platinum and Ore (for all)
         # Techs: discounts Platinum, Ore, and Lumber (for all)
 

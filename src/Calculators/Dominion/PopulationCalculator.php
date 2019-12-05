@@ -170,8 +170,8 @@ class PopulationCalculator
         $housingPerHome = 30;
 
         $housingPerZiggurat = 20;
-        $housingPerTissue = 30;
-        $housingPerMycelia = 120;
+        $housingPerTissue = 120;
+        $housingPerMycelia = 30;
 
         $housingPerNonHome = 15; // except barracks
         $housingPerBarracks = 0;

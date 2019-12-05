@@ -63,7 +63,7 @@ class ImprovementHelper
             'forestry' => '+%s%% lumber production',
             'refinery' => '+%s%% ore production',
             'granaries' => '-%s%% lumber and food rot',
-            'tissue' => '+%s%% housing and food production from Tissue',
+            'tissue' => '+%s%% housing and food production',
         ];
 
         return $ratingStrings[$improvementType] ?: null;
@@ -88,7 +88,7 @@ class ImprovementHelper
             'forestry' => 'Forestry increases your lumber production.<br><br>Max 20%.',
             'refinery' => 'Refinery increases your ore production.<br><br>Max 20%.',
             'granaries' => 'Granaries reduce food and lumber rot.<br><br>Max 80%.',
-            'tissue' => 'Feed the tissue to grow more cells.<br><br>Max 20%',
+            'tissue' => 'Feed the tissue to grow and feed more cells.<br><br>Max 20%',
         ];
 
         return $helpStrings[$improvementType] ?: null;

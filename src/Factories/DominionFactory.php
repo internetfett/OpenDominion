@@ -161,7 +161,7 @@ class DominionFactory
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 5000 - 1000 * 2 * 96;
+          $startingResources['food'] = $acresBase * 4000; #1000 * 4 * 96;
           $startingResources['draft_rate'] = 100;
         }
 
@@ -169,7 +169,8 @@ class DominionFactory
         if($race->name == 'Myconid')
         {
           $startingResources['platinum'] = 0;
-          $startingResources['food'] = $acresBase * 500;
+          $startingResources['lumber'] = 0;
+          $startingResources['food'] = $acresBase * 400;
         }
 
         // Demon: extra morale.
@@ -179,19 +180,21 @@ class DominionFactory
           $startingResources['soul'] = 2000;
         }
 
-        // Void: gets half of plat for troops as mana
+        // Void: gets half of plat for troops as mana, gets lumber as mana (then lumber to 0).
         if($race->name == 'Void')
         {
           $startingResources['mana'] = 1000 * $acresBase;
           $startingResources['platinum'] = 1000 * $acresBase;
+          $startingResources['mana'] += $startingResources['lumber'];
+          $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
         }
 
         // Dimensionalists: starts with 333 Summoners and extra mana.
         if($race->name == 'Dimensionalists')
         {
-          $startingResources['unit1'] = intval(333 * $startingResourcesMultiplier);
-          $startingResources['mana'] = 400 * $acresBase * $startingResourcesMultiplier;
+          $startingResources['unit1'] = 333;
+          $startingResources['mana'] = 400 * $acresBase;
         }
 
         return Dominion::create([
@@ -205,7 +208,7 @@ class DominionFactory
             'name' => $dominionName,
             'prestige' => intval($acresBase/2),
 
-            'peasants' => intval($startingResources['peasants']/* * $startingResourcesMultiplier */ ), # Remove multiplier for peasants
+            'peasants' => intval($startingResources['peasants']),
             'peasants_last_hour' => 0,
 
             'draft_rate' => $startingResources['draft_rate'],

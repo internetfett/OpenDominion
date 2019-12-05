@@ -125,7 +125,7 @@ class ImprovementCalculator
             'forestry' => 4000,
             'refinery' => 4000,
             'granaries' => 5000,
-            'tissue' => 4000,
+            'tissue' => 7500,
         ];
 
         return ($coefficients[$improvementType] ?: null);
