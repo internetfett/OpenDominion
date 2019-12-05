@@ -410,25 +410,49 @@ class DominionFactory
     {
         if((bool)$race->getPerkValue('cannot_construct'))
         {
-            return [
+            $startingBuildings = [
                 'tower' => 0,
                 'farm' => 0,
                 'lumberyard' => 0,
+                'ziggurat' => 0,
+                'tissue' => 0,
+                'mycelia' => 0,
             ];
         }
         else
         {
           if($race->name == 'Void')
           {
-            $startingBuildings = ['ziggurat' => 500];
+            $startingBuildings = [
+                'tower' => 0,
+                'farm' => 0,
+                'lumberyard' => 0,
+                'ziggurat' => 500,
+                'tissue' => 0,
+                'mycelia' => 0,
+            ];
           }
           if($race->name == 'Growth')
           {
-            $startingBuildings = ['tissue' => 1000];
+            $startingBuildings = [
+                'tower' => 0,
+                'farm' => 0,
+                'lumberyard' => 0,
+                'ziggurat' => 0,
+                'tissue' => 1000,
+                'mycelia' => 0,
+            ];
           }
           if($race->name == 'Myconid')
           {
-            $startingBuildings = ['mycelia' => 1000];
+            $startingBuildings = [
+                'tower' => 0,
+                'farm' => 0,
+                'lumberyard' => 0,
+                'ziggurat' => 0,
+                'tissue' => 0,
+                'mycelia' => 1000,
+            ];
           }
           else
           {
@@ -436,6 +460,10 @@ class DominionFactory
                 'tower' => 50,
                 'farm' => 80,
                 'lumberyard' => 50,
+
+                'ziggurat' => 0,
+                'tissue' => 0,
+                'mycelia' => 0,
             ];
           }
 
