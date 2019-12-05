@@ -23,8 +23,8 @@ perks:
   immortal_wizards: 1
   immune_to_lightning_bolt: 1
   draftee_dp: 0
-  draftee_mana_production: 8
-  peasants_produce_food: 2
+  draftee_mana_production: 1
+  peasants_produce_food: 1
 units:
   - name: Scarab
     need_boat: false

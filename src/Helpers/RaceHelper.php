@@ -277,7 +277,7 @@ class RaceHelper
             case 'draftee_mana_production':
                 $negativeBenefit = false;
                 $description = 'Draftees (cocoons) produce mana';
-                $description = 'Mana/tick per cocoon';
+                $valueType = 'Mana/tick per cocoon';
                 $booleanValue = 'static';
                 break;
             default:

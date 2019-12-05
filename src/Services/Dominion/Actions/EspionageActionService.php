@@ -265,6 +265,13 @@ class EspionageActionService
 
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
+
+                # Swarm: immortal spies
+                if($dominion->race->getPerkValue('immortal_spies'))
+                {
+                  $spiesKilled = 0;
+                }
+
                 if ($spiesKilled > 0) {
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
@@ -508,6 +515,13 @@ class EspionageActionService
 
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
+
+                # Swarm: immortal spies
+                if($dominion->race->getPerkValue('immortal_spies'))
+                {
+                  $spiesKilled = 0;
+                }
+
                 if ($spiesKilled > 0) {
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
