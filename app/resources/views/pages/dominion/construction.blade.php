@@ -57,34 +57,29 @@
                     <a href="{{ route('dominion.advisors.construct') }}" class="pull-right">Construction Advisor</a>
                 </div>
                 <div class="box-body">
-                    <p>Construction will let you construct additional buildings and will take <b>12 ticks</b> to process.</p>
-                    <p>Construction per building will come at a cost of 1 acre of barren land of the building type, {{ number_format($constructionCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($constructionCalculator->getLumberCost($selectedDominion)) }} lumber.</p>
-                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land, {{ number_format($selectedDominion->resource_platinum) }} platinum and {{ number_format($selectedDominion->resource_lumber) }} lumber.</p>
-                    @if ($selectedDominion->discounted_land)<p>Additionally, {{ $selectedDominion->discounted_land }} acres from invasion can be built at reduced cost.</p>@endif
-                    <p>You can afford to construct <b>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</b> at that rate.</p>
+                    <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
+                    <p>Each building costs
+                    @if ($selectedDominion->race->getPerkValue('construction_cost_only_mana'))
+                      {{ number_format($constructionCalculator->getManaCost($selectedDominion)) }} mana
+                    @if ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
+                      {{ number_format($constructionCalculator->getFoodCost($selectedDominion)) }} food
+                    @else
+                      {{ number_format($constructionCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($constructionCalculator->getLumberCost($selectedDominion)) }} lumber
+                    @endif
+                    .</p>
+
+                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
+
+                    @if ($selectedDominion->discounted_land)
+                    <p>Additionally, {{ $selectedDominion->discounted_land }} acres from invasion can be built at reduced cost.</p>
+                    @endif
+
+                    <p>You can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
                     <p>You may also <a href="{{ route('dominion.destroy') }}">destroy buildings</a> if you wish.</p>
                 </div>
             </div>
         </div>
 
-    </div>
-@elseif ($selectedDominion->race->name == 'Void')
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <p>𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.8;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.6;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.4;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.2;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p>Void cannot construct buildings.</p>
-                <p style="opacity:0.2;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.4;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.6;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p style="opacity:0.8;">𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-                <p>𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣𒄩𒍑𒉣</p>
-            </div>
-        </div>
     </div>
 @else
 <div class="row">

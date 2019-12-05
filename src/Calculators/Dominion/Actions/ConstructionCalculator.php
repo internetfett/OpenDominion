@@ -387,7 +387,7 @@ class ConstructionCalculator
             $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) / 2);
         }
 
-        # Merfolk perk: construction_cost_only_platinum
+        # Merfolk: only platinum
         if($dominion->race->getPerkValue('construction_cost_only_platinum'))
         {
           return $discountedBuildings + min(
@@ -395,6 +395,7 @@ class ConstructionCalculator
                   ($barrenLand - $discountedBuildings)
               );
         }
+        # Void: mana construction costs
         elseif($dominion->race->getPerkValue('construction_cost_only_mana'))
         {
           return $discountedBuildings + min(
@@ -402,6 +403,7 @@ class ConstructionCalculator
                   ($barrenLand - $discountedBuildings)
               );
         }
+        # Growth and Myconid: food construction costs
         elseif($dominion->race->getPerkValue('construction_cost_only_food'))
         {
           return $discountedBuildings + min(
