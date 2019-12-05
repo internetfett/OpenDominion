@@ -49,6 +49,24 @@ class LandHelper
           'shrine' => 'water',
         ];
       }
+      elseif($race->name == 'Void')
+      {
+        $buildings = [
+          'ziggurat' => 'mountain'
+        ];
+      }
+      elseif($race->name == 'Growth')
+      {
+        $buildings = [
+          'tissue' => 'swamp'
+        ];
+      }
+      elseif($race->name == 'Myconid')
+      {
+        $buildings = [
+          'mycelia' => 'forest'
+        ];
+      }
       else
       {
         $buildings = [
