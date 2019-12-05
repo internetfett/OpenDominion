@@ -225,10 +225,10 @@ class ProductionCalculator
         $food += ($dominion->building_dock * 35);
 
         // Building: Tissue
-        $food += ($dominion->building_tissue * 2);
+        $food += ($dominion->building_tissue * 4);
 
         // Building: Mycelia
-        $food += ($dominion->building_mycelia * 2);
+        $food += ($dominion->building_mycelia * 4);
 
         // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');

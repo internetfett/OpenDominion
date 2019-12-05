@@ -337,6 +337,9 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
+        // Void: Ziggurat
+        $dp += $dominion->building_ziggurat * 2;
+
 
         return max(
             $dp,
