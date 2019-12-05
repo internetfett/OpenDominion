@@ -331,7 +331,7 @@ class DominionFactory
         {
           return [
               'plain' => 0,
-              'mountain' => 1000,
+              'mountain' => 1000-500,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
@@ -344,7 +344,7 @@ class DominionFactory
           return [
               'plain' => 0,
               'mountain' => 0,
-              'swamp' => 1000,
+              'swamp' => 1000-1000,
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
@@ -358,7 +358,7 @@ class DominionFactory
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
-              'forest' => 1000,
+              'forest' => 1000-1000,
               'hill' => 0,
               'water' => 0,
           ];
@@ -471,15 +471,14 @@ class DominionFactory
                 'tower' => 50,
                 'farm' => 80,
                 'lumberyard' => 50,
-
                 'ziggurat' => 0,
                 'tissue' => 0,
                 'mycelia' => 0,
             ];
           }
-
-          return $startingBuildings;
         }
+
+        return $startingBuildings;
     }
 
     /**

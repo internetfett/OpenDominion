@@ -129,20 +129,62 @@ class ConstructActionService
             $dominion->fill([
                 'resource_platinum' => ($dominion->resource_platinum - $platinumCost),
                 'resource_lumber' => ($dominion->resource_lumber - $lumberCost),
+                'resource_mana' => ($dominion->resource_lumber - $lumberMana),
+                'resource_food' => ($dominion->resource_lumber - $lumberFood),
                 'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
             ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
         });
 
-        return [
-            'message' => sprintf(
-                'Construction started at a cost of %s platinum and %s lumber.',
-                number_format($platinumCost),
-                number_format($lumberCost)
-            ),
-            'data' => [
-                'platinumCost' => $platinumCost,
-                'lumberCost' => $lumberCost,
-            ],
-        ];
+        if($platinumCost > 0 and $lumberCost > 0)
+        {
+          $return = [
+              'message' => sprintf(
+                  'Construction started at a cost of %s platinum and %s lumber.',
+                  number_format($platinumCost),
+                  number_format($lumberCost)
+              ),
+              'data' => [
+                  'platinumCost' => $platinumCost,
+                  'lumberCost' => $lumberCost,
+              ],
+          ];
+        }
+        elseif($platinumCost > 0)
+        {
+          $return = [
+              'message' => sprintf(
+                  'Construction started at a cost of %s platinum.',
+                  number_format($platinumCost)
+              ),
+              'data' => [
+                  'platinumCost' => $platinumCost
+              ],
+          ];
+        }
+        elseif($manaCost > 0)
+        {
+          $return = [
+              'message' => sprintf(
+                  'Conjuring of buildings started at a cost of %s mana.',
+                  number_format($manaCost)
+              ),
+              'data' => [
+                  'platinumCost' => $manaCost
+              ],
+          ];
+        }
+        elseif($foodCost > 0)
+        {
+          $return = [
+              'message' => sprintf(
+                  'Growth of building started at a cost of %s food.',
+                  number_format($foodCost)
+              ),
+              'data' => [
+                  'platinumCost' => $foodCost
+              ],
+          ];
+        }
+        return $return;
     }
 }
