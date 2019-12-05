@@ -115,10 +115,6 @@ class BuildingHelper
                         'diamond_mine',
                 ],
                 'swamp' => [],
-                /*
-                'cavern' => [
-                ],
-                */
                 'forest' => [
                     'lumberyard',
                 ],
@@ -136,7 +132,6 @@ class BuildingHelper
                 'plain' => [],
                 'mountain' => [],
                 'swamp' => [],
-                #'cavern' => [],
                 'forest' => [],
                 'hill' => [],
                 'water' => [
@@ -148,7 +143,7 @@ class BuildingHelper
                 ],
             ];
           }
-          if($dominion->race->name == 'Void')
+          elseif($dominion->race->name == 'Void')
           {
             $buildings = [
                 'plain' => [],
@@ -159,7 +154,7 @@ class BuildingHelper
                 'water' => [],
             ];
           }
-          if($dominion->race->name == 'Growth')
+          elseif($dominion->race->name == 'Growth')
           {
             $buildings = [
                 'plain' => [],
@@ -170,7 +165,8 @@ class BuildingHelper
                 'water' => [],
             ];
           }
-          if($dominion->race->name == 'Myconid')
+          elseif($dominion->race->name == 'Myconid')
+          {
           $buildings = [
               'plain' => [],
               'mountain' => [],
