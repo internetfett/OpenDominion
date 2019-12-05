@@ -5,7 +5,6 @@
 @section('content')
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
     <div class="row">
-
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -61,7 +60,7 @@
                     <p>Each building costs
                     @if ($selectedDominion->race->getPerkValue('construction_cost_only_mana'))
                       {{ number_format($constructionCalculator->getManaCost($selectedDominion)) }} mana
-                    @if ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
+                    @elseif ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
                       {{ number_format($constructionCalculator->getFoodCost($selectedDominion)) }} food
                     @else
                       {{ number_format($constructionCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($constructionCalculator->getLumberCost($selectedDominion)) }} lumber
