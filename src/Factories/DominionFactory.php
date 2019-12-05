@@ -439,7 +439,7 @@ class DominionFactory
             ];
           }
 
-          return $startingBuildings
+          return $startingBuildings;
         }
     }
 
