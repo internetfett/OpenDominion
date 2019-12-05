@@ -17,8 +17,8 @@ exploring : 2
 converting: 2
 
 perks:
-  cannot_construct: 1
-  cannot_tech: 1
+#  cannot_construct: 1
+#  cannot_tech: 1
   extra_barren_max_population: 19
 #  max_population: 10 - Removed in favour of turning extra barren to 19 (17*1.1)
   food_consumption: -100
