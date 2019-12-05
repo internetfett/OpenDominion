@@ -218,15 +218,17 @@ class ProductionCalculator
     {
         $food = 0;
 
-        // Values
-        $foodPerFarm = 80;
-        $foodPerDock = 35;
-
         // Building: Farm
-        $food += ($dominion->building_farm * $foodPerFarm);
+        $food += ($dominion->building_farm * 80);
 
         // Building: Dock
-        $food += ($dominion->building_dock * $foodPerDock);
+        $food += ($dominion->building_dock * 35);
+
+        // Building: Tissue
+        $food += ($dominion->building_tissue * 2);
+
+        // Building: Mycelia
+        $food += ($dominion->building_mycelia * 2);
 
         // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
@@ -508,11 +510,11 @@ class ProductionCalculator
     {
         $mana = 0;
 
-        // Values
-        $manaPerTower = 25;
-
         // Building: Tower
-        $mana += ($dominion->building_tower * $manaPerTower);
+        $mana += ($dominion->building_tower * 25);
+
+        // Building: Ziggurat
+        $mana += ($dominion->building_ziggurat);
 
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');

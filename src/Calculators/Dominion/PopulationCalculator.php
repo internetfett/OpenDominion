@@ -168,6 +168,11 @@ class PopulationCalculator
 
         // Values
         $housingPerHome = 30;
+
+        $housingPerZiggurat = 20;
+        $housingPerTissue = 30;
+        $housingPerMycelia = 120;
+
         $housingPerNonHome = 15; // except barracks
         $housingPerBarracks = 0;
         $housingPerBarrenLand = (5 + $dominion->race->getPerkValue('extra_barren_max_population'));
@@ -182,6 +187,18 @@ class PopulationCalculator
 
                 case 'barracks':
                     $housing = $housingPerBarracks;
+                    break;
+
+                case 'ziggurat':
+                    $housing = $housingPerZiggurat;
+                    break;
+
+                case 'tissue':
+                    $housing = $housingPerTissue;
+                    break;
+
+                case 'mycelia':
+                    $housing = $housingPerMycelia;
                     break;
 
                 default:
@@ -439,7 +456,7 @@ class PopulationCalculator
      */
     public function getEmploymentJobs(Dominion $dominion): int
     {
-        // todo: get these from buildinghelper and unset barracks/etc
+        # Does not include Homes, Barracks, Ziggurats, Tissue, and Mycelia
         return (20 * (
                 $dominion->building_alchemy
                 + $dominion->building_farm

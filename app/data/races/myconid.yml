@@ -26,8 +26,9 @@ perks:
   cannot_train_archmages: 1
   cannot_invade: 1
   cannot_explore: 1
-  cannot_construct: 1
-  extra_barren_max_population: 10
+  #cannot_construct: 1
+  construction_cost_only_food: 1
+  cannot_build_homes: 1
   peasants_produce_food: 4
 units:
   - name: Mushroom
