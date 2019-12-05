@@ -4,7 +4,9 @@
 name: Swarm
 alignment: evil
 description: >-
-  <p>Nothing to see here, folks.</p>
+  <p>Living entirely underground, the Swarm are a civilisation of intelligent and mostly benevolent .</p>
+  <p>Every swarmling is born as a larva ("peasant"), which can be turned into cocoon ("draftee") and then into Scarabs, Burrowers, Arachnids, and the fierce Naga.</p>
+  <p>They dig tunnels underground and attack from below, preferring to assult unbuilt land.</p>
 home_land_type: plain
 playable: 1
 
@@ -13,7 +15,7 @@ exploring : 2
 converting: 1
 
 perks:
-  extra_barren_max_population: 20
+  extra_barren_max_population: 25
   cannot_construct: 1
   cannot_train_archmages: 1
   food_consumption: -50
@@ -31,6 +33,8 @@ units:
     power:
       offense: 3
       defense: 0
+    perks:
+      offense_vs_barren_land: 5,2 # ratio%, max
   - name: Burrower
     cost:
       platinum: 300
@@ -39,16 +43,16 @@ units:
       defense: 4
     perks:
       immortal_except_vs: Swarm
-      food_production: 2
+      gem_production: 1.5
   - name: Arachnid
     need_boat: false
     cost:
-      platinum: 1100
+      platinum: 900
     power:
       offense: 4
       defense: 7
     perks:
-      converts_to_cocoons: 1
+      offense_vs_barren_land: 5,2 # ratio%, max
   - name: Naga
     need_boat: false
     cost:
@@ -57,4 +61,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_vs_barren_land: 5,5 # ratio%, max
+      offense_vs_barren_land: 2,5 # ratio%, max
