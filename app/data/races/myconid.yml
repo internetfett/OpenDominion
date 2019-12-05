@@ -28,6 +28,7 @@ perks:
   cannot_explore: 1
   #cannot_construct: 1
   construction_cost_only_food: 1
+  can_only_build_mycelia: 1
   cannot_build_homes: 1
   peasants_produce_food: 4
 units:

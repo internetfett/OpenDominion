@@ -514,7 +514,7 @@ class ProductionCalculator
         $mana += ($dominion->building_tower * 25);
 
         // Building: Ziggurat
-        $mana += ($dominion->building_ziggurat);
+        $mana += ($dominion->building_ziggurat * 10);
 
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');

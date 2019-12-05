@@ -218,9 +218,9 @@ class BuildingHelper
             'dock' => 2,
 
 
-            'ziggurat' => 0,
-            'tissue' => 0,
-            'mycelia' => 0,
+            'ziggurat' => 2,
+            'tissue' => 2,
+            'mycelia' => 2,
         ];
 
         switch ($buildingTypes[$buildingType]) {
@@ -262,7 +262,7 @@ class BuildingHelper
             'barracks' => 'Houses 36 trained or training military units.<br><br>Does not increase in capacity for population bonuses.',
             'dock' => 'Produces 1 boat every 20 ticks on average, produces 35 bushels of food per tick and each dock prevents 2.5 of your boats from being sunk.',
 
-            'ziggurat' => 'Houses 20 people or units, produces 1 mana/tick, and provides 2 raw DP.',
+            'ziggurat' => 'Houses 20 people or units, produces 1 mana/tick, and provides 4 raw DP.',
             'tissue' => 'Houses 120 cells, amoeba, or units. Produces 4 food/tick.',
             'mycelia' => 'House 10 people or units. Produces 4 food/tick.',
         ];

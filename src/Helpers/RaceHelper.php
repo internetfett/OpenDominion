@@ -259,6 +259,21 @@ class RaceHelper
                 $description = 'Buildings only cost';
                 $booleanValue = 'static';
                 break;
+            case 'can_only_build_ziggurat':
+                $negativeBenefit = false;
+                $description = 'Can only build Ziggurats';
+                $booleanValue = true;
+                break;
+            case 'can_only_build_tissue':
+                $negativeBenefit = false;
+                $description = 'Can only build Tissue';
+                $booleanValue = true;
+                break;
+            case 'can_only_build_mycelia':
+                $negativeBenefit = false;
+                $description = 'Can only build Mycelia';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }

@@ -159,6 +159,7 @@ class DominionFactory
         if($race->name == 'Growth')
         {
           $startingResources['platinum'] = 0;
+          $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
           $startingResources['food'] = $acresBase * 5000;
           $startingResources['draft_rate'] = 100;
@@ -182,14 +183,12 @@ class DominionFactory
           $startingResources['soul'] = 2000;
         }
 
-        // Void: gets half of plat for troops as mana; and gets enough Visions for mana production equivalent of 80 Towers
+        // Void: gets half of plat for troops as mana
         if($race->name == 'Void')
         {
           $startingResources['mana'] = 1000 * $acresBase;
           $startingResources['platinum'] = 1000 * $acresBase;
           $startingResources['gems'] = 0;
-
-          $startingResources['unit3'] = intval((80 * 25) / 4);
         }
 
         // Dimensionalists: starts with 333 Summoners and extra mana.
@@ -408,7 +407,8 @@ class DominionFactory
      */
     protected function getStartingBuildings($race): array
     {
-        if((bool)$race->getPerkValue('cannot_construct'))
+        # Non-construction races (Swarm?)
+        if($race->getPerkValue('cannot_construct'))
         {
             $startingBuildings = [
                 'tower' => 0,
@@ -419,64 +419,67 @@ class DominionFactory
                 'mycelia' => 0,
             ];
         }
+        # Void
+        elseif($race->getPerkValue('can_only_build_ziggurat'))
+        {
+          $startingBuildings = [
+              'tower' => 0,
+              'farm' => 0,
+              'lumberyard' => 0,
+              'ziggurat' => 500,
+              'tissue' => 0,
+              'mycelia' => 0,
+          ];
+        }
+        # Growth
+        elseif($race->getPerkValue('can_only_build_tissue'))
+        {
+          $startingBuildings = [
+              'tower' => 0,
+              'farm' => 0,
+              'lumberyard' => 0,
+              'ziggurat' => 0,
+              'tissue' => 1000,
+              'mycelia' => 0,
+          ];
+        }
+        # Myconid
+        elseif($race->getPerkValue('can_only_build_mycelia'))
+        {
+          $startingBuildings = [
+              'tower' => 0,
+              'farm' => 0,
+              'lumberyard' => 0,
+              'ziggurat' => 0,
+              'tissue' => 0,
+              'mycelia' => 1000,
+          ];
+        }
+        # Merfolk
+        elseif($race->name == 'Merfolk')
+        {
+          $startingBuildings = [
+              'tower' => 50,
+              'farm' => 80,
+              'lumberyard' => 0,
+              'ziggurat' => 0,
+              'tissue' => 0,
+              'mycelia' => 0,
+          ];
+        }
+        # Default
         else
         {
-          if($race->name == 'Merfolk')
-          {
-            $startingBuildings = [
-                'tower' => 50,
-                'farm' => 80,
-                'lumberyard' => 0,
-                'ziggurat' => 0,
-                'tissue' => 0,
-                'mycelia' => 0,
-            ];
-          }
-          if($race->name == 'Void')
-          {
-            $startingBuildings = [
-                'tower' => 0,
-                'farm' => 0,
-                'lumberyard' => 0,
-                'ziggurat' => 500,
-                'tissue' => 0,
-                'mycelia' => 0,
-            ];
-          }
-          if($race->name == 'Growth')
-          {
-            $startingBuildings = [
-                'tower' => 0,
-                'farm' => 0,
-                'lumberyard' => 0,
-                'ziggurat' => 0,
-                'tissue' => 1000,
-                'mycelia' => 0,
-            ];
-          }
-          if($race->name == 'Myconid')
-          {
-            $startingBuildings = [
-                'tower' => 0,
-                'farm' => 0,
-                'lumberyard' => 0,
-                'ziggurat' => 0,
-                'tissue' => 0,
-                'mycelia' => 1000,
-            ];
-          }
-          else
-          {
-            $startingBuildings = [
-                'tower' => 50,
-                'farm' => 80,
-                'lumberyard' => 50,
-                'ziggurat' => 0,
-                'tissue' => 0,
-                'mycelia' => 0,
-            ];
-          }
+          $startingBuildings = [
+              'tower' => 50,
+              'farm' => 80,
+              'lumberyard' => 50,
+              'ziggurat' => 0,
+              'tissue' => 0,
+              'mycelia' => 0,
+          ];
         }
+      }
 
         return $startingBuildings;
     }

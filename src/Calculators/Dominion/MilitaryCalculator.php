@@ -338,7 +338,7 @@ class MilitaryCalculator
         ); // todo: recheck this
 
         // Void: Ziggurat
-        $dp += $dominion->building_ziggurat * 2;
+        $dp += $dominion->building_ziggurat * 4;
 
 
         return max(

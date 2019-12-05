@@ -50,7 +50,7 @@ class ConstructionCalculator
         {
           return ($this->getPlatinumCostRaw($dominion) * $this->getPlatinumCostMultiplier($dominion));
         }
-        
+
     }
 
     /**
@@ -236,8 +236,8 @@ class ConstructionCalculator
             );
 
             $mana -= 250;
-            $mana *= 1.53;
-            $mana += 850;
+            $mana *= 0.35;
+            $mana += 87.5;
 
             # ODA: Reduced by 25% as of Round 11.
             $mana *= 0.75;
@@ -320,8 +320,8 @@ class ConstructionCalculator
             );
 
             $food -= 250;
-            $food *= 1.53;
-            $food += 850;
+            $food *= 0.35;
+            $food += 87.5;
 
             # ODA: Reduced by 25% as of Round 11.
             $food *= 0.75;
