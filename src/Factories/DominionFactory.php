@@ -479,7 +479,6 @@ class DominionFactory
               'mycelia' => 0,
           ];
         }
-      }
 
         return $startingBuildings;
     }
