@@ -388,21 +388,21 @@ class ConstructionCalculator
         }
 
         # Merfolk perk: construction_cost_only_platinum
-        if($dominion->race->getPerkMultiplier('construction_cost_only_platinum'))
+        if($dominion->race->getPerkValue('construction_cost_only_platinum'))
         {
           return $discountedBuildings + min(
                   floor($platinumToSpend / $platinumCost),
                   ($barrenLand - $discountedBuildings)
               );
         }
-        elseif($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
+        elseif($dominion->race->getPerkValue('construction_cost_only_mana'))
         {
           return $discountedBuildings + min(
                   floor($manaToSpend / $manaCost),
                   ($barrenLand - $discountedBuildings)
               );
         }
-        elseif($dominion->race->getPerkMultiplier('construction_cost_only_food'))
+        elseif($dominion->race->getPerkValue('construction_cost_only_food'))
         {
           return $discountedBuildings + min(
                   floor($foodToSpend / $foodCost),
