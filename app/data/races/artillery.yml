@@ -44,7 +44,8 @@ units:
     type: machinery_elite
     need_boat: false
     cost:
-      ore: 200
+      platinum: 50
+      ore: 100
     power:
       offense: 1
       defense: 0
@@ -58,7 +59,8 @@ units:
     type: machinery_elite
     need_boat: false
     cost:
-      ore: 400
+      platinum: 100
+      ore: 200
       mana: 50
     power:
       offense: 1

@@ -378,6 +378,14 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Myconid']),
             ],
+            [
+                'name' => 'Chitin',
+                'description' => 'Cocoons receive +1 DP each. Unaffected by Unholy Ghost.',
+                'key' => 'chitin',
+                'mana_cost' => 10,
+                'duration' => 12*4,
+                'races' => collect(['Swarm']),
+            ],
 
         ]);
     }

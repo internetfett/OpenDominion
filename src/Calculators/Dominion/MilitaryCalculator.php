@@ -318,6 +318,12 @@ class MilitaryCalculator
             }
         }
 
+        // Swarm Spell: Chiting (+1 DP per Draftee)
+        if ($this->spellCalculator->isSpellActive($dominion, 'chitin'))
+        {
+          $dp += $dominion->military_draftees;
+        }
+
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
         {

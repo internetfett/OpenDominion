@@ -4,7 +4,7 @@
 name: Swarm
 alignment: good
 description: >-
-  <p>Living entirely underground, the Swarm are a civilisation of intelligent and mostly benevolent .</p>
+  <p>Living entirely underground, the Swarm are a civilisation of intelligent and mostly benevolent being that take up dwelling in vast tunnels.</p>
   <p>Every swarmling is born as a larva ("peasant"), which can be turned into cocoon ("draftee") and then into Scarabs, Burrowers, Arachnids, and the fierce Naga.</p>
   <p>They dig tunnels underground and attack from below, preferring to assult unbuilt land.</p>
 home_land_type: plain
@@ -52,6 +52,7 @@ units:
       defense: 7
     perks:
       offense_vs_barren_land: 5,2 # ratio%, max
+      immortal_except_vs: Swarm
   - name: Naga
     need_boat: false
     cost:
@@ -61,3 +62,4 @@ units:
       defense: 3
     perks:
       offense_vs_barren_land: 2,5 # ratio%, max
+      immortal_except_vs: Swarm
