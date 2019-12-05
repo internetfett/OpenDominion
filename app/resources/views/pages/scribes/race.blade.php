@@ -130,7 +130,7 @@
                                     }
 
                                     if ($unit->cost_unit1 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . '$nbsp;' . $unitHelper->getUnitName('unit1', $race));
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . '&nbsp;' . $unitHelper->getUnitName('unit1', $race));
                                     }
 
                                     if ($unit->cost_unit2 > 0) {
@@ -150,19 +150,19 @@
                                     }
 
                                     if ($unit->cost_wild_yeti > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . '&nbsp;wild yeti');
+                                        $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . '&nbsp; wild yeti');
                                     }
 
                                     if ($unit->cost_spy > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_spy) . '&nbsp;Spy');
+                                        $unitCostString .= (', ' . number_format($unit->cost_spy) . '&nbsp; Spy');
                                     }
 
                                     if ($unit->cost_wizard > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_wizard) . '&nbsp;Wizard');
+                                        $unitCostString .= (', ' . number_format($unit->cost_wizard) . '&nbsp; Wizard');
                                     }
 
                                     if ($unit->cost_archmage > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_archmage) . '&nbsp;ArchMage');
+                                        $unitCostString .= (', ' . number_format($unit->cost_archmage) . '&nbsp; ArchMage');
                                     }
 
                                 @endphp
