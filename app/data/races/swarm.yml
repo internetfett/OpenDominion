@@ -47,7 +47,7 @@ units:
   - name: Arachnid
     need_boat: false
     cost:
-      platinum: 900
+      platinum: 800
     power:
       offense: 4
       defense: 7
@@ -56,7 +56,7 @@ units:
   - name: Naga
     need_boat: false
     cost:
-      platinum: 800
+      platinum: 600
     power:
       offense: 5
       defense: 3
