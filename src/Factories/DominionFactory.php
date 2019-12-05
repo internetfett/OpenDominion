@@ -421,6 +421,17 @@ class DominionFactory
         }
         else
         {
+          if($race->name == 'Merfolk')
+          {
+            $startingBuildings = [
+                'tower' => 50,
+                'farm' => 80,
+                'lumberyard' => 0,
+                'ziggurat' => 0,
+                'tissue' => 0,
+                'mycelia' => 0,
+            ];
+          }
           if($race->name == 'Void')
           {
             $startingBuildings = [
