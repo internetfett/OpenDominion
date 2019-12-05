@@ -150,15 +150,35 @@ class BuildingHelper
           }
           if($dominion->race->name == 'Void')
           {
-            $buildings = ['mountain' => 'ziggurat'];
+            $buildings = [
+                'plain' => [],
+                'mountain' => ['ziggurat'],
+                'swamp' => [],
+                'forest' => [],
+                'hill' => [],
+                'water' => [],
+            ];
           }
           if($dominion->race->name == 'Growth')
           {
-            $buildings = ['swamp' => 'tissue'];
+            $buildings = [
+                'plain' => [],
+                'mountain' => [],
+                'swamp' => ['tissue'],
+                'forest' => [],
+                'hill' => [],
+                'water' => [],
+            ];
           }
           if($dominion->race->name == 'Myconid')
-          {
-            $buildings = ['forest' => 'mycelia'];
+          $buildings = [
+              'plain' => [],
+              'mountain' => [],
+              'swamp' => [],
+              'forest' => ['mycelia'],
+              'hill' => [],
+              'water' => [],
+          ];
           }
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
