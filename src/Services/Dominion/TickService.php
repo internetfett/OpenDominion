@@ -165,6 +165,12 @@ class TickService
                         'dominions.building_shrine' => DB::raw('dominions.building_shrine + dominion_tick.building_shrine'),
                         'dominions.building_barracks' => DB::raw('dominions.building_barracks + dominion_tick.building_barracks'),
                         'dominions.building_dock' => DB::raw('dominions.building_dock + dominion_tick.building_dock'),
+
+
+                        'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
+                        'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
+                        'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
+
                         'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
