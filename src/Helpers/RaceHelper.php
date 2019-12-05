@@ -272,13 +272,13 @@ class RaceHelper
             case 'peasants_produce_food':
                 $negativeBenefit = true;
                 $description = 'Peasants produce food';
-                $valueType = 'Food/tick per cocoon';
+                $valueType = ' food/tick';
                 $booleanValue = false;
                 break;
             case 'draftee_mana_production':
                 $negativeBenefit = false;
                 $description = 'Draftees produce mana';
-                $valueType = 'Mana/tick per cocoon';
+                $valueType = ' mana/tick';
                 $booleanValue = false;
                 break;
             default:
