@@ -27,26 +27,25 @@
                             <col width="100">
                         </colgroup>
                         <tbody>
-                            @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
-                                <tr>
-                                    <td>
-                                        <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
-                                        {{ ucfirst($improvementType) }}
-                                        {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
-                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                    </td>
-                                    <td>
-                                        {{ sprintf(
-                                            $improvementHelper->getImprovementRatingString($improvementType),
-                                            number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, $improvementType) * 100, 2)
-                                        ) }}
-                                    </td>
-                                    <td class="text-center">{{ number_format($selectedDominion->{'improvement_' . $improvementType}) }}</td>
-                                </tr>
-                            @endforeach
+                          @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
+                              <tr>
+                                  <td>
+                                      <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType) }}"></i>
+                                      {{ ucfirst($improvementType) }}
+                                      {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
+                                  </td>
+                                  <td class="text-center">
+                                      <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                  </td>
+                                  <td>
+                                      {{ sprintf(
+                                          $improvementHelper->getImprovementRatingString($improvementType),
+                                          number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, $improvementType) * 100, 2)
+                                      ) }}
+                                  </td>
+                                  <td class="text-center">{{ number_format($selectedDominion->{'improvement_' . $improvementType}) }}</td>
+                              </tr>
+                          @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -155,16 +155,14 @@ class DominionFactory
           $startingResources['lumber'] = 0;
         }
 
-        // Growth: extra food, no platinum, no gems, higher draft rate, and enough Unit3 to equal 80 farms.
+        // Growth: extra food, no platinum, no gems, no lumber, and higher draft rate.
         if($race->name == 'Growth')
         {
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 5000;
+          $startingResources['food'] = $acresBase * 5000 - 1000 * 2 * 96;
           $startingResources['draft_rate'] = 100;
-
-          $startingResources['unit3'] = intval((80 * 80) / 3);
         }
 
         // Myconid: extra food, no platinum; and gets enough Psilocybe for mana production equivalent to 40 Towers
@@ -172,8 +170,6 @@ class DominionFactory
         {
           $startingResources['platinum'] = 0;
           $startingResources['food'] = $acresBase * 500;
-
-          $startingResources['unit3'] = intval((40 * 25) / 1);
         }
 
         // Demon: extra morale.

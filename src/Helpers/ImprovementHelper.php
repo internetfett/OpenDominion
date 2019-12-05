@@ -63,7 +63,7 @@ class ImprovementHelper
             'forestry' => '+%s%% lumber production',
             'refinery' => '+%s%% ore production',
             'granaries' => '-%s%% lumber and food rot',
-            'tissue' => '+%s%% cells',
+            'tissue' => '+%s%% housing and food production from Tissue',
         ];
 
         return $ratingStrings[$improvementType] ?: null;

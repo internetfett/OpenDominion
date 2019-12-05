@@ -3,6 +3,11 @@ alignment: evil
 description: >-
   <p>The growth is believed to originate from ancient Nox burial pits, deep in the swamp lands.</p>
   <p>Attempts at communication have failed. It shows no signs of sentience. It simply grows and grows.</p>
+  <hr />
+  <ul>
+  <li>Can only build Tissue.</li>
+  <li>Starts with 1,000 Tissue.</li>
+  </ul>
 home_land_type: swamp
 playable: 1
 

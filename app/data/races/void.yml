@@ -6,9 +6,9 @@ description: >-
   <p>The longer they stay in this world, the stronger they become and the more terrifying the nightmares are.</p>
   <hr />
   <ul>
-  <li>Start with Visions for mana production.</li>
   <li>All peasants (including unemployed) produce 2.7 plat/hr raw.</li>
   <li>Can only build Ziggurats.</li>
+  <li>Starts with 500 Ziggurats.</li>
   </ul>
 home_land_type: mountain
 playable: 1

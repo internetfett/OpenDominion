@@ -253,7 +253,7 @@ class ProductionCalculator
      * Food production is modified by:
      * - Racial Bonus
      * - Spell: Gaia's Blessing (+20%) or Gaia's Watch (+10%)
-     * - Improvement: Harbor
+     * - Improvement: Harbor and Tissue
      * - Tech: Farmer's Growth (+10%)
      * - Prestige (+1% per 100 prestige, multiplicative)
      *
@@ -282,6 +282,9 @@ class ProductionCalculator
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
+
+        // Improvement: Tissue (growth)
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
