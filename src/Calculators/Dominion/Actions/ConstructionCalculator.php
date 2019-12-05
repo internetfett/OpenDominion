@@ -267,6 +267,84 @@ class ConstructionCalculator
 
 ### MANA VOID
 
+
+### FOOD GROWTH MYCONID
+
+        /**
+         * Returns the Dominion's construction food cost (per building).
+         *
+         * @param Dominion $dominion
+         * @return float
+         */
+        public function getFoodCost(Dominion $dominion): int
+        {
+            return ($this->getFoodCostRaw($dominion) * $this->getFoodCostMultiplier($dominion));
+        }
+
+        /**
+         * Returns the Dominion's raw construction mana cost (per building).
+         *
+         * @param Dominion $dominion
+         * @return int
+         */
+        public function getFoodCostRaw(Dominion $dominion): int
+        {
+            $food = 0;
+            $totalBuildings = $this->buildingCalculator->getTotalBuildings($dominion);
+            $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+            $food += max(
+                max($totalBuildings, 250),
+                (3 * $totalLand) / 4
+            );
+
+            $food -= 250;
+            $food *= 1.53;
+            $food += 850;
+
+            # ODA: Reduced by 25% as of Round 11.
+            $food *= 0.75;
+
+            return round($mana);
+        }
+
+        /**
+         * Returns the Dominion's construction mana cost multiplier.
+         *
+         * @param Dominion $dominion
+         * @return float
+         */
+        public function getFoodCostMultiplier(Dominion $dominion): float
+        {
+            $multiplier = $this->getCostMultiplier($dominion);
+
+            return $multiplier;
+        }
+
+        /**
+         * Returns the Dominion's construction mana cost for a given number of acres.
+         *
+         * @param Dominion $dominion
+         * @param int $acres
+         * @return int
+         */
+        public function getTotalFoodCost(Dominion $dominion, int $acres): int
+        {
+            $foodCost = $this->getFoodCost($dominion);
+            $totalFoodCost = $foodCost * $acres;
+
+            // Check for discounted acres after invasion
+            $discountedAcres = min($dominion->discounted_land, $acres);
+            if ($discountedAcres > 0) {
+                #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
+                $totalFoodCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.75);
+            }
+
+            return $totalFoodCost;
+        }
+
+### FOOD GROWTH MYCONID
+
     /**
      * Returns the maximum number of building a Dominion can construct.
      *
