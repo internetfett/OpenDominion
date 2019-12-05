@@ -200,6 +200,11 @@ class BuildingHelper
             'shrine' => 2,
             'barracks' => 2,
             'dock' => 2,
+
+
+            'ziggurat' => 0,
+            'tissue' => 0,
+            'mycelia' => 0,
         ];
 
         switch ($buildingTypes[$buildingType]) {
