@@ -221,11 +221,6 @@ class RaceHelper
                 $description = 'Cannot use technological advancements';
                 $booleanValue = true;
                 break;
-            case 'peasants_produce_food':
-                $negativeBenefit = true;
-                $description = 'Food/tick per peasant';
-                $booleanValue = 'static';
-                break;
             case 'construction_cost_only_platinum':
                 $negativeBenefit = false;
                 $description = 'Buildings only cost platinum';
@@ -274,11 +269,17 @@ class RaceHelper
                 $description = 'Can only build Mycelia';
                 $booleanValue = true;
                 break;
+            case 'peasants_produce_food':
+                $negativeBenefit = true;
+                $description = 'Peasants produce food';
+                $valueType = 'Food/tick per cocoon';
+                $booleanValue = false;
+                break;
             case 'draftee_mana_production':
                 $negativeBenefit = false;
-                $description = 'Draftees (cocoons) produce mana';
+                $description = 'Draftees produce mana';
                 $valueType = 'Mana/tick per cocoon';
-                $booleanValue = 'static';
+                $booleanValue = false;
                 break;
             default:
                 return null;
