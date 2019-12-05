@@ -522,6 +522,11 @@ class ProductionCalculator
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
 
+        if($dominion->race->getPerkValue('draftee_mana_production'))
+        {
+          $mana += $dominion->draftees * $dominion->race->getPerkValue('draftee_mana_production');
+        }
+
         return $mana;
     }
 
