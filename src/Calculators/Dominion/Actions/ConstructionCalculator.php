@@ -305,7 +305,7 @@ class ConstructionCalculator
             # ODA: Reduced by 25% as of Round 11.
             $food *= 0.75;
 
-            return round($mana);
+            return round($food);
         }
 
         /**
