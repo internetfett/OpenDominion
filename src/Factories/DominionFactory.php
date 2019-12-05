@@ -420,15 +420,15 @@ class DominionFactory
         {
           if($race->name == 'Void')
           {
-            $startingBuildings ['ziggurat' => 500];
+            $startingBuildings = ['ziggurat' => 500];
           }
           if($race->name == 'Growth')
           {
-            $startingBuildings ['tissue' => 1000];
+            $startingBuildings = ['tissue' => 1000];
           }
           if($race->name == 'Myconid')
           {
-            $startingBuildings ['mycelia' => 1000];
+            $startingBuildings = ['mycelia' => 1000];
           }
           else
           {
