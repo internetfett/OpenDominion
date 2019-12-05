@@ -28,6 +28,7 @@ perks:
   population_growth: 40
   reduce_conversions: 100
   construction_material: mana
+  cannot_build_homes: 1
 units:
   - name: Fallen
     need_boat: false
