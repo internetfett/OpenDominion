@@ -524,7 +524,7 @@ class ProductionCalculator
 
         if($dominion->race->getPerkValue('draftee_mana_production'))
         {
-          $mana += $dominion->draftees * $dominion->race->getPerkValue('draftee_mana_production');
+          $mana += $dominion->military_draftees * $dominion->race->getPerkValue('draftee_mana_production');
         }
 
         return $mana;
