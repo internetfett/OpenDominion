@@ -42,7 +42,15 @@ class ConstructionCalculator
      */
     public function getPlatinumCost(Dominion $dominion): int
     {
-        return ($this->getPlatinumCostRaw($dominion) * $this->getPlatinumCostMultiplier($dominion));
+        if($dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))
+        {
+          return 0;
+        }
+        else
+        {
+          return ($this->getPlatinumCostRaw($dominion) * $this->getPlatinumCostMultiplier($dominion));
+        }
+        
     }
 
     /**
@@ -120,7 +128,7 @@ class ConstructionCalculator
      */
     public function getLumberCost(Dominion $dominion): int
     {
-      if($dominion->race->getPerkMultiplier('construction_cost_only_platinum'))
+      if($dominion->race->getPerkMultiplier('construction_cost_only_platinum') or $dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))
       {
         return 0;
       }
@@ -200,7 +208,14 @@ class ConstructionCalculator
          */
         public function getManaCost(Dominion $dominion): int
         {
-            return ($this->getManaCostRaw($dominion) * $this->getManaCostMultiplier($dominion));
+            if($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
+            {
+              return ($this->getManaCostRaw($dominion) * $this->getManaCostMultiplier($dominion));
+            }
+            else
+            {
+              return 0;
+            }
         }
 
         /**
@@ -278,7 +293,13 @@ class ConstructionCalculator
          */
         public function getFoodCost(Dominion $dominion): int
         {
+          if($dominion->race->getPerkMultiplier('construction_cost_only_food'))
+          {
             return ($this->getFoodCostRaw($dominion) * $this->getFoodCostMultiplier($dominion));
+          }
+          else {
+            return 0;
+          }
         }
 
         /**

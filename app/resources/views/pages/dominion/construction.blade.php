@@ -59,13 +59,13 @@
                     <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
                     <p>Each building costs
                     @if ($selectedDominion->race->getPerkValue('construction_cost_only_mana'))
-                      {{ number_format($constructionCalculator->getManaCost($selectedDominion)) }} mana
+                      {{ number_format($constructionCalculator->getManaCost($selectedDominion)) }} mana.
                     @elseif ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
-                      {{ number_format($constructionCalculator->getFoodCost($selectedDominion)) }} food
+                      {{ number_format($constructionCalculator->getFoodCost($selectedDominion)) }} food.
                     @else
-                      {{ number_format($constructionCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($constructionCalculator->getLumberCost($selectedDominion)) }} lumber
+                      {{ number_format($constructionCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($constructionCalculator->getLumberCost($selectedDominion)) }} lumber.
                     @endif
-                    .</p>
+                    </p>
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
 
