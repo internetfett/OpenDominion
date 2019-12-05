@@ -27,6 +27,7 @@ perks:
   castle_max: 100
   population_growth: 40
   reduce_conversions: 100
+  construction_material: mana
 units:
   - name: Fallen
     need_boat: false

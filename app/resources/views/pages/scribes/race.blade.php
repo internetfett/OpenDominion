@@ -130,19 +130,19 @@
                                     }
 
                                     if ($unit->cost_unit1 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . $unitHelper->getUnitName('unit1', $selectedDominion->race));
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' ' . $unitHelper->getUnitName('unit1', $selectedDominion->race));
                                     }
 
                                     if ($unit->cost_unit2 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit2) . $unitHelper->getUnitName('unit2', $selectedDominion->race));
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit2) . ' ' . $unitHelper->getUnitName('unit2', $selectedDominion->race));
                                     }
 
                                     if ($unit->cost_unit3 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit3) . $unitHelper->getUnitName('unit3', $selectedDominion->race));
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit3) . ' ' . $unitHelper->getUnitName('unit3', $selectedDominion->race));
                                     }
 
                                     if ($unit->cost_unit4 > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_unit4) . $unitHelper->getUnitName('unit4', $selectedDominion->race));
+                                        $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' ' . $unitHelper->getUnitName('unit4', $selectedDominion->race));
                                     }
 
                                     if ($unit->cost_morale > 0) {

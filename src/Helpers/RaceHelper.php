@@ -244,6 +244,11 @@ class RaceHelper
                 $description = 'No damage from lightning bolts';
                 $booleanValue = true;
                 break;
+            case 'construction_material':
+                $negativeBenefit = false;
+                $description = 'Buildings only cost';
+                $booleanValue = 'static';
+                break;
             default:
                 return null;
         }

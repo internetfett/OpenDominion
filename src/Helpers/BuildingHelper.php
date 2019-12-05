@@ -45,6 +45,18 @@ class BuildingHelper
           {
             $buildings = ['home','farm','tower','diamond_mine','temple','shrine'];
           }
+          if($dominion->race->name == 'Void')
+          {
+            $buildings = ['ziggurat'];
+          }
+          if($dominion->race->name == 'Growth')
+          {
+            $buildings = ['tissue'];
+          }
+          if($dominion->race->name == 'Myconid')
+          {
+            $buildings = ['mycelia'];
+          }
         }
 
       return $buildings;
@@ -135,6 +147,18 @@ class BuildingHelper
                   'shrine',
                 ],
             ];
+          }
+          if($dominion->race->name == 'Void')
+          {
+            $buildings = ['mountain' => 'ziggurat'];
+          }
+          if($dominion->race->name == 'Growth')
+          {
+            $buildings = ['swamp' => 'tissue'];
+          }
+          if($dominion->race->name == 'Myconid')
+          {
+            $buildings = ['forest' => 'mycelia'];
           }
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
