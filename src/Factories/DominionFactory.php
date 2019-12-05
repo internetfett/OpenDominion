@@ -134,7 +134,7 @@ class DominionFactory
         }
 
         // Lumber-free races: no lumber or Lumberyards
-        if($race->getPerkMultiplier('no_lumber_construction_cost'))
+        if($race->getPerkMultiplier('construction_cost_only_platinum'))
         {
           $startingResources['lumber'] = 0;
           $startingBuildings['lumberyard'] = 0;
@@ -279,6 +279,10 @@ class DominionFactory
             'building_shrine' => 0,
             'building_barracks' => 0,
             'building_dock' => 0,
+
+            'building_ziggurat' => $startingBuildings['ziggurat'],
+            'building_tissue' => $startingBuildings['tissue'],
+            'building_mycelia' => $startingBuildings['mycelia'],
         ]);
     }
 
@@ -321,69 +325,67 @@ class DominionFactory
      */
     protected function getStartingBarrenLand($race): array
     {
-        if((bool)$race->getPerkValue('cannot_construct'))
+        # Change this to just look at home land type?
+        # Special treatment for Void, Growth, Myconid, Merfolk, and Swarm
+        if($race->name == 'Void')
         {
-          # Change this to just look at home land type?
-          if($race->name == 'Void')
-          {
-            return [
-                'plain' => 0,
-                'mountain' => 1000,
-                'swamp' => 0,
-                'cavern' => 0,
-                'forest' => 0,
-                'hill' => 0,
-                'water' => 0,
-            ];
-          }
-          elseif($race->name == 'Growth')
-          {
-            return [
-                'plain' => 0,
-                'mountain' => 0,
-                'swamp' => 1000,
-                'cavern' => 0,
-                'forest' => 0,
-                'hill' => 0,
-                'water' => 0,
-            ];
-          }
-          elseif($race->name == 'Myconid')
-          {
-            return [
-                'plain' => 0,
-                'mountain' => 0,
-                'swamp' => 0,
-                'cavern' => 0,
-                'forest' => 1000,
-                'hill' => 0,
-                'water' => 0,
-            ];
-          }
-          elseif($race->name == 'Merfolk')
-          {
-            return [
-                'plain' => 0,
-                'mountain' => 0,
-                'swamp' => 0,
-                'cavern' => 0,
-                'forest' => 0,
-                'hill' => 0,
-                'water' => 1000-80-50,
-            ];
-          }
-          elseif($race->name == 'Swarm')
-          {
-            return [
-                'plain' => 1000,
-                'mountain' => 0,
-                'swamp' => 0,
-                'cavern' => 0,
-                'forest' => 0,
-                'hill' => 0,
-                'water' => 0,
-            ];
-          }
+          return [
+              'plain' => 0,
+              'mountain' => 1000,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => 0,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Growth')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => 0,
+              'swamp' => 1000,
+              'cavern' => 0,
+              'forest' => 0,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Myconid')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => 0,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => 1000,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Merfolk')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => 0,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => 0,
+              'hill' => 0,
+              'water' => 1000-80-50,
+          ];
+        }
+        elseif($race->name == 'Swarm')
+        {
+          return [
+              'plain' => 1000,
+              'mountain' => 0,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => 0,
+              'hill' => 0,
+              'water' => 0,
+          ];
         }
         else
         {
@@ -416,11 +418,28 @@ class DominionFactory
         }
         else
         {
-            return [
+          if($race->name == 'Void')
+          {
+            $startingBuildings ['ziggurat' => 500];
+          }
+          if($race->name == 'Growth')
+          {
+            $startingBuildings ['tissue' => 1000];
+          }
+          if($race->name == 'Myconid')
+          {
+            $startingBuildings ['mycelia' => 1000];
+          }
+          else
+          {
+            $startingBuildings = [
                 'tower' => 50,
                 'farm' => 80,
                 'lumberyard' => 50,
             ];
+          }
+
+          return $startingBuildings
         }
     }
 
@@ -437,10 +456,10 @@ class DominionFactory
     {
         $startingLand = [
             'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'],
-            'mountain' => $startingBarrenLand['mountain'],
-            'swamp' => $startingBarrenLand['swamp'] + + $startingBuildings['tower'],
+            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'],
+            'swamp' => $startingBarrenLand['swamp'] + + $startingBuildings['tower'] + $startingBuildings['tissue'],
             'cavern' => $startingBarrenLand['cavern'],
-            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'],
+            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['mycelia'],
             'hill' => $startingBarrenLand['hill'],
             'water' => $startingBarrenLand['water'],
         ];

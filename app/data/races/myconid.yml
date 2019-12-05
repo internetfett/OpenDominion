@@ -30,7 +30,7 @@ perks:
   extra_barren_max_population: 10
   peasants_produce_food: 4
 units:
-  - name: Mycelia
+  - name: Mushroom
     need_boat: false
     cost:
       food: 100

@@ -18,7 +18,7 @@ perks:
   platinum_production: -10
   mana_production: -10
   max_population: -15
-  no_lumber_construction_cost: 1
+  construction_cost_only_platinum: 1
 units:
   - name: Merman
     cost:

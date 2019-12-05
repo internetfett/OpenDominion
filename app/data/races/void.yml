@@ -27,7 +27,7 @@ perks:
   castle_max: 100
   population_growth: 40
   reduce_conversions: 100
-  construction_material: mana
+  construction_cost_only_mana: 1
   cannot_build_homes: 1
 units:
   - name: Fallen

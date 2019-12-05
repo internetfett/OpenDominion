@@ -226,9 +226,19 @@ class RaceHelper
                 $description = 'Food/tick per peasant';
                 $booleanValue = 'static';
                 break;
-            case 'no_lumber_construction_cost':
+            case 'construction_cost_only_platinum':
                 $negativeBenefit = false;
-                $description = 'No lumber construction cost';
+                $description = 'Buildings only cost platinum';
+                $booleanValue = true;
+                break;
+            case 'construction_cost_only_mana':
+                $negativeBenefit = false;
+                $description = 'Buildings only cost mana';
+                $booleanValue = true;
+                break;
+            case 'construction_cost_only_food':
+                $negativeBenefit = false;
+                $description = 'Buildings only cost food';
                 $booleanValue = true;
                 break;
             case 'ore_improvement_points':
@@ -508,7 +518,7 @@ class RaceHelper
                     $description = 'food/tick per peasant';
                     $booleanValue = 'static';
                     break;
-                case 'no_lumber_construction_cost':
+                case 'construction_cost_only_platinum':
                     $negativeBenefit = false;
                     $description = 'no lumber construction cost';
                     $booleanValue = true;
