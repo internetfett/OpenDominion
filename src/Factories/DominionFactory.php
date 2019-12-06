@@ -115,7 +115,7 @@ class DominionFactory
         }
 
         // Ore-free races: no ore
-        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Wood Elf','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Void');
+        $oreFreeRaces = array('Ants','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Void');
         if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
@@ -128,7 +128,7 @@ class DominionFactory
         }
 
         // Boat-free races: no boats
-        $boatFreeRaces = array('Lux','Merfolk','Myconid','Spirit','Dimensionalists','Growth','Lizardfolk','Undead','Void');
+        $boatFreeRaces = array('Lux','Merfolk','Myconid','Spirit','Swarm','Dimensionalists','Growth','Lizardfolk','Undead','Void');
         if(in_array($race->name, $boatFreeRaces))
         {
           $startingResources['boats'] = 0;
@@ -156,8 +156,10 @@ class DominionFactory
         }
 
         // For cannot_construct races: replace half of Lumber with Platinum.
+        // Still gets plat for troops.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
+          $startingResources['platinum'] = $platForTroops;
           $startingResources['platinum'] += $startingResources['lumber'] / 2;
           $startingResources['lumber'] = 0;
         }
