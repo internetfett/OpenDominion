@@ -323,7 +323,7 @@
                 <div class="box-header with-border">
                     @if ($selectedDominion->race->name == 'Myconid')
                     <h3 class="box-title">Sporelings</h3>
-                    @if ($selectedDominion->race->name == 'Swarm')
+                    @elseif ($selectedDominion->race->name == 'Swarm')
                     <h3 class="box-title">Cocoons</h3>
                     @else
                     <h3 class="box-title">Draftees</h3>
