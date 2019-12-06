@@ -7,7 +7,7 @@ description: >-
   <hr />
   <ul>
   <li>All peasants (including unemployed) produce 2.7 plat/hr raw.</li>
-  <li>Can only build Ziggurats.</li>
+  <li>Unique building: Ziggurat - houses 20, produces 10 mana/tick, and provides 4 raw DP.</li>
   <li>Starts with 500 Ziggurats.</li>
   </ul>
 home_land_type: mountain

@@ -234,10 +234,6 @@ class PopulationCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $techUrbanMasteryMultiplier = 7.5;
-        $techConstructionMultiplier = 2;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('max_population');
 
@@ -247,11 +243,8 @@ class PopulationCalculator
         // Improvement: Keep
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'keep');
 
-        // Improvement: Tissue (growth)
+        // Improvement: Tissue (Growth)
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
-
-        // Tech: Urban Mastery or Construction
-        // todo
 
         // Beastfolk: Forest increases population
         if($dominion->race->name == 'Beastfolk')

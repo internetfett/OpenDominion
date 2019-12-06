@@ -5,7 +5,7 @@ description: >-
   <p>Attempts at communication have failed. It shows no signs of sentience. It simply grows and grows.</p>
   <hr />
   <ul>
-  <li>Can only build Tissue.</li>
+  <li>Unique building: Tissue - houses 120 and produces 4 food/tick.</li>
   <li>Starts with 1,000 Tissue.</li>
   </ul>
 home_land_type: swamp
