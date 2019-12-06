@@ -800,7 +800,7 @@ class MilitaryCalculator
     {
         $hoursPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_hour", null);
 
-        if (!$hoursPerkData)
+        if (!$hoursPerkData or !$dominion->round->hasStarted())
         {
             return 0;
         }

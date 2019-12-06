@@ -380,7 +380,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Chitin',
-                'description' => 'Cocoons receive +1 DP each. Unaffected by Unholy Ghost.',
+                'description' => 'Cocoons receive 1 DP each. Unaffected by Unholy Ghost.',
                 'key' => 'chitin',
                 'mana_cost' => 10,
                 'duration' => 12*4,

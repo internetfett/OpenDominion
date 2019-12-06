@@ -56,7 +56,15 @@ class DominionFactory
 
         // Give +0.50% starting resources per hour late, max +100%.
         #$hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
-        $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
+        if($realm->round->hasStarted())
+        {
+          $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
+        }
+        else
+        {
+          $hoursSinceRoundStarted = 0;
+        }
+
         $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.05);
 
         // These are starting resources which are or maybe
