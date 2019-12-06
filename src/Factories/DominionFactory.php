@@ -142,7 +142,7 @@ class DominionFactory
         }
 
         // Lumber-free races: no lumber or Lumberyards
-        if($race->getPerkMultiplier('construction_cost_only_platinum'))
+        if($race->getPerkMultiplier('construction_cost_only_platinum') or $race->getPerkMultiplier('construction_cost_only_mana') or $race->getPerkMultiplier('construction_cost_only_food'))
         {
           $startingResources['lumber'] = 0;
           $startingBuildings['lumberyard'] = 0;
@@ -159,7 +159,6 @@ class DominionFactory
         if((bool)$race->getPerkValue('cannot_construct'))
         {
           $startingResources['platinum'] += $startingResources['lumber'] / 2;
-          $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
         }
 
