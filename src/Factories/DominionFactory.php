@@ -65,7 +65,7 @@ class DominionFactory
           $hoursSinceRoundStarted = 0;
         }
 
-        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.05);
+        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.005);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
