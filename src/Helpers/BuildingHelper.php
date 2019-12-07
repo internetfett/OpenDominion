@@ -112,7 +112,7 @@ class BuildingHelper
                     'tower',
                     'farm',
                     'ore_mine',
-                        'diamond_mine',
+                    'diamond_mine',
                 ],
                 'swamp' => [],
                 'forest' => [

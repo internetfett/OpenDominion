@@ -64,7 +64,9 @@ class ConstructActionService
 
         $totalBuildingsToConstruct = array_sum($data);
 
-        if ($totalBuildingsToConstruct <= 0) {
+        if ($totalBuildingsToConstruct <= 0)
+        {
+            die(var_dump($data));
             throw new GameException('Construction was not started due to bad input.');
         }
 
