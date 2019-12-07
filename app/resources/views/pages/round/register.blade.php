@@ -165,6 +165,8 @@
                 {{-- Notice --}}
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
+                      <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t G:i') }}.</p>
+
                       <p>
                       If you register now, your ticks will start when the round starts on Saturday the 7th of December at midnight UTC.<br>
                       Protection only lasts seven hours.<br>
