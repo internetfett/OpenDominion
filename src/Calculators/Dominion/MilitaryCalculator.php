@@ -1156,10 +1156,10 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCountByAttacker(Dominion $dominion, Dominion $attacker, int $hours = 12): int
+    public function getRecentlyInvadedCountByAttacker(Dominion $dominion, Dominion $attacker, int $hours = 2): int
     {
         $invasionEvents = GameEvent::query()
-            ->where('created_at', '>=', now()->subMinutes($hours*15))
+            ->where('created_at', '>=', now()->subHours($hours))
             ->where([
                 'target_type' => Dominion::class,
                 'target_id' => $dominion->id,
