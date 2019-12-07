@@ -114,7 +114,7 @@ class ConstructionCalculator
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
             #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
-            $totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.75);
+            $totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.25);
         }
 
         return $totalPlatinumCost;
@@ -192,7 +192,7 @@ class ConstructionCalculator
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
             #$totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) / 2);
-            $totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) * 0.75);
+            $totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) * 0.25);
         }
 
         return $totalLumberCost;
@@ -274,7 +274,7 @@ class ConstructionCalculator
             $discountedAcres = min($dominion->discounted_land, $acres);
             if ($discountedAcres > 0) {
                 #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
-                $totalManaCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.75);
+                $totalManaCost -= (int)ceil(($manaCost * $discountedAcres) * 0.25);
             }
 
             return $totalManaCost;
@@ -358,7 +358,7 @@ class ConstructionCalculator
             $discountedAcres = min($dominion->discounted_land, $acres);
             if ($discountedAcres > 0) {
                 #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
-                $totalFoodCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.75);
+                $totalFoodCost -= (int)ceil(($foodCost * $discountedAcres) * 0.25);
             }
 
             return $totalFoodCost;
