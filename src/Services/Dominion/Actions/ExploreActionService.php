@@ -135,7 +135,7 @@ class ExploreActionService
 
         DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained) {
             $this->queueService->queueResources('exploration', $dominion, $data);
-            $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained]);
+            $this->queueService->queueResources('exploration_research',$dominion,['resource_tech' => $researchPointsGained]);
 
 
             $dominion->stat_total_land_explored += $totalLandToExplore;
