@@ -385,17 +385,17 @@
                 </div>
                 <div class="box-body">
                     <p>Here you can invade other players to try to capture some of their land and to gain prestige. Invasions are successful if you send more OP than they have DP.</p>
-                    <p>Find targets using <a href="{{ route('dominion.magic') }}">magic</a>,  <a href="{{ route('dominion.espionage') }}">espionage</a> and the <a href="{{ route('dominion.op-center') }}">Op Center</a>. Communicate with your realmies using the <a href="{{ route('dominion.council') }}">council</a> to coordinate attacks.</p>
-                    <p>Be sure to calculate your OP vs your target's DP to avoid blindly sending your units to their doom.</p>
-                    <p>You can only invade dominions that are within your range, and you will only gain prestige on targets 75% or greater relative to your own land size.</p>
+                    <p>For every acre you gain, you receive 25 experience points.</p>
+                    <p>If you hit the same target within three hours, you will not discover additional land. You will only get the acres you conquer. Note that this is down to the exact minute and second of your previous hit and includes failed invasions.</p>
+                    <p>You will only gain prestige on targets 75% or greater relative to your own land size. Land gain from such hits can be constructed at a 25% discount.</p>
+
+                    <p>Note that minimum raw DP a target can have is 10 DP per acre.</p>
+
                     @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                     <hr />
                     <p><strong>You were recently invaded, enraging your Spriggan and Leshy.</strong></p>
                     @endif
-                    @if ($selectedDominion->race->alignment == 'evil')
-                    <hr />
-                    <p><strong>Empire:</strong> in-realm invasions do not yield any prestige, experience points, or generated acres. All you get is the acres you conquer.</p>
-                    @endif
+
                 </div>
             </div>
         </div>
