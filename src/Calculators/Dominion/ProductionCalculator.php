@@ -93,7 +93,7 @@ class ProductionCalculator
         $platinumPerAlchemy = 45;
 
         // Race specialty: Void peasants
-        if($dominion->race->name === 'Void')
+        if($dominion->race->name === 'Void' or $dominion->race->name === 'Swarm')
         {
             $platinum += $dominion->peasants * $peasantTax;
         }
