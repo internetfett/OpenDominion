@@ -115,6 +115,11 @@
                                                     $offenseVsPrestige[] = explode(',', $offenseVsPrestigePerk)[0];
                                                 }
 
+                                                $offenseVsBarrenPerk = $unit->getPerkValue('offense_vs_barren');
+                                                if ($offenseVsBarrenPerk) {
+                                                    $offenseVsBarren[] = explode(',', $offenseVsBarrenPerk)[0];
+                                                }
+
                                             }
                                             $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
                                                 return starts_with($perk->key, ['defense_from_', 'defense_staggered_', 'defense_vs_']);
@@ -198,6 +203,23 @@
                                             <td>
                                                 <input type="number"
                                                        name="calc[prestige]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       max="100"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach ($offenseVsBarren as $barren)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter target barren percentage:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc[barren_percent]"
                                                        class="form-control text-center"
                                                        min="0"
                                                        max="100"
