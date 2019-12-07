@@ -215,7 +215,11 @@ class NotificationHelper
         switch ("{$category}.{$type}") {
 
             case 'hourly_dominion.exploration_completed':
-                $acres = array_sum($data) - $data['resource_tech'];
+                $acres = array_sum($data);
+                if(isset($data['resource_tech']))
+                {
+                  $acres -= $data['resource_tech'];
+                }
 
                 return sprintf(
                     'Exploration for %s %s of land completed',
