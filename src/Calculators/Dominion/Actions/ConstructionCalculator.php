@@ -390,8 +390,15 @@ class ConstructionCalculator
         {
             $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost / 2));
             $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost / 2));
-            $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));
-            $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
+
+            if($manaCost > 0)
+            {
+              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));  
+            }
+            if($foodCost > 0)
+            {
+              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
+            }
             // Set the number of afforded discounted buildings
             $discountedBuildings = min(
                 $maxFromDiscountedPlatinum,
