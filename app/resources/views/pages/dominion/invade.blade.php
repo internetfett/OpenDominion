@@ -116,7 +116,7 @@
                                                     $offenseVsPrestige[] = explode(',', $offenseVsPrestigePerk)[0];
                                                 }
 
-                                                $offenseVsBarrenPerk = $unit->getPerkValue('offense_vs_barren');
+                                                $offenseVsBarrenPerk = $unit->getPerkValue('offense_vs_barren_land');
                                                 if ($offenseVsBarrenPerk) {
                                                     $offenseVsBarren[] = explode(',', $offenseVsBarrenPerk)[0];
                                                 }
