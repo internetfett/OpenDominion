@@ -166,7 +166,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                       <p>
-                      If you register now, your ticks will start when the round starts on Friday the 22nd of November at midnight UTC.<br>
+                      If you register now, your ticks will start when the round starts on Saturday the 7th of December at midnight UTC.<br>
                       Protection only lasts seven hours.<br>
                       If 00:00 to 07:00 UTC are not convenient hours for you, consider registering a little later.
                       @if ($discordInviteLink = config('app.discord_invite_link'))
