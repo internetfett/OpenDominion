@@ -52,7 +52,7 @@ units:
       defense: 7
     perks:
       offense_vs_barren_land: 5,2 # ratio%, max
-      fewer_casualties_defense: 75
+      fewer_casualties_defense: 80
   - name: Naga
     need_boat: false
     cost:
@@ -62,4 +62,4 @@ units:
       defense: 3
     perks:
       offense_vs_barren_land: 2,5 # ratio%, max
-      fewer_casualties_defense: 75
+      fewer_casualties_defense: 80
