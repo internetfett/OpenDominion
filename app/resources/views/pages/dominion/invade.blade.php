@@ -35,6 +35,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
                         </div>
+                        <em style="color:#888;">Note that minimum raw DP is 10 DP per acre.</em>
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="target_dominion">Select a target</label>
