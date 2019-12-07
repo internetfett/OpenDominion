@@ -135,12 +135,13 @@ class ExploreActionService
 
         DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained) {
             $this->queueService->queueResources('exploration', $dominion, $data);
+            $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained]);
+
 
             $dominion->stat_total_land_explored += $totalLandToExplore;
             $dominion->fill([
                 'morale' => $newMorale,
                 'resource_platinum' => $newPlatinum,
-                'resource_tech' => $researchPointsGained,
                 'military_draftees' => $newDraftees,
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
         });
