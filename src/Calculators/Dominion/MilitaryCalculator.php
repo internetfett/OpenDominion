@@ -751,12 +751,14 @@ class MilitaryCalculator
 
     protected function getUnitPowerFromVersusBarrenLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
     {
-        if ($target === null && empty($calc)) {
+        if ($target === null && empty($calc))
+        {
             return 0;
         }
 
         $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_barren_land", null);
-        if(!$versusLandPerkData) {
+        if(!$versusLandPerkData)
+        {
             return 0;
         }
 
@@ -764,20 +766,29 @@ class MilitaryCalculator
         $max = (int)$versusLandPerkData[1];
 
         $barrenLandPercentage = 0;
-        if (!empty($calc)) {
+        if (!empty($calc))
+        {
             # Override land percentage for invasion calculator
-            if (isset($calc["barren_percent"])) {
-                $landPercentage = (float) $calc["barren_percent"];
+            if (isset($calc["barren_land_percent"]))
+            {
+                $barrenLandPercentage = (float) $calc["barren_land_percent"];
             }
-        } elseif ($target !== null) {
+        }
+        elseif ($target !== null)
+        {
             $totalLand = $this->landCalculator->getTotalLand($target);
-            $barrenLandPercentage = ($this->landCalculator->getTotalBarrenLand($target) / $totalLand) * 100;
+            $barrenLand = $this->landCalculator->getTotalBarrenLand($target);
+            $barrenLandPercentage = ($barrenLand / $totalLand) * 100;
         }
 
+
         $powerFromLand = $barrenLandPercentage / $ratio;
-        if ($max < 0) {
+        if ($max < 0)
+        {
             $powerFromPerk = max(-1 * $powerFromLand, $max);
-        } else {
+        }
+        else
+        {
             $powerFromPerk = min($powerFromLand, $max);
         }
 

@@ -213,14 +213,14 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endforeach
-                                    @foreach ($offenseVsBarren as $barren)
+                                    @if($offenseVsBarren)
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <b>Enter target barren percentage:</b>
                                             </td>
                                             <td>
                                                 <input type="number"
-                                                       name="calc[barren_percent]"
+                                                       name="calc[barren_land_percent]"
                                                        class="form-control text-center"
                                                        min="0"
                                                        max="100"
