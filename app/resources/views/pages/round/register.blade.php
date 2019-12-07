@@ -169,17 +169,19 @@
                       @if($round->hasStarted())
                       <p>This round has already started and ends {{ $round->end_date->format('l, jS \o\f F Y \a\t G:i') }}.</p>
                       <p>To help you get going, you will get 0.5% extra starting resources for every hour since the round started.</p>
-                      @if ($discordInviteLink = config('app.discord_invite_link'))
-                      <br>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.
-                      @endif
+
+                        @if ($discordInviteLink = config('app.discord_invite_link'))
+                        <p>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
+                        @endif
 
                       @else
                       <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t G:i') }}.</p>
                       <p>If 00:00 to 07:00 UTC are not convenient hours for you, consider registering a little later.</p>
 
                         @if ($discordInviteLink = config('app.discord_invite_link'))
-                        <br>In the meantime, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.
+                        <p>In the meantime, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
                         @endif
+                        
                       @endif
                       </p>
                     </div>
