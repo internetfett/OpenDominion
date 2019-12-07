@@ -79,6 +79,7 @@
                                         $offenseVsBuildingTypes = [];
                                         $offenseVsLandTypes = [];
                                         $offenseVsPrestige = [];
+                                        $offenseVsBarren = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
