@@ -777,7 +777,7 @@ class MilitaryCalculator
         elseif ($target !== null)
         {
             $totalLand = $this->landCalculator->getTotalLand($target);
-            $barrenLand = $this->landCalculator->getTotalBarrenLand($target);
+            $barrenLand = $this->landCalculator->getTotalBarrenLandForSwarm($target);
             $barrenLandPercentage = ($barrenLand / $totalLand) * 100;
         }
 

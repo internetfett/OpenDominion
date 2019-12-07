@@ -74,6 +74,21 @@ class LandCalculator
     }
 
     /**
+     * Returns the Dominion's total acres of barren land.
+     * In this function, queued buildings still count as barren.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getTotalBarrenLandForSwarm(Dominion $dominion): int
+    {
+        return (
+            $this->getTotalLand($dominion)
+            - $this->buildingCalculator->getTotalBuildings($dominion)
+        );
+    }
+
+    /**
      * Returns the Dominion's total barren land by land type.
      *
      * @param Dominion $dominion
