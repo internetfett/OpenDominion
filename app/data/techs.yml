@@ -1042,13 +1042,13 @@ conversions_level6:
 # <Ladder: Barracks Housing>
 
 barracks_housing_level1:
-  name: Conversions (1/6)
+  name: Barracks (1/6)
   cost_multiplier: 0
   perks:
     barracks_housing: 1.25
 
 barracks_housing_level2:
-  name: Conversions (2/6)
+  name: Barracks (2/6)
   cost_multiplier: 10
   perks:
     barracks_housing: 2.5
@@ -1056,7 +1056,7 @@ barracks_housing_level2:
     - barracks_housing_level1
 
 barracks_housing_level3:
-  name: Conversions (3/6)
+  name: Barracks (3/6)
   cost_multiplier: 20
   perks:
     barracks_housing: 3.75
@@ -1064,7 +1064,7 @@ barracks_housing_level3:
     - barracks_housing_level2
 
 barracks_housing_level4:
-  name: Conversions (4/6)
+  name: Barracks (4/6)
   cost_multiplier: 30
   perks:
     barracks_housing: 5
@@ -1072,7 +1072,7 @@ barracks_housing_level4:
     - barracks_housing_level3
 
 barracks_housing_level5:
-  name: Conversions (5/6)
+  name: Barracks (5/6)
   cost_multiplier: 40
   perks:
     barracks_housing: 6.25
@@ -1080,7 +1080,7 @@ barracks_housing_level5:
     - barracks_housing_level4
 
 barracks_housing_level6:
-  name: Conversions (6/6)
+  name: Barracks (6/6)
   cost_multiplier: 50
   perks:
     barracks_housing: 7.5
