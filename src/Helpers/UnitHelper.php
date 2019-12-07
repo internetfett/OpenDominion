@@ -154,8 +154,10 @@ class UnitHelper
 
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
+
+            'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s). Unfinished buildings count as barren land.',
+
             # TBD
-            'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s).',
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
             'kills_peasants' => 'Eats %s peasants per tick.',
