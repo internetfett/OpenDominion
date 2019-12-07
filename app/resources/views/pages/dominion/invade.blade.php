@@ -314,7 +314,7 @@
                                 </div>
 
 
-                                <p><em style="color:#888; font-size:80%; margin-left: 10px;">Note that minimum raw DP is 10 DP per acre.</em></p>
+                                <p><em style="color:#444; margin-left: 10px;">Note that minimum raw DP is 10 DP per acre.</em></p>
 
                             </div>
 
