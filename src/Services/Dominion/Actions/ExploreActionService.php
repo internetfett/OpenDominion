@@ -152,7 +152,7 @@ class ExploreActionService
                 number_format($platinumCost),
                 number_format($drafteeCost),
                 str_plural('draftee', $drafteeCost),
-                number_format($researchPointsPerAcre),
+                number_format($researchPointsGained),
                 $moraleDrop
             ),
             'data' => [
