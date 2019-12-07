@@ -393,11 +393,19 @@ class ConstructionCalculator
 
             if($manaCost > 0)
             {
-              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));  
+              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));
+            }
+            else
+            {
+              $maxFromDiscountedMana = 0;
             }
             if($foodCost > 0)
             {
               $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
+            }
+            else
+            {
+              $maxFromDiscountedFood = 0;
             }
             // Set the number of afforded discounted buildings
             $discountedBuildings = min(
