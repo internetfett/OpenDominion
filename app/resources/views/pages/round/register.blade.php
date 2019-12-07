@@ -165,12 +165,15 @@
                 {{-- Notice --}}
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-                      <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t G:i') }}.</p>
 
-                      <p>
-                      If you register now, your ticks will start when the round starts on Saturday the 7th of December at midnight UTC.<br>
-                      Protection only lasts seven hours.<br>
-                      If 00:00 to 07:00 UTC are not convenient hours for you, consider registering a little later.
+                      @if($round->hasStarted())
+                      <p>This round has already started and ends {{ $round->end_date->format('l, jS \o\f F Y \a\t G:i') }}. To help you get going, you will get +0.5% starting resources per hour late you join.</p>
+
+                      @else
+                      <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t G:i') }}.</p>
+                      <p>If 00:00 to 07:00 UTC are not convenient hours for you, consider registering a little later.</p>
+                      @endif
+
                       @if ($discordInviteLink = config('app.discord_invite_link'))
                       <br>Come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a> in the meantime.
                       @endif
