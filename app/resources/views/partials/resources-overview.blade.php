@@ -30,11 +30,6 @@
                         <div class="col-lg-6">{{ number_format($selectedDominion->resource_ore) }}</div>
                     </div>
                 </div>
-                <div class="col-xs-3">
-                    <div class="row">
-                        <div class="col-lg-6"><b>Ore:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_ore) }}</div>
-                    </div>
                     <div class="col-xs-3">
                         <div class="row">
                             <div class="col-lg-6"><b>Land:</b></div>
@@ -47,15 +42,18 @@
             <div class="row">
                 <div class="col-xs-3">
                     <div class="row">
+                      <div class="col-lg-6"><b>
                         @if ($selectedDominion->race->name == 'Growth')
-                        <div class="col-lg-6"><b>Cells:</b></div>
+                        Cells:
                         @elseif ($selectedDominion->race->name == 'Myconid')
-                        <div class="col-lg-6"><b>Spores:</b></div>
+                        Spores:
                         @elseif ($selectedDominion->race->name == 'Swarm')
-                        <div class="col-lg-6"><b>Larvae:</b></div>
+                        Larvae:
                         @else
-                        <div class="col-lg-6"><b>Peasants:</b></div>
+                        Peasants:
                         @endif
+                        </div>
+                        </b>
                         <div class="col-lg-6">{{ number_format($selectedDominion->peasants) }}</div>
                     </div>
                 </div>
@@ -75,12 +73,6 @@
                     <div class="row">
                         <div class="col-lg-6"><b>Gems:</b></div>
                         <div class="col-lg-6">{{ number_format($selectedDominion->resource_gems) }}</div>
-                    </div>
-                </div>
-                <div class="col-xs-3">
-                    <div class="row">
-                        <div class="col-lg-6"><b>Ore:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_ore) }}</div>
                     </div>
                 </div>
                 <div class="col-xs-3">
