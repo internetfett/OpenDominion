@@ -78,9 +78,16 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Improvements</h3>
                 </div>
-                @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
+                @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
                 <div class="box-header with-border">
+
+                  @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
                   <p>Masonries are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. </p>
+                  @endif
+
+                  @if($improvementCalculator->getTechBonus($selectedDominion) > 0)
+                  <p>Advancements are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. </p>
+                  @endif
                 </div>
                 @endif
 

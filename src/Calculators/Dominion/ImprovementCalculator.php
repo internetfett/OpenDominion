@@ -28,14 +28,18 @@ class ImprovementCalculator
      */
     public function getImprovementMultiplierBonus(Dominion $dominion, string $improvementType): float
     {
-        $efficiencyPerMasonry = 2.75;
 
         $improvementPoints = $dominion->{'improvement_' . $improvementType};
         $totalLand = $this->landCalculator->getTotalLand($dominion);
 
+        $masonriesBonus = $this->getMasonriesBonus($dominion);
+        $techBonus = $this->getTechBonus($dominion);
+
+        $bonusMultiplier = 1 + $masonriesBonus + $techBonus;
+
         $multiplier = $this->getImprovementMaximum($improvementType, $dominion)
             * (1 - exp(-$improvementPoints / ($this->getImprovementCoefficient($improvementType) * $totalLand + 15000)))
-            * (1 + (($dominion->building_masonry * $efficiencyPerMasonry) / $totalLand));
+            * $bonusMultiplier;
 
         return round($multiplier, 4);
     }
@@ -52,10 +56,26 @@ class ImprovementCalculator
         $totalLand = $this->landCalculator->getTotalLand($dominion);
         $multiplier = (($dominion->building_masonry * $efficiencyPerMasonry) / $totalLand);
 
+        return round($multiplier, 4);
+    }
+
+
+    /**
+     * Returns the Dominion's masonries bonus.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getTechBonus(Dominion $dominion): float
+    {
         // Tech
         if($dominion->getTechPerkMultiplier('improvements'))
         {
-          $multiplier += $dominion->getTechPerkMultiplier('improvements');
+          $multiplier = $dominion->getTechPerkMultiplier('improvements');
+        }
+        else
+        {
+          $multiplier = 0;
         }
 
         return round($multiplier, 4);
