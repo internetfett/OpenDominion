@@ -23,7 +23,7 @@ perks:
   immune_to_lightning_bolt: 1
   draftee_dp: 0
   draftee_mana_production: 1
-  peasants_produce_food: 1
+  peasants_produce_food: 0.5
 units:
   - name: Scarab
     need_boat: false
