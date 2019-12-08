@@ -12,7 +12,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
 
 #ODA
-use OpenDominion\Calculators\LandCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
