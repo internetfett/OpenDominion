@@ -12,7 +12,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
-#use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 class ExploreActionService
 {
@@ -27,9 +27,8 @@ class ExploreActionService
     /** @var QueueService */
     protected $queueService;
 
-
-#    /** @var ProtectionService */
-#    protected $protectionService;
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
 
     /**
      * @var int The minimum morale required to explore
@@ -39,12 +38,14 @@ class ExploreActionService
     /**
      * ExplorationActionService constructor.
      */
-    public function __construct(/*ProtectionService $protectionService*/)
+    public function __construct(
+      ImprovementCalculator $improvementCalculator
+      )
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
-#        $this->protectionService = $protectionService;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
     /**
