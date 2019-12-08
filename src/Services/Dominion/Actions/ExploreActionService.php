@@ -134,7 +134,7 @@ class ExploreActionService
 
         # Observatory
         $researchPointsPerAcreMultiplier = $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
-        $researchPointsPerAcre = (1 + $researchPointsPerAcreMultiplier);
+        $researchPointsPerAcre *= (1 + $researchPointsPerAcreMultiplier);
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
 
         DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained) {
