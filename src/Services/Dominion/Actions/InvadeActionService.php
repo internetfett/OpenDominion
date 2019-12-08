@@ -1130,7 +1130,14 @@ class InvadeActionService
         if ($isInvasionSuccessful) {
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
 
-            $researchPointsGained = $landConquered * 2 * $researchPointsPerAcre * $researchPointsPerAcreMultiplier;
+            $researchPointsForGeneratedAcres = 1;
+            if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) == 0)
+            {
+              $researchPointsForGeneratedAcres = 2;
+            }
+
+
+            $researchPointsGained = $landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier;
             $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
 
             $this->queueService->queueResources(

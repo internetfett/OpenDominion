@@ -3,6 +3,7 @@
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-bar-chart"></i> {{ $selectedDominion->name }} Overview</h3>
         </div>
+
         <div class="box-body">
 
             <div class="row">

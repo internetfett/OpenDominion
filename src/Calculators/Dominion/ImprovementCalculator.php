@@ -37,12 +37,6 @@ class ImprovementCalculator
             * (1 - exp(-$improvementPoints / ($this->getImprovementCoefficient($improvementType) * $totalLand + 15000)))
             * (1 + (($dominion->building_masonry * $efficiencyPerMasonry) / $totalLand));
 
-        // Tech
-        if($dominion->getTechPerkMultiplier('improvements'))
-        {
-          $multiplier += $dominion->getTechPerkMultiplier('improvements');
-        }
-
         return round($multiplier, 4);
     }
 
@@ -57,6 +51,12 @@ class ImprovementCalculator
         $efficiencyPerMasonry = 2.75;
         $totalLand = $this->landCalculator->getTotalLand($dominion);
         $multiplier = (($dominion->building_masonry * $efficiencyPerMasonry) / $totalLand);
+
+        // Tech
+        if($dominion->getTechPerkMultiplier('improvements'))
+        {
+          $multiplier += $dominion->getTechPerkMultiplier('improvements');
+        }
 
         return round($multiplier, 4);
     }
