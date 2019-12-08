@@ -30,13 +30,6 @@
                         <div class="col-lg-6">{{ number_format($selectedDominion->resource_ore) }}</div>
                     </div>
                 </div>
-                    <div class="col-xs-3">
-                        <div class="row">
-                            <div class="col-lg-6"><b>Land:</b></div>
-                            <div class="col-lg-6">{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="row">
@@ -73,12 +66,6 @@
                     <div class="row">
                         <div class="col-lg-6"><b>Gems:</b></div>
                         <div class="col-lg-6">{{ number_format($selectedDominion->resource_gems) }}</div>
-                    </div>
-                </div>
-                <div class="col-xs-3">
-                    <div class="row">
-                        <div class="col-lg-6"><b>XP:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_tech) }}</div>
                     </div>
                 </div>
             </div>
