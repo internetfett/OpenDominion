@@ -86,7 +86,7 @@
                   @endif
 
                   @if($improvementCalculator->getTechBonus($selectedDominion) > 0)
-                  <p>Advancements are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. </p>
+                  <p>Advancements are increasing your castle improvements by {{number_format($improvementCalculator->getTechBonus($selectedDominion)*100,2)}}%. </p>
                   @endif
                 </div>
                 @endif
