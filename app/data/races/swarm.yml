@@ -56,7 +56,7 @@ units:
   - name: Naga
     need_boat: false
     cost:
-      platinum: 7 00
+      platinum: 700
     power:
       offense: 5
       defense: 3
