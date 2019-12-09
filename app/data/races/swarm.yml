@@ -15,7 +15,7 @@ exploring : 2
 converting: 1
 
 perks:
-  extra_barren_max_population: 25
+  extra_barren_max_population: 20
   cannot_construct: 1
   food_consumption: -50
   immortal_spies: 1
@@ -28,38 +28,38 @@ units:
   - name: Scarab
     need_boat: false
     cost:
-      platinum: 200
+      platinum: 250
     power:
       offense: 3
       defense: 0
     perks:
-      offense_vs_barren_land: 5,2 # ratio%, max
+      offense_vs_barren_land: 10,1 # ratio%, max
   - name: Burrower
     cost:
-      platinum: 300
+      platinum: 375
     power:
       offense: 0
       defense: 4
     perks:
       immortal_except_vs: Swarm
-      gem_production: 1.5
+      gem_production: 0.5
   - name: Arachnid
     need_boat: false
     cost:
-      platinum: 800
+      platinum: 1000
     power:
       offense: 4
       defense: 7
     perks:
-      offense_vs_barren_land: 5,2 # ratio%, max
+      offense_vs_barren_land: 10,1 # ratio%, max
       fewer_casualties_defense: 80
   - name: Naga
     need_boat: false
     cost:
-      platinum: 600
+      platinum: 800
     power:
       offense: 5
       defense: 3
     perks:
-      offense_vs_barren_land: 2,5 # ratio%, max
+      offense_vs_barren_land: 5,2 # ratio%, max
       fewer_casualties_defense: 80
