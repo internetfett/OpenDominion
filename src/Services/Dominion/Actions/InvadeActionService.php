@@ -1327,6 +1327,7 @@ class InvadeActionService
           // Artillery: damages_improvements_on_attack
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
           {
+            $castleToBeDamaged = [];
 
             $damageReductionFromMasonries = 1 - (($dominion->building_masonry * 0.75) / $this->landCalculator->getTotalLand($dominion));
 
