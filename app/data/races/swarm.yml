@@ -42,7 +42,7 @@ units:
       defense: 4
     perks:
       immortal_except_vs: Swarm
-      gem_production: 0.5
+      gem_production: 0.75
   - name: Arachnid
     need_boat: false
     cost:
