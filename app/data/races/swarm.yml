@@ -15,7 +15,7 @@ exploring : 2
 converting: 1
 
 perks:
-  extra_barren_max_population: 20
+  extra_barren_max_population: 25
   cannot_construct: 1
   food_consumption: -50
   immortal_spies: 1
@@ -56,7 +56,7 @@ units:
   - name: Naga
     need_boat: false
     cost:
-      platinum: 700
+      platinum: 7 00
     power:
       offense: 5
       defense: 3
