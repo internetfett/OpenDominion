@@ -37,7 +37,6 @@
                         <thead>
                             <tr>
                                 <th>Spell</th>
-                                <th></th>
                                 <th>Multiplier</th>
                                 <th>Duration (ticks)</th>
                                 <th>Description</th>
@@ -47,7 +46,6 @@
                             @foreach($spellHelper->getSelfSpells(null)->sortBy('name') as $operation)
                                 <tr>
                                     <td>{{ $operation['name'] }}</td>
-                                    <td>&nbsp;</td>
                                     <td>{{ $operation['mana_cost'] }}x</td>
                                     <td>{{ $operation['duration'] }}</td>
                                     <td>{{ $operation['description'] }}</td>
@@ -65,13 +63,11 @@
                             <col width="125px">
                             <col width="125px">
                             <col width="125px">
-                            <col width="125px">
                             <col>
                         </colgroup>
                         <thead>
                             <tr>
                                 <th>Spell</th>
-                                <th></th>
                                 <th>Multiplier</th>
                                 <th>Description</th>
                             </tr>
@@ -80,7 +76,6 @@
                             @foreach($spellHelper->getInfoOpSpells(null)->sortBy('name') as $operation)
                                 <tr>
                                     <td>{{ $operation['name'] }}</td>
-                                    <td></td>
                                     <td>{{ $operation['mana_cost'] }}x</td>
                                     <td>{{ $operation['description'] }}</td>
                                 </tr>
