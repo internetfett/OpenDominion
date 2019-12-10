@@ -89,7 +89,6 @@ class ProductionCalculator
 
         // Values
         $peasantTax = 2.7;
-        #$spellAlchemistFlameAlchemyBonus = 30;
         $platinumPerAlchemy = 45;
 
         // Race specialty: Void peasants
@@ -186,7 +185,7 @@ class ProductionCalculator
         }
 
         // Apply Morale multiplier to production multiplier
-        return min(1.5, (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion));
+        return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
     //</editor-fold>
