@@ -39,6 +39,10 @@ input[type="number"] {
   text-decoration: line-through;
 }
 
+.scribes-menu > .active > a{
+  background: rgba(0, 0, 0, 0.1);
+}
+
 // Allow inline select elements.
 .form-control.form-inline {
   width:auto;
