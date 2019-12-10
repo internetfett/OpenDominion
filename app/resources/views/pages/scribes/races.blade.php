@@ -11,7 +11,7 @@
                 <div class="col-md-12 col-md-12">
                     <p>Players must choose a race for their dominion. Each race has unique bonuses, military units, and spells.</p>
                     <em>
-                        <p>More information can be found on the <a href="https://wiki.opendominion.net/wiki/Races">wiki</a>.</p>
+                        <p>More information can be found on the <a href="https://odarena.miraheze.org/wiki/Factions">wiki</a>.</p>
                     </em>
                 </div>
             </div>

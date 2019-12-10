@@ -12,7 +12,7 @@
                     <p>Buildings are the backbone of your dominion and provide you with production and various bonuses.</p>
                     <p>They can only be constructed on acres of barren land.</p>
                     <em>
-                        <p>More information can be found on the <a href="https://wiki.opendominion.net/wiki/Buildings">wiki</a>.</p>
+                        <p>More information can be found on the <a href="https://odarena.miraheze.org/wiki/Buildings">wiki</a>.</p>
                     </em>
                 </div>
             </div>
@@ -33,9 +33,9 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Building</th>
                                 <th>Land</th>
-                                <th>&nbsp;</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>

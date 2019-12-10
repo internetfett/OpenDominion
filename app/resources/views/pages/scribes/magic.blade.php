@@ -105,7 +105,7 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Race(s)</th>
+                                <th>Faction(s)</th>
                                 <th>Cost multiplier</th>
                                 <th>Duration (hours)</th>
                                 <th></th>
