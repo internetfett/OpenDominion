@@ -36,11 +36,11 @@
                         </colgroup>
                         <thead>
                             <tr>
+                                <th>Spell</th>
                                 <th></th>
-                                <th></th>
-                                <th>Cost multiplier</th>
-                                <th>Duration (hours)</th>
-                                <th></th>
+                                <th>Multiplier</th>
+                                <th>Duration (ticks)</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,11 +70,10 @@
                         </colgroup>
                         <thead>
                             <tr>
+                                <th>Spell</th>
                                 <th></th>
-                                <th></th>
-                                <th>Cost multiplier</th>
-                                <th>Duration (hours)</th>
-                                <th>&nbsp;</th>
+                                <th>Multiplier</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -83,7 +82,6 @@
                                     <td>{{ $operation['name'] }}</td>
                                     <td></td>
                                     <td>{{ $operation['mana_cost'] }}x</td>
-                                    <td></td>
                                     <td>{{ $operation['description'] }}</td>
                                 </tr>
                             @endforeach
@@ -104,11 +102,11 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Spell</th>
                                 <th>Faction(s)</th>
                                 <th>Cost multiplier</th>
-                                <th>Duration (hours)</th>
-                                <th></th>
+                                <th>Duration (ticks)</th>
+                                <th>Description</th>
                             </tr>
                         </thead>
                         <tbody>
