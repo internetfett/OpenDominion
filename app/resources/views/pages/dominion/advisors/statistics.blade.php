@@ -404,7 +404,7 @@
                                             <tr>
                                                 <td>Gems:</td>
                                                 <td>
-                                                    <strong>{{ number_format($selectedDominion->stat_total_gems_production) }}</strong>
+                                                    <strong>{{ number_format($selectedDominion->stat_total_gem_production) }}</strong>
                                                 </td>
                                             </tr>
                                             <tr>

@@ -64,9 +64,7 @@ class ConstructActionService
 
         $totalBuildingsToConstruct = array_sum($data);
 
-        if ($totalBuildingsToConstruct <= 0)
-        {
-            #die(var_dump($data));
+        if ($totalBuildingsToConstruct <= 0) {
             throw new GameException('Construction was not started due to bad input.');
         }
 
@@ -89,9 +87,8 @@ class ConstructActionService
                 continue;
             }
 
-            if ($amount < 0)
-            {
-              throw new GameException('Construction was not completed due to bad input.');
+            if ($amount < 0) {
+                throw new GameException('Construction was not completed due to bad input.');
             }
 
             $landType = $this->landHelper->getLandTypeForBuildingByRace(
