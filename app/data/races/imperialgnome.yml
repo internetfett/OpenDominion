@@ -40,9 +40,8 @@ units:
       defense: 5
   - name: Catapult
     cost:
-      platinum: 37500
+      platinum: 55000
       ore: 20000
-      lumber: 20000
     power:
       offense: 0
       defense: 300
@@ -51,9 +50,8 @@ units:
   - name: Airship
     need_boat: false
     cost:
-      platinum: 14500
+      platinum: 30000
       ore: 3500
-      lumber: 14500
       gem: 250
     power:
       offense: 120
