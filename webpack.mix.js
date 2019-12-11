@@ -37,7 +37,7 @@ const vendorDirs = {
 
 
     // ClientJS
-    'node_modules/clientjs/dist/js': 'public/assets/vendor/select2/js',
+    'node_modules/clientjs/dist/client.min.js': 'public/assets/vendor/clientjs/client.min.js',
 
 };
 
