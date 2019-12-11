@@ -1,9 +1,5 @@
 <header class="main-header">
 
-  @push('page-scripts')
-      <script type="text/javascript" src="{{ asset('assets/vendor/clientjs/client.min.js') }}"></script>
-  @endpush
-
     <!-- Logo -->
     <a href="{{ url('') }}" class="logo">
         <span class="logo-mini">OD<b>A</b></span>

@@ -27,6 +27,10 @@
     <meta name="application-name" content="OD Arena">
     <meta name="theme-color" content="#ffffff">
 
+    @if Route::is('auth.login')
+    <script type="text/javascript" src="{{ asset('assets/vendor/clientjs/client.min.js') }}"></script>
+    @endif
+
     @include('partials.styles')
 
     <!--[if lt IE 9]>
