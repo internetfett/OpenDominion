@@ -57,4 +57,9 @@
 
         </div>
     </div>
+
+    @push('page-scripts')
+        <script type="text/javascript" src="{{ asset('assets/vendor/clientjs/clientjs.min.js') }}"></script>
+    @endpush
+
 @endsection
