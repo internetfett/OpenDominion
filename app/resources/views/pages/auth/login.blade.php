@@ -69,7 +69,7 @@
 
 	var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
 
-	alert( fingerprint );
+	console.log( fingerprint );
 
 </script>
 
