@@ -47,6 +47,8 @@ units:
       defense: 300
     perks:
       fewer_casualties: 25
+      no_draftee: 1
+      does_not_count_as_population: 1
   - name: Airship
     need_boat: false
     cost:
@@ -58,3 +60,5 @@ units:
       defense: 20
     perks:
       fewer_casualties: 50
+      no_draftee: 1
+      does_not_count_as_population: 1
