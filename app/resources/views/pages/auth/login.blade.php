@@ -62,4 +62,16 @@
         <script type="text/javascript" src="{{ asset('assets/vendor/clientjs/client.min.js') }}"></script>
     @endpush
 
+
+<script>
+
+	var client = new ClientJS(); // Create A New Client Object
+
+	var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+
+	alert( fingerprint );
+
+</script>
+
+
 @endsection
