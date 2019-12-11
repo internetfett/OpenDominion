@@ -1,5 +1,9 @@
 @extends('layouts.topnav')
 
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/clientjs/client.min.js') }}"></script>
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
@@ -57,11 +61,6 @@
 
         </div>
     </div>
-
-    @push('page-scripts')
-        <script type="text/javascript" src="{{ asset('assets/vendor/clientjs/client.min.js') }}"></script>
-    @endpush
-
 
 <script>
 
