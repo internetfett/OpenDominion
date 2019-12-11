@@ -33,6 +33,8 @@ class GuardMembershipActionService
      */
     public function joinRoyalGuard(Dominion $dominion): array
     {
+        $this->guardLockedDominion($dominion);
+
         if (!$this->guardMembershipService->canJoinGuards($dominion)) {
             throw new GameException('You cannot join the Royal Guard for the first five days of the round.');
         }
@@ -69,6 +71,8 @@ class GuardMembershipActionService
      */
     public function joinEliteGuard(Dominion $dominion): array
     {
+        $this->guardLockedDominion($dominion);
+
         if (!$this->guardMembershipService->isRoyalGuardMember($dominion)) {
             throw new GameException('You must already be a member of the Royal Guard.');
         }
@@ -105,6 +109,8 @@ class GuardMembershipActionService
      */
     public function leaveRoyalGuard(Dominion $dominion): array
     {
+        $this->guardLockedDominion($dominion);
+
         if ($this->guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion)) {
             throw new GameException('You cannot leave the Emperor\'s Royal Guard for 48 hours after joining.');
         }
@@ -144,6 +150,8 @@ class GuardMembershipActionService
      */
     public function leaveEliteGuard(Dominion $dominion): array
     {
+        $this->guardLockedDominion($dominion);
+
         if ($this->guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion)) {
             throw new GameException('You cannot leave the Emperor\'s Elite Guard for 48 hours after joining.');
         }

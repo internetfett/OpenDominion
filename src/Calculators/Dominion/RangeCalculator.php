@@ -198,7 +198,7 @@ class RangeCalculator
         else
         {
         */
-          return $self->round->dominions()
+          return $self->round->activeDominions()
               ->with(['realm', 'round'])
               ->get()
               ->filter(function ($dominion) use ($self) {
