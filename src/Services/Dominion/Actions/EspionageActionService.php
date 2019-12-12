@@ -30,6 +30,11 @@ class EspionageActionService
     use DominionGuardsTrait;
 
     /**
+     * @var float Hostile base success rate
+     */
+    protected const HOSTILE_MULTIPLIER_SUCCESS_RATE = 1.2;
+
+    /**
      * @var float Theft base success rate
      */
     protected const THEFT_MULTIPLIER_SUCCESS_RATE = 1.2;
@@ -102,7 +107,9 @@ class EspionageActionService
         $this->spellCalculator = app(SpellCalculator::class);
     }
 
-    public const THEFT_DAYS_AFTER_ROUND_START = 1; # Any changes here must also be done in espionage.blade.php.
+    # Any changes here must also be done in espionage.blade.php.
+    public const BLACK_OPS_DAYS_AFTER_ROUND_START = 1;
+    public const THEFT_DAYS_AFTER_ROUND_START = 1;
 
     /**
      * Performs a espionage operation for $dominion, aimed at $target dominion.
@@ -151,6 +158,10 @@ class EspionageActionService
             {
                 throw new GameException('You cannot perform resource theft on targets outside of your range');
             }
+        } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
+            if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START) {
+                throw new GameException('You cannot perform black ops for the first seven days of the round');
+            }
         }
 
         if ($dominion->round->id !== $target->round->id) {
@@ -176,18 +187,10 @@ class EspionageActionService
                 $spyStrengthLost = 5;
                 $result = $this->performResourceTheftOperation($dominion, $operationKey, $target);
 
-            } elseif ($this->espionageHelper->isBlackOperation($operationKey)) {
-                if($dominion->round->hasOffensiveActionsDisabled())
-                {
-                    throw new GameException('Black ops have been disabled for the remainder of the round.');
-                }
-                throw new LogicException('Not yet implemented');
-            } elseif ($this->espionageHelper->isWarOperation($operationKey)) {
-                if($dominion->round->hasOffensiveActionsDisabled())
-                {
-                    throw new GameException('Black ops have been disabled for the remainder of the round.');
-                }
-                throw new LogicException('Not yet implemented');
+            } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
+                $spyStrengthLost = 5;
+                $result = $this->performHostileOperation($dominion, $operationKey, $target);
+
             } else {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
@@ -473,7 +476,7 @@ class EspionageActionService
      */
     protected function performResourceTheftOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
-        if($dominion->round->hasOffensiveActionsDisabled())
+        if ($dominion->round->hasOffensiveActionsDisabled())
         {
             throw new GameException('Theft has been disabled for the remainder of the round.');
         }
@@ -796,6 +799,168 @@ class EspionageActionService
         return min($maxTarget, $maxDominion, $maxCarried);
     }
 
-    // todo: black ops/war
-    // don't forget that undead has immortal wizards
+    /**
+     * @param Dominion $dominion
+     * @param string $operationKey
+     * @param Dominion $target
+     * @return array
+     * @throws Exception
+     */
+    protected function performHostileOperation(Dominion $dominion, string $operationKey, Dominion $target): array
+    {
+        if ($dominion->round->hasOffensiveActionsDisabled()) {
+            throw new GameException('Black ops have been disabled for the remainder of the round.');
+        }
+
+        $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
+
+        if ($this->espionageHelper->isWarOperation($operationKey)) {
+            $warDeclared = ($dominion->realm->war_realm_id == $target->realm->id || $target->realm->war_realm_id == $dominion->realm->id);
+            if (!$warDeclared && !$this->militaryCalculator->recentlyInvadedBy($dominion, $target)) {
+                throw new GameException("You cannot perform {$operationInfo['name']} outside of war.");
+            }
+        }
+
+        $selfSpa = $this->militaryCalculator->getSpyRatio($dominion, 'offense');
+        $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+
+        // You need at least some positive SPA to perform espionage operations
+        if ($selfSpa === 0.0) {
+            // Don't reduce spy strength by throwing an exception here
+            throw new GameException("Your spy force is too weak to cast {$operationInfo['name']}. Please train some more spies.");
+        }
+
+        if ($targetSpa !== 0.0) {
+            $successRate = $this->opsHelper->operationSuccessChance(
+                $selfSpa,
+                $targetSpa,
+                static::HOSTILE_MULTIPLIER_SUCCESS_RATE
+            );
+
+            if (!random_chance($successRate)) {
+                // Values (percentage)
+                $spiesKilledBasePercentage = 1; // TODO: Higher for black ops.
+                $forestHavenSpyCasualtyReduction = 3;
+                $forestHavenSpyCasualtyReductionMax = 30;
+
+                $spiesKilledMultiplier = (1 - min(
+                    (($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction),
+                    ($forestHavenSpyCasualtyReductionMax / 100)
+                ));
+
+                $spyLossSpaRatio = ($targetSpa / $selfSpa);
+                $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.5, 1.5);
+
+                $unitsKilled = [];
+                $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
+                if ($spiesKilled > 0) {
+                    $unitsKilled['spies'] = $spiesKilled;
+                    $dominion->military_spies -= $spiesKilled;
+                }
+
+                foreach ($dominion->race->units as $unit) {
+                    if ($unit->getPerkValue('counts_as_spy_offense')) {
+                        $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
+                        $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                        if ($unitKilled > 0) {
+                            $unitsKilled[strtolower($unit->name)] = $unitKilled;
+                            $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                        }
+                    }
+                }
+
+                $unitsKilledStringParts = [];
+                foreach ($unitsKilled as $name => $amount) {
+                    $amountLabel = number_format($amount);
+                    $unitLabel = str_plural(str_singular($name), $amount);
+                    $unitsKilledStringParts[] = "{$amountLabel} {$unitLabel}";
+                }
+                $unitsKilledString = generate_sentence_from_array($unitsKilledStringParts);
+
+                $this->notificationService
+                    ->queueNotification('repelled_spy_op', [
+                        'sourceDominionId' => $dominion->id,
+                        'operationKey' => $operationKey,
+                        'unitsKilled' => $unitsKilledString,
+                    ])
+                    ->sendNotifications($target, 'irregular_dominion');
+
+                if ($unitsKilledString) {
+                    $message = "The enemy has prevented our {$operationInfo['name']} attempt and managed to capture $unitsKilledString.";
+                } else {
+                    $message = "The enemy has prevented our {$operationInfo['name']} attempt.";
+                }
+
+                return [
+                    'success' => false,
+                    'message' => $message,
+                    'alert-type' => 'warning',
+                ];
+            }
+        }
+
+        $damageDealt = [];
+        $baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
+
+        if (isset($operationInfo['decreases'])) {
+            foreach ($operationInfo['decreases'] as $attr) {
+                $damage = $target->{$attr} * $baseDamage;
+
+                // Damage reduction from Docks / Harbor
+                if ($attr == 'resource_boats') {
+                    $boatsProtected = $this->militaryCalculator->getBoatsProtected($target);
+                    $damage = ($target->{$attr} - $boatsProtected) * $baseDamage;
+                }
+
+                // Check for immortal wizards
+                if ($dominion->race->getPerkValue('immortal_wizards') != 0 && $attr == 'military_wizards') {
+                    $damage = 0;
+                }
+
+                $target->{$attr} -= round($damage);
+                $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
+
+                // Update statistics
+                if (isset($dominion->{"stat_{$operationInfo['key']}_damage"})) {
+                    $dominion->{"stat_{$operationInfo['key']}_damage"} += round($damage);
+                }
+            }
+        }
+        if (isset($operationInfo['increases'])) {
+            foreach ($operationInfo['increases'] as $attr) {
+                $damage = $target->{$attr} * $baseDamage;
+                $target->{$attr} += round($damage);
+            }
+        }
+
+        $target->save([
+            'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+            'action' => $operationKey
+        ]);
+
+        // Surreal Perception
+        $sourceDominionId = null;
+        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+            $sourceDominionId = $dominion->id;
+        }
+
+        $damageString = generate_sentence_from_array($damageDealt);
+
+        $this->notificationService
+            ->queueNotification('received_spy_op', [
+                'sourceDominionId' => $sourceDominionId,
+                'operationKey' => $operationKey,
+                'damageString' => $damageString,
+            ])
+            ->sendNotifications($target, 'irregular_dominion');
+
+        return [
+            'success' => true,
+            'message' => sprintf(
+                'Your spies infiltrate the target\'s dominion successfully, they lost %s.',
+                $damageString
+            ),
+            'redirect' => route('dominion.op-center.show', $target),
+        ];
+    }
 }

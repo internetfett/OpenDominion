@@ -10,6 +10,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\InvadeActionRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\Actions\InvadeActionService;
+use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
 # ODA
@@ -20,6 +21,7 @@ class InvasionController extends AbstractDominionController
     public function getInvade()
     {
         return view('pages.dominion.invade', [
+            'governmentService' => app(GovernmentService::class),
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'protectionService' => app(ProtectionService::class),

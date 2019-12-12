@@ -83,7 +83,10 @@
                                                 <select name="target_dominion" id="target_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                     <option></option>
                                                     @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
-                                                        <option value="{{ $dominion->id }}" data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}" data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
+                                                        <option value="{{ $dominion->id }}"
+                                                                data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                                data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
+                                                                data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
                                                             {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                                         </option>
                                                     @endforeach
@@ -125,25 +128,27 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                          <label>
-                                          @if($selectedDominion->race->alignment == 'evil')
-                                            Imperial Dark Arts Magic
-                                          @elseif($selectedDominion->race->alignment == 'good')
-                                            Commonwealth Academy of Wizardry
-                                          @else
-                                            Unknown Magic
-                                          @endif
-                                          &nbsp;(Not Yet Implemented - causes error or just wastes mana)
-                                          </label>
+                                            <label>
+                                                @if($selectedDominion->race->alignment == 'evil')
+                                                    Imperial Dark Arts Magic
+                                                @elseif($selectedDominion->race->alignment == 'good')
+                                                    Commonwealth Academy of Wizardry
+                                                @else
+                                                    Unknown Magic
+                                                @endif
+                                            </label>
                                         </div>
                                     </div>
 
-                                    @foreach ($spellHelper->getBlackOpSpells($selectedDominion->race)->chunk(4) as $spells)
+                                    @foreach ($spellHelper->getBlackOpSpells($dominion->race)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
+                                                @php
+                                                    $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
+                                                @endphp
                                                 <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
                                                     <div class="form-group">
-                                                        <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$spellCalculator->canCast($selectedDominion, $spell['key']) ? 'disabled' : null }}>
+                                                        <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
                                                             {{ $spell['name'] }}
                                                         </button>
                                                         <p>{{ $spell['description'] }}</p>
@@ -160,6 +165,40 @@
                                         </div>
                                     @endforeach
 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>War Spells</label>
+                                        </div>
+                                    </div>
+
+                                    @foreach ($spellHelper->getWarSpells($dominion->race)->chunk(4) as $spells)
+                                        <div class="row">
+                                            @foreach ($spells as $spell)
+                                                @php
+                                                    $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
+                                                @endphp
+                                                <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
+                                                    <div class="form-group">
+                                                        <button type="submit"
+                                                                name="spell"
+                                                                value="{{ $spell['key'] }}"
+                                                                class="btn btn-primary btn-block war-spell disabled"
+                                                                {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                            {{ $spell['name'] }}
+                                                        </button>
+                                                        <p>{{ $spell['description'] }}</p>
+                                                        <small>
+                                                            @if ($canCast)
+                                                                Mana cost: <span class="text-success">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }}</span>
+                                                            @else
+                                                                Mana cost: <span class="text-danger">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }}</span>
+                                                            @endif
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
 
                                 </div>
                             </form>
@@ -201,12 +240,20 @@
 @push('inline-scripts')
     <script type="text/javascript">
         (function ($) {
-            $('.select2').select2({
+            $('#target_dominion').select2({
                 templateResult: select2Template,
                 templateSelection: select2Template,
             });
+            $('#target_dominion').change(function(e) {
+                var warStatus = $(this).find(":selected").data('war');
+                if (warStatus == 1) {
+                    $('.war-spell').removeClass('disabled');
+                } else {
+                    $('.war-spell').addClass('disabled');
+                }
+            });
             @if (session('target_dominion'))
-                $('.select2').val('{{ session('target_dominion') }}').trigger('change.select2');
+                $('#target_dominion').val('{{ session('target_dominion') }}').trigger('change.select2').trigger('change');
             @endif
         })(jQuery);
 
@@ -217,6 +264,7 @@
 
             const land = state.element.dataset.land;
             const percentage = state.element.dataset.percentage;
+            const war = state.element.dataset.war;
             let difficultyClass;
 
             if (percentage >= 120) {
@@ -229,8 +277,14 @@
                 difficultyClass = 'text-gray';
             }
 
+            warStatus = '';
+            if (war == 1) {
+                warStatus = '<div class="pull-left">&nbsp;<span class="text-red">WAR</span></div>';
+            }
+
             return $(`
                 <div class="pull-left">${state.text}</div>
+                ${warStatus}
                 <div class="pull-right">${land} land <span class="${difficultyClass}">(${percentage}%)</span></div>
                 <div style="clear: both;"></div>
             `);
