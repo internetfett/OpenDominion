@@ -35,8 +35,14 @@ class SpellHelper
         })->isNotEmpty();
     }
 
+    public function isHostileSpell(string $spellKey, Race $race): bool
+    {
+        return $this->getHostileSpells($race)->filter(function ($spell) use ($spellKey) {
+            return ($spell['key'] === $spellKey);
+        })->isNotEmpty();
+    }
 
-    public function isBlackOpSpell(string $spellKey, Race $race): bool
+    public function isBlackOpSpell(string $spellKey): bool
     {
         return $this->getBlackOpSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
@@ -112,13 +118,13 @@ class SpellHelper
                 'mana_cost' => 4,
                 'duration' => 8*4,# * $this->militaryCalculator->getWizardRatio($target, 'defense'),
             ],
-//            [
-//                'name' => 'Energy Mirror',
-//                'description' => '20% chance to reflect incoming spells',
-//                'key' => '',
-//                'mana_cost' => 3,
-//                'duration' => 8,
-//            ]
+            [
+                'name' => 'Energy Mirror',
+                'description' => '20% chance to reflect incoming offensive spells for 8 hours',
+                'key' => 'energy_mirror',
+                'mana_cost' => 3,
+                'duration' => 8,
+            ]
         ]));
 
         if($race !== null){
@@ -437,26 +443,70 @@ class SpellHelper
         ]);
     }
 
+    public function getHostileSpells(Race $race): Collection
+    {
+        return $this->getBlackOpSpells($race)
+            ->merge($this->getWarSpells($race));
+    }
+
     public function getBlackOpSpells(Race $race): Collection
     {
-
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
       if($race->alignment == 'good')
       {
         return collect([
-          [
-              'name' => 'Lightning Bolt',
-              'description' => 'Destroy the target\'s castle improvements',
-              'key' => 'lightning_bolt',
-              'mana_cost' => 1,
-          ],
-          [
+            [
+                'name' => 'Iceshard',
+                'description' => 'Destroy the target\'s castle improvements',
+                'key' => 'lightning_bolt',
+                'mana_cost' => 1,
+                'decreases' => [
+                    'improvement_science',
+                    'improvement_keep',
+                    'improvement_towers',
+                    'improvement_forges',
+                    'improvement_walls',
+                    'improvement_harbor',
+                ],
+                'percentage' => 1,
+            ],
+            [
               'name' => 'Silencing',
               'description' => 'Weaken the target\'s wizards',
               'key' => 'silencing',
               'mana_cost' => 1,
-          ],
+              'decreases' => ['wizard_strength'],
+              'percentage' => 2,
+            ],
+            [
+                'name' => 'Plague',
+                'description' => 'Slows population growth',
+                'key' => 'plague',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
+            [
+                'name' => 'Insect Swarm',
+                'description' => 'Slows food production',
+                'key' => 'insect_swarm',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
+            [
+                'name' => 'Great Flood',
+                'description' => 'Slows boat production',
+                'key' => 'great_flood',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
+            [
+                'name' => 'Earthquake',
+                'description' => 'Slows mine production',
+                'key' => 'earthquake',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
         ]);
       }
       # Imperial Dark Arts Magic
@@ -464,18 +514,57 @@ class SpellHelper
       elseif($race->alignment == 'evil')
       {
         return collect([
-          [
-              'name' => 'Fireball',
-              'description' => 'Burn target\'s peasants and food',
-              'key' => 'fireball',
-              'mana_cost' => 1,
-          ],
-          [
-              'name' => 'Iceshard',
-              'description' => 'Destroy the target\'s castle improvements',
-              'key' => 'lightning_bolt',
-              'mana_cost' => 1,
-          ],
+            [
+                'name' => 'Fireball',
+                'description' => 'Burn target\'s peasants and food',
+                'key' => 'fireball',
+                'mana_cost' => 1,
+                'decreases' => ['peasants', 'resource_food'],
+                'percentage' => 1,
+            ],
+            [
+                'name' => 'Iceshard',
+                'description' => 'Destroy the target\'s castle improvements',
+                'key' => 'lightning_bolt',
+                'mana_cost' => 1,
+                'decreases' => [
+                    'improvement_science',
+                    'improvement_keep',
+                    'improvement_towers',
+                    'improvement_forges',
+                    'improvement_walls',
+                    'improvement_harbor',
+                ],
+                'percentage' => 1,
+            ],
+            [
+                'name' => 'Plague',
+                'description' => 'Slows population growth',
+                'key' => 'plague',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
+            [
+                'name' => 'Insect Swarm',
+                'description' => 'Slows food production',
+                'key' => 'insect_swarm',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
+            [
+                'name' => 'Great Flood',
+                'description' => 'Slows boat production',
+                'key' => 'great_flood',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
+            [
+                'name' => 'Earthquake',
+                'description' => 'Slows mine production',
+                'key' => 'earthquake',
+                'mana_cost' => 3,
+                'duration' => 12,
+            ],
         ]);
       }
 
@@ -484,10 +573,16 @@ class SpellHelper
 
     public function getWarSpells(Race $race): Collection
     {
-
-      return collect([
-          //
-      ]);
-
+        return collect([
+            [
+                'name' => 'Disband Spies',
+                'description' => 'Turns spies into draftees',
+                'key' => 'disband_spies',
+                'mana_cost' => 1,
+                'decreases' => ['military_spies'],
+                'increases' => ['military_draftees'],
+                'percentage' => 1,
+            ],
+        ]);
     }
 }
