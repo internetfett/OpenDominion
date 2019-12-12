@@ -293,8 +293,8 @@ class SpellActionService
     {
         $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion->race);
 
-        $this->militaryCalculator->getWizardRatio($dominion, 'offense');
-        $this->militaryCalculator->getWizardRatio($target, 'defense');
+        $selfWpa = $this->militaryCalculator->getWizardRatio($dominion, 'offense');
+        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
 
         // You need at least some positive WPA to cast info ops
         if ($selfWpa === 0.0) {
