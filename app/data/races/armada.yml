@@ -45,8 +45,6 @@ units:
       defense: 120
     perks:
       fewer_casualties: 50
-      no_draftee: 1
-      does_not_count_as_population: 1
   - name: Siege Ship
     need_boat: false
     cost:
@@ -59,5 +57,3 @@ units:
       defense: 40
     perks:
       fewer_casualties: 75
-      no_draftee: 1
-      does_not_count_as_population: 1

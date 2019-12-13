@@ -27,13 +27,6 @@ class EspionageHelper
         })->isNotEmpty();
     }
 
-    public function isHostileOperation(string $operationKey): bool
-    {
-        return $this->getHostileOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->isNotEmpty();
-    }
-
     public function isBlackOperation(string $operationKey): bool
     {
         return $this->getBlackOperations()->filter(function ($operation) use ($operationKey) {
@@ -128,49 +121,19 @@ class EspionageHelper
         ]);
     }
 
-    public function getHostileOperations(): Collection
-    {
-        return $this->getBlackOperations()
-            ->merge($this->getWarOperations());
-    }
-
     public function getBlackOperations(): Collection
     {
         return collect([
-            [
-                'name' => 'Assassinate Draftees',
-                'description' => 'Kills untrained draftees',
-                'key' => 'assassinate_draftees',
-                'decreases' => ['military_draftees'],
-                'percentage' => 2,
-            ],
+            // assassinate draftees
         ]);
     }
 
     public function getWarOperations(): Collection
     {
         return collect([
-            [
-                'name' => 'Assassinate Wizards',
-                'description' => 'Kills wizards',
-                'key' => 'assassinate_wizards',
-                'decreases' => ['military_wizards'],
-                'percentage' => 2,
-            ],
-            [
-                'name' => 'Magic Snare',
-                'description' => 'Reduces wizard strength',
-                'key' => 'magic_snare',
-                'decreases' => ['wizard_strength'],
-                'percentage' => 2,
-            ],
-            [
-                'name' => 'Sabotage Boats',
-                'description' => 'Destroys boats',
-                'key' => 'sabotage_boats',
-                'decreases' => ['resource_boats'],
-                'percentage' => 2,
-            ],
+            // assassinate wiards
+            // magic snare
+            // sabotage boats
         ]);
     }
 }

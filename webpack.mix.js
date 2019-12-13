@@ -35,9 +35,6 @@ const vendorDirs = {
     'node_modules/select2/dist/css': 'public/assets/vendor/select2/css',
     'node_modules/select2/dist/js': 'public/assets/vendor/select2/js',
 
-    // ClientJS
-    'node_modules/clientjs/dist/client.min.js': 'public/assets/vendor/clientjs/client.min.js',
-
 };
 
 for (const dir in vendorDirs) {

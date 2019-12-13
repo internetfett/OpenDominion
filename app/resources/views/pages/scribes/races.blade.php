@@ -27,13 +27,11 @@
                     <table class="table table-striped" style="margin-bottom: 0">
                         <tbody>
                             @foreach ($goodRaces as $race)
-                            @if($race['playable'] == 1)
                                 <tr>
                                     <td>
                                         <a href="{{ route('scribes.race', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
                                     </td>
                                 </tr>
-                            @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -45,13 +43,11 @@
                     <table class="table table-striped" style="margin-bottom: 0">
                         <tbody>
                             @foreach ($evilRaces as $race)
-                            @if($race['playable'] == 1)
                                 <tr>
                                     <td>
                                         <a href="{{ route('scribes.race', $race['name']) }}">{{ $race['name'] }}</a>
                                     </td>
                                 </tr>
-                            @endif
                             @endforeach
                         </tbody>
                     </table>

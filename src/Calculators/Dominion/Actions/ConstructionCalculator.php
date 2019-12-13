@@ -388,8 +388,25 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         if ($dominion->discounted_land > 0)
         {
-            $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost / 2));
-            $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost / 2));
+            
+            if($platinumCost > 0)
+            {
+              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost / 2));
+            }
+            else
+            {
+              $maxFromDiscountedPlatinum = 0;
+            }
+
+
+            if($lumberCost > 0)
+            {
+              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost / 2));
+            }
+            else
+            {
+              $maxFromDiscountedLumber = 0;
+            }
 
             if($manaCost > 0)
             {
@@ -399,6 +416,7 @@ class ConstructionCalculator
             {
               $maxFromDiscountedMana = 0;
             }
+
             if($foodCost > 0)
             {
               $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
@@ -407,6 +425,7 @@ class ConstructionCalculator
             {
               $maxFromDiscountedFood = 0;
             }
+
             // Set the number of afforded discounted buildings
             $discountedBuildings = min(
                 $maxFromDiscountedPlatinum,

@@ -41,17 +41,88 @@ class RezoningCalculator
      */
     public function getPlatinumCost(Dominion $dominion): int
     {
-        $platinum = 0;
 
-        $platinum += $this->landCalculator->getTotalLand($dominion);
+        if($dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))
+        {
+          return 0;
+        }
+        else
+        {
+          $platinum = 0;
 
-        $platinum -= 250;
-        $platinum *= 0.6;
-        $platinum += 250;
+          $platinum += $this->landCalculator->getTotalLand($dominion);
 
-        $platinum *= $this->getCostMultiplier($dominion);
+          $platinum -= 250;
+          $platinum *= 0.6;
+          $platinum += 250;
 
-        return round($platinum);
+          $platinum *= $this->getCostMultiplier($dominion);
+
+          return round($platinum);
+        }
+
+    }
+
+
+    /**
+     * Returns the Dominion's rezoning food cost (per acre of land).
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getFoodCost(Dominion $dominion): int
+    {
+      if($dominion->race->getPerkMultiplier('construction_cost_only_food'))
+      {
+        $food = 0;
+
+        $food += $this->landCalculator->getTotalLand($dominion);
+
+        $food -= 250;
+        $food *= 0.6;
+        $food += 250;
+
+        $food /= 3;
+
+        $food *= $this->getCostMultiplier($dominion);
+
+        return round($food);
+      }
+      else
+      {
+        return 0;
+      }
+    }
+
+
+    /**
+     * Returns the Dominion's rezoning mana cost (per acre of land).
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getManaCost(Dominion $dominion): int
+    {
+        if($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
+        {
+          $mana = 0;
+
+          $mana += $this->landCalculator->getTotalLand($dominion);
+
+          $mana -= 250;
+          $mana *= 0.6;
+          $mana += 250;
+
+          $mana /= 3;
+
+          $mana *= $this->getCostMultiplier($dominion);
+
+          return round($mana);
+        }
+        else
+        {
+          return 0;
+        }
     }
 
     /**
@@ -62,10 +133,37 @@ class RezoningCalculator
      */
     public function getMaxAfford(Dominion $dominion): int
     {
-        return min(
-            floor($dominion->resource_platinum / $this->getPlatinumCost($dominion)),
-            $this->landCalculator->getTotalBarrenLand($dominion)
+
+      if($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
+      {
+        $manaCost = $this->getManaCost($dominion);
+        $maxAfford = min(
+          floor($dominion->resource_mana / $manaCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
         );
+
+      }
+      elseif($dominion->race->getPerkMultiplier('construction_cost_only_food'))
+      {
+        $foodCost = $this->getFoodCost($dominion);
+        $maxAfford = min(
+          floor($dominion->resource_food / $foodCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
+        );
+
+      }
+      else
+      {
+        $platinumCost = $this->getPlatinumCost($dominion);
+        $maxAfford = min(
+          floor($dominion->resource_platinum / $platinumCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
+          );
+
+      }
+
+      return $maxAfford;
+
     }
 
     /**

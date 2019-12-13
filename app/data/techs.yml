@@ -553,7 +553,7 @@ food_production_level2:
     - food_production_level1
 
 food_production_level3:
-  name: Food Production (3/6)
+  name: Food Productionvery (3/6)
   cost_multiplier: 20
   perks:
     food_production: 7.5

@@ -201,7 +201,7 @@ class BuildingHelper
             'alchemy' => 2,
             'farm' => 2,
             'smithy' => 2,
-            'masonry' => 2,
+            'masonry' => 1, // reduce lightning bolt damage
             'ore_mine' => 2,
             'gryphon_nest' => 2,
             'tower' => 2,
@@ -210,14 +210,14 @@ class BuildingHelper
             'diamond_mine' => 2,
             #'school' => 2,
             'lumberyard' => 2,
-            'forest_haven' => 2,
+            'forest_haven' => 1, // reduce losses on failed spy ops, reduce fireball damage
             'factory' => 2,
             'guard_tower' => 2,
             'shrine' => 2,
             'barracks' => 2,
             'dock' => 2,
 
-            # ODA
+
             'ziggurat' => 2,
             'tissue' => 2,
             'mycelia' => 2,

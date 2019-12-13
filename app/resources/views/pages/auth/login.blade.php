@@ -57,16 +57,4 @@
 
         </div>
     </div>
-
-<script>
-
-	var client = new ClientJS(); // Create A New Client Object
-
-	var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
-
-	console.log( fingerprint );
-
-</script>
-
-
 @endsection

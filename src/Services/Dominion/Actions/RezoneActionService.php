@@ -74,15 +74,31 @@ class RezoneActionService
             }
         }
 
-        $costPerAcre = $this->rezoningCalculator->getPlatinumCost($dominion);
-        $platinumCost = $totalLand * $costPerAcre;
+        $platinumCost = $totalLand * $this->rezoningCalculator->getPlatinumCost($dominion);
+        $foodCost = $totalLand * $this->rezoningCalculator->getFoodCost($dominion);
+        $manaCost = $totalLand * $this->rezoningCalculator->getManaCost($dominion);
 
-        if ($platinumCost > $dominion->resource_platinum) {
+
+        if ($platinumCost > 0 and $platinumCost > $dominion->resource_platinum)
+        {
             throw new GameException("You do not have enough platinum to re-zone {$totalLand} acres of land.");
         }
 
+        if ($foodCost > 0 and $foodCost > $dominion->resource_food)
+        {
+            throw new GameException("You do not have enough food to re-zone {$totalLand} acres of land.");
+        }
+
+        if ($manaCost > 0 and $platinumCost > $dominion->resource_mana)
+        {
+            throw new GameException("You do not have enough mana to re-zone {$totalLand} acres of land.");
+        }
+
+
         // All fine, perform changes.
         $dominion->resource_platinum -= $platinumCost;
+        $dominion->resource_food -= $foodCost;
+        $dominion->resource_mana -= $manaCost;
 
         foreach ($remove as $landType => $amount) {
             $dominion->{'land_' . $landType} -= $amount;
@@ -93,10 +109,27 @@ class RezoneActionService
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_REZONE]);
 
+        if($manaCost > 0)
+        {
+          $resource = 'mana';
+          $cost = $manaCost;
+        }
+        elseif($foodCost > 0)
+        {
+          $resource = 'food';
+          $cost = $foodCost;
+        }
+        else
+        {
+          $resource = 'platinum';
+          $cost = $platinumCost;
+        }
+
         return [
             'message' => sprintf(
-                'Your land has been re-zoned at a cost of %s platinum.',
-                number_format($platinumCost)
+                'Your land has been re-zoned at a cost of %1$s %2$s.',
+                number_format($cost),
+                $resource
             ),
             'data' => [
                 'platinumCost' => $platinumCost,
