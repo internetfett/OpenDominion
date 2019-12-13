@@ -23,6 +23,25 @@ class ActivityService
             'key' => $activityEvent->getKey(),
             'status' => $activityEvent->getStatus(),
             'context' => (!empty($activityEvent->getContext()) ? $activityEvent->getContext() : null),
+/*
+            # ODA - ClientJS
+            'client_fingerprint' => NULL,
+            'client_browser' => NULL,
+            'client_browserversion' => NULL,
+            'client_useragent' => NULL,
+            'client_os' => NULL,
+            'client_osVersion' => NULL,
+            'client_ismobile' => NULL,
+            'client_ismobileios' => NULL,
+            'client_ismobileandroid' => NULL,
+            'client_screenprint' => NULL,
+            'client_plugins' => NULL,
+            'client_fonts' => NULL,
+            'client_timezone' => NULL,
+            'client_language' => NULL,
+            'client_systemlanguage' => NULL,
+            'client_canvasprint' => NULL,
+*/
         ]));
     }
 
