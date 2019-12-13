@@ -102,7 +102,7 @@
                                 </div>
                             </div>
 
-                            @if(stristr(Auth::user()->display_email, '@lykanthropos.com')
+                            @if(stristr(Auth::user()->email, '@lykanthropos.com'))
                             <div class="col-xs-12">
                                 <div class="text-center">
                                     <h2>NPC</h2>
