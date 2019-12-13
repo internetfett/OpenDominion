@@ -74,15 +74,31 @@ class RezoneActionService
             }
         }
 
-        $costPerAcre = $this->rezoningCalculator->getPlatinumCost($dominion);
-        $platinumCost = $totalLand * $costPerAcre;
+        $platinumCost = $totalLand * $this->rezoningCalculator->getPlatinumCost($dominion);
+        $foodCost = $totalLand * $this->rezoningCalculator->getFoodCost($dominion);
+        $manaCost = $totalLand * $this->rezoningCalculator->getManaCost($dominion);
 
-        if ($platinumCost > $dominion->resource_platinum) {
+
+        if ($platinumCost > 0 and $platinumCost > $dominion->resource_platinum)
+        {
             throw new GameException("You do not have enough platinum to re-zone {$totalLand} acres of land.");
         }
 
+        if ($foodCost > 0 and $foodCost > $dominion->resource_food)
+        {
+            throw new GameException("You do not have enough platinum to re-zone {$totalLand} acres of land.");
+        }
+
+        if ($manaCost > 0 and $platinumCost > $dominion->resource_mana)
+        {
+            throw new GameException("You do not have enough platinum to re-zone {$totalLand} acres of land.");
+        }
+
+
         // All fine, perform changes.
         $dominion->resource_platinum -= $platinumCost;
+        $dominion->resource_food -= $foodCost;
+        $dominion->resource_mana -= $manaCost;
 
         foreach ($remove as $landType => $amount) {
             $dominion->{'land_' . $landType} -= $amount;

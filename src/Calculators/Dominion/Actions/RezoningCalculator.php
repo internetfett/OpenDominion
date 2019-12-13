@@ -54,6 +54,50 @@ class RezoningCalculator
         return round($platinum);
     }
 
+
+    /**
+     * Returns the Dominion's rezoning food cost (per acre of land).
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getFoodCost(Dominion $dominion): int
+    {
+        $food = 0;
+
+        $food += $this->landCalculator->getTotalLand($dominion);
+
+        $food -= 250;
+        $food *= 0.6;
+        $food += 250;
+
+        $food *= $this->getCostMultiplier($dominion);
+
+        return round($food);
+    }
+
+
+    /**
+     * Returns the Dominion's rezoning mana cost (per acre of land).
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getManaCost(Dominion $dominion): int
+    {
+        $mana = 0;
+
+        $mana += $this->landCalculator->getTotalLand($dominion);
+
+        $mana -= 250;
+        $mana *= 0.6;
+        $mana += 250;
+
+        $mana *= $this->getCostMultiplier($dominion);
+
+        return round($mana);
+    }
+
     /**
      * Returns the maximum number of acres of land a Dominion can rezone.
      *
@@ -62,10 +106,36 @@ class RezoningCalculator
      */
     public function getMaxAfford(Dominion $dominion): int
     {
-        return min(
-            floor($dominion->resource_platinum / $this->getPlatinumCost($dominion)),
-            $this->landCalculator->getTotalBarrenLand($dominion)
+      $platinumCost = $this->getPlatinumCost($dominion);
+      $foodCost = $this->getFoodCost($dominion);
+      $manaCost = $this->getManaCost($dominion);
+
+      if($foodCost > 0)
+      {
+        $maxAfford = min(
+          floor($dominion->resource_food / $foodCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
         );
+
+      }
+      if($manaCost > 0)
+      {
+        $maxAfford = min(
+          floor($dominion->resource_mana / $manaCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
+        );
+
+      }
+      else
+      {
+        $maxAfford = min(
+          floor($dominion->resource_platinum / $platinumCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
+        );
+      }
+
+      return $maxAfford;
+
     }
 
     /**
