@@ -1,0 +1,42 @@
+name: Barbarian
+alignment: npc
+description: >-
+  <p>A lose gathering of roving crooks and scoundrels, enacting its rule over land not taken by the Empire or Commonwealth.</p>
+home_land_type: plain
+playable: 0
+
+attacking: 3
+exploring : 3
+converting: 3
+
+perks:
+  food_production: 15
+units:
+  - name: Marauder
+    cost:
+      platinum: 150
+      ore: 5
+    power:
+      offense: 3
+      defense: 0
+  - name: Thief
+    cost:
+      platinum: 150
+      ore: 5
+    power:
+      offense: 0
+      defense: 3
+  - name: Robber
+    cost:
+      platinum: 600
+      ore: 10
+    power:
+      offense: 0
+      defense: 5
+  - name: Bandit
+    cost:
+      platinum: 800
+      ore: 25
+    power:
+      offense: 5
+      defense: 2
