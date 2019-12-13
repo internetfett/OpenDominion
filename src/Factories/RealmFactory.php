@@ -38,7 +38,8 @@ class RealmFactory
 
         if ($round->mixed_alignment) {
             $alignment = 'neutral';
-        } elseif (!$round->mixed_alignment && !in_array($alignment, ['good', 'evil'], true)) {
+        } elseif (!$round->mixed_alignment && !in_array($alignment, ['good', 'evil', 'npc'], true))
+        {
             throw new LogicException("Realm alignment must be either 'good' or 'evil'.");
         }
 
