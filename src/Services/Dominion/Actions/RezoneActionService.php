@@ -109,10 +109,24 @@ class RezoneActionService
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_REZONE]);
 
+        if($manaCost > 0)
+        {
+          $resource = 'mana';
+        }
+        elseif($foodCost > 0)
+        {
+          $resource = 'food';
+        }
+        else
+        {
+          $resource = 'platinum';
+        }
+
         return [
             'message' => sprintf(
-                'Your land has been re-zoned at a cost of %s platinum.',
+                'Your land has been re-zoned at a cost of %1s %2s.',
                 number_format($platinumCost)
+                number_format($resource)
             ),
             'data' => [
                 'platinumCost' => $platinumCost,
