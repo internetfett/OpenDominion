@@ -71,10 +71,21 @@
                     <a href="{{ route('dominion.advisors.land') }}" class="pull-right">Land Advisor</a>
                 </div>
                 <div class="box-body">
-                    <p>Land rezoning is the art of converting land of one type into another type. Land rezoning processes <b>instantly</b>.</p>
-                    <p>Each acre of barren land being converted will come at a cost of: {{ $rezoningCalculator->getPlatinumCost($selectedDominion) }} platinum.</p>
-                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land and {{ number_format($selectedDominion->resource_platinum) }} platinum.</p>
-                    <p>You can afford to re-zone <b>{{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }} of barren land</b> at that rate.</p>
+                    <p>Land rezoning is the art of converting barren land of one type into another type. Rezoning is instant.</p>
+
+                    <p>Each acre costs
+                    @if ($selectedDominion->race->getPerkValue('construction_cost_only_mana'))
+                      {{ number_format($rezoningCalculator->getManaCost($selectedDominion)) }} mana
+                    @elseif ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
+                      {{ number_format($rezoningCalculator->getFoodCost($selectedDominion)) }} food
+                    @else
+                      {{ number_format($rezoningCalculator->getPlatinumCost($selectedDominion)) }} platinum
+                    @endif
+                     to rezone.
+                    </p>
+
+                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
+                    <p>You can afford to re-zone <b>{{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }} of barren land</b>.</p>
                 </div>
             </div>
         </div>
