@@ -102,6 +102,9 @@ class TickService
                 continue;
             }
 
+
+
+
             DB::transaction(function () use ($round) {
                 // Update dominions
                 DB::table('dominions')
