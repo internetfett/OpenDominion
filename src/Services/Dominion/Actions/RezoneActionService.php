@@ -126,7 +126,7 @@ class RezoneActionService
             'message' => sprintf(
                 'Your land has been re-zoned at a cost of %1$s %2$s.',
                 number_format($platinumCost),
-                number_format($resource)
+                $resource
             ),
             'data' => [
                 'platinumCost' => $platinumCost,
