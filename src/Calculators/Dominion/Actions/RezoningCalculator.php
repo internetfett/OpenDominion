@@ -130,7 +130,7 @@ class RezoningCalculator
     public function getMaxAfford(Dominion $dominion): int
     {
 
-      if($dominion->race->getPerkMultiplier('construction_cost_only_mana')
+      if($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
       {
         $manaCost = $this->getManaCost($dominion);
         $maxAfford = min(
@@ -139,7 +139,7 @@ class RezoningCalculator
         );
 
       }
-      elseif($dominion->race->getPerkMultiplier('construction_cost_only_food')
+      elseif($dominion->race->getPerkMultiplier('construction_cost_only_food'))
       {
         $foodCost = $this->getFoodCost($dominion);
         $maxAfford = min(
