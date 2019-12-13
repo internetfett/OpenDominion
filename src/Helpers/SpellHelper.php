@@ -457,7 +457,7 @@ class SpellHelper
       {
         return collect([
             [
-                'name' => 'Iceshard',
+                'name' => 'Lightning Bolt',
                 'description' => 'Destroy the target\'s castle improvements',
                 'key' => 'lightning_bolt',
                 'mana_cost' => 1,

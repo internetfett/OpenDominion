@@ -23,7 +23,7 @@ class ActivityService
             'key' => $activityEvent->getKey(),
             'status' => $activityEvent->getStatus(),
             'context' => (!empty($activityEvent->getContext()) ? $activityEvent->getContext() : null),
-
+/*
             # ODA - ClientJS
             'client_fingerprint' => NULL,
             'client_browser' => NULL,
@@ -41,6 +41,7 @@ class ActivityService
             'client_language' => NULL,
             'client_systemlanguage' => NULL,
             'client_canvasprint' => NULL,
+*/
         ]));
     }
 
