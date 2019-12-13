@@ -105,7 +105,8 @@ class RoundController extends AbstractController
                 $race = Race::findOrFail($request->get('race'));
                 $pack = null;
 
-                if (!$race->playable) {
+                if (!$race->playable and $race->alignment !== 'npc')
+                {
                     throw new GameException('Invalid race selection');
                 }
 
