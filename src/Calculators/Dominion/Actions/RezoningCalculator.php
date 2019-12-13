@@ -82,7 +82,7 @@ class RezoningCalculator
         $food *= 0.6;
         $food += 250;
 
-        $food *= 0.5;
+        $food /= 3;
 
         $food *= $this->getCostMultiplier($dominion);
 
@@ -113,7 +113,7 @@ class RezoningCalculator
           $mana *= 0.6;
           $mana += 250;
 
-          $mana *= 0.5;
+          $mana /= 3;
 
           $mana *= $this->getCostMultiplier($dominion);
 
