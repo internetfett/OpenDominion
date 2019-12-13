@@ -41,17 +41,26 @@ class RezoningCalculator
      */
     public function getPlatinumCost(Dominion $dominion): int
     {
-        $platinum = 0;
 
-        $platinum += $this->landCalculator->getTotalLand($dominion);
+        if($dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))
+        {
+          return 0;
+        }
+        else
+        {
+          $platinum = 0;
 
-        $platinum -= 250;
-        $platinum *= 0.6;
-        $platinum += 250;
+          $platinum += $this->landCalculator->getTotalLand($dominion);
 
-        $platinum *= $this->getCostMultiplier($dominion);
+          $platinum -= 250;
+          $platinum *= 0.6;
+          $platinum += 250;
 
-        return round($platinum);
+          $platinum *= $this->getCostMultiplier($dominion);
+
+          return round($platinum);
+        }
+
     }
 
 
@@ -63,6 +72,8 @@ class RezoningCalculator
      */
     public function getFoodCost(Dominion $dominion): int
     {
+      if($dominion->race->getPerkMultiplier('construction_cost_only_food'))
+      {
         $food = 0;
 
         $food += $this->landCalculator->getTotalLand($dominion);
@@ -74,6 +85,11 @@ class RezoningCalculator
         $food *= $this->getCostMultiplier($dominion);
 
         return round($food);
+      }
+      else
+      {
+        return 0;
+      }
     }
 
 
@@ -85,17 +101,24 @@ class RezoningCalculator
      */
     public function getManaCost(Dominion $dominion): int
     {
-        $mana = 0;
+        if($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
+        {
+          $mana = 0;
 
-        $mana += $this->landCalculator->getTotalLand($dominion);
+          $mana += $this->landCalculator->getTotalLand($dominion);
 
-        $mana -= 250;
-        $mana *= 0.6;
-        $mana += 250;
+          $mana -= 250;
+          $mana *= 0.6;
+          $mana += 250;
 
-        $mana *= $this->getCostMultiplier($dominion);
+          $mana *= $this->getCostMultiplier($dominion);
 
-        return round($mana);
+          return round($mana);
+        }
+        else
+        {
+          return 0;
+        }
     }
 
     /**
