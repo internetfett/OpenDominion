@@ -129,32 +129,33 @@ class RezoningCalculator
      */
     public function getMaxAfford(Dominion $dominion): int
     {
-      $platinumCost = $this->getPlatinumCost($dominion);
-      $foodCost = $this->getFoodCost($dominion);
-      $manaCost = $this->getManaCost($dominion);
 
-      if($foodCost > 0)
+      if($dominion->race->getPerkMultiplier('construction_cost_only_mana')
       {
-        $maxAfford = min(
-          floor($dominion->resource_food / $foodCost),
-          $this->landCalculator->getTotalBarrenLand($dominion)
-        );
-
-      }
-      if($manaCost > 0)
-      {
+        $manaCost = $this->getManaCost($dominion);
         $maxAfford = min(
           floor($dominion->resource_mana / $manaCost),
           $this->landCalculator->getTotalBarrenLand($dominion)
         );
 
       }
+      elseif($dominion->race->getPerkMultiplier('construction_cost_only_food')
+      {
+        $foodCost = $this->getFoodCost($dominion);
+        $maxAfford = min(
+          floor($dominion->resource_food / $foodCost),
+          $this->landCalculator->getTotalBarrenLand($dominion)
+        );
+
+      }
       else
       {
+        $platinumCost = $this->getPlatinumCost($dominion);
         $maxAfford = min(
           floor($dominion->resource_platinum / $platinumCost),
           $this->landCalculator->getTotalBarrenLand($dominion)
-        );
+          );
+
       }
 
       return $maxAfford;
