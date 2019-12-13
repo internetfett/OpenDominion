@@ -112,20 +112,23 @@ class RezoneActionService
         if($manaCost > 0)
         {
           $resource = 'mana';
+          $cost = $manaCost;
         }
         elseif($foodCost > 0)
         {
           $resource = 'food';
+          $cost = $foodCost;
         }
         else
         {
           $resource = 'platinum';
+          $cost = $platinumCost;
         }
 
         return [
             'message' => sprintf(
                 'Your land has been re-zoned at a cost of %1$s %2$s.',
-                number_format($platinumCost),
+                number_format($cost),
                 $resource
             ),
             'data' => [
