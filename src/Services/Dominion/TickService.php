@@ -696,9 +696,14 @@ class TickService
 
               $hours = 1;
 
-              $this->queueService->queueResources('training', $dominion, $data, $hours);
+              #$this->queueService->queueResources('training', $dominion, $data, $hours);
               #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
            }
+
+           $dominion->military_unit1 += $units['military_unit1'];
+           $dominion->military_unit2 += $units['military_unit2'];
+           $dominion->military_unit3 += $units['military_unit3'];
+           $dominion->military_unit4 += $units['military_unit4'];
 
            $trainingCost = $units['military_unit1'] * 150;
            $trainingCost += $units['military_unit2'] * 150;
