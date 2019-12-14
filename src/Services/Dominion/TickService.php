@@ -422,7 +422,8 @@ class TickService
             ->where('hours', '=', 1)
             ->get();
 
-        foreach ($incomingQueue as $row) {
+        foreach ($incomingQueue as $row)
+        {
             $tick->{$row->resource} += $row->amount;
             // Temporarily add next hour's resources for accurate calculations
             $dominion->{$row->resource} += $row->amount;
@@ -435,8 +436,8 @@ class TickService
            Every tick, NPCs:
            1) Train until they reach the DPA requirement
            2) Train until they reach the OPA requirement
-           3) Have a 1/64 chance to quasi-invade.
-              Invade = send out between 80% and 100% of the OP and queue land
+           3) Have a chance to quasi-invade.
+              Invade = send out between 80% and 100% of the OP and queue land.
 
            */
 
@@ -472,9 +473,6 @@ class TickService
            $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
            $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
 
-           #$dpTrained = $dominion->military_unit2 * $dpUnit2;
-           #$dpTrained += $dominion->military_unit3 * $dpUnit3;
-
            $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
            $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
 
@@ -482,9 +480,6 @@ class TickService
 
            $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
            $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
-
-           #$opTrained = $dominion->military_unit1 * $opUnit1;
-           #$opTrained += $dominion->military_unit4 * $opUnit4;
 
            $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
            $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
@@ -521,13 +516,6 @@ class TickService
               $this->queueService->queueResources('training', $dominion, $data, $hours);
               #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
            }
-
-           $trainingCost = $units['military_unit1'] * 150;
-           $trainingCost += $units['military_unit2'] * 150;
-           $trainingCost += $units['military_unit3'] * 600;
-           $trainingCost += $units['military_unit4'] * 600;
-
-           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
 
            $invade = FALSE;
            // Are we invading?
@@ -606,6 +594,8 @@ class TickService
                   $dominion,
                   $data
               );
+
+              $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
             }
 
            }
