@@ -423,6 +423,7 @@ class TickService
             ->get();
 
         # NPC Barbarian: invasion
+        if($dominion->race->alignment === 'npc')
         {
           $invade = FALSE;
           // Are we invading?
