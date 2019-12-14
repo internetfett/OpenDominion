@@ -11,6 +11,7 @@ converting: 3
 
 perks:
   food_production: 15
+  cannot_construct: 1
 units:
   - name: Marauder
     cost:
@@ -19,7 +20,7 @@ units:
     power:
       offense: 3
       defense: 0
-  - name: Thief
+  - name: Thug
     cost:
       platinum: 150
       ore: 5
@@ -35,8 +36,8 @@ units:
       defense: 5
   - name: Bandit
     cost:
-      platinum: 800
-      ore: 25
+      platinum: 600
+      ore: 20
     power:
       offense: 5
-      defense: 2
+      defense: 0

@@ -206,6 +206,18 @@ class DominionFactory
           $startingResources['mana'] = 400 * $acresBase;
         }
 
+        if($race->alignment == 'npc')
+        {
+          if($race->name == 'Barbarian')
+          {
+            $startingResources['unit1'] = 2000;
+            $startingResources['unit2'] = 2000;
+            $startingResources['unit3'] = 2000;
+            $startingResources['unit4'] = 2000;
+
+          }
+        }
+
         return Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,

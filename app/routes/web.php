@@ -181,6 +181,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('debug')->uses('DebugController@getIndex');
             $router->get('debug/dump')->uses('DebugController@getDump');
 
+
         });
 
     });
