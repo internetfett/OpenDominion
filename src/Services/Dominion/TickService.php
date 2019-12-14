@@ -448,7 +448,7 @@ class TickService
 
            // Calculate DPA required
            $constant = 20;
-           $days = $this->now->diffInDays($round->start_date);
+           $days = $this->now->diffInDays($dominion->round->start_date);
 
            #$multiplier = 12;
            #$dpa = intval($constant + (($days - 1 * $multiplier)));
@@ -507,6 +507,13 @@ class TickService
            // Train the units
            $this->queueService->queueResources('training', $dominion, $data, $hours);
            $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+
+           $trainingCost = $data['military_unit1'] * 150;
+           $trainingCost += $data['military_unit2'] * 150;
+           $trainingCost += $data['military_unit3'] * 600;
+           $trainingCost += $data['military_unit4'] * 600;
+
+           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
 
            // Are we invading?
 
