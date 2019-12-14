@@ -110,114 +110,6 @@ class TickService
                 continue;
             }
 
-        # NPC BARBARIANS
-
-        if($dominion->race->alignment === 'npc')
-        {
-          /*
-           Every tick, NPCs:
-           1) Train until they reach the DPA requirement
-           2) Train until they reach the OPA requirement
-           3) Have a 1/64 chance to quasi-invade.
-              Invade = send out between 80% and 100% of the OP and queue land
-
-
-          DPA is calculated as:
-
-          20 + ((Days - 1) * 12)
-
-           */
-
-           // Calculate DPA required
-           $constant = 20;
-           $day = $this->now->diffInDays($dominion->round->start_date);
-
-           #$multiplier = 12;
-           #$dpa = intval($constant + (($days - 1 * $multiplier)));
-
-           $min = 20;
-           $max = 200;
-
-           $dpa = round($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
-           $opa = intval($dpa * 0.75);
-
-           $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
-           $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
-
-           // Determine current DP and OP
-           # Unit 1: 3 OP
-           # Unit 2: 3 DP
-           # Unit 3: 5 DP
-           # Unit 4: 5 OP
-
-           $dpUnit1 = 0;
-           $dpUnit2 = 3;
-           $dpUnit3 = 5;
-           $dpUnit4 = 0; # Has turtle but ignored here
-
-           $opUnit1 = 3;
-           $opUnit2 = 0;
-           $opUnit3 = 0;
-           $opUnit4 = 5;
-
-           $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
-           $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
-
-           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
-           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
-
-           $dpPaid = $dpTrained + $dpInTraining;
-
-           $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
-           $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
-
-           $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opPaid = $opTrained + $opInTraining;
-
-           // Determine what (if any) training is required
-           $dpToTrain = max(0, $dpRequired - $dpPaid);
-           $opToTrain = max(0, $opRequired - $opPaid);
-
-           $data = [
-             'military_unit1' => intval(($dpToTrain * 0.2) / $opUnit1),
-             'military_unit2' => intval(($dpToTrain * 0.2) / $dpUnit2),
-             'military_unit3' => intval(($dpToTrain * 0.8) / $dpUnit3),
-             'military_unit4' => intval(($dpToTrain * 0.8) / $opUnit4),
-           ];
-
-           // Train the units
-
-           foreach($data as $unit => $amountToTrain)
-           {
-              if($unit == 'military_unit1' or $unit == 'military_unit2')
-              {
-                $hours = 9;
-              }
-              else
-              {
-                $hours = 12;
-              }
-              
-              $this->queueService->queueResources('training', $dominion, $data, $hours);
-              $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
-           }
-
-
-           $trainingCost = $data['military_unit1'] * 150;
-           $trainingCost += $data['military_unit2'] * 150;
-           $trainingCost += $data['military_unit3'] * 600;
-           $trainingCost += $data['military_unit4'] * 600;
-
-           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
-
-           // Are we invading?
-
-
-        }
-        else
-        {
             DB::transaction(function () use ($round) {
                 // Update dominions
                 DB::table('dominions')
@@ -330,8 +222,6 @@ class TickService
                         'dominion_queue.updated_at' => $this->now,
                     ]);
             }, 5);
-
-          }
 
             Log::info(sprintf(
                 'Ticked %s dominions in %s ms in %s',
@@ -489,6 +379,116 @@ class TickService
 
     public function precalculateTick(Dominion $dominion, ?bool $saveHistory = false): void
     {
+
+      # NPC BARBARIANS
+
+      if($dominion->race->alignment === 'npc')
+      {
+        /*
+         Every tick, NPCs:
+         1) Train until they reach the DPA requirement
+         2) Train until they reach the OPA requirement
+         3) Have a 1/64 chance to quasi-invade.
+            Invade = send out between 80% and 100% of the OP and queue land
+
+
+        DPA is calculated as:
+
+        20 + ((Days - 1) * 12)
+
+         */
+
+         // Calculate DPA required
+         $constant = 20;
+         $day = $this->now->diffInDays($dominion->round->start_date);
+
+         #$multiplier = 12;
+         #$dpa = intval($constant + (($days - 1 * $multiplier)));
+
+         $min = 20;
+         $max = 200;
+
+         $dpa = round($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
+         $opa = intval($dpa * 0.75);
+
+         $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
+         $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
+
+         // Determine current DP and OP
+         # Unit 1: 3 OP
+         # Unit 2: 3 DP
+         # Unit 3: 5 DP
+         # Unit 4: 5 OP
+
+         $dpUnit1 = 0;
+         $dpUnit2 = 3;
+         $dpUnit3 = 5;
+         $dpUnit4 = 0; # Has turtle but ignored here
+
+         $opUnit1 = 3;
+         $opUnit2 = 0;
+         $opUnit3 = 0;
+         $opUnit4 = 5;
+
+         $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
+         $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
+
+         $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
+         $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
+
+         $dpPaid = $dpTrained + $dpInTraining;
+
+         $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
+         $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
+
+         $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
+         $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
+
+         $opPaid = $opTrained + $opInTraining;
+
+         // Determine what (if any) training is required
+         $dpToTrain = max(0, $dpRequired - $dpPaid);
+         $opToTrain = max(0, $opRequired - $opPaid);
+
+         $data = [
+           'military_unit1' => intval(($dpToTrain * 0.2) / $opUnit1),
+           'military_unit2' => intval(($dpToTrain * 0.2) / $dpUnit2),
+           'military_unit3' => intval(($dpToTrain * 0.8) / $dpUnit3),
+           'military_unit4' => intval(($dpToTrain * 0.8) / $opUnit4),
+         ];
+
+         // Train the units
+
+         foreach($data as $unit => $amountToTrain)
+         {
+            if($unit == 'military_unit1' or $unit == 'military_unit2')
+            {
+              $hours = 9;
+            }
+            else
+            {
+              $hours = 12;
+            }
+
+            $this->queueService->queueResources('training', $dominion, $data, $hours);
+            $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+         }
+
+
+         $trainingCost = $data['military_unit1'] * 150;
+         $trainingCost += $data['military_unit2'] * 150;
+         $trainingCost += $data['military_unit3'] * 600;
+         $trainingCost += $data['military_unit4'] * 600;
+
+         $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
+
+         // Are we invading?
+
+
+      }
+      else
+      {
+
         /** @var Tick $tick */
         $tick = Tick::firstOrCreate(
             ['dominion_id' => $dominion->id]
@@ -714,6 +714,8 @@ class TickService
         }
 
         $tick->save();
+
+      } #END ELSE FOR BARBARIAN NPC
     }
 
     protected function updateDailyRankings(Collection $activeDominions): void
