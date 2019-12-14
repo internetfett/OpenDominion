@@ -505,7 +505,7 @@ class TickService
            $data['military_unit4'] = intval(($dpToTrain * 0.8) / $opUnit4);
 
            // Train the units
-           $this->queueService->queueResources('training', $dominion, $data, $hours);
+           $this->queueService->queueResources('training', $dominion, $data, 9);
            $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
 
            $trainingCost = $data['military_unit1'] * 150;
