@@ -472,10 +472,10 @@ class TickService
             #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
          }
 
-         $trainingCost = $data['military_unit1'] * 150;
-         $trainingCost += $data['military_unit2'] * 150;
-         $trainingCost += $data['military_unit3'] * 600;
-         $trainingCost += $data['military_unit4'] * 600;
+         $trainingCost = $units['military_unit1'] * 150;
+         $trainingCost += $units['military_unit2'] * 150;
+         $trainingCost += $units['military_unit3'] * 600;
+         $trainingCost += $units['military_unit4'] * 600;
 
          $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
 
