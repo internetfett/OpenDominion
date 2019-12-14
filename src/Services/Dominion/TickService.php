@@ -555,12 +555,12 @@ class TickService
              $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
 
              # Split the land gained evenly across all 6 land types.
-             $landGained['plain'] = intval($totalLandToGain/6);
-             $landGained['mountain'] = intval($totalLandToGain/6);
-             $landGained['forest'] = intval($totalLandToGain/6);
-             $landGained['swamp'] = intval($totalLandToGain/6);
-             $landGained['hill'] = intval($totalLandToGain/6);
-             $landGained['water'] = intval($totalLandToGain/6);
+             $landGained['land_plain'] = intval($totalLandToGain/6);
+             $landGained['land_mountain'] = intval($totalLandToGain/6);
+             $landGained['land_forest'] = intval($totalLandToGain/6);
+             $landGained['land_swamp'] = intval($totalLandToGain/6);
+             $landGained['land_hill'] = intval($totalLandToGain/6);
+             $landGained['land_water'] = intval($totalLandToGain/6);
 
              # Send out 80-100% of all units. Rand over 100 but capped at 100
              # to make it more likely 100% are sent.
