@@ -588,6 +588,7 @@ class TickService
              # Queue the returning units.
              foreach($unitsReturning as $unit => $amountReturning)
              {
+                $dominion->{$unit} - $unitsSent[$unit];
                 $this->queueService->queueResources(
                     'invasion',
                     $dominion,
