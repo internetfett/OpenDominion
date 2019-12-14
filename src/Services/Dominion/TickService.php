@@ -471,7 +471,7 @@ class TickService
             }
 
             $this->queueService->queueResources('training', $dominion, $data, $hours);
-            #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+            $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
          }
 
 
@@ -484,7 +484,7 @@ class TickService
 
          // Are we invading?
 
-
+         break;
       }
       else
       {
