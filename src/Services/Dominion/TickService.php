@@ -492,7 +492,7 @@ class TickService
            $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
            $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
 
-           $dpPaid = $dpTrained + $dpInTraining;
+           $opPaid = $opTrained + $opInTraining;
 
            // Determine what (if any) training is required
            $dpToTrain = max(0, $dpRequired - $dpPaid);
