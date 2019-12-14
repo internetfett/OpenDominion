@@ -530,6 +530,7 @@ class TickService
            $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
 
            // Are we invading?
+           $invade = FALSE;
 
            // Make sure all units1 and unit4 are at home.
            if($dominion->military_unit1 > 0 and
