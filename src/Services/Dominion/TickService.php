@@ -450,7 +450,7 @@ class TickService
          $dpToTrain = max(0, $dpRequired - $dpPaid);
          $opToTrain = max(0, $opRequired - $opPaid);
 
-         $data = [
+         $units = [
            'military_unit1' => intval(($dpToTrain * 0.2) / $opUnit1),
            'military_unit2' => intval(($dpToTrain * 0.2) / $dpUnit2),
            'military_unit3' => intval(($dpToTrain * 0.8) / $dpUnit3),
@@ -459,15 +459,15 @@ class TickService
 
          // Train the units
 
-         foreach($data as $unit => $amountToTrain)
+         foreach($units as $unit => $amountToTrain)
          {
+           # Default state
+           $data = array($unit => $amountToTrain);
+
+            $hours = 12;
             if($unit == 'military_unit1' or $unit == 'military_unit2')
             {
               $hours = 9;
-            }
-            else
-            {
-              $hours = 12;
             }
 
             $this->queueService->queueResources('training', $dominion, $data, $hours);
