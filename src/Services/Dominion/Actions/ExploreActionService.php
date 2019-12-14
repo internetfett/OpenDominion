@@ -110,7 +110,7 @@ class ExploreActionService
         $maxAllowed = $this->landCalculator->getTotalLand($dominion) * 1.5;
         if($totalLandToExplore > $maxAllowed)
         {
-            throw new GameException('You cannot explore more than ' . number_format($maxAllowed) ' acres.');
+            throw new GameException('You cannot explore more than ' . number_format($maxAllowed) . ' acres.');
         }
 
         # ODA
