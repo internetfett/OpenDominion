@@ -538,7 +538,7 @@ class TickService
               $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
               )
            {
-             if(rand(1,32) = 1)
+             if(rand(1,32) == 1)
              {
                $invade = TRUE;
              }
