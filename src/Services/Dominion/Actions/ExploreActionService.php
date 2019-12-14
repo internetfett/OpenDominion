@@ -129,6 +129,8 @@ class ExploreActionService
         #$newMorale = max(0, ($dominion->morale - $this->explorationCalculator->getMoraleDrop($totalLandToExplore)));
         #$moraleDrop = ($dominion->morale - $newMorale);
 
+        $newMorale = $dominion->morale - $moraleDrop;
+
         $platinumCost = ($this->explorationCalculator->getPlatinumCost($dominion) * $totalLandToExplore);
         $newPlatinum = ($dominion->resource_platinum - $platinumCost);
 
@@ -156,7 +158,7 @@ class ExploreActionService
 
             $dominion->stat_total_land_explored += $totalLandToExplore;
             $dominion->fill([
-                'morale' => ($dominion->morale - $moraleDrop),
+                'morale' => $newMorale,
                 'resource_platinum' => $newPlatinum,
                 'military_draftees' => $newDraftees,
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
