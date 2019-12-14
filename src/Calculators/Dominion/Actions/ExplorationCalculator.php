@@ -134,7 +134,7 @@ class ExplorationCalculator
     {
         $moraleDrop = ($amountToExplore / $this->landCalculator->getTotalLand($dominion)) * 8 * 100;
 
-        return $moraleDrop;
+        return max($moraleDrop, 1);
 
         #return floor(($amount + 2) / 3);
     }
