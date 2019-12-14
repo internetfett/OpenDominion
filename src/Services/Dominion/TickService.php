@@ -655,11 +655,15 @@ class TickService
            $opUnit3 = 0;
            $opUnit4 = 5;
 
-           $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
-           $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
+           #$dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
+           #$dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
+           $dpTrained = $dominion->military_unit2 * $dpUnit2;
+           $dpTrained += $dominion->military_unit3 * $dpUnit3;
 
-           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
-           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
+           #$dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
+           #$dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
+           $opTrained = $dominion->military_unit1 * $opUnit1;
+           $opTrained += $dominion->military_unit4 * $opUnit4;
 
            $dpPaid = $dpTrained + $dpInTraining;
 
