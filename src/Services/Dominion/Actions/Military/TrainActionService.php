@@ -404,7 +404,7 @@ class TrainActionService
             $dominion->military_wizards -= $totalCosts['wizard'];
             $dominion->military_archmages -= $totalCosts['archmage'];
 
-            // Data:
+            // $data:
             # unit1 => int
             # unit2 => int
             # et cetera

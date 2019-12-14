@@ -458,10 +458,9 @@ class TickService
          ];
 
          // Train the units
-
          foreach($units as $unit => $amountToTrain)
          {
-
+            $data = array($unit => $amountToTrain);
 
             $hours = 12;
             if($unit == 'military_unit1' or $unit == 'military_unit2')
@@ -469,10 +468,11 @@ class TickService
               $hours = 9;
             }
 
-            $this->queueService->queueResources('training', $dominion, [$unit => $amountToTrain], $hours);
+            $this->queueService->queueResources('training', $dominion, $data, $hours);
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
-         }
 
+            unset($data);
+         }
 
          $trainingCost = $data['military_unit1'] * 150;
          $trainingCost += $data['military_unit2'] * 150;
