@@ -110,9 +110,106 @@ class TickService
                 continue;
             }
 
+        # NPC BARBARIANS
+
+        if($dominion->race->alignment === 'npc')
+        {
+          /*
+           Every tick, NPCs:
+           1) Train until they reach the DPA requirement
+           2) Train until they reach the OPA requirement
+           3) Have a 1/64 chance to quasi-invade.
+              Invade = send out between 80% and 100% of the OP and queue land
 
 
+          DPA is calculated as:
 
+          20 + ((Days - 1) * 12)
+
+           */
+
+           // Calculate DPA required
+           $constant = 20;
+           $day = $this->now->diffInDays($dominion->round->start_date);
+
+           #$multiplier = 12;
+           #$dpa = intval($constant + (($days - 1 * $multiplier)));
+
+           $min = 20;
+           $max = 200;
+
+           $dpa = round($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
+           $opa = intval($dpa * 0.75);
+
+           $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
+           $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
+
+           // Determine current DP and OP
+           # Unit 1: 3 OP
+           # Unit 2: 3 DP
+           # Unit 3: 5 DP
+           # Unit 4: 5 OP
+
+           $dpUnit1 = 0;
+           $dpUnit2 = 3;
+           $dpUnit3 = 5;
+           $dpUnit4 = 0; # Has turtle but ignored here
+
+           $opUnit1 = 3;
+           $opUnit2 = 0;
+           $opUnit3 = 0;
+           $opUnit4 = 5;
+
+           $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
+           $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
+
+           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
+           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
+
+           $dpPaid = $dpTrained + $dpInTraining;
+
+           $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
+           $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
+
+           $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
+           $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
+
+           $opPaid = $opTrained + $opInTraining;
+
+           // Determine what (if any) training is required
+           $dpToTrain = max(0, $dpRequired - $dpPaid);
+           $opToTrain = max(0, $opRequired - $opPaid);
+
+           $data = [
+             'military_unit2' =>
+             'military_unit2' =>
+             'military_unit2' =>
+             'military_unit2' =>
+           ];
+
+           $data['military_unit2'] = intval(($dpToTrain * 0.2) / $dpUnit2);
+           $data['military_unit3'] = intval(($dpToTrain * 0.8) / $dpUnit3);
+
+           $data['military_unit1'] = intval(($dpToTrain * 0.2) / $opUnit1);
+           $data['military_unit4'] = intval(($dpToTrain * 0.8) / $opUnit4);
+
+           // Train the units
+           $this->queueService->queueResources('training', $dominion, $data, 9);
+           $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+
+           $trainingCost = $data['military_unit1'] * 150;
+           $trainingCost += $data['military_unit2'] * 150;
+           $trainingCost += $data['military_unit3'] * 600;
+           $trainingCost += $data['military_unit4'] * 600;
+
+           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
+
+           // Are we invading?
+
+
+        }
+        else
+        {
             DB::transaction(function () use ($round) {
                 // Update dominions
                 DB::table('dominions')
@@ -225,6 +322,8 @@ class TickService
                         'dominion_queue.updated_at' => $this->now,
                     ]);
             }, 5);
+
+          }
 
             Log::info(sprintf(
                 'Ticked %s dominions in %s ms in %s',
@@ -430,275 +529,181 @@ class TickService
             $dominion->{$row->resource} += $row->amount;
         }
 
-        if($dominion->race->alignment === 'npc')
-        {
-          /*
-           Every tick, NPCs:
-           1) Train until they reach the DPA requirement
-           2) Train until they reach the OPA requirement
-           3) Have a 1/64 chance to quasi-invade.
-              Invade = send out between 80% and 100% of the OP and queue land
+        // Population
+        $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
+        $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
+        $tick->peasants = $populationPeasantGrowth;
+        $tick->military_draftees = $drafteesGrowthRate;
 
-          DPA is calculated as:
+        // Resources
+        $tick->resource_platinum += $this->productionCalculator->getPlatinumProduction($dominion);
 
-          20 + ((Days - 1) * 12)
+        $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
+        $tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
 
-           */
+        $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
+        $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
 
-           // Calculate DPA required
-           $constant = 20;
-           $day = $this->now->diffInDays($dominion->round->start_date);
+        $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
+        $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
+        $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
+        $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
 
-           #$multiplier = 12;
-           #$dpa = intval($constant + (($days - 1 * $multiplier)));
+        # ODA: wild yeti production
+        $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
+        $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
 
-           $min = 20;
-           $max = 200;
+        $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
+        // Check for starvation before adjusting food
+        $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
-           $dpa = round($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
-           $opa = intval($dpa * 0.75);
+        // Starvation casualties
+        if (($dominion->resource_food + $foodNetChange) < 0) {
+            $isStarving = true;
+            $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType(
+                $dominion,
+                ($dominion->resource_food + $foodNetChange)
+            );
 
-           $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
-           $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
+            $tick->starvation_casualties = $casualties;
 
-           // Determine current DP and OP
-           # Unit 1: 3 OP
-           # Unit 2: 3 DP
-           # Unit 3: 5 DP
-           # Unit 4: 5 OP
+            foreach ($casualties as $unitType => $unitCasualties) {
+                $tick->{$unitType} -= $unitCasualties;
+            }
 
-           $dpUnit1 = 0;
-           $dpUnit2 = 3;
-           $dpUnit3 = 5;
-           $dpUnit4 = 0; # Has turtle but ignored here
-
-           $opUnit1 = 3;
-           $opUnit2 = 0;
-           $opUnit3 = 0;
-           $opUnit4 = 5;
-
-           $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
-           $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
-
-           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
-           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
-
-           $dpPaid = $dpTrained + $dpInTraining;
-
-           $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
-           $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
-
-           $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opPaid = $opTrained + $opInTraining;
-
-           // Determine what (if any) training is required
-           $dpToTrain = max(0, $dpRequired - $dpPaid);
-           $opToTrain = max(0, $opRequired - $opPaid);
-
-           $data['military_unit2'] = intval(($dpToTrain * 0.2) / $dpUnit2);
-           $data['military_unit3'] = intval(($dpToTrain * 0.8) / $dpUnit3);
-
-           $data['military_unit1'] = intval(($dpToTrain * 0.2) / $opUnit1);
-           $data['military_unit4'] = intval(($dpToTrain * 0.8) / $opUnit4);
-
-           // Train the units
-           $this->queueService->queueResources('training', $dominion, $data, 9);
-           $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
-
-           $trainingCost = $data['military_unit1'] * 150;
-           $trainingCost += $data['military_unit2'] * 150;
-           $trainingCost += $data['military_unit3'] * 600;
-           $trainingCost += $data['military_unit4'] * 600;
-
-           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
-
-           // Are we invading?
-
-
+            // Decrement to zero
+            $tick->resource_food = -$dominion->resource_food;
+        } else {
+            // Food production
+            $isStarving = false;
+            $tick->resource_food += $foodNetChange;
         }
-        else
+
+        // Morale
+        if ($isStarving) {
+            # Lower morale by 10.
+            $starvationMoraleChange = -10;
+            if(($dominion->morale + $starvationMoraleChange) < 0)
+            {
+              $tick->morale = -$dominion->morale;
+            }
+            else
+            {
+              $tick->morale = $starvationMoraleChange;
+            }
+        } else {
+            if ($dominion->morale < 35)
+            {
+              $tick->morale = 7;
+            }
+            elseif ($dominion->morale < 70)
+            {
+                $tick->morale = 6;
+            }
+            elseif ($dominion->morale < 100)
+            {
+                $tick->morale = min(3, 100 - $dominion->morale);
+            }
+            elseif($dominion->morale > 100)
+            {
+              $tick->morale -= min(2, $dominion->morale - 100);
+            }
+        }
+
+        // Spy Strength
+        if ($dominion->spy_strength < 100) {
+            $spyStrengthAdded = 4;
+            $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
+
+            $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
+        }
+
+        // Wizard Strength
+        if ($dominion->wizard_strength < 100) {
+            $wizardStrengthAdded = 4;
+
+            $wizardStrengthPerWizardGuild = 0.1;
+            $wizardStrengthPerWizardGuildMax = 2;
+
+            $wizardStrengthAdded += min(
+                (($dominion->building_wizard_guild / $this->landCalculator->getTotalLand($dominion)) * (100 * $wizardStrengthPerWizardGuild)),
+                $wizardStrengthPerWizardGuildMax
+            );
+
+            $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
+
+            $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
+        }
+
+        // Mycelia: Spore training and Land generation
+
+        $slot = 1;
+        $acresToExplore = 0;
+        $tick->generated_unit1 = 0;
+        $tick->generated_unit2 = 0;
+        $tick->generated_unit3 = 0;
+        $tick->generated_unit4 = 0;
+
+        $tick->generated_land = 0;
+
+        while($slot <= 4)
         {
 
-          // Population
-          $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
-          $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
-
-          $tick->peasants = $populationPeasantGrowth;
-          $tick->military_draftees = $drafteesGrowthRate;
-
-          // Resources
-          $tick->resource_platinum += $this->productionCalculator->getPlatinumProduction($dominion);
-
-          $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
-          $tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
-
-          $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
-          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
-
-          $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
-          $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
-          $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
-          $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
-
-          # ODA: wild yeti production
-          $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
-          $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
-
-          $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
-          // Check for starvation before adjusting food
-          $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
-
-          // Starvation casualties
-          if (($dominion->resource_food + $foodNetChange) < 0) {
-              $isStarving = true;
-              $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType(
-                  $dominion,
-                  ($dominion->resource_food + $foodNetChange)
-              );
-
-              $tick->starvation_casualties = $casualties;
-
-              foreach ($casualties as $unitType => $unitCasualties) {
-                  $tick->{$unitType} -= $unitCasualties;
-              }
-
-              // Decrement to zero
-              $tick->resource_food = -$dominion->resource_food;
-          } else {
-              // Food production
-              $isStarving = false;
-              $tick->resource_food += $foodNetChange;
-          }
-
-          // Morale
-          if ($isStarving) {
-              # Lower morale by 10.
-              $starvationMoraleChange = -10;
-              if(($dominion->morale + $starvationMoraleChange) < 0)
-              {
-                $tick->morale = -$dominion->morale;
-              }
-              else
-              {
-                $tick->morale = $starvationMoraleChange;
-              }
-          } else {
-              if ($dominion->morale < 35)
-              {
-                $tick->morale = 7;
-              }
-              elseif ($dominion->morale < 70)
-              {
-                  $tick->morale = 6;
-              }
-              elseif ($dominion->morale < 100)
-              {
-                  $tick->morale = min(3, 100 - $dominion->morale);
-              }
-              elseif($dominion->morale > 100)
-              {
-                $tick->morale -= min(2, $dominion->morale - 100);
-              }
-          }
-
-          // Spy Strength
-          if ($dominion->spy_strength < 100) {
-              $spyStrengthAdded = 4;
-              $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
-
-              $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
-          }
-
-          // Wizard Strength
-          if ($dominion->wizard_strength < 100) {
-              $wizardStrengthAdded = 4;
-
-              $wizardStrengthPerWizardGuild = 0.1;
-              $wizardStrengthPerWizardGuildMax = 2;
-
-              $wizardStrengthAdded += min(
-                  (($dominion->building_wizard_guild / $this->landCalculator->getTotalLand($dominion)) * (100 * $wizardStrengthPerWizardGuild)),
-                  $wizardStrengthPerWizardGuildMax
-              );
-
-              $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
-
-              $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
-          }
-
-          // Mycelia: Spore training and Land generation
-
-          $slot = 1;
-          $acresToExplore = 0;
-          $tick->generated_unit1 = 0;
-          $tick->generated_unit2 = 0;
-          $tick->generated_unit3 = 0;
-          $tick->generated_unit4 = 0;
-
-          $tick->generated_land = 0;
-
-          while($slot <= 4)
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
           {
-
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
-            {
-              $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
-              #$landPerTick = $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
-              #$acresToExplore += intval($landPerTick) + (rand(0,1) < fmod($landPerTick, 1) ? 1 : 0);
-            }
-
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
-            {
-              $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
-              $unitsToGenerate[$unitGeneration[0]] = intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
-            }
-
-            $slot++;
+            $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+            #$landPerTick = $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
+            #$acresToExplore += intval($landPerTick) + (rand(0,1) < fmod($landPerTick, 1) ? 1 : 0);
           }
 
-          if($acresToExplore > 0)
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
           {
-            $hours = 12;
-            $homeLandType = 'land_' . $dominion->race->home_land_type;
-            $data = array($homeLandType => $acresToExplore);
-
-            #$this->queueService->queueResources('exploration', $dominion, $data, $hours);
-            $tick->generated_land = $acresToExplore;
-
-            unset($data);
+            $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
+            $unitsToGenerate[$unitGeneration[0]] = intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
           }
 
-          if(isset($unitsToGenerate))
+          $slot++;
+        }
+
+        if($acresToExplore > 0)
+        {
+          $hours = 12;
+          $homeLandType = 'land_' . $dominion->race->home_land_type;
+          $data = array($homeLandType => $acresToExplore);
+
+          #$this->queueService->queueResources('exploration', $dominion, $data, $hours);
+          $tick->generated_land = $acresToExplore;
+
+          unset($data);
+        }
+
+        if(isset($unitsToGenerate))
+        {
+          if(isset($unitsToGenerate[1]))
           {
-            if(isset($unitsToGenerate[1]))
-            {
-              $tick->generated_unit1 = $unitsToGenerate[1];
-            }
-            if(isset($unitsToGenerate[2]))
-            {
-              $tick->generated_unit2 = $unitsToGenerate[2];
-            }
-            if(isset($unitsToGenerate[3]))
-            {
-              $tick->generated_unit3 = $unitsToGenerate[3];
-            }
-            if(isset($unitsToGenerate[4]))
-            {
-              $tick->generated_unit4 = $unitsToGenerate[4];
-            }
-
-            unset($unitsToGenerate);
+            $tick->generated_unit1 = $unitsToGenerate[1];
+          }
+          if(isset($unitsToGenerate[2]))
+          {
+            $tick->generated_unit2 = $unitsToGenerate[2];
+          }
+          if(isset($unitsToGenerate[3]))
+          {
+            $tick->generated_unit3 = $unitsToGenerate[3];
+          }
+          if(isset($unitsToGenerate[4]))
+          {
+            $tick->generated_unit4 = $unitsToGenerate[4];
           }
 
-          foreach ($incomingQueue as $row) {
-              // Reset current resources in case object is saved later
-              $dominion->{$row->resource} -= $row->amount;
-          }
+          unset($unitsToGenerate);
+        }
 
-      }
+        foreach ($incomingQueue as $row) {
+            // Reset current resources in case object is saved later
+            $dominion->{$row->resource} -= $row->amount;
+        }
 
         $tick->save();
     }
