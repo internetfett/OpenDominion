@@ -13,9 +13,11 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class ExploreActionService
 {
+
     use DominionGuardsTrait;
 
     /** @var ExplorationCalculator */
@@ -30,22 +32,27 @@ class ExploreActionService
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    /** @var LandCalculator */
+    protected $landCalculator;
+
     /**
      * @var int The minimum morale required to explore
      */
-    protected const MIN_MORALE = 50;
+    protected const MIN_MORALE = 0;
 
     /**
      * ExplorationActionService constructor.
      */
     public function __construct(
-      ImprovementCalculator $improvementCalculator
+      ImprovementCalculator $improvementCalculator,
+          LandCalculator $landCalculator
       )
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
         $this->improvementCalculator = $improvementCalculator;
+        $this->landCalculator = $landCalculator;
     }
 
     /**
@@ -95,26 +102,32 @@ class ExploreActionService
             throw new GameException('Your faction is unable to explore.');
         }
 
-        $maxAfford = $this->explorationCalculator->getMaxAfford($dominion);
+        if ($totalLandToExplore > $this->explorationCalculator->getMaxAfford($dominion))
+        {
+            throw new GameException('You do not have enough platinum and/or draftees to explore for ' . number_format($totalLandToExplore) ' acres.');
+        }
 
-        if ($totalLandToExplore > $maxAfford) {
-            throw new GameException("You do not have enough platinum and/or draftees to explore for {$totalLandToExplore} acres.");
+        $maxAllowed = $this->landCalculator->getTotalLand($dominion) * 1.5;
+        if($totalLandToExplore > $maxAllowed)
+        {
+            throw new GameException('You cannot explore more than ' . number_format($maxAllowed) ' acres.');
         }
 
         # ODA
-        if ($dominion->morale < static::MIN_MORALE) {
-            throw new GameException('You do not have enough morale to explore');
+        if ($dominion->morale <= static::MIN_MORALE)
+        {
+            throw new GameException('You do not have enough morale to explore.');
         }
 
-        /*
-        if ($this->protectionService->isUnderProtection($dominion)) {
-            throw new GameException('You are currently under protection and may not explore during that time');
+        $moraleDrop = $this->explorationCalculator->getMoraleDrop($dominion, $totalLandToExplore);
+        if($moraleDrop > $dominion->morale)
+        {
+            throw new GameException('Exploring that much land would lower your morale by ' . $moraleDrop . '%. You currently have ' . $dominion->morale . '% morale.');
         }
-        */
 
         // todo: refactor. see training action service. same with other action services
-        $newMorale = max(0, ($dominion->morale - $this->explorationCalculator->getMoraleDrop($totalLandToExplore)));
-        $moraleDrop = ($dominion->morale - $newMorale);
+        #$newMorale = max(0, ($dominion->morale - $this->explorationCalculator->getMoraleDrop($totalLandToExplore)));
+        #$moraleDrop = ($dominion->morale - $newMorale);
 
         $platinumCost = ($this->explorationCalculator->getPlatinumCost($dominion) * $totalLandToExplore);
         $newPlatinum = ($dominion->resource_platinum - $platinumCost);
@@ -143,7 +156,7 @@ class ExploreActionService
 
             $dominion->stat_total_land_explored += $totalLandToExplore;
             $dominion->fill([
-                'morale' => $newMorale,
+                'morale' => ($dominion->morale - $moraleDrop),
                 'resource_platinum' => $newPlatinum,
                 'military_draftees' => $newDraftees,
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
@@ -151,7 +164,7 @@ class ExploreActionService
 
         return [
             'message' => sprintf(
-                'Exploration begun at a cost of %s platinum and %s %s. When exploration is completed, you will earn %s experience points. Your orders for exploration disheartens the military, and morale drops %d%%.',
+                'Exploration begun at a cost of %s platinum and %s %s. When exploration is completed, you will earn %s experience points. Your orders for exploration disheartens the military, and morale drops by %d%%.',
                 number_format($platinumCost),
                 number_format($drafteeCost),
                 str_plural('draftee', $drafteeCost),

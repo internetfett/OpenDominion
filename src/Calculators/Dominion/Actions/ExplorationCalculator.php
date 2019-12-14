@@ -130,8 +130,12 @@ class ExplorationCalculator
      * @return int
      * @todo Does this really belong here? Maybe it should go in a helper, since it isn't dependent on a Dominion instance
      */
-    public function getMoraleDrop($amount): int
+    public function getMoraleDrop($dominion, $amountToExplore): int
     {
-        return floor(($amount + 2) / 3);
+        $moraleDrop = ($amountToExplore / $this->landCalculator->getTotalLand($dominion)) * 8 * 100;
+
+        return $moraleDrop;
+
+        #return floor(($amount + 2) / 3);
     }
 }

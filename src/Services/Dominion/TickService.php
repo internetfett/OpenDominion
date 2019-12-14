@@ -443,8 +443,8 @@ class TickService
 
           if($invade)
           {
-            # Grow by 5-20% (random).
-            $growthRatio = rand(50,200)/1000;
+            # Grow by 5-15% (random).
+            $growthRatio = rand(500,1500)/10000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
@@ -459,7 +459,7 @@ class TickService
 
             # Send out 80-100% of all units. Rand over 100 but capped at 100
             # to make it more likely 100% are sent.
-            $sentRatio = min(100,rand(80,120))/100;
+            $sentRatio = 1 - $growthRatio;
 
             # Casualties between 8.5% and 12% (random).
             $casualtiesRatio = rand(85,120)/1000;
@@ -532,7 +532,11 @@ class TickService
            $min = 20;
            $max = 200;
 
-           $dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
+           # Yami
+           #$dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
+
+           # Linear
+           $dpa = $min + ($day * 12);
            $opa = intval($dpa * 0.75);
 
            $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
