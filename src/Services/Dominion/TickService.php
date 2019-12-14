@@ -669,7 +669,7 @@ class TickService
            $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
            $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
 
-           $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
+           $opReturning = $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
            $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
 
            $opPaid = $opTrained + $opInTraining + $opReturning;
