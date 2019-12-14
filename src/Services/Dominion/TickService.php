@@ -676,7 +676,9 @@ class TickService
            $opToTrain = max(0, $opRequired - $opPaid);
 
            # Randomly train between 5% and 25% of units as specs.
-           $specsRatio = rand(5,25)/100;
+           $specsRatio = rand(5,30)/100;
+
+           $specsRatio = 0.25;
            $elitesRatio = 1 - $specsRatio;
 
            $units = [
@@ -694,7 +696,7 @@ class TickService
               $hours = 8;
 
               $this->queueService->queueResources('training', $dominion, $data, $hours);
-              #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+              $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
            }
 
            $trainingCost = $units['military_unit1'] * 150;
