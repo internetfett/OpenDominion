@@ -531,6 +531,84 @@ class TickService
 
            // Are we invading?
 
+           // Make sure all units1 and unit4 are at home.
+           if($dominion->military_unit1 > 0 and
+              $dominion->military_unit4 > 0 and
+              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') = 0 and
+              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') = 0
+              )
+           {
+             if(rand(1,32) = 1)
+             {
+               $invade = TRUE;
+             }
+           }
+
+           if($invade)
+           {
+
+             # Grow by 5-20% (random).
+             $growthRatio = rand(50,200)/1000;
+
+             # Calculate the amount of acres to grow.
+             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
+
+             # Split the land gained evenly across all 6 land types.
+             $landGained['plain'] = intval($totalLandToGain/6);
+             $landGained['mountain'] = intval($totalLandToGain/6);
+             $landGained['forest'] = intval($totalLandToGain/6);
+             $landGained['swamp'] = intval($totalLandToGain/6);
+             $landGained['hill'] = intval($totalLandToGain/6);
+             $landGained['water'] = intval($totalLandToGain/6);
+
+             # Send out 80-100% of all units. Rand over 100 but capped at 100
+             # to make it more likely 100% are sent.
+             $sentRatio = min(100,rand(80,120))/100;
+
+             # Casualties between 8.5% and 12% (random).
+             $casualtiesRatio = rand(85,120)/1000;
+
+             # Calculate how many Unit1 and Unit4 are sent.
+             $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
+             $unitsSent['military_unit4'] = $dominion->military_unit4 * $sentRatio;
+
+             # Remove the sent units from the dominion.
+             $dominion->military_unit1 -= $unitsSent['military_unit1'];
+             $dominion->military_unit4 -= $unitsSent['military_unit4'];
+
+             # Calculate losses by applying casualties ratio to units sent.
+             $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;
+             $unitsLost['military_unit4'] = $unitsSent['military_unit4'] * $casualtiesRatio;
+
+             # Calculate amount of returning units.
+             $unitsReturning['military_unit1'] = max($unitsSent['military_unit1'] - $unitsLost['military_unit1'],0);
+             $unitsReturning['military_unit4'] = max($unitsSent['military_unit4'] - $unitsLost['military_unit4'],0);
+
+             # Queue the returning units.
+             foreach($unitsReturning as $unit => $amountReturning)
+             {
+                $this->queueService->queueResources(
+                    'invasion',
+                    $dominion,
+                    [$unit => $amountReturning],
+                    12
+                );
+             }
+
+            # Queue the incoming land.
+            foreach($landGained as $type => $amount)
+            {
+              $data = [$type => $amount];
+              $this->queueService->queueResources(
+                  'invasion',
+                  $dominion,
+                  $data
+              );
+            }
+
+           }
+
+
         }
 
 
