@@ -669,7 +669,10 @@ class TickService
            $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
            $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
 
-           $opPaid = $opTrained + $opInTraining;
+           $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
+           $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
+
+           $opPaid = $opTrained + $opInTraining + $opReturning;
 
            // Determine what (if any) training is required
            $dpToTrain = max(0, $dpRequired - $dpPaid);
@@ -682,10 +685,10 @@ class TickService
            $elitesRatio = 1 - $specsRatio;
 
            $units = [
-             'military_unit1' => intval(($dpToTrain * $specsRatio) / $opUnit1),
+             'military_unit1' => intval(($opToTrain * $specsRatio) / $opUnit1),
              'military_unit2' => intval(($dpToTrain * $specsRatio) / $dpUnit2),
              'military_unit3' => intval(($dpToTrain * $elitesRatio) / $dpUnit3),
-             'military_unit4' => intval(($dpToTrain * $elitesRatio) / $opUnit4),
+             'military_unit4' => intval(($opToTrain * $elitesRatio) / $opUnit4),
            ];
 
            // Train the units
