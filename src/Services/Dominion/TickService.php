@@ -482,8 +482,6 @@ class TickService
          // Are we invading?
 
       }
-      else
-      {
 
         /** @var Tick $tick */
         $tick = Tick::firstOrCreate(
@@ -711,7 +709,6 @@ class TickService
 
         $tick->save();
 
-      } #END ELSE FOR BARBARIAN NPC
     }
 
     protected function updateDailyRankings(Collection $activeDominions): void
