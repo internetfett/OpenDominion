@@ -448,7 +448,7 @@ class TickService
 
            // Calculate DPA required
            $constant = 20;
-           $days = $this->now->diffInDays($dominion->round->start_date);
+           $day = $this->now->diffInDays($dominion->round->start_date);
 
            #$multiplier = 12;
            #$dpa = intval($constant + (($days - 1 * $multiplier)));
