@@ -461,8 +461,7 @@ class TickService
 
          foreach($units as $unit => $amountToTrain)
          {
-           # Default state
-           $data = array($unit => $amountToTrain);
+
 
             $hours = 12;
             if($unit == 'military_unit1' or $unit == 'military_unit2')
@@ -470,7 +469,7 @@ class TickService
               $hours = 9;
             }
 
-            $this->queueService->queueResources('training', $dominion, $data, $hours);
+            $this->queueService->queueResources('training', $dominion, [$unit => $amountToTrain], $hours);
             $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
          }
 
