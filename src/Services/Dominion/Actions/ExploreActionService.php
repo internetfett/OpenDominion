@@ -104,7 +104,7 @@ class ExploreActionService
 
         if ($totalLandToExplore > $this->explorationCalculator->getMaxAfford($dominion))
         {
-            throw new GameException('You do not have enough platinum and/or draftees to explore for ' . number_format($totalLandToExplore) ' acres.');
+            throw new GameException('You do not have enough platinum and/or draftees to explore for ' . number_format($totalLandToExplore) . ' acres.');
         }
 
         $maxAllowed = $this->landCalculator->getTotalLand($dominion) * 1.5;
