@@ -484,7 +484,6 @@ class TickService
 
          // Are we invading?
 
-         break;
       }
       else
       {
