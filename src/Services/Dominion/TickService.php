@@ -181,15 +181,29 @@ class TickService
            $opToTrain = max(0, $opRequired - $opPaid);
 
            $data = [
-             'military_unit1' => intval(($dpToTrain * 0.2) / $opUnit1);
-             'military_unit2' => intval(($dpToTrain * 0.2) / $dpUnit2);
-             'military_unit3' => intval(($dpToTrain * 0.8) / $dpUnit3);
-             'military_unit4' => intval(($dpToTrain * 0.8) / $opUnit4);
+             'military_unit1' => intval(($dpToTrain * 0.2) / $opUnit1),
+             'military_unit2' => intval(($dpToTrain * 0.2) / $dpUnit2),
+             'military_unit3' => intval(($dpToTrain * 0.8) / $dpUnit3),
+             'military_unit4' => intval(($dpToTrain * 0.8) / $opUnit4),
            ];
 
            // Train the units
-           $this->queueService->queueResources('training', $dominion, $data, 9);
-           $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+
+           foreach($data as $unit => $amountToTrain)
+           {
+              if($unit == 'military_unit1' or $unit == 'military_unit2')
+              {
+                $hours = 9;
+              }
+              else
+              {
+                $hours = 12;
+              }
+              
+              $this->queueService->queueResources('training', $dominion, $data, $hours);
+              $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+           }
+
 
            $trainingCost = $data['military_unit1'] * 150;
            $trainingCost += $data['military_unit2'] * 150;
