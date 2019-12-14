@@ -534,8 +534,8 @@ class TickService
            // Make sure all units1 and unit4 are at home.
            if($dominion->military_unit1 > 0 and
               $dominion->military_unit4 > 0 and
-              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') = 0 and
-              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') = 0
+              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') == 0 and
+              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
               )
            {
              if(rand(1,32) = 1)
