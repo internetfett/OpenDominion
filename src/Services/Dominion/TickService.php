@@ -700,7 +700,7 @@ class TickService
               $hours /= 3;
 
               $this->queueService->queueResources('training', $dominion, $data, $hours);
-              $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+              #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
            }
 
            $trainingCost = $units['military_unit1'] * 150;
