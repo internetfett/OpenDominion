@@ -460,7 +460,7 @@ class TickService
          // Train the units
          foreach($units as $unit => $amountToTrain)
          {
-            $data = array($unit => $amountToTrain);
+            $data = [$unit => $amountToTrain];
 
             $hours = 12;
             if($unit == 'military_unit1' or $unit == 'military_unit2')
