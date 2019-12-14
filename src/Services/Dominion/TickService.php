@@ -435,7 +435,7 @@ class TickService
              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
              )
           {
-            if(rand(1,2) == 1)
+            if(rand(1,1) == 1)
             {
               $invade = TRUE;
             }
@@ -443,7 +443,6 @@ class TickService
 
           if($invade)
           {
-
             # Grow by 5-20% (random).
             $growthRatio = rand(50,200)/1000;
 
@@ -524,7 +523,6 @@ class TickService
            2) Train until they reach the OPA requirement
            3) Have a chance to quasi-invade.
               Invade = send out between 80% and 100% of the OP and queue land.
-
            */
 
            // Calculate DPA required
@@ -597,7 +595,7 @@ class TickService
            {
               $data = [$unit => $amountToTrain];
 
-              $hours = 8;
+              $hours = 12;
 
               $this->queueService->queueResources('training', $dominion, $data, $hours);
               #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
