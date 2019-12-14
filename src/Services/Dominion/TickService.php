@@ -428,6 +428,112 @@ class TickService
             $dominion->{$row->resource} += $row->amount;
         }
 
+        # NPC BARBARIANS
+        if($dominion->race->alignment === 'npc')
+        {
+          /*
+           Every tick, NPCs:
+           1) Train until they reach the DPA requirement
+           2) Train until they reach the OPA requirement
+           3) Have a 1/64 chance to quasi-invade.
+              Invade = send out between 80% and 100% of the OP and queue land
+
+           */
+
+           // Calculate DPA required
+           $constant = 20;
+           $day = $this->now->diffInDays($dominion->round->start_date);
+
+           $min = 20;
+           $max = 200;
+
+           $dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
+           $opa = intval($dpa * 0.75);
+
+           $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
+           $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
+
+           // Determine current DP and OP
+           # Unit 1: 3 OP, 0 DP
+           # Unit 2: 3 DP, 0 OP
+           # Unit 3: 5 DP, 0 OP
+           # Unit 4: 5 OP, 2 DP (turtle)
+
+           $dpUnit1 = 0;
+           $dpUnit2 = 3;
+           $dpUnit3 = 5;
+           $dpUnit4 = 0; # Has turtle but ignored here
+
+           $opUnit1 = 3;
+           $opUnit2 = 0;
+           $opUnit3 = 0;
+           $opUnit4 = 5;
+
+           $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
+           $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
+
+           #$dpTrained = $dominion->military_unit2 * $dpUnit2;
+           #$dpTrained += $dominion->military_unit3 * $dpUnit3;
+
+           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
+           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
+
+           $dpPaid = $dpTrained + $dpInTraining;
+
+           $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
+           $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
+
+           #$opTrained = $dominion->military_unit1 * $opUnit1;
+           #$opTrained += $dominion->military_unit4 * $opUnit4;
+
+           $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
+           $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
+
+           $opReturning = $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
+           $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
+
+           $opPaid = $opTrained + $opInTraining + $opReturning;
+
+           // Determine what (if any) training is required
+           $dpToTrain = max(0, $dpRequired - $dpPaid);
+           $opToTrain = max(0, $opRequired - $opPaid);
+
+           # Randomly train between 5% and 25% of units as specs.
+           $specsRatio = rand(5,30)/100;
+
+           $specsRatio = 0.25;
+           $elitesRatio = 1 - $specsRatio;
+
+           $units = [
+             'military_unit1' => intval(($opToTrain * $specsRatio) / $opUnit1),
+             'military_unit2' => intval(($dpToTrain * $specsRatio) / $dpUnit2),
+             'military_unit3' => intval(($dpToTrain * $elitesRatio) / $dpUnit3),
+             'military_unit4' => intval(($opToTrain * $elitesRatio) / $opUnit4),
+           ];
+
+           // Train the units
+           foreach($units as $unit => $amountToTrain)
+           {
+              $data = [$unit => $amountToTrain];
+
+              $hours = 8;
+
+              $this->queueService->queueResources('training', $dominion, $data, $hours);
+              #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+           }
+
+           $trainingCost = $units['military_unit1'] * 150;
+           $trainingCost += $units['military_unit2'] * 150;
+           $trainingCost += $units['military_unit3'] * 600;
+           $trainingCost += $units['military_unit4'] * 600;
+
+           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
+
+           // Are we invading?
+
+        }
+
+
         // Population
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
         $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
@@ -605,118 +711,6 @@ class TickService
         }
 
         $tick->save();
-
-        # NPC BARBARIANS
-        if($dominion->race->alignment === 'npc')
-        {
-          /*
-           Every tick, NPCs:
-           1) Train until they reach the DPA requirement
-           2) Train until they reach the OPA requirement
-           3) Have a 1/64 chance to quasi-invade.
-              Invade = send out between 80% and 100% of the OP and queue land
-
-           */
-
-           // Calculate DPA required
-           $constant = 20;
-           $day = $this->now->diffInDays($dominion->round->start_date);
-
-           $min = 20;
-           $max = 200;
-
-           $dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
-           $opa = intval($dpa * 0.75);
-
-           $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
-           $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
-
-           // Determine current DP and OP
-           # Unit 1: 3 OP, 0 DP
-           # Unit 2: 3 DP, 0 OP
-           # Unit 3: 5 DP, 0 OP
-           # Unit 4: 5 OP, 2 DP (turtle)
-
-           $dpUnit1 = 0;
-           $dpUnit2 = 3;
-           $dpUnit3 = 5;
-           $dpUnit4 = 0; # Has turtle but ignored here
-
-           $opUnit1 = 3;
-           $opUnit2 = 0;
-           $opUnit3 = 0;
-           $opUnit4 = 5;
-
-           #$dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
-           #$dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
-           $dpTrained = $dominion->military_unit2 * $dpUnit2;
-           $dpTrained += $dominion->military_unit3 * $dpUnit3;
-
-           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
-           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
-
-           $dpPaid = $dpTrained + $dpInTraining;
-
-           #$opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
-           #$opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
-
-           $opTrained = $dominion->military_unit1 * $opUnit1;
-           $opTrained += $dominion->military_unit4 * $opUnit4;
-
-
-           $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opReturning = $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opPaid = $opTrained + $opInTraining + $opReturning;
-
-           // Determine what (if any) training is required
-           $dpToTrain = max(0, $dpRequired - $dpPaid);
-           $opToTrain = max(0, $opRequired - $opPaid);
-
-           # Randomly train between 5% and 25% of units as specs.
-           $specsRatio = rand(5,30)/100;
-
-           $specsRatio = 0.25;
-           $elitesRatio = 1 - $specsRatio;
-
-           $units = [
-             'military_unit1' => intval(($opToTrain * $specsRatio) / $opUnit1),
-             'military_unit2' => intval(($dpToTrain * $specsRatio) / $dpUnit2),
-             'military_unit3' => intval(($dpToTrain * $elitesRatio) / $dpUnit3),
-             'military_unit4' => intval(($opToTrain * $elitesRatio) / $opUnit4),
-           ];
-
-           // Train the units
-           foreach($units as $unit => $amountToTrain)
-           {
-              $data = [$unit => $amountToTrain];
-
-              $hours = 1;
-
-              #$this->queueService->queueResources('training', $dominion, $data, $hours);
-              #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
-           }
-
-           $dominion->military_unit1 += $units['military_unit1'];
-           $dominion->military_unit2 += $units['military_unit2'];
-           $dominion->military_unit3 += $units['military_unit3'];
-           $dominion->military_unit4 += $units['military_unit4'];
-
-           $trainingCost = $units['military_unit1'] * 150;
-           $trainingCost += $units['military_unit2'] * 150;
-           $trainingCost += $units['military_unit3'] * 600;
-           $trainingCost += $units['military_unit4'] * 600;
-
-           $dominion->resource_platinum -= min($dominion->resource_platinum, $trainingCost);
-
-           // Are we invading?
-
-        }
-
-
     }
 
     protected function updateDailyRankings(Collection $activeDominions): void
