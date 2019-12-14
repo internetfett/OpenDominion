@@ -616,34 +616,26 @@ class TickService
            3) Have a 1/64 chance to quasi-invade.
               Invade = send out between 80% and 100% of the OP and queue land
 
-
-          DPA is calculated as:
-
-          20 + ((Days - 1) * 12)
-
            */
 
            // Calculate DPA required
            $constant = 20;
            $day = $this->now->diffInDays($dominion->round->start_date);
 
-           #$multiplier = 12;
-           #$dpa = intval($constant + (($days - 1 * $multiplier)));
-
            $min = 20;
            $max = 200;
 
-           $dpa = round($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
+           $dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
            $opa = intval($dpa * 0.75);
 
            $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
            $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
 
            // Determine current DP and OP
-           # Unit 1: 3 OP
-           # Unit 2: 3 DP
-           # Unit 3: 5 DP
-           # Unit 4: 5 OP
+           # Unit 1: 3 OP, 0 DP
+           # Unit 2: 3 DP, 0 OP
+           # Unit 3: 5 DP, 0 OP
+           # Unit 4: 5 OP, 2 DP (turtle)
 
            $dpUnit1 = 0;
            $dpUnit2 = 3;
