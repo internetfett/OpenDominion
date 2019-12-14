@@ -694,7 +694,7 @@ class TickService
            {
               $data = [$unit => $amountToTrain];
 
-              $hours = 8;
+              $hours = 1;
 
               $this->queueService->queueResources('training', $dominion, $data, $hours);
               #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
