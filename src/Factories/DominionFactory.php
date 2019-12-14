@@ -91,7 +91,7 @@ class DominionFactory
 
         $startingResources['morale'] = 100;
 
-        $startingResources['prestige'] = intval($acresBase/2)
+        $startingResources['prestige'] = intval($acresBase/2);
 
         # POPULATION AND MILITARY
         $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
@@ -226,7 +226,6 @@ class DominionFactory
             $startingResources['food'] = 0;
             $startingResources['mana'] = 0;
             $startingResources['boats'] = 0;
-
           }
         }
 
