@@ -213,8 +213,8 @@ class DominionFactory
           if($race->name == 'Barbarian')
           {
 
-            # Barbarians start between 750 and 1000 acres, randomly.
-            $acresBase *= (rand(750,1000)/1000);
+            # Barbarians start between 500 and 1000 acres, randomly.
+            $acresBase *= (rand(500,1000)/1000);
 
             $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
             $startingResources['draftees'] = 0;
