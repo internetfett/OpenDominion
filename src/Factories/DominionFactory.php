@@ -43,7 +43,12 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
-
+        if($dominion->race->alignment == 'npc' and $dominion->race->name == 'Barbarian')
+        {
+          # Barbarians start between 500 and 1000 acres, randomly.
+          $acresBase *= (rand(500,1000)/1000);
+        }
+      
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
 
         $startingLand = $this->getStartingLand(
@@ -212,9 +217,6 @@ class DominionFactory
         {
           if($race->name == 'Barbarian')
           {
-
-            # Barbarians start between 500 and 1000 acres, randomly.
-            $acresBase *= (rand(500,1000)/1000);
 
             $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
             $startingResources['draftees'] = 0;
