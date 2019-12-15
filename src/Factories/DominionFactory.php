@@ -40,8 +40,10 @@ class DominionFactory
         $this->guardAgainstMultipleDominionsInARound($user, $realm->round);
         $this->guardAgainstMismatchedAlignments($race, $realm, $realm->round);
 
-        // todo: get starting values from config
 
+        // Starting resources are based on this.
+        $acresBase = 1000;
+        
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
 
         $startingLand = $this->getStartingLand(
@@ -51,8 +53,6 @@ class DominionFactory
         );
 
 
-        // Starting resources are based on this.
-        $acresBase = 1000;
 
         // Give +0.50% starting resources per hour late, max +100%.
         #$hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
