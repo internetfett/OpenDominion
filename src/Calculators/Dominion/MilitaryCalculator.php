@@ -792,6 +792,12 @@ class MilitaryCalculator
             $powerFromPerk = min($powerFromLand, $max);
         }
 
+        # No barren bonus vs. Barbarian (for now)
+        if($target->race->name == 'Barbarian')
+        {
+          $powerFromPerk = 0;
+        }
+
         return $powerFromPerk;
     }
 
