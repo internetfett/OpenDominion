@@ -43,12 +43,12 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
-        
+
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
 
         $startingLand = $this->getStartingLand(
             $race,
-            $this->getStartingBarrenLand($race),
+            $this->getStartingBarrenLand($race, $acresBase),
             $startingBuildings
         );
 
@@ -356,7 +356,7 @@ class DominionFactory
      *
      * @return array
      */
-    protected function getStartingBarrenLand($race): array
+    protected function getStartingBarrenLand($race, $acresBase): array
     {
         # Change this to just look at home land type?
         # Special treatment for Void, Growth, Myconid, Merfolk, and Swarm
