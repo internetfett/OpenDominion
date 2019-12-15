@@ -131,7 +131,7 @@
                             <div class="col-sm-12 text-center">
                                 <p class="text-red">You cannot join the Royal Guard for the first three days of the round.</p>
                             </div>
-                        @endif
+                        @else
                         <div class="col-sm-6 text-center">
                             <h4 class="text-green">
                                 <i class="ra ra-heavy-shield" title="Royal Guard"></i>
@@ -191,6 +191,7 @@
                                 </form>
                             @endif
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
