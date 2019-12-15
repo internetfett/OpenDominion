@@ -123,7 +123,11 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        @if (!$canJoinGuards)
+                        @if ($selectedDominion->race->getPerkValue('cannot_join_guards'))
+                            <div class="col-sm-12 text-center">
+                                <p class="text-red">{{ $selectedDominion->race->name }} cannot join the Royal and Elite Guards.</p>
+                            </div>
+                        @elseif (!$canJoinGuards)
                             <div class="col-sm-12 text-center">
                                 <p class="text-red">You cannot join the Royal Guard for the first three days of the round.</p>
                             </div>

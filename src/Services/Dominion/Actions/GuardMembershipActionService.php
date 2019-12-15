@@ -47,7 +47,7 @@ class GuardMembershipActionService
 
         if($dominion->race->getPerkValue('cannot_join_guards'))
         {
-            throw new GameException('Your faction is not able to join the guards.');
+            throw new GameException($dominion->race->name . ' is not able to join the guards.');
         }
 
         $this->guardMembershipService->joinRoyalGuard($dominion);
@@ -84,7 +84,7 @@ class GuardMembershipActionService
 
         if($dominion->race->getPerkValue('cannot_join_guards'))
         {
-            throw new GameException('Your faction is not able to join the guards.');
+            throw new GameException($dominion->race->name . ' is not able to join the guards.');
         }
 
         $this->guardMembershipService->joinEliteGuard($dominion);
