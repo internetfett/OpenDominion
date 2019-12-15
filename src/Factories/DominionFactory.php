@@ -42,7 +42,7 @@ class DominionFactory
 
         // todo: get starting values from config
 
-        $startingBuildings = $this->getStartingBuildings($race);
+        $startingBuildings = $this->getStartingBuildings($race, $acresBase);
 
         $startingLand = $this->getStartingLand(
             $race,
@@ -439,7 +439,7 @@ class DominionFactory
      *
      * @return array
      */
-    protected function getStartingBuildings($race): array
+    protected function getStartingBuildings($race, $acresBase): array
     {
         # Non-construction races (Swarm?)
         if($race->getPerkValue('cannot_construct'))
