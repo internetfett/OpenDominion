@@ -213,10 +213,13 @@ class DominionFactory
           if($race->name == 'Barbarian')
           {
 
+            # Barbarians start between 750 and 1000 acres, randomly.
+            $acresBase *= (rand(750,1000)/1000);
+
             $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
             $startingResources['draftees'] = 0;
 
-            $startingResources['prestige'] = 0;
+            $startingResources['prestige'] = intval($acresBase * 0.25);
             $startingResources['draft_rate'] = 0;
             $startingResources['peasants'] = 0;
             $startingResources['platinum'] = 0;
@@ -361,7 +364,7 @@ class DominionFactory
         {
           return [
               'plain' => 0,
-              'mountain' => 1000-500,
+              'mountain' => intval($acresBase-$acresBase/2),
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
@@ -374,7 +377,7 @@ class DominionFactory
           return [
               'plain' => 0,
               'mountain' => 0,
-              'swamp' => 1000-1000,
+              'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
@@ -388,7 +391,7 @@ class DominionFactory
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
-              'forest' => 1000-1000,
+              'forest' => 0,
               'hill' => 0,
               'water' => 0,
           ];
@@ -402,13 +405,13 @@ class DominionFactory
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
-              'water' => 1000-80-50,
+              'water' => intval($acresBase-($acresBase*0.08)-($acresBase*0.05)),
           ];
         }
         elseif($race->name == 'Swarm')
         {
           return [
-              'plain' => 1000,
+              'plain' => $acresBase,
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
@@ -420,13 +423,13 @@ class DominionFactory
         else
         {
             return [
-                'plain' => 200-80,
-                'mountain' => 200,
-                'swamp' => 150-50,
+                'plain' => intval($acresBase*0.2-$acresBase*0.08),
+                'mountain' => intval($acresBase*0.2),
+                'swamp' => intval($acresBase*0.15-$acresBase*0.05),
                 'cavern' => 0,
-                'forest' => 150-50,
-                'hill' => 200,
-                'water' => 100,
+                'forest' => intval($acresBase*0.150-$acresBase*0.05),
+                'hill' => intval($acresBase*0.2),
+                'water' => intval($acresBase*0.1),
             ];
         }
     }
@@ -457,7 +460,7 @@ class DominionFactory
               'tower' => 0,
               'farm' => 0,
               'lumberyard' => 0,
-              'ziggurat' => 500,
+              'ziggurat' => intval($acresBase/2),
               'tissue' => 0,
               'mycelia' => 0,
           ];
@@ -470,7 +473,7 @@ class DominionFactory
               'farm' => 0,
               'lumberyard' => 0,
               'ziggurat' => 0,
-              'tissue' => 1000,
+              'tissue' => $acresBase,
               'mycelia' => 0,
           ];
         }
@@ -483,15 +486,15 @@ class DominionFactory
               'lumberyard' => 0,
               'ziggurat' => 0,
               'tissue' => 0,
-              'mycelia' => 1000,
+              'mycelia' => $acresBase,
           ];
         }
         # Merfolk
         elseif($race->name == 'Merfolk')
         {
           $startingBuildings = [
-              'tower' => 50,
-              'farm' => 80,
+              'tower' => intval($acresBase*0.05),
+              'farm' => intval($acresBase*0.08),
               'lumberyard' => 0,
               'ziggurat' => 0,
               'tissue' => 0,
@@ -502,9 +505,9 @@ class DominionFactory
         else
         {
           $startingBuildings = [
-              'tower' => 50,
-              'farm' => 80,
-              'lumberyard' => 50,
+              'tower' => intval($acresBase*0.05),
+              'farm' => intval($acresBase*0.08),
+              'lumberyard' => intval($acresBase*0.05),
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,

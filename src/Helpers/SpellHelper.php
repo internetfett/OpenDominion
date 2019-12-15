@@ -261,7 +261,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Swarming',
-                'description' => 'Double draft rate (2% of peasants instead of 1%)',
+                'description' => 'Double drafting speed (2% of peasants instead of 1%)',
                 'key' => 'swarming',
                 'mana_cost' => 6,
                 'duration' => 12*4,
