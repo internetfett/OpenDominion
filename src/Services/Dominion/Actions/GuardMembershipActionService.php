@@ -45,6 +45,11 @@ class GuardMembershipActionService
             throw new GameException('You have already applied to join the Royal Guard.');
         }
 
+        if($dominion->race->getPerkValue('cannot_join_guards'))
+        {
+            throw new GameException('Your faction is not able to join the guards.');
+        }
+
         $this->guardMembershipService->joinRoyalGuard($dominion);
 
         return [
@@ -75,6 +80,11 @@ class GuardMembershipActionService
 
         if ($this->guardMembershipService->isEliteGuardApplicant($dominion)) {
             throw new GameException('You have already applied to join the Elite Guard.');
+        }
+
+        if($dominion->race->getPerkValue('cannot_join_guards'))
+        {
+            throw new GameException('Your faction is not able to join the guards.');
         }
 
         $this->guardMembershipService->joinEliteGuard($dominion);

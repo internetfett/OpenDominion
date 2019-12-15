@@ -430,7 +430,8 @@ class InvadeActionService
         }
 
         // Reduce attacker prestige gain if the target was hit recently
-        if($attackerPrestigeChange > 0) {
+        if($attackerPrestigeChange > 0)
+        {
             $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
 
             if ($recentlyInvadedCount === 1)

@@ -281,6 +281,11 @@ class RaceHelper
                 $valueType = ' mana/tick';
                 $booleanValue = false;
                 break;
+            case 'cannot_join_guards':
+                $negativeBenefit = true;
+                $description = 'Cannot join guards';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }
