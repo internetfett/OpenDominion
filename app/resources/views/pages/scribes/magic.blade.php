@@ -25,7 +25,7 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12 col-md-12">
-                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Self</h4>
+                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Self Spells</h4>
                     <table class="table table-striped" style="margin-bottom: 0">
                         <colgroup>
                             <col width="125px">
@@ -59,7 +59,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-md-12">
-                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Information gathering</h4>
+                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Information Gathering</h4>
                     <table class="table table-striped" style="margin-bottom: 0">
                         <colgroup>
                             <col width="125px">
@@ -93,7 +93,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-md-12">
-                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Racial</h4>
+                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Faction Spells</h4>
                     <table class="table table-striped" style="margin-bottom: 0">
                         <colgroup>
                             <col width="125px">
