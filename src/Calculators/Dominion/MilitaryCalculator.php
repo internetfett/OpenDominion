@@ -5,6 +5,7 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
+use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
@@ -12,8 +13,16 @@ use Illuminate\Support\Carbon;
 
 class MilitaryCalculator
 {
+    /**
+     * @var float Number of boats protected per dock
+     */
+    protected const BOATS_PROTECTED_PER_DOCK = 2.5;
+
     /** @var BuildingCalculator */
     protected $buildingCalculator;
+
+    /** @var GovernmentService */
+    protected $governmentService;
 
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
@@ -45,6 +54,7 @@ class MilitaryCalculator
      */
     public function __construct(
         BuildingCalculator $buildingCalculator,
+        GovernmentService $governmentService,
         ImprovementCalculator $improvementCalculator,
         LandCalculator $landCalculator,
         PrestigeCalculator $prestigeCalculator,
@@ -53,6 +63,7 @@ class MilitaryCalculator
         )
     {
         $this->buildingCalculator = $buildingCalculator;
+        $this->governmentService = $governmentService;
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
@@ -86,7 +97,7 @@ class MilitaryCalculator
         array $calc = []
     ): float
     {
-        $op = ($this->getOffensivePowerRaw($dominion, $target, $landRatio, $units, $calc) * $this->getOffensivePowerMultiplier($dominion));
+        $op = ($this->getOffensivePowerRaw($dominion, $target, $landRatio, $units, $calc) * $this->getOffensivePowerMultiplier($dominion, $target));
 
         return ($op * $this->getMoraleMultiplier($dominion));
     }
@@ -137,7 +148,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getOffensivePowerMultiplier(Dominion $dominion): float
+    public function getOffensivePowerMultiplier(Dominion $dominion, Dominion $target = null): float
     {
         $multiplier = 0;
 
@@ -192,6 +203,15 @@ class MilitaryCalculator
 
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+
+        // War
+        if ($target != null) {
+            if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm)) {
+                $multiplier += 0.1;
+            } elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm)) {
+                $multiplier += 0.05;
+            }
+        }
 
         return (1 + $multiplier);
     }
@@ -1104,6 +1124,21 @@ class MilitaryCalculator
     }
 
     /**
+     * Returns the number of boats protected by a Dominion's docks and harbor improvements.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getBoatsProtected(Dominion $dominion): float
+    {
+        // Docks
+        $boatsProtected = static::BOATS_PROTECTED_PER_DOCK * $dominion->building_dock;
+        // Habor
+        $boatsProtected *= 1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
+        return $boatsProtected;
+    }
+
+    /**
      * Gets the total amount of living specialist/elite units for a Dominion.
      *
      * Total amount includes units at home and units returning from battle.
@@ -1153,7 +1188,6 @@ class MilitaryCalculator
         return $invasionEvents->count();
     }
 
-
     /**
      * Returns the number of time the Dominion was recently invaded by the attacker.
      *
@@ -1185,5 +1219,34 @@ class MilitaryCalculator
         });
 
         return $invasionEvents->count();
+    }
+
+    /**
+     * Checks Dominion was recently invaded by attacker.
+     *
+     * 'Recent' refers to the past 24 hours.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $attacker
+     * @return bool
+     */
+    public function recentlyInvadedBy(Dominion $dominion, Dominion $attacker): bool
+    {
+        // todo: this touches the db. should probably be in invasion or military service instead
+        $invasionEvents = GameEvent::query()
+            ->where('created_at', '>=', now()->subDay(1))
+            ->where([
+                'target_type' => Dominion::class,
+                'target_id' => $dominion->id,
+                'source_id' => $attacker->id,
+                'type' => 'invasion',
+            ])
+            ->get();
+
+        if (!$invasionEvents->isEmpty()) {
+            return true;
+        }
+
+        return false;
     }
 }
