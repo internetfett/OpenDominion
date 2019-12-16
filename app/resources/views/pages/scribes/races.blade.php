@@ -4,12 +4,12 @@
     @include('partials.scribes.nav')
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Races</h3>
+            <h3 class="box-title">Factions</h3>
         </div>
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12 col-md-12">
-                    <p>Players must choose a race for their dominion. Each race has unique bonuses, military units, and spells.</p>
+                    <p>Players must choose a faction for their dominion. Each faction has unique bonuses, military units, and spells.</p>
                     <em>
                         <p>More information can be found on the <a href="https://odarena.miraheze.org/wiki/Factions">wiki</a>.</p>
                     </em>
@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-12 col-md-6">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Good Alignment</h4>
+                        <h4 class="box-title">The Commonwealth</h4>
                     </div>
                     <table class="table table-striped" style="margin-bottom: 0">
                         <tbody>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-12 col-md-6">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Evil Alignment</h4>
+                        <h4 class="box-title">The Empire</h4>
                     </div>
                     <table class="table table-striped" style="margin-bottom: 0">
                         <tbody>
