@@ -453,8 +453,8 @@ class SpellHelper
     {
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
-      #if($race->alignment == 'good')
-      #{
+      if($race == null or $race->alignment == 'good')
+      {
         return collect([
             [
                 'name' => 'Lightning Bolt',
@@ -517,13 +517,13 @@ class SpellHelper
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
-        #]);
-      #}
+        ]);
+      }
       # Imperial Dark Arts Magic
       // Fire and Cold
-      #elseif($race->alignment == 'evil')
-      #{
-        #return collect([
+      elseif($race->alignment == 'evil')
+      {
+        return collect([
             [
                 'name' => 'Fireball',
                 'description' => 'Burn target\'s peasants and food',
