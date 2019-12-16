@@ -451,10 +451,84 @@ class SpellHelper
 
     public function getBlackOpSpells(Race $race): Collection
     {
+
+      return collect([
+          [
+              'name' => 'Lightning Bolt',
+              'description' => 'Destroy the target\'s castle improvements',
+              'key' => 'lightning_bolt',
+              'mana_cost' => 1,
+              'decreases' => [
+                  'improvement_markets',
+                  'improvement_keep',
+                  'improvement_towers',
+                  'improvement_forges',
+                  'improvement_walls',
+                  'improvement_harbor',
+                  'improvement_armory',
+                  'improvement_infirmary',
+                  'improvement_workshops',
+                  'improvement_observatory',
+                  'improvement_cartography',
+                  'improvement_hideouts',
+                  'improvement_forestry',
+                  'improvement_refinery',
+                  'improvement_granaries',
+                  'improvement_tissue',
+              ],
+              'percentage' => 1,
+          ],
+          [
+            'name' => 'Silencing',
+            'description' => 'Weaken the target\'s wizards',
+            'key' => 'silencing',
+            'mana_cost' => 1,
+            'decreases' => ['wizard_strength'],
+            'percentage' => 2,
+          ],
+          [
+              'name' => 'Fireball',
+              'description' => 'Burn target\'s peasants and food',
+              'key' => 'fireball',
+              'mana_cost' => 1,
+              'decreases' => ['peasants', 'resource_food'],
+              'percentage' => 1,
+          ],
+          [
+              'name' => 'Plague',
+              'description' => 'Slows population growth',
+              'key' => 'plague',
+              'mana_cost' => 3,
+              'duration' => 12,
+          ],
+          [
+              'name' => 'Insect Swarm',
+              'description' => 'Slows food production',
+              'key' => 'insect_swarm',
+              'mana_cost' => 3,
+              'duration' => 12,
+          ],
+          [
+              'name' => 'Great Flood',
+              'description' => 'Slows boat production',
+              'key' => 'great_flood',
+              'mana_cost' => 3,
+              'duration' => 12,
+          ],
+          [
+              'name' => 'Earthquake',
+              'description' => 'Slows mine production',
+              'key' => 'earthquake',
+              'mana_cost' => 3,
+              'duration' => 12,
+          ],
+      ]);
+
+      /* ROUND 13
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
-#      if($race == null or $race->alignment == 'good')
-#      {
+      if($race == null or $race->alignment == 'good')
+      {
         return collect([
             [
                 'name' => 'Lightning Bolt',
@@ -517,13 +591,13 @@ class SpellHelper
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
-#        ]);
-#      }
+        ]);
+      }
       # Imperial Dark Arts Magic
       // Fire and Cold
-#      elseif($race->alignment == 'evil')
-#      {
-#        return collect([
+      elseif($race->alignment == 'evil')
+      {
+        return collect([
             [
                 'name' => 'Fireball',
                 'description' => 'Burn target\'s peasants and food',
@@ -586,7 +660,8 @@ class SpellHelper
                 'duration' => 12,
             ],
         ]);
-#      }
+      }
+      */
 
 
     }
