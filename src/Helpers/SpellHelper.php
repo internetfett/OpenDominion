@@ -453,7 +453,7 @@ class SpellHelper
     {
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
-      if($race == null or $race->alignment == 'good')
+      if($race == null or !isset($race) or $race->alignment == 'good')
       {
         return collect([
             [
