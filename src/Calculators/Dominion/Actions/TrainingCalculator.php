@@ -113,7 +113,7 @@ class TrainingCalculator
                     // FOOD cost for units
                     if ($food > 0) {
                         $cost['food'] = $food;
-                        $cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
+                        $cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion, 'food'));
                     }
                     // MANA cost for units
                     if ($mana > 0) {
@@ -314,7 +314,7 @@ class TrainingCalculator
 
         # Smithies: discount Platinum (for all) and Ore (for non-Gnomes)
         # Armory: discounts Platinum and Ore (for all)
-        # Techs: discounts Platinum, Ore, and Lumber (for all)
+        # Techs: discounts Platinum, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
 
         // Only discount these resources.
         $discountableResourceTypesBySmithies = ['platinum', 'ore'];
@@ -357,7 +357,7 @@ class TrainingCalculator
         {
           $multiplier += $dominion->getTechPerkMultiplier('military_cost');
         }
-        
+
         if(in_array($resourceType,$discountableResourceTypesByTechFood))
         {
           $multiplier += $dominion->getTechPerkMultiplier('military_cost_food');
