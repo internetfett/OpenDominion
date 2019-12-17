@@ -15,14 +15,14 @@ perks:
 units:
   - name: Marauder
     cost:
-      platinum: 300
+      platinum: 225
       ore: 0
     power:
       offense: 3
       defense: 0
   - name: Thug
     cost:
-      platinum: 300
+      platinum: 225
       ore: 0
     power:
       offense: 0
