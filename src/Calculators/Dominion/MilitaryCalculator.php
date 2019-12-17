@@ -205,10 +205,14 @@ class MilitaryCalculator
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
         // War
-        if ($target != null) {
-            if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm)) {
-                $multiplier += 0.1;
-            } elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm)) {
+        if ($target != null)
+        {
+            if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm))
+            {
+                $multiplier += 0.10;
+            }
+            elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm))
+            {
                 $multiplier += 0.05;
             }
         }

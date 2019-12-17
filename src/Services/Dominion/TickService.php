@@ -435,7 +435,7 @@ class TickService
              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
              )
           {
-            if(rand(1,32) == 1)
+            if(rand(1,1) == 1)
             {
               $invade = TRUE;
             }
@@ -501,6 +501,17 @@ class TickService
                  $dominion,
                  $data
              );
+
+             // Create a raid event.
+             $this->invasionEvent = GameEvent::create([
+                 'round_id' => $dominion->round_id,
+                 'source_type' => Dominion::class,
+                 'source_id' => $dominion->id,
+                 'target_type' => 'Unclaimed Land',
+                 'target_id' => NULL,
+                 'type' => 'raid',
+                 'data' => $this->invasionResult,
+             ]);
 
              $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
            }
