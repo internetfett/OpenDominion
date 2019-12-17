@@ -12,9 +12,6 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
-#ODA
-#use OpenDominion\Calculators\Dominion\MilitaryCalculator; -- Was used locally to test showing an icon next to recently invaded Sylvans
-
 class RealmController extends AbstractDominionController
 {
     public function getRealm(Request $request, int $realmNumber = null)
@@ -33,6 +30,7 @@ class RealmController extends AbstractDominionController
         }
 
         $isOwnRealm = ($realmNumber === (int)$dominion->realm->number);
+
 
         if (!$round->hasStarted() && !$isOwnRealm) {
             $request->session()->flash(
@@ -107,7 +105,6 @@ class RealmController extends AbstractDominionController
             'prevRealm',
             'guardMembershipService',
             'protectionService',
-            #'militaryCalculator',
             'nextRealm',
             'isOwnRealm',
             'realmCount'

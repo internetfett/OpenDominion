@@ -553,11 +553,13 @@ class SpellActionService
                 $wizardsKilled = (int)floor($dominion->military_wizards * ($wizardsKilledPercentage / 100));
 
                 // Check for immortal wizards
-                if ($dominion->race->getPerkValue('immortal_wizards') != 0) {
+                if ($dominion->race->getPerkValue('immortal_wizards') != 0)
+                {
                     $wizardsKilled = 0;
                 }
 
-                if ($wizardsKilled > 0) {
+                if ($wizardsKilled > 0)
+                {
                     $unitsKilled['wizards'] = $wizardsKilled;
                     $dominion->military_wizards -= $wizardsKilled;
                 }
@@ -690,6 +692,11 @@ class SpellActionService
             $damageDealt = [];
             $totalDamage = 0;
             $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
+
+            # Calculate ratio differential.
+            $baseDamageMultiplier = max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/$targetWpa)/5,1 ) ,3) ,0)
+
+            $baseDamage *= $baseDamageMultiplier;
 
             if (isset($spellInfo['decreases'])) {
                 foreach ($spellInfo['decreases'] as $attr) {
