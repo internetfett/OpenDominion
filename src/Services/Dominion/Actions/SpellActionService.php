@@ -95,7 +95,7 @@ class SpellActionService
         $this->spellHelper = app(SpellHelper::class);
     }
 
-    public const BLACK_OPS_DAYS_AFTER_ROUND_START = 7;
+    public const BLACK_OPS_DAYS_AFTER_ROUND_START = 1;
 
     /**
      * Casts a magic spell for a dominion, optionally aimed at another dominion.
@@ -517,7 +517,7 @@ class SpellActionService
         }
 
         if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START) {
-            throw new GameException('You cannot perform black ops for the first seven days of the round');
+            throw new GameException('You cannot perform black ops for the first day of the round');
         }
 
         $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion->race);

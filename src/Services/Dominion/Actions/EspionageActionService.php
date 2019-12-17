@@ -160,7 +160,7 @@ class EspionageActionService
             }
         } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
             if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START) {
-                throw new GameException('You cannot perform black ops for the first seven days of the round');
+                throw new GameException('You cannot perform black ops for the first day of the round');
             }
         }
 
