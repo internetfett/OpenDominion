@@ -523,7 +523,7 @@ class TickService
                  'target_type' => 'Unclaimed Land',
                  'target_id' => NULL,
                  'type' => 'raid',
-                 'data' => $this->invasionResult,
+                 'data' => $this->raidResult,
              ]);
 
              $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
