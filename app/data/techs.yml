@@ -104,7 +104,6 @@ training_costs_level6:
 
 # </Ladder: Training Costs>
 
-
 # <Ladder: Offensive Power>
 
 offensive_power_level1:
@@ -1189,3 +1188,103 @@ platinum_interest_level6:
     - platinum_interest_level5
 
 # </Ladder: Platinum Interest>
+
+# <Ladder: Lean Mass>
+
+lean_mass_level1:
+  name: Lean Mass (1/6)
+  cost_multiplier: 0
+  perks:
+    military_cost_food: -1.75
+
+lean_mass_level2:
+  name: Lean Mass (2/6)
+  cost_multiplier: 10
+  perks:
+    military_cost_food: -3.5
+  requires:
+    - lean_mass_level1
+
+lean_mass_level3:
+  name: Lean Mass (3/6)
+  cost_multiplier: 20
+  perks:
+    military_cost_food: -5.25
+  requires:
+    - lean_mass_level2
+
+lean_mass_level4:
+  name: Lean Mass (4/6)
+  cost_multiplier: 30
+  perks:
+    military_cost_food: -7
+  requires:
+    - lean_mass_level3
+
+lean_mass_level5:
+  name: Lean Mass (5/6)
+  cost_multiplier: 40
+  perks:
+    military_cost_food: -8.75
+  requires:
+    - lean_mass_level4
+
+lean_mass_level6:
+  name: Lean Mass (6/6)
+  cost_multiplier: 50
+  perks:
+    military_cost_food: -10.5
+  requires:
+    - lean_mass_level6
+
+# </Ladder: Lean Mass>
+
+# <Ladder: Magic Weapons>
+
+magic_weapons_level1:
+  name: Lean Mass (1/6)
+  cost_multiplier: 0
+  perks:
+    military_cost_mana: -1.75
+
+magic_weapons_level2:
+  name: Lean Mass (2/6)
+  cost_multiplier: 10
+  perks:
+    military_cost_mana: -3.5
+  requires:
+    - magic_weapons_level1
+
+magic_weapons_level3:
+  name: Lean Mass (3/6)
+  cost_multiplier: 20
+  perks:
+    military_cost_mana: -5.25
+  requires:
+    - magic_weapons_level2
+
+magic_weapons_level4:
+  name: Lean Mass (4/6)
+  cost_multiplier: 30
+  perks:
+    military_cost_mana: -7
+  requires:
+    - magic_weapons_level3
+
+magic_weapons_level5:
+  name: Lean Mass (5/6)
+  cost_multiplier: 40
+  perks:
+    military_cost_mana: -8.75
+  requires:
+    - magic_weapons_level4
+
+magic_weapons_level6:
+  name: Lean Mass (6/6)
+  cost_multiplier: 50
+  perks:
+    military_cost_mana: -10.5
+  requires:
+    - magic_weapons_level5
+
+# </Ladder: Magic Weapons>

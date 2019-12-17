@@ -14,6 +14,10 @@ class TechHelper
             'offense' => '%s%% offensive power',
             'military_cost' => '%s%% military training platinum, ore, and lumber costs',
 
+
+            'military_cost_food' => '%s%% military training food costs',
+            'military_cost_mana' => '%s%% military training mana costs',
+
             // Casualties related
             'fewer_casualties_defense' => '%s%% fewer casualties on defense',
             'fewer_casualties_offense' => '%s%% fewer casualties on offense',

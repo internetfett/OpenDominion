@@ -321,6 +321,9 @@ class TrainingCalculator
         $discountableResourceTypesByArmory = ['platinum', 'ore'];
         $discountableResourceTypesByTech = ['platinum', 'ore', 'lumber'];
 
+        $discountableResourceTypesByTechFood = ['food'];
+        $discountableResourceTypesByTechMana = ['mana'];
+
         $racesExemptFromOreDiscountBySmithies = ['Gnome', 'Imperial Gnome'];
 
         // Smithies
@@ -354,6 +357,17 @@ class TrainingCalculator
         {
           $multiplier += $dominion->getTechPerkMultiplier('military_cost');
         }
+        
+        if(in_array($resourceType,$discountableResourceTypesByTechFood))
+        {
+          $multiplier += $dominion->getTechPerkMultiplier('military_cost_food');
+        }
+
+        if(in_array($resourceType,$discountableResourceTypesByTechMana))
+        {
+          $multiplier += $dominion->getTechPerkMultiplier('military_cost_mana');
+        }
+
 
 
         $multiplier = max(-0.50, $multiplier);
