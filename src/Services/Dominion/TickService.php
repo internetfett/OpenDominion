@@ -516,7 +516,7 @@ class TickService
              );
 
              $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
-
+/*
              // Create a raid event.
              $this->$raidEvent = GameEvent::create([
                  'round_id' => $dominion->round_id,
@@ -527,6 +527,7 @@ class TickService
                  'type' => 'raid',
                  'data' => $this->raidResult,
              ]);
+*/
 
            }
          }
