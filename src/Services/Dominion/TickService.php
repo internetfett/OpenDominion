@@ -59,6 +59,14 @@ class TickService
     /** @var GameEvent */
     protected $raidEvent;
 
+    /** @var array Invasion result array. todo: Should probably be refactored later to its own class */
+    protected $raidResult = [
+        'result' => [],
+        'attacker' => [
+            'unitsLost' => [],
+        ],
+    ];
+
     /**
      * TickService constructor.
      */
