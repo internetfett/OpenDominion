@@ -55,18 +55,6 @@ class TickService
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
-
-    /** @var GameEvent */
-    protected $raidEvent;
-
-    /** @var array Invasion result array. todo: Should probably be refactored later to its own class */
-    protected $raidResult = [
-        'result' => [],
-        'attacker' => [
-            'unitsLost' => [],
-        ],
-    ];
-
     /**
      * TickService constructor.
      */
@@ -516,19 +504,6 @@ class TickService
              );
 
              $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
-/*
-             // Create a raid event.
-             $this->$raidEvent = GameEvent::create([
-                 'round_id' => $dominion->round_id,
-                 'source_type' => Dominion::class,
-                 'source_id' => $dominion->id,
-                 'target_type' => 'Unclaimed Land',
-                 'target_id' => NULL,
-                 'type' => 'raid',
-                 'data' => $this->raidResult,
-             ]);
-*/
-
            }
          }
         }
