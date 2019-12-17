@@ -99,7 +99,7 @@ class CasualtiesCalculator
             }
 
             // Range-based immortality
-            if (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0))
+            if (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0)
             {
                 if ($landRatio >= ($immortalVsLandRange / 100))
                 {
