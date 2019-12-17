@@ -694,7 +694,7 @@ class SpellActionService
             $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
 
             # Calculate ratio differential.
-            $baseDamageMultiplier = max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/$targetWpa)/5,1 ) ,3) ,0)
+            $baseDamageMultiplier = max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/$targetWpa)/5,1 ) ,3) ,0);
 
             $baseDamage *= $baseDamageMultiplier;
 
