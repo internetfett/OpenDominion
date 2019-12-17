@@ -21,6 +21,7 @@ use Throwable;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Models\GameEvent;
 
 class TickService
 {
@@ -53,6 +54,10 @@ class TickService
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
+
+
+    /** @var GameEvent */
+    protected $raidEvent;
 
     /**
      * TickService constructor.
@@ -503,7 +508,7 @@ class TickService
              );
 
              // Create a raid event.
-             $this->invasionEvent = GameEvent::create([
+             $this->$raidEvent = GameEvent::create([
                  'round_id' => $dominion->round_id,
                  'source_type' => Dominion::class,
                  'source_id' => $dominion->id,
