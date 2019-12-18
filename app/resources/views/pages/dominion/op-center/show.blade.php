@@ -146,24 +146,34 @@
                                     </tr>
                                     <tr>
                                         <td>
-
                                           <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $dominion->race) }}">
-                                              {{ $dominion->race->units->get(0)->name }}
+                                              {{ $dominion->race->units->get(0)->name }}:
                                           </span>
-                                          {{ $dominion->race->units->get(0)->name }}:
                                         </td>
                                         <td>{{ number_format($infoOp->data['military_unit1']) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $dominion->race->units->get(1)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(1)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($infoOp->data['military_unit2']) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $dominion->race->units->get(2)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(2)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($infoOp->data['military_unit3']) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $dominion->race->units->get(3)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(3)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($infoOp->data['military_unit4']) }}</td>
                                     </tr>
                                     <tr>
