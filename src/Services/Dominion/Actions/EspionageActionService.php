@@ -902,6 +902,11 @@ class EspionageActionService
         $damageDealt = [];
         $baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
 
+        # Calculate ratio differential.
+        $baseDamageMultiplier = max( min( min( ($selfSpa-$targetSpa+3)/5,1 ) * max( ($selfSpa/$targetSpa)/5,1 ) ,3) ,0);
+        
+        $baseDamage *= $baseDamageMultiplier;
+
         if (isset($operationInfo['decreases'])) {
             foreach ($operationInfo['decreases'] as $attr) {
                 $damage = $target->{$attr} * $baseDamage;
