@@ -560,7 +560,11 @@
                                     $unitType = ('unit' . $slot);
                                 @endphp
                                 <tr>
-                                    <td>{{ $unitHelper->getUnitName($unitType, $dominion->race) }}</td>
+                                    <td>
+                                      <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $dominion->race) }}">
+                                        {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
+                                      </span>
+                                    </td>
                                     @for ($i = 1; $i <= 12; $i++)
                                         @php
                                             $amount = array_get($infoOp->data, "units.returning.{$unitType}.{$i}", 0);
