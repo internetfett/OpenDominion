@@ -601,14 +601,17 @@ class TickService
            ];
 
            // Train the units
-           foreach($units as $unit => $amountToTrain)
+           if(rand(1,2) == 1)
            {
-              $data = [$unit => $amountToTrain];
+             foreach($units as $unit => $amountToTrain)
+             {
+                $data = [$unit => $amountToTrain];
 
-              $hours = 12;
+                $hours = 12;
 
-              $this->queueService->queueResources('training', $dominion, $data, $hours);
-              #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+                $this->queueService->queueResources('training', $dominion, $data, $hours);
+                #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+             }
            }
 
         }
