@@ -123,7 +123,7 @@ class SpellHelper
                 'description' => '20% chance to reflect incoming offensive spells for 8 hours',
                 'key' => 'energy_mirror',
                 'mana_cost' => 3,
-                'duration' => 8,
+                'duration' => 8*4,
             ]
         ]));
 
@@ -499,28 +499,28 @@ class SpellHelper
               'description' => 'Slows population growth',
               'key' => 'plague',
               'mana_cost' => 3,
-              'duration' => 12,
+              'duration' => 12*2,
           ],
           [
               'name' => 'Insect Swarm',
               'description' => 'Slows food production',
               'key' => 'insect_swarm',
               'mana_cost' => 3,
-              'duration' => 12,
+              'duration' => 12*2,
           ],
           [
               'name' => 'Great Flood',
               'description' => 'Slows boat production',
               'key' => 'great_flood',
               'mana_cost' => 3,
-              'duration' => 12,
+              'duration' => 12*2,
           ],
           [
               'name' => 'Earthquake',
               'description' => 'Slows mine production',
               'key' => 'earthquake',
               'mana_cost' => 3,
-              'duration' => 12,
+              'duration' => 12*2,
           ],
       ]);
 
