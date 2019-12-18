@@ -147,7 +147,7 @@
                                     <tr>
                                         <td>
 
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString(1, $dominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $dominion->race) }}">
                                               {{ $dominion->race->units->get(0)->name }}
                                           </span>
                                           {{ $dominion->race->units->get(0)->name }}:
