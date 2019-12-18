@@ -1018,8 +1018,9 @@ class InvadeActionService
         if (
             !$isInvasionSuccessful ||
             ($totalDefensiveCasualties === 0) ||
-            !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Nox'], true) // todo: might want to check for conversion unit perks here, instead of hardcoded race names
-        ) {
+            !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted'], true) // todo: might want to check for conversion unit perks here, instead of hardcoded race names
+        )
+        {
             return $convertedUnits;
         }
 
@@ -1070,17 +1071,10 @@ class InvadeActionService
             $totalConvertingUnits += $units[$unit->slot];
         }
 
-        $totalConverts = min($totalConvertingUnits * $conversionMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
+        $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
 
-        # In-realm Invasion: -90% converts
-        /*
-        if($dominion->realm->id == $target->realm->id)
+        foreach ($unitsWithConversionPerk as $unit)
         {
-          $totalConverts = $totalConverts * (1 - 90/100);
-        }
-        */
-
-        foreach ($unitsWithConversionPerk as $unit) {
             $conversionPerk = $unit->getPerkValue('conversion');
             $convertingUnitsForSlot = $units[$unit->slot];
             $convertingUnitsRatio = $convertingUnitsForSlot / $totalConvertingUnits;
