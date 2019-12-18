@@ -1025,12 +1025,15 @@ class InvadeActionService
         }
 
         $conversionBaseMultiplier = 0.06;
-        $spellParasiticHungerMultiplier = 50;
+        $conversionMultiplier = 0;
 
+        // Calculate conversion bonuses
         // Parasitic Hunger
-        $conversionMultiplier = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'parasitic_hunger', $spellParasiticHungerMultiplier);
-
-        // Tech
+        if ($this->spellCalculator->isSpellActive($target, 'parasitic_hunger'))
+        {
+          $conversionMultiplier += 0.50;
+        }
+        // Tech (up to +15%)
         if($dominion->getTechPerkMultiplier('conversions'))
         {
           $conversionMultiplier += $dominion->getTechPerkMultiplier('conversions');
