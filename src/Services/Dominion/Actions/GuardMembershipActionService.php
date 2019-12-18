@@ -69,7 +69,6 @@ class GuardMembershipActionService
      */
     public function joinEliteGuard(Dominion $dominion): array
     {
-        // todo: cannot join for first 5 days
         if (!$this->guardMembershipService->isRoyalGuardMember($dominion)) {
             throw new GameException('You must already be a member of the Royal Guard.');
         }
