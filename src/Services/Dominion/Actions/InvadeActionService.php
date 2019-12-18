@@ -1029,7 +1029,7 @@ class InvadeActionService
 
         // Calculate conversion bonuses
         // Parasitic Hunger
-        if ($this->spellCalculator->isSpellActive($target, 'parasitic_hunger'))
+        if ($this->spellCalculator->isSpellActive($dominion, 'parasitic_hunger'))
         {
           $conversionMultiplier += 0.50;
         }
