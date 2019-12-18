@@ -529,7 +529,8 @@ class TickService
 
            // Calculate DPA required
            $constant = 20;
-           $day = $this->now->diffInDays($dominion->round->start_date);
+           #$day = $this->now->diffInDays($dominion->round->start_date);
+           $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
 
            $min = 20;
            $max = 200;
@@ -537,8 +538,11 @@ class TickService
            # Yami
            #$dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
 
-           # Linear
-           $dpa = $min + ($day * 12);
+           # Linear daily
+           #$dpa = $min + ($day * 12);
+
+           # Linear hourly
+           $dpa = $min + ($hours * 0.5);
            $opa = intval($dpa * 0.75);
 
            $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
