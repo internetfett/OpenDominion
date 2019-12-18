@@ -56,6 +56,7 @@ class TechHelper
             'barracks_housing' => '%s%% more unit housing per barracks',
             'gemcutting' => '%s%% more improvement points per gem',
             'platinum_interest' => '%s%% interest on your platinum stockpile per tick',
+            'exchange_rate' => '%s%% better exchange rates',
 
         ];
 
