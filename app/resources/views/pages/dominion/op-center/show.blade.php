@@ -145,7 +145,13 @@
                                         <td>{{ number_format($infoOp->data['military_draftees']) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $dominion->race->units->get(0)->name }}:</td>
+                                        <td>
+
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString(1, $dominion->race) }}">
+                                              {{ $dominion->race->units->get(0)->name }}
+                                          </span>
+                                          {{ $dominion->race->units->get(0)->name }}:
+                                        </td>
                                         <td>{{ number_format($infoOp->data['military_unit1']) }}</td>
                                     </tr>
                                     <tr>
