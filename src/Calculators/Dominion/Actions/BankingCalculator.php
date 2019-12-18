@@ -75,6 +75,8 @@ class BankingCalculator
         {
           // Get racial bonus
           $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
+          // Techs
+          $bonus += $dominion->getTechPerkMultiplier('construction_cost');
 
           $resources['resource_platinum']['sell'] *= (1 + $bonus);
           $resources['resource_lumber']['sell'] *= (1 + $bonus);

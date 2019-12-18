@@ -436,7 +436,7 @@ class TickService
              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
              )
           {
-            if(rand(1,1) == 1)
+            if(rand(1,32) == 1)
             {
               $invade = TRUE;
             }
@@ -445,7 +445,7 @@ class TickService
           if($invade)
           {
             # Grow by 5-15% (random).
-            $growthRatio = rand(500,1500)/10000;
+            $growthRatio = max(500,rand(400,1500))/10000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
