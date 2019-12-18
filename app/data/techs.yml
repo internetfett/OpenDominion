@@ -1289,53 +1289,52 @@ magical_weapons_level6:
 
 # </Ladder: Magic Weapons>
 
-
 # <Ladder: Commerce>
 
-magical_weapons_level1:
+commerce_level1:
   name: Commerce (1/6)
   cost_multiplier: 0
   perks:
     exchange_rate: 2.5
 
-magical_weapons_level2:
+commerce_level2:
   name: Commerce (2/6)
   cost_multiplier: 10
   perks:
     exchange_rate: 5
   requires:
-    - magical_weapons_level1
+    - commerce_level1
 
-magical_weapons_level3:
+commerce_level3:
   name: Commerce (3/6)
   cost_multiplier: 20
   perks:
     exchange_rate: 7.5
   requires:
-    - magical_weapons_level2
+    - commerce_level2
 
-magical_weapons_level4:
+commerce_level4:
   name: Commerce (4/6)
   cost_multiplier: 30
   perks:
     exchange_rate: 10
   requires:
-    - magical_weapons_level3
+    - commerce_level3
 
-magical_weapons_level5:
+commerce_level5:
   name: Commerce (5/6)
   cost_multiplier: 40
   perks:
     exchange_rate: 12.5
   requires:
-    - magical_weapons_level4
+    - commerce_level4
 
-magical_weapons_level6:
+commerce_level6:
   name: Commerce (6/6)
   cost_multiplier: 50
   perks:
     exchange_rate: 15
   requires:
-    - magical_weapons_level5
+    - commerce_level5
 
 # </Ladder: Commerce>
