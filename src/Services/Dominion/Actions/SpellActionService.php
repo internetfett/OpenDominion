@@ -182,7 +182,12 @@ class SpellActionService
             $wizardStrengthLost = min($wizardStrengthLost, $dominion->wizard_strength);
             $dominion->wizard_strength -= $wizardStrengthLost;
 
-            if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race)) {
+            # XP Gained.
+            $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
+            $dominion->resource_tech += $xpGained;
+
+            if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race))
+            {
                 $dominion->stat_spell_success += 1;
             }
 
@@ -411,96 +416,6 @@ class SpellActionService
         ];
     }
 
-
-    ### ODA
-
-    /**
-     * Casts an info op spell for $dominion to $target.
-     *
-     * @param Dominion $dominion
-     * @param string $spellKey
-     * @param Dominion $target
-     * @return array
-     */
-    protected function castBlackOpSpell(Dominion $dominion, string $spellKey, Dominion $target): array
-    {
-        $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion->race);
-
-        $selfWpa = $this->militaryCalculator->getWizardRatio($dominion, 'offense');
-        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
-
-        // You need at least some positive WPA to cast info ops
-        if ($selfWpa === 0.0) {
-            // Don't reduce mana by throwing an exception here
-            throw new GameException("Your wizard force is too weak to cast {$spellInfo['name']}. Please train more wizards.");
-        }
-
-        // 100% spell success if target has a WPA of 0
-        if ($targetWpa !== 0.0) {
-            $successRate = $this->opsHelper->operationSuccessChance($selfWpa, $targetWpa, static::BLACKOPS_MULTIPLIER_SUCCESS_RATE);
-
-            if (!random_chance($successRate)) {
-                // Inform target that they repelled a hostile spell
-                $this->notificationService
-                    ->queueNotification('repelled_hostile_spell', [
-                        'sourceDominionId' => $dominion->id,
-                        'spellKey' => $spellKey,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
-
-                // Return here, thus completing the spell cast and reducing the caster's mana
-                return [
-                    'success' => false,
-                    'message' => "The enemy wizards have repelled our {$spellInfo['name']} attempt.",
-                    'wizardStrengthCost' => 2,
-                    'alert-type' => 'warning',
-                ];
-            }
-        }
-
-        // todo: take Energy Mirror into account with 20% spell reflect (either show your info or give the infoop to the target)
-
-        $blackOp = new BlackOp([
-            'source_realm_id' => $dominion->realm->id,
-            'target_realm_id' => $target->realm->id,
-            'type' => $spellKey,
-            'source_dominion_id' => $dominion->id,
-            'target_dominion_id' => $target->id,
-        ]);
-
-        switch ($spellKey) {
-
-            case 'fireball':
-                $blackOp->data = $this->spellCalculator->getActiveSpells($target);
-                break;
-
-            default:
-                throw new LogicException("Unknown info op spell {$spellKey}");
-        }
-
-        $blackOp->save();
-
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
-            $this->notificationService
-                ->queueNotification('received_hostile_spell', [
-                    'sourceDominionId' => $dominion->id,
-                    'spellKey' => $spellKey,
-                ])
-                ->sendNotifications($target, 'irregular_dominion');
-        }
-
-        $redirect = route('dominion.op-center.show', $target);
-
-        return [
-            'success' => true,
-            'message' => 'Your wizards cast the spell successfully.',
-            'wizardStrengthCost' => 4,
-            'redirect' => $redirect,
-        ];
-    }
-
-    ### /ODA
-
     /**
      * Casts a hostile spell for $dominion to $target.
      *
@@ -610,7 +525,8 @@ class SpellActionService
         }
 
         $spellDeflected = false;
-        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2)) {
+        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2))
+        {
             $spellDeflected = true;
             $deflectedBy = $target;
             $target = $dominion;
@@ -682,6 +598,7 @@ class SpellActionService
             } else {
                 return [
                     'success' => true,
+                    'damage' => true,
                     'message' => sprintf(
                         'Your wizards cast the spell successfully, and it will continue to affect your target for the next %s hours.',
                         $spellInfo['duration']
@@ -695,8 +612,6 @@ class SpellActionService
             $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
 
             # Calculate ratio differential.
-            #$baseDamageMultiplier = max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/$targetWpa)/5,1 ) ,3) ,0);
-
             $baseDamageMultiplier = max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/max($targetWpa, 0.01))/5,1 ) ,3) ,0);
 
             $baseDamage *= $baseDamageMultiplier;
@@ -792,6 +707,7 @@ class SpellActionService
             } else {
                 return [
                     'success' => true,
+                    'damage' => $damage,
                     'message' => sprintf(
                         'Your wizards cast the spell successfully, your target lost %s.',
                         $damageString
@@ -913,4 +829,28 @@ class SpellActionService
 
         return 'Your wizards successfully cast %s at a cost of %s mana.';
     }
+}
+
+/**
+ * Calculate the XP (resource_tech) gained when casting a black-op.
+ *
+ * @param Dominion $dominion
+ * @param Dominion $target
+ * @param int $damage
+ * @return int
+ *
+ */
+protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
+{
+  if($damage == 0 or $damage == NULL)
+  {
+    return 0;
+  }
+  else
+  {
+    $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+    $base = 30;
+
+    return $base * $landRatio;
+  }
 }

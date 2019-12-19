@@ -171,7 +171,6 @@ class UnitHelper
             # Abandoned
             'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
 
-
         ];
 
         // Get unit - same logic as military page
