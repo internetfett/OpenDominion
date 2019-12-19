@@ -969,6 +969,7 @@ class EspionageActionService
 
         return [
             'success' => true,
+            'damage' => $baseDamage;
             'message' => sprintf(
                 'Your spies infiltrate the target\'s dominion successfully, they lost %s.',
                 $damageString
