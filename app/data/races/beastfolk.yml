@@ -12,6 +12,7 @@ description: >-
   <li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
   <li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
   <li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
+  </ul>
   <hr />
   <p>Beastfolk Smithies are 2.5% reduction for every 1% Smithies (max 50%) instead of 2.0% per 1% Smithies (max 40%).</p>
 home_land_type: forest
