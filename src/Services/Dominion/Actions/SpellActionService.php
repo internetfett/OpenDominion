@@ -829,28 +829,31 @@ class SpellActionService
 
         return 'Your wizards successfully cast %s at a cost of %s mana.';
     }
-}
 
-/**
- * Calculate the XP (resource_tech) gained when casting a black-op.
- *
- * @param Dominion $dominion
- * @param Dominion $target
- * @param int $damage
- * @return int
- *
- */
-protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
-{
-  if($damage == 0 or $damage == NULL)
-  {
-    return 0;
-  }
-  else
-  {
-    $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
-    $base = 30;
+    /**
+     * Calculate the XP (resource_tech) gained when casting a black-op.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $target
+     * @param int $damage
+     * @return int
+     *
+     */
+    protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
+    {
+      if($damage == 0 or $damage == NULL)
+      {
+        return 0;
+      }
+      else
+      {
+        $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+        $base = 30;
 
-    return $base * $landRatio;
-  }
+        return $base * $landRatio;
+      }
+    }
+
+
+
 }
