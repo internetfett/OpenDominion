@@ -183,8 +183,11 @@ class SpellActionService
             $dominion->wizard_strength -= $wizardStrengthLost;
 
             # XP Gained.
-            $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
-            $dominion->resource_tech += $xpGained;
+            if(isset($result['damage']))
+            {
+              $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
+              $dominion->resource_tech += $xpGained;              
+            }
 
             if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race))
             {

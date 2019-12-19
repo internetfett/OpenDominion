@@ -904,7 +904,7 @@ class EspionageActionService
 
         # Calculate ratio differential.
         $baseDamageMultiplier = max( min( min( ($selfSpa-$targetSpa+3)/5,1 ) * max( ($selfSpa/$targetSpa)/5,1 ) ,3) ,0);
-        
+
         $baseDamage *= $baseDamageMultiplier;
 
         if (isset($operationInfo['decreases'])) {
@@ -968,4 +968,29 @@ class EspionageActionService
             'redirect' => route('dominion.op-center.show', $target),
         ];
     }
+
+    /**
+     * Calculate the XP (resource_tech) gained when casting a black-op.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $target
+     * @param int $damage
+     * @return int
+     *
+     */
+    protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
+    {
+      if($damage == 0 or $damage == NULL)
+      {
+        return 0;
+      }
+      else
+      {
+        $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+        $base = 30;
+
+        return $base * $landRatio;
+      }
+    }
+
 }
