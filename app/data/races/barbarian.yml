@@ -12,6 +12,8 @@ converting: 3
 perks:
   food_consumption: -100
   platinum_production: -100
+  food_production: -100
+  lumber_production: -100
 units:
   - name: Marauder
     cost:
