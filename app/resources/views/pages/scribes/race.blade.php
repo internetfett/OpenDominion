@@ -33,6 +33,9 @@
                                 <strong>{{ $racialSpell['name'] }}</strong>: {{ $racialSpell['description'] }}<br>
                                 <strong>Cost:</strong> {{ $racialSpell['mana_cost']}}x<br>
                                 <strong>Duration:</strong> {{ $racialSpell['duration']}} ticks<br>
+                                @if($racialSpell['cooldown'])
+                                  <strong>Cooldown:</strong> {{ $racialSpell['cooldown']}} hours<br>
+                                @endif
                             </p>
                         </div>
                     </div>
