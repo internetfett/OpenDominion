@@ -292,7 +292,7 @@ class UnitHelper
         }
 
         # ODA: Show base OP and DP in unitHelperString
-        $helpStrings[$unitType] .= '<li> OP: '. number_format($unit->power_offense) . '. DP: ' . number_format($unit->power_defense) . '</li>';
+        #$helpStrings[$unitType] .= '<li> OP: '. number_format($unit->power_offense) . '. DP: ' . number_format($unit->power_defense) . '</li>';
 
         if(strlen($helpStrings[$unitType]) == 0)
         {
