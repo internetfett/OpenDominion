@@ -186,7 +186,7 @@ class SpellActionService
             if(isset($result['damage']))
             {
               $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
-              $dominion->resource_tech += $xpGained;              
+              $dominion->resource_tech += $xpGained;
             }
 
             if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race))
@@ -646,7 +646,7 @@ class SpellActionService
                     }
 
                     // Damage reduction from Towers
-                    $damage *= (1 - $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers'));
+                    $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
@@ -672,7 +672,7 @@ class SpellActionService
                     $damage = $target->{$attr} * $baseDamage;
 
                     // Damage reduction from Towers
-                    $damage *= (1 - $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers'));
+                    $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
 
                     $target->{$attr} += round($damage);
                 }

@@ -205,7 +205,6 @@ class EspionageActionService
               $dominion->resource_tech += $xpGained;
             }
 
-
             $dominion->stat_espionage_success += 1;
             $dominion->save([
                 'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
@@ -272,7 +271,7 @@ class EspionageActionService
                 $spiesKilledPercentage += $dominion->getTechPerkMultiplier('spy_losses');
 
                 // Techs
-                $spiesKilledPercentage -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
+                $spiesKilledPercentage -= min(1,$this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
 
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
@@ -953,7 +952,8 @@ class EspionageActionService
 
         // Surreal Perception
         $sourceDominionId = null;
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception'))
+        {
             $sourceDominionId = $dominion->id;
         }
 

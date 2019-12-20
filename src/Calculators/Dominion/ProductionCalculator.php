@@ -357,8 +357,8 @@ class ProductionCalculator
         // Values (percentages)
         $foodDecay = 1;
 
-        // Improvement: Granaries
-        $multiplier = 1 - $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
+        // Improvement: Granaries (max -100% decay)
+        $multiplier = 1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries'));
 
         $foodDecay *= $multiplier;
 
@@ -467,8 +467,8 @@ class ProductionCalculator
         // Values (percentages)
         $lumberDecay = 1;
 
-        // Improvement: Granaries
-        $multiplier = 1 - $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
+        // Improvement: Granaries (max -100% decay)
+        $multiplier = 1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries'));
 
         $lumberDecay *= $multiplier;
 
