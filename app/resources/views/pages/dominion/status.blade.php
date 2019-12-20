@@ -163,7 +163,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $dominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race) }}">
                                               {{ $dominion->race->units->get(0)->name }}:
                                           </span>
                                         </td>
@@ -171,7 +171,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $dominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $selectedDominion->race) }}">
                                               {{ $dominion->race->units->get(1)->name }}:
                                           </span>
                                         </td>
@@ -179,7 +179,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $dominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $selectedDominion->race) }}">
                                               {{ $dominion->race->units->get(2)->name }}:
                                           </span>
                                         </td>
@@ -187,7 +187,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $dominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $selectedDominion->race) }}">
                                               {{ $dominion->race->units->get(3)->name }}:
                                           </span>
                                         </td>
