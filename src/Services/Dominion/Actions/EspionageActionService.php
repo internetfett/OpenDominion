@@ -199,11 +199,11 @@ class EspionageActionService
             $dominion->spy_strength -= $spyStrengthLost;
 
             # XP Gained.
-            #if(isset($result['damage']))
-            #{
+            if(isset($result['damage']))
+            {
               $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
               $dominion->resource_tech += $xpGained;
-            #}
+            }
 
             $dominion->stat_espionage_success += 1;
 
@@ -990,6 +990,8 @@ class EspionageActionService
      */
     protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
     {
+      return $damage;
+
       if($damage == 0 or $damage == NULL)
       {
         return 0;
