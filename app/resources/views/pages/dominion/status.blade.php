@@ -162,19 +162,35 @@
                                         <td>{{ number_format($selectedDominion->military_draftees) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $selectedDominion->race->units->get(0)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(0)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 1)) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $selectedDominion->race->units->get(1)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(1)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 2)) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $selectedDominion->race->units->get(2)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(2)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 3)) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $selectedDominion->race->units->get(3)->name }}:</td>
+                                        <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $dominion->race) }}">
+                                              {{ $dominion->race->units->get(3)->name }}:
+                                          </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 4)) }}</td>
                                     </tr>
 
