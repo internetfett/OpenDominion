@@ -206,6 +206,7 @@ class EspionageActionService
             }
 
             $dominion->stat_espionage_success += 1;
+            
             $dominion->save([
                 'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                 'action' => $operationKey
