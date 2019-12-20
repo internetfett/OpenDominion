@@ -970,7 +970,7 @@ class EspionageActionService
 
         return [
             'success' => true,
-            'damage' => $baseDamage,
+            'damage' => $damage,
             'message' => sprintf(
                 'Your spies infiltrate the target\'s dominion successfully, they lost %s.',
                 $damageString
@@ -990,8 +990,6 @@ class EspionageActionService
      */
     protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
     {
-      return $damage;
-
       if($damage == 0 or $damage == NULL)
       {
         return 0;
