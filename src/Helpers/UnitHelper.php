@@ -184,7 +184,10 @@ class UnitHelper
                 list($type, $proficiency) = explode('_', $unit->type);
                 $type = ucfirst($type);
             }   $proficiency .= '.';
-            $helpStrings[$unitType] = "$type $proficiency";
+            #$helpStrings[$unitType] = "$type $proficiency";
+
+            # ODA: Show base OP and DP in unitHelperString
+            $helpStrings[$unitType] .= '<li>Base OP/DP: '. number_format($unit->power_offense) . '/' . number_format($unit->power_defense) . '</li>';
 
             foreach ($unit->perks as $perk) {
                 if (!array_key_exists($perk->key, $perkTypeStrings)) {
@@ -289,9 +292,6 @@ class UnitHelper
             if ($unit->need_boat === false) {
                 $helpStrings[$unitType] .= ('<li>No boats needed.</li>');
             }
-
-            # ODA: Show base OP and DP in unitHelperString
-            $helpStrings[$unitType] .= '<li>Base OP/DP: '. number_format($unit->power_offense) . '/' . number_format($unit->power_defense) . '</li>';
 
         }
 
