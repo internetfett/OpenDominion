@@ -10,6 +10,9 @@ use OpenDominion\Helpers\NotificationHelper;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use OpenDominion\Helpers\UnitHelper;
+
 class StatusController extends AbstractDominionController
 {
     public function getStatus()
@@ -27,6 +30,7 @@ class StatusController extends AbstractDominionController
             'notificationHelper' => app(NotificationHelper::class),
             'populationCalculator' => app(PopulationCalculator::class),
             'queueService' => app(QueueService::class),
+            'unitHelper' => app(UnitHelper::class),
             'notifications' => $notifications
         ]);
     }
