@@ -282,6 +282,14 @@ class SpellHelper
                 'races' => collect(['Void']),
             ],
             [
+                'name' => '𒅆𒂍𒉪',
+                'description' => 'Return to the void.',
+                'key' => 'return_to_the_void',
+                'mana_cost' => 8,
+                'duration' => 12*4,
+                'races' => collect(['Void']),
+            ],
+            [
                 'name' => 'Metabolism',
                 'description' => '+200% food production.',
                 'key' => 'metabolism',
