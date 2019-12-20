@@ -164,7 +164,7 @@
                                     <tr>
                                         <td>
                                           <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race) }}">
-                                              {{ $dominion->race->units->get(0)->name }}:
+                                              {{ $selectedDominion->race->units->get(0)->name }}:
                                           </span>
                                         </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 1)) }}</td>
@@ -172,7 +172,7 @@
                                     <tr>
                                         <td>
                                           <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $selectedDominion->race) }}">
-                                              {{ $dominion->race->units->get(1)->name }}:
+                                              {{ $selectedDominion->race->units->get(1)->name }}:
                                           </span>
                                         </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 2)) }}</td>
@@ -180,7 +180,7 @@
                                     <tr>
                                         <td>
                                           <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $selectedDominion->race) }}">
-                                              {{ $dominion->race->units->get(2)->name }}:
+                                              {{ $selectedDominion->race->units->get(2)->name }}:
                                           </span>
                                         </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 3)) }}</td>
@@ -188,7 +188,7 @@
                                     <tr>
                                         <td>
                                           <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $selectedDominion->race) }}">
-                                              {{ $dominion->race->units->get(3)->name }}:
+                                              {{ $selectedDominion->race->units->get(3)->name }}:
                                           </span>
                                         </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 4)) }}</td>
