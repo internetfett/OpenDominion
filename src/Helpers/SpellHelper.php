@@ -139,7 +139,7 @@ class SpellHelper
         $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
-        })->get();
+        })->all();
     }
 
     public function getRacialSelfSpells(): Collection
