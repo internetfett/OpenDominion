@@ -46,7 +46,7 @@ class RealmFinderService
         # independent
         if($race->alignment == 'independent')
         {
-          $realmQuery = $realmQuery->where(['realms.alignment', 'in', ['good','evil']]);
+          $realmQuery = $realmQuery->where(['realms.alignment' !== 'npc']);
         }
 
         $realms = $realmQuery->groupBy('realms.id')
