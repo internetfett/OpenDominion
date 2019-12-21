@@ -262,12 +262,15 @@ class EspionageActionService
 
 
                 // Calculate multiplier
+                $spiesKilledMultiplier = 1;
                 # Forest Havens
-                $spiesKilledMultiplier = ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction;
-                // Techs
-                $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
-                // Techs
-                $spiesKilledMultiplier -= min(1,$this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
+                $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction;
+                # Techs
+                $spiesKilledMultiplier -= $dominion->getTechPerkMultiplier('spy_losses');
+                # Hideouts
+                $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
+                # Cap at 0
+                $spiesKilledMultiplier = max(0, $spiesKilledMultiplier);
 
 /*
                 $spiesKilledMultiplier = (1 - min(
