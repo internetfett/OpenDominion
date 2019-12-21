@@ -39,6 +39,7 @@
                             <div class="col-xs-12">
                                 <div class="text-center">
                                     <h2>The Commonwealth</h2>
+                                    <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
@@ -72,9 +73,44 @@
                             <div class="col-xs-12">
                                 <div class="text-center">
                                     <h2>The Empire</h2>
+                                    <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
                                 </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
+                                    <div class="col-xs-12">
+                                        <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
+                                            <div class="row text-left">
+                                                <div class="col-lg-4">
+                                                    <p>
+                                                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
+                                                        <strong>{{ $race->name }}</strong>
+                                                        &nbsp;&mdash;&nbsp;
+                                                    <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                  </p>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                  <ul>
+                                                    <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
+                                                    <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
+                                                    <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>
+                                                  </ul>
+                                                </div>
+
+                                            </div>
+                                        </label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12">
+                                <div class="text-center">
+                                    <h2>Independent</h2>
+                                    <p>Unaffected or unaffiliated, these are the factions who as a whole do not answer to one and will join either side.</p>
+                                </div>
+                                <div class="row">
+                                    @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
                                     <div class="col-xs-12">
                                         <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                             <div class="row text-left">
