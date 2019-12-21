@@ -36,11 +36,11 @@ class RealmFactory
             $number = ((int)$results[0]->max_realm_number + 1);
         }
 
-        if ($round->mixed_alignment or $alignment == 'independent')
+        if ($round->mixed_alignment)
         {
             $alignment = 'neutral';
         }
-        elseif (!$round->mixed_alignment && !in_array($alignment, ['good', 'evil', 'npc'], true))
+        elseif (!$round->mixed_alignment && !in_array($alignment, ['good', 'evil', 'npc', 'independent'], true))
         {
             throw new LogicException("Realm alignment must be either 'good' or 'evil'.");
         }
