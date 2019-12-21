@@ -257,27 +257,9 @@ class EspionageActionService
             if (!random_chance($successRate)) {
                 // Values (percentage)
                 $spiesKilledBasePercentage = 0.25; // TODO: Higher for black ops.
-                $forestHavenSpyCasualtyReduction = 3;
-                $forestHavenSpyCasualtyReductionMax = 30;
 
+                $spiesKilledMultiplier = $this->getSpyLossesReductionMultiplier($dominion);
 
-                // Calculate multiplier
-                $spiesKilledMultiplier = 1;
-                # Forest Havens
-                $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction;
-                # Techs
-                $spiesKilledMultiplier -= $dominion->getTechPerkMultiplier('spy_losses');
-                # Hideouts
-                $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
-                # Cap at 0
-                $spiesKilledMultiplier = max(0, $spiesKilledMultiplier);
-
-/*
-                $spiesKilledMultiplier = (1 - min(
-                    (($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction),
-                    ($forestHavenSpyCasualtyReductionMax / 100)
-                ));
-*/
                 $spyLossSpaRatio = ($targetSpa / $selfSpa);
                 $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.25, 1);
 
@@ -517,20 +499,12 @@ class EspionageActionService
 
             if (!random_chance($successRate)) {
                 // Values (percentage)
-                $spiesKilledBasePercentage = 1; // TODO: Higher for black ops.
-                $forestHavenSpyCasualtyReduction = 3;
-                $forestHavenSpyCasualtyReductionMax = 30;
+                $spiesKilledBasePercentage = 1;
 
-                $spiesKilledMultiplier = (1 - min(
-                    (($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction),
-                    ($forestHavenSpyCasualtyReductionMax / 100)
-                ));
+                $spiesKilledMultiplier = $this->getSpyLossesReductionMultiplier($dominion);
 
                 $spyLossSpaRatio = ($targetSpa / $selfSpa);
                 $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.5, 1.5);
-
-                // Techs
-                $spiesKilledPercentage += $dominion->getTechPerkMultiplier('spy_losses');
 
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
@@ -855,14 +829,9 @@ class EspionageActionService
 
             if (!random_chance($successRate)) {
                 // Values (percentage)
-                $spiesKilledBasePercentage = 1; // TODO: Higher for black ops.
-                $forestHavenSpyCasualtyReduction = 3;
-                $forestHavenSpyCasualtyReductionMax = 30;
+                $spiesKilledBasePercentage = 1;
 
-                $spiesKilledMultiplier = (1 - min(
-                    (($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * $forestHavenSpyCasualtyReduction),
-                    ($forestHavenSpyCasualtyReductionMax / 100)
-                ));
+                $spiesKilledMultiplier = $this->getSpyLossesReductionMultiplier($dominion);
 
                 $spyLossSpaRatio = ($targetSpa / $selfSpa);
                 $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.5, 1.5);
@@ -1011,4 +980,30 @@ class EspionageActionService
       }
     }
 
-}
+    /**
+     * Calculate the XP (resource_tech) gained when casting a black-op.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $target
+     * @param int $damage
+     * @return int
+     *
+     */
+    protected function getSpyLossesReductionMultiplier(Dominion $dominion): int
+    {
+
+      $forestHavenSpyCasualtyReduction = 30;
+
+      $spiesKilledMultiplier = 1;
+      # Forest Havens
+      $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * 30;
+      # Techs
+      $spiesKilledMultiplier -= $dominion->getTechPerkMultiplier('spy_losses');
+      # Hideouts
+      $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
+      # Cap at 0
+      $spiesKilledMultiplier = max(0, $spiesKilledMultiplier);
+
+      return $spiesKilledMultiplier;
+
+    }
