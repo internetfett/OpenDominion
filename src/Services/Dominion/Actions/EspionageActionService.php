@@ -981,7 +981,7 @@ class EspionageActionService
     }
 
     /**
-     * Calculate the XP (resource_tech) gained when casting a black-op.
+     * Calculate the spy loss multiplier.
      *
      * @param Dominion $dominion
      * @param Dominion $target
@@ -989,7 +989,7 @@ class EspionageActionService
      * @return int
      *
      */
-    protected function getSpyLossesReductionMultiplier(Dominion $dominion): int
+    protected function getSpyLossesReductionMultiplier(Dominion $dominion): float
     {
 
       $spiesKilledMultiplier = 1;
