@@ -992,18 +992,17 @@ class EspionageActionService
     protected function getSpyLossesReductionMultiplier(Dominion $dominion): int
     {
 
-      $forestHavenSpyCasualtyReduction = 30;
-
       $spiesKilledMultiplier = 1;
       # Forest Havens
-      $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * 30;
+      $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * 3;
       # Techs
       $spiesKilledMultiplier -= $dominion->getTechPerkMultiplier('spy_losses');
       # Hideouts
       $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
-      # Cap at 0
+      # Cap at 0% losses
       $spiesKilledMultiplier = max(0, $spiesKilledMultiplier);
 
       return $spiesKilledMultiplier;
 
     }
+  }
