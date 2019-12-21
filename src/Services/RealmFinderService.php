@@ -43,6 +43,12 @@ class RealmFinderService
             $realmQuery = $realmQuery->where(['realms.alignment' => $race->alignment]);
         }
 
+        # independent
+        if($race->alignment == 'independent')
+        {
+          $realmQuery = $realmQuery->where(['realms.alignment', 'in', ['good','evil']]);
+        }
+
         $realms = $realmQuery->groupBy('realms.id')
             ->having('dominions_count', '<', $round->realm_size)
             ->get()
