@@ -267,7 +267,7 @@ class EspionageActionService
                 // Techs
                 $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
                 // Techs
-                $spiesKilledMultiplier += min(1,$this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
+                $spiesKilledMultiplier -= min(1,$this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
 
 /*
                 $spiesKilledMultiplier = (1 - min(
