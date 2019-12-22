@@ -11,7 +11,7 @@ class SpellHelper
     {
         return $this->getSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
-        })->all();
+        })->first();
     }
 
     public function isSelfSpell(string $spellKey, Race $race): bool
@@ -139,7 +139,7 @@ class SpellHelper
         $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
-        })->all();
+        })->get();
     }
 
     public function getRacialSelfSpells(): Collection
