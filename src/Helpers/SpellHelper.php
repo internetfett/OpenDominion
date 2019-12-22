@@ -290,14 +290,6 @@ class SpellHelper
                 'races' => collect(['Void']),
             ],
             [
-                'name' => '𒅆𒂍𒉪',
-                'description' => 'Return to the void.',
-                'key' => 'return_to_the_void',
-                'mana_cost' => 8,
-                'duration' => 12*4,
-                'races' => collect(['Void']),
-            ],
-            [
                 'name' => 'Metabolism',
                 'description' => '+200% food production.',
                 'key' => 'metabolism',
@@ -312,7 +304,7 @@ class SpellHelper
                 'key' => 'ambush',
                 'mana_cost' => 2,
                 'duration' => 1*4,
-                'cooldown' => 24, # Once per day.
+                'cooldown' => 18, # Once every 18 hours.
                 'races' => collect(['Beastfolk']),
             ],
             [
@@ -411,6 +403,14 @@ class SpellHelper
                 'mana_cost' => 10,
                 'duration' => 12*4,
                 'races' => collect(['Swarm']),
+            ],
+            [
+                'name' => 'Primal Rage',
+                'description' => '+',
+                'key' => 'primal_',
+                'mana_cost' => 10,
+                'duration' => 12*4,
+                'races' => collect(['Simian']),
             ],
 
         ]);
