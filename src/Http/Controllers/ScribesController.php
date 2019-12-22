@@ -20,6 +20,8 @@ class ScribesController extends AbstractController
         return view('pages.scribes.races', [
             'goodRaces' => $races['good'],
             'evilRaces' => $races['evil'],
+            'npcRaces' => $races['npc'],
+            'independentRaces' => $races['independent'],
         ]);
     }
 
