@@ -89,7 +89,6 @@
                                           <a href="{{ route('scribes.race', $race['name']) }}">{{ $race['name'] }}</a>
                                       </td>
                                   </tr>
-                              @endif
                               @endforeach
                           </tbody>
                       </table>
