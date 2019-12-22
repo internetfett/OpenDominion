@@ -57,6 +57,44 @@
                     </table>
                 </div>
             </div>
+
+              <div class="row">
+                  <div class="col-md-12 col-md-6">
+                      <div class="box-header with-border">
+                          <h4 class="box-title">Independent</h4>
+                      </div>
+                      <table class="table table-striped" style="margin-bottom: 0">
+                          <tbody>
+                              @foreach ($independentRaces as $race)
+                              @if($race['playable'] == 1)
+                                  <tr>
+                                      <td>
+                                          <a href="{{ route('scribes.race', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
+                                      </td>
+                                  </tr>
+                              @endif
+                              @endforeach
+                          </tbody>
+                      </table>
+                  </div>
+                  <div class="col-md-12 col-md-6">
+                      <div class="box-header with-border">
+                          <h4 class="box-title">Barbarian Horde</h4>
+                      </div>
+                      <table class="table table-striped" style="margin-bottom: 0">
+                          <tbody>
+                              @foreach ($npcRaces as $race)
+                                  <tr>
+                                      <td>
+                                          <a href="{{ route('scribes.race', $race['name']) }}">{{ $race['name'] }}</a>
+                                      </td>
+                                  </tr>
+                              @endif
+                              @endforeach
+                          </tbody>
+                      </table>
+                  </div>
+            </div>
         </div>
     </div>
 @endsection

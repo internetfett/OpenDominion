@@ -147,7 +147,7 @@ class SpellHelper
         return collect([
             [
                 'name' => 'Crusade',
-                'description' => '+5% offensive power and allows you to kill Spirit/Undead',
+                'description' => '+5% offensive power and allows you to kill Undead and Demon units.',
                 'key' => 'crusade',
                 'mana_cost' => 8,
                 'duration' => 12*4,
@@ -194,12 +194,20 @@ class SpellHelper
                 'races' => collect(['Orc', 'Black Orc']),
             ],
             [
+                'name' => 'Dragon\'s Roar',
+                'description' => 'Enemy draftees do not participate in battle',
+                'key' => 'unholy_ghost',
+                'mana_cost' => 10,
+                'duration' => 12*4,
+                'races' => collect(['Dragon']),
+            ],
+            [
                 'name' => 'Unholy Ghost',
                 'description' => 'Enemy draftees do not participate in battle',
                 'key' => 'unholy_ghost',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Dark Elf', 'Dragon']),
+                'races' => collect(['Dark Elf']),
             ],
             [
                 'name' => 'Defensive Frenzy',
@@ -231,7 +239,7 @@ class SpellHelper
                 'key' => 'regeneration',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Troll','Lizardfolk']),
+                'races' => collect(['Troll', 'Lizardfolk']),
             ],
             [
                 'name' => 'Parasitic Hunger',
@@ -239,7 +247,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Lycanthrope','Afflicted']),
+                'races' => collect(['Lycanthrope', 'Afflicted']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
