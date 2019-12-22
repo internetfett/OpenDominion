@@ -139,7 +139,7 @@ class SpellHelper
         $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
-        })->all();
+        })->first();
     }
 
     public function getRacialSelfSpells(): Collection
@@ -406,8 +406,8 @@ class SpellHelper
             ],
             [
                 'name' => 'Primal Rage',
-                'description' => '+',
-                'key' => 'primal_',
+                'description' => 'No effect',
+                'key' => 'primal_rage',
                 'mana_cost' => 10,
                 'duration' => 12*4,
                 'races' => collect(['Simian']),
