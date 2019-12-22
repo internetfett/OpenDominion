@@ -648,6 +648,8 @@ class SpellActionService
                     // Damage reduction from Towers
                     $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
 
+                    $damage = max($damage, 0);
+
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));

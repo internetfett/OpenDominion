@@ -38,15 +38,9 @@ class RealmFinderService
                 'realms.round_id' => $round->id
             ]);
 
-        if (!$round->mixed_alignment and $race->alignment !== 'neutral')
+        if (!$round->mixed_alignment)
         {
             $realmQuery = $realmQuery->where(['realms.alignment' => $race->alignment]);
-        }
-
-        # independent
-        if($race->alignment == 'independent')
-        {
-          $realmQuery = $realmQuery->where(['realms.alignment' !== 'npc']);
         }
 
         $realms = $realmQuery->groupBy('realms.id')
