@@ -27,8 +27,9 @@
                             {{-- Racial Spell --}}
                             <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Racial Spell</h4>
                             @php
-                                $racialSpell = $spellHelper->getRacialSelfSpell($race);
+                                $racialSpells = $spellHelper->getRacialSelfSpell($race);
                             @endphp
+                            @foreach($racialSpells as $racialSpell)
                             <p>
                                 <strong>{{ $racialSpell['name'] }}</strong>: {{ $racialSpell['description'] }}<br>
                                 <strong>Cost:</strong> {{ $racialSpell['mana_cost']}}x<br>
@@ -37,6 +38,7 @@
                                   <strong>Cooldown:</strong> {{ $racialSpell['cooldown']}} hours<br>
                                 @endif
                             </p>
+                            @endforeach
                         </div>
                     </div>
                 </div>
