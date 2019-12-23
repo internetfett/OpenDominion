@@ -406,7 +406,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Rainy Season',
-                'description' => '+100% defensive power, cannot invade, +50% food production, +100% population growth',
+                'description' => '+100% defensive power, +50% food production, +100% population growth, cannot invade or explore, -50% mining production',
                 'key' => 'rainy_season',
                 'mana_cost' => 10,
                 'duration' => 24*4, # Lasts one day

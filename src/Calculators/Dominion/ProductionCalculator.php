@@ -677,15 +677,22 @@ class ProductionCalculator
         $multiplier += $dominion->getTechPerkMultiplier('ore_production');
 
         # SPELLS
-        // Miners
+        // Spell: Miner's Sight (+10%)
         if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
         {
             $multiplier += 0.10;
         }
 
+        // Spell: Mining Strength (+10%)
         if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
         {
             $multiplier += 0.10;
+        }
+
+        // Spell: Rainy Season (-50%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier -= 0.50;
         }
 
         if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
@@ -776,6 +783,12 @@ class ProductionCalculator
         if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
         {
             $multiplier += 0.05;
+        }
+
+        // Spell: Rainy Season (-50%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier -= 0.50;
         }
 
         // Spell: Earthquake (-5%)

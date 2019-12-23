@@ -114,6 +114,12 @@ class ExploreActionService
         }
 
         # ODA
+        // Spell: Rainy Season (cannot explore)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            throw new GameException('You cannot invade during Rainy Season.');
+        }
+
         if ($dominion->morale <= static::MIN_MORALE)
         {
             throw new GameException('You do not have enough morale to explore.');

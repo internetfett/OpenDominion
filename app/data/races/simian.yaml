@@ -22,8 +22,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
-      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
+      fewer_casualties_offense_vs_land: forest,80,5 # land_type, max_reduction, ratio
   - name: Bonobo
     cost:
       platinum: 200
@@ -32,8 +31,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
-      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
+      fewer_casualties_defense_from_land: forest,80,1 # land_type, max_reduction, ratio
   - name: Orangutan
     cost:
       platinum: 1100
@@ -42,8 +40,8 @@ units:
       offense: 4
       defense: 7
     perks:
-      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
-      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
+      fewer_casualties_defense_from_land: forest,80,1 # land_type, max_reduction, ratio
+      fewer_casualties_offense_vs_land: forest,80,5 # land_type, max_reduction, ratio
   - name: Gorilla
     cost:
       platinum: 1100
@@ -52,5 +50,5 @@ units:
       offense: 7
       defense: 4
     perks:
-      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
-      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
+      fewer_casualties_defense_from_land: forest,80,1 # land_type, max_reduction, ratio
+      fewer_casualties_offense_vs_land: forest,80,5 # land_type, max_reduction, ratio
