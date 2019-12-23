@@ -62,8 +62,8 @@ class ScribesController extends AbstractController
         return view('pages.scribes.construction', [
             'goodRaces' => $races['good'],
             'evilRaces' => $races['evil'],
-            'npcRaces' => $races['npc'],
-            'independentRaces' => $races['independent'],
+            #'npcRaces' => $races['npc'],
+            #'independentRaces' => $races['independent'],
             'buildingTypeWithLandType' => $buildingTypeWithLandType,
             'buildingHelper' => $buildingHelper,
             'landHelper' => app(LandHelper::class),

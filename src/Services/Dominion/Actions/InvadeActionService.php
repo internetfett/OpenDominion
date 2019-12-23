@@ -286,6 +286,16 @@ class InvadeActionService
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
 
+            # Only count successful, non-in-realm hits over 75% as victories.
+            if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
+            {
+              $countsAsVictory = 1;
+            }
+            else
+            {
+              $countsAsVictory = 0;
+            }
+
             if(!$this->passesOpAtLeast50percentOfDpRule()) {
                 throw new GameException('You are not sending enough OP to be even close to breaking the target (50% rule)');
             }
@@ -309,15 +319,6 @@ class InvadeActionService
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
-            # Only count successful, non-in-realm hits over 75% as victories.
-            if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
-            {
-              $countsAsVictory = 1;
-            }
-            else
-            {
-              $countsAsVictory = 0;
-            }
 
             // Stat changes
             // todo: move to own method

@@ -278,7 +278,7 @@ class PopulationCalculator
         // Tech
         if($dominion->getTechPerkMultiplier('barracks_housing'))
         {
-          $troopsPerBarracks += $dominion->getTechPerkMultiplier('barracks_housing');
+            $troopsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
         }
 
         return min(
