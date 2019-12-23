@@ -482,7 +482,7 @@ class CasualtiesCalculator
        * @param Unit $unit
        * @return float
        */
-      protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ): float
+      protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
       {
         if ($target === null && empty($calc)) {
             return 0;
