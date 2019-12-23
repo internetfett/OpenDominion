@@ -925,6 +925,12 @@ class ProductionCalculator
           $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
         }
 
+        // Spell: Rainy Season (-100%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier = -1;
+        }
+
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }

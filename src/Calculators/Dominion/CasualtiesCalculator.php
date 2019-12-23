@@ -127,6 +127,10 @@ class CasualtiesCalculator
             # Shrines
             $multiplier -= $this->getOffensiveCasualtiesReductionFromShrines($dominion);
 
+            # Land-based reductions
+            $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'offense');
+            $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'offense');
+
             # Orc and Black Orc spell: increases casualties by 10%.
             if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
             {
@@ -251,6 +255,11 @@ class CasualtiesCalculator
             {
               $multiplier -= 0.25;
             }
+
+
+            # Land-based reductions
+            $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'defense');
+            $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'defense');
 
             // Techs
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');
@@ -455,9 +464,9 @@ class CasualtiesCalculator
        * @param Unit $unit
        * @return float
        */
-      protected function getCasualtiesReductionFromLand(Dominion $dominion, Unit $unit): float
+      protected function getCasualtiesReductionFromLand(Dominion $dominion, int $slot, string $powerType): float
       {
-        $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "fewer_casualties_{$powerType}_from_land", null);
+        $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_from_land", null);
 
         if (!$landPerkData)
         {
@@ -482,14 +491,17 @@ class CasualtiesCalculator
        * @param Unit $unit
        * @return float
        */
-      protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
+      protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target, int $slot, string $powerType): float
       {
-        if ($target === null && empty($calc)) {
+        if ($target === null)
+        {
             return 0;
         }
 
-        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "fewer_casualties_{$powerType}_vs_land", null);
-        if(!$versusLandPerkData) {
+        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_vs_land", null);
+
+        if(!$versusLandPerkData)
+        {
             return 0;
         }
 
