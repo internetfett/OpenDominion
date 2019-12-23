@@ -122,7 +122,6 @@ class ProductionCalculator
           $platinum += $dominion->resource_platinum * $dominion->getTechPerkMultiplier('platinum_interest');
         }
 
-
         // Unit Perk Production Reduction (Dragon Unit: Mercenary)
         $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
 
@@ -448,17 +447,17 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellGaiasBlessing = 10;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('lumber_production');
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
 
-        // Spell: Gaia's Blessing
-        $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'gaias_blessing', $spellGaiasBlessing);
+        // Spell:  Gaia's Blessing (+20%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'gaias_blessing'))
+        {
+            $multiplier += 0.10;
+        }
 
         // Improvement: Forestry
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
@@ -664,11 +663,6 @@ class ProductionCalculator
     /**
      * Returns the Dominion's ore production multiplier.
      *
-     * Ore production is modified by:
-     * - Racial Bonus
-     * - Spell: Miner's Sight (+20%) or Mining Strength (+10%)
-     * - Tech: Fruits of Labor (+20%)
-     *
      * @param Dominion $dominion
      * @return float
      */
@@ -676,25 +670,31 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellMinersSight = 20;
-        $spellMiningStrength = 10;
-        $spellEarthquake = 5;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('ore_production');
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('ore_production');
 
-        // Spell: Miner's Sight or Mining Strength
-        $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, [
-            'miners_sight' => $spellMinersSight,
-            'mining_strength' => $spellMiningStrength,
-        ]);
+        # SPELLS
+        // Miners
+        if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
+        {
+            $multiplier += 0.10;
+        }
 
-        // Spell: Earthquake
-        $multiplier -= $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'earthquake', $spellEarthquake);
+        if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
+        {
+            $multiplier += 0.10;
+        }
+
+        if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
+        {
+            $multiplier -= 0.05;
+        }
+
+        # /SPELLS
+
 
         // Improvement: Refinery
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
@@ -771,8 +771,20 @@ class ProductionCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('gem_production');
 
-        // Spell: Earthquake
-        $multiplier -= $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'earthquake', $spellEarthquake);
+        # SPELLS
+        // Spell: Miner's Sight (+5%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
+        {
+            $multiplier += 0.05;
+        }
+
+        // Spell: Earthquake (-5%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
+        {
+            $multiplier -= 0.05;
+        }
+
+        # /SPELLS
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('gem_production');

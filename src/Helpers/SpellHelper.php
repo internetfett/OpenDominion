@@ -155,7 +155,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Miner\'s Sight',
-                'description' => '+20% ore production (not cumulative with Mining Strength)',
+                'description' => '+10% ore and +5% gem production',
                 'key' => 'miners_sight',
                 'mana_cost' => 8,
                 'duration' => 12*4,
@@ -251,7 +251,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Gaia\'s Blessing',
-                'description' => '+20% food production (not cumulative with Gaia\'s Watch), +10% lumber production',
+                'description' => '+20% food production, +10% lumber production',
                 'key' => 'gaias_blessing',
                 'mana_cost' => 10,
                 'duration' => 12*4,
