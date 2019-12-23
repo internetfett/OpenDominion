@@ -27,7 +27,7 @@
                             {{-- Racial Spell --}}
                             <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Racial Spell</h4>
                             @php
-                                $racialSpells = $spellHelper->getRacialSelfSpell($race);
+                                $racialSpell = $spellHelper->getRacialSelfSpell($race);
                             @endphp
 
                             <p>
