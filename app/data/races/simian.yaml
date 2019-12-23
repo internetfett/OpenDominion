@@ -4,7 +4,7 @@ description: >-
   <p>Long discarded by humans as lesser beings, Simians have developed advanced societies in the rain forests.</p>
   <p>During the rainy season, Simians take shelter deep in the thicket and build strong barricades to keep the rain and unwanted visitors away.</p>
 home_land_type: forest
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 3

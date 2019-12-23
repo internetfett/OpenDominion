@@ -444,8 +444,8 @@ class TickService
 
           if($invade)
           {
-            # Grow by 5-15% (random).
-            $growthRatio = max(500,rand(400,1500))/10000;
+            # Grow by 2-10% (random).
+            $growthRatio = max(200,rand(100,1000))/10000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
@@ -538,11 +538,8 @@ class TickService
            # Yami
            #$dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
 
-           # Linear daily
-           #$dpa = $min + ($day * 12);
-
            # Linear hourly
-           $dpa = $min + ($hours * 0.5);
+           $dpa = $constant + ($hours * 0.35); # Down from 0.50.
            $opa = intval($dpa * 0.75);
 
            $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
@@ -587,10 +584,8 @@ class TickService
            $dpToTrain = max(0, $dpRequired - $dpPaid);
            $opToTrain = max(0, $opRequired - $opPaid);
 
-           # Randomly train between 5% and 25% of units as specs.
-           $specsRatio = rand(5,30)/100;
-
-           $specsRatio = 0.25;
+           # Randomly train between 10% and 30% of units as specs.
+           $specsRatio = rand(10,30)/100;
            $elitesRatio = 1 - $specsRatio;
 
            $units = [
@@ -610,7 +605,6 @@ class TickService
                 $hours = 12;
 
                 $this->queueService->queueResources('training', $dominion, $data, $hours);
-                #$dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
              }
            }
 
