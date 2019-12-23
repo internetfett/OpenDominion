@@ -388,15 +388,10 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
+        // Guard Towers
         $dpPerGuardTower = 2;
         $guardTowerMaxDp = 40;
-        $spellAresCall = 10;
-        $spellBlizzard = 5; # From 15%
-        $spellFrenzy = 10; # From 10%
-        $spellHowling = 10;
 
-        // Guard Towers
         $multiplier += min(
             (($dpPerGuardTower * $dominion->building_guard_tower) / $this->landCalculator->getTotalLand($dominion)),
             ($guardTowerMaxDp / 100)
@@ -417,9 +412,25 @@ class MilitaryCalculator
           $multiplier += 1 * ($dominion->{'land_hill'} / $this->landCalculator->getTotalLand($dominion));
         }
 
-        // Spell: Howling (+10%)
-        $multiplierFromHowling = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'howling', $spellHowling);
-        $multiplier += $multiplierFromHowling;
+        # SPELLS
+
+        // Spell: Norse Fimbulwinter (+10% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Icekin Blizzard (+5% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
+        {
+          $multiplier += 0.5;
+        }
+
+        // Spell: Halfling Defensive Frenzy (+20% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'defensive_frenzy'))
+        {
+          $multiplier += 0.10;
+        }
 
         // Spell: Coastal Cannons
         if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
@@ -427,29 +438,20 @@ class MilitaryCalculator
           $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
           $multiplier += min($multiplierFromCoastalCannons,0.20);
         }
-        else {
-          $multiplierFromCoastalCannons = 0;
-        }
 
-        // Spell: Fimbulwinter (+10% DP)
+        // Spell: Norse Fimbulwinter (+10% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
         {
           $multiplier += 0.10;
         }
 
-        // Spell: Blizzard (+5%)
-        $multiplierFromBlizzard = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'blizzard', $spellBlizzard);
-        $multiplier += $multiplierFromBlizzard;
-
-        // Spell: Frenzy (Halfling) (+10%)
-        $multiplierFromFrenzy = $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'defensive_frenzy', $spellFrenzy);
-        $multiplier += $multiplierFromFrenzy;
-
-        // Spell: Ares' Call (+10%)
-        if($multiplierFromHowling == 0 && $multiplierFromBlizzard == 0 && $multiplierFromFrenzy == 0 and $multiplierFromCoastalCannons == 0) {
-            $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'ares_call',
-                $spellAresCall);
+        // Spell: Simian Rainy Season (+100% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+          $multiplier += 1.00;
         }
+
+        # /SPELLS
 
         // Multiplier reduction when we want to factor in temples from another
         // dominion
@@ -968,8 +970,6 @@ class MilitaryCalculator
      */
     public function getMoraleMultiplier(Dominion $dominion): float
     {
-        #return (1 + (($dominion->morale - 100) / 100));
-        #return clamp((0.9 + ($dominion->morale / 1000)), 0.9, 2.0);
         return 0.90 + $dominion->morale / 1000;
     }
 

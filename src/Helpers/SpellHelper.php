@@ -405,11 +405,12 @@ class SpellHelper
                 'races' => collect(['Swarm']),
             ],
             [
-                'name' => 'Primal Rage',
-                'description' => 'No effect',
-                'key' => 'primal_rage',
+                'name' => 'Rainy Season',
+                'description' => '+100% defensive power, cannot invade, +50% food production, +100% population growth',
+                'key' => 'rainy_season',
                 'mana_cost' => 10,
-                'duration' => 12*4,
+                'duration' => 24*4, # Lasts one day
+                'cooldown' => 24*7, # Every seven days
                 'races' => collect(['Simian']),
             ],
 

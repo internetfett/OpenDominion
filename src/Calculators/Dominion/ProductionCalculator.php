@@ -239,7 +239,8 @@ class ProductionCalculator
         }
 
         // Racial Spell: Metabolism (Growth) - Double food production
-        if ($this->spellCalculator->isSpellActive($dominion, 'metabolism')) {
+        if ($this->spellCalculator->isSpellActive($dominion, 'metabolism'))
+        {
             $food *= 2;
         }
 
@@ -263,25 +264,39 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellGaiasBlessing = 20;
-        $spellGaiasWatch = 10;
-        $spellInsectSwarm = 5;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('food_production');
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('food_production');
 
-        // Spell: Gaia's Blessing or Gaia's Watch
-        $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, [
-            'gaias_blessing' => $spellGaiasBlessing,
-            'gaias_watch' => $spellGaiasWatch,
-        ]);
+        # SPELLS
 
-        // Spell: Insect Swarm
-        $multiplier -= $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'insect_swarm', $spellInsectSwarm);
+        // Spell:  Gaia's Blessing (+20%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'gaias_blessing'))
+        {
+            $multiplier += 0.20;
+        }
+
+        // Spell: Gaia's Watch (+10%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'gaias_watch'))
+        {
+            $multiplier += 0.10;
+        }
+
+        // Spell: Rainy Season (+50%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier += 0.50;
+        }
+
+        // Spell [hostile]: Insect Swarm (-5%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'insect_swarm'))
+        {
+            $multiplier -= 0.05;
+        }
+
+        # /SPELLS
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');

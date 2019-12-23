@@ -276,6 +276,12 @@ class InvadeActionService
                 }
             }
 
+            // Spell: Rainy Season (cannot invade)
+            if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+            {
+                throw new GameException('You cannot invade during Rainy Season.');
+            }
+
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();

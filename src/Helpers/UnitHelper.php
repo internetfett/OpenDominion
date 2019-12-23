@@ -71,11 +71,11 @@ class UnitHelper
             'defense_from_prestige' => 'Defense increased by 1 for every %1$s prestige (max +%2$s).',
             'offense_from_prestige' => 'Offense increased by 1 for every %1$s prestige (max +%2$s).',
 
-            'defense_vs_prestige' => 'Defense increased by 1 for every %1$s prestige of attacker (max +%2$s).',
-            'offense_vs_prestige' => 'Offense increased by 1 for every %1$s prestige of target (max +%2$s).',
+            'defense_vs_prestige' => 'Defense increased by 1 against every %1$s prestige of attacker (max +%2$s).',
+            'offense_vs_prestige' => 'Offense increased by 1 against every %1$s prestige of target (max +%2$s).',
 
-            'defense_vs_building' => 'Defense increased by 1 for every %2$s%% %1$ss of attacker (max +%3$s).',
-            'offense_vs_building' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
+            'defense_vs_building' => 'Defense increased by 1 against every %2$s%% %1$ss of attacker (max +%3$s).',
+            'offense_vs_building' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
 
             'defense_vs_goblin' => 'Defense increased by %s against goblins.',
             'offense_vs_goblin' => 'Offense increased by %s against goblins.',
@@ -108,6 +108,12 @@ class UnitHelper
 
             'reduce_combat_losses' => 'Reduces combat losses.',
 
+            'fewer_casualties_defense_from_land' => 'Casualties on defense reduced by 1% for every %2$s%% %1$ss (max +%3$s).',
+            'fewer_casualties_offense_from_land' => 'Casualties on offense reduced by 1% for every %2$s%% %1$ss (max +%3$s).',
+
+            'fewer_casualties_defense_vs_land' => 'Casualties on defense reduced by 1% against every %2$s%% %1$ss of attacker (max +%3$s).',
+            'fewer_casualties_offense_vs_land' => 'Casualties on offense reduced by 1% against every %2$s%% %1$ss of target (max +%3$s).',
+
             // Resource related
             'ore_production' => 'Each unit produces %s units of ore per tick.',
             'plunders_resources_on_attack' => 'Plunders resources on attack.',
@@ -137,7 +143,7 @@ class UnitHelper
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 
-            'offense_vs_land' => 'Offense increased by 1 for every %2$s%% %1$ss of defender (max +%3$s).',
+            'offense_vs_land' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
@@ -154,8 +160,10 @@ class UnitHelper
 
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
+            'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land.',
 
-            'offense_vs_barren_land' => 'Offense increased by 1 for every %1$s%% barren land of defender (max +%2$s). Unfinished buildings count as barren land.',
+            'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
+            'offense_from_victories' => 'Offense by %1$s for every victory (max +%2$s).',
 
             # TBD
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
@@ -163,10 +171,7 @@ class UnitHelper
             'kills_peasants' => 'Eats %s peasants per tick.',
             'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
 
-            'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
-
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'offense_from_victories' => 'Offense by %1$s for every victory (max +%2$s).',
 
             # Abandoned
             'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',

@@ -1,7 +1,8 @@
 name: Simian
 alignment: independent
 description: >-
-  <p></p>
+  <p>Long discarded by humans as lesser beings, Simians have developed advanced societies in the rain forests.</p>
+  <p>During the rainy season, Simians take shelter deep in the thicket and build strong barricades to keep the rain and unwanted visitors away.</p>
 home_land_type: forest
 playable: 1
 
@@ -10,12 +11,8 @@ exploring : 3
 converting: 2
 
 perks:
-  max_population: -10
-  population_growth: 20
   spy_strength: 10
   wizard_strength: -10
-  defensive_casualty_reduction_from_land: forest,80,40 # land_type, max_reduction, ratio - Forest,-80%,40%
-  offensive_casualty_reduction_vs_land: forest,80,10 # land_type, max_reduction, ratio - Forest,+40%,40%
 units:
   - name: Chimpanzee
     cost:
@@ -24,6 +21,9 @@ units:
     power:
       offense: 3
       defense: 0
+    perks:
+      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
+      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
   - name: Bonobo
     cost:
       platinum: 200
@@ -31,6 +31,9 @@ units:
     power:
       offense: 0
       defense: 3
+    perks:
+      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
+      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
   - name: Orangutan
     cost:
       platinum: 1100
@@ -38,6 +41,9 @@ units:
     power:
       offense: 4
       defense: 7
+    perks:
+      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
+      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio
   - name: Gorilla
     cost:
       platinum: 1100
@@ -45,3 +51,6 @@ units:
     power:
       offense: 7
       defense: 4
+    perks:
+      defensive_casualty_reduction_from_land: forest,80,1 # land_type, max_reduction, ratio
+      offensive_casualty_reduction_vs_land: forest,80,5 # land_type, max_reduction, ratio

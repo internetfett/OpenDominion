@@ -344,11 +344,27 @@ class PopulationCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('population_growth');
 
-        // Spell: Harmony
-        $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'harmony', $spellHarmony);
+        # SPELLS
 
-        // Spell: Plague
-        $multiplier -= $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'plague', $spellPlague);
+        // Spell: Harmony (+50%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'harmony'))
+        {
+            $multiplier += 0.50;
+        }
+
+        // Spell: Rainy Season (+100%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier += 1.00;
+        }
+
+        // Spell: Plague (-25%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier -= 0.50;
+        }
+
+        # /SPELLS
 
         // Temples
         $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * $templeBonus);
