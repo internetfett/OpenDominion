@@ -322,6 +322,7 @@ class CasualtiesCalculator
         );
     }
 
+
     /**
      * Returns the Dominion's casualties by unit type.
      *
@@ -447,4 +448,61 @@ class CasualtiesCalculator
 
         return $perkValue !== $raceNameFormatted;
     }
+
+
+      /**
+       * @param Dominion $dominion
+       * @param Unit $unit
+       * @return float
+       */
+      protected function getCasualtiesReductionFromLand(Dominion $dominion, Unit $unit): float
+      {
+        $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "fewer_casualties_{$powerType}_from_land", null);
+
+        if (!$landPerkData)
+        {
+            return 0;
+        }
+
+        $landType = $landPerkData[0];
+        $ratio = (int)$landPerkData[1];
+        $max = (int)$landPerkData[2];
+
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+        $landPercentage = ($dominion->{"land_{$landType}"} / $totalLand) * 100;
+
+        $powerFromLand = $landPercentage / $ratio;
+        $powerFromPerk = min($powerFromLand, $max);
+
+        return $powerFromPerk;
+      }
+
+      /**
+       * @param Dominion $dominion
+       * @param Unit $unit
+       * @return float
+       */
+      protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ): float
+      {
+        if ($target === null && empty($calc)) {
+            return 0;
+        }
+
+        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "fewer_casualties_{$powerType}_vs_land", null);
+        if(!$versusLandPerkData) {
+            return 0;
+        }
+
+        $landType = $versusLandPerkData[0];
+        $ratio = (int)$versusLandPerkData[1];
+        $max = (int)$versusLandPerkData[2];
+
+        $totalLand = $this->landCalculator->getTotalLand($target);
+        $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
+
+        $powerFromPerk = min($powerFromLand, $max);
+
+        return $powerFromPerk;
+      }
+
 }

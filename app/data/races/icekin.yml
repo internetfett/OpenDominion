@@ -15,7 +15,6 @@ perks:
   food_consumption: -50
   gem_production: -25
   ore_production: 20
-  tech_costs: 10
   archmage_cost: -200
 units:
   - name: Icebeast

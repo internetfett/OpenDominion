@@ -13,6 +13,10 @@ converting: 2
 perks:
   spy_strength: 10
   wizard_strength: -10
+  construction_cost: -10
+  extra_barren_max_population: 15
+  cannot_train_archmages: 1
+  invest_bonus: -10
 units:
   - name: Chimpanzee
     cost:

@@ -45,8 +45,9 @@ class DominionFactory
         $acresBase = 1000;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
-          # Barbarians start between 500 and 1000 acres, randomly.
-          $acresBase *= (rand(500,1000)/1000);
+          # Barbarians start between 400 and 900 acres, randomly.
+          # Skewed towards smaller.
+          $acresBase *= (max(400,rand(300,900))/1000);
         }
 
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
