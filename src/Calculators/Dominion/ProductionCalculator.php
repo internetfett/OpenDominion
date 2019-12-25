@@ -70,7 +70,17 @@ class ProductionCalculator
      */
     public function getPlatinumProduction(Dominion $dominion): int
     {
-        return floor($this->getPlatinumProductionRaw($dominion) * $this->getPlatinumProductionMultiplier($dominion));
+        $platinum = 0;
+
+        $platinum = floor($this->getPlatinumProductionRaw($dominion) * $this->getPlatinumProductionMultiplier($dominion));
+
+        // Tech: Interest (% of stockpile)
+        if($dominion->getTechPerkMultiplier('platinum_interest'))
+        {
+          $platinum += $dominion->resource_platinum * $dominion->getTechPerkMultiplier('platinum_interest');
+        }
+
+        return $platinum;
     }
 
     /**
@@ -103,8 +113,8 @@ class ProductionCalculator
         }
         else
         {
-            // Peasant Tax
-            $platinum += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
+          // Peasant Tax
+          $platinum += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
         }
 
         // Spell: Alchemist Flame
@@ -115,12 +125,6 @@ class ProductionCalculator
 
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
-
-        // Tech: Interest (% of stockpile)
-        if($dominion->getTechPerkMultiplier('platinum_interest'))
-        {
-          $platinum += $dominion->resource_platinum * $dominion->getTechPerkMultiplier('platinum_interest');
-        }
 
         // Unit Perk Production Reduction (Dragon Unit: Mercenary)
         $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
@@ -165,9 +169,6 @@ class ProductionCalculator
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('platinum_production');
-
-        // Spell: Midas Touch
-        $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'midas_touch', $spellMidasTouch);
 
         // Improvement: Markets (formerly "Science")
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
@@ -453,11 +454,21 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
 
+        # SPELLS
+
         // Spell:  Gaia's Blessing (+20%)
         if ($this->spellCalculator->isSpellActive($dominion, 'gaias_blessing'))
         {
             $multiplier += 0.10;
         }
+
+        // Spell: Rainy Season (+50%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier += 0.50;
+        }
+
+        # /SPELLS
 
         // Improvement: Forestry
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');

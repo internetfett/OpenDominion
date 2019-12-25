@@ -170,7 +170,7 @@ class PopulationCalculator
         $housingPerHome = 30;
 
         $housingPerZiggurat = 20;
-        $housingPerTissue = 120;
+        $housingPerTissue = 160;
         $housingPerMycelia = 30;
 
         $housingPerNonHome = 15; // except barracks
@@ -359,9 +359,9 @@ class PopulationCalculator
         }
 
         // Spell: Plague (-25%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        if ($this->spellCalculator->isSpellActive($dominion, 'plague'))
         {
-            $multiplier -= 0.50;
+            $multiplier -= 0.25;
         }
 
         # /SPELLS
@@ -418,7 +418,8 @@ class PopulationCalculator
         $growthFactor = 1;
 
         // Racial Spell: Swarming (Ants)
-        if ($this->spellCalculator->isSpellActive($dominion, 'swarming')) {
+        if ($this->spellCalculator->isSpellActive($dominion, 'swarming'))
+        {
             $growthFactor = 2;
         }
 

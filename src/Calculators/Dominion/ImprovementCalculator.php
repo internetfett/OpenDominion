@@ -34,7 +34,6 @@ class ImprovementCalculator
 
         $masonriesBonus = $this->getMasonriesBonus($dominion);
         $techBonus = $this->getTechBonus($dominion);
-
         $bonusMultiplier = 1 + $masonriesBonus + $techBonus;
 
         $multiplier = $this->getImprovementMaximum($improvementType, $dominion)

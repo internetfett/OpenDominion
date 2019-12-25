@@ -5,7 +5,7 @@ description: >-
   <p>Attempts at communication have failed. It shows no signs of sentience. It simply grows and grows.</p>
   <hr />
   <ul>
-  <li>Unique building: Tissue - houses 120 and produces 4 food/tick.</li>
+  <li>Unique building: Tissue - houses 160 and produces 2 food/tick.</li>
   <li>Starts with 1,000 Tissue.</li>
   </ul>
 home_land_type: swamp
@@ -28,7 +28,7 @@ perks:
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  reduce_conversions: 50
+  reduce_conversions: 75
   tissue_improvement: 1
   draftee_dp: 0.01
   peasants_produce_food: 0.5
@@ -38,9 +38,9 @@ units:
     cost:
       platinum: 0
       ore: 0
-      food: 130
+      food: 65
     power:
-      offense: 1
+      offense: 0.5
       defense: 0
     perks:
       counts_as_wizard_offense: 0.2
@@ -49,10 +49,10 @@ units:
     cost:
       platinum: 0
       ore: 0
-      food: 130
+      food: 65
     power:
       offense: 0
-      defense: 1
+      defense: 0.5
     perks:
       counts_as_wizard_defense: 0.15
       counts_as_spy_defense: 0.15
@@ -60,19 +60,19 @@ units:
     cost:
       platinum: 0
       ore: 0
-      food: 310
+      food: 150
     power:
       offense: 0
-      defense: 2
+      defense: 1
     perks:
-        mana_production: 0.05
-        food_production: 1.00
+        mana_production: 0.025
+        food_production: 0.50
   - name: Ulcer
     need_boat: false
     cost:
       platinum: 0
       ore: 0
-      food: 310
+      food: 160
     power:
-      offense: 2
-      defense: 1
+      offense: 1
+      defense: 0.5

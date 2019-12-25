@@ -4,7 +4,7 @@ description: >-
   <p>Simians live in the rain forests where neither Orcs nor elves or even Sylvans normally venture. Until recently, their only contact has been with the Beastfolks.</p>
   <p>During the rainy season, the Simians take shelter in the thickets and hunker down behind strong barricades to keep the rain and unwanted visitors away.</p>
 home_land_type: forest
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3
@@ -17,6 +17,7 @@ perks:
   extra_barren_max_population: 15
   cannot_train_archmages: 1
   invest_bonus: -10
+  lumber_improvement_points: 50
 units:
   - name: Chimpanzee
     cost:

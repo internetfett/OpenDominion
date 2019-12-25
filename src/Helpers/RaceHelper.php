@@ -55,7 +55,7 @@ class RaceHelper
                 break;
             case 'invest_bonus':
                 $negativeBenefit = false;
-                $description = 'Castle bonuses';
+                $description = 'Improvement bonuses';
                 break;
             case 'lumber_production':
                 $negativeBenefit = false;
@@ -106,7 +106,7 @@ class RaceHelper
                 break;
             case 'can_invest_mana':
                 $negativeBenefit = false;
-                $description = 'Can invest mana in castle';
+                $description = 'Can use mana for improvements';
                 $booleanValue = true;
                 break;
             case 'population_growth':
@@ -115,7 +115,7 @@ class RaceHelper
                 break;
           case 'cannot_improve_castle':
                 $negativeBenefit = true;
-                $description = 'Cannot use castle improvements';
+                $description = 'Cannot use improvements';
                 $booleanValue = true;
                 break;
           case 'cannot_explore':
@@ -206,7 +206,7 @@ class RaceHelper
                 break;
             case 'castle_max':
                 $negativeBenefit = false;
-                $description = 'Castle improvements max';
+                $description = 'Improvement bonuses max';
                 break;
             case 'tech_costs':
                 $negativeBenefit = true;
@@ -239,6 +239,10 @@ class RaceHelper
             case 'ore_improvement_points':
                 $negativeBenefit = false;
                 $description = 'Improvement points from ore';
+                break;
+            case 'lumber_improvement_points':
+                $negativeBenefit = false;
+                $description = 'Improvement points from lumber';
                 break;
             case 'research_points_per_acre':
                 $negativeBenefit = false;

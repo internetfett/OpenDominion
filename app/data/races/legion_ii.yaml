@@ -59,7 +59,7 @@ units:
       offense: 4
       defense: 4
     perks:
-      conversion: 3
+      conversion: 1
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Icekin
     type: hybrid_specialist
