@@ -95,7 +95,7 @@ class TickService
         foreach ($activeRounds as $round) {
             // Precalculate all dominion ticks on hour 0
             if ($this->now->diffInHours($round->start_date) === 0) {
-                $dominions = $round->dominions()
+                $dominions = $round->activeDominions()
                     ->with([
                         'race',
                         'race.perks',
@@ -226,7 +226,7 @@ class TickService
 
             Log::info(sprintf(
                 'Ticked %s dominions in %s ms in %s',
-                number_format($round->dominions->count()),
+                number_format($round->activeDominions->count()),
                 number_format($this->now->diffInMilliseconds(now())),
                 $round->name
             ));
@@ -235,7 +235,7 @@ class TickService
         }
 
         foreach ($activeRounds as $round) {
-            $dominions = $round->dominions()
+            $dominions = $round->activeDominions()
                 ->with([
                     'race',
                     'race.perks',
@@ -264,7 +264,7 @@ class TickService
 
             Log::info(sprintf(
                 'Cleaned up queues, sent notifications, and precalculated %s dominions in %s ms in %s',
-                number_format($round->dominions->count()),
+                number_format($round->activeDominions->count()),
                 number_format($this->now->diffInMilliseconds(now())),
                 $round->name
             ));
