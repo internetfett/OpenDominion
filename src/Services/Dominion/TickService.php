@@ -92,6 +92,9 @@ class TickService
 
         $activeRounds = Round::active()->get();
 
+        $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
+        $maxPlatinumPerAcre = 5000;
+
         foreach ($activeRounds as $round) {
             // Precalculate all dominion ticks on hour 0
             if ($this->now->diffInHours($round->start_date) === 0) {
@@ -104,15 +107,13 @@ class TickService
                     ])
                     ->get();
 
-                foreach ($dominions as $dominion) {
+                foreach ($dominions as $dominion)
+                {
                     $this->precalculateTick($dominion, true);
                 }
 
                 continue;
             }
-
-            $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
-            $maxPlatinumPerAcre = 5000;
 
             $maxPlatinum = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
             $maxFood = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
@@ -133,7 +134,7 @@ class TickService
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
-                        'dominions.resource_platinum' => DB::raw('MIN(dominions.resource_platinum + dominion_tick.resource_platinum, ' . $maxPlatinum . ')'),
+                        'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
                         'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
                         'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
                         'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
@@ -629,7 +630,17 @@ class TickService
         $tick->military_draftees = $drafteesGrowthRate;
 
         // Resources
-        $tick->resource_platinum += $this->productionCalculator->getPlatinumProduction($dominion);
+
+        # Max storage
+        $maxStorage = [];
+        $maxStorage['platinum'] = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
+        $maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+        $maxStorage['lumber'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+        $maxStorage['ore'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+        $maxStorage['gems'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+
+
+        $tick->resource_platinum = min($maxStorage['platinum'], $tick->resource_platinum + $this->productionCalculator->getPlatinumProduction($dominion));
 
         $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
         $tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
