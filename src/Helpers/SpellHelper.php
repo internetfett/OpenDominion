@@ -11,7 +11,7 @@ class SpellHelper
     {
         return $this->getSpells($race)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
-        })->first();
+        })->isNotEmpty();
     }
 
     public function isSelfSpell(string $spellKey, Race $race): bool
