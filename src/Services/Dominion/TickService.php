@@ -629,22 +629,26 @@ class TickService
 
         $maxStorage = [];
         $maxStorage['platinum'] = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
-        $maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
-        $maxStorage['lumber'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
-        $maxStorage['ore'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
-        $maxStorage['gems'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
-
+        #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+        $maxStorage['lumber'] = $maxStorageTicks * ($dominion->building_lumberyard * 50);
+        $maxStorage['ore'] = $maxStorageTicks * ($dominion->building_ore_mine * 60);
+        $maxStorage['gems'] = $maxStorageTicks * ($dominion->building_diamond_mine * 15);
 
         $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
 
         $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
-        $tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
+        #$tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
+        $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
 
         $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
         $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
 
-        $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
-        $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
+        #$tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
+        $tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
+
+        #$tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
+        $tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
+
         $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
         $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
 
