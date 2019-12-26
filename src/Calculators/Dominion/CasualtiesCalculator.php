@@ -259,7 +259,7 @@ class CasualtiesCalculator
 
             # Land-based reductions
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'defense');
-            $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'defense');
+            #$multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'defense'); -- Doesn't make sense in this context (attacker has no defensive casualties).
 
             // Techs
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');
