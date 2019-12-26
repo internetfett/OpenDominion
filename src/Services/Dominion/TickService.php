@@ -92,9 +92,6 @@ class TickService
 
         $activeRounds = Round::active()->get();
 
-        $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
-        $maxPlatinumPerAcre = 5000;
-
         foreach ($activeRounds as $round) {
             // Precalculate all dominion ticks on hour 0
             if ($this->now->diffInHours($round->start_date) === 0) {
@@ -626,6 +623,10 @@ class TickService
         // Resources
 
         # Max storage
+
+        $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
+        $maxPlatinumPerAcre = 5000;
+
         $maxStorage = [];
         $maxStorage['platinum'] = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
         $maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
