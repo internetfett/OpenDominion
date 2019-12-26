@@ -479,14 +479,14 @@ class CasualtiesCalculator
         }
 
         $landType = $landPerkData[0];
-        $ratio = (int)$landPerkData[1];
-        $max = (int)$landPerkData[2];
+        $ratio = (float)$landPerkData[1];
+        $max = (float)$landPerkData[2];
 
         $totalLand = $this->landCalculator->getTotalLand($dominion);
         $landPercentage = ($dominion->{"land_{$landType}"} / $totalLand) * 100;
 
         $powerFromLand = $landPercentage / $ratio;
-        $powerFromPerk = min($powerFromLand, $max);
+        $powerFromPerk = min($powerFromLand, $max)/100;
 
         return $powerFromPerk;
       }
@@ -517,7 +517,7 @@ class CasualtiesCalculator
         $totalLand = $this->landCalculator->getTotalLand($target);
         $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
 
-        $powerFromPerk = min($powerFromLand, $max);
+        $powerFromPerk = min($powerFromLand, $max)/100;
 
         return $powerFromPerk;
       }
