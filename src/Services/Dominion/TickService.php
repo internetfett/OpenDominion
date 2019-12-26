@@ -111,6 +111,15 @@ class TickService
                 continue;
             }
 
+            $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
+            $maxPlatinumPerAcre = 5000;
+
+            $maxPlatinum = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
+            $maxFood = $maxStorageTicks * ($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+            $maxLumber = $maxStorageTicks * ($dominion->building_lumberyard * 50);
+            $maxOre = $maxStorageTicks * ($dominion->building_ore_mine * 80);
+            $maxGems = $maxStorageTicks * ($dominion->building_diamond_mine * 80);
+
             DB::transaction(function () use ($round) {
                 // Update dominions
                 DB::table('dominions')
@@ -123,7 +132,8 @@ class TickService
                         'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
-                        'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
+
+                        'dominions.resource_platinum' => DB::raw('MIN(dominions.resource_platinum + dominion_tick.resource_platinum, ' . $maxPlatinum . ')'),
                         'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
                         'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
                         'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
