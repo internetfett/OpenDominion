@@ -109,7 +109,7 @@
                                 <th></th>
                                 <th></th>
                                 <th>Cost multiplier</th>
-                                <th>Duration (hours)</th>
+                                <th>Duration (ticks)</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
