@@ -152,7 +152,7 @@
                             @foreach($spellHelper->getRacialSelfSpells(null)->sortBy('name') as $operation)
                                 <tr>
                                     <td>{{ $operation['name'] }}</td>
-                                    <td>{{$operation['races']->implode(', ')}}</td>
+                                    <td>{{ $operation['races']->implode(', ') }}</td>
                                     <td>{{ $operation['mana_cost'] }}x</td>
                                     <td>{{ $operation['duration'] }}</td>
                                     <td>{{ $operation['description'] }}</td>

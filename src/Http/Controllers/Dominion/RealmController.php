@@ -12,6 +12,9 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class RealmController extends AbstractDominionController
 {
     public function getRealm(Request $request, int $realmNumber = null)
@@ -20,6 +23,7 @@ class RealmController extends AbstractDominionController
         $networthCalculator = app(NetworthCalculator::class);
         $protectionService = app(ProtectionService::class);
         $guardMembershipService = app(GuardMembershipService::class);
+        $spellCalculator = app(SpellCalculator::class),
         #$militaryCalculator = app(MilitaryCalculator::class);
 
         $dominion = $this->getSelectedDominion();
