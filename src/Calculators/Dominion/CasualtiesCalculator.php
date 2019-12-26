@@ -466,9 +466,14 @@ class CasualtiesCalculator
        */
       protected function getCasualtiesReductionFromLand(Dominion $dominion, int $slot = NULL, string $powerType): float
       {
+        if ($slot == NULL)
+        {
+            return 0;
+        }
+
         $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_from_land", null);
 
-        if (!$landPerkData or $slot == NULL)
+        if (!$landPerkData)
         {
             return 0;
         }
