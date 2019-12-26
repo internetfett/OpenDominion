@@ -13,7 +13,7 @@
                 @if ($selectedDominion->race->name == 'Demon')
                     <h3 class="box-title"><i class="ra ra-daggers"></i> Sacrifical Altar</h3>
                 @else
-                    <h3 class="box-title"><i class="fa fa-money"></i> National Bank</h3>
+                    <h3 class="box-title"><i class="fa fa-money"></i> Exchange</h3>
                 @endif
                 </div>
                 <form action="{{ route('dominion.bank') }}" method="post" {{--class="form-inline" --}}role="form">

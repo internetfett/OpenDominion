@@ -69,16 +69,16 @@
                 @if ($selectedDominion->race->name == 'Demon')
                   <i class="ra ra-daggers ra-fw"></i> <span>Sacrificial Altar
                 @else
-                  <i class="fa fa-money fa-fw"></i> <span>National Bank
+                  <i class="fa fa-money fa-fw"></i> <span>Exchange
                 @endif
                 </span></a></li>
 
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
-                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Technology</span></a></li>
+                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span></a></li>
                 @endif
 
-                <!-- 
+                <!--
                 <li class="header">BLACK OPS</li>
                 -->
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
