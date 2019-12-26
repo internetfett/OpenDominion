@@ -28,10 +28,9 @@
                                                     $buttonStyle = ($isActive ? 'btn-success' : 'btn-primary');
                                                 @endphp
                                                 <div class="form-group">
-                                                    <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn {{ $buttonStyle }} btn-block" {{ $selectedDominion->isLocked() || !$canCast || $cooldownHours ? 'disabled' : null }}>
+                                                    <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn {{ $buttonStyle }} btn-block" title="{{ $spell['description'] }}" {{ $selectedDominion->isLocked() || !$canCast || $cooldownHours ? 'disabled' : null }}>
                                                         {{ $spell['name'] }}
                                                     </button>
-                                                    <p style="margin: 5px 0;">{{ $spell['description'] }}</p>
                                                     <p>
                                                         <small>
                                                             @if ($isActive)

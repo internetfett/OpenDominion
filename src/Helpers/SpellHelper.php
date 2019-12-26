@@ -416,15 +416,6 @@ class SpellHelper
                 'cooldown' => 24*7, # Every seven days
                 'races' => collect(['Simian']),
             ],
-            [
-                'name' => 'Primal Rage',
-                'description' => '+10% offensive power versus factions whose home land is not forest',
-                'key' => 'primal_rage',
-                'mana_cost' => 6,
-                'duration' => 6*4,
-                'cooldown' => 24*4,
-                'races' => collect(['Simian']),
-            ],
         ]);
     }
 
