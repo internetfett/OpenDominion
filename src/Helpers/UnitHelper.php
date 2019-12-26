@@ -192,7 +192,7 @@ class UnitHelper
             #$helpStrings[$unitType] = "$type $proficiency";
 
             # ODA: Show base OP and DP in unitHelperString
-            $helpStrings[$unitType] .= '<li>OP: '. number_format($unit->power_offense,2) . ' / DP: ' . number_format($unit->power_defense) . '</li>';
+            $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . '</li>';
 
             foreach ($unit->perks as $perk) {
                 if (!array_key_exists($perk->key, $perkTypeStrings)) {
