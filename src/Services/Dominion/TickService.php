@@ -635,7 +635,7 @@ class TickService
         $maxStorage['gems'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
 
 
-        $tick->resource_platinum = min($maxStorage['platinum'], $tick->resource_platinum + $this->productionCalculator->getPlatinumProduction($dominion));
+        $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
 
         $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
         $tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
