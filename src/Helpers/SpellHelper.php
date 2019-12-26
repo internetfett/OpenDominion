@@ -460,13 +460,13 @@ class SpellHelper
         ]);
     }
 
-    public function getHostileSpells(Race $race): Collection
+    public function getHostileSpells(Race $race = Null): Collection
     {
         return $this->getBlackOpSpells($race)
             ->merge($this->getWarSpells($race));
     }
 
-    public function getBlackOpSpells(Race $race): Collection
+    public function getBlackOpSpells(Race $race = Null): Collection
     {
 
       return collect([
@@ -541,7 +541,6 @@ class SpellHelper
           ],
       ]);
 
-      /* ROUND 13
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
       if($race == null or $race->alignment == 'good')
@@ -678,8 +677,6 @@ class SpellHelper
             ],
         ]);
       }
-      */
-
 
     }
 
