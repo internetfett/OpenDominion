@@ -57,7 +57,7 @@
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
-                                                <i class="ra ra-droplet ra-lg text-blue"></i>
+                                                <i class="ra ra-droplet ra-lg text-blue" title="Rainy Season"></i>
                                             @endif
 
                                             @if ($dominion->isMonarch())
