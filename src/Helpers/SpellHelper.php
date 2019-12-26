@@ -680,7 +680,7 @@ class SpellHelper
 
     }
 
-    public function getWarSpells(Race $race): Collection
+    public function getWarSpells(Race $race = Null): Collection
     {
         return collect([
             [
