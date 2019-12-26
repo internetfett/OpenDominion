@@ -157,14 +157,6 @@ class MilitaryCalculator
         $opPerGryphonNest = 2;
         $gryphonNestMaxOp = 40;
 
-
-        $spellBloodrage = 10;
-        $spellCrusade = 5;
-        $spellHowling = 10;
-        $spellKillingRage = 10;
-        $spellWarsong = 10;
-        $spellNightfall = 5;
-
         // Gryphon Nests
         # Spell: Snow Elf - Gryphon's Call: no OP bonus from GNs.
         if (!$this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
@@ -191,15 +183,46 @@ class MilitaryCalculator
           $multiplier += 0.2 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
         }
 
-        // Racial Spell
-        $multiplier += $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, [
-            'bloodrage' => $spellBloodrage,
-            'crusade' => $spellCrusade,
-            'howling' => $spellHowling,
-            'killing_rage' => $spellKillingRage,
-            'warsong' => $spellWarsong,
-            'nightfall' => $spellNightfall,
-        ]);
+        # SPELLS
+
+        // Spell: Bloodrage (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Crusade (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'crusade'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Howling (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Coastal Cannons
+        if ($this->spellCalculator->isSpellActive($dominion, 'killing_rage'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Warsong (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'warsong'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Nightfall (+5% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'nightfall'))
+        {
+          $multiplier += 0.05;
+        }
+
+        # /SPELLS
+
 
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
@@ -414,7 +437,7 @@ class MilitaryCalculator
 
         # SPELLS
 
-        // Spell: Norse Fimbulwinter (+10% DP)
+        // Spell: Howling (+10% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
         {
           $multiplier += 0.10;

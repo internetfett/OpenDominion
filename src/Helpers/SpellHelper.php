@@ -147,11 +147,11 @@ class SpellHelper
         return collect([
             [
                 'name' => 'Crusade',
-                'description' => '+5% offensive power and allows you to kill Undead and Demon units.',
+                'description' => '+10% offensive power and allows you to kill Undead and Demon units.',
                 'key' => 'crusade',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Human', 'Sacred Order']),
+                'races' => collect(['Human', 'Sacred Order', 'Templars']),
             ],
             [
                 'name' => 'Miner\'s Sight',
@@ -231,7 +231,7 @@ class SpellHelper
                 'key' => 'warsong',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Wood Elf', 'Templars']),
+                'races' => collect(['Wood Elf']),
             ],
             [
                 'name' => 'Regeneration',
@@ -386,7 +386,8 @@ class SpellHelper
                 'key' => 'call_to_arms',
                 'mana_cost' => 5,
                 'duration' => 12*4,
-                'races' => collect(['Legion', 'Legion II', 'Legion III', 'Legion IV', 'Legion V', 'Legion VI']),
+                'races' => collect(['Legion II']),
+                #'races' => collect(['Legion', 'Legion II', 'Legion III', 'Legion IV', 'Legion V', 'Legion VI']),
             ],
             [
                 'name' => 'Underground Caves',
