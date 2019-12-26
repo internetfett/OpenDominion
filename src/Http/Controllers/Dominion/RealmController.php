@@ -111,7 +111,10 @@ class RealmController extends AbstractDominionController
             'protectionService',
             'nextRealm',
             'isOwnRealm',
-            'realmCount'
+            'realmCount',
+            
+            # ODA
+            'spellCalculator'
         ));
     }
 
