@@ -511,8 +511,8 @@ class CasualtiesCalculator
         }
 
         $landType = $versusLandPerkData[0];
-        $ratio = (int)$versusLandPerkData[1];
-        $max = (int)$versusLandPerkData[2];
+        $ratio = (float)$versusLandPerkData[1];
+        $max = (float)$versusLandPerkData[2];
 
         $totalLand = $this->landCalculator->getTotalLand($target);
         $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
