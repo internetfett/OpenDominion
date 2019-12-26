@@ -115,7 +115,7 @@ class TickService
             $maxPlatinumPerAcre = 5000;
 
             $maxPlatinum = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
-            $maxFood = $maxStorageTicks * ($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+            $maxFood = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
             $maxLumber = $maxStorageTicks * ($dominion->building_lumberyard * 50);
             $maxOre = $maxStorageTicks * ($dominion->building_ore_mine * 80);
             $maxGems = $maxStorageTicks * ($dominion->building_diamond_mine * 80);
