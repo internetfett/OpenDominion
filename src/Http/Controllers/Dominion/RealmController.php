@@ -23,7 +23,7 @@ class RealmController extends AbstractDominionController
         $networthCalculator = app(NetworthCalculator::class);
         $protectionService = app(ProtectionService::class);
         $guardMembershipService = app(GuardMembershipService::class);
-        $spellCalculator = app(SpellCalculator::class),
+        $spellCalculator = app(SpellCalculator::class);
         #$militaryCalculator = app(MilitaryCalculator::class);
 
         $dominion = $this->getSelectedDominion();
