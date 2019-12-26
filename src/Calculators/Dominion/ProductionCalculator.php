@@ -687,6 +687,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('ore_production');
 
+        // Improvement: Refinery
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
+
         # SPELLS
         // Spell: Miner's Sight (+10%)
         if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
@@ -700,22 +703,19 @@ class ProductionCalculator
             $multiplier += 0.10;
         }
 
-        // Spell: Rainy Season (-50%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier -= 0.50;
-        }
-
         if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
         {
             $multiplier -= 0.05;
         }
 
+        // Spell: Rainy Season (-100%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier = -1;
+        }
+
         # /SPELLS
 
-
-        // Improvement: Refinery
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -789,17 +789,14 @@ class ProductionCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('gem_production');
 
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('gem_production');
+
         # SPELLS
         // Spell: Miner's Sight (+5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
         {
             $multiplier += 0.05;
-        }
-
-        // Spell: Rainy Season (-50%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier -= 0.50;
         }
 
         // Spell: Earthquake (-5%)
@@ -808,10 +805,13 @@ class ProductionCalculator
             $multiplier -= 0.05;
         }
 
-        # /SPELLS
+        // Spell: Rainy Season (-100%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier = -1;
+        }
 
-        // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('gem_production');
+        # /SPELLS
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);

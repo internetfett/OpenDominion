@@ -386,7 +386,7 @@ class SpellHelper
                 'key' => 'call_to_arms',
                 'mana_cost' => 5,
                 'duration' => 12*4,
-                'races' => collect(['Legion']),
+                'races' => collect(['Legion', 'Legion II', 'Legion III', 'Legion IV', 'Legion V', 'Legion VI']),
             ],
             [
                 'name' => 'Underground Caves',
@@ -472,7 +472,7 @@ class SpellHelper
       return collect([
           [
               'name' => 'Lightning Bolt',
-              'description' => 'Destroy the target\'s castle improvements',
+              'description' => 'Destroy the target\'s improvements',
               'key' => 'lightning_bolt',
               'mana_cost' => 1,
               'decreases' => [
@@ -493,7 +493,7 @@ class SpellHelper
                   'improvement_granaries',
                   'improvement_tissue',
               ],
-              'percentage' => 1,
+              'percentage' => 0.75,
           ],
           [
             'name' => 'Silencing',
@@ -509,7 +509,7 @@ class SpellHelper
               'key' => 'fireball',
               'mana_cost' => 1,
               'decreases' => ['peasants', 'resource_food'],
-              'percentage' => 1,
+              'percentage' => 0.75,
           ],
           [
               'name' => 'Plague',

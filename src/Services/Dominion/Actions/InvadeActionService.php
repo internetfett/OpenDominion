@@ -283,6 +283,18 @@ class InvadeActionService
                 throw new GameException('You cannot invade during Rainy Season.');
             }
 
+            // Imperial Gnome: check Factories cover Unit4
+            if($dominion->race->name == 'Imperial Gnome' and $units['unit4'] > $dominion->building_factory * 2)
+            {
+                throw new GameException('You do not have enough Factories to control that many units on the battlefield. You must have at least one Factory for every two Airships sent on invasion (increased by Workshops improvements).');
+            }
+
+            // Armada: check Docks cover Unit4
+            if($dominion->race->name == 'Armada' and $units['unit4'] > $dominion->building_factory * 2)
+            {
+                throw new GameException('You do not have enough Docks to control that many units on the battlefield. You must have at least one Dock for every two Siege Ships sent on invasion (increased by Harbor improvements).');
+            }
+
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
@@ -297,9 +309,9 @@ class InvadeActionService
               $countsAsVictory = 0;
             }
 
-            if(!$this->passesOpAtLeast50percentOfDpRule()) {
-                throw new GameException('You are not sending enough OP to be even close to breaking the target (50% rule)');
-            }
+            #if(!$this->passesOpAtLeast50percentOfDpRule()) {
+            #    throw new GameException('You are not sending enough OP to be even close to breaking the target (50% rule)');
+            #}
 
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
 
@@ -1557,6 +1569,7 @@ class InvadeActionService
         $this->invasionResult['result']['overwhelmed'] = ((1 - $attackingForceOP / $targetDP) >= (static::OVERWHELMED_PERCENTAGE / 100));
     }
 
+/*
     protected function passesOpAtLeast50percentOfDpRule(): bool
     {
         if($this->invasionResult['result']['success']) {
@@ -1565,6 +1578,7 @@ class InvadeActionService
 
         return $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] > 0.5;
     }
+*/
 
     /**
      * Check if dominion is sending out at least *some* OP.
