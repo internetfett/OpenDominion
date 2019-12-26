@@ -517,6 +517,8 @@ class CasualtiesCalculator
         $totalLand = $this->landCalculator->getTotalLand($target);
         $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
 
+        $powerFromLand = $landPercentage / $ratio;
+
         $powerFromPerk = min($powerFromLand, $max)/100;
 
         return $powerFromPerk;
