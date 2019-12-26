@@ -127,7 +127,8 @@ class SpellHelper
             ]
         ]));
 
-        if($race !== null){
+        if($race !== null)
+        {
             $racialSpell = $this->getRacialSelfSpell($race);
             $spells->push($racialSpell);
         }
@@ -135,11 +136,12 @@ class SpellHelper
         return $spells;
     }
 
-    public function getRacialSelfSpell(Race $race) {
+    public function getRacialSelfSpell(Race $race)
+    {
         $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
-        })->first();
+        })->all();
     }
 
     public function getRacialSelfSpells(): Collection

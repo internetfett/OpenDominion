@@ -48,7 +48,7 @@
                                                               {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }} mana
                                                             </span>
                                                             @if (isset($spell['races']))
-                                                                <br/>Racial
+                                                                <br/>{{ $selectedDominion->race->name }}
                                                             @endif
                                                         </small>
                                                     </p>
@@ -134,9 +134,11 @@
                                         <div class="col-md-12">
                                             <label>
                                                 @if($selectedDominion->race->alignment == 'evil')
-                                                    Imperial Dark Arts Magic
+                                                    Imperial Institute of Magic
                                                 @elseif($selectedDominion->race->alignment == 'good')
                                                     Commonwealth Academy of Wizardry
+                                                @elseif($selectedDominion->race->alignment == 'independent')
+                                                    Pagan Magic
                                                 @else
                                                     Unknown Magic
                                                 @endif
