@@ -7,23 +7,23 @@ use OpenDominion\Models\Race;
 
 class SpellHelper
 {
-    public function getSpellInfo(string $spellKey, Race $race): array
+    public function getSpellInfo(string $spellKey, Dominion $dominion): array
     {
-        return $this->getSpells($race)->filter(function ($spell) use ($spellKey) {
+        return $this->getSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->first();
     }
 
-    public function isSelfSpell(string $spellKey, Race $race): bool
+    public function isSelfSpell(string $spellKey, Dominion $dominion): bool
     {
-        return $this->getSelfSpells($race)->filter(function ($spell) use ($spellKey) {
+        return $this->getSelfSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey, Race $race): bool
+    public function isOffensiveSpell(string $spellKey, Dominion $dominion): bool
     {
-        return $this->getOffensiveSpells($race)->filter(function ($spell) use ($spellKey) {
+        return $this->getOffensiveSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -35,35 +35,35 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isHostileSpell(string $spellKey, Race $race): bool
+    public function isHostileSpell(string $spellKey, Dominion $dominion): bool
     {
-        return $this->getHostileSpells($race)->filter(function ($spell) use ($spellKey) {
+        return $this->getHostileSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
 
     public function isBlackOpSpell(string $spellKey): bool
     {
-        return $this->getBlackOpSpells($race)->filter(function ($spell) use ($spellKey) {
+        return $this->getBlackOpSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
 
-    public function isWarSpell(string $spellKey, Race $race): bool
+    public function isWarSpell(string $spellKey, Dominion $dominion): bool
     {
-        return $this->getWarSpells($race)->filter(function ($spell) use ($spellKey) {
+        return $this->getWarSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
 
 
-    public function getSpells(Race $race): Collection
+    public function getSpells(Dominion $dominion): Collection
     {
-        return $this->getSelfSpells($race)
-            ->merge($this->getOffensiveSpells($race));
+        return $this->getSelfSpells($dominion)
+            ->merge($this->getOffensiveSpells($dominion));
     }
 
-    public function getSelfSpells(?Race $race): Collection
+    public function getSelfSpells(?Dominion $dominion): Collection
     {
         $spells = collect(array_filter([
             [
@@ -127,16 +127,16 @@ class SpellHelper
             ]
         ]));
 
-        if($race !== null)
+        if($dominion !== null)
         {
-            $racialSpell = $this->getRacialSelfSpell($race);
+            $racialSpell = $this->getRacialSelfSpell($dominion);
             $spells->push($racialSpell);
         }
 
         return $spells;
     }
 
-    public function getRacialSelfSpell(Race $race)
+    public function getRacialSelfSpell(Dominion $dominion)
     {
         $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
@@ -419,11 +419,11 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(Race $race): Collection
+    public function getOffensiveSpells(Dominion $dominion): Collection
     {
         return $this->getInfoOpSpells()
-            ->merge($this->getBlackOpSpells($race))
-            ->merge($this->getWarSpells($race));
+            ->merge($this->getBlackOpSpells($dominion))
+            ->merge($this->getWarSpells($dominion));
     }
 
     public function getInfoOpSpells(): Collection
@@ -462,13 +462,13 @@ class SpellHelper
         ]);
     }
 
-    public function getHostileSpells(?Race $race): Collection
+    public function getHostileSpells(?Dominion $dominion): Collection
     {
-        return $this->getBlackOpSpells($race)
-            ->merge($this->getWarSpells($race));
+        return $this->getBlackOpSpells($dominion)
+            ->merge($this->getWarSpells($dominion));
     }
 
-    public function getBlackOpSpells(?Race $race): Collection
+    public function getBlackOpSpells(?Dominion $dominion): Collection
     {
 
       return collect([
@@ -576,39 +576,6 @@ class SpellHelper
       {
         return collect([
             [
-                'name' => 'Fireball',
-                'description' => 'Burn target\'s peasants and food',
-                'key' => 'fireball',
-                'mana_cost' => 1,
-                'decreases' => ['peasants', 'resource_food'],
-                'percentage' => 1,
-            ],
-            [
-                'name' => 'Iceshard',
-                'description' => 'Destroy the target\'s castle improvements',
-                'key' => 'lightning_bolt',
-                'mana_cost' => 1,
-                'decreases' => [
-                    'improvement_markets',
-                    'improvement_keep',
-                    'improvement_towers',
-                    'improvement_forges',
-                    'improvement_walls',
-                    'improvement_harbor',
-                    'improvement_armory',
-                    'improvement_infirmary',
-                    'improvement_workshops',
-                    'improvement_observatory',
-                    'improvement_cartography',
-                    'improvement_hideouts',
-                    'improvement_forestry',
-                    'improvement_refinery',
-                    'improvement_granaries',
-                    'improvement_tissue',
-                ],
-                'percentage' => 1,
-            ],
-            [
                 'name' => 'Plague',
                 'description' => 'Slows population growth',
                 'key' => 'plague',
@@ -641,7 +608,7 @@ class SpellHelper
 
     }
 
-    public function getWarSpells(?Race $race): Collection
+    public function getWarSpells(?Dominion $dominion): Collection
     {
         return collect([
             [
