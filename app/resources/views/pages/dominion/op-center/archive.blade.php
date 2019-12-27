@@ -273,7 +273,7 @@
                             <tbody>
                                 @foreach ($infoOp->data as $spell)
                                     @php
-                                        $spellInfo = $spellHelper->getSpellInfo($spell['spell'], $dominion->race);
+                                        $spellInfo = $spellHelper->getSpellInfo($spell['spell'], $dominion);
                                         $castByDominion = OpenDominion\Models\Dominion::with('realm')->findOrFail($spell['cast_by_dominion_id']);
                                     @endphp
                                     <tr>

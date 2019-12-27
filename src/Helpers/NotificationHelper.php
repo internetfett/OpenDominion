@@ -570,7 +570,7 @@ class NotificationHelper
 
                 return sprintf(
                     'Our wizards have repelled a %s spell attempt by %s (#%s)%s',
-                    $this->spellHelper->getSpellInfo($data['spellKey'], $sourceDominion->race)['name'],
+                    $this->spellHelper->getSpellInfo($data['spellKey'], $sourceDominion)['name'],
                     $sourceDominion->name,
                     $sourceDominion->realm->number,
                     $lastPart
