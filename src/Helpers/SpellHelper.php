@@ -5,6 +5,9 @@ namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
 
+# ODA
+use OpenDominion\Models\Dominion;
+
 class SpellHelper
 {
     public function getSpellInfo(string $spellKey, Dominion $dominion): array
