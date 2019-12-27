@@ -140,13 +140,22 @@ class SpellHelper
         return $spells;
     }
 
-    public function getRacialSelfSpell(?Race $race)
+    public function getRacialSelfSpell(Dominion $dominion)
+    {
+        $raceName = $dominion->race->name;
+        return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
+            return $spell['races']->contains($raceName);
+        })->first();
+    }
+
+    public function getRacialSelfSpellForScribes(Race $race)
     {
         $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
         })->first();
     }
+
 
     public function getRacialSelfSpells(): Collection
     {
