@@ -473,47 +473,6 @@ class SpellHelper
 
       return collect([
           [
-              'name' => 'Lightning Bolt',
-              'description' => 'Destroy the target\'s improvements',
-              'key' => 'lightning_bolt',
-              'mana_cost' => 1,
-              'decreases' => [
-                  'improvement_markets',
-                  'improvement_keep',
-                  'improvement_towers',
-                  'improvement_forges',
-                  'improvement_walls',
-                  'improvement_harbor',
-                  'improvement_armory',
-                  'improvement_infirmary',
-                  'improvement_workshops',
-                  'improvement_observatory',
-                  'improvement_cartography',
-                  'improvement_hideouts',
-                  'improvement_forestry',
-                  'improvement_refinery',
-                  'improvement_granaries',
-                  'improvement_tissue',
-              ],
-              'percentage' => 0.75,
-          ],/*
-          [
-            'name' => 'Silencing',
-            'description' => 'Weaken the target\'s wizards',
-            'key' => 'silencing',
-            'mana_cost' => 1,
-            'decreases' => ['wizard_strength'],
-            'percentage' => 2,
-          ],*/
-          [
-              'name' => 'Fireball',
-              'description' => 'Burn target\'s peasants and food',
-              'key' => 'fireball',
-              'mana_cost' => 1,
-              'decreases' => ['peasants', 'resource_food'],
-              'percentage' => 0.75,
-          ],
-          [
               'name' => 'Plague',
               'description' => 'Slows population growth',
               'key' => 'plague',
@@ -685,6 +644,39 @@ class SpellHelper
     public function getWarSpells(?Race $race): Collection
     {
         return collect([
+            [
+                'name' => 'Lightning Bolt',
+                'description' => 'Destroy the target\'s improvements',
+                'key' => 'lightning_bolt',
+                'mana_cost' => 1,
+                'decreases' => [
+                    'improvement_markets',
+                    'improvement_keep',
+                    'improvement_towers',
+                    'improvement_forges',
+                    'improvement_walls',
+                    'improvement_harbor',
+                    'improvement_armory',
+                    'improvement_infirmary',
+                    'improvement_workshops',
+                    'improvement_observatory',
+                    'improvement_cartography',
+                    'improvement_hideouts',
+                    'improvement_forestry',
+                    'improvement_refinery',
+                    'improvement_granaries',
+                    'improvement_tissue',
+                ],
+                'percentage' => 0.75,
+            ],
+            [
+                'name' => 'Fireball',
+                'description' => 'Burn target\'s peasants and food',
+                'key' => 'fireball',
+                'mana_cost' => 1,
+                'decreases' => ['peasants', 'resource_food'],
+                'percentage' => 0.75,
+            ],
             [
                 'name' => 'Disband Spies',
                 'description' => 'Turns spies into draftees',
