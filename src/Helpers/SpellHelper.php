@@ -151,15 +151,8 @@ class SpellHelper
 
     public function getRacialSelfSpellForScribes(?Race $race)
     {
-        if($dominion !== null)
-        {
-            $raceName = $dominion->race->name;
-        }
-        else
-        {
-          $raceName = $race->name;
-        }
 
+        $raceName = $race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
         })->first();
