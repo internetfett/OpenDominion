@@ -38,9 +38,25 @@ class RealmFinderService
                 'realms.round_id' => $round->id
             ]);
 
+          if($race->alignment == 'independent')
+          {
+            if(rand(1,2) == 1)
+            {
+              $alignment = 'good';
+            }
+            else
+            {
+              $alignment = 'evil';
+            }
+          }
+          else
+          {
+            $alignment = $race->alignment;
+          }
+
         if (!$round->mixed_alignment)
         {
-            $realmQuery = $realmQuery->where(['realms.alignment' => $race->alignment]);
+            $realmQuery = $realmQuery->where(['realms.alignment' => $alignment]);
         }
 
         $realms = $realmQuery->groupBy('realms.id')
