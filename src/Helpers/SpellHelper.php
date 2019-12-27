@@ -141,7 +141,7 @@ class SpellHelper
 
     public function getRacialSelfSpell(Dominion $dominion)
     {
-        $raceName = $race->name;
+        $raceName = $dominion->race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
         })->first();
