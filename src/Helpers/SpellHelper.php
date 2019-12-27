@@ -140,6 +140,7 @@ class SpellHelper
         return $spells;
     }
 
+    # Hacky fix for round 13.
     public function getRacialSelfSpell(Dominion $dominion)
     {
         $raceName = $dominion->race->name;
