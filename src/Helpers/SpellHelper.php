@@ -133,7 +133,7 @@ class SpellHelper
 
         if($dominion !== null)
         {
-            $racialSpell = $this->getRacialSelfSpell($race);
+            $racialSpell = $this->getRacialSelfSpell($dominion);
             $spells->push($racialSpell);
         }
 
