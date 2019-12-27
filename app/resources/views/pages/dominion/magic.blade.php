@@ -146,7 +146,7 @@
                                         </div>
                                     </div>
 
-                                    @foreach ($spellHelper->getBlackOpSpells($dominion->race)->chunk(4) as $spells)
+                                    @foreach ($spellHelper->getBlackOpSpells($dominion)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
                                                 @php
@@ -180,7 +180,7 @@
                                         </div>
                                     </div>
 
-                                    @foreach ($spellHelper->getWarSpells($dominion->race)->chunk(4) as $spells)
+                                    @foreach ($spellHelper->getWarSpells($dominion)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
                                                 @php
