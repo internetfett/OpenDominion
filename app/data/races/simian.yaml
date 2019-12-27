@@ -11,6 +11,7 @@ exploring : 3
 converting: 3
 
 perks:
+  max_population: -5
   spy_strength: 10
   wizard_strength: -10
   construction_cost: -20
