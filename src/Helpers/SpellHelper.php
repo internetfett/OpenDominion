@@ -4,10 +4,9 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
-
 # ODA
-namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Models\Dominion;
+
 
 class SpellHelper
 {
