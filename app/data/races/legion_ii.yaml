@@ -73,4 +73,4 @@ units:
     perks:
       counts_as_wizard_offense: 0.1
       counts_as_wizard_defense: 0.1
-      offense_raw_wizard_ratio: 1,2 # ratio%, max
+      offense_raw_wizard_ratio: 2,1 # ratio%, max
