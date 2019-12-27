@@ -17,7 +17,7 @@
                             @csrf
 
                             <div class="box-body">
-                                @foreach ($spellHelper->getSelfSpells($selectedDominion->race)->chunk(2) as $spells)
+                                @foreach ($spellHelper->getSelfSpells($selectedDominion)->chunk(2) as $spells)
                                     <div class="row">
                                         @foreach ($spells as $spell)
                                             <div class="col-xs-6 col-sm-6 col-md-12 col-lg-6 text-center">
@@ -133,9 +133,9 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <label>
-                                                @if($selectedDominion->race->alignment == 'evil')
+                                                @if($selectedDominion->realm->alignment == 'evil')
                                                     Imperial Institute of Magic
-                                                @elseif($selectedDominion->race->alignment == 'good')
+                                                @elseif($selectedDominion->realm->alignment == 'good')
                                                     Commonwealth Academy of Wizardry
                                                 @elseif($selectedDominion->race->alignment == 'independent')
                                                     Pagan Magic
