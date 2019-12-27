@@ -150,7 +150,7 @@ class SpellHelper
         })->first();
     }
 */
-    public function getRacialSelfSpell(?Race $race, ?Dominion $dominion)
+    public function getRacialSelfSpell(?Race $race = Null, ?Dominion $dominion = Null)
     {
         if($dominion !== null)
         {
