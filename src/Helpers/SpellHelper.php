@@ -133,16 +133,16 @@ class SpellHelper
 
         if($dominion !== null)
         {
-            $racialSpell = $this->getRacialSelfSpell($dominion);
+            $racialSpell = $this->getRacialSelfSpell($race);
             $spells->push($racialSpell);
         }
 
         return $spells;
     }
 
-    public function getRacialSelfSpell(Dominion $dominion)
+    public function getRacialSelfSpell(?Race $race)
     {
-        $raceName = $dominion->race->name;
+        $raceName = $dominion->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
         })->first();
