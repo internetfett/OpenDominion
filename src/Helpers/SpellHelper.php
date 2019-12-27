@@ -379,7 +379,7 @@ class SpellHelper
                 'key' => 'portal',
                 'mana_cost' => 12,
                 'duration' => 1,
-                'cooldown' => 9, # Every 9 hours.
+                'cooldown' => 6, # Every 6 hours.
                 'races' => collect(['Dimensionalists']),
             ],
             [
@@ -401,7 +401,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Chitin',
-                'description' => 'Cocoons receive 1 DP each. Unaffected by Unholy Ghost.',
+                'description' => 'Cocoons receive 1 DP each. Unaffected by Unholy Ghost or Dragon\'s Roar.',
                 'key' => 'chitin',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -462,13 +462,13 @@ class SpellHelper
         ]);
     }
 
-    public function getHostileSpells(Race $race = Null): Collection
+    public function getHostileSpells(?Race $race): Collection
     {
         return $this->getBlackOpSpells($race)
             ->merge($this->getWarSpells($race));
     }
 
-    public function getBlackOpSpells(Race $race = Null): Collection
+    public function getBlackOpSpells(?Race $race): Collection
     {
 
       return collect([
@@ -496,7 +496,7 @@ class SpellHelper
                   'improvement_tissue',
               ],
               'percentage' => 0.75,
-          ],
+          ],/*
           [
             'name' => 'Silencing',
             'description' => 'Weaken the target\'s wizards',
@@ -504,7 +504,7 @@ class SpellHelper
             'mana_cost' => 1,
             'decreases' => ['wizard_strength'],
             'percentage' => 2,
-          ],
+          ],*/
           [
               'name' => 'Fireball',
               'description' => 'Burn target\'s peasants and food',
@@ -545,7 +545,7 @@ class SpellHelper
 
       # Commonwealth Academy of Wizardry
       // Lightning and Arcane
-      if($race == null or $race->alignment == 'good')
+      if($race->alignment == 'good')
       {
         return collect([
             [
@@ -572,7 +572,7 @@ class SpellHelper
                     'improvement_tissue',
                 ],
                 'percentage' => 1,
-            ],
+            ],/*
             [
               'name' => 'Silencing',
               'description' => 'Weaken the target\'s wizards',
@@ -580,7 +580,7 @@ class SpellHelper
               'mana_cost' => 1,
               'decreases' => ['wizard_strength'],
               'percentage' => 2,
-            ],
+            ],*/
             [
                 'name' => 'Plague',
                 'description' => 'Slows population growth',
@@ -682,7 +682,7 @@ class SpellHelper
 
     }
 
-    public function getWarSpells(Race $race = Null): Collection
+    public function getWarSpells(?Race $race): Collection
     {
         return collect([
             [

@@ -783,9 +783,6 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellEarthquake = 5;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('gem_production');
 
@@ -921,11 +918,17 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellGreatFlood = 25;
+        // Spell: Great Flood (-25%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier = -0.25;
+        }
 
-        // Spell: Great Flood
-        $multiplier -= $this->spellCalculator->getActiveSpellMultiplierBonus($dominion, 'great_flood', $spellGreatFlood);
+        // Spell: Rainy Season (-100%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+            $multiplier = -1;
+        }
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
@@ -936,11 +939,7 @@ class ProductionCalculator
           $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
         }
 
-        // Spell: Rainy Season (-100%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier = -1;
-        }
+
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
