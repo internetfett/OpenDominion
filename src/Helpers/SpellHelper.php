@@ -140,6 +140,7 @@ class SpellHelper
         return $spells;
     }
 
+/*
     # Hacky fix for round 13.
     public function getRacialSelfSpell(Dominion $dominion)
     {
@@ -148,10 +149,18 @@ class SpellHelper
             return $spell['races']->contains($raceName);
         })->first();
     }
-
-    public function getRacialSelfSpellForScribes(Race $race)
+*/
+    public function getRacialSelfSpell(?Race $race, ?Dominion $dominion)
     {
-        $raceName = $race->name;
+        if($dominion !== null)
+        {
+            $raceName = $dominion->race->name;
+        }
+        else
+        {
+          $raceName = $race->name;
+        }
+
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
         })->first();
