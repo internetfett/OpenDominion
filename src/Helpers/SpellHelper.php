@@ -149,7 +149,7 @@ class SpellHelper
         })->first();
     }
 
-    public function getRacialSelfSpellForScribes(?Race $race, ?Dominion $dominion)
+    public function getRacialSelfSpellForScribes(?Race $race)
     {
         if($dominion !== null)
         {
