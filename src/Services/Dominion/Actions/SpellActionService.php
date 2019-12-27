@@ -134,7 +134,7 @@ class SpellActionService
             throw new GameException("You can only cast {$spellInfo['name']} every {$spellInfo['cooldown']} hours.");
         }
 
-        if ($this->spellHelper->isOffensiveSpell($spellKey, $dominion->race)) {
+        if ($this->spellHelper->isOffensiveSpell($spellKey, $dominion)) {
             if ($target === null) {
                 throw new GameException("You must select a target when casting offensive spell {$spellInfo['name']}");
             }
@@ -166,13 +166,13 @@ class SpellActionService
         $result = null;
 
         DB::transaction(function () use ($dominion, $manaCost, $spellKey, &$result, $target) {
-            if ($this->spellHelper->isSelfSpell($spellKey, $dominion->race)) {
+            if ($this->spellHelper->isSelfSpell($spellKey, $dominion)) {
                 $result = $this->castSelfSpell($dominion, $spellKey);
 
             } elseif ($this->spellHelper->isInfoOpSpell($spellKey)) {
                 $result = $this->castInfoOpSpell($dominion, $spellKey, $target);
 
-            } elseif ($this->spellHelper->isHostileSpell($spellKey, $dominion->race)) {
+            } elseif ($this->spellHelper->isHostileSpell($spellKey, $dominion)) {
                 $result = $this->castHostileSpell($dominion, $spellKey, $target);
 
             } else {
@@ -192,7 +192,7 @@ class SpellActionService
               $dominion->resource_tech += $xpGained;
             }
 
-            if (!$this->spellHelper->isSelfSpell($spellKey, $dominion->race))
+            if (!$this->spellHelper->isSelfSpell($spellKey, $dominion))
             {
                 $dominion->stat_spell_success += 1;
             }
@@ -444,7 +444,7 @@ class SpellActionService
 
         $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion);
 
-        if ($this->spellHelper->isWarSpell($spellKey, $dominion->race)) {
+        if ($this->spellHelper->isWarSpell($spellKey, $dominion)) {
             $warDeclared = ($dominion->realm->war_realm_id == $target->realm->id || $target->realm->war_realm_id == $dominion->realm->id);
             if (!$warDeclared && !$this->militaryCalculator->recentlyInvadedBy($dominion, $target)) {
                 throw new GameException("You cannot cast {$spellInfo['name']} outside of war.");
