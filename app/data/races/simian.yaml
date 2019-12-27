@@ -17,7 +17,7 @@ perks:
   construction_cost: -20
   extra_barren_max_population: 15
   cannot_train_archmages: 1
-  tech_cost: 10
+  tech_costs: 10
   lumber_improvement_points: 50
 units:
   - name: Chimpanzee
