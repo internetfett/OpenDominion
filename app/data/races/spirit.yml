@@ -59,7 +59,7 @@ units:
     type: hybrid_elite
     static_networth: 20
     cost:
-      platinum: 12000
+      platinum: 0
       ore: 0
     power:
       offense: 10
