@@ -96,7 +96,7 @@ class ReleaseActionService
             $totalUnitsReturning = 0;
             foreach($data as $unitType)
             {
-              $totalUnitsReturning += $queueService->getInvasionQueueTotalByResource($dominion, "military_{$unitType}");
+              $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_{$unitType}");
             }
 
             if ($totalUnitsReturning !== 0)
