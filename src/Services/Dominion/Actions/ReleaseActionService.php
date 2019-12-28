@@ -94,9 +94,9 @@ class ReleaseActionService
 
             # Cannot release if units returning from invasion.
             $totalUnitsReturning = 0;
-            foreach($data as $unitType)
+            for ($slot = 1; $slot <= 4; $slot++)
             {
-              $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_{$unitType}");
+              $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
             }
 
             if ($totalUnitsReturning !== 0)
