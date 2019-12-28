@@ -56,7 +56,7 @@ class ExploreActionService
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
-        $this->spellCalculator = app(SpellCalculator::class);
+        $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
     }
