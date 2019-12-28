@@ -56,7 +56,7 @@ class ExploreActionService
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
-        $this->spellCalculator = app(QueueService::class);
+        $this->spellCalculator = app(SpellCalculator::class);
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
     }
@@ -123,7 +123,7 @@ class ExploreActionService
         // Spell: Rainy Season (cannot explore)
         if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
         {
-            throw new GameException('You cannot invade during Rainy Season.');
+            throw new GameException('You cannot explore during Rainy Season.');
         }
 
         if ($dominion->morale <= static::MIN_MORALE)
