@@ -120,7 +120,7 @@
                           <div class="col-xs-4">
                           ICON
                           </div>
-                          <div class="col-xs-4">
+                          <div class="col-xs-8">
                             <p>This is the
                             @if($realm->alignment == 'good')
                             Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
@@ -133,11 +133,13 @@
 
                       </div>
                       <div class="row">
-                        <p>It contains <strong>{{ $dominions->count() }}</strong> {{ str_plural('dominion', $dominions->count()) }} and
-                          is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large
-                          with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
-                        </p>
-                        <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the Town Crier</a></p>
+                          <div class="col-xs-1">
+                            <p>It contains <strong>{{ $dominions->count() }}</strong> {{ str_plural('dominion', $dominions->count()) }} and
+                              is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large
+                              with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
+                            </p>
+                            <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the Town Crier</a></p>
+                          </div>
                       </div>
 
                 </div>
