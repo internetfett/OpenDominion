@@ -10,6 +10,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Services\Dominion\QueueService;
 
 class ReleaseActionService
 {
@@ -21,6 +22,9 @@ class ReleaseActionService
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
+    /** @var QueueService */
+    protected $queueService;
+
     /**
      * ReleaseActionService constructor.
      *
@@ -28,10 +32,12 @@ class ReleaseActionService
      */
     public function __construct(
         UnitHelper $unitHelper,
+        QueueService $queueService,
         MilitaryCalculator $militaryCalculator
       )
     {
         $this->unitHelper = $unitHelper;
+        $this->queueService = $queueService;
         $this->militaryCalculator = $militaryCalculator;
     }
 
@@ -49,15 +55,21 @@ class ReleaseActionService
 
         $data = array_map('\intval', $data);
 
-        die(var_dump($data));
+        /*
+
+        array(8) { ["draftees"]=> int(1) ["unit1"]=> int(0) ["unit2"]=> int(0) ["unit3"]=> int(0) ["unit4"]=> int(0) ["spies"]=> int(0) ["wizards"]=> int(0) ["archmages"]=> int(0) }
+
+        */
 
         $troopsReleased = [];
 
         $totalTroopsToRelease = array_sum($data);
+
         $totalDrafteesToRelease = $data['draftees'];
-        $totalSpiesToRelease = $data['draftees'];
-        $totalWizardsToRelease = $data['draftees'];
-        $totalArchmagesToRelease = $data['draftees'];
+        $totalSpiesToRelease = $data['spies'];
+        $totalWizardsToRelease = $data['wizards'];
+        $totalArchmagesToRelease = $data['archmages'];
+        $totalMilitaryUnitsToRelease = $totalTroopsToRelease - ($data['draftees'] + $data['spies'] + $data['wizards'] + $data['archmages']);
 
         # Must be releasing something.
         if ($totalTroopsToRelease <= 0)
@@ -65,18 +77,33 @@ class ReleaseActionService
             throw new GameException('Military release aborted due to bad input.');
         }
 
-        # Must have at least 1% morale to release.
-        if ($dominion->morale < 1)
+        # Special considerations for releasing military units.
+        if($totalMilitaryUnitsToRelease > 0)
         {
-            throw new GameException('You must have at least 1% morale to release.');
-        }
+            # Must have at least 1% morale to release.
+            if ($dominion->morale < 1)
+            {
+                throw new GameException('You must have at least 1% morale to release.');
+            }
 
-        # Cannot release if recently invaded.
-        if ($this->militaryCalculator->getRecentlyInvadedCount($dominion))
-        {
-            throw new GameException('You cannot release military units if you have been recently invaded.');
-        }
+            # Cannot release if recently invaded.
+            if ($this->militaryCalculator->getRecentlyInvadedCount($dominion))
+            {
+                throw new GameException('You cannot release military units if you have been recently invaded.');
+            }
 
+            # Cannot release if units returning from invasion.
+            $totalUnitsReturning = 0;
+            foreach($units as $unitType)
+            {
+              $totalUnitsReturning += $queueService->getInvasionQueueTotalByResource($dominion, "military_{$unitType}");
+            }
+
+            if ($totalUnitsReturning !== 0)
+            {
+                throw new GameException('You cannot release military units if you have units returning from battle.');
+            }
+        }
         foreach ($data as $unitType => $amount) {
             if ($amount === 0) { // todo: collect()->except(amount == 0)
                 continue;
