@@ -133,7 +133,7 @@
 
                       </div>
                       <div class="row">
-                          <div class="col-xs-1">
+                          <div class="col-xs-12">
                             <p>It contains <strong>{{ $dominions->count() }}</strong> {{ str_plural('dominion', $dominions->count()) }} and
                               is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large
                               with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
