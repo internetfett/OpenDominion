@@ -69,7 +69,7 @@ class ReleaseActionService
         $totalSpiesToRelease = $data['spies'];
         $totalWizardsToRelease = $data['wizards'];
         $totalArchmagesToRelease = $data['archmages'];
-        $totalMilitaryUnitsToRelease = $totalTroopsToRelease - ($data['draftees'] + $data['spies'] + $data['wizards'] + $data['archmages']);
+        $totalMilitaryUnitsToRelease = $data['unit1'] + $data['unit2'] + $data['unit3'] + $data['unit4'];
 
         # Must be releasing something.
         if ($totalTroopsToRelease <= 0)
@@ -98,7 +98,6 @@ class ReleaseActionService
             {
               $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
             }
-
             if ($totalUnitsReturning !== 0)
             {
                 throw new GameException('You cannot release military units if you have units returning from battle.');
