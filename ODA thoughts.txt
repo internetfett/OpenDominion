@@ -14,4 +14,7 @@ Building ideas:
 
 Colors:
 Red - #dd4b39 / 207-75-57
-Blue - 
+Blue - #3978dd
+Green - #39dd9e
+
+https://www.sessions.edu/color-calculator/
