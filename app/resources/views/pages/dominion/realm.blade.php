@@ -117,10 +117,18 @@
                 </div>
                 <div class="box-body">
                       <div class="row">
-                          <div class="col-xs-4">
-                          ICON
+                          <div class="col-xs-2">
+                            <p>This is the
+                            @if($realm->alignment == 'good')
+                            <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
+                            @elseif($realm->alignment == 'evil')
+                            <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
+                            @elseif($realm->alignment == 'npc')
+                            <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="The Barbarian Horde">
+                            @endif
+
                           </div>
-                          <div class="col-xs-8">
+                          <div class="col-xs-10">
                             <p>This is the
                             @if($realm->alignment == 'good')
                             Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
