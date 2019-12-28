@@ -77,19 +77,28 @@ class ReleaseActionService
             throw new GameException('Military release aborted due to bad input.');
         }
 
+        $units = [
+          1 => $data['unit1'],
+          2 => $data['unit2'],
+          3 => $data['unit3'],
+          4 => $data['unit4']
+        ];
+
+        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, true);
+
         # Special considerations for releasing military units.
-        if($totalMilitaryUnitsToRelease > 0)
+        if($rawDpRelease > 0)
         {
             # Must have at least 1% morale to release.
             if ($dominion->morale < 1)
             {
-                throw new GameException('You must have at least 1% morale to release.');
+                throw new GameException('You must have at least 1% morale to release units with defensive power.');
             }
 
             # Cannot release if recently invaded.
             if ($this->militaryCalculator->getRecentlyInvadedCount($dominion))
             {
-                throw new GameException('You cannot release military units if you have been recently invaded.');
+                throw new GameException('You cannot release military units with defensive power if you have been recently invaded.');
             }
 
             # Cannot release if units returning from invasion.
@@ -100,8 +109,9 @@ class ReleaseActionService
             }
             if ($totalUnitsReturning !== 0)
             {
-                throw new GameException('You cannot release military units if you have units returning from battle.');
+                throw new GameException('You cannot release military units with defensive power if you have units returning from battle.');
             }
+
         }
         foreach ($data as $unitType => $amount) {
             if ($amount === 0) { // todo: collect()->except(amount == 0)
