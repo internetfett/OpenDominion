@@ -187,4 +187,26 @@ class LandCalculator
 
         return $landLostByLandType;
     }
+
+    /**
+     * Returns the Dominion's total acres of land.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getTotalLandForRealm(Realm $realm): int
+    {
+      $networth = 0;
+
+      // todo: fix line below which generates this query:
+      // select * from "dominions" where "dominions"."realm_id" = '1' and "dominions"."realm_id" is not null
+      foreach ($realm->dominions as $dominion)
+      {
+          $networth += $this->getTotalLand($dominion);
+      }
+
+      return $networth;
+  }
+
+
 }

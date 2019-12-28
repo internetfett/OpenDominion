@@ -10,3 +10,8 @@ Unit names:
 Building ideas:
 - Lighthouse
 - Sanctuary
+
+
+Colors:
+Red - #dd4b39 / 207-75-57
+Blue - 

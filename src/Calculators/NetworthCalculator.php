@@ -49,7 +49,8 @@ class NetworthCalculator
 
         // todo: fix line below which generates this query:
         // select * from "dominions" where "dominions"."realm_id" = '1' and "dominions"."realm_id" is not null
-        foreach ($realm->dominions as $dominion) {
+        foreach ($realm->dominions as $dominion)
+        {
             $networth += $this->getDominionNetworth($dominion);
         }
 
