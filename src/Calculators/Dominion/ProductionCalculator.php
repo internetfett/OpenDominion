@@ -830,7 +830,7 @@ class ProductionCalculator
     }
 
     /**
-     * Returns the Dominion's raw tech production.
+     * Returns the Dominion's raw tech production (experience points, XP).
      *
      * Experience points are produced by:
      * - Prestige: Prestige/tick
@@ -842,7 +842,10 @@ class ProductionCalculator
     {
         $tech = 0;
 
-        $tech = $dominion->prestige;
+        $tech = max(0, $dominion->prestige);
+
+        // Unit Perk Production Bonus (Sacred Order: Monk)
+        $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
         return $tech;
     }
