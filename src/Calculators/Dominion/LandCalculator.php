@@ -7,6 +7,9 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use OpenDominion\Models\Realm;
+
 class LandCalculator
 {
     /** @var BuildingCalculator */
