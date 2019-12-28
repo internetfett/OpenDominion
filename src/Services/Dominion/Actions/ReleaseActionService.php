@@ -8,6 +8,9 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+# ODA
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class ReleaseActionService
 {
     use DominionGuardsTrait;
@@ -15,14 +18,21 @@ class ReleaseActionService
     /** @var UnitHelper */
     protected $unitHelper;
 
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
     /**
      * ReleaseActionService constructor.
      *
      * @param UnitHelper $unitHelper
      */
-    public function __construct(UnitHelper $unitHelper)
+    public function __construct(
+        UnitHelper $unitHelper,
+        MilitaryCalculator $militaryCalculator
+      )
     {
         $this->unitHelper = $unitHelper;
+        $this->militaryCalculator = $militaryCalculator;
     }
 
     /**
@@ -39,12 +49,32 @@ class ReleaseActionService
 
         $data = array_map('\intval', $data);
 
+        die(var_dump($data));
+
         $troopsReleased = [];
 
         $totalTroopsToRelease = array_sum($data);
+        $totalDrafteesToRelease = $data['draftees'];
+        $totalSpiesToRelease = $data['draftees'];
+        $totalWizardsToRelease = $data['draftees'];
+        $totalArchmagesToRelease = $data['draftees'];
 
-        if ($totalTroopsToRelease <= 0) {
+        # Must be releasing something.
+        if ($totalTroopsToRelease <= 0)
+        {
             throw new GameException('Military release aborted due to bad input.');
+        }
+
+        # Must have at least 1% morale to release.
+        if ($dominion->morale < 1)
+        {
+            throw new GameException('You must have at least 1% morale to release.');
+        }
+
+        # Cannot release if recently invaded.
+        if ($this->militaryCalculator->getRecentlyInvadedCount($dominion))
+        {
+            throw new GameException('You cannot release military units if you have been recently invaded.');
         }
 
         foreach ($data as $unitType => $amount) {
