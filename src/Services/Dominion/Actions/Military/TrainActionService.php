@@ -436,11 +436,10 @@ class TrainActionService
                 $timeReductionElites += 3;
               }
               // Look for faster training.
-              if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training') and $amountToTrain > 0)
+              if($fasterTraining = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training') and $amountToTrain > 0)
               {
-                $timeReductionSpecs += min($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'), $hoursSpecs-1);
-                $timeReductionElites += min($dominion->race->getUnitPerkValueForUnitSlot(intval($unit), 'faster_training'), $hoursElites-1);
-                  die(var_dump($timeReductionSpecs) . var_dump($timeReductionElites));
+                $timeReductionSpecs += min($fasterTraining, 'faster_training'), $hoursSpecs-1);
+                $timeReductionElites += min($fasterTraining, 'faster_training'), $hoursElites-1);
               }
 
               // Look for reduced training times.
