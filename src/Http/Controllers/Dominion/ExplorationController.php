@@ -13,7 +13,7 @@ use OpenDominion\Services\Dominion\Actions\ExploreActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
-#use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ExplorationController extends AbstractDominionController
 {
@@ -24,6 +24,7 @@ class ExplorationController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
+            'spellCalculator' => app(SpellCalculator::class),
             #'protectionService' => app(ProtectionService::class),
         ]);
     }
