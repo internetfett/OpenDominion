@@ -7,6 +7,9 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class ExplorationCalculator
 {
     /** @var LandCalculator */
@@ -18,6 +21,9 @@ class ExplorationCalculator
     /** @var GuardMembershipService */
     protected $guardMembershipService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * ExplorationCalculator constructor.
      *
@@ -27,10 +33,12 @@ class ExplorationCalculator
     public function __construct(
         LandCalculator $landCalculator,
         GuardMembershipService $guardMembershipService,
+        SpellCalculator $spellCalculator,
         ImprovementCalculator $improvementCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->guardMembershipService = $guardMembershipService;
+        $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
     }
 
