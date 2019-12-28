@@ -4,7 +4,23 @@
 
 @section('content')
 
-@if ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+@if ((bool)$selectedDominion->race->getPerkValue('cannot_invade'))
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <p>Your race is not able to obtain land by invasion.</p>
+            </div>
+        </div>
+    </div>
+@elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
+    <div class="row">
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <p>You cannot invade during the Rainy Season.</p>
+            </div>
+        </div>
+    </div>
+@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
 
     <div class="row">
 
@@ -390,7 +406,7 @@
                     <p>You will only gain prestige on targets 75% or greater relative to your own land size. Land gain from such hits can be constructed at a 25% discount.</p>
                     <p>For every acre you gain, you receive 25 experience points.</p>
                     <p>Note that minimum raw DP a target can have is 10 DP per acre.</p>
-                    
+
                     @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                     <hr />
                     <p><strong>You were recently invaded, enraging your Spriggan and Leshy.</strong></p>

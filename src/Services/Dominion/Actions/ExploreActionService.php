@@ -14,6 +14,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 # ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ExploreActionService
 {
@@ -35,6 +36,9 @@ class ExploreActionService
     /** @var LandCalculator */
     protected $landCalculator;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * @var int The minimum morale required to explore
      */
@@ -44,13 +48,15 @@ class ExploreActionService
      * ExplorationActionService constructor.
      */
     public function __construct(
-      ImprovementCalculator $improvementCalculator,
+          ImprovementCalculator $improvementCalculator,
+          SpellCalculator $spellCalculator,
           LandCalculator $landCalculator
       )
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
+        $this->spellCalculator = app(QueueService::class);
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
     }

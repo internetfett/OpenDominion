@@ -9,10 +9,18 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <p>Your race is not able to obtain land by exploring.</p>
-                <p>Grow your <a href="{{ route('dominion.military') }}">military power</a> and <a href="{{ route('dominion.invade') }}">invade other dominions</a>.</p>
             </div>
         </div>
     </div>
+@elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <p>You cannot explore during the Rainy Season.</p>
+        </div>
+    </div>
+</div>
+
 @elseif ($selectedDominion->morale < 1)
     <div class="box box-primary">
         <div class="box-header with-border">
