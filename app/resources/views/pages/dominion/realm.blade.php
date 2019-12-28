@@ -117,7 +117,7 @@
                 </div>
                 <div class="box-body">
                       <div class="row">
-                          <div class="col-xs-1">
+                          <div class="col-xs-2">
                             @if($realm->alignment == 'good')
                             <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
                             @elseif($realm->alignment == 'evil')
@@ -126,7 +126,7 @@
                             <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="The Barbarian Horde">
                             @endif
                           </div>
-                          <div class="col-xs-11">
+                          <div class="col-xs-10">
                             <p>This is the
                             @if($realm->alignment == 'good')
                             Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
