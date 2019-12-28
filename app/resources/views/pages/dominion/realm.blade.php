@@ -116,21 +116,30 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                  <p>This is the
-                  @if($realm->alignment == 'good')
-                  Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-                  @elseif($realm->alignment == 'evil')
-                  Imperial Realm of  <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-                  @elseif($realm->alignment == 'npc')
-                  Barbarian Horde of  <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-                  @endif
-                  <p>It contains <strong>{{ $dominions->count() }}</strong> {{ str_plural('dominion', $dominions->count()) }} and
-                    is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large 
-                    with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
+                      <div class="row">
+                          <div class="col-xs-4">
+                          ICON
+                          </div>
+                          <div class="col-xs-4">
+                            <p>This is the
+                            @if($realm->alignment == 'good')
+                            Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
+                            @elseif($realm->alignment == 'evil')
+                            Imperial Realm of  <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
+                            @elseif($realm->alignment == 'npc')
+                            <strong>Barbarian Horde</strong>.</p>
+                            @endif
+                          </div>
 
-                  </p>
+                      </div>
+                      <div class="row">
+                        <p>It contains <strong>{{ $dominions->count() }}</strong> {{ str_plural('dominion', $dominions->count()) }} and
+                          is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large
+                          with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
+                        </p>
+                        <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the Town Crier</a></p>
+                      </div>
 
-                    <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">Town Crier</a></p>
                 </div>
                 @if (($prevRealm !== null) || ($nextRealm !== null))
                     <div class="box-footer">
