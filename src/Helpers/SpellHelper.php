@@ -76,6 +76,7 @@ class SpellHelper
                 'key' => 'gaias_watch',
                 'mana_cost' => 2,
                 'duration' => 12*4,
+                'cooldown' => 0,
             ],
             /*
             [
@@ -99,6 +100,7 @@ class SpellHelper
                 'key' => 'mining_strength',
                 'mana_cost' => 2,
                 'duration' => 12*4,
+                'cooldown' => 0,
             ],
             [
                 'name' => 'Harmony',
@@ -106,6 +108,7 @@ class SpellHelper
                 'key' => 'harmony',
                 'mana_cost' => 2.5,
                 'duration' => 12*4,
+                'cooldown' => 0,
             ],
             [
                 'name' => 'Fool\'s Gold',
@@ -121,6 +124,7 @@ class SpellHelper
                 'key' => 'surreal_perception',
                 'mana_cost' => 4,
                 'duration' => 8*4,# * $this->militaryCalculator->getWizardRatio($target, 'defense'),
+                'cooldown' => 0,
             ],
             [
                 'name' => 'Energy Mirror',
@@ -128,6 +132,7 @@ class SpellHelper
                 'key' => 'energy_mirror',
                 'mana_cost' => 3,
                 'duration' => 8*4,
+                'cooldown' => 0,
             ]
         ]));
 
