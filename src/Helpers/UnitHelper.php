@@ -136,7 +136,7 @@ class UnitHelper
 
             'cannot_be_trained' => 'Unit cannot be trained.',
             'instant_training' => 'Summoned immediately.',
-            'faster_training' => 'Trains %s ticks faster.',
+            'faster_training' => 'Trains %s ticks faster (minimum two ticks).',
 
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
             'afterlife_norse' => 'Upon honourable death (successful invasions over 75%), becomes a legendary champion and can be recalled into services as an Einherjar.',

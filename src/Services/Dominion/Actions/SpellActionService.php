@@ -539,7 +539,8 @@ class SpellActionService
             $dominion = $deflectedBy;
         }
 
-        if (isset($spellInfo['duration'])) {
+        if (isset($spellInfo['duration']))
+        {
             // Cast spell with duration
             if ($this->spellCalculator->isSpellActive($target, $spellKey)) {
                 $where = [
