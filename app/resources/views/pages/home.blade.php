@@ -158,9 +158,17 @@
 
                     @if ($currentRound === null || $currentRound->hasEnded())
                     <p><em>There is currently no round. A new one will start in a day or two.</em></p>
-                    <p>Join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a> to be informed.
+
+                      @if ($discordInviteLink = config('app.discord_invite_link'))
+                        <p>Join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a> to be informed.
+                      @endif
+
                     @else
-                    <p>And please come join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>!
+
+                      @if ($discordInviteLink = config('app.discord_invite_link'))
+                        <p>And please come join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>!
+                      @endif
+
                     @endif
                      It's the main place for game announcements, game-related chat and development chat.</p>
                    </p>
