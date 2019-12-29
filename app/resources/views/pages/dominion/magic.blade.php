@@ -38,7 +38,9 @@
                                                                 ({{ $spellCalculator->getSpellDuration($selectedDominion, $spell['key']) }} ticks remaining)<br/>
                                                             @endif
                                                             @if ($cooldownHours)
-                                                                (<span class="text-danger">{{ $cooldownHours }} hour recharge</span>)<br/>
+                                                                (<span class="text-danger">{{ $cooldownHours }} hour recharge remaining</span>)<br/>
+                                                            @elseif ($spell['cooldown'])
+                                                                <span class="text-danger">{{ $cooldownHours }} hour recharge</span><br/>
                                                             @endif
                                                             @if ($canCast)
                                                                 <span class="text-success">
@@ -48,7 +50,7 @@
                                                               {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }} mana
                                                             </span>
                                                             @if (isset($spell['races']))
-                                                                <br/>{{ $selectedDominion->race->name }}
+                                                                <br/>{{ $selectedDominion->race->name }} only
                                                             @endif
                                                         </small>
                                                     </p>

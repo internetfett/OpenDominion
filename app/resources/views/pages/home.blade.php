@@ -153,7 +153,7 @@
                     <p>OD Arena is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
 
                     <p>To start playing, first <a href="{{ route('auth.register') }}">Register An Account</a>.</p>
-                    <p>If you already have an account, <a href="{{ route('auth.login') }}">Login</a> instead.</p>
+                    <p>If you already have an account, <a href="{{ route('auth.login') }}">Login To Your Account</a>.</p>
                     <p>Then once you are logged in, you can create your Dominion and join the round.</p>
 
                     @if ($currentRound === null || $currentRound->hasEnded())
