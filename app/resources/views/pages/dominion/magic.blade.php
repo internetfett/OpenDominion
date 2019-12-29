@@ -37,10 +37,10 @@
                                                             @if ($isActive)
                                                                 ({{ $spellCalculator->getSpellDuration($selectedDominion, $spell['key']) }} ticks remaining)<br/>
                                                             @endif
-                                                            @if ($isActive and $cooldownHours)
+                                                            @if ($cooldownHours)
                                                                 (<span class="text-danger">{{ $cooldownHours }} hour recharge remaining</span>)<br/>
-                                                            @elseif (!$isActive and $spell['cooldown'] > 0)
-                                                                <span class="text-danger">{{ $cooldownHours }} hour recharge</span><br/>
+                                                            @elseif ($spell['cooldown'] > 0)
+                                                                <span class="text-danger">{{ $spell['cooldown'] }} hour recharge</span><br/>
                                                             @endif
                                                             @if ($canCast)
                                                                 <span class="text-success">
