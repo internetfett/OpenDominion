@@ -127,7 +127,8 @@ class ExplorationCalculator
     {
         return min(
             floor($dominion->resource_platinum / $this->getPlatinumCost($dominion)),
-            floor($dominion->military_draftees / $this->getDrafteeCost($dominion))
+            floor($dominion->military_draftees / $this->getDrafteeCost($dominion)),
+            floor($this->landCalculator->getTotalLand($dominion) * (($dominion->morale/100)/8))
         );
     }
 
