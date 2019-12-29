@@ -39,8 +39,10 @@
                                                             @endif
                                                             @if ($cooldownHours)
                                                                 (<span class="text-danger">{{ $cooldownHours }} hour recharge remaining</span>)<br/>
-                                                            @elseif ($spell['cooldown'] > 0)
-                                                                <span class="text-danger">{{ $spell['cooldown'] }} hour recharge</span><br/>
+                                                            @elseif (isset($spell['cooldown']))
+                                                                @if ($spell['cooldown'] > 0)
+                                                                    <span class="text-danger">{{ $spell['cooldown'] }} hour recharge</span><br/>
+                                                                @endif
                                                             @endif
                                                             @if ($canCast)
                                                                 <span class="text-success">
