@@ -83,13 +83,13 @@
                         </table>
                     </div>
                     <div class="box-footer text-center">
-                        @if ($currentRound->daysUntilEnd() < 2)
+                        @if ($currentRound->daysUntilEnd() < 1)
                             <p>
                                 <em class="text-red">The round ends in {{ $currentRound->daysUntilEnd() }} {{ str_plural('day', $currentRound->daysUntilEnd()) }}.</em>
                             </p>
                         @else
                             <p>
-                                <strong><a href="{{ route('round.register', $currentRound) }}">Register to join the ongoing round!</a></strong>
+                                <em><a href="{{ route('round.register', $currentRound) }}">Join the ongoing round!</a></em>
                             </p>
                         @endif
                     </div>
@@ -152,13 +152,18 @@
                 <div class="box-body">
                     <p>OD Arena is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
 
-                    <p>To start playing, <a href="{{ route('auth.register') }}">register</a> an account and sign up for a round after registration.</p>
+                    <p>To start playing, first <a href="{{ route('auth.register') }}">Register An Account</a>.</p>
+                    <p>If you already have an account, <a href="{{ route('auth.login') }}">Login</a> instead.</p>
+                    <p>Then once you are logged in, you can create your Dominion and join the round.</p>
 
-                    <p>If you already have an account, <a href="{{ route('auth.login') }}">login</a> instead.</p>
-
-                    @if ($discordInviteLink = config('app.discord_invite_link'))
-                        <p>Also feel free to join the OD Arena <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>! It's the main place for game announcements, game-related chat and development chat.</p>
+                    @if ($currentRound === null || $currentRound->hasEnded())
+                    <p><em>There is currently no round. A new one will start in a day or two.</em></p>
+                    <p>Join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a> to be informed.
+                    @else
+                    <p>And please come join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>!
                     @endif
+                     It's the main place for game announcements, game-related chat and development chat.</p>
+                   </p>
                 </div>
                 <div class="box-body">
                     <p>OD Arena is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
