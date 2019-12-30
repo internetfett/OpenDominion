@@ -3,19 +3,20 @@ alignment: evil
 description: >-
   <p>So named for the sickness that festers through their bodies and through their minds, the Afflicted are a vile gathering of beasts and misfits.</p>
   <p>Under the chaotic leadership of torturous and immortal Reapers, brought to this world by cruel Necromancers, the Afflicted seek vengeance against anything that is whole and pure.</p>
-  <p>A patchwork of limbs, skins, bone, and meat and held together by forbidden magic, the stench of Aberrations can be detected long before battle begins. Once felled in battle, some fuse together and stumble back home.</p>
+  <p>A patchwork of limbs, skins, bone, and meat and held together by forbidden magic, the stench of Aberrations can be detected long before battle begins. Once the battle is over, they will plunder the enemies' corpses and fuse together more Aberrations.</p>
+  <p>If there is a net positive food production, half of the excess is used to automatically form Aberrations.</p>
   <hr />
   <p>For any invasion where the Afflicted are at least half as strong as the defender, a <strong>Pestilence</strong> will linger with the defender.</p>
   <p>If the invasion is successful, a malady known only as <strong>Great Fever</strong> will also befall the defender.</p>
-  <p>Anyone invading the Afflicted will bring back with them a terrible disease called <strong>Open Wounds</strong>.</p>
+  <p>Anyone invading the Afflicted will bring back with them a terrible disease called <strong>Unhealing Wounds</strong>.</p>
   <hr />
   <ul>
   <li><strong>Pestilence</strong>: peasants die and return to the Afflicted as Aberrations.</li>
   <li><strong>Great Fever</strong>: no population growth, -10% platinum production, -20% food production.</li>
-  <li><strong>Open Wounds</strong>: +50% casualties, +15% food consumption.</li> 
+  <li><strong>Unhealing Wounds</strong>: +50% casualties, +15% food consumption.</li>
   </ul>
 home_land_type: hill
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 2
