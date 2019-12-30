@@ -630,9 +630,9 @@ class TickService
         $maxStorage = [];
         $maxStorage['platinum'] = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
         #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
-        $maxStorage['lumber'] = $maxStorageTicks * ($dominion->building_lumberyard * 50);
-        $maxStorage['ore'] = $maxStorageTicks * ($dominion->building_ore_mine * 60);
-        $maxStorage['gems'] = $maxStorageTicks * ($dominion->building_diamond_mine * 15);
+        $maxStorage['lumber'] = $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
+        $maxStorage['ore'] = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
+        $maxStorage['gems'] = $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
 
         $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
 
