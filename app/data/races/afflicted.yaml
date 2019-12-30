@@ -1,7 +1,19 @@
 name: Afflicted
 alignment: evil
 description: >-
-  <p>The Afflicted are an unholy alliance of foul beasts and misfits. Barely able to act as one, the Afflicted are in a constant power struggle.</p>
+  <p>So named for the sickness that festers through their bodies and through their minds, the Afflicted are a vile gathering of beasts and misfits.</p>
+  <p>Under the chaotic leadership of torturous and immortal Reapers, brought to this world by cruel Necromancers, the Afflicted seek vengeance against anything that is whole and pure.</p>
+  <p>A patchwork of limbs, skins, bone, and meat and held together by forbidden magic, the stench of Aberrations can be detected long before battle begins. Once felled in battle, some fuse together and stumble back home.</p>
+  <hr />
+  <p>For any invasion where the Afflicted are at least half as strong as the defender, a <strong>Pestilence</strong> will linger with the defender.</p>
+  <p>If the invasion is successful, a malady known only as <strong>Great Fever</strong> will also befall the defender.</p>
+  <p>Anyone invading the Afflicted will bring back with them a terrible disease called <strong>Open Wounds</strong>.</p>
+  <hr />
+  <ul>
+  <li><strong>Pestilence</strong>: peasants die and return to the Afflicted as Aberrations.</li>
+  <li><strong>Great Fever</strong>: no population growth, -10% platinum production, -20% food production.</li>
+  <li><strong>Open Wounds</strong>: +50% casualties, +15% food consumption.</li> 
+  </ul>
 home_land_type: hill
 playable: 1
 
@@ -12,23 +24,23 @@ converting: 1
 perks:
   max_population: 20
   population_growth: -5
-  prestige_gains: -10
 units:
-  - name: Zombie
+  - name: Aberration
     need_boat: true
     cost:
-      platinum: 160
-      ore: 5
+      food: 300
     power:
       offense: 2
       defense: 0
     perks:
       conversion: 1
-      fewer_casualties_offense: 30
+      fewer_casualties_offense: 50
+      regenerates_into: 1,0.1 # 1 Unit1 for every 0.1 of these dead in battle
+      does_not_count_as_population: 1
   - name: Pest Rat
     need_boat: true
     cost:
-      platinum: 200
+      platinum: 300
       ore: 0
     power:
       offense: 1
@@ -49,10 +61,12 @@ units:
   - name: Reaper
     need_boat: true
     cost:
-      platinum: 950
-      ore: 100
+      platinum: 600
+      ore: 200
+      prestige: 1
     power:
-      offense: 8
+      offense: 10
       defense: -1
     perks:
       immortal: 1
+      conversion: 1
