@@ -446,8 +446,8 @@ class TickService
 
           if($invade)
           {
-            # Grow by 2-10% (random).
-            $growthRatio = max(200,rand(100,1000))/10000;
+            # Grow by 5-10% (random).
+            $growthRatio = max(500,rand(100,1000))/10000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
@@ -541,7 +541,7 @@ class TickService
            #$dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
 
            # Linear hourly
-           $dpa = $constant + ($hours * 0.35); # Down from 0.50.
+           $dpa = $constant + ($hours * 0.35 * 1.02); # Down from 0.50.
            $opa = intval($dpa * 0.75);
 
            $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;

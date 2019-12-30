@@ -70,7 +70,7 @@
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
 
                     @if ($selectedDominion->discounted_land)
-                    <p>Additionally, {{ $selectedDominion->discounted_land }} acres from invasion can be built at reduced cost.</p>
+                    <p>Additionally, {{ $selectedDominion->discounted_land }} acres from invasion can be built at 25% reduced cost.</p>
                     @endif
 
                     <p>You can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>

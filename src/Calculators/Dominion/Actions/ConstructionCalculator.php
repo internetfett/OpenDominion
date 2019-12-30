@@ -388,10 +388,10 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         if ($dominion->discounted_land > 0)
         {
-            
+
             if($platinumCost > 0)
             {
-              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost / 2));
+              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost * 0.75));
             }
             else
             {
@@ -401,7 +401,7 @@ class ConstructionCalculator
 
             if($lumberCost > 0)
             {
-              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost / 2));
+              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost * 0.75));
             }
             else
             {
@@ -410,7 +410,7 @@ class ConstructionCalculator
 
             if($manaCost > 0)
             {
-              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));
+              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost * 0.75));
             }
             else
             {
@@ -419,7 +419,7 @@ class ConstructionCalculator
 
             if($foodCost > 0)
             {
-              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
+              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost * 0.75));
             }
             else
             {
@@ -436,10 +436,10 @@ class ConstructionCalculator
                 $barrenLand
             );
             // Subtract discounted building cost from available resources
-            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) / 2);
-            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) / 2);
-            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) / 2);
-            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) / 2);
+            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) * 0.75);
+            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) * 0.75);
+            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) * 0.75);
+            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) * 0.75);
         }
 
         # Merfolk: only platinum
@@ -501,11 +501,17 @@ class ConstructionCalculator
             ($factoryReductionMax / 100)
         );
 
+        // Racial Bonus
+        $multiplier += $dominion->race->getPerkMultiplier('construction_cost');
+
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('construction_cost');
+
         # Workshops
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
 
         $multiplier = max($multiplier, $maxReduction);
 
-        return (1 + $multiplier);
+        return (1 - $multiplier/100);
     }
 }
