@@ -446,11 +446,11 @@ class TickService
 
           if($invade)
           {
-            # Grow by 5-10% (random).
-            $growthRatio = max(500,rand(100,1000))/10000;
+            # Grow by 5-15% (random).
+            $landGainRatio = max(500,rand(400,1500))/10000;
 
             # Calculate the amount of acres to grow.
-            $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $growthRatio;
+            $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $landGainRatio;
 
             # Split the land gained evenly across all 6 land types.
             $landGained['land_plain'] = intval($totalLandToGain/6);

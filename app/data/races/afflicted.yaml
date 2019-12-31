@@ -36,7 +36,6 @@ units:
     perks:
       conversion: 1
       fewer_casualties_offense: 50
-      regenerates_into: 1,0.1 # 1 Unit1 for every 0.1 of these dead in battle
       does_not_count_as_population: 1
   - name: Pest Rat
     need_boat: true
