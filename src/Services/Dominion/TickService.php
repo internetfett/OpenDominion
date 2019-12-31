@@ -428,7 +428,7 @@ class TickService
         # NPC Barbarian: invasion
         if($dominion->race->alignment === 'npc')
         {
-          $invade = FALSE;
+          $invade = false;
           // Are we invading?
 
           // Make sure all units1 and unit4 are at home.
@@ -440,7 +440,7 @@ class TickService
           {
             if(rand(1,32) == 1)
             {
-              $invade = TRUE;
+              $invade = true;
             }
           }
 
@@ -462,7 +462,7 @@ class TickService
 
             # Send out 80-100% of all units. Rand over 100 but capped at 100
             # to make it more likely 100% are sent.
-            $sentRatio = 1 - $growthRatio;
+            $sentRatio = 1 - $landGainRatio;
 
             # Casualties between 8.5% and 12% (random).
             $casualtiesRatio = rand(85,120)/1000;
@@ -629,7 +629,7 @@ class TickService
 
         $maxStorage = [];
         $maxStorage['platinum'] = $this->landCalculator->getTotalLand($dominion) * $maxPlatinumPerAcre;
-        #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35));
+        #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35) + $dominion->getUnitPerkProductionBonus('food_production'));
         $maxStorage['lumber'] = $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
         $maxStorage['ore'] = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
         $maxStorage['gems'] = $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
