@@ -129,7 +129,7 @@ class UnitHelper
             'food_production' => 'Each unit produces %s food per tick.',
             'gem_production' => 'Each unit mines %s gems per tick.',
             'tech_production' => 'Each unit produces %s experience points per tick.',
-            'decay_protection' => 'Each units protects %1$ %2$ per tick from decay.',
+            'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'platinum_upkeep' => 'Costs %s platinum per tick.',
