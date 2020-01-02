@@ -8,11 +8,19 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        <i class="fa fa-newspaper-o"></i> News from 
+                        <i class="fa fa-newspaper-o"></i> News from the
                         @if ($realm !== null)
-                            {{ $realm->name }} (#{{ $realm->number }})
+
+                          @if($realm->alignment == 'good')
+                            Commonwealth Realm of {{ $realm->name }} (#{{ $realm->number }})
+                          @elseif($realm->alignment == 'evil')
+                            Imperial Realm of {{ $realm->name }} (#{{ $realm->number }})
+                          @elseif($realm->alignment == 'npc')
+                            Barbarian Horde
+                          @endif
+
                         @else
-                            the whole World
+                            whole World
                         @endif
                     </h3>
                 </div>

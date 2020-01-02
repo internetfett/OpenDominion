@@ -131,7 +131,7 @@
                             @if($realm->alignment == 'good')
                             Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
                             @elseif($realm->alignment == 'evil')
-                            Imperial Realm of  <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
+                            Imperial Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
                             @elseif($realm->alignment == 'npc')
                             <strong>Barbarian Horde</strong>.</p>
                             @endif
