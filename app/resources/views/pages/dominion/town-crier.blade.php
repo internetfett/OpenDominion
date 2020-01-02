@@ -114,13 +114,14 @@
                 </div>
                 <div class="box-body">
                     @if ($fromOpCenter)
-                        <p>All the news for the target's realm will be shown here. The town crier presents news for a 2 day period.</p>
+                        <p>All the news for the target's realm for the last two days will be shown here.</p>
                     @else
-                        <p>All the news for your realm can be seen here. The town crier gives you news for a 2 day period.</p>
+                        <p>All the news of the world for the last two days can be seen here.</p>
                     @endif
-                    <p>You will see only military operations, as well as death messages{{-- and important messages regarding Wonders of the World--}}. Magical and Spy attacks are not known to the Town Crier, and you will have to inquire in the council as to those types of attacks.</p>
+                    <p>Only news about invasions are shown here.</p>
+                    <!--
                     <p>
-                        <label for="realm-select">Show Town Crier for:</label>
+                        <label for="realm-select">Show a realm's World News:</label>
                         <select id="realm-select" class="form-control">
                             <option value="">All Realms</option>
                             @for ($i=1; $i<$realmCount; $i++)
@@ -130,6 +131,7 @@
                             @endfor
                         </select>
                     </p>
+                  -->
                 </div>
             </div>
         </div>
