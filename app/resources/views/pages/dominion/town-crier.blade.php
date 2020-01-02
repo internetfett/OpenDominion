@@ -114,9 +114,8 @@
                 </div>
                 <div class="box-body">
                   <p>The World News shows you all invasions that have taken place in the world in the last two days.</p>
-                    <!--
                     <p>
-                        <label for="realm-select">Show a realm's World News:</label>
+                        <label for="realm-select">To see older news, select a realm below.</label>
                         <select id="realm-select" class="form-control">
                             <option value="">All Realms</option>
                             @for ($i=1; $i<$realmCount; $i++)
@@ -126,7 +125,6 @@
                             @endfor
                         </select>
                     </p>
-                  -->
                 </div>
             </div>
         </div>
