@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-header', 'Town Crier')
+@section('page-header', 'World News')
 
 @section('content')
     <div class="row">
@@ -8,11 +8,11 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        <i class="fa fa-newspaper-o"></i> Town Crier for
+                        <i class="fa fa-newspaper-o"></i> News from 
                         @if ($realm !== null)
                             {{ $realm->name }} (#{{ $realm->number }})
                         @else
-                            All Realms
+                            the whole World
                         @endif
                     </h3>
                 </div>

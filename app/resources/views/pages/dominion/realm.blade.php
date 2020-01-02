@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-header', 'The Realm')
+@section('page-header', 'The World')
 
 @section('content')
     <div class="row">
