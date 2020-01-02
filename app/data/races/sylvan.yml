@@ -41,6 +41,7 @@ units:
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.333
       defense_from_land: forest,20,5 # land type, ratio%, max
+      decay_protection: 100,mana
   - name: Spriggan
     cost:
       lumber: 1000
@@ -51,3 +52,4 @@ units:
     perks:
       offense_if_recently_invaded: 7
       defense_if_recently_invaded: 3
+      decay_protection: 200,lumber

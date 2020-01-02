@@ -369,15 +369,32 @@ class ProductionCalculator
     {
         $decay = 0;
 
-        // Values (percentages)
-        $foodDecay = 1;
+        $foodDecay = 0.01;
+
+        $decayProtection = 0;
+        $food = $dominion->resource_food;
+
+        # Check for decay protection
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+          $decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
+          $amountPerUnit = $decayProtectionPerk[0];
+          $resource = $decayProtectionPerk[1];
+
+          if($decayProtectionPerk and $resource == 'lumber' and $amountPerUnit > 0)
+          {
+            $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+          }
+        }
+
+        $food = max(0, $food - $decayProtection);
 
         // Improvement: Granaries (max -100% decay)
         $multiplier = 1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries'));
 
         $foodDecay *= $multiplier;
 
-        $decay += ($dominion->resource_food * ($foodDecay / 100));
+        $decay += ($food * $foodDecay / 100);
 
         return $decay;
     }
@@ -489,15 +506,32 @@ class ProductionCalculator
     {
         $decay = 0;
 
-        // Values (percentages)
-        $lumberDecay = 1;
+        $lumberDecay = 0.01;
+
+        $decayProtection = 0;
+        $lumber = $dominion->resource_lumber;
+
+        # Check for decay protection
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+          $decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
+          $amountPerUnit = $decayProtectionPerk[0];
+          $resource = $decayProtectionPerk[1];
+
+          if($decayProtectionPerk and $resource == 'lumber' and $amountPerUnit > 0)
+          {
+            $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+          }
+        }
+
+        $lumber = max(0, $lumber - $decayProtection);
 
         // Improvement: Granaries (max -100% decay)
         $multiplier = 1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries'));
 
         $lumberDecay *= $multiplier;
 
-        $decay += ($dominion->resource_lumber * ($lumberDecay / 100));
+        $decay += ($lumber * $lumberDecay);
 
         return $decay;
     }
@@ -612,7 +646,6 @@ class ProductionCalculator
           {
             $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
           }
-
         }
 
         $mana = max(0, $mana - $decayProtection);
