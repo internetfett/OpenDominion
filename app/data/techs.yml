@@ -1235,7 +1235,7 @@ lean_mass_level6:
   perks:
     military_cost_food: -10.5
   requires:
-    - lean_mass_level6
+    - lean_mass_level5
 
 # </Ladder: Lean Mass>
 
