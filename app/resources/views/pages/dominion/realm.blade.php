@@ -143,7 +143,9 @@
                               is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large
                               with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
                             </p>
+                            <!--
                             <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the Town Crier</a></p>
+                            -->
                           </div>
                       </div>
 
