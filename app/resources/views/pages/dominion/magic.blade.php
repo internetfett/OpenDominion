@@ -184,7 +184,7 @@
                                         </div>
                                     </div>
 
-                                    @foreach ($spellHelper->getWarSpells($dominion)->chunk(4) as $spells)
+                                    @foreach ($spellHelper->getWarSpells($selectedDominion)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
                                                 @php
