@@ -82,14 +82,15 @@
                 <div class="box-header with-border">
 
                   @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 and $improvementCalculator->getTechBonus($selectedDominion) == 0)
-                  <p>Masonries are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. </p>
-
+                  <p>Masonries </p>
                   @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) == 0)
-                  <p>Advancements are increasing your castle improvements by {{number_format($improvementCalculator->getTechBonus($selectedDominion)*100,2)}}%. </p>
-
+                  <p>Advancements </p>
                   @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
-                  <p>Masonries and Advancements are increasing your castle improvements by {{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%. </p>
+                  <p>Masonries and Advancements </p>
                   @endif
+                  
+                  are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. {{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%.</p>
+
                 </div>
                 @endif
 
