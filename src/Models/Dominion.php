@@ -144,7 +144,7 @@ class Dominion extends AbstractModel
         'improvement_forestry' => 'integer',
         'improvement_refinery' => 'integer',
         'improvement_granaries' => 'integer',
-        
+
         'military_draftees' => 'integer',
         'military_unit1' => 'integer',
         'military_unit2' => 'integer',

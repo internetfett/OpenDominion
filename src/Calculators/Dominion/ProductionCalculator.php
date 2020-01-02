@@ -598,10 +598,28 @@ class ProductionCalculator
 
         $manaDecay = 0.02;
 
+        $decayReduction = 0;
+
+        # Check for decay protection
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+          $decayProtection = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
+          $amountPerUnit = $decayProtection[0];
+          $resource = $decayProtection[1];
+
+          if($decayProtection and $resource == 'mana' and $amountPerUnit > 0)
+          {
+            $decayReduction += $dominion->{"military_unit".$slot} * $amountPerUnit;
+          }
+
+        }
+
         $decay += ($dominion->resource_mana * $manaDecay);
 
         // Unit Perk Production Bonus (Dimensionalists Units)
         $decay += $dominion->getUnitPerkProductionBonus('mana_drain');
+
+        $decay = max(0, $decay - $decayReduction);
 
         return $decay;
     }
