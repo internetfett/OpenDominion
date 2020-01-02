@@ -598,7 +598,7 @@ class ProductionCalculator
 
         $manaDecay = 0.02;
 
-        $decayReduction = 0;
+        $decayProtection = 0;
         $mana = $dominion->resource_mana;
 
         # Check for decay protection
