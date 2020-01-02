@@ -599,27 +599,28 @@ class ProductionCalculator
         $manaDecay = 0.02;
 
         $decayReduction = 0;
+        $mana = $dominion->resource_mana;
 
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-          $decayProtection = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
-          $amountPerUnit = $decayProtection[0];
-          $resource = $decayProtection[1];
+          $decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
+          $amountPerUnit = $decayProtectionPerk[0];
+          $resource = $decayProtectionPerk[1];
 
-          if($decayProtection and $resource == 'mana' and $amountPerUnit > 0)
+          if($decayProtectionPerk and $resource == 'mana' and $amountPerUnit > 0)
           {
-            $decayReduction += $dominion->{"military_unit".$slot} * $amountPerUnit;
+            $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
           }
 
         }
 
-        $decay += ($dominion->resource_mana * $manaDecay);
+        $mana = max(0, $mana - $decayProtection);
+
+        $decay += ($mana * $manaDecay);
 
         // Unit Perk Production Bonus (Dimensionalists Units)
         $decay += $dominion->getUnitPerkProductionBonus('mana_drain');
-
-        $decay = max(0, $decay - $decayReduction);
 
         return $decay;
     }
@@ -634,16 +635,6 @@ class ProductionCalculator
     {
         $manaDecay = $this->getManaDecay($dominion);
 
-/*
-        if($dominion->resource_mana < $manaDecay)
-        {
-          return round($dominion->resource_mana*-1);
-        }
-        else
-        {
-          return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
-        }
-*/
         return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
     }
 
