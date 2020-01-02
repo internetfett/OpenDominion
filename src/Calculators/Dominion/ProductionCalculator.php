@@ -596,10 +596,9 @@ class ProductionCalculator
     {
         $decay = 0;
 
-        // Values (percentages)
-        $manaDecay = 2;
+        $manaDecay = 0.02;
 
-        $decay += ($dominion->resource_mana * ($manaDecay / 100));
+        $decay += ($dominion->resource_mana * $manaDecay);
 
         // Unit Perk Production Bonus (Dimensionalists Units)
         $decay += $dominion->getUnitPerkProductionBonus('mana_drain');

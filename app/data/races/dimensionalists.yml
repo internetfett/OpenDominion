@@ -32,6 +32,7 @@ units:
         no_draftee: 1
         counts_as_wizard_offense: 0.25
         counts_as_wizard_defense: 0.25
+        decay_protection: 250,mana
   - name: Tl'Tl
     need_boat: false
     cost:
