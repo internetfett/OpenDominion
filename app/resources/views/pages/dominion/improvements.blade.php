@@ -90,7 +90,7 @@
                     Masonries and Advancements
                   @endif
 
-                  are increasing your castle improvements by {{number_format($improvementCalculator->getMasonriesBonus($selectedDominion)*100,2)}}%. {{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%.
+                  are increasing your castle improvements by {{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%.
                 </p>
 
                 </div>
