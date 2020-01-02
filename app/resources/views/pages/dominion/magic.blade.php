@@ -150,7 +150,7 @@
                                         </div>
                                     </div>
 
-                                    @foreach ($spellHelper->getBlackOpSpells($dominion)->chunk(4) as $spells)
+                                    @foreach ($spellHelper->getBlackOpSpells($selectedDominion)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
                                                 @php
