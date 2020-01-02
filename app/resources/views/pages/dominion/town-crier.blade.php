@@ -113,12 +113,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    @if ($fromOpCenter)
-                        <p>All the news for the target's realm for the last two days will be shown here.</p>
-                    @else
-                        <p>All the news of the world for the last two days can be seen here.</p>
-                    @endif
-                    <p>Only news about invasions are shown here.</p>
+                  <p>The World News shows you all invasions that have taken place in the world in the last two days.</p>
                     <!--
                     <p>
                         <label for="realm-select">Show a realm's World News:</label>
