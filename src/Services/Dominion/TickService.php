@@ -225,7 +225,7 @@ class TickService
                         'hours' => DB::raw('-`hours`'),
                         'dominion_queue.updated_at' => $this->now,
                     ]);
-            }, 5);
+            }, 10);
 
             Log::info(sprintf(
                 'Ticked %s dominions in %s ms in %s',
