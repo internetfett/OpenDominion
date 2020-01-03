@@ -107,7 +107,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null, boolean $isInvasionSpell = false): array
+    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null, boolean $isInvasionSpell = null): array
     {
         $this->guardLockedDominion($dominion);
         if ($target !== null) {
@@ -435,7 +435,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    protected function castHostileSpell(Dominion $dominion, string $spellKey, Dominion $target, boolean $isInvasionSpell = false): array
+    protected function castHostileSpell(Dominion $dominion, string $spellKey, Dominion $target, boolean $isInvasionSpell = null): array
     {
         if ($dominion->round->hasOffensiveActionsDisabled()) {
             throw new GameException('Black ops have been disabled for the remainder of the round.');
