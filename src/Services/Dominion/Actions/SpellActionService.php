@@ -165,7 +165,7 @@ class SpellActionService
 
         $result = null;
 
-        DB::transaction(function () use ($dominion, $manaCost, $spellKey, &$result, $target) {
+        DB::transaction(function () use ($dominion, $manaCost, $spellKey, &$result, $target, $isInvasionSpell) {
             if ($this->spellHelper->isSelfSpell($spellKey, $dominion)) {
                 $result = $this->castSelfSpell($dominion, $spellKey);
 
