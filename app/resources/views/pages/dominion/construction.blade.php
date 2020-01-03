@@ -68,7 +68,7 @@
                     </p>
 
                     @if ($constructionCalculator->getCostMultiplier($selectedDominion) > 0)
-                    <p>Construction bonuses are lowering your costs by <strong>{{ $constructionCalculator->getCostMultiplier($selectedDominion) }}%</strong>.</p>
+                    <p>Construction bonuses are lowering your costs by <strong>{{ $constructionCalculator->getCostMultiplier($selectedDominion)*100 }}%</strong>.</p>
                     @endif
 
                     @if ($selectedDominion->discounted_land)
@@ -77,7 +77,13 @@
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
 
-                    <p>You can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
+                      @if($constructionCalculator->getMaxAfford($selectedDominion) > 0)
+                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
+
+                      @else
+                      .</p>
+                      @endif
+
                     <p>You may also <a href="{{ route('dominion.destroy') }}">destroy buildings</a> if you wish.</p>
                 </div>
             </div>
