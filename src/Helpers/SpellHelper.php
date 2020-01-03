@@ -25,9 +25,9 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey, Dominion $dominion): bool
+    public function isOffensiveSpell(string $spellKey, Dominion $dominion, boolean $isInvasionSpell = false): bool
     {
-        return $this->getOffensiveSpells($dominion)->filter(function ($spell) use ($spellKey) {
+        return $this->getOffensiveSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -61,10 +61,10 @@ class SpellHelper
     }
 
 
-    public function getSpells(Dominion $dominion): Collection
+    public function getSpells(Dominion $dominion, boolean $isInvasionSpell = false): Collection
     {
         return $this->getSelfSpells($dominion)
-            ->merge($this->getOffensiveSpells($dominion));
+            ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell));
     }
 
     public function getSelfSpells(?Dominion $dominion): Collection
@@ -439,11 +439,21 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(Dominion $dominion): Collection
+    public function getOffensiveSpells(Dominion $dominion, boolean $isInvasionSpell = false): Collection
     {
+
+      # Return invasion spells only when specifically asked to.
+
+      if($isInvasionSpell == false)
+      {
         return $this->getInfoOpSpells()
             ->merge($this->getBlackOpSpells($dominion))
             ->merge($this->getWarSpells($dominion));
+      }
+      else
+      {
+          return $this->getInvasionSpells($dominion);
+      }
     }
 
     public function getInfoOpSpells(): Collection
@@ -675,4 +685,58 @@ class SpellHelper
             ],
         ]);
     }
+
+
+    /*
+    *
+    * These spells are automatically cast during invasion based on conditions:
+    * - Type: is $dominion the attacker or defender?
+    * - Invasion successful? True (must be successful), False (must be unsuccessful), or Null (can be either).
+    * - OP relative to DP? Null = not checked. Float = OP/DP must be this float or greater.
+    *
+    * @param Dominion $dominion - the caster
+    * @param Dominion $target - the target
+    *
+    */
+    public function getInvasionSpells(Dominion $dominion, ?Dominion $target): Collection
+    {
+        if($dominion->race->name == 'Afflicted')
+        {
+          return collect([
+              [
+                  'name' => 'Pestilence',
+                  'description' => 'Peasants die and return to the Afflicted as Aberrations.',
+                  'key' => 'pestilence',
+                  'type' => 'offense',
+                  'invasion_must_be_successful' => Null,
+                  'op_dp_ratio' => 0.50,
+                  'duration' => 12,
+              ],
+              [
+                  'name' => 'Great Fever',
+                  'description' => 'No population growth, -10% platinum production, -20% food production.',
+                  'key' => 'great_fever',
+                  'type' => 'offense',
+                  'invasion_must_be_successful' => True,
+                  'op_dp_ratio' => Null,
+                  'duration' => 12,
+              ],
+              [
+                  'name' => 'Unhealing Wounds',
+                  'description' => '+50% casualties, +15% food consumption.',
+                  'key' => 'unhealing_wounds',
+                  'type' => 'defense',
+                  'invasion_must_be_successful' => Null,
+                  'op_dp_ratio' => Null,
+                  'duration' => 12,
+              ],
+          ]);
+        }
+        else
+        {
+          return 0;
+        }
+    }
+
+
 }

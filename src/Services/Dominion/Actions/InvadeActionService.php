@@ -330,6 +330,8 @@ class InvadeActionService
             $this->handleLandGrabs($dominion, $target);
             $this->handleResearchPoints($dominion, $target, $units);
 
+            $this->handleInvasionSpells($dominion, $target);
+
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
 
@@ -1152,7 +1154,7 @@ class InvadeActionService
         }
         else
         {
-          $researchPointsPerAcre = 20;
+          $researchPointsPerAcre = 25;
         }
 
         $researchPointsPerAcreMultiplier = 1;
@@ -1527,6 +1529,50 @@ class InvadeActionService
         if ($attackerBoatsLost > 0) {
             $this->invasionResult['attacker']['boatsLost'] = $attackerBoatsSunk;
         }
+    }
+
+    /**
+     * Handles spells cast after invasion.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $target
+     */
+    protected function handleInvasionSpells(Dominion $attacker, Dominion $defender): void
+    {
+
+        $isInvasionSpell = True;
+
+        # Attacker spells
+        # Spells the attacker casts on the defender during invasion.
+        $attackerSpells = $this->spellCalculator->getInvasionSpells($attacker);
+
+        # Defender spells
+        # Spells the defender casts on the attacker during invasion.
+        $defenderSpells = $this->spellCalculator->getInvasionSpells($defender);
+
+        if(!$attackerSpells and !$defenderSpells)
+        {
+          return 0;
+        }
+
+
+        foreach($attackerSpells as $attackerSpell)
+        {
+          # Invasion must be successful.
+          if($attackerSpell['invasion_successful'] !== False and $this->invasionResult['result']['success'])
+          {
+            $this->SpellActionService->castSpell($attacker, $attackerSpell['key'], $defender, $isInvasionSpell);
+          }
+        }
+
+
+
+        foreach($defenderSpells as $defenderSpell)
+        {
+          $this->SpellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
+        }
+
+
     }
 
     /**

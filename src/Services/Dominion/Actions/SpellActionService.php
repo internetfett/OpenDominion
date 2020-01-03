@@ -107,7 +107,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null): array
+    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null, boolean $isInvasionSpell = false): array
     {
         $this->guardLockedDominion($dominion);
         if ($target !== null) {
@@ -172,29 +172,32 @@ class SpellActionService
             } elseif ($this->spellHelper->isInfoOpSpell($spellKey)) {
                 $result = $this->castInfoOpSpell($dominion, $spellKey, $target);
 
-            } elseif ($this->spellHelper->isHostileSpell($spellKey, $dominion)) {
-                $result = $this->castHostileSpell($dominion, $spellKey, $target);
+            } elseif ($this->spellHelper->isHostileSpell($spellKey, $dominion, $isInvasionSpell)) {
+                $result = $this->castHostileSpell($dominion, $spellKey, $target, $isInvasionSpell);
 
             } else {
                 throw new LogicException("Unknown type for spell {$spellKey}");
             }
 
-            $dominion->resource_mana -= $manaCost;
-
-            $wizardStrengthLost = $result['wizardStrengthCost'] ?? 5;
-            $wizardStrengthLost = min($wizardStrengthLost, $dominion->wizard_strength);
-            $dominion->wizard_strength -= $wizardStrengthLost;
-
-            # XP Gained.
-            if(isset($result['damage']))
+            if(!$isInvasionSpell)
             {
-              $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
-              $dominion->resource_tech += $xpGained;
-            }
+              $dominion->resource_mana -= $manaCost;
 
-            if (!$this->spellHelper->isSelfSpell($spellKey, $dominion))
-            {
-                $dominion->stat_spell_success += 1;
+              $wizardStrengthLost = $result['wizardStrengthCost'] ?? 5;
+              $wizardStrengthLost = min($wizardStrengthLost, $dominion->wizard_strength);
+              $dominion->wizard_strength -= $wizardStrengthLost;
+
+              # XP Gained.
+              if(isset($result['damage']))
+              {
+                $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
+                $dominion->resource_tech += $xpGained;
+              }
+
+              if (!$this->spellHelper->isSelfSpell($spellKey, $dominion))
+              {
+                  $dominion->stat_spell_success += 1;
+              }
             }
 
             $dominion->save([
@@ -432,7 +435,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    protected function castHostileSpell(Dominion $dominion, string $spellKey, Dominion $target): array
+    protected function castHostileSpell(Dominion $dominion, string $spellKey, Dominion $target, boolean $isInvasionSpell = false): array
     {
         if ($dominion->round->hasOffensiveActionsDisabled()) {
             throw new GameException('Black ops have been disabled for the remainder of the round.');
@@ -451,8 +454,17 @@ class SpellActionService
             }
         }
 
-        $selfWpa = $this->militaryCalculator->getWizardRatio($dominion, 'offense');
-        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
+        # For invasion spell, target WPA is 0.
+        if(!$isInvasionSpell)
+        {
+          $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($dominion, 'offense'));
+          $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
+        }
+        else
+        {
+          $selfWpa = 10;
+          $targetWpa = 0;
+        }
 
         // You need at least some positive WPA to cast info ops
         if ($selfWpa === 0.0) {
@@ -461,7 +473,8 @@ class SpellActionService
         }
 
         // 100% spell success if target has a WPA of 0
-        if ($targetWpa !== 0.0) {
+        if ($targetWpa !== 0.0)
+        {
             $successRate = $this->opsHelper->operationSuccessChance($selfWpa, $targetWpa,
                 static::HOSTILE_MULTIPLIER_SUCCESS_RATE);
 
@@ -531,7 +544,7 @@ class SpellActionService
         }
 
         $spellDeflected = false;
-        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2))
+        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2) and !$isInvasionSpell)
         {
             $spellDeflected = true;
             $deflectedBy = $target;
@@ -619,7 +632,11 @@ class SpellActionService
             $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
 
             # Calculate ratio differential.
-            $baseDamageMultiplier = max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/max($targetWpa, 0.01))/5,1 ) ,3) ,0);
+
+            # mris
+            #$baseDamageMultiplier = max(0.10, max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/max($targetWpa, 0.01))/5,1 ) ,3) ,0));
+
+            $baseDamageMultiplier = (1 + ($selfWpa - $targetWpa) / 10);
 
             $baseDamage *= $baseDamageMultiplier;
 

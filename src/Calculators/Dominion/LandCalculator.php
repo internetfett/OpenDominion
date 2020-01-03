@@ -54,7 +54,8 @@ class LandCalculator
     {
         $totalLand = 0;
 
-        foreach ($this->landHelper->getLandTypes() as $landType) {
+        foreach ($this->landHelper->getLandTypes() as $landType)
+        {
             $totalLand += $dominion->{'land_' . $landType};
         }
 
