@@ -23,6 +23,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\SpellHelper;
 
 class InvadeActionService
 {
@@ -109,6 +110,9 @@ class InvadeActionService
     /** @var ImprovementHelper */
     protected $improvementHelper;
 
+    /** @var SpellHelper */
+    protected $spellHelper;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -160,7 +164,8 @@ class InvadeActionService
         RangeCalculator $rangeCalculator,
         SpellCalculator $spellCalculator,
         ImprovementCalculator $improvementCalculator,
-        ImprovementHelper $improvementHelper
+        ImprovementHelper $improvementHelper,
+        SpellHelper $spellHelper
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -174,6 +179,7 @@ class InvadeActionService
         $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->improvementHelper = $improvementHelper;
+        $this->spellHelper = $spellHelper;
     }
 
     /**
