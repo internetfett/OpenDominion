@@ -349,17 +349,17 @@ class ConstructionCalculator
             # Merfolk: only platinum
             if($dominion->race->getPerkValue('construction_cost_only_platinum'))
             {
-              return $discountedBuildings + min($maxFromDiscountedPlatinum, $barrenLand));
+              return $discountedBuildings + min($maxFromDiscountedPlatinum, $barrenLand);
             }
             # Void: mana construction costs
             elseif($dominion->race->getPerkValue('construction_cost_only_mana'))
             {
-              return $discountedBuildings + min($maxFromDiscountedMana, $barrenLand));
+              return $discountedBuildings + min($maxFromDiscountedMana, $barrenLand);
             }
             # Growth and Myconid: food construction costs
             elseif($dominion->race->getPerkValue('construction_cost_only_food'))
             {
-              return $discountedBuildings + min($maxFromDiscountedFood, $barrenLand));
+              return $discountedBuildings + min($maxFromDiscountedFood, $barrenLand);
             }
             else
             {
