@@ -67,22 +67,19 @@
                     @endif
                     </p>
 
-                    @if ($constructionCalculator->getCostMultiplier($selectedDominion) > 0)
-                    <p>Construction bonuses are lowering your costs by <strong>{{ $constructionCalculator->getCostMultiplier($selectedDominion)*100 }}%</strong>.</p>
+                    @if ($constructionCalculator->getCostMultiplier($selectedDominion) > 1)
+                    <p>Construction bonuses are lowering your costs by <strong>{{ ($constructionCalculator->getCostMultiplier($selectedDominion)-1)*100 }}%</strong>.</p>
                     @endif
 
                     @if ($selectedDominion->discounted_land)
                     <p>Additionally, {{ $selectedDominion->discounted_land }} acres from invasion can be built at 25% reduced cost.</p>
                     @endif
 
-                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
-
+                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                       @if($constructionCalculator->getMaxAfford($selectedDominion) > 0)
-                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
-
-                      @else
-                      .</p>
+                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>
                       @endif
+                    .</p>
 
                     <p>You may also <a href="{{ route('dominion.destroy') }}">destroy buildings</a> if you wish.</p>
                 </div>
