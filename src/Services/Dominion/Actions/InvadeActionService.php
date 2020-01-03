@@ -1550,12 +1550,6 @@ class InvadeActionService
         # Spells the defender casts on the attacker during invasion.
         $defenderSpells = $this->spellCalculator->getInvasionSpells($defender);
 
-        if(!$attackerSpells and !$defenderSpells)
-        {
-          return 0;
-        }
-
-
         foreach($attackerSpells as $attackerSpell)
         {
           # Invasion must be successful.
@@ -1564,8 +1558,6 @@ class InvadeActionService
             $this->SpellActionService->castSpell($attacker, $attackerSpell['key'], $defender, $isInvasionSpell);
           }
         }
-
-
 
         foreach($defenderSpells as $defenderSpell)
         {

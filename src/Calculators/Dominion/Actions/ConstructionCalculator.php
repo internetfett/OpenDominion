@@ -81,7 +81,7 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
-            $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+            $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.5);
         }
         return $totalCost;
     }
@@ -143,7 +143,7 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
-            $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+            $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.5);
         }
         return $totalCost;
     }
@@ -209,7 +209,7 @@ class ConstructionCalculator
             // Check for discounted acres after invasion
             $discountedAcres = min($dominion->discounted_land, $acres);
             if ($discountedAcres > 0) {
-                $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+                $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.5);
             }
             return $totalCost;
         }
@@ -276,7 +276,7 @@ class ConstructionCalculator
             // Check for discounted acres after invasion
             $discountedAcres = min($dominion->discounted_land, $acres);
             if ($discountedAcres > 0) {
-                $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+                $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.5);
             }
             return $totalCost;
         }
@@ -309,7 +309,7 @@ class ConstructionCalculator
         {
             if($platinumCost > 0)
             {
-              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost / 2));
+              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost * 0.5));
             }
             else
             {
@@ -318,7 +318,7 @@ class ConstructionCalculator
 
             if($lumberCost > 0)
             {
-              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost / 2));
+              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost * 0.5));
             }
             else
             {
@@ -327,7 +327,7 @@ class ConstructionCalculator
 
             if($manaCost > 0)
             {
-              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));
+              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost * 0.5));
             }
             else
             {
@@ -336,7 +336,7 @@ class ConstructionCalculator
 
             if($foodCost > 0)
             {
-              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
+              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost * 0.5));
             }
             else
             {
@@ -372,10 +372,10 @@ class ConstructionCalculator
             }
 
             // Subtract discounted building cost from available resources
-            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) / 2);
-            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) / 2);
-            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) / 2);
-            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) / 2);
+            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) * 0.5);
+            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) * 0.5);
+            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) * 0.5);
+            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) * 0.5);
         }
 
         # Merfolk: only platinum
