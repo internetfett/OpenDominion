@@ -176,17 +176,10 @@ class RezoningCalculator
     {
         $multiplier = 0;
 
-        $maxReduction = -90;
-
-        // Values (percentages)
-        $factoryReduction = 3;
-        $factoryReductionMax = 75;
+        $maxReduction = -0.90;
 
         // Factories
-        $multiplier -= min(
-            (($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * $factoryReduction),
-            ($factoryReductionMax / 100)
-        );
+        $multiplier -= ($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * 3; # 200/1000=20%x3=60%
 
         # Workshops
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');

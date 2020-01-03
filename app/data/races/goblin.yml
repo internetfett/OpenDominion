@@ -2,7 +2,7 @@ name: Goblin
 alignment: evil
 description: >-
   <p>Small in stature but great in number, Goblins are a vicious and single-minded breed that prefer to take down their enemies with overwhelming numbers - and then steal all the shinies.</p>
-  <p>Goblin populations can grow quickly out of control if left unchecked, and these short, green and ugly wretches have been known to completely ransack well-fortified castles in their relentless pursuit of gems, gems and more gems.</p>
+  <p>Goblin populations can grow quickly out of control if left unchecked, and these short, green and ugly wretches have been known to completely ransack well-fortified castles in their relentless and violent pursuit of gems, gems and more gems.</p>
 home_land_type: hill
 playable: 0
 
@@ -13,7 +13,7 @@ converting: 1
 perks:
   max_population: 40
   extra_barren_max_population: 5
-  gem_production: 10
+  gem_production: 20
   invest_bonus: 20
 units:
   - name: Raider
@@ -29,7 +29,7 @@ units:
       ore: 20
     power:
       offense: 0
-      defense: 4
+      defense: 3
     perks:
       reduce_combat_losses: 1
       counts_as_wizard_offense: 0.15
@@ -44,6 +44,7 @@ units:
       defense: 3
     perks:
       plunders_resources_on_attack: 1
+      offense_vs_resource: gems,10000,2 # +1 OP per 10,000 gems, max +3
   - name: Wolf Rider
     type: offensive_elite
     cost:
