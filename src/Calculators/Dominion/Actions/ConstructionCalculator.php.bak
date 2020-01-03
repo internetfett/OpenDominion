@@ -48,7 +48,7 @@ class ConstructionCalculator
         }
         else
         {
-          return ($this->getPlatinumCostRaw($dominion) * $this->getCostMultiplier($dominion));
+          return ($this->getPlatinumCostRaw($dominion) * $this->getPlatinumCostMultiplier($dominion));
         }
 
     }
@@ -61,10 +61,41 @@ class ConstructionCalculator
      */
     public function getPlatinumCostRaw(Dominion $dominion): int
     {
-        $cost = 0;
-        $cost = 250 + ($this->landCalculator->getTotalLand($dominion) * 1.5);
-        $cost *= 0.75;
-        return round($cost);
+        $platinum = 0;
+        $totalBuildings = $this->buildingCalculator->getTotalBuildings($dominion);
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+        $platinum += max(
+            max($totalBuildings, 250),
+            (3 * $totalLand) / 4
+        );
+
+        $platinum -= 250;
+        $platinum *= 1.53;
+        $platinum += 850;
+
+        # ODA: Reduced by 25% as of Round 11.
+        $platinum *= 0.75;
+
+        return round($platinum);
+    }
+
+    /**
+     * Returns the Dominion's construction platinum cost multiplier.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getPlatinumCostMultiplier(Dominion $dominion): float
+    {
+        $multiplier = $this->getCostMultiplier($dominion);
+
+        // Racial Bonus
+        $multiplier += $dominion->race->getPerkMultiplier('construction_cost');
+        // Techs
+        $multiplier += $dominion->getTechPerkMultiplier('construction_cost');
+
+        return $multiplier;
     }
 
     /**
@@ -76,14 +107,17 @@ class ConstructionCalculator
      */
     public function getTotalPlatinumCost(Dominion $dominion, int $acres): int
     {
-        $cost = $this->getPlatinumCost($dominion);
-        $totalCost = $cost * $acres;
+        $platinumCost = $this->getPlatinumCost($dominion);
+        $totalPlatinumCost = $platinumCost * $acres;
+
         // Check for discounted acres after invasion
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
-            $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+            #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
+            $totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.25);
         }
-        return $totalCost;
+
+        return $totalPlatinumCost;
     }
 
     /**
@@ -112,10 +146,23 @@ class ConstructionCalculator
      */
     public function getLumberCostRaw(Dominion $dominion): int
     {
-        $cost = 0;
-        $cost = 100 + (($this->landCalculator->getTotalLand($dominion) - 250) * (pi()/10));
-        $cost *= 0.75;
-        return round($cost);
+        $lumber = 0;
+        $totalBuildings = $this->buildingCalculator->getTotalBuildings($dominion);
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+        $lumber += max(
+            max($totalBuildings, 250),
+            (3 * $totalLand) / 4
+        );
+
+        $lumber -= 250;
+        $lumber *= 0.35;
+        $lumber += 87.5;
+
+        # ODA: Reduced by 25% as of Round 11.
+        $lumber *= 0.75;
+
+        return round($lumber);
     }
 
     /**
@@ -138,14 +185,17 @@ class ConstructionCalculator
      */
     public function getTotalLumberCost(Dominion $dominion, int $acres): int
     {
-        $cost = $this->getLumberCost($dominion);
-        $totalCost = $cost * $acres;
+        $lumberCost = $this->getLumberCost($dominion);
+        $totalLumberCost = $lumberCost * $acres;
+
         // Check for discounted acres after invasion
         $discountedAcres = min($dominion->discounted_land, $acres);
         if ($discountedAcres > 0) {
-            $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+            #$totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) / 2);
+            $totalLumberCost -= (int)ceil(($lumberCost * $discountedAcres) * 0.25);
         }
-        return $totalCost;
+
+        return $totalLumberCost;
     }
 
 ### MANA VOID
@@ -176,10 +226,23 @@ class ConstructionCalculator
          */
         public function getManaCostRaw(Dominion $dominion): int
         {
-            $cost = 0;
-            $cost = 100 + (($this->landCalculator->getTotalLand($dominion) - 250) * (pi()/10));
-            $cost *= 0.75;
-            return round($cost);
+            $mana = 0;
+            $totalBuildings = $this->buildingCalculator->getTotalBuildings($dominion);
+            $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+            $mana += max(
+                max($totalBuildings, 250),
+                (3 * $totalLand) / 4
+            );
+
+            $mana -= 250;
+            $mana *= 0.35;
+            $mana += 87.5;
+
+            # ODA: Reduced by 25% as of Round 11.
+            $mana *= 0.75;
+
+            return round($mana);
         }
 
         /**
@@ -204,14 +267,17 @@ class ConstructionCalculator
          */
         public function getTotalManaCost(Dominion $dominion, int $acres): int
         {
-            $cost = $this->getManaCost($dominion);
-            $totalCost = $cost * $acres;
+            $manaCost = $this->getManaCost($dominion);
+            $totalManaCost = $manaCost * $acres;
+
             // Check for discounted acres after invasion
             $discountedAcres = min($dominion->discounted_land, $acres);
             if ($discountedAcres > 0) {
-                $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+                #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
+                $totalManaCost -= (int)ceil(($manaCost * $discountedAcres) * 0.25);
             }
-            return $totalCost;
+
+            return $totalManaCost;
         }
 
 ### MANA VOID
@@ -244,10 +310,23 @@ class ConstructionCalculator
          */
         public function getFoodCostRaw(Dominion $dominion): int
         {
-            $cost = 0;
-            $cost = 100 + (($this->landCalculator->getTotalLand($dominion) - 250) * (pi()/10));
-            $cost *= 0.75;
-            return round($cost);
+            $food = 0;
+            $totalBuildings = $this->buildingCalculator->getTotalBuildings($dominion);
+            $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+            $food += max(
+                max($totalBuildings, 250),
+                (3 * $totalLand) / 4
+            );
+
+            $food -= 250;
+            $food *= 0.35;
+            $food += 87.5;
+
+            # ODA: Reduced by 25% as of Round 11.
+            $food *= 0.75;
+
+            return round($food);
         }
 
         /**
@@ -259,6 +338,7 @@ class ConstructionCalculator
         public function getFoodCostMultiplier(Dominion $dominion): float
         {
             $multiplier = $this->getCostMultiplier($dominion);
+
             return $multiplier;
         }
 
@@ -271,14 +351,17 @@ class ConstructionCalculator
          */
         public function getTotalFoodCost(Dominion $dominion, int $acres): int
         {
-            $cost = $this->getFoodCost($dominion);
-            $totalCost = $cost * $acres;
+            $foodCost = $this->getFoodCost($dominion);
+            $totalFoodCost = $foodCost * $acres;
+
             // Check for discounted acres after invasion
             $discountedAcres = min($dominion->discounted_land, $acres);
             if ($discountedAcres > 0) {
-                $totalCost -= (int)ceil(($cost * $discountedAcres) / 2);
+                #$totalPlatinumCost -= (int)ceil(($platinumCost * $discountedAcres) * 0.50);
+                $totalFoodCost -= (int)ceil(($foodCost * $discountedAcres) * 0.25);
             }
-            return $totalCost;
+
+            return $totalFoodCost;
         }
 
 ### FOOD GROWTH MYCONID
@@ -296,9 +379,7 @@ class ConstructionCalculator
         $lumberToSpend = $dominion->resource_lumber;
         $manaToSpend = $dominion->resource_mana;
         $foodToSpend = $dominion->resource_food;
-
         $barrenLand = $this->landCalculator->getTotalBarrenLand($dominion);
-
         $platinumCost = $this->getPlatinumCost($dominion);
         $lumberCost = $this->getLumberCost($dominion);
         $manaCost = $this->getManaCost($dominion);
@@ -307,18 +388,20 @@ class ConstructionCalculator
         // Check for discounted acres after invasion
         if ($dominion->discounted_land > 0)
         {
+
             if($platinumCost > 0)
             {
-              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost / 2));
+              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost * 0.75));
             }
             else
             {
               $maxFromDiscountedPlatinum = 0;
             }
 
+
             if($lumberCost > 0)
             {
-              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost / 2));
+              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost * 0.75));
             }
             else
             {
@@ -327,7 +410,7 @@ class ConstructionCalculator
 
             if($manaCost > 0)
             {
-              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost / 2));
+              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost * 0.75));
             }
             else
             {
@@ -336,46 +419,27 @@ class ConstructionCalculator
 
             if($foodCost > 0)
             {
-              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost / 2));
+              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost * 0.75));
             }
             else
             {
               $maxFromDiscountedFood = 0;
             }
 
-
             // Set the number of afforded discounted buildings
-
-            # Merfolk: only platinum
-            if($dominion->race->getPerkValue('construction_cost_only_platinum'))
-            {
-              return $discountedBuildings + min($maxFromDiscountedPlatinum, $barrenLand));
-            }
-            # Void: mana construction costs
-            elseif($dominion->race->getPerkValue('construction_cost_only_mana'))
-            {
-              return $discountedBuildings + min($maxFromDiscountedMana, $barrenLand));
-            }
-            # Growth and Myconid: food construction costs
-            elseif($dominion->race->getPerkValue('construction_cost_only_food'))
-            {
-              return $discountedBuildings + min($maxFromDiscountedFood, $barrenLand));
-            }
-            else
-            {
-              $discountedBuildings = min(
-                  $maxFromDiscountedPlatinum,
-                  $maxFromDiscountedLumber,
-                  $dominion->discounted_land,
-                  $barrenLand
-              );
-            }
-
+            $discountedBuildings = min(
+                $maxFromDiscountedPlatinum,
+                $maxFromDiscountedLumber,
+                $maxFromDiscountedMana,
+                $maxFromDiscountedFood,
+                $dominion->discounted_land,
+                $barrenLand
+            );
             // Subtract discounted building cost from available resources
-            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) / 2);
-            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) / 2);
-            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) / 2);
-            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) / 2);
+            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) * 0.75);
+            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) * 0.75);
+            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) * 0.75);
+            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) * 0.75);
         }
 
         # Merfolk: only platinum
@@ -443,10 +507,9 @@ class ConstructionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('construction_cost');
 
-        // Workshops
+        # Workshops
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
 
-        // Cap at max -90%.
         $multiplier = max($multiplier, $maxReduction);
 
         return (1 - $multiplier/100);

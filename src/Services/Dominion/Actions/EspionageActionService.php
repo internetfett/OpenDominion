@@ -239,8 +239,8 @@ class EspionageActionService
     {
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
-        $selfSpa = $this->militaryCalculator->getSpyRatio($dominion, 'offense');
-        $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        $selfSpa = min(10, $this->militaryCalculator->getSpyRatio($dominion, 'offense'));
+        $targetSpa = min(10, $this->militaryCalculator->getSpyRatio($target, 'defense'));
 
         // You need at least some positive SPA to perform espionage operations
         if ($selfSpa === 0.0) {
@@ -889,7 +889,7 @@ class EspionageActionService
         $baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
 
         # Calculate ratio differential.
-        $baseDamageMultiplier = max( min( min( ($selfSpa-$targetSpa+3)/5,1 ) * max( ($selfSpa/max($targetSpa,0.01))/5,1 ) ,3) ,0);
+        $baseDamageMultiplier = (1 + ($selfSpa - $targetSpa) / 10);
 
         $baseDamage *= $baseDamageMultiplier;
 
