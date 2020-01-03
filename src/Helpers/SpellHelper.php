@@ -61,7 +61,7 @@ class SpellHelper
     }
 
 
-    public function getSpells(Dominion $dominion, boolean $isInvasionSpell = false): Collection
+    public function getSpells(Dominion $dominion, boolean $isInvasionSpell = null): Collection
     {
         return $this->getSelfSpells($dominion)
             ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell));
@@ -439,12 +439,12 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(Dominion $dominion, boolean $isInvasionSpell = false): Collection
+    public function getOffensiveSpells(Dominion $dominion, boolean $isInvasionSpell = null): Collection
     {
 
       # Return invasion spells only when specifically asked to.
 
-      if($isInvasionSpell == false)
+      if(!$isInvasionSpell)
       {
         return $this->getInfoOpSpells()
             ->merge($this->getBlackOpSpells($dominion))
