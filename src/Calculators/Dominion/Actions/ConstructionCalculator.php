@@ -425,17 +425,10 @@ class ConstructionCalculator
     {
         $multiplier = 0;
 
-        $maxReduction = -90;
-
-        // Values (percentages)
-        $factoryReduction = 4;
-        $factoryReductionMax = 75;
+        $maxReduction = -0.90;
 
         // Factories
-        $multiplier -= min(
-            (($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * $factoryReduction),
-            ($factoryReductionMax / 100)
-        );
+        $multiplier -= ($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * 4; # 200/1000=20%x4=80%
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('construction_cost');
@@ -449,6 +442,6 @@ class ConstructionCalculator
         // Cap at max -90%.
         $multiplier = max($multiplier, $maxReduction);
 
-        return (1 - $multiplier/100);
+        return (1 + $multiplier);
     }
 }
