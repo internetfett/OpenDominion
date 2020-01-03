@@ -33,7 +33,7 @@ units:
   - name: Dryad
     cost:
       platinum: 1000
-      mana: 5
+      mana: 10
     power:
       offense: 0
       defense: 3
@@ -45,7 +45,7 @@ units:
   - name: Spriggan
     cost:
       lumber: 1000
-      mana: 5
+      mana: 10
     power:
       offense: 7
       defense: 3
