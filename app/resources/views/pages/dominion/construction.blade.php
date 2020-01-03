@@ -69,7 +69,7 @@
 
                     @if ($constructionCalculator->getCostMultiplier($selectedDominion) > 1)
 
-                    <p>Construction bonuses are lowering your costs by <strong>{{ number_format(($constructionCalculator->getCostMultiplier($selectedDominion)-1)*100, 2) }}%</strong>.</p>
+                    <p>Construction bonuses are lowering your costs by <strong>{{ number_format(($constructionCalculator->getCostMultiplier($selectedDominion)-1)*10000, 2) }}%</strong>.</p>
                     @endif
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
