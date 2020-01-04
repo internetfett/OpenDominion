@@ -37,7 +37,7 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad input.');
         }
 
-        if (!\in_array($resource, ['platinum', 'lumber', 'ore', 'gems','mana','food'], true)) {
+        if (!\in_array($resource, ['platinum','lumber','ore', 'gems','mana','food'], true)) {
             throw new GameException('Investment aborted due to bad resource type.');
         }
 
@@ -78,7 +78,7 @@ class ImproveActionService
         }
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
-        $dominion->most_recent_improvement_resource = $resource;
+        $dominion->most_recent_improvement_resource = (string)$resource;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
         return [
