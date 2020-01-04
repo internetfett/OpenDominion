@@ -161,7 +161,7 @@ class ProductionCalculator
           $guardTax = 0;
         }
         else {
-          $guardTax = -2;
+          $guardTax = -0.02;
         }
 
         // Racial Bonus
@@ -175,7 +175,7 @@ class ProductionCalculator
 
         // Guard Tax
         if ($this->guardMembershipService->isGuardMember($dominion)) {
-            $multiplier += ($guardTax / 100);
+            $multiplier += $guardTax;
         }
 
         // Beastfolk: Mountain increases platinum production.
@@ -394,7 +394,7 @@ class ProductionCalculator
 
         $foodDecay *= $multiplier;
 
-        $decay += ($food * $foodDecay / 100);
+        $decay += $food * $foodDecay;
 
         return $decay;
     }
@@ -1040,9 +1040,9 @@ class ProductionCalculator
             $escaped = 0;
 
             // Escaped percentage
-            $escaped = rand(0,5);
+            $escaped = rand(0,50) / 1000;
 
-            $escaped += intval(($dominion->resource_wild_yeti * ($escaped / 100)));
+            $escaped += intval($dominion->resource_wild_yeti * $escaped);
 
             return $escaped;
         }

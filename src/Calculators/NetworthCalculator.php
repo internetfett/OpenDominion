@@ -47,8 +47,6 @@ class NetworthCalculator
     {
         $networth = 0;
 
-        // todo: fix line below which generates this query:
-        // select * from "dominions" where "dominions"."realm_id" = '1' and "dominions"."realm_id" is not null
         foreach ($realm->dominions as $dominion)
         {
             $networth += $this->getDominionNetworth($dominion);
@@ -101,44 +99,27 @@ class NetworthCalculator
      */
      public function getUnitNetworth(Dominion $dominion, Unit $unit): float
      {
-        if (isset($unit->{"static_networth"}) && $unit->{"static_networth"} > 0)
-          {
-            return (float)$unit->{'static_networth'};
-           }
-           else
-           {
-           return ($unit->cost_platinum
-                   + $unit->cost_ore
-                   + $unit->cost_lumber
-                   + $unit->cost_food
-                   + $unit->cost_mana*2.5
-                   + $unit->cost_gem*4
-                   + $unit->cost_soul*5
-                   + $unit->cost_unit1*10
-                   + $unit->cost_unit2*10
-                   + $unit->cost_unit3*20
-                   + $unit->cost_unit4*20
-                   + $unit->cost_morale*10
-                   + $unit->cost_prestige*10
-                   + $unit->cost_wild_yeti*30
-               )/100;
-           }
-      }
-    /*
-    public function getUnitNetworth(Dominion $dominion, Unit $unit): float
-    {
-        if (in_array($unit->slot, [1, 2], false)) {
-            return 5;
+        if (isset($unit->static_networth) && $unit->static_networth > 0)
+        {
+          return (float)$unit->static_networth;
         }
-
-        $unitOffense = $this->militaryCalculator->getUnitPowerWithPerks($dominion, null, 1, $unit, 'offense');
-        $unitDefense = $this->militaryCalculator->getUnitPowerWithPerks($dominion, null, 1, $unit, 'defense');
-
-        return (
-            (1.8 * min(6, max($unitOffense, $unitDefense)))
-            + (0.45 * min(6, min($unitOffense, $unitDefense)))
-            + (0.2 * (max(($unitOffense - 6), 0) + max(($unitDefense - 6), 0)))
-        );
-    }
-    */
+        else
+        {
+         return ($unit->cost_platinum
+                 + $unit->cost_ore
+                 + $unit->cost_lumber
+                 + $unit->cost_food
+                 + $unit->cost_mana*2.5
+                 + $unit->cost_gem*4
+                 + $unit->cost_soul*5
+                 + $unit->cost_unit1*10
+                 + $unit->cost_unit2*10
+                 + $unit->cost_unit3*20
+                 + $unit->cost_unit4*20
+                 + $unit->cost_morale*10
+                 + $unit->cost_prestige*10
+                 + $unit->cost_wild_yeti*30
+             )/100;
+          }
+      }
 }
