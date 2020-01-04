@@ -100,7 +100,7 @@ class ConstructionCalculator
       }
       else
       {
-        return ($this->getLumberCostRaw($dominion) * $this->getLumberCostMultiplier($dominion));
+        return ($this->getLumberCostRaw($dominion) * $this->getCostMultiplier($dominion));
       }
     }
 
@@ -118,7 +118,8 @@ class ConstructionCalculator
         return round($cost);
     }
 
-    /**
+
+    /** ABANDONED
      * Returns the Dominion's construction lumber cost multiplier.
      *
      * @param Dominion $dominion
@@ -160,7 +161,7 @@ class ConstructionCalculator
         {
             if($dominion->race->getPerkMultiplier('construction_cost_only_mana'))
             {
-              return ($this->getManaCostRaw($dominion) * $this->getManaCostMultiplier($dominion));
+              return ($this->getManaCostRaw($dominion) * $this->getCostMultiplier($dominion));
             }
             else
             {
@@ -182,7 +183,7 @@ class ConstructionCalculator
             return round($cost);
         }
 
-        /**
+        /** ABANDONED
          * Returns the Dominion's construction mana cost multiplier.
          *
          * @param Dominion $dominion
@@ -191,7 +192,6 @@ class ConstructionCalculator
         public function getManaCostMultiplier(Dominion $dominion): float
         {
             $multiplier = $this->getCostMultiplier($dominion);
-
             return $multiplier;
         }
 
@@ -229,7 +229,7 @@ class ConstructionCalculator
         {
           if($dominion->race->getPerkMultiplier('construction_cost_only_food'))
           {
-            return ($this->getFoodCostRaw($dominion) * $this->getFoodCostMultiplier($dominion));
+            return ($this->getFoodCostRaw($dominion) * $this->getCostMultiplier($dominion));
           }
           else {
             return 0;
@@ -250,7 +250,7 @@ class ConstructionCalculator
             return round($cost);
         }
 
-        /**
+        /** ABANDONED
          * Returns the Dominion's construction mana cost multiplier.
          *
          * @param Dominion $dominion
