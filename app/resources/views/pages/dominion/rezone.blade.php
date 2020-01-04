@@ -84,8 +84,12 @@
                      to rezone.
                     </p>
 
-                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land.</p>
-                    <p>You can afford to re-zone <b>{{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }} of barren land</b>.</p>
+                    @if ($rezoningCalculator->getCostMultiplier($selectedDominion) !== 1)
+                    <p>Bonuses are modifying your rezoning costs by <strong>{{ number_format((1-$constructionCalculator->getCostMultiplier($selectedDominion))*100, 2) }}%</strong>.</p>
+                    @endif
+
+                    <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
+                      and you can afford to re-zone <b>{{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
                 </div>
             </div>
         </div>
