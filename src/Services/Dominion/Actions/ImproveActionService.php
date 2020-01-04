@@ -61,21 +61,24 @@ class ImproveActionService
                 throw new GameException('Investment aborted due to bad input.');
             }
 
+            $multiplier = 0;
+
             // Racial bonus multiplier
-            $multiplier = (1 + $dominion->race->getPerkMultiplier('invest_bonus'));
+            $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
 
             // Imperial Gnome: Spell (increase imp points by 10%)
             if ($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
             {
-                $multiplier = 1.10;
+                $multiplier += 0.10;
             }
 
-            $points = (($amount * $worth[$resource]) * $multiplier);
+            $points = (($amount * $worth[$resource]) * (1 + $multiplier));
 
             $dominion->{'improvement_' . $improvementType} += $points;
         }
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
+        $dominion->most_recent_improvement_resource = $resource;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
         return [
