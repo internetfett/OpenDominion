@@ -120,6 +120,10 @@ class HistoryService
                     return ((int)$value - (int)$oldAttributes->get($key));
                     break;
 
+                case 'string':
+                  return 1;
+                  break;
+
                 default:
                     throw new LogicException("Unable to typecast attribute {$key} to type {$attributeType}");
             }
