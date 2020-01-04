@@ -25,7 +25,7 @@ perks:
   platinum_production: -15
 units:
   - name: Essence
-    static_networth: 6
+    #static_networth: 6
     cost:
       platinum: 250
       mana: 10
@@ -34,7 +34,7 @@ units:
       defense: 0
   - name: Hex
     need_boat: false
-    static_networth: 11
+    #static_networth: 11
     cost:
       unit1: 1
       gem: 10
@@ -49,7 +49,7 @@ units:
       counts_as_wizard_defense: 0.03
   - name: Vex
     need_boat: false
-    static_networth: 11
+    #static_networth: 11
     cost:
       unit1: 1
       gem: 10
@@ -64,7 +64,7 @@ units:
       counts_as_spy_defense: 0.03
   - name: Pax
     need_boat: false
-    static_networth: 22
+    #static_networth: 22
     cost:
       unit2: 1
       unit3: 1
