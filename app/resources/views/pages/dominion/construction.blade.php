@@ -67,7 +67,7 @@
                     @endif
                     </p>
 
-                    @if ($constructionCalculator->getCostMultiplier($selectedDominion) !== 1)
+                    @if ($constructionCalculator->getCostMultiplier($selectedDominion) !== 0)
                     <p>Bonuses are modifying your construction costs by <strong>{{ number_format((1-$constructionCalculator->getCostMultiplier($selectedDominion))*100, 2) }}%</strong>.</p>
                     @endif
 
