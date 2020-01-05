@@ -143,11 +143,12 @@
                                 @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                                 <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
                                 @else
-                                <option value="platinum" {{ $selectedResource === 'platinum' ? 'selected' : ''}}>Platinum</option>
-                                <option value="lumber" {{ $selectedResource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
-                                <option value="ore" {{ $selectedResource  === 'ore' ? 'selected' : ''}}>Ore</option>
-                                <option value="gems" {{ $selectedResource  === 'gems' ? 'selected' : ''}}>Gems</option>
-                                @endif
+
+                                <option value="platinum" {{ $mostRecentImprovementResource === 'platinum' ? 'selected' : ''}}>Platinum</option>
+                                <option value="lumber" {{ $mostRecentImprovementResource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
+                                <option value="ore" {{ $mostRecentImprovementResource  === 'ore' ? 'selected' : ''}}>Ore</option>
+                                <option value="gems" {{ $mostRecentImprovementResource  === 'gems' ? 'selected' : ''}}>Gems</option>
+
                             </select>
                         </div>
 
