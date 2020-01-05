@@ -531,7 +531,7 @@ class NotificationHelper
                         break;
 
                     case 'earthquake':
-                        $resultString = 'Am earthquake has damaged our mines, slowing production.';
+                        $resultString = 'An earthquake has damaged our mines, slowing ore and gem production.';
                         break;
 
                     case 'disband_spies':

@@ -504,28 +504,28 @@ class SpellHelper
       return collect([
           [
               'name' => 'Plague',
-              'description' => 'Slows population growth',
+              'description' => 'Slows population growth by 25%.',
               'key' => 'plague',
               'mana_cost' => 3,
               'duration' => 12*2,
           ],
           [
               'name' => 'Insect Swarm',
-              'description' => 'Slows food production',
+              'description' => 'Slows food production by 5%.',
               'key' => 'insect_swarm',
               'mana_cost' => 3,
               'duration' => 12*2,
           ],
           [
               'name' => 'Great Flood',
-              'description' => 'Slows boat production',
+              'description' => 'Slows boat production by 25%.',
               'key' => 'great_flood',
               'mana_cost' => 3,
               'duration' => 12*2,
           ],
           [
               'name' => 'Earthquake',
-              'description' => 'Slows mine production',
+              'description' => 'Slows ore and diamond mine production by 5%.',
               'key' => 'earthquake',
               'mana_cost' => 3,
               'duration' => 12*2,
@@ -538,62 +538,29 @@ class SpellHelper
       {
         return collect([
             [
-                'name' => 'Lightning Bolt',
-                'description' => 'Destroy the target\'s castle improvements',
-                'key' => 'lightning_bolt',
-                'mana_cost' => 1,
-                'decreases' => [
-                    'improvement_markets',
-                    'improvement_keep',
-                    'improvement_towers',
-                    'improvement_forges',
-                    'improvement_walls',
-                    'improvement_harbor',
-                    'improvement_armory',
-                    'improvement_infirmary',
-                    'improvement_workshops',
-                    'improvement_observatory',
-                    'improvement_cartography',
-                    'improvement_hideouts',
-                    'improvement_forestry',
-                    'improvement_refinery',
-                    'improvement_granaries',
-                    'improvement_tissue',
-                ],
-                'percentage' => 1,
-            ],/*
-            [
-              'name' => 'Silencing',
-              'description' => 'Weaken the target\'s wizards',
-              'key' => 'silencing',
-              'mana_cost' => 1,
-              'decreases' => ['wizard_strength'],
-              'percentage' => 2,
-            ],*/
-            [
                 'name' => 'Plague',
-                'description' => 'Slows population growth',
+                'description' => 'Slows population growth by 25%.',
                 'key' => 'plague',
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
             [
                 'name' => 'Insect Swarm',
-                'description' => 'Slows food production',
+                'description' => 'Slows food production by 5%.',
                 'key' => 'insect_swarm',
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
             [
                 'name' => 'Great Flood',
-                'description' => 'Slows boat production',
+                'description' => 'Slows boat production by 25%.',
                 'key' => 'great_flood',
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
             [
                 'name' => 'Earthquake',
-                'description' => 'Slows mine production',
+                'description' => 'Slows mine production by 5%.',
                 'key' => 'earthquake',
                 'mana_cost' => 3,
                 'duration' => 12,
@@ -607,28 +574,28 @@ class SpellHelper
         return collect([
             [
                 'name' => 'Plague',
-                'description' => 'Slows population growth',
+                'description' => 'Slows population growth by 25%.',
                 'key' => 'plague',
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
             [
                 'name' => 'Insect Swarm',
-                'description' => 'Slows food production',
+                'description' => 'Slows food production by 5%.',
                 'key' => 'insect_swarm',
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
             [
                 'name' => 'Great Flood',
-                'description' => 'Slows boat production',
+                'description' => 'Slows boat production by 25%.',
                 'key' => 'great_flood',
                 'mana_cost' => 3,
                 'duration' => 12,
             ],
             [
                 'name' => 'Earthquake',
-                'description' => 'Slows mine production',
+                'description' => 'Slows mine production by 5%.',
                 'key' => 'earthquake',
                 'mana_cost' => 3,
                 'duration' => 12,
@@ -643,7 +610,7 @@ class SpellHelper
         return collect([
             [
                 'name' => 'Lightning Bolt',
-                'description' => 'Destroy the target\'s improvements',
+                'description' => 'Destroy the target\'s improvements (0.75% base damage).',
                 'key' => 'lightning_bolt',
                 'mana_cost' => 1,
                 'decreases' => [
@@ -668,7 +635,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fireball',
-                'description' => 'Burn target\'s peasants and food',
+                'description' => 'Burn target\'s peasants and food (0.75% base damage).',
                 'key' => 'fireball',
                 'mana_cost' => 1,
                 'decreases' => ['peasants', 'resource_food'],
@@ -676,7 +643,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Disband Spies',
-                'description' => 'Turns spies into draftees',
+                'description' => 'Turns spies into draftees (1% base damage).',
                 'key' => 'disband_spies',
                 'mana_cost' => 1,
                 'decreases' => ['military_spies'],

@@ -152,21 +152,21 @@ class EspionageHelper
         return collect([
             [
                 'name' => 'Assassinate Wizards',
-                'description' => 'Kills wizards',
+                'description' => 'Kills wizards (2% base damage).',
                 'key' => 'assassinate_wizards',
                 'decreases' => ['military_wizards'],
                 'percentage' => 2,
             ],
             [
                 'name' => 'Magic Snare',
-                'description' => 'Reduces wizard strength',
+                'description' => 'Reduces wizard strength (2% base damage).',
                 'key' => 'magic_snare',
                 'decreases' => ['wizard_strength'],
                 'percentage' => 2,
             ],
             [
                 'name' => 'Sabotage Boats',
-                'description' => 'Destroys boats',
+                'description' => 'Destroys boats (2% base damage).',
                 'key' => 'sabotage_boats',
                 'decreases' => ['resource_boats'],
                 'percentage' => 2,
