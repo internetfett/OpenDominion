@@ -86,9 +86,9 @@
 
                     @if ($rezoningCalculator->getCostMultiplier($selectedDominion) !== 1)
                       @if (1-$rezoningCalculator->getCostMultiplier($selectedDominion) > 0)
-                        <p>Bonuses are <em>decreasing your rezoning costs</em> by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
+                        <p>Bonuses are decreasing your rezoning costs by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
                       @else
-                        <p>Bonuses are <em>increasing your rezoning costs</em> by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
+                        <p>Bonuses are increasing your rezoning costs by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
                       @endif
                     @endif
 
