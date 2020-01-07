@@ -154,24 +154,6 @@ class ExplorationCalculator
        return max(3, $this->getDrafteeCostRaw($dominion) + $this->getDrafteeCostModifier($dominion));
      }
 
-
-    /**
-     * Returns the Dominion's exploration draftee cost (raw).
-     *
-     * @param Dominion $dominion
-     * @return int
-     */
-    public function getDrafteeCostModifier(Dominion $dominion): int
-    {
-        $modifier = 0;
-        // Techs
-        $modifier += $dominion->getTechPerkValue('explore_draftee_cost');
-
-        return round($draftees);
-    }
-
-
-
     /**
      * Returns the maximum number of acres of land a Dominion can afford to
      * explore.
