@@ -92,7 +92,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
-            <p>Your race is not able to construct buildings.</p>
+            <p>Your faction is not able to construct buildings.</p>
         </div>
     </div>
 </div>

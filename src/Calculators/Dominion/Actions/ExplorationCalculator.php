@@ -43,26 +43,37 @@ class ExplorationCalculator
     }
 
     /**
-     * Returns the Dominion's exploration platinum cost (per acre of land).
+     * Returns the Dominion's exploration platinum cost (raw).
      *
      * @param Dominion $dominion
      * @return int
      */
-    public function getPlatinumCost(Dominion $dominion): int
-    {
-        $platinum = 0;
-        $totalLand = $this->landCalculator->getTotalLand($dominion);
+     public function getPlatinumCostRaw(Dominion $dominion): int
+     {
+       $platinum = 0;
+       $totalLand = $this->landCalculator->getTotalLand($dominion);
 
-        if ($totalLand < 300) {
-            $platinum += -(3 * (300 - $totalLand));
-        } else {
-            $exponent = ($totalLand ** 0.0185) / 1.05;
-            $exponent = clamp($exponent, 1.09, 1.121);
-            $platinum += (3 * (($totalLand - 300) ** $exponent));
-        }
+       if ($totalLand < 300) {
+           $platinum += -(3 * (300 - $totalLand));
+       } else {
+           $exponent = ($totalLand ** 0.0185) / 1.05;
+           $exponent = clamp($exponent, 1.09, 1.121);
+           $platinum += (3 * (($totalLand - 300) ** $exponent));
+       }
 
-        $platinum += 1000;
+       $platinum += 1000;
 
+       return $platinum;
+     }
+
+     /**
+      * Returns the Dominion's exploration platinum cost bonus.
+      *
+      * @param Dominion $dominion
+      * @return int
+      */
+      public function getPlatinumCostBonus(Dominion $dominion): float
+      {
         // Techs
         $multiplier = (1 + $dominion->getTechPerkMultiplier('explore_platinum_cost'));
 
@@ -80,16 +91,28 @@ class ExplorationCalculator
         # Cap explore plat reduction to 50%.
         $multiplier = max($multiplier,0.50);
 
-        return round($platinum * $multiplier);
+        return $multiplier;
+
+      }
+
+   /**
+    * Returns the Dominion's exploration platinum cost.
+    *
+    * @param Dominion $dominion
+    * @return int
+    */
+    public function getPlatinumCost(Dominion $dominion): int
+    {
+      return $this->getPlatinumCostRaw($dominion) * $this->getPlatinumCostBonus($dominion);
     }
 
     /**
-     * Returns the Dominion's exploration draftee cost (per acre of land).
+     * Returns the Dominion's exploration draftee cost (raw).
      *
      * @param Dominion $dominion
      * @return int
      */
-    public function getDrafteeCost(Dominion $dominion): int
+    public function getDrafteeCostRaw(Dominion $dominion): int
     {
         $draftees = 0;
         $totalLand = $this->landCalculator->getTotalLand($dominion);
@@ -102,19 +125,52 @@ class ExplorationCalculator
 
         $draftees += 5;
 
-        // Racial bonus
-        $draftees *= (1 + $dominion->race->getPerkMultiplier('explore_cost'));
+        return $draftees;
+    }
 
+    /**
+     * Returns the Dominion's exploration draftee cost modifier.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getDrafteeCostModifier(Dominion $dominion): int
+    {
+        $modifier = 0;
         // Techs
-        $draftees += $dominion->getTechPerkValue('explore_draftee_cost');
+        $modifier += $dominion->getTechPerkValue('explore_draftee_cost');
 
-        # Minimum dratee cost is 3
-        if ($draftees < 3) {
-            $draftees = 3;
-        }
+        return round($modifier);
+    }
+
+    /**
+     * Returns the Dominion's exploration platinum cost.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+     public function getDrafteeCost(Dominion $dominion): int
+     {
+       return max(3, $this->getDrafteeCostRaw($dominion) + $this->getDrafteeCostModifier($dominion));
+     }
+
+
+    /**
+     * Returns the Dominion's exploration draftee cost (raw).
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getDrafteeCostModifier(Dominion $dominion): int
+    {
+        $modifier = 0;
+        // Techs
+        $modifier += $dominion->getTechPerkValue('explore_draftee_cost');
 
         return round($draftees);
     }
+
+
 
     /**
      * Returns the maximum number of acres of land a Dominion can afford to

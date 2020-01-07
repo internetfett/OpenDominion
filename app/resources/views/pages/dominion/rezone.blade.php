@@ -1,8 +1,9 @@
 @extends('layouts.master')
 
-@section('page-header', 'Re-zone Land')
+@section('page-header', 'Rezone Land')
 
 @section('content')
+@if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -99,4 +100,13 @@
         </div>
 
     </div>
+@else
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <p>Your faction is not able to rezone land.</p>
+        </div>
+    </div>
+</div>
+@endif
 @endsection
