@@ -129,14 +129,6 @@
 
 
 
-                    @if (1-$constructionCalculator->getCostMultiplier($selectedDominion) !== 0)
-                      @if (1-$constructionCalculator->getCostMultiplier($selectedDominion) > 0)
-                        <p>Bonuses are decreasing your construction costs by <strong>{{ number_format((abs(1-$constructionCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
-                      @else
-                        <p>Bonuses are increasing your construction costs by <strong>{{ number_format((abs(1-$constructionCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
-                      @endif
-                    @endif
-
                     <p>You can afford to explore for <b>{{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
                 </div>
             </div>
