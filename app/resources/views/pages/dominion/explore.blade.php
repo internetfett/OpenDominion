@@ -146,7 +146,7 @@
                         increasing
                       @endif
 
-                       your draftee costs by <strong>{{ number_format(abs(1-$explorationCalculator->getDrafteeCostModifier($selectedDominion))) }}</strong>.</p>
+                       your draftee costs by <strong>{{ number_format(abs($explorationCalculator->getDrafteeCostModifier($selectedDominion))) }}</strong>.</p>
 
                     @endif
 
