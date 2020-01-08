@@ -91,7 +91,7 @@ class ExplorationCalculator
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
         # Cap explore plat reduction to 50%.
-        $multiplier = max($multiplier,0.50);
+        $multiplier = min($multiplier,0.50);
 
         return (1 + $multiplier);
 

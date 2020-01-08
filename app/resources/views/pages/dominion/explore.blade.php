@@ -127,7 +127,7 @@
                     <p>Here you can explore land to grow your dominion. It takes <b>12 ticks</b> to explore.</p>
                     <p>The cost for explorin gone acre of land land is {{ number_format($explorationCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($explorationCalculator->getDrafteeCost($selectedDominion)) }} {{ str_plural('draftee', $explorationCalculator->getDrafteeCost($selectedDominion)) }}. Additionally, for every 1% of your current size you explore, you lose 8% morale.</p>
 
-                    @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) !== 0 and 1-$explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
+                    @if ($explorationCalculator->getPlatinumCostBonus($selectedDominion) !== 1 and $explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
                       <p>Bonuses are
 
                       @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) > 0)
