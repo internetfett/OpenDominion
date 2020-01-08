@@ -82,13 +82,15 @@ class ExplorationCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('explore_cost');
 
+        // Improvement: Cartography
+        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
+
         // Elite Guard Tax
-        if ($this->guardMembershipService->isEliteGuardMember($dominion)) {
+        if ($this->guardMembershipService->isEliteGuardMember($dominion))
+        {
             $multiplier += 0.25;
         }
 
-        # Improvement: Cartography
-        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
         # Cap explore plat reduction to 50%.
         $multiplier = min($multiplier,0.50);
