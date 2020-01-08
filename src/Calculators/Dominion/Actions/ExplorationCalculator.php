@@ -74,8 +74,10 @@ class ExplorationCalculator
       */
       public function getPlatinumCostBonus(Dominion $dominion): float
       {
+        $multiplier = 0;
+
         // Techs
-        $multiplier = (1 + $dominion->getTechPerkMultiplier('explore_platinum_cost'));
+        $multiplier = $dominion->getTechPerkMultiplier('explore_platinum_cost');
 
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('explore_cost');
@@ -91,7 +93,7 @@ class ExplorationCalculator
         # Cap explore plat reduction to 50%.
         $multiplier = max($multiplier,0.50);
 
-        return $multiplier;
+        return (1 + $multiplier);
 
       }
 
