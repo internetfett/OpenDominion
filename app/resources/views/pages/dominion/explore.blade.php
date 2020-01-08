@@ -130,7 +130,7 @@
                     @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) !== 0 and 1-$explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
                       <p>Bonuses are
 
-                      @if (1-$rezoningCalculator->getPlatinumCostBonus($selectedDominion) > 0)
+                      @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) > 0)
                         decreasing
                       @else
                         increasing
@@ -140,7 +140,7 @@
 
                       and
 
-                      @if (1-$rezoningCalculator->getDrafteeCostModifier($selectedDominion) > 0)
+                      @if (1-$explorationCalculator->getDrafteeCostModifier($selectedDominion) > 0)
                         decreasing
                       @else
                         increasing
