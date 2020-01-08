@@ -70,13 +70,16 @@
 
 
                     @if (1-$constructionCalculator->getCostMultiplier($selectedDominion) !== 0)
+                      <p>Bonuses are
+
                       @if (1-$constructionCalculator->getCostMultiplier($selectedDominion) > 0)
-                        @php $verb = 'decreasing'
+                        decreasing
                       @else
-                        @php $verb = 'increasing'
+                        increasing
                       @endif
 
-                        <p>Bonuses are {{ $verb }} your construction costs by <strong>{{ number_format((abs(1-$constructionCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
+                       your construction costs by <strong>{{ number_format((abs(1-$constructionCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
+  
                     @endif
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
