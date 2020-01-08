@@ -136,7 +136,7 @@
                         increasing
                       @endif
 
-                       your exploring platinum costs by <strong>{{ number_format((abs(1-$explorationCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>
+                       your exploring platinum costs by <strong>{{ number_format((abs(1-$explorationCalculator->getPlatinumCost($selectedDominion)))*100, 2) }}%</strong>
 
                       and
 
