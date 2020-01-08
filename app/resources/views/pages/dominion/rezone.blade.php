@@ -94,7 +94,7 @@
                         increasing
                       @endif
 
-                       your rezoning costs by <strong>{{ number_format((abs(1-$constructionCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
+                       your rezoning costs by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
 
                     @endif
 
