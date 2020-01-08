@@ -127,6 +127,28 @@
                     <p>Here you can explore land to grow your dominion. It takes <b>12 ticks</b> to explore.</p>
                     <p>The cost for explorin gone acre of land land is {{ number_format($explorationCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($explorationCalculator->getDrafteeCost($selectedDominion)) }} {{ str_plural('draftee', $explorationCalculator->getDrafteeCost($selectedDominion)) }}. Additionally, for every 1% of your current size you explore, you lose 8% morale.</p>
 
+                    @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) !== 0 and 1-$explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
+                      <p>Bonuses are
+
+                      @if (1-$rezoningCalculator->getPlatinumCostBonus($selectedDominion) > 0)
+                        decreasing
+                      @else
+                        increasing
+                      @endif
+
+                       your exploring platinum costs by <strong>{{ number_format((abs(1-$explorationCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>
+
+                      and
+
+                      @if (1-$rezoningCalculator->getDrafteeCostModifier($selectedDominion) > 0)
+                        decreasing
+                      @else
+                        increasing
+                      @endif
+
+                       your draftee costs by <strong>{{ number_format((abs(1-$explorationCalculator->getDrafteeCostModifier($selectedDominion)))*100, 2) }} draftees</strong>.</p>
+
+                    @endif
 
 
                     <p>You can afford to explore for <b>{{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
