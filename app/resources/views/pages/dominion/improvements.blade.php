@@ -78,23 +78,6 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-arrow-up fa-fw"></i> Improvements</h3>
                 </div>
-                @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
-                <div class="box-header with-border">
-
-                <p>
-                  @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 and $improvementCalculator->getTechBonus($selectedDominion) == 0)
-                    Masonries
-                  @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) == 0)
-                    Advancements
-                  @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
-                    Masonries and Advancements
-                  @endif
-
-                  are increasing your castle improvements by {{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%.
-                </p>
-
-                </div>
-                @endif
 
                 <form action="{{ route('dominion.improvements') }}" method="post" role="form">
                     @csrf
@@ -168,6 +151,20 @@
                 </div>
                 <div class="box-body">
                     <p>Invest resources in your castle to improve certain parts of your dominion. Improving processes <b>instantly</b>.</p>
+
+                    @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
+                    <p>
+                      @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 and $improvementCalculator->getTechBonus($selectedDominion) == 0)
+                        Masonries
+                      @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) == 0)
+                        Advancements
+                      @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
+                        Masonries and Advancements
+                      @endif
+
+                      are increasing your castle improvements by <strong>{{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%</strong>.
+                    </p>
+                    @endif
 
                     @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                     <p>Each mana is worth 5 investment points.</p>
