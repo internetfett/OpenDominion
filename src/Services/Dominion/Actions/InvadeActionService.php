@@ -490,13 +490,13 @@ class InvadeActionService
             // Racial perk
             if($dominion->race->getPerkMultiplier('prestige_gains'))
             {
-              $attackerPrestigeChangeMultiplier = $dominion->race->getPerkMultiplier('prestige_gains');
+              $attackerPrestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
             }
 
             // Tech
             if($dominion->getTechPerkMultiplier('prestige_gains'))
             {
-              $attackerPrestigeChangeMultiplier = $dominion->getTechPerkMultiplier('prestige_gains');
+              $attackerPrestigeChangeMultiplier += $dominion->getTechPerkMultiplier('prestige_gains');
             }
 
             $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
