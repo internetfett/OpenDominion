@@ -25,7 +25,7 @@ class ExplorationController extends AbstractDominionController
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
             'spellCalculator' => app(SpellCalculator::class),
-            #'protectionService' => app(ProtectionService::class),
+            'protectionService' => app(ProtectionService::class),
         ]);
     }
 
