@@ -8,18 +8,19 @@
 
 ol.tc
 {
-  counter-reset: item
+  counter-reset: item;
 }
 
 ol.tc li
 {
-  display: block
+  display: block;
+  line-height: 1.5;
 }
 
 ol.tc li:before
 {
   content: counters(item, ".") " ";
-  counter-increment: item
+  counter-increment: item;
 }
 
 </style>
@@ -39,13 +40,13 @@ ol.tc li:before
       <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement  for {{ $website_name }} has been created with the help of <a href="https://www.termsfeed.com/">TermsFeed</a>.</p>
 
       <ol class="tc">
-        <li><strong>Source Code</strong>
+        <li>Source Code
           <ol class="tc">
             <li>The ODArena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
             <li>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</li>
           </ol>
         </li>
-        <li><strong>Accounts</strong>
+        <li>Accounts
           <ol class="tc">
             <li>You must be at least 18 years or of legal age to register an account and play the game.</li>
             <li>When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</li>
