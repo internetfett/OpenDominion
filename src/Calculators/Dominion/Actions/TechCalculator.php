@@ -46,9 +46,9 @@ class TechCalculator
 
         $multiplier = 1 + $this->getTechCostMultiplier($dominion);
 
-        $cost = max($minimumCost,($techCostMultiplier * $this->landCalculator->getTotalLand($dominion))) * $techCostBonusMultiplier;
+        $cost = max($minimumCost,($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $multiplier)) * $techCostMultiplier;
 
-        return $cost * $multiplier;
+        return $cost;
 
     }
 
