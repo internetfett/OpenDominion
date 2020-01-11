@@ -985,6 +985,7 @@ class MilitaryCalculator
         }
 
         $versusResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_resource", null);
+
         if(!$versusResourcePerkData)
         {
             return 0;
@@ -997,15 +998,15 @@ class MilitaryCalculator
         $targetResources = 0;
         if (!empty($calc))
         {
-            # Override land percentage for invasion calculator
+            # Override resource amount for invasion calculator
             if (isset($calc[$resource]))
             {
-                $targetResources = (int)$calc["$resource"];
+                $targetResources = (int)$calc[$resource];
             }
         }
         elseif ($target !== null)
         {
-            $targetResources = $target->{'resource' . $resource};
+            $targetResources = $target->{'resource_' . $resource};
         }
 
         $powerFromResource = $targetResources / $ratio;
