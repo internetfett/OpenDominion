@@ -439,7 +439,9 @@ class TickService
              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
              )
           {
-            if(rand(1,32) == 1)
+            $currentDay = $currentRound->start_date->subDays(1)->diffInDays(now()));
+            $chanceOneIn = 32 - (14 - min($currentDay, 14));
+            if(rand(1,$chanceOneIn) == 1)
             {
               $invade = true;
             }
@@ -447,8 +449,8 @@ class TickService
 
           if($invade)
           {
-            # Grow by 5-15% (random).
-            $landGainRatio = max(500,rand(400,1500))/10000;
+            # Grow by 4-12% (random).
+            $landGainRatio = max(400,rand(300,1200))/10000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $landGainRatio;
@@ -534,12 +536,6 @@ class TickService
            $constant = 20;
            #$day = $this->now->diffInDays($dominion->round->start_date);
            $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
-
-           $min = 20;
-           $max = 200;
-
-           # Yami
-           #$dpa = intval($max / ( 1 + ($max-$min) / $min * exp(-0.6 * ($day-1))));
 
            # Linear hourly
            $dpa = $constant + ($hours * 0.35 * 1.02); # Down from 0.50.
