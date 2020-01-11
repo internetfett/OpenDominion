@@ -41,8 +41,8 @@ units:
       defense: 6
     perks:
       reduce_combat_losses: 1
-      counts_as_wizard_offense: 0.333
-      counts_as_wizard_defense: 0.333
+      counts_as_wizard_offense: 0.25
+      counts_as_wizard_defense: 0.25
   - name: Warrior
     cost:
       platinum: 1000

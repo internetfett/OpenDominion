@@ -55,7 +55,7 @@ units:
   - name: Psilocybe
     cost:
       food: 1000
-      unit1: 1
+      unit2: 1
     power:
       offense: 0
       defense: 9
@@ -71,7 +71,7 @@ units:
   - name: Amanita
     cost:
       food: 1250
-      unit1: 1
+      unit2: 1
     power:
       offense: 0
       defense: 9

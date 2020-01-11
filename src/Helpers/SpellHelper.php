@@ -610,7 +610,7 @@ class SpellHelper
         return collect([
             [
                 'name' => 'Lightning Bolt',
-                'description' => 'Destroy the target\'s improvements (0.75% base damage).',
+                'description' => 'Destroy the target\'s improvements (0.33% base damage).',
                 'key' => 'lightning_bolt',
                 'mana_cost' => 1,
                 'decreases' => [
@@ -631,15 +631,17 @@ class SpellHelper
                     'improvement_granaries',
                     'improvement_tissue',
                 ],
-                'percentage' => 0.75,
+                'percentage' => 0.33,
+                'max_damage_per_wizard' => 10,
             ],
             [
                 'name' => 'Fireball',
-                'description' => 'Burn target\'s peasants and food (0.75% base damage).',
+                'description' => 'Burn target\'s peasants and food (0.33% base damage).',
                 'key' => 'fireball',
                 'mana_cost' => 1,
                 'decreases' => ['peasants', 'resource_food'],
-                'percentage' => 0.75,
+                'percentage' => 0.33,
+                'max_damage_per_wizard' => 10,
             ],
             [
                 'name' => 'Disband Spies',

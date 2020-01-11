@@ -34,8 +34,8 @@ units:
       offense: 3
       defense: 6
     perks:
-      counts_as_spy_offense: 0.333
-      counts_as_spy_defense: 0.333
+      counts_as_spy_offense: 0.25
+      counts_as_spy_defense: 0.25
   - name: Staff Master
     cost:
       platinum: 1150

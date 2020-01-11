@@ -8,8 +8,7 @@ use OpenDominion\Models\RoundLeague;
 
 class RoundFactory
 {
-    // todo: move to config somewhere?
-    private const ROUND_DURATION_IN_DAYS = 50;
+    private const ROUND_DURATION_IN_DAYS = 14;
 
     /**
      * Creates and returns a new Round in a RoundLeague.
@@ -69,7 +68,7 @@ class RoundFactory
         return Round::create([
             'round_league_id' => $league->id,
             'number' => $number,
-            'name' => "Beta Round {$number}", // todo
+            'name' => "Round {$number}", // todo
             'start_date' => $startDate,
             'end_date' => $endDate,
             'offensive_actions_prohibited_at' => $offensiveActionsEndDate,

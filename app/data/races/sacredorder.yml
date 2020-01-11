@@ -40,7 +40,7 @@ units:
         faster_training: 7
   - name: Fanatic
     cost:
-      platinum: 1000
+      platinum: 900
       ore: 50
       unit2: 1
     power:

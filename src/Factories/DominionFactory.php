@@ -60,7 +60,7 @@ class DominionFactory
 
 
 
-        // Give +0.50% starting resources per hour late, max +100%.
+        // Give +1% starting resources per hour late, max +100% (at 100 hours, mid-day 4).
         #$hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
         if($realm->round->hasStarted())
         {
@@ -71,7 +71,7 @@ class DominionFactory
           $hoursSinceRoundStarted = 0;
         }
 
-        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.005);
+        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.01);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default

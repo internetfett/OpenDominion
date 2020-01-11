@@ -3,6 +3,15 @@
 @section('page-header', 'Terms and Conditions')
 
 @section('content')
+
+<style>
+
+ol { counter-reset: item }
+li{ display: block }
+li:before { content: counters(item, ".") " "; counter-increment: item }
+
+</style>
+
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title"> Terms and Conditions</h3>
@@ -16,6 +25,22 @@
       <p>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</p>
 
       <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement  for {{ $website_name }} has been created with the help of <a href="https://www.termsfeed.com/">TermsFeed</a>.</p>
+
+      <ol>
+        <li>Source Code
+          <ol>
+            <li>The ODArena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
+            <li>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</li>
+          </ol>
+        </li>
+        <li>Accounts
+          <ol>
+            <li>You must be at least 18 years or of legal age to register an account and play the game.</li>
+            <li>When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</li>
+            <li>You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password, whether your password is with our Service or a third-party service.</li>
+          </ol>
+        </li>
+      </ol>
 
       <h3>Source Code</h3>
 
