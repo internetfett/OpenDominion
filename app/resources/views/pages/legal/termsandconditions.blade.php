@@ -6,9 +6,21 @@
 
 <style>
 
-ol { counter-reset: item }
-li{ display: block }
-li:before { content: counters(item, ".") " "; counter-increment: item }
+ol.tc
+{
+  counter-reset: item
+}
+
+ol.tc li
+{
+  display: block
+}
+
+ol.tc li:before
+{
+  content: counters(item, ".") " ";
+  counter-increment: item
+}
 
 </style>
 
