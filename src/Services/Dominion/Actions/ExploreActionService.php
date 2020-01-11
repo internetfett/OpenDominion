@@ -15,6 +15,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Services\Dominion\ProtectionService;
 
 class ExploreActionService
 {
@@ -39,6 +40,9 @@ class ExploreActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var ProtectionService */
+    protected $protectionService;
+
     /**
      * @var int The minimum morale required to explore
      */
@@ -50,7 +54,8 @@ class ExploreActionService
     public function __construct(
           ImprovementCalculator $improvementCalculator,
           SpellCalculator $spellCalculator,
-          LandCalculator $landCalculator
+          LandCalculator $landCalculator,
+          ProtectionService $protectionService
       )
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
@@ -59,6 +64,7 @@ class ExploreActionService
         $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
+        $this->ProtectionService = $protectionService;
     }
 
     /**
@@ -79,6 +85,10 @@ class ExploreActionService
             throw new GameException('Exploration has been disabled for this round.');
         }
 
+        if ($this->protectionService->isUnderProtection($dominion))
+        {
+            throw new GameException('You cannot explore while under protection.');
+        }
 
         if($dominion->round->hasOffensiveActionsDisabled())
         {
