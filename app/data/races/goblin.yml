@@ -11,17 +11,18 @@ exploring : 3
 converting: 1
 
 perks:
-  max_population: 40
+  max_population: 50
+  population_growth: 25
   extra_barren_max_population: 5
   gem_production: 20
   invest_bonus: 20
 units:
   - name: Raider
     cost:
-      platinum: 300
-      ore: 20
+      platinum: 200
+      ore: 10
     power:
-      offense: 3
+      offense: 2
       defense: 0
   - name: Shaman
     cost:
@@ -34,24 +35,24 @@ units:
       reduce_combat_losses: 1
       counts_as_wizard_offense: 0.1
       counts_as_wizard_defense: 0.1
-  - name: Hobgoblin
+  - name: Skulker
     type: offensive_elite
     cost:
-      platinum: 1000
-      ore: 80
+      platinum: 600
+      ore: 50
     power:
-      offense: 7
-      defense: 3
+      offense: 4
+      defense: 2
     perks:
       plunders_resources_on_attack: 1
-      offense_vs_resource: gems,20000,2 # +1 OP per 20,000 gems, max +2
+      offense_vs_resource: gems,20000,3 # +1 OP per 20,000 gems, max +2
   - name: Wolf Rider
     type: offensive_elite
     cost:
-      platinum: 1300
-      ore: 130
+      platinum: 700
+      ore: 100
     power:
-      offense: 8
-      defense: 4
+      offense: 5
+      defense: 2
     perks:
       faster_return: 3
