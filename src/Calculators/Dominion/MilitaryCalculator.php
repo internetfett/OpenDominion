@@ -843,7 +843,7 @@ class MilitaryCalculator
         }
 
         # No barren bonus vs. Barbarian (for now)
-        if($target->race->name == 'Barbarian')
+        f($target !== null and $target->race->name == 'Barbarian')
         {
           $powerFromPerk = 0;
         }
@@ -1020,7 +1020,7 @@ class MilitaryCalculator
         }
 
         # No resource bonus vs. Barbarian (for now)
-        if($target->race->name == 'Barbarian')
+        if($target !== null and $target->race->name == 'Barbarian')
         {
           $powerFromPerk = 0;
         }
