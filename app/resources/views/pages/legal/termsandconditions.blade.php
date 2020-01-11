@@ -22,6 +22,11 @@ ol.tc li:before
   counter-increment: item
 }
 
+ol.tc h3
+{
+  display: inline;
+}
+
 </style>
 
 <div class="box box-primary">
@@ -39,7 +44,7 @@ ol.tc li:before
       <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement  for {{ $website_name }} has been created with the help of <a href="https://www.termsfeed.com/">TermsFeed</a>.</p>
 
       <ol class="tc">
-        <li><h3>Source Code</h3>
+        <h3><li>Source Code</h3>
           <ol class="tc">
             <li>The ODArena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
             <li>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</li>
