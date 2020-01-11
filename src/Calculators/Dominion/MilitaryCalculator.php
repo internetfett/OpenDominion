@@ -525,6 +525,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
