@@ -39,14 +39,15 @@ class TechCalculator
 
         $techToUnlock = Tech::where('key', $techToUnlock->key)->first();
 
-        $techCostMultiplier = 10;
-        $techCostMultiplier *= (1 + $techToUnlock->cost_multiplier / 100);
+        $baseTechCostMultiplier = 10;
+
+        $techCostMultiplier = (1 + $techToUnlock->cost_multiplier / 100);
 
         $minimumCost = 10000;
 
         $multiplier = 1 + $this->getTechCostMultiplier($dominion);
 
-        $cost = max($minimumCost,($techCostMultiplier * $this->landCalculator->getTotalLand($dominion) * $multiplier)) * $techCostMultiplier;
+        $cost = max($minimumCost,($baseTechCostMultiplier * $this->landCalculator->getTotalLand($dominion))) * $techCostMultiplier;
 
         return $cost;
 
