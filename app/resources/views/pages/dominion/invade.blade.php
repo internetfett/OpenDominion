@@ -141,7 +141,7 @@
 
                                                 $offenseVsResourcePerk = $unit->getPerkValue('offense_vs_resource');
                                                 if ($offenseVsResourcePerk) {
-                                                    $offenseVsResource[] = explode(',', $offenseVsResourcePerk)[0];
+                                                    $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
                                                 }
 
                                             }
@@ -219,7 +219,7 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endforeach
-                                    @foreach ($offenseVsPrestige as $prestige)
+                                    @if($offenseVsPrestige)
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <b>Enter target prestige:</b>
@@ -235,7 +235,7 @@
                                             </td>
                                             <td>&nbsp;</td>
                                         </tr>
-                                    @endforeach
+                                    @endif
                                     @if($offenseVsBarren)
                                         <tr>
                                             <td colspan="3" class="text-right">
@@ -256,14 +256,13 @@
                                     @if($offenseVsResource)
                                         <tr>
                                             <td colspan="3" class="text-right">
-                                                <b>Enter target {{ $offenseVsResource[0] }} amount:</b>
+                                                <b>Enter target {{ $offenseVsResource }} amount:</b>
                                             </td>
                                             <td>
                                                 <input type="number"
-                                                       name="calc[{{ $offenseVsResource[0] }}]"
+                                                       name="calc[{{ $offenseVsResource }}]"
                                                        class="form-control text-center"
                                                        min="0"
-                                                       max="100"
                                                        placeholder="0"
                                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             </td>
