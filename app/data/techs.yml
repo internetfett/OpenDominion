@@ -1245,13 +1245,13 @@ magical_weapons_level1:
   name: Magical Weapons (1/6)
   cost_multiplier: 0
   perks:
-    military_cost_mana: -1.75
+    military_cost_mana: -2.5
 
 magical_weapons_level2:
   name: Magical Weapons (2/6)
   cost_multiplier: 10
   perks:
-    military_cost_mana: -3.5
+    military_cost_mana: -5
   requires:
     - magical_weapons_level1
 
@@ -1259,7 +1259,7 @@ magical_weapons_level3:
   name: Magical Weapons (3/6)
   cost_multiplier: 20
   perks:
-    military_cost_mana: -5.25
+    military_cost_mana: -7.5
   requires:
     - magical_weapons_level2
 
@@ -1267,7 +1267,7 @@ magical_weapons_level4:
   name: Magical Weapons (4/6)
   cost_multiplier: 30
   perks:
-    military_cost_mana: -7
+    military_cost_mana: -10
   requires:
     - magical_weapons_level3
 
@@ -1275,7 +1275,7 @@ magical_weapons_level5:
   name: Magical Weapons (5/6)
   cost_multiplier: 40
   perks:
-    military_cost_mana: -8.75
+    military_cost_mana: -12.5
   requires:
     - magical_weapons_level4
 
@@ -1283,7 +1283,7 @@ magical_weapons_level6:
   name: Magical Weapons (6/6)
   cost_multiplier: 50
   perks:
-    military_cost_mana: -10.5
+    military_cost_mana: -15
   requires:
     - magical_weapons_level5
 

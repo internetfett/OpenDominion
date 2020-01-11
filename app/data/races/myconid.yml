@@ -79,6 +79,6 @@ units:
       no_draftee: 1
       #dies_into: 1
       #unit_production: 1,0.001 # Unit Type, Amount
-      land_per_tick: 0.000333
+      land_per_tick: 0.00025
       counts_as_spy_offense: 0.1111
       counts_as_spy_defense: 0.1111

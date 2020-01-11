@@ -97,6 +97,7 @@
                                         $offenseVsLandTypes = [];
                                         $offenseVsPrestige = [];
                                         $offenseVsBarren = [];
+                                        $offenseVsResource = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -136,6 +137,11 @@
                                                 $offenseVsBarrenPerk = $unit->getPerkValue('offense_vs_barren_land');
                                                 if ($offenseVsBarrenPerk) {
                                                     $offenseVsBarren[] = explode(',', $offenseVsBarrenPerk)[0];
+                                                }
+
+                                                $offenseVsResourcePerk = $unit->getPerkValue('offense_vs_resource');
+                                                if ($offenseVsResourcePerk) {
+                                                    $offenseVsResource[] = explode(',', $offenseVsResourcePerk)[0];
                                                 }
 
                                             }
@@ -238,6 +244,23 @@
                                             <td>
                                                 <input type="number"
                                                        name="calc[barren_land_percent]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       max="100"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    @endif
+                                    @if($offenseVsResource)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter target {{ $resource }} percentage:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc[{{ $resource }}]"
                                                        class="form-control text-center"
                                                        min="0"
                                                        max="100"

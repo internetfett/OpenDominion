@@ -926,16 +926,7 @@ class MilitaryCalculator
         }
 
         $military = 0;
-/*
-        $military += $dominion->military_unit1;
-        $military += $dominion->military_unit2;
-        $military += $dominion->military_unit3;
-        $military += $dominion->military_unit4;
-        $military += $dominion->military_spies;
-        $military += $dominion->military_wizards;
-        $military += $dominion->military_archmages;
-        $military += $dominion->military_draftees;
-*/
+
         # Draftees, Spies, Wizards, and Arch Mages always count.
         $military += $dominion->military_draftees;
         $military += $dominion->military_spies;
@@ -979,6 +970,58 @@ class MilitaryCalculator
         $max = (float)$victoriesPerk[1];
 
         $powerFromPerk = min($powerPerVictory * $victories, $max);
+
+        return $powerFromPerk;
+    }
+
+
+
+    protected function getUnitPowerFromVersusResourcePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    {
+        if ($target === null && empty($calc))
+        {
+            return 0;
+        }
+
+        $versusResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_vs_resource", null);
+        if(!$versusResourcePerkData)
+        {
+            return 0;
+        }
+
+        $resource = (string)$versusResourcePerkData[0];
+        $ratio = (int)$versusResourcePerkData[1];
+        $max = (int)$versusResourcePerkData[2];
+
+        $targetResources = 0;
+        if (!empty($calc))
+        {
+            # Override land percentage for invasion calculator
+            if (isset($calc[$resource]))
+            {
+                $targetResources = (int)$calc["$resource"];
+            }
+        }
+        elseif ($target !== null)
+        {
+            $targetResources = $target->{'resource' . $resource};
+        }
+
+        $powerFromResource = $targetResources / $ratio;
+        if ($max < 0)
+        {
+            $powerFromPerk = max(-1 * $powerFromResource, $max);
+        }
+        else
+        {
+            $powerFromPerk = min($powerFromResource, $max);
+        }
+
+        # No resource bonus vs. Barbarian (for now)
+        if($target->race->name == 'Barbarian')
+        {
+          $powerFromPerk = 0;
+        }
 
         return $powerFromPerk;
     }

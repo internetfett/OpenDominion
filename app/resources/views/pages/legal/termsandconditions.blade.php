@@ -31,7 +31,7 @@ ol.tc li:before
     </div>
     <div class="box-body">
 
-      <p>Last updated: November 28, 2019</p>
+      <p>Last updated: January 11, 2020</p>
 
       <p>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the {{ $website_url }} website (the "Service") operated by {{ $website_name }} ("us", "we", or "our").</p>
 
@@ -42,7 +42,7 @@ ol.tc li:before
       <ol class="tc">
         <li>Source Code
           <ol class="tc">
-            <li>The ODArena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
+            <li>The OD Arena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
             <li>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</li>
           </ol>
         </li>
@@ -55,14 +55,15 @@ ol.tc li:before
             <li>Your username must not be offensive or misleading. This includes profanity, slurs, and names which may cause confusion.</li>
             <li>Accounts are personal and must not be shared. One person per account: only one person is permitted to make use of an account.</li>
             <li>If your account is suspended or banned, you are not permitted to open a new account or use another account.</li>
-            <li>If you have forgot your password, use the password reset function. If you do not have access to your email account, contact an administrator on Discord or via {{ $contact_email }}</li>
+            <li>If you have forgot your password, use the password reset function. If you do not have access to your email account, contact an administrator on Discord or via {{ $contact_email }}.</li>
           </ol>
         </li>
         <li>Game Rules
           <ol class="tc">
-            <li>You are only allowed to have one dominion per round.</li>
-            <li>Your dominion name or ruler name must not be offensive, abusive, or misleading.</li>
-            <li>You may not use any tools, software, application, scripts, or otherwise to automate any activities in the game.</li>
+            <li>You are only allowed to have one dominion per round per account.</li>
+            <li>You are allowed to have multiple accounts and as such have multiple dominions per round, provided that each dominion is played with equal and reasonable care and effort and that they are all in the same realm. This means they must be of the same alignment. If one is independent and randomly placed in a hostile realm, you must immediately notify us and instruct us to move the dominion to the correct realm.</li>
+            <li>Your dominion name or ruler name must not be offensive, abusive, damaging, or misleading.</li>
+            <li>You must not use any tools, software, application, scripts, or otherwise to take any automatic, scripted, preprogrammed, or similarly automated actions in the game.</li>
             <li>You must not in any way cooperate with another realm or dominions in other realms, such as Non-Aggression Pacts (“NAP”), alliances, or sharing game information.</li>
             <li>You must not in any way intentionally take any action which directly or indirectly benefits another realm or a dominion in another realm.</li>
             <li>You must at all times refrain from using excessive profanity or abusive, offensive language. Banter and smack talk are allowed; just keep it mostly civil.</li>
