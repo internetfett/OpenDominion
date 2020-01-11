@@ -44,8 +44,8 @@ units:
       decay_protection: 100,mana
   - name: Spriggan
     cost:
-      lumber: 1000
-      mana: 10
+      lumber: 800
+      mana: 100
     power:
       offense: 7
       defense: 3
