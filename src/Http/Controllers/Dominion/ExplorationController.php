@@ -14,6 +14,7 @@ use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Services\Dominion\ProtectionService;
 
 class ExplorationController extends AbstractDominionController
 {
