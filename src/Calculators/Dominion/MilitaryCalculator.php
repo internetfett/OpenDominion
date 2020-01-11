@@ -536,7 +536,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
