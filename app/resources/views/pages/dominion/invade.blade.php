@@ -256,11 +256,11 @@
                                     @if($offenseVsResource)
                                         <tr>
                                             <td colspan="3" class="text-right">
-                                                <b>Enter target {{ $resource }} percentage:</b>
+                                                <b>Enter target {{ $offenseVsResource[0] }} amount:</b>
                                             </td>
                                             <td>
                                                 <input type="number"
-                                                       name="calc[{{ $resource }}]"
+                                                       name="calc[{{ $offenseVsResource[0] }}]"
                                                        class="form-control text-center"
                                                        min="0"
                                                        max="100"
