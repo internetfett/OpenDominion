@@ -22,11 +22,6 @@ ol.tc li:before
   counter-increment: item
 }
 
-ol.tc h3
-{
-  display: inline;
-}
-
 </style>
 
 <div class="box box-primary">
@@ -44,13 +39,13 @@ ol.tc h3
       <p>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service. The Terms and Conditions agreement  for {{ $website_name }} has been created with the help of <a href="https://www.termsfeed.com/">TermsFeed</a>.</p>
 
       <ol class="tc">
-        <h3><li>Source Code</h3>
+        <li><strong>Source Code</strong>
           <ol class="tc">
             <li>The ODArena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
             <li>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</li>
           </ol>
         </li>
-        <h3><li>Accounts</h3>
+        <li><strong>Accounts</strong>
           <ol class="tc">
             <li>You must be at least 18 years or of legal age to register an account and play the game.</li>
             <li>When you create an account with us, you must provide us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service.</li>
@@ -62,7 +57,7 @@ ol.tc h3
             <li>If you have forgot your password, use the password reset function. If you do not have access to your email account, contact an administrator on Discord or via {{ $contact_email }}</li>
           </ol>
         </li>
-        <h3><li>Game Rules</h3>
+        <li>Game Rules
           <ol class="tc">
             <li>You are only allowed to have one dominion per round.</li>
             <li>Your dominion name or ruler name must not be offensive, abusive, or misleading.</li>
@@ -75,14 +70,14 @@ ol.tc h3
             <li>If you have been negatively impacted by other players breaching the rules and this can be substantiated during the investigation, you may receive an adequate and proportionate compensation, at our sole discretion.</li>
           </ol>
         </li>
-        <h3><li>Links To Other Web Sites</h3>
+        <li>Links To Other Web Sites
           <ol class="tc">
             <li>Our Service may contain links to third-party web sites or services that are not owned or controlled by {{ $website_name }}.</li>
             <li>{{ $website_name }} has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that {{ $website_name }} shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.</li>
             <li>We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.</li>
           </ol>
         </li>
-        <h3><li>Termination</h3>
+        <li>Termination
           <ol class="tc">
             <li>We may terminate or suspend, limit, and/or restrict access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</li>
             <li>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.</li>
@@ -92,29 +87,29 @@ ol.tc h3
             <li>Subitem</li>
           </ol>
         </li>
-        <h3><li>Governing Law</h3>
+        <li>Governing Law
           <ol class="tc">
             <li>These Terms shall be governed and construed in accordance with the laws of {{ $company_jurisdiction }}, without regard to its conflict of law provisions.</li>
             <li>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.</li>
           </ol>
         </li>
-        <h3><li>Changes</h3>
+        <li>Changes
           <ol class="tc">
             <li>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</li>
             <li>By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.</li>
           </ol>
         </li>
-        <h3><li>Privacy Policy</h3>
+        <li>Privacy Policy
           <ol class="tc">
             <li>These Terms also include the {{ $website_name }} Privacy Policy, available from this link: {{ route('legal.privacypolicy') }}</li>
           </ol>
         </li>
-        <h3><li>Contact Us</h3>
+        <li>Contact Us
           <ol class="tc">
             <li>If you have any questions about these Terms, please contact us via email by {{ $contact_email }}.</li>
           </ol>
         </li>
-        <h3><li>General</h3>
+        <li>General
           <ol class="tc">
             <li>If you do not agree with these Terms, you may not create an account.</li>
             <li>If you have already created an account and do not agree with the Terms, you must immediately cease taking part of {{ $website_url }}.</li>
