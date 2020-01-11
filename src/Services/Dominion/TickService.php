@@ -439,7 +439,7 @@ class TickService
              $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
              )
           {
-            $currentDay = $currentRound->start_date->subDays(1)->diffInDays(now()));
+            $currentDay = $currentRound->start_date->subDays(1)->diffInDays(now());
             $chanceOneIn = 32 - (14 - min($currentDay, 14));
             if(rand(1,$chanceOneIn) == 1)
             {
