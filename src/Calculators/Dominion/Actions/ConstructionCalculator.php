@@ -309,7 +309,7 @@ class ConstructionCalculator
         {
             if($platinumCost > 0)
             {
-              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost * 0.25));
+              $maxFromDiscountedPlatinum = (int)floor($platinumToSpend / ($platinumCost * 0.75));
             }
             else
             {
@@ -318,7 +318,7 @@ class ConstructionCalculator
 
             if($lumberCost > 0)
             {
-              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost * 0.25));
+              $maxFromDiscountedLumber = (int)floor($lumberToSpend / ($lumberCost * 0.75));
             }
             else
             {
@@ -327,7 +327,7 @@ class ConstructionCalculator
 
             if($manaCost > 0)
             {
-              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost * 0.25));
+              $maxFromDiscountedMana = (int)floor($manaToSpend / ($manaCost * 0.75));
             }
             else
             {
@@ -336,7 +336,7 @@ class ConstructionCalculator
 
             if($foodCost > 0)
             {
-              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost * 0.25));
+              $maxFromDiscountedFood = (int)floor($foodToSpend / ($foodCost * 0.75));
             }
             else
             {
@@ -384,10 +384,10 @@ class ConstructionCalculator
             }
 
             // Subtract discounted building cost from available resources
-            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) * 0.25);
-            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) * 0.25);
-            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) * 0.25);
-            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) * 0.25);
+            $platinumToSpend -= (int)ceil(($platinumCost * $discountedBuildings) * 0.75);
+            $lumberToSpend -= (int)ceil(($lumberCost * $discountedBuildings) * 0.75);
+            $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) * 0.75);
+            $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) * 0.75);
         }
 
         # Merfolk: only platinum
