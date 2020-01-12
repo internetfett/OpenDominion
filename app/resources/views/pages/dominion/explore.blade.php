@@ -100,8 +100,10 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                      @if(!$selectedDominion->round->isExploringAllowed() or $protectionService->isUnderProtection($selectedDominion))
+                      @if(!$selectedDominion->round->isExploringAllowed())
                         <p><i>Exploring has been disabled for this round.</i></p>
+                      @elseif($protectionService->isUnderProtection($selectedDominion))
+                        <p><i>Exploring is not possible during protection.</i></p>
                       @else
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
                       @endif
