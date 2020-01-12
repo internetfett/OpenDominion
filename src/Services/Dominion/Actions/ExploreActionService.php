@@ -64,7 +64,7 @@ class ExploreActionService
         $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
-        $this->ProtectionService = $protectionService;
+        $this->protectionService = $protectionService;
     }
 
     /**
