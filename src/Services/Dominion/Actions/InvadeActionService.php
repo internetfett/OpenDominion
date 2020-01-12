@@ -1716,7 +1716,7 @@ class InvadeActionService
     {
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, null, $units);
         $attackingForceDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $units);
-        $currentHomeForcesDP = max($this->landCalculator->getTotalLand($dominion) * 10, $this->militaryCalculator->getDefensivePower($dominion));
+        $currentHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion);
 
         $unitsReturning = [];
         for ($slot = 1; $slot <= 4; $slot++)
@@ -1728,7 +1728,7 @@ class InvadeActionService
 
         $totalDP = $currentHomeForcesDP + $returningForcesDP;
 
-        $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
+        $newHomeForcesDP = max($this->landCalculator->getTotalLand($dominion), $currentHomeForcesDP - $attackingForceDP);
 
         return ($newHomeForcesDP >= $totalDP * (1/3));
     }
