@@ -1716,10 +1716,11 @@ class InvadeActionService
     {
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, null, $units);
         $attackingForceDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $units);
-        $currentHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion);
+        $currentHomeForcesDP = max($this-landCalculator->getTotalLand($dominion) * 10, $this->militaryCalculator->getDefensivePower($dominion));
 
         $unitsReturning = [];
-        for ($slot = 1; $slot <= 4; $slot++) {
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
             $unitsReturning[$slot] = $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
         }
 

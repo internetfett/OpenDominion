@@ -975,8 +975,6 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-
-
     protected function getUnitPowerFromVersusResourcePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
     {
         if ($target === null && empty($calc))
@@ -1027,6 +1025,40 @@ class MilitaryCalculator
 
         return $powerFromPerk;
     }
+
+
+        protected function getUnitPowerFromResourcePerk(Dominion $dominion, Unit $unit, string $powerType): float
+        {
+            if ($target === null && empty($calc))
+            {
+                return 0;
+            }
+
+            $versusResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource", null);
+
+            if(!$versusResourcePerkData)
+            {
+                return 0;
+            }
+
+            $resource = (string)$versusResourcePerkData[0];
+            $ratio = (int)$versusResourcePerkData[1];
+            $max = (int)$versusResourcePerkData[2];
+
+            $resourceAmount = $targetResources = $dominion->{'resource_' . $resource};
+
+            $powerFromResource = $resourceAmount / $ratio;
+            if ($max < 0)
+            {
+                $powerFromPerk = max(-1 * $powerFromResource, $max);
+            }
+            else
+            {
+                $powerFromPerk = min($powerFromResource, $max);
+            }
+
+            return $powerFromPerk;
+        }
 
     /**
      * Returns the Dominion's morale modifier.
