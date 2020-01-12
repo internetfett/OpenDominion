@@ -363,7 +363,7 @@ class ConstructionCalculator
             }
             else
             {
-              $discountedBuildings = min(
+              return $discountedBuildings = min(
                   $maxFromDiscountedPlatinum,
                   $maxFromDiscountedLumber,
                   $dominion->discounted_land,
