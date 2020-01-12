@@ -154,6 +154,7 @@
                     <p>You have {{ floor($selectedDominion->spy_strength) }}% spy strength.</p>
                     <ul>
                       <li>Spy Strength: {{ floor($selectedDominion->spy_strength) }}%</li>
+                      <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>
                     </ul>
                 </div>
             </div>

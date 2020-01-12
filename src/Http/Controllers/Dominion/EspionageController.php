@@ -14,6 +14,9 @@ use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class EspionageController extends AbstractDominionController
 {
     public function getEspionage()
@@ -24,6 +27,7 @@ class EspionageController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'protectionService' => app(ProtectionService::class),
             'rangeCalculator' => app(RangeCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
         ]);
     }
 

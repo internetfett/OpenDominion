@@ -14,6 +14,9 @@ use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class MagicController extends AbstractDominionController
 {
     public function getMagic()
@@ -24,6 +27,7 @@ class MagicController extends AbstractDominionController
             'rangeCalculator' => app(RangeCalculator::class),
             'spellCalculator' => app(SpellCalculator::class),
             'spellHelper' => app(SpellHelper::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
         ]);
     }
 

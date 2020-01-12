@@ -236,7 +236,12 @@
                     <p>Non-information gathering spells last for <b>48 ticks</b>, unless stated otherwise.</p>
                     <p>Any obtained data after successfully casting an information gathering spell gets posted to the <a href="{{ route('dominion.op-center') }}">Op Center</a> for your realmies.</p>
                     <p>Casting spells spends some wizard strength, but it regenerates a bit every tick.</p>
-                    <p>You have {{ number_format($selectedDominion->resource_mana) }} mana and {{ floor($selectedDominion->wizard_strength) }}% wizard strength.</p>
+
+                    <ul>
+                      <li>Mana: {{ number_format($selectedDominion->resource_mana) }}.
+                      <li>Wizard Strength:  {{ floor($selectedDominion->wizard_strength) }}%.
+                      <li>Wizard Ratio (offense): {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
