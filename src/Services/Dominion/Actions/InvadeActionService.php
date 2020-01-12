@@ -1728,7 +1728,7 @@ class InvadeActionService
 
         $totalDP = $currentHomeForcesDP + $returningForcesDP;
 
-        $newHomeForcesDP = max($this->landCalculator->getTotalLand($dominion), $currentHomeForcesDP - $attackingForceDP);
+        $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
 
         return ($newHomeForcesDP >= $totalDP * (1/3));
     }

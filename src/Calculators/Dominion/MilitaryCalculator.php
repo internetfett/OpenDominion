@@ -380,9 +380,11 @@ class MilitaryCalculator
           $dp = $dp * (1 - $ambushReduction);
         }
 
-#        // Attacking Forces skip land-based defenses
-#        if ($units !== null)
-#            return $dp;
+        // Attacking Forces skip land-based defenses
+        if ($units !== null)
+        {
+          return $dp;          
+        }
 
         // Forest Havens
         $dp += min(
