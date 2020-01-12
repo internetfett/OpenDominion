@@ -26,18 +26,6 @@
 
       <div class="row">
 
-          <div class="col-sm-12 col-md-9">
-              @if ($protectionService->isUnderProtection($selectedDominion))
-                  <div class="box box-primary">
-                      <div class="box-header with-border">
-                          <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
-                      </div>
-                      <div class="box-body">
-                          You are currently under protection for <b>{{ number_format($protectionService->getUnderProtectionHoursLeft($selectedDominion), 2) }}</b> more hours and may not explore during that time.
-                      </div>
-                  </div>
-              @else
-
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -112,7 +100,7 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                      @if(!$selectedDominion->round->isExploringAllowed())
+                      @if(!$selectedDominion->round->isExploringAllowed() or $protectionService->isUnderProtection($selectedDominion))
                         <p><i>Exploring has been disabled for this round.</i></p>
                       @else
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
@@ -160,7 +148,6 @@
                 </div>
             </div>
         </div>
-        @endif
     </div>
 @else
     <div class="row">
