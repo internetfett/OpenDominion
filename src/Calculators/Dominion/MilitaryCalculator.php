@@ -322,7 +322,7 @@ class MilitaryCalculator
 
         # Some draftees are weaker (Ants, Growth), and some draftees
         # count as no DP. If no DP, draftees do not participate in battle.
-        if($dominion->race->getPerkValue('draftee_dp'))
+        if(isset($dominion->race->getPerkValue('draftee_dp')))
         {
           if($dominion->race->getPerkValue('draftee_dp') == 0)
           {
