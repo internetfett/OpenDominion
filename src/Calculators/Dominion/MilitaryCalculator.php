@@ -327,8 +327,16 @@ class MilitaryCalculator
         {
           if($dominion->race->getPerkValue('draftee_dp') === 0)
           {
-            $dpPerDraftee = 0;
-            $ignoreDraftees == TRUE;
+            // EXCEPTION CHECK: Swarm Spell: Chitin (+1 DP per Draftee)
+            if ($this->spellCalculator->isSpellActive($dominion, 'chitin'))
+            {
+              $dpPerDraftee = 1;
+            }
+            else
+            {
+              $dpPerDraftee = 0;
+              $ignoreDraftees = TRUE;
+            }
           }
           elseif($dominion->race->getPerkValue('draftee_dp') > 0)
           {
@@ -357,7 +365,8 @@ class MilitaryCalculator
         }
 
         // Draftees
-        if (!$ignoreDraftees) {
+        if (!$ignoreDraftees)
+        {
             if ($units !== null && isset($units[0])) {
                 $dp += ((int)$units[0] * $dpPerDraftee);
             } else {
@@ -365,11 +374,7 @@ class MilitaryCalculator
             }
         }
 
-        // Swarm Spell: Chiting (+1 DP per Draftee)
-        if ($this->spellCalculator->isSpellActive($dominion, 'chitin'))
-        {
-          $dp += $dominion->military_draftees;
-        }
+
 
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
@@ -527,6 +532,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
