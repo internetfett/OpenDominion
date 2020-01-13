@@ -1037,21 +1037,17 @@ class MilitaryCalculator
 
         protected function getUnitPowerFromResourcePerk(Dominion $dominion, Unit $unit, string $powerType): float
         {
-            if ($target === null && empty($calc))
+
+            $fromResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource", null);
+
+            if(!$fromResourcePerkData)
             {
                 return 0;
             }
 
-            $versusResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource", null);
-
-            if(!$versusResourcePerkData)
-            {
-                return 0;
-            }
-
-            $resource = (string)$versusResourcePerkData[0];
-            $ratio = (int)$versusResourcePerkData[1];
-            $max = (int)$versusResourcePerkData[2];
+            $resource = (string)$fromResourcePerkData[0];
+            $ratio = (int)$fromResourcePerkData[1];
+            $max = (int)$fromResourcePerkData[2];
 
             $resourceAmount = $targetResources = $dominion->{'resource_' . $resource};
 
