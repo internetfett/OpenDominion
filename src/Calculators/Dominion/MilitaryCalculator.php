@@ -317,7 +317,6 @@ class MilitaryCalculator
 
         // Values
         $minDPPerAcre = 10; # LandDP
-        $dpPerDraftee = 1;
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
 
@@ -325,7 +324,7 @@ class MilitaryCalculator
         # count as no DP. If no DP, draftees do not participate in battle.
         if($dominion->race->getPerkValue('draftee_dp'))
         {
-          if($dominion->race->getPerkValue('draftee_dp') === 0)
+          if($dominion->race->getPerkValue('draftee_dp') == 0)
           {
             // EXCEPTION CHECK: Swarm Spell: Chitin (+1 DP per Draftee)
             if ($this->spellCalculator->isSpellActive($dominion, 'chitin'))
@@ -335,13 +334,17 @@ class MilitaryCalculator
             else
             {
               $dpPerDraftee = 0;
-              $ignoreDraftees = TRUE;
+              $ignoreDraftees = True;
             }
           }
-          elseif($dominion->race->getPerkValue('draftee_dp') > 0)
+          elseif($dominion->race->getPerkValue('draftee_dp') !== 0)
           {
             $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
           }
+        }
+        else
+        {
+          $dpPerDraftee = 1;
         }
 
         // Military
