@@ -41,7 +41,8 @@ units:
       offense: 0
       defense: 4
     perks:
-      immortal_except_vs: Swarm
+#      immortal_except_vs: Swarm
+      true_immortal: 1
       gem_production: 0.75
   - name: Arachnid
     need_boat: false
