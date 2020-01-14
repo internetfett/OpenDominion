@@ -832,7 +832,7 @@ class ProductionCalculator
 
         # SPELLS
         // Spell: Miner's Sight (+5%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
+        if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
         {
             $multiplier += 0.05;
         }
