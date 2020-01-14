@@ -456,6 +456,15 @@ class CasualtiesCalculator
         $targetRace = strtolower($targetRace);
         $targetRace = str_replace($targetRace);
 
+        if($targetRace == $raceNotImmortalAgainst or !$raceNotImmortalAgainst)
+        {
+          return False;
+        }
+        else
+        {
+          return True;
+        }
+/*
         $raceNameFormatted = strtolower($target->race->name);
         $raceNameFormatted = str_replace(' ', '_', $raceNameFormatted);
 
@@ -465,7 +474,7 @@ class CasualtiesCalculator
         {
             return false;
         }
-
+*/
         return $perkValue !== $raceNameFormatted;
     }
 
