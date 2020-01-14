@@ -723,7 +723,7 @@ class MilitaryCalculator
         $amount = (int)$pairingPerkData[1];
         if (isset($pairingPerkData[2]))
         {
-            $numRequired = $pairingPerkData[2];
+            $numRequired = (float)$pairingPerkData[2];
         }
         else
         {
