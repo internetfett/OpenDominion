@@ -24,7 +24,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_from_pairing: 4,2 # slot, amount
+      offense_from_pairing: 4,2,0.1 # slot, amount
   - name: Shieldbearer
     cost:
       platinum: 400

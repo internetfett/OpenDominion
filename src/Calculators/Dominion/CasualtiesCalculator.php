@@ -445,6 +445,17 @@ class CasualtiesCalculator
      */
     protected function isImmortalVersusRacePerk(Dominion $dominion, Dominion $target, int $slot): bool
     {
+
+        # Question: is military_unit$slot of $dominion immortal against $target?
+
+        $raceNotImmortalAgainst = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_except_vs');
+        $raceNotImmortalAgainst = strtolower($raceNotImmortalAgainst);
+        $raceNotImmortalAgainst = str_replace(' ', '_', $raceNotImmortalAgainst);
+
+        $targetRace = $target->race->name;
+        $targetRace = strtolower($targetRace);
+        $targetRace = str_replace($targetRace);
+
         $raceNameFormatted = strtolower($target->race->name);
         $raceNameFormatted = str_replace(' ', '_', $raceNameFormatted);
 

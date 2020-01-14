@@ -161,7 +161,7 @@ class UnitHelper
 
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
-            'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land.',
+            'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land. Does not count against Barbarians.',
 
             'offense_vs_resource' => 'Offense increased by 1 for every %2$s %1$s target has (max +%3$s).',
 
