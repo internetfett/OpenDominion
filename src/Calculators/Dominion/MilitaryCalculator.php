@@ -173,7 +173,7 @@ class MilitaryCalculator
         // Beastfolk: Plains increases OP
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 0.2 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 0.20 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
         }
 
         return (1 + $multiplier);
@@ -354,8 +354,8 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        // Building: Gryphon Nests
-        $multiplier += $this->getGryphonNestMultiplier($dominion);
+        // Building: Guard Towers
+        $multiplier += $this->getGuardTowerMultiplier($dominion);
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
@@ -368,9 +368,6 @@ class MilitaryCalculator
 
         // Spell
         $multiplier += $this->getSpellMultiplier($dominion, 'defense');
-
-        // Prestige
-        $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
         // Beastfolk: Plains increases DP
         if($dominion->race->name == 'Beastfolk')
