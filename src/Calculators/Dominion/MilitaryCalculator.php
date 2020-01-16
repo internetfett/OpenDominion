@@ -1284,6 +1284,8 @@ class MilitaryCalculator
     public function getSpellMultiplier(Dominion $dominion, string $power = null): float
     {
 
+      $multiplier = 0;
+
       if($power == 'offense')
       {
         // Spell: Bloodrage (+10% OP)
