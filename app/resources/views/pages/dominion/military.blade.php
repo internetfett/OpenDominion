@@ -251,8 +251,8 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
-                                <col width="50%">
-                                <col width="50%">
+                                <col width="25%">
+                                <col width="25%">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -262,8 +262,8 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Total: </td>
-                                    <td>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</td>
+                                    <td><strong>Total: </strong></td>
+                                    <td><strong>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Prestige: </td>
@@ -296,8 +296,8 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
-                                <col width="50%">
-                                <col width="50%">
+                                <col width="25%">
+                                <col width="25%">
                             </colgroup>
                             <thead>
                                 <tr>
@@ -307,8 +307,8 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Total: </td>
-                                    <td>{{ number_format(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</td>
+                                    <td><strong>Total: </strong></td>
+                                    <td><strong>{{ number_format(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</strong></td>
                                 </tr>
                                 <tr>
                                     <td>Walls: </td>
