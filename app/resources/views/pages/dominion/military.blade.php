@@ -266,10 +266,6 @@
                                     <td>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</td>
                                 </tr>
                                 <tr>
-                                    <td>Faction bonus: </td>
-                                    <td>{{ number_format($selectedDominion->race->getPerkMultiplier('offense') * 100, 2) }}%</td>
-                                </tr>
-                                <tr>
                                     <td>Prestige: </td>
                                     <td>{{ number_format($prestigeCalculator->getPrestigeMultiplier($selectedDominion) * 100, 2) }}%</td>
                                 </tr>
@@ -288,6 +284,10 @@
                                 <tr>
                                     <td>Gryphon Nests: </td>
                                     <td>{{ number_format($militaryCalculator->getGryphonNestMultiplier($selectedDominion) * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Faction bonus: </td>
+                                    <td>{{ number_format($selectedDominion->race->getPerkMultiplier('offense') * 100, 2) }}%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -308,11 +308,7 @@
                             <tbody>
                                 <tr>
                                     <td>Total: </td>
-                                    <td>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</td>
-                                </tr>
-                                <tr>
-                                    <td>Faction bonus: </td>
-                                    <td>{{ number_format($selectedDominion->race->getPerkMultiplier('defense') * 100, 2) }}%</td>
+                                    <td>{{ number_format(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</td>
                                 </tr>
                                 <tr>
                                     <td>Walls: </td>
@@ -329,6 +325,10 @@
                                 <tr>
                                     <td>Guard Towers: </td>
                                     <td>{{ number_format($militaryCalculator->getGuardTowerMultiplier($selectedDominion) * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Faction bonus: </td>
+                                    <td>{{ number_format($selectedDominion->race->getPerkMultiplier('defense') * 100, 2) }}%</td>
                                 </tr>
                             </tbody>
                         </table>
