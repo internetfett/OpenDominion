@@ -242,7 +242,7 @@
                     </div>
                 </form>
             </div>
-            <div class="box box-primary">
+            <div class="box box-primary col-xs-6">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="ra ra-sword"></i> Military Modifiers</h3>
                 </div>
