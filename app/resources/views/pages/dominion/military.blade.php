@@ -384,31 +384,31 @@
                         <tbody>
                             <tr>
                                 <td>Faction bonus: </td>
-                                <td>{{ $selectedDominion->race->getPerkMultiplier('offense') }}%</td>
+                                <td>{{ number_format($selectedDominion->race->getPerkMultiplier('offense') * 100, 2) }}%</td>
                             </tr>
                             <tr>
                                 <td>Prestige: </td>
-                                <td>{{ $prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}%</td>
+                                <td>{{ number_format($prestigeCalculator->getPrestigeMultiplier($selectedDominion) * 100, 2) }}%</td>
                             </tr>
                             <tr>
                                 <td>Forges: </td>
-                                <td>{{ $improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') }}%</td>
+                                <td>{{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') * 100, 2) }}%</td>
                             </tr>
                             <tr>
                                 <td>Advancements: </td>
-                                <td>{{ $selectedDominion->getTechPerkMultiplier('offense') }}%</td>
+                                <td>{{ number_format($selectedDominion->getTechPerkMultiplier('offense') * 100, 2) }}%</td>
                             </tr>
                             <tr>
                                 <td>Spell: </td>
-                                <td>{{ $militaryCalculator->getSpellMultiplier($selectedDominion, 'offense') }}%</td>
+                                <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, 'offense') * 100, 2) }}%</td>
                             </tr>
                             <tr>
                                 <td>Gryphon Nests: </td>
-                                <td>{{ $militaryCalculator->getGryphonNestMultiplier($selectedDominion) }}%</td>
+                                <td>{{ number_format($militaryCalculator->getGryphonNestMultiplier($selectedDominion) * 100, 2) }}%</td>
                             </tr>
                             <tr>
                                 <td>Total: </td>
-                                <td>{{ $militaryCalculator->getOffensivePowerMultiplier($selectedDominion) }}%</td>
+                                <td>{{ number_format($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) * 100, 2) }}%</td>
                             </tr>
                         </tbody>
                     </table>
