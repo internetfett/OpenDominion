@@ -15,8 +15,7 @@ perks:
   food_consumption: 20
   lumber_production: 50
   prestige_gains: 100
-  max_population: 10
-  barracks_housing: 18
+  tech_costs: 20
 units:
   - name: Savage
     cost:
@@ -34,19 +33,19 @@ units:
       defense: 3
   - name: Voodoo Mage
     cost:
-      platinum: 950
+      platinum: 800
       ore: 0
     power:
       offense: 0
       defense: 4
     perks:
-      defense_from_prestige: 250,8 # amount, max
+      defense_from_prestige: 500,4 # amount, max
   - name: Bone Breaker
     cost:
       platinum: 800
       ore: 100
     power:
       offense: 4
-      defense: 4
+      defense: 3
     perks:
-      offense_from_victories: 0.5,5 # +0.5 OP per Victory, max +5 (at 10 Victories)
+      offense_from_victories: 0.25,4 # +0.25 OP per Victory, max +4 (at 16 Victories)

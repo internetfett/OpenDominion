@@ -15,6 +15,7 @@ perks:
   prestige_gains: 100
   max_population: 10
   extra_barracks_housing: 18
+  tech_costs: 20
 units:
   - name: Impaler
     cost:

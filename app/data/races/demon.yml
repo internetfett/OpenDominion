@@ -64,4 +64,4 @@ units:
     perks:
       no_draftee: 1
       immortal: 1
-      offense_vs_building: temple,5,2
+      offense_from_resource: soul,10,1000 # +1 OP per 20,000 gems, max +2
