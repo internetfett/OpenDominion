@@ -1281,7 +1281,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getSpellMultiplier(Dominion $dominion, string $power): float
+    public function getSpellMultiplier(Dominion $dominion, string $power = null): float
     {
 
       if($power == 'offense')
@@ -1360,6 +1360,10 @@ class MilitaryCalculator
         {
           $multiplier += 1.00;
         }
+      }
+      else
+      {
+        $multiplier = 0; # Remove this eventually.
       }
 
       return $multiplier;
