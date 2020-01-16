@@ -17,6 +17,9 @@ use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
 use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+
 class MilitaryController extends AbstractDominionController
 {
     public function getMilitary()
@@ -27,6 +30,7 @@ class MilitaryController extends AbstractDominionController
             'queueService' => app(QueueService::class),
             'trainingCalculator' => app(TrainingCalculator::class),
             'unitHelper' => app(UnitHelper::class),
+            'improvementCalculator' => app(ImprovementCalculator::class),
         ]);
     }
 

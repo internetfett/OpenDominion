@@ -364,6 +364,58 @@
             </div>
             @endif
 
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Modifiers</h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table">
+                        <colgroup>
+                            <col width="50%">
+                            <col width="50%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="text-center">Modifier</th>
+                                <th class="text-center">Multiplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Faction bonus: </td>
+                                <td>{{ $selectedDominion->race->getPerkMultiplier('offense') }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Prestige: </td>
+                                <td>{{ $militaryCalculator->prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Forges: </td>
+                                <td>{{ $improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Advancements: </td>
+                                <td>{{ $selectedDominion->getTechPerkMultiplier('offense') }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Spell: </td>
+                                <td>{{ $militaryCalculator->getSpellMultiplier($selectedDominion, 'offense') }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Gryphon Nests: </td>
+                                <td>{{ $militaryCalculator->getGryphonNestMultiplier($selectedDominion) }}%</td>
+                            </tr>
+                            <tr>
+                                <td>Total: </td>
+                                <td>{{ $militaryCalculator->getOffensivePowerMultiplier($selectedDominion) }}%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
         </div>
 
     </div>
