@@ -19,6 +19,7 @@ use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 
 class MilitaryController extends AbstractDominionController
 {
@@ -30,7 +31,10 @@ class MilitaryController extends AbstractDominionController
             'queueService' => app(QueueService::class),
             'trainingCalculator' => app(TrainingCalculator::class),
             'unitHelper' => app(UnitHelper::class),
+
+            # ODA
             'improvementCalculator' => app(ImprovementCalculator::class),
+            'prestigeCalculator' => app(PrestigeCalculator::class),
         ]);
     }
 

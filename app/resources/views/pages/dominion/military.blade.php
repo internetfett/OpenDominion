@@ -388,7 +388,7 @@
                             </tr>
                             <tr>
                                 <td>Prestige: </td>
-                                <td>{{ $militaryCalculator->prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}%</td>
+                                <td>{{ $prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}%</td>
                             </tr>
                             <tr>
                                 <td>Forges: </td>
