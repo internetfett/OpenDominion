@@ -247,7 +247,7 @@
                     <h3 class="box-title"><i class="ra ra-sword"></i> Military Modifiers</h3>
                 </div>
 
-                <div class="row">
+                    <h3>Offensive Modifiers</h3>
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
@@ -293,6 +293,7 @@
                         </table>
                     </div>
 
+                    <h3>Defensive Modifiers</h3>
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
@@ -333,7 +334,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
 
             </div>
         </div>
