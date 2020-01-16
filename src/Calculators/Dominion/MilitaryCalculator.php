@@ -935,35 +935,34 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromResourcePerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
 
-        protected function getUnitPowerFromResourcePerk(Dominion $dominion, Unit $unit, string $powerType): float
+        $fromResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource", null);
+
+        if(!$fromResourcePerkData)
         {
-
-            $fromResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource", null);
-
-            if(!$fromResourcePerkData)
-            {
-                return 0;
-            }
-
-            $resource = (string)$fromResourcePerkData[0];
-            $ratio = (int)$fromResourcePerkData[1];
-            $max = (int)$fromResourcePerkData[2];
-
-            $resourceAmount = $targetResources = $dominion->{'resource_' . $resource};
-
-            $powerFromResource = $resourceAmount / $ratio;
-            if ($max < 0)
-            {
-                $powerFromPerk = max(-1 * $powerFromResource, $max);
-            }
-            else
-            {
-                $powerFromPerk = min($powerFromResource, $max);
-            }
-
-            return $powerFromPerk;
+            return 0;
         }
+
+        $resource = (string)$fromResourcePerkData[0];
+        $ratio = (int)$fromResourcePerkData[1];
+        $max = (int)$fromResourcePerkData[2];
+
+        $resourceAmount = $targetResources = $dominion->{'resource_' . $resource};
+
+        $powerFromResource = $resourceAmount / $ratio;
+        if ($max < 0)
+        {
+            $powerFromPerk = max(-1 * $powerFromResource, $max);
+        }
+        else
+        {
+            $powerFromPerk = min($powerFromResource, $max);
+        }
+
+        return $powerFromPerk;
+    }
 
     /**
      * Returns the Dominion's morale modifier.
@@ -1280,7 +1279,7 @@ class MilitaryCalculator
     }
 
     /**
-     * Gets the dominion's bonus from Gryphon Nests.
+     * Gets the dominion's OP or DP ($power) bonus from spells.
      *
      * @param Dominion $dominion
      * @return float
