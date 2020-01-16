@@ -152,21 +152,11 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
+        // Building: Gryphon Nests
+        $multiplier += $this->getGryphonNestMultiplier($dominion);
 
-        $opPerGryphonNest = 2;
-        $gryphonNestMaxOp = 40;
-
-        // Gryphon Nests
-        # Spell: Snow Elf - Gryphon's Call: no OP bonus from GNs.
-        if (!$this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
-        {
-          $multiplier += min(
-              (($opPerGryphonNest * $dominion->building_gryphon_nest) / $this->landCalculator->getTotalLand($dominion)),
-              ($gryphonNestMaxOp / 100)
-          );
-
-        }
+        // Improvement: Forges
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forges');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('offense');
@@ -174,70 +164,16 @@ class MilitaryCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('offense');
 
-        // Improvement: Forges
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forges');
+        // Spell
+        $multiplier += $this->getSpellMultiplier($dominion, 'offense');
+
+        // Prestige
+        $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
         // Beastfolk: Plains increases OP
         if($dominion->race->name == 'Beastfolk')
         {
           $multiplier += 0.2 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
-        }
-
-        # SPELLS
-
-        // Spell: Bloodrage (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Crusade (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'crusade'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Howling (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Coastal Cannons
-        if ($this->spellCalculator->isSpellActive($dominion, 'killing_rage'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Warsong (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'warsong'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Nightfall (+5% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'nightfall'))
-        {
-          $multiplier += 0.05;
-        }
-
-        # /SPELLS
-
-
-        // Prestige
-        $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
-
-        // War
-        if ($target != null)
-        {
-            if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm))
-            {
-                $multiplier += 0.10;
-            }
-            elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm))
-            {
-                $multiplier += 0.05;
-            }
         }
 
         return (1 + $multiplier);
@@ -377,7 +313,14 @@ class MilitaryCalculator
             }
         }
 
+        // Building: Forest Havens
+        $dp += min(
+            ($dominion->peasants * $forestHavenDpPerPeasant),
+            ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
+        ); // todo: recheck this
 
+        // Void: Ziggurat
+        $dp += $dominion->building_ziggurat * 4;
 
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
@@ -393,16 +336,6 @@ class MilitaryCalculator
         {
             return $dp;
         }
-
-        // Forest Havens
-        $dp += min(
-            ($dominion->peasants * $forestHavenDpPerPeasant),
-            ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
-        ); // todo: recheck this
-
-        // Void: Ziggurat
-        $dp += $dominion->building_ziggurat * 4;
-
 
         return max(
             $dp,
@@ -421,14 +354,11 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        // Guard Towers
-        $dpPerGuardTower = 2;
-        $guardTowerMaxDp = 40;
+        // Building: Gryphon Nests
+        $multiplier += $this->getGryphonNestMultiplier($dominion);
 
-        $multiplier += min(
-            (($dpPerGuardTower * $dominion->building_guard_tower) / $this->landCalculator->getTotalLand($dominion)),
-            ($guardTowerMaxDp / 100)
-        );
+        // Improvement: Forges
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('defense');
@@ -436,59 +366,17 @@ class MilitaryCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('defense');
 
-        // Improvement: Walls
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
+        // Spell
+        $multiplier += $this->getSpellMultiplier($dominion, 'defense');
 
-        // Beastfolk: Hills increases DP
+        // Prestige
+        $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+
+        // Beastfolk: Plains increases DP
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 1 * ($dominion->{'land_hill'} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 0.2 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
         }
-
-        # SPELLS
-
-        // Spell: Howling (+10% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Icekin Blizzard (+5% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
-        {
-          $multiplier += 0.5;
-        }
-
-        // Spell: Halfling Defensive Frenzy (+20% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'defensive_frenzy'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Coastal Cannons
-        if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
-        {
-          $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
-          $multiplier += min($multiplierFromCoastalCannons,0.20);
-        }
-
-        // Spell: Norse Fimbulwinter (+10% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Simian Rainy Season (+100% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-          $multiplier += 1.00;
-        }
-
-        # /SPELLS
-
-        // Multiplier reduction when we want to factor in temples from another
-        // dominion
-        $multiplier = max(($multiplier - $multiplierReduction), 0);
 
         return (1 + $multiplier);
     }
@@ -1369,5 +1257,130 @@ class MilitaryCalculator
         }
 
         return false;
+    }
+
+    # ODA functions
+
+    /**
+     * Gets the dominion's bonus from Gryphon Nests.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getGryphonNestMultiplier(Dominion $dominion): float
+    {
+      if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
+      {
+          return 0;
+      }
+      $multiplier = 0;
+      $multiplier = ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion))) * 2;
+
+      return min($multiplier, 0.40);
+    }
+
+    /**
+     * Gets the dominion's bonus from Gryphon Nests.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getSpellMultiplier(Dominion $dominion, string $power): float
+    {
+
+      if($power == 'offense')
+      {
+        // Spell: Bloodrage (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Crusade (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'crusade'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Howling (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Coastal Cannons
+        if ($this->spellCalculator->isSpellActive($dominion, 'killing_rage'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Warsong (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'warsong'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Nightfall (+5% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'nightfall'))
+        {
+          $multiplier += 0.05;
+        }
+      }
+      elseif($power == 'defense')
+      {
+        // Spell: Howling (+10% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Icekin Blizzard (+5% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
+        {
+          $multiplier += 0.5;
+        }
+
+        // Spell: Halfling Defensive Frenzy (+20% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'defensive_frenzy'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Coastal Cannons
+        if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
+        {
+          $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
+          $multiplier += min($multiplierFromCoastalCannons,0.20);
+        }
+
+        // Spell: Norse Fimbulwinter (+10% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
+        {
+          $multiplier += 0.10;
+        }
+
+        // Spell: Simian Rainy Season (+100% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        {
+          $multiplier += 1.00;
+        }
+      }
+
+      return $multiplier;
+
+    }
+
+    /**
+     * Gets the dominion's bonus from Guard Towers.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getGuardTowerMultiplier(Dominion $dominion): float
+    {
+      $multiplier = 0;
+      $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion))) * 2;
+
+      return min($multiplier, 0.40);
     }
 }
