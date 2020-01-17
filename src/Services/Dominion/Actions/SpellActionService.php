@@ -107,7 +107,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null, boolean $isInvasionSpell = null): array
+    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null, bool $isInvasionSpell = null): array
     {
         $this->guardLockedDominion($dominion);
         if ($target !== null) {
