@@ -24,6 +24,9 @@ use OpenDominion\Traits\DominionGuardsTrait;
 # ODA
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Services\Dominion\Actions\SpellActionService;
+
+
 
 class InvadeActionService
 {
@@ -113,6 +116,9 @@ class InvadeActionService
     /** @var SpellHelper */
     protected $spellHelper;
 
+    /** @var SpellActionService */
+    protected $spellActionService;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -165,7 +171,8 @@ class InvadeActionService
         SpellCalculator $spellCalculator,
         ImprovementCalculator $improvementCalculator,
         ImprovementHelper $improvementHelper,
-        SpellHelper $spellHelper
+        SpellHelper $spellHelper,
+        SpellActionService $spellActionService
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -180,6 +187,7 @@ class InvadeActionService
         $this->improvementCalculator = $improvementCalculator;
         $this->improvementHelper = $improvementHelper;
         $this->spellHelper = $spellHelper;
+        $this->spellActionService = $spellActionService;
     }
 
     /**
@@ -1592,7 +1600,7 @@ class InvadeActionService
           # If all checks are True, cast the spell.
           if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
           {
-            $this->SpellActionService->castSpell($attacker, $attackerSpell['key'], $defender, $isInvasionSpell);
+            $this->spellActionService->castSpell($attacker, $attackerSpell['key'], $defender, $isInvasionSpell);
           }
         }
 
@@ -1625,7 +1633,7 @@ class InvadeActionService
           # If all checks are True, cast the spell.
           if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
           {
-            $this->SpellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
+            $this->spellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
           }
 
         }
