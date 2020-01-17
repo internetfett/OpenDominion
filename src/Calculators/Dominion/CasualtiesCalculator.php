@@ -454,7 +454,7 @@ class CasualtiesCalculator
 
         $targetRace = $target->race->name;
         $targetRace = strtolower($targetRace);
-        $targetRace = str_replace($targetRace);
+        $targetRace = str_replace(' ', '_', $targetRace);
 
         if($targetRace == $raceNotImmortalAgainst or !$raceNotImmortalAgainst)
         {
