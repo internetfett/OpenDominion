@@ -277,8 +277,10 @@ class InvadeActionService
                 throw new GameException('Your faction is unable to invade.');
             }
 
-            foreach($units as $amount) {
-                if($amount < 0) {
+            foreach($units as $amount)
+            {
+                if($amount < 0)
+                {
                     throw new GameException('Invasion was canceled due to bad input.');
                 }
             }
@@ -317,6 +319,10 @@ class InvadeActionService
 
             #if(!$this->passesOpAtLeast50percentOfDpRule()) {
             #    throw new GameException('You are not sending enough OP to be even close to breaking the target (50% rule)');
+            #}
+
+            #if(!$this->passesOpAtlEastLandDp()) {
+            #    throw new GameException("Your offensive power is less than the target's minimum possible OP. Check your calculations and input again before sending.");
             #}
 
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
@@ -1559,8 +1565,32 @@ class InvadeActionService
 
         foreach($attackerSpells as $attackerSpell)
         {
-          # Invasion must be successful.
-          if($attackerSpell['invasion_successful'] !== False and $this->invasionResult['result']['success'])
+          # Check each possible spell conditions.
+
+          # 1. Is this spell cast when the attacker is attacking?
+          if($attackerSpell['type'] == 'offense')
+          {
+            $spellTypeCheck = True;
+          }
+
+          # 2. Is the spell only cast when the invasion is successful, OR when the invasion is UNsuccessful, OR in any case?
+          if(($attackerSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
+              or ($attackerSpell['invasion_must_be_successful'] == False and !$this->invasionResult['result']['success'])
+              or ($attackerSpell['invasion_must_be_successful'] == Null)
+              )
+          {
+            $invasionMustBeSuccessfulCheck = True;
+          }
+
+          # 3. Is there an OP/DP ratio requirement?
+          $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
+          if(isset($attackerSpell['op_dp_ratio']) and $opDpRatio >= $attackerSpell['op_dp_ratio'])
+          {
+            $opDpRatioCheck = True;
+          }
+
+          # If all checks are True, cast the spell.
+          if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
           {
             $this->SpellActionService->castSpell($attacker, $attackerSpell['key'], $defender, $isInvasionSpell);
           }
@@ -1568,9 +1598,37 @@ class InvadeActionService
 
         foreach($defenderSpells as $defenderSpell)
         {
-          $this->SpellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
-        }
+          # Check each possible spell conditions.
 
+          # 1. Is this spell cast when the attacker is attacking?
+          if($defenderSpell['type'] == 'defense')
+          {
+            $spellTypeCheck = True;
+          }
+
+          # 2. Is the spell only cast when the invasion is successful, OR when the invasion is UNsuccessful, OR in any case?
+          if(($defenderSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
+              or ($defenderSpell['invasion_must_be_successful'] == False and !$this->invasionResult['result']['success'])
+              or ($defenderSpell['invasion_must_be_successful'] == Null)
+              )
+          {
+            $invasionMustBeSuccessfulCheck = True;
+          }
+
+          # 3. Is there an OP/DP ratio requirement?
+          $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
+          if(isset($defenderSpell['op_dp_ratio']) and $opDpRatio >= $defenderSpell['op_dp_ratio'])
+          {
+            $opDpRatioCheck = True;
+          }
+
+          # If all checks are True, cast the spell.
+          if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
+          {
+            $this->SpellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
+          }
+
+        }
 
     }
 

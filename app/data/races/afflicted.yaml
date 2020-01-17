@@ -16,7 +16,7 @@ description: >-
   <li><strong>Unhealing Wounds</strong>: +50% casualties, +15% food consumption.</li>
   </ul>
 home_land_type: hill
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 2
