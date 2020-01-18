@@ -344,6 +344,9 @@ class PopulationCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('population_growth');
 
+        // Temples
+        $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * $templeBonus);
+
         # SPELLS
 
         // Spell: Harmony (+50%)
@@ -364,10 +367,14 @@ class PopulationCalculator
             $multiplier -= 0.25;
         }
 
+        // Spell: Great Fever (-100%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
+        {
+            $multiplier -= 1.00;
+        }
+
         # /SPELLS
 
-        // Temples
-        $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * $templeBonus);
 
         return (1 + $multiplier);
     }

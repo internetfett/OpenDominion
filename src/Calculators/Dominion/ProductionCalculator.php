@@ -184,6 +184,12 @@ class ProductionCalculator
           $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
         }
 
+        // Invasion Spell: Unhealing Wounds (-10% production)
+        if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
+        {
+            $multiplier -= 0.10;
+        }
+
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
@@ -296,6 +302,12 @@ class ProductionCalculator
             $multiplier -= 0.05;
         }
 
+        // Invasion Spell: Great Fever (-20% food production)
+        if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
+        {
+            $multiplier -= 0.20;
+        }
+
         # /SPELLS
 
         // Improvement: Harbor
@@ -330,6 +342,7 @@ class ProductionCalculator
     public function getFoodConsumption(Dominion $dominion): float
     {
         $consumption = 0;
+        $multiplier = 0;
 
         // Values
         $populationConsumption = 0.25;
@@ -338,7 +351,13 @@ class ProductionCalculator
         $consumption += ($this->populationCalculator->getPopulation($dominion) * $populationConsumption);
 
         // Racial Bonus
-        $consumption *= (1 + $dominion->race->getPerkMultiplier('food_consumption'));
+        $multiplier = $dominion->race->getPerkMultiplier('food_consumption');
+
+        // Invasion Spell: Unhealing Wounds (+15% consumption)
+        if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+        {
+            $multiplier += 0.10;
+        }
 
         // Unit Perk: food_consumption
         $extraFoodEaten = 0;
@@ -353,6 +372,9 @@ class ProductionCalculator
         }
 
         $consumption += $extraFoodEaten;
+
+        # Add multiplier.
+        $consumption *= (1+ $multiplier);
 
         return $consumption;
     }

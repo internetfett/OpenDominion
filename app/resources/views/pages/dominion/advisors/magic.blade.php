@@ -32,6 +32,7 @@
                             @foreach ($spellCalculator->getActiveSpells($selectedDominion) as $spell)
                                 @php
                                     $spellInfo = $spellHelper->getSpellInfo($spell->spell, $selectedDominion, true, true);
+                                    var_dump($spell);
                                 @endphp
                                 <tr>
                                     <td>{{ $spellInfo['name'] }}</td>

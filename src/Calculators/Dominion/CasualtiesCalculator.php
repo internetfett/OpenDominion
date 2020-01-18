@@ -146,6 +146,11 @@ class CasualtiesCalculator
             {
               $multiplier -= 0.25;
             }
+            # Invasion Spell: Unhealing Wounds
+            if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+            {
+              $multiplier += 0.50;
+            }
 
             // Techs
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_offense');
@@ -254,6 +259,11 @@ class CasualtiesCalculator
             if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
             {
               $multiplier -= 0.25;
+            }
+            # Invasion Spell: Unhealing Wounds
+            if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+            {
+              $multiplier += 0.50;
             }
 
 

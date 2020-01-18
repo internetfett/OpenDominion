@@ -167,6 +167,7 @@ class SpellCalculator
         });
     }
 
+
     /**
      * Returns the remaining duration (in ticks) of a spell affecting $dominion.
      *

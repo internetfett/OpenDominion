@@ -472,11 +472,13 @@ class InvadeActionService
             #$attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
             // War Bonus
+            /*
             if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm)) {
                 $attackerPrestigeChange *= 1.25;
             } elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm)) {
                 $attackerPrestigeChange *= 1.15;
             }
+            */
         }
 
         // Reduce attacker prestige gain if the target was hit recently
@@ -833,11 +835,13 @@ class InvadeActionService
         $bonusLandRatio = 2;
 
         // War Bonus
+        /*
         if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm)) {
             $landGrabRatio = 1.2;
         } elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm)) {
             $landGrabRatio = 1.15;
         }
+        */
 
         $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($dominion) * $landGrabRatio);
 
