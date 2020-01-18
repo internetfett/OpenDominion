@@ -476,7 +476,7 @@ class SpellActionService
         if ($targetWpa !== 0.0)
         {
             $successRate = $this->opsHelper->operationSuccessChance($selfWpa, $targetWpa,
-                static::HOSTILE_MULTIPLIER_SUCCESS_RATE);
+                static::HOSTILE_MULTIPLIER_SUCCESS_RATE, $isInvasionSpell);
 
             if (!random_chance($successRate)) {
                 $wizardsKilledBasePercentage = 1;
