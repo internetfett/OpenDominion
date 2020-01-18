@@ -114,7 +114,7 @@ class SpellActionService
             $this->guardLockedDominion($target);
         }
 
-        $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion, $isInvasionSpell);
+        $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion, $isInvasionSpell, false);
 
         if (!$spellInfo) {
             throw new LogicException("Cannot cast unknown spell '{$spellKey}'");
@@ -445,7 +445,7 @@ class SpellActionService
             throw new GameException('You cannot perform black ops for the first day of the round');
         }
 
-        $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion, $isInvasionSpell);
+        $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion, $isInvasionSpell, false);
 
         if ($this->spellHelper->isWarSpell($spellKey, $dominion)) {
             $warDeclared = ($dominion->realm->war_realm_id == $target->realm->id || $target->realm->war_realm_id == $dominion->realm->id);

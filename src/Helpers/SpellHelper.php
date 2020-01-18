@@ -11,9 +11,9 @@ use OpenDominion\Models\Dominion;
 class SpellHelper
 {
 
-    public function getSpellInfo(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false): array
+    public function getSpellInfo(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): array
     {
-        return $this->getSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
+        return $this->getSpells($dominion, $isInvasionSpell, $isViewOnly)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->first();
     }
@@ -61,21 +61,22 @@ class SpellHelper
     }
 
 
-    public function getSpells(Dominion $dominion, bool $isInvasionSpell = false): Collection
+    public function getSpells(Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): Collection
     {
 
         return $this->getSelfSpells($dominion)
-            ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell));
-
+            ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell, $isViewOnly));
+/*
         if($isInvasionSpell)
         {
-          return $this->getInvasionSpells($dominion, Null);
+          return $this->getInvasionSpells($dominion, Null, $isViewOnly);
         }
         else
         {
           return $this->getSelfSpells($dominion)
               ->merge($this->getOffensiveSpells($dominion));
         }
+        */
     }
 
     public function getSelfSpells(?Dominion $dominion): Collection
@@ -465,7 +466,7 @@ class SpellHelper
       {
         return $this->getInfoOpSpells()
             ->merge($this->getBlackOpSpells($dominion))
-            ->merge($this->getWarSpells($dominion));        
+            ->merge($this->getWarSpells($dominion));
       }
     }
 
@@ -688,9 +689,9 @@ class SpellHelper
     * @param Dominion $target - the target
     *
     */
-    public function getInvasionSpells(Dominion $dominion, ?Dominion $target = Null): Collection
+    public function getInvasionSpells(Dominion $dominion, ?Dominion $target = Null, bool $viewOnly = false): Collection
     {
-        if($dominion->race->name == 'Afflicted')
+        if($dominion->race->name == 'Afflicted' or $viewOnly == true)
         {
           return collect([
               [

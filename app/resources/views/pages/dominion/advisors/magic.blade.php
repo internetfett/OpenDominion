@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach ($spellCalculator->getActiveSpells($selectedDominion) as $spell)
                                 @php
-                                    $spellInfo = $spellHelper->getSpellInfo($spell->spell, $selectedDominion, true);
+                                    $spellInfo = $spellHelper->getSpellInfo($spell->spell, $selectedDominion, true, true);
                                 @endphp
                                 <tr>
                                     <td>{{ $spellInfo['name'] }}</td>
