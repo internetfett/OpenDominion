@@ -39,8 +39,13 @@ class SpellCalculator
      * @param string $spell
      * @return int
      */
-    public function getManaCost(Dominion $dominion, string $spell): int
+    public function getManaCost(Dominion $dominion, string $spell, bool $isInvasionSpell = false): int
     {
+        if($isInvasionSpell)
+        {
+          return 0;
+        }
+        
         $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion);
         $totalLand = $this->landCalculator->getTotalLand($dominion);
 
