@@ -622,6 +622,7 @@ class TickService
 
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
+            $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $amountToDie = intval($dominion->peasants * 0.01);
             $populationPeasantGrowth -= $amountToDie;
             $this->queueService->queueResources('training', $caster, ['military_unit1' => $amountToDie], 12);

@@ -169,6 +169,25 @@ class SpellCalculator
 
 
     /**
+     * Returns the cast of a spell.
+     *
+     * @param Dominion $dominion
+     * @param string $spell
+     * @return Dominion
+     */
+    public function getCaster(Dominion $dominion, string $spell): Dominion
+    {
+        $spell = $this->getActiveSpells($dominion)->filter(function ($value) use ($spell) {
+            return ($value->spell === $spell);
+        })->first();
+
+        $caster = Dominion::findOrFail($spell->cast_by_dominion_id);
+
+        return $caster;
+    }
+
+
+    /**
      * Returns the remaining duration (in ticks) of a spell affecting $dominion.
      *
      * @todo Rename to getSpellRemainingDuration for clarity
