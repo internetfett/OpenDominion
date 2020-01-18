@@ -25,9 +25,9 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey, Dominion $dominion = null): bool
+    public function isOffensiveSpell(string $spellKey, Dominion $dominion = null, bool $isInvasionSpell = false, bool $isViewOnly = false): bool
     {
-        return $this->getOffensiveSpells($dominion)->filter(function ($spell) use ($spellKey) {
+        return $this->getOffensiveSpells($dominion, $isInvasionSpell, $isViewOnly)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -39,9 +39,9 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isHostileSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false): bool
+    public function isHostileSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false)): bool
     {
-        return $this->getHostileSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
+        return $this->getHostileSpells($dominion, $isInvasionSpell, $isViewOnly)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -451,16 +451,16 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(Dominion $dominion, bool $isInvasionSpell = false): Collection
+    public function getOffensiveSpells(Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): Collection
     {
 
       # Return invasion spells only when specifically asked to.
-      if($isInvasionSpell)
+      if($isInvasionSpell or $isViewOnly)
       {
       return $this->getInfoOpSpells()
           ->merge($this->getBlackOpSpells($dominion))
           ->merge($this->getWarSpells($dominion))
-          ->merge($this->getInvasionSpells($dominion, Null));
+          ->merge($this->getInvasionSpells($dominion, Null, $isViewOnly));
       }
       else
       {
@@ -507,11 +507,13 @@ class SpellHelper
     }
 
     # For casting purposes, get invasion spells first.
-    public function getHostileSpells(?Dominion $dominion, bool $isInvasionSpell = false): Collection
+    public function getHostileSpells(?Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): Collection
     {
-        if($isInvasionSpell)
+        if($isInvasionSpell or $isViewOnly)
         {
-          return $this->getInvasionSpells($dominion, Null);
+          return $this->getBlackOpSpells($dominion)
+              ->merge($this->getWarSpells($dominion))
+              ->merge($this->getInvasionSpells($dominion, Null, $isViewOnly));
         }
         else
         {
