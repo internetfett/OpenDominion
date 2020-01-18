@@ -70,8 +70,7 @@ class SpellHelper
         else
         {
           return $this->getSelfSpells($dominion)
-              ->merge($this->getOffensiveSpells($dominion))
-              ->merge($this->getInvasionSpells($dominion, Null));
+              ->merge($this->getOffensiveSpells($dominion));
         }
     }
 
