@@ -546,6 +546,19 @@ class NotificationHelper
                         $resultString = "A great lightning bolt crashed into our castle, destroying {$data['damageString']}.";
                         break;
 
+                    # Invasion Spells
+                    case 'pestilence':
+                        $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
+                        break;
+
+                    case 'pestilence':
+                        $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and platinum production are slowed.";
+                        break;
+
+                    case 'unhealing_wounds':
+                        $resultString = "Our troops return with unhealing wounds, increasing casualties and food consumption.";
+                        break;
+
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }
