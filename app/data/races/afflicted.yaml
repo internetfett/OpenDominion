@@ -29,7 +29,7 @@ units:
   - name: Aberration
     need_boat: true
     cost:
-      food: 200
+      food: 100
     power:
       offense: 2
       defense: 0
@@ -37,6 +37,7 @@ units:
       conversion: 1
       fewer_casualties_offense: 50
       does_not_count_as_population: 1
+      food_consumption: 0.125
   - name: Pest Rat
     need_boat: true
     cost:

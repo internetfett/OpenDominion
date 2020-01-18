@@ -42,7 +42,7 @@ units:
       defense_from_prestige: 500,4 # amount, max
   - name: Bone Breaker
     cost:
-      platinum: 800
+      platinum: 900
       ore: 100
     power:
       offense: 4
