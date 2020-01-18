@@ -25,7 +25,7 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey, Dominion $dominion = false): bool
+    public function isOffensiveSpell(string $spellKey, Dominion $dominion = null): bool
     {
         return $this->getOffensiveSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
