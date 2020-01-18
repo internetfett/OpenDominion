@@ -680,6 +680,7 @@ class SpellHelper
                   'invasion_must_be_successful' => Null,
                   'op_dp_ratio' => 0.50,
                   'duration' => 12,
+                  'mana_cost' => 0,
               ],
               [
                   'name' => 'Great Fever',
@@ -689,6 +690,7 @@ class SpellHelper
                   'invasion_must_be_successful' => True,
                   'op_dp_ratio' => Null,
                   'duration' => 12,
+                  'mana_cost' => 0,
               ],
               [
                   'name' => 'Unhealing Wounds',
@@ -698,6 +700,7 @@ class SpellHelper
                   'invasion_must_be_successful' => Null,
                   'op_dp_ratio' => Null,
                   'duration' => 12,
+                  'mana_cost' => 0,
               ],
           ]);
         }
