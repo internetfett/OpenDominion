@@ -11,7 +11,7 @@ use OpenDominion\Models\Dominion;
 class SpellHelper
 {
 
-    public function getSpellInfo(string $spellKey, Dominion $dominion): array
+    public function getSpellInfo(string $spellKey, Dominion $dominion, bool $isInvasionSpell = true): array
     {
         return $this->getSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
@@ -25,7 +25,7 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = null): bool
+    public function isOffensiveSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = true): bool
     {
         return $this->getOffensiveSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
@@ -61,7 +61,7 @@ class SpellHelper
     }
 
 
-    public function getSpells(Dominion $dominion, bool $isInvasionSpell = null): Collection
+    public function getSpells(Dominion $dominion, bool $isInvasionSpell = false): Collection
     {
         return $this->getSelfSpells($dominion)
             ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell));
@@ -439,7 +439,7 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(Dominion $dominion, bool $isInvasionSpell = null): Collection
+    public function getOffensiveSpells(Dominion $dominion, bool $isInvasionSpell = true): Collection
     {
 
       # Return invasion spells only when specifically asked to.
