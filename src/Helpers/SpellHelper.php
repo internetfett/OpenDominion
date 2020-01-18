@@ -65,7 +65,7 @@ class SpellHelper
     {
         if($isInvasionSpell)
         {
-          return $this->getInvasionSpells($dominion, Null)
+          return $this->getInvasionSpells($dominion, Null);
         }
         else
         {
