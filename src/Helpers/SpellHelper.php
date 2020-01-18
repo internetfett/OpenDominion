@@ -13,7 +13,7 @@ class SpellHelper
 
     public function getSpellInfo(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false): array
     {
-        return $this->getSpells($dominion)->filter(function ($spell) use ($spellKey) {
+        return $this->getSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->first();
     }
