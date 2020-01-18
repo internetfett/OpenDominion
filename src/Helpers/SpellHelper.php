@@ -25,9 +25,9 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isOffensiveSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false): bool
+    public function isOffensiveSpell(string $spellKey, Dominion $dominion = false): bool
     {
-        return $this->getOffensiveSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
+        return $this->getOffensiveSpells($dominion)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -63,8 +63,15 @@ class SpellHelper
 
     public function getSpells(Dominion $dominion, bool $isInvasionSpell = false): Collection
     {
-        return $this->getSelfSpells($dominion)
-            ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell));
+        if($isInvasionSpell)
+        {
+          return $this->getInvasionSpells($dominion, Null)
+        }
+        else
+        {
+          return $this->getSelfSpells($dominion)
+              ->merge($this->getOffensiveSpells($dominion));
+        }
     }
 
     public function getSelfSpells(?Dominion $dominion): Collection
@@ -439,21 +446,13 @@ class SpellHelper
         ]);
     }
 
-    public function getOffensiveSpells(Dominion $dominion, bool $isInvasionSpell = false): Collection
+    public function getOffensiveSpells(Dominion $dominion): Collection
     {
 
       # Return invasion spells only when specifically asked to.
-
-      if(!$isInvasionSpell)
-      {
-        return $this->getInfoOpSpells()
-            ->merge($this->getBlackOpSpells($dominion))
-            ->merge($this->getWarSpells($dominion));
-      }
-      else
-      {
-          return $this->getInvasionSpells($dominion, Null);
-      }
+      return $this->getInfoOpSpells()
+          ->merge($this->getBlackOpSpells($dominion))
+          ->merge($this->getWarSpells($dominion));
     }
 
     public function getInfoOpSpells(): Collection
