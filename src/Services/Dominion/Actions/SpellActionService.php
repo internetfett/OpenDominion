@@ -435,7 +435,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    protected function castHostileSpell(Dominion $dominion, string $spellKey, Dominion $target, boolean $isInvasionSpell = null): array
+    protected function castHostileSpell(Dominion $dominion, string $spellKey, Dominion $target, bool $isInvasionSpell = null): array
     {
         if ($dominion->round->hasOffensiveActionsDisabled()) {
             throw new GameException('Black ops have been disabled for the remainder of the round.');
