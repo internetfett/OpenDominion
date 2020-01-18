@@ -39,7 +39,7 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isHostileSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false)): bool
+    public function isHostileSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): bool
     {
         return $this->getHostileSpells($dominion, $isInvasionSpell, $isViewOnly)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
@@ -691,9 +691,9 @@ class SpellHelper
     * @param Dominion $target - the target
     *
     */
-    public function getInvasionSpells(Dominion $dominion, ?Dominion $target = Null, bool $viewOnly = false): Collection
+    public function getInvasionSpells(Dominion $dominion, ?Dominion $target = Null, bool $isViewOnly = false): Collection
     {
-        if($dominion->race->name == 'Afflicted' or $viewOnly == true)
+        if($dominion->race->name == 'Afflicted' or $isViewOnly)
         {
           return collect([
               [
