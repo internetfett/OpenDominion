@@ -39,9 +39,9 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isHostileSpell(string $spellKey, Dominion $dominion): bool
+    public function isHostileSpell(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false): bool
     {
-        return $this->getHostileSpells($dominion)->filter(function ($spell) use ($spellKey) {
+        return $this->getHostileSpells($dominion, $isInvasionSpell)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -491,10 +491,18 @@ class SpellHelper
         ]);
     }
 
-    public function getHostileSpells(?Dominion $dominion): Collection
+    # For casting purposes, get invasion spells first.
+    public function getHostileSpells(?Dominion $dominion, bool $isInvasionSpell = false): Collection
     {
-        return $this->getBlackOpSpells($dominion)
-            ->merge($this->getWarSpells($dominion));
+        if($isInvasionSpell)
+        {
+          return $this->getInvasionSpells($dominion, Null);
+        }
+        else
+        {
+          return $this->getBlackOpSpells($dominion)
+              ->merge($this->getWarSpells($dominion));
+        }
     }
 
     public function getBlackOpSpells(?Dominion $dominion): Collection
