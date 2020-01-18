@@ -1569,7 +1569,7 @@ class InvadeActionService
 
         # Defender spells
         # Spells the defender casts on the attacker during invasion.
-        $defenderSpells = $this->spellHelper->getInvasionSpells($defender, $defender);
+        $defenderSpells = $this->spellHelper->getInvasionSpells($defender, $attacker);
 
         foreach($attackerSpells as $attackerSpell)
         {

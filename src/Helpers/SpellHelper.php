@@ -703,7 +703,7 @@ class SpellHelper
         }
         else
         {
-          return [];
+          return collect([]);
         }
     }
 
