@@ -130,7 +130,7 @@ class SpellActionService
             throw new GameException("You do not have enough mana to cast {$spellInfo['name']}.");
         }
 
-        if ($this->spellCalculator->isOnCooldown($dominion, $spellKey)) {
+        if ($this->spellCalculator->isOnCooldown($dominion, $spellKey, $isInvasionSpell)) {
             throw new GameException("You can only cast {$spellInfo['name']} every {$spellInfo['cooldown']} hours.");
         }
 

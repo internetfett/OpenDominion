@@ -45,7 +45,7 @@ class SpellCalculator
         {
           return 0;
         }
-        
+
         $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion);
         $totalLand = $this->landCalculator->getTotalLand($dominion);
 
@@ -81,9 +81,10 @@ class SpellCalculator
      * @param string $spell
      * @return bool
      */
-    public function isOnCooldown(Dominion $dominion, string $spell): bool
+    public function isOnCooldown(Dominion $dominion, string $spell, bool $isInvasionSpell = false): bool
     {
-        if ($this->getSpellCooldown($dominion, $spell) > 0) {
+        if ($this->getSpellCooldown($dominion, $spell, $isInvasionSpell) > 0)
+        {
             return true;
         }
         return false;
@@ -96,9 +97,9 @@ class SpellCalculator
      * @param string $spell
      * @return bool
      */
-    public function getSpellCooldown(Dominion $dominion, string $spell): int
+    public function getSpellCooldown(Dominion $dominion, string $spell, bool $isInvasionSpell = false): int
     {
-        $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion);
+        $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion, $isInvasionSpell);
 
         if (isset($spellInfo['cooldown'])) {
             $spellLastCast = DB::table('dominion_history')
