@@ -452,7 +452,7 @@ class SpellHelper
       }
       else
       {
-          return $this->getInvasionSpells($dominion);
+          return $this->getInvasionSpells($dominion, Null);
       }
     }
 
@@ -667,7 +667,7 @@ class SpellHelper
     * @param Dominion $target - the target
     *
     */
-    public function getInvasionSpells(Dominion $dominion, ?Dominion $target): Collection
+    public function getInvasionSpells(Dominion $dominion, ?Dominion $target = Null): Collection
     {
         if($dominion->race->name == 'Afflicted')
         {
