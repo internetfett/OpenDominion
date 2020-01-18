@@ -551,7 +551,7 @@ class NotificationHelper
                         $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
                         break;
 
-                    case 'pestilence':
+                    case 'great_fever':
                         $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and platinum production are slowed.";
                         break;
 
