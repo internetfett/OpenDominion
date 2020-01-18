@@ -452,7 +452,9 @@ class SpellHelper
       }
       else
       {
-          return $this->getInvasionSpells($dominion);
+          return $this->getInfoOpSpells()
+          ->merge($this->getInvasionSpells($dominion));
+#          return $this->getInvasionSpells($dominion);
       }
     }
 
