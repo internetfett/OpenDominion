@@ -69,4 +69,4 @@ units:
       immortal: 1
       conversion: 3
       offense_from_resource: soul,3,999 # +1 OP per 10 souls gems, max +1000
-      pairing_limit: 3,0.0015 # Unit slot, amount (max 0.0015 of this unit per each Unit 3)
+      amount_limit: 1
