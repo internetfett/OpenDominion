@@ -61,7 +61,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $totalLand = $landCalculator->getTotalLand($dominion);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
-            $view->with('totalLand', $totalLand);
+            $view->with('landCalculator', $landCalculator);
         });
 
         view()->composer('partials.main-footer', function (View $view) {
