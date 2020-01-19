@@ -30,7 +30,6 @@ class ComposerServiceProvider extends AbstractServiceProvider
 
         view()->composer('partials.main-sidebar', function (View $view) {
             $selectorService = app(SelectorService::class);
-            $landCalculator = app(LandCalculator::class);
 
             if (!$selectorService->hasUserSelectedDominion()) {
                 return;
@@ -57,8 +56,6 @@ class ComposerServiceProvider extends AbstractServiceProvider
                     return $unreadCount;
                 })
                 ->sum();
-
-            $totalLand = $landCalculator->getTotalLand($dominion);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('landCalculator', $landCalculator);
