@@ -12,7 +12,7 @@ class ApiController extends Controller
     public function getPbbg()
     {
         return [
-            'name' => 'OpenDominion',
+            'name' => 'OD Arena',
             'version' => (Cache::get('version') ?? 'unknown'),
             'description' => 'A text-based, persistent browser-based strategy game (PBBG) in a fantasy war setting',
             'tags' => ['fantasy', 'multiplayer', 'strategy'],

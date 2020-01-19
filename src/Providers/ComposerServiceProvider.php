@@ -12,10 +12,20 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
 
 #ODA
-use OpenDominion\Calculators\Dominion\LandCalculator;
+#use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\TechCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
+
+    /** @var TechCalculator */
+    protected $techCalculator;
+
+    public function __construct(TechCalculator $techCalculator)
+    {
+          $this->techCalculator = $techCalculator;
+    }
+
     /**
      * Register bindings in the container.
      *
@@ -56,7 +66,12 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
+
+            $dominion->resource_tech;
+            $techCalculator->getTechCost($selectedDominion, $tech
+
             $view->with('councilUnreadCount', $councilUnreadCount);
+            $view->with('highestLevelTechAfforded', $highestLevelTechAfforded);
         });
 
         view()->composer('partials.main-footer', function (View $view) {
@@ -71,7 +86,6 @@ class ComposerServiceProvider extends AbstractServiceProvider
         // todo: do we need this here in this class?
         view()->composer('partials.resources-overview', function (View $view) {
             $view->with('networthCalculator', app(NetworthCalculator::class));
-            $view->with('landCalculator', app(LandCalculator::class));
         });
     }
 }

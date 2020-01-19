@@ -76,6 +76,12 @@
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
                 <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span></a></li>
+
+                @php
+                  $techCost = 
+
+                @endphp
+
                 @endif
 
                 <!--
