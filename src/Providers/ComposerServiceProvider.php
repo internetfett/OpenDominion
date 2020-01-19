@@ -54,9 +54,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
-
-            $xp = $dominion->resource_tech;
-            $level1TechCost = $this->techCalculator->getTechCost($selectedDominion, Null);
+            $highestLevelTechAfforded = 0;
 
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('highestLevelTechAfforded', $highestLevelTechAfforded);
