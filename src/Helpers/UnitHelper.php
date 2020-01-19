@@ -164,6 +164,10 @@ class UnitHelper
             'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land. Does not count against Barbarians.',
 
             'offense_vs_resource' => 'Offense increased by 1 for every %2$s %1$s target has (max +%3$s).',
+            'defense_vs_resource' => 'Defense increased by 1 for every %2$s %1$s attacker has (max +%3$s).',
+
+            'offense_vs_resource' => 'Offense increased by 1 for every %2$s %1$s (max +%3$s).',
+            'defense_vs_resource' => 'Defense increased by 1 for every %2$s %1$s (max +%3$s).',
 
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',

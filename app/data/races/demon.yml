@@ -45,17 +45,22 @@ units:
       immortal: 1
       no_draftee: 1
   - name: Devil
+    type: hybrid_elite
     need_boat: true
     cost:
       platinum: 1000
+      ore: 100
       food: 100
+      mana: 50
       soul: 1
     power:
       offense: 6
       defense: 6
     perks:
+      immortal: 1
       no_draftee: 1
   - name: Archdemon
+    type: hybrid_elite
     need_boat: true
     cost:
       mana: 10000
@@ -67,4 +72,5 @@ units:
       no_draftee: 1
       immortal: 1
       offense_from_resource: soul,10,1000 # +1 OP per 10 souls gems, max +1000
+      defense_from_resource: soul,10,1000 # +1 OP per 10 souls gems, max +1000
       pairing_limit: 3,0.0015 # Unit slot, amount (max 0.0015 of this unit per each Unit 3)
