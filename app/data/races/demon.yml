@@ -40,8 +40,6 @@ units:
       offense: 4
       defense: 4
     perks:
-      immortal: 1
-      no_draftee: 1
       conversion: 1
   - name: Devil
     type: hybrid_elite
@@ -57,7 +55,6 @@ units:
       defense: 6
     perks:
       immortal: 1
-      no_draftee: 1
   - name: Archdemon
     type: hybrid_elite
     need_boat: true
