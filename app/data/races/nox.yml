@@ -30,7 +30,7 @@ units:
       pairing_limit: 4,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
       fixed_casualties: 100
     static_networth: 10
-  - name: Fiend
+  - name: Gloom
     cost:
       platinum: 350
       mana: 5
