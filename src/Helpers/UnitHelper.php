@@ -147,7 +147,7 @@ class UnitHelper
             'offense_vs_land' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
-            'amount_limit' => 'You can at most have %1$s of this unit.'
+            'amount_limit' => 'You can at most have %1$s of this unit.',
 
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
