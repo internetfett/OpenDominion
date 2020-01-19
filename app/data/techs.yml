@@ -1144,12 +1144,14 @@ gemcutting_level6:
 platinum_interest_level1:
   name: Interest (1/6)
   cost_multiplier: 0
+  enabled: 0
   perks:
     platinum_interest: 0.1
 
 platinum_interest_level2:
   name: Interest (2/6)
   cost_multiplier: 10
+  enabled: 0
   perks:
     platinum_interest: 0.2
   requires:
@@ -1158,6 +1160,7 @@ platinum_interest_level2:
 platinum_interest_level3:
   name: Interest (3/6)
   cost_multiplier: 20
+  enabled: 0
   perks:
     platinum_interest: 0.3
   requires:
@@ -1166,6 +1169,7 @@ platinum_interest_level3:
 platinum_interest_level4:
   name: Interest (4/6)
   cost_multiplier: 30
+  enabled: 0
   perks:
     platinum_interest: 0.4
   requires:
@@ -1174,6 +1178,7 @@ platinum_interest_level4:
 platinum_interest_level5:
   name: Interest (5/6)
   cost_multiplier: 40
+  enabled: 0
   perks:
     platinum_interest: 0.5
   requires:
@@ -1182,6 +1187,7 @@ platinum_interest_level5:
 platinum_interest_level6:
   name: Interest (6/6)
   cost_multiplier: 50
+  enabled: 0
   perks:
     platinum_interest: 0.6
   requires:

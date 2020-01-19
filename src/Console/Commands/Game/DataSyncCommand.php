@@ -222,6 +222,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'name' => $techData->name,
                     'prerequisites' => object_get($techData, 'requires', []),
                     'cost_multiplier' => $techData->cost_multiplier,
+                    'enabked' => $techData->enabled,
                 ]);
 
             if (!$tech->exists) {

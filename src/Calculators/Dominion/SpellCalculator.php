@@ -181,9 +181,7 @@ class SpellCalculator
             return ($value->spell === $spell);
         })->first();
 
-        $caster = Dominion::findOrFail($spell->cast_by_dominion_id);
-
-        return $caster;
+        return Dominion::findOrFail($spell->cast_by_dominion_id);
     }
 
 

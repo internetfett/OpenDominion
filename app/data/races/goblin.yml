@@ -33,8 +33,8 @@ units:
       defense: 3
     perks:
       reduce_combat_losses: 1
-      counts_as_wizard_offense: 0.05
-      counts_as_wizard_defense: 0.05
+      counts_as_wizard_offense: 0.025
+      counts_as_wizard_defense: 0.025
   - name: Skulker
     type: offensive_elite
     cost:
