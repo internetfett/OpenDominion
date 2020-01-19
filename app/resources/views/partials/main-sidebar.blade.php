@@ -75,13 +75,14 @@
 
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
-                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span></a></li>
+                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span></a>
 
-                @php
-
-                @endphp
+                  @if($level = min(floor($selectedDominion->resource_tech/max(1000, $landCalculator->getTotalLand($selectedDominion)) - 9),6))
+                    {{ $level }}
+                  @endif
 
                 @endif
+                </li>
 
                 <!--
                 <li class="header">BLACK OPS</li>
