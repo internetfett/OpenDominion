@@ -68,5 +68,5 @@ units:
       no_draftee: 1
       immortal: 1
       conversion: 3
-      offense_from_resource: soul,3,999 # +1 OP per 10 souls gems, max +1000
+      offense_from_resource: soul,3,0 # +1 OP per 10 souls gems, max +1000
       amount_limit: 1

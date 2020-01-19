@@ -242,7 +242,7 @@ class TrainActionService
           # Land limit check complete.
           # Check for amount limit.
           $amountLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'amount_limit');
-          if($landLimit)
+          if($amountLimit)
           {
 
             if( # Units trained + Units in Training + Units in Queue + Units to Train
@@ -251,10 +251,10 @@ class TrainActionService
                   $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                   $amountToTrain))
                 >
-                $landLimit
+                $amountLimit
               )
             {
-              throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit.');
+              throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
             }
           }
 

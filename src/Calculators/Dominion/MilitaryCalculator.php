@@ -953,6 +953,10 @@ class MilitaryCalculator
         {
             $powerFromPerk = max(-1 * $powerFromResource, $max);
         }
+        elseif($max == 0)
+        {
+            $powerFromPerk = $powerFromResource;
+        }
         else
         {
             $powerFromPerk = min($powerFromResource, $max);
