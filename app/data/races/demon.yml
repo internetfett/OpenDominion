@@ -31,6 +31,8 @@ units:
     power:
       offense: 3
       defense: 0
+    perks:
+      no_draftee: 1
   - name: Tormentor
     need_boat: true
     cost:
@@ -41,7 +43,8 @@ units:
       defense: 4
     perks:
       immortal: 1
-  - name: Abomination
+      no_draftee: 1
+  - name: Devil
     need_boat: true
     cost:
       platinum: 1000
@@ -55,13 +58,13 @@ units:
   - name: Archdemon
     need_boat: true
     cost:
-      platinum: 1000
-      mana: 30
-      soul: 2
+      mana: 10000
+      soul: 100
     power:
-      offense: 8
-      defense: 4
+      offense: 1
+      defense: 1
     perks:
       no_draftee: 1
       immortal: 1
-      offense_from_resource: soul,10,1000 # +1 OP per 20,000 gems, max +2
+      offense_from_resource: soul,10,1000 # +1 OP per 10 souls gems, max +1000
+      pairing_limit: 3,0.0015 # Unit slot, amount (max 0.0015 of this unit per each Unit 3)
