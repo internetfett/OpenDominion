@@ -11,20 +11,8 @@ use OpenDominion\Models\Council\Thread;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
 
-#ODA
-#use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\TechCalculator;
-
 class ComposerServiceProvider extends AbstractServiceProvider
 {
-
-    /** @var TechCalculator */
-    protected $techCalculator;
-
-    public function __construct(TechCalculator $techCalculator)
-    {
-          $this->techCalculator = $techCalculator;
-    }
 
     /**
      * Register bindings in the container.
@@ -67,11 +55,11 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 ->sum();
 
 
-#            $xp = $dominion->resource_tech;
-#            $level1TechCost = $this->techCalculator->getTechCost($selectedDominion, Null);
+            $xp = $dominion->resource_tech;
+            $level1TechCost = $this->techCalculator->getTechCost($selectedDominion, Null);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
-#            $view->with('highestLevelTechAfforded', $highestLevelTechAfforded);
+            $view->with('highestLevelTechAfforded', $highestLevelTechAfforded);
         });
 
         view()->composer('partials.main-footer', function (View $view) {
