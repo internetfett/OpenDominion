@@ -168,7 +168,7 @@ class UnitHelper
             'offense_vs_resource' => 'Offense increased by 1 for every %2$s %1$s target has (max +%3$s).',
             'defense_vs_resource' => 'Defense increased by 1 for every %2$s %1$s attacker has (max +%3$s).',
 
-            'offense_from_resource' => 'Offense increased by 1 for every %2$s %1$s (max +%3$s).',
+            'offense_from_resource' => 'Offense increased by 1 for every %2$s %1$s (no max).',
             'defense_from_resource' => 'Defense increased by 1 for every %2$s %1$s (max +%3$s).',
 
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
