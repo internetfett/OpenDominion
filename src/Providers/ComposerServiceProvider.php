@@ -57,7 +57,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
-            $view->with('councilUnreadCount', $councilUnreadCount);
+            #$view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('landCalculator', app(LandCalculator::class));
         });
 
