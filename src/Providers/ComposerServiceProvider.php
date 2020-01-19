@@ -13,7 +13,6 @@ use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
 use OpenDominion\Calculators\LandCalculator;
-use OpenDominion\Calculators\TechCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -58,11 +57,8 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
-            $highestLevelTechAfforded = 0;
-
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('landCalculator', app(LandCalculator::class));
-            $view->with('techCalculator', app(TechCalculator::class));
         });
 
         view()->composer('partials.main-footer', function (View $view) {
