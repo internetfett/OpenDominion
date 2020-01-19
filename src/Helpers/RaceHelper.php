@@ -290,6 +290,11 @@ class RaceHelper
                 $description = 'Cannot join guards';
                 $booleanValue = true;
                 break;
+            case 'converts_killed_spies_into_souls':
+                $negativeBenefit = true;
+                $description = 'Converts killed spies into souls';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }
