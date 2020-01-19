@@ -67,11 +67,11 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 ->sum();
 
 
-            $dominion->resource_tech;
-            $techCalculator->getTechCost($selectedDominion, $tech
+#            $xp = $dominion->resource_tech;
+#            $level1TechCost = $this->techCalculator->getTechCost($selectedDominion, Null);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
-            $view->with('highestLevelTechAfforded', $highestLevelTechAfforded);
+#            $view->with('highestLevelTechAfforded', $highestLevelTechAfforded);
         });
 
         view()->composer('partials.main-footer', function (View $view) {
