@@ -75,7 +75,7 @@
 
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
-                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span> {!! $techLevelAffordable > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">L' . $techLevelAffordable . '</small></span>') : null !!}</a></li>
+                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span> {!! $techLevelAffordable > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">Level&nbsp;' . $techLevelAffordable . '</small></span>') : null !!}</a></li>
                 @endif
 
 
