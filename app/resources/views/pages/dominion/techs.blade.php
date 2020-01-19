@@ -32,34 +32,34 @@
                                 </tr>
                             </thead>
                             @foreach ($techs as $tech)
-                            @if($tech->enabled == 1)
-                            @if(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0 or in_array($tech->key, $unlockedTechs))
-                                <tr class="{{ in_array($tech->key, $unlockedTechs) ? 'text-green' : 'text-default' }}">
-                                    <td class="text-center">
-                                        @if(in_array($tech->key, $unlockedTechs))
-                                            <i class="fa fa-check"></i>
-                                        @else
-                                            <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
-                                        @endif
-                                    </td>
-                                      <td class="text-normal"><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $tech->name }}</label></td>
+                                @if($tech->enabled == 1)
+                                    @if(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0 or in_array($tech->key, $unlockedTechs))
+                                        <tr class="{{ in_array($tech->key, $unlockedTechs) ? 'text-green' : 'text-default' }}">
+                                            <td class="text-center">
+                                                @if(in_array($tech->key, $unlockedTechs))
+                                                    <i class="fa fa-check"></i>
+                                                @else
+                                                    <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
+                                                @endif
+                                            </td>
+                                              <td class="text-normal"><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $tech->name }}</label></td>
 
-                                    <td><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $techHelper->getTechDescription($tech) }}</label></td>
-                                    <td>
-                                        @if ($tech->prerequisites)
-                                            @foreach ($tech->prerequisites as $key)
-                                                {{ $techs[$key]->name }}@if(!$loop->last),<br/>@endif
-                                            @endforeach
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ number_format($techCalculator->getTechCost($selectedDominion, $tech)) }}
-                                    </td>
-                                </tr>
-                            @endif
-                            @endif
+                                            <td><label for="{{ $tech->key }}" style="font-weight: normal;">{{ $techHelper->getTechDescription($tech) }}</label></td>
+                                            <td>
+                                                @if ($tech->prerequisites)
+                                                    @foreach ($tech->prerequisites as $key)
+                                                        {{ $techs[$key]->name }}@if(!$loop->last),<br/>@endif
+                                                    @endforeach
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ number_format($techCalculator->getTechCost($selectedDominion, $tech)) }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endif
                             @endforeach
                         </table>
                     </div>
