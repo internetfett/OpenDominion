@@ -617,7 +617,7 @@ class TickService
         /*
         * 1. Calculate 1% of the Dominion's peasants.
         * 2. Remove this amount from the Dominion's peasants.
-        * 3. Queue this amount as Aberrations for the Afflicted.
+        * 3. Queue this amount as Abominations for the Afflicted.
         */
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {

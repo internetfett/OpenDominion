@@ -698,7 +698,7 @@ class SpellHelper
           return collect([
               [
                   'name' => 'Pestilence',
-                  'description' => 'Peasants die and return to the Afflicted as Aberrations.',
+                  'description' => 'Peasants die and return to the Afflicted as Abominations.',
                   'key' => 'pestilence',
                   'type' => 'offense',
                   'invasion_must_be_successful' => Null,
