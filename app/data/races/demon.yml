@@ -57,10 +57,9 @@ units:
       immortal: 1
   - name: Archdemon
     type: hybrid_elite
-    static_networth: 10000
     need_boat: true
     cost:
-      mana: 10000
+      mana: 100000
       soul: 100
     power:
       offense: 1
