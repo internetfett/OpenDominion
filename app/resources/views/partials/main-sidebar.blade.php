@@ -77,7 +77,7 @@
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
                 <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span></a>
 
-                  @if($level = min(floor($selectedDominion->resource_tech/max(1000, $landCalculator->getTotalLand($selectedDominion)) - 9),6))
+                  @if($level = min(floor($selectedDominion->resource_tech/max(1000,$totalLand) - 9),6))
                     {{ $level }}
                   @endif
 
