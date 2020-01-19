@@ -58,7 +58,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
-            $techLevelAffordable = min(floor($selectedDominion->resource_tech/max(1000,$landCalculator->getTotalLand($dominion)) - 9),6);
+            $techLevelAffordable = min(floor($dominion->resource_tech/max(1000,$landCalculator->getTotalLand($dominion)) - 9),6);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('techLevelAffordable', $techLevelAffordable);
