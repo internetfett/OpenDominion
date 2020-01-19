@@ -53,6 +53,12 @@ class TechActionService
             throw new GameException('You do not meet the requirements to unlock this advancement.');
         }
 
+        // Check if enabled
+        if ($techToUnlock->enabled !== 1)
+        {
+            throw new GameException('This tech is not enabled.');
+        }
+
         // Check experience point
         $techCost = $this->techCalculator->getTechCost($dominion, $techToUnlock);
         if ($dominion->resource_tech < $techCost) {
