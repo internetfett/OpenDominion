@@ -12,7 +12,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
-use OpenDominion\Calculators\LandCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -61,7 +61,6 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $totalLand = $landCalculator->getTotalLand($dominion);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
-            #$view->with('landCalculator', app(LandCalculator::class));
             $view->with('totalLand', $totalLand);
         });
 
