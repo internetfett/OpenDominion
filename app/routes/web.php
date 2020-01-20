@@ -201,7 +201,7 @@ $router->group(['prefix' => 'legal', 'as' => 'legal.'], static function (Router 
 // About
 $router->group(['prefix' => 'about', 'as' => 'about.'], static function (Router $router)
 {
-  $router->get('/')->uses('LegalController@getIndex')->name('index');
+  $router->get('/')->uses('AboutController@getIndex')->name('index');
 });
 
 
