@@ -2,7 +2,7 @@
 
 namespace OpenDominion\Http\Controllers;
 
-class LegalController extends AbstractController
+class AboutController extends AbstractController
 {
 
     public function getIndex()
