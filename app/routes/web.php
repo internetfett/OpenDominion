@@ -190,9 +190,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 
 });
 
-// Scribes
-
-// Terms and Conditions
+// Legal Terms and Conditions
 $router->group(['prefix' => 'legal', 'as' => 'legal.'], static function (Router $router)
 {
   $router->get('/')->uses('LegalController@getIndex')->name('index');
@@ -200,7 +198,14 @@ $router->group(['prefix' => 'legal', 'as' => 'legal.'], static function (Router 
   $router->get('privacypolicy')->uses('LegalController@getPrivacyPolicy')->name('privacypolicy');
 });
 
+// About
+$router->group(['prefix' => 'about', 'as' => 'about.'], static function (Router $router)
+{
+  $router->get('/')->uses('LegalController@getIndex')->name('index');
+});
 
+
+// Scribes
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
     $router->get('races')->uses('ScribesController@getRaces')->name('races');
     $router->get('construction')->uses('ScribesController@getConstruction')->name('construction');
