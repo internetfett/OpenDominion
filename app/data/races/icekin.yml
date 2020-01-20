@@ -25,7 +25,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_raw_wizard_ratio: 4,1 # ratio%, max
+      offense_wizard_ratio: 4,1 # ratio%, max
   - name: Snow Witch
     cost:
       platinum: 350
@@ -57,5 +57,5 @@ units:
       offense: 4
       defense: 1
     perks:
-      offense_raw_wizard_ratio: 1,4 # ratio%, max
+      offense_wizard_ratio: 1,4 # ratio%, max
       defense_from_land: mountain,20,5

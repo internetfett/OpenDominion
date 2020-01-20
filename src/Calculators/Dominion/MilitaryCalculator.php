@@ -415,6 +415,8 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromBuildingBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRawWizardRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromModWizardRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromModSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
@@ -511,6 +513,26 @@ class MilitaryCalculator
     }
 
 
+    protected function getUnitPowerFromModWizardRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $wizardRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_wizard_ratio");
+
+        if (!$wizardRatioPerk) {
+            return 0;
+        }
+
+        $ratio = (float)$wizardRatioPerk[0];
+        $max = (int)$wizardRatioPerk[1];
+
+        $wizardModRatio = $this->getWizardRatio($dominion, 'offense');
+        $powerFromWizardRatio = $wizardModRatio * $ratio;
+        $powerFromPerk = min($powerFromWizardRatio, $max);
+
+        return $powerFromPerk;
+    }
+
     protected function getUnitPowerFromRawSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
@@ -526,6 +548,27 @@ class MilitaryCalculator
 
         $spyRawRatio = $this->getSpyRatioRaw($dominion, 'offense');
         $powerFromSpyRatio = $spyRawRatio * $ratio;
+        $powerFromPerk = min($powerFromSpyRatio, $max);
+
+        return $powerFromPerk;
+    }
+
+
+    protected function getUnitPowerFromModSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_spy_ratio");
+
+        if(!$spyRatioPerk) {
+            return 0;
+        }
+
+        $ratio = (float)$spyRatioPerk[0];
+        $max = (int)$spyRatioPerk[1];
+
+        $spyModRatio = $this->getSpyRatio($dominion, 'offense');
+        $powerFromSpyRatio = $spyModRatio * $ratio;
         $powerFromPerk = min($powerFromSpyRatio, $max);
 
         return $powerFromPerk;
