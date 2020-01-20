@@ -16,24 +16,29 @@
         <br>
     </div>
 
+    <div class="pull-right">
+      <a href="https://www.youtube.com/channel/UCGR9htOHUFzIfiPUsZapHhw" target="_blank" style="border:none; text-decoration:none;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAIklEQVRIiWP4T2PAMGrBqAWjFoxaMGrBqAWjFoxaMDQsAACAo/d5It9lkgAAAABJRU5ErkJggg==" width="24" height="24" />
+      </a>
+
+      <a href="https://www.facebook.com/odarenagame/" target="_blank" style="border:none; text-decoration:none;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAIklEQVRIiWP4T2PAMGrBqAWjFoxaMGrBqAWjFoxaMDQsAACAo/d5It9lkgAAAABJRU5ErkJggg==" width="24" height="24" />
+      </a>
+
+      <a href="https://instagram.com/OD_Arena" target="_blank" style="border:none; text-decoration:none;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAIklEQVRIiWP4T2PAMGrBqAWjFoxaMGrBqAWjFoxaMDQsAACAo/d5It9lkgAAAABJRU5ErkJggg==" width="24" height="24" />
+      </a>
+
+      <a href="https://twitter.com/OD_Arena" target="_blank" style="border:none; text-decoration:none;">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAIklEQVRIiWP4T2PAMGrBqAWjFoxaMGrBqAWjFoxaMDQsAACAo/d5It9lkgAAAABJRU5ErkJggg==" width="24" height="24" />
+      </a>
+
+    </div>
+
     @if (!isset($selectedDominion))
     <i class="fa fa-file-text-o"></i> <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a> | <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a>
     @endif
 
-    <a href="https://www.youtube.com/channel/UCGR9htOHUFzIfiPUsZapHhw" target="_blank" style="border:none; text-decoration:none;">
-    <img src="https://68ef2f69c7787d4078ac-7864ae55ba174c40683f10ab811d9167.ssl.cf1.rackcdn.com/youtube-icon_24x24.png" width="24" height="24" style="filter: gray; -webkit-filter: grayscale(1); filter: grayscale(1);" />
-    </a>
 
-    <a href="https://www.facebook.com/odarenagame/" target="_blank" style="border:none; text-decoration:none;">
-    <img src="https://68ef2f69c7787d4078ac-7864ae55ba174c40683f10ab811d9167.ssl.cf1.rackcdn.com/facebook-icon_24x24.png" width="24" height="24" style="filter: gray; -webkit-filter: grayscale(1); filter: grayscale(1);" />
-    </a>
-
-    <a href="https://twitter.com/OD_Arena" target="_blank" style="border:none; text-decoration:none;">
-    <img src="https://68ef2f69c7787d4078ac-7864ae55ba174c40683f10ab811d9167.ssl.cf1.rackcdn.com/twitter-icon_24x24.png" width="24" height="24" style="filter: gray; -webkit-filter: grayscale(1); filter: grayscale(1);" />
-    </a>
-
-    <a href="https://instagram.com/OD_Arena" target="_blank" style="border:none; text-decoration:none;">
-    <img src="https://68ef2f69c7787d4078ac-7864ae55ba174c40683f10ab811d9167.ssl.cf1.rackcdn.com/instagram-icon_24x24.png" width="24" height="24" style="filter: gray; -webkit-filter: grayscale(1); filter: grayscale(1);" />
-    </a>
 
 </footer>
