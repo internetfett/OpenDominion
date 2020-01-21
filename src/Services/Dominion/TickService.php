@@ -264,7 +264,7 @@ class TickService
                 $caster = Dominion::findorfail($dominion->tick->pestilence_units[0]);
                 if ($caster)
                 {
-                    die(var_dump($caster) . ' *** ' . var_dump($dominion->tick->pestilence_units));
+                    die(var_dump($dominion->tick->pestilence_units));
                     $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units[1], 12);
                 }
               }
