@@ -1081,5 +1081,26 @@ class ProductionCalculator
             #return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
         }
 
+        /**
+         * Returns the Dominion's net wild yeti change.
+         *
+         * @param Dominion $dominion
+         * @return int
+         */
+        public function getUnitsGeneratedForCasterSlot1(Dominion $dominion): array
+        {
+            # Invasion Spell: Pestilence
+            /*
+            * 1. Calculate 1% of the Dominion's peasants.
+            * 2. Queue this amount as Abominations for the Afflicted.
+            */
+            if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+            {
+                $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+                return = [$caster => $dominion->peasants * 0.01];
+            }
+
+        }
+
     //</editor-fold>
 }

@@ -106,6 +106,20 @@ class TickService
 
                 foreach ($dominions as $dominion)
                 {
+                    # Invasion Spell: Pestilence
+                    /*
+                    * 1. Calculate 1% of the Dominion's peasants.
+                    * 2. Remove this amount from the Dominion's peasants.
+                    * 3. Queue this amount as Abominations for the Afflicted.
+                    */
+                    if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+                    {
+                        $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+                        $amountToDie = intval($dominion->peasants * 0.01);
+                        $dominion->peasants = max(1000,$dominion->peasants - $amountToDie);
+                        $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+                    }
+
                     $this->precalculateTick($dominion, true);
                 }
 
@@ -655,6 +669,7 @@ class TickService
         $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
 
         $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
+
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
