@@ -112,22 +112,16 @@ class TickService
                     * 2. Remove this amount from the Dominion's peasants.
                     * 3. Queue this amount as Abominations for the Afflicted.
                     */
-                    $castee = Dominion::findOrFail($spell->cast_by_dominion_id);
-                    if ($this->spellCalculator->isSpellActive($castee, 'pestilence'))
+                    if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
                     {
-                          Log::debug('Pestilence is on for dominion: ' . $castee);
-                        $caster = $this->spellCalculator->getCaster($castee, 'pestilence');
-                            Log::debug('Cast is: ' . $caster);
-                        $amountToDie = intval($castee->peasants * 0.01);
-                            Log::debug('Amount to die is: ' . $amountToDie);
-                        $castee->peasants = max(1000, $castee->peasants - $amountToDie);
-                            Log::debug('New peasant count is: ' . $castee->peasants);
+                        $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+                        $amountToDie = intval($dominion->peasants * 0.01);
+                        $dominion->peasants = max(1000, $dominion->peasants - $amountToDie);
                         $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
-                              Log::debug('Training begun?');
                     }
                     else
                     {
-                          Log::debug('Pestilence is not on for dominion: ' . $castee);
+                      die("no pestilence for Dominion: " . var_dump($dominion));
                     }
 
                     $this->precalculateTick($dominion, true);
