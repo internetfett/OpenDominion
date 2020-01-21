@@ -108,11 +108,11 @@ class TickService
                 {
                     $this->precalculateTick($dominion, true);
 
-                    # Pull $tick->pestilence_casualties and send to queueService
-                    if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+                    # Pull units from $tick->pestilence_units and train them.
+                    if(isset($tick->pestilence_units[0]) and $tick->pestilence_units[1][1] > 0)
                     {
-                      $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-                      $this->queueService->queueResources('training', $caster, ['military_unit1' => $tick->generated_unit1_for_caster], 12);
+                      $caster = Dominion::findorfail($tick->pestilence_units[0]);
+                      $this->queueService->queueResources('training', $tick->pestilence_units[0], $tick->pestilence_casualties[1], 12);
                     }
                 }
 
@@ -630,7 +630,7 @@ class TickService
         {
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $amountToDie = intval($dominion->peasants * 0.01);
-            $tick->generated_unit1_for_caster = $amountToDie;
+            $tick->pestilence_units = ['caster_dominion_id' = $caster->id, ['military_unit1' => $amountToDie]];
             $populationPeasantGrowth -= $amountToDie;
         }
 
