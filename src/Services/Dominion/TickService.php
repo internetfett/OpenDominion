@@ -413,7 +413,7 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties','is_pestilence_checked'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units'], true))
             {
                   $tick->{$attr} = 0;
             }
@@ -421,9 +421,9 @@ class TickService
             {
                 $tick->{$attr} = [];
             }
-            elseif ($attr === 'is_pestilence_checked')
+            elseif ($attr === 'pestilence_units')
             {
-                $tick->{$attr} = 1;
+                $tick->{$attr} = [];
             }
           }
 
@@ -691,19 +691,18 @@ class TickService
             $tick->resource_food += $foodNetChange;
         }
 
-        // Invasion Spell: Pestilence
+        // Starvation casualties
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
-            $amountToDie = intval($dominion->peasants * 0.01);
-            $tick->peasants -= $amountToDie;
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+            $abominations_generated = intval($dominion->peasants * 0.01);
+            $pestilence_units = ['military_unit1' => $abominations_generated];
 
-            if($tick->is_pestilence_checked !== 1 and $dominion->is_pestilence_checked !== 1)
+            if($tick->is_pestilence_checked == 0)
             {
-              $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+              $this->queueService->queueResources('invasion', $caster, $pestilence_units, 12);
               $tick->is_pestilence_checked = 1;
             }
-
         }
 
         // Morale
