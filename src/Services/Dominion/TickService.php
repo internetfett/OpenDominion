@@ -696,6 +696,7 @@ class TickService
             if($tick->is_pestilence_checked == 0)
             {
               $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+              $tick->is_pestilence_checked = 1;
             }
             else
             {
