@@ -184,7 +184,6 @@ class TickService
 
                         'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
-                        #'dominions.stat_total_food_production' => 0,
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
                         'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
                         'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
@@ -192,6 +191,8 @@ class TickService
                         'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
+
+
                         'dominions.last_tick_at' => DB::raw('now()')
                     ]);
 
@@ -623,9 +624,7 @@ class TickService
         {
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $amountToDie = intval($dominion->peasants * 0.01);
-            $populationPeasantGrowth -= $amountToDie;
             $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
-            #$caster->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
             unset($amountToDie);
         }
 
