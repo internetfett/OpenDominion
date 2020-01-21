@@ -109,11 +109,11 @@ class TickService
                     $this->precalculateTick($dominion, true);
 
                     # Pull units from $tick->pestilence_units and train them.
-                    if(isset($tick->pestilence_units[0]) and $tick->pestilence_units[1][1] > 0)
-                    {
-                      $caster = Dominion::findorfail($tick->pestilence_units[0]);
-                      $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties[1], 12);
-                    }
+                    #if(isset($tick->pestilence_units[0]) and $tick->pestilence_units[1][1] > 0)
+                    #{
+                      #$caster = Dominion::findorfail($tick->pestilence_units[0]);
+                      $this->queueService->queueResources('training', Dominion::findorfail($tick->pestilence_units[0]), $tick->pestilence_casualties[1], 12);
+                    #}
                 }
 
                 continue;
