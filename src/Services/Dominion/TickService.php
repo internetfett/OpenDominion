@@ -104,19 +104,17 @@ class TickService
                     ])
                     ->get();
 
-                foreach ($dominions as $dominion)
-                {
-                    $this->queueService->queueResources('training', Dominion::findorfail($tick->pestilence_units[0]), $tick->pestilence_units[1], 12);
+                  foreach ($dominions as $dominion)
+                  {
+                    $this->precalculateTick($dominion, true);
 
-                    # Pull units from $tick->pestilence_units and train them.
-                    if(isset($tick->pestilence_units[0]) and $tick->pestilence_units[1][1] > 0)
+                    $caster = Dominion::findorfail($tick->pestilence_units[0]);
+
+                    if ($dominion !== null)
                     {
-                      $caster = Dominion::findorfail($tick->pestilence_units[0]);
-                      $this->queueService->queueResources('training', $caster, $tick->pestilence_units[1], 12);
+                        $this->queueService->queueResources('training', $caster, $tick->pestilence_units[1], 12);
                     }
-                      $this->precalculateTick($dominion, true);
-
-                }
+                  }
 
                 continue;
             }
