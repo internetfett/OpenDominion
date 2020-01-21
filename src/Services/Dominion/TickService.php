@@ -625,6 +625,7 @@ class TickService
             $amountToDie = intval($dominion->peasants * 0.01);
             $populationPeasantGrowth -= $amountToDie;
             $this->queueService->queueResources('training', $caster, ['military_unit1' => $amountToDie], 12);
+            $caster->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
         }
 
         $tick->peasants = $populationPeasantGrowth;

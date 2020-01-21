@@ -14,6 +14,8 @@ class DashboardController extends AbstractController
         $selectorService = app(SelectorService::class);
         $selectorService->tryAutoSelectDominionForAuthUser();
 
+
+
         $dominions = Dominion::with(['round', 'realm', 'race'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
@@ -26,6 +28,12 @@ class DashboardController extends AbstractController
         return view('pages.dashboard', [
             'dominions' => $dominions,
             'rounds' => $rounds,
+
+            # Socials
+            'url_youtube' => 'https://www.youtube.com/channel/UCGR9htOHUFzIfiPUsZapHhw',
+            'url_facebook' => 'https://www.facebook.com/odarenagame/',
+            'url_instagram' => 'https://instagram.com/OD_Arena',
+            'url_twitter' => 'https://twitter.com/OD_Arena',
         ]);
     }
 }
