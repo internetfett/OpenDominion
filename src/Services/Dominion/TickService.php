@@ -409,13 +409,17 @@ class TickService
         }
 
         // Reset tick values
-          foreach ($tick->getAttributes() as $attr => $value) {
-              if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties'], true)) {
+        foreach ($tick->getAttributes() as $attr => $value)
+        {
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties'], true))
+            {
                   $tick->{$attr} = 0;
-            } elseif ($attr === 'starvation_casualties') {
+            }
+            elseif ($attr === 'starvation_casualties')
+            {
                 $tick->{$attr} = [];
             }
-        }
+          }
 
         // Hacky refresh for dominion
         $dominion->refresh();
@@ -681,14 +685,12 @@ class TickService
             $tick->resource_food += $foodNetChange;
         }
 
-        $tick->peasants = 0;
         // Invasion Spell: Pestilence
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
             $hasPestilence = true;
             $amountToDie = intval($dominion->peasants * 0.01);
             $tick->peasants -= $amountToDie;
-
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
         }
