@@ -80,6 +80,7 @@ class CreateDominionTickTable extends Migration
             $table->integer('resource_soul')->default(0);
 
             $table->text('starvation_casualties')->nullable();
+            $table->text('pestilence_units')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
 

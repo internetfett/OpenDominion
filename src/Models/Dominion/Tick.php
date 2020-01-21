@@ -121,6 +121,7 @@ class Tick extends AbstractModel
         'resource_soul' => 'integer',
 
         'starvation_casualties' => 'array',
+        'pestilence_units' => 'array',
     ];
 
     protected $guarded = ['id', 'updated_at'];

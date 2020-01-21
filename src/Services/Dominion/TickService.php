@@ -113,7 +113,6 @@ class TickService
                     {
                       $caster = Dominion::findorfail($tick->pestilence_units[0]);
                       $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties[1], 12);
-                      $tick->pestilence_units = []; #???
                     }
                 }
 
