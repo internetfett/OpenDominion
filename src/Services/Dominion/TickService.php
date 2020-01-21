@@ -687,7 +687,6 @@ class TickService
         }
 
         // Invasion Spell: Pestilence
-        $tick->is_pestilence_checked = 1;
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
             $amountToDie = intval($dominion->peasants * 0.01);
@@ -697,6 +696,7 @@ class TickService
             if($dominion->is_pestilence_checked == 0)
             {
               $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+              $tick->is_pestilence_checked = 1;
             }
 
         }
