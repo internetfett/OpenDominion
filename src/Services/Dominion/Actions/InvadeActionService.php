@@ -1581,6 +1581,10 @@ class InvadeActionService
         foreach($attackerSpells as $attackerSpell)
         {
           # Check each possible spell conditions.
+          $spellTypeCheck = False;
+          $invasionMustBeSuccessfulCheck = False;
+          $opDpRatioCheck = False;
+
 
           # 1. Is this spell cast when the attacker is attacking?
           if($attackerSpell['type'] == 'offense')
@@ -1614,6 +1618,9 @@ class InvadeActionService
         foreach($defenderSpells as $defenderSpell)
         {
           # Check each possible spell conditions.
+          $spellTypeCheck = False;
+          $invasionMustBeSuccessfulCheck = False;
+          $opDpRatioCheck = False;
 
           # 1. Is this spell cast when the attacker is attacking?
           if($defenderSpell['type'] == 'defense')
