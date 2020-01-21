@@ -107,16 +107,14 @@ class TickService
                 foreach ($dominions as $dominion)
                 {
                     $this->precalculateTick($dominion, true);
+                    # Pull $tick->pestilence_casualties and send to queueService
+                    $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties, 12);
                 }
 
                 continue;
             }
 
-            foreach ($dominions as $dominion)
-            {
-                # Pull $tick->pestilence_casualties and send to queueService
-                $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties, 12);
-            }
+
 
             DB::transaction(function () use ($round) {
                 // Update dominions
