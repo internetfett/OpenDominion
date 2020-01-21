@@ -192,6 +192,7 @@ class TickService
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
 
+                        'dominions.is_pestilence_checked' => DB::raw('dominion_tick.is_pestilence_checked'),
 
                         'dominions.last_tick_at' => DB::raw('now()')
                     ]);
@@ -411,7 +412,7 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'is_pestilence_checked'], true))
             {
                   $tick->{$attr} = 0;
             }
@@ -688,15 +689,22 @@ class TickService
         // Invasion Spell: Pestilence
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
-            $hasPestilence = true;
             $amountToDie = intval($dominion->peasants * 0.01);
             $tick->peasants -= $amountToDie;
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-            $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+
+            if($tick->is_pestilence_checked == 0)
+            {
+              $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+            }
+            else
+            {
+              $tick->is_pestilence_checked = 1;
+            }
         }
         else
         {
-            $hasPestilence = false;
+            $tick->is_pestilence_checked = 1;
             $tick->peasants -= 0;
         }
 
