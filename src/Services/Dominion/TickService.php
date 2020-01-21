@@ -694,10 +694,10 @@ class TickService
             $tick->peasants -= $amountToDie;
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
-            if($dominion->is_pestilence_checked == 0)
+            if($tick->is_pestilence_checked !== 1 and $tick->is_pestilence_checked !== 1)
             {
               $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
-              $tick->is_pestilence_checked = 1;
+              $dominion->is_pestilence_checked = 1;
             }
 
         }
