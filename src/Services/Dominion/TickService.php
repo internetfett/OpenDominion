@@ -624,8 +624,9 @@ class TickService
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $amountToDie = intval($dominion->peasants * 0.01);
             $populationPeasantGrowth -= $amountToDie;
-            $this->queueService->queueResources('training', $caster, ['military_unit1' => $amountToDie], 12);
-            $caster->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+            $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+            #$caster->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+            unset($amountToDie);
         }
 
         $tick->peasants = $populationPeasantGrowth;
