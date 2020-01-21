@@ -14,6 +14,8 @@ perks:
   platinum_production: -100
   food_production: -100
   lumber_production: -100
+  man_production: -100
+  extra_barren_max_population: 10
 units:
   - name: Marauder
     cost:
