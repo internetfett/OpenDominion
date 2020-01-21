@@ -691,20 +691,13 @@ class TickService
             $tick->resource_food += $foodNetChange;
         }
 
-        // Starvation casualties
+        // Invasion Spell: Pestilence
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $abominations_generated = intval($dominion->peasants * 0.01);
-            if($pestilence_units[0] == 0)
-            {
-              $pestilence_units = ['military_unit1' => $abominations_generated];              
-            }
-            if($tick->is_pestilence_checked == 0)
-            {
-              $this->queueService->queueResources('training', $caster, $pestilence_units, 12);
-              $tick->is_pestilence_checked = 1;
-            }
+            $pestilence_units = ['military_unit1' => $abominations_generated];
+            $this->queueService->queueResources('training', $caster, $pestilence_units, 12);
         }
 
         // Morale
