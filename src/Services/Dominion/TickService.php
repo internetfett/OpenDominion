@@ -108,7 +108,7 @@ class TickService
                 {
                     $this->precalculateTick($dominion, true);
                     # Pull $tick->pestilence_casualties and send to queueService
-                    $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties, 12);
+                    $this->queueService->queueResources('training', $tick->pestilence_units[0], $tick->pestilence_casualties[1], 12);
                 }
 
                 continue;
@@ -629,7 +629,7 @@ class TickService
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $amountToDie = intval($dominion->peasants * 0.01);
             $populationPeasantGrowth -= $amountToDie;
-            $tick->pestilence_units = ['military_unit1' => $amountToDie];
+            $tick->pestilence_units = [$caster, ['military_unit1' => $amountToDie]];
         }
 
         $tick->peasants = $populationPeasantGrowth;
