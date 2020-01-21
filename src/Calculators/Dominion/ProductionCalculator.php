@@ -1097,7 +1097,7 @@ class ProductionCalculator
             if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
             {
                 $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-                return = [$caster => $dominion->peasants * 0.01];
+                return [$caster => $dominion->peasants * 0.01];
             }
 
         }
