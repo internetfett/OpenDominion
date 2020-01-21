@@ -109,7 +109,7 @@ class TickService
                     $this->precalculateTick($dominion, true);
 
                     # Pull $tick->pestilence_casualties and send to queueService
-                    if($tick->generated_unit1_for_caster > 0)
+                    if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
                     {
                       $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
                       $this->queueService->queueResources('training', $caster, ['military_unit1' => $tick->generated_unit1_for_caster], 12);
