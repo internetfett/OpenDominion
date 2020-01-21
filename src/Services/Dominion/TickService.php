@@ -258,7 +258,7 @@ class TickService
                 if ($caster)
                 {
                     die(print_r($dominion->tick->pestilence_units));
-                    $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units['units'], 12);
+                    $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']], 12);
                 }
               }
 
