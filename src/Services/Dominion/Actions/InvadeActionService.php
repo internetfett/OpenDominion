@@ -1563,7 +1563,7 @@ class InvadeActionService
      * Handles spells cast after invasion.
      *
      * @param Dominion $dominion
-     * @param Dominion $target
+     * @param Dominion $target (here becomes $defender)
      */
     protected function handleInvasionSpells(Dominion $attacker, Dominion $defender): void
     {
@@ -1585,7 +1585,6 @@ class InvadeActionService
           $invasionMustBeSuccessfulCheck = False;
           $opDpRatioCheck = False;
 
-
           # 1. Is this spell cast when the attacker is attacking?
           if($attackerSpell['type'] == 'offense')
           {
@@ -1593,7 +1592,8 @@ class InvadeActionService
           }
 
           # 2. Is the spell only cast when the invasion is successful, OR when the invasion is UNsuccessful, OR in any case?
-          if(($attackerSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
+          if(
+              ($attackerSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
               or ($attackerSpell['invasion_must_be_successful'] == False and !$this->invasionResult['result']['success'])
               or ($attackerSpell['invasion_must_be_successful'] == Null)
               )
@@ -1603,7 +1603,9 @@ class InvadeActionService
 
           # 3. Is there an OP/DP ratio requirement?
           $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
-          if(isset($attackerSpell['op_dp_ratio']) and $opDpRatio >= $attackerSpell['op_dp_ratio'])
+          if(
+              (isset($attackerSpell['op_dp_ratio']) and $opDpRatio >= $attackerSpell['op_dp_ratio'])
+              OR $attackerSpell['op_dp_ratio'] == Null)
           {
             $opDpRatioCheck = True;
           }
@@ -1629,7 +1631,8 @@ class InvadeActionService
           }
 
           # 2. Is the spell only cast when the invasion is successful, OR when the invasion is UNsuccessful, OR in any case?
-          if(($defenderSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
+          if(
+              ($defenderSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
               or ($defenderSpell['invasion_must_be_successful'] == False and !$this->invasionResult['result']['success'])
               or ($defenderSpell['invasion_must_be_successful'] == Null)
               )
@@ -1639,7 +1642,9 @@ class InvadeActionService
 
           # 3. Is there an OP/DP ratio requirement?
           $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
-          if(isset($defenderSpell['op_dp_ratio']) and $opDpRatio >= $defenderSpell['op_dp_ratio'])
+          if(
+              (isset($defenderSpell['op_dp_ratio']) and $opDpRatio >= $defenderSpell['op_dp_ratio'])
+              OR $defenderSpell['op_dp_ratio'] == Null)
           {
             $opDpRatioCheck = True;
           }
