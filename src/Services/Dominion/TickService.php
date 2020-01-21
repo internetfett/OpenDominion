@@ -113,6 +113,7 @@ class TickService
                     {
                       $caster = Dominion::findorfail($tick->pestilence_units[0]);
                       $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties[1], 12);
+                      $tick->pestilence_units = []; #???
                     }
                 }
 
@@ -425,7 +426,7 @@ class TickService
             }
             elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
             {
-                $tick->{$attr} = ['test'];
+                $tick->{$attr} = [];
             }/*
             elseif ($attr === 'starvation_casualties' or $attr === 'pestilence_units')
             {
