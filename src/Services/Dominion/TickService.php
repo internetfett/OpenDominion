@@ -258,21 +258,22 @@ class TickService
 
             foreach ($dominions as $dominion)
             {
+
+              if(!empty($dominion->tick->pestilence_units))
+              {
+                $caster = Dominion::findorfail($dominion->tick->pestilence_units[0]);
+                if ($dominion !== null)
+                {
+                    $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units[1], 12);
+                }
+              }
+
                 DB::transaction(function () use ($dominion) {
                     if (!empty($dominion->tick->starvation_casualties)) {
                         $this->notificationService->queueNotification(
                             'starvation_occurred',
                             $dominion->tick->starvation_casualties
                         );
-                    }
-
-                    if(!empty($dominion->tick->pestilence_units))
-                    {
-                      $caster = Dominion::findorfail($dominion->tick->pestilence_units[0]);
-                      if ($dominion !== null and !empty($dominion->tick->pestilence_units[1]))
-                      {
-                          $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units[1], 12);
-                      }
                     }
 
                     $this->cleanupActiveSpells($dominion);
