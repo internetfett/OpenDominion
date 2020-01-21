@@ -696,7 +696,7 @@ class TickService
         {
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
             $abominations_generated = intval($dominion->peasants * 0.01);
-            $pestilence_units = ['military_unit1' => $abominations_generated];
+            $tick->pestilence_units = ['military_unit1' => $abominations_generated];
             $this->queueService->queueResources('training', $caster, $pestilence_units, 12);
         }
 
