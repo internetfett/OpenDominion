@@ -114,10 +114,15 @@ class TickService
                     */
                     if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
                     {
+                          Log::debug('Pestilence is on.');
                         $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+                            Log::debug('Cast is: ' . $caster);
                         $amountToDie = intval($dominion->peasants * 0.01);
-                        $dominion->peasants = max(1000,$dominion->peasants - $amountToDie);
+                            Log::debug('Amount to die is: ' . $amountToDie);
+                        $dominion->peasants = max(1000, $dominion->peasants - $amountToDie);
+                            Log::debug('New peasant count is: ' . $dominion->peasants);
                         $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+                              Log::debug('Training begun?');
                     }
 
                     $this->precalculateTick($dominion, true);
