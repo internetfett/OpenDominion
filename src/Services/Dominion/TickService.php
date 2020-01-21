@@ -262,7 +262,7 @@ class TickService
               if(!empty($dominion->tick->pestilence_units))
               {
                 $caster = Dominion::findorfail($dominion->tick->pestilence_units[0]);
-                if ($dominion !== null)
+                if ($caster !== null)
                 {
                     $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units[1], 12);
                 }
