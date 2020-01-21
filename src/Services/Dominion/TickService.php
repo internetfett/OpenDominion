@@ -423,10 +423,14 @@ class TickService
             {
                   $tick->{$attr} = 0;
             }
+            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
+            {
+                $tick->{$attr} = [];
+            }/*
             elseif ($attr === 'starvation_casualties' or $attr === 'pestilence_units')
             {
                 $tick->{$attr} = [];
-            }
+            }*/
           }
 
         // Hacky refresh for dominion
