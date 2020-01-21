@@ -114,7 +114,7 @@ class TickService
                     */
                     if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
                     {
-                          Log::debug('Pestilence is on for dominion: '. $dominion);
+                          Log::debug('Pestilence is on for dominion: ' . $dominion);
                         $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
                             Log::debug('Cast is: ' . $caster);
                         $amountToDie = intval($dominion->peasants * 0.01);
@@ -126,7 +126,7 @@ class TickService
                     }
                     else
                     {
-                          Log::debug('Pestilence is not on for dominion: ' $dominion);
+                          Log::debug('Pestilence is not on for dominion: ' . $dominion);
                     }
 
                     $this->precalculateTick($dominion, true);
