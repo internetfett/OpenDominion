@@ -614,20 +614,6 @@ class TickService
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
         $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
-        # Invasion Spell: Pestilence
-        /*
-        * 1. Calculate 1% of the Dominion's peasants.
-        * 2. Remove this amount from the Dominion's peasants.
-        * 3. Queue this amount as Abominations for the Afflicted.
-        */
-        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
-        {
-            $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-            $amountToDie = intval($dominion->peasants * 0.01);
-            $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
-            unset($amountToDie);
-        }
-
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
