@@ -112,6 +112,12 @@ class TickService
                 continue;
             }
 
+            foreach ($dominions as $dominion)
+            {
+                # Pull $tick->pestilence_casualties and send to queueService
+                $this->queueService->queueResources('training', $caster, $tick->pestilence_casualties, 12);
+            }
+
             DB::transaction(function () use ($round) {
                 // Update dominions
                 DB::table('dominions')
@@ -421,10 +427,6 @@ class TickService
             {
                 $tick->{$attr} = [];
             }
-            elseif ($attr === 'pestilence_units')
-            {
-                $tick->{$attr} = [];
-            }
           }
 
         // Hacky refresh for dominion
@@ -624,6 +626,17 @@ class TickService
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
         $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
+        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+        {
+            $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+            $amountToDie = intval($dominion->peasants * 0.01);
+            $populationPeasantGrowth -= $amountToDie;
+            $tick->pestilence_units = ['military_unit1' => $amountToDie];
+        }
+
+        $tick->peasants = $populationPeasantGrowth;
+        $tick->military_draftees = $drafteesGrowthRate;
+
         $tick->peasants += $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
@@ -689,15 +702,6 @@ class TickService
             // Food production
             $isStarving = false;
             $tick->resource_food += $foodNetChange;
-        }
-
-        // Invasion Spell: Pestilence
-        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
-        {
-            $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-            $abominations_generated = intval($dominion->peasants * 0.01);
-            $tick->pestilence_units = ['military_unit1' => $abominations_generated];
-            $this->queueService->queueResources('training', $caster, $pestilence_units, 12);
         }
 
         // Morale
