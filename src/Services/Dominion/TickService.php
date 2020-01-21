@@ -266,10 +266,13 @@ class TickService
                         );
                     }
 
-                    $caster = Dominion::findorfail($dominion->tick->pestilence_units[0]);
-                    if ($dominion !== null)
+                    if(!empty($dominion->tick->pestilence_units))
                     {
-                        $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units[1], 12);
+                      $caster = Dominion::findorfail($dominion->tick->pestilence_units[0]);
+                      if ($dominion !== null)
+                      {
+                          $this->queueService->queueResources('training', $caster, $dominion->tick->pestilence_units[1], 12);
+                      }
                     }
 
                     $this->cleanupActiveSpells($dominion);
