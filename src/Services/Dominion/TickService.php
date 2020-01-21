@@ -419,11 +419,11 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units'], true))
             {
                   $tick->{$attr} = 0;
             }
-            elseif ($attr === 'starvation_casualties')
+            elseif ($attr === 'starvation_casualties' or $attr = 'pestilence_units')
             {
                 $tick->{$attr} = [];
             }
