@@ -687,16 +687,23 @@ class TickService
         }
 
         // Invasion Spell: Pestilence
-        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence') and $dominion->is_pestilence_checked == 0)
+        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
-            $tick->is_pestilence_checked = 1;
-            $amountToDie = intval($dominion->peasants * 0.01);
-            $tick->peasants -= $amountToDie;
-            $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-
-            if($tick->is_pestilence_checked == 0)
+            if($dominion->is_pestilence_checked == 1)
             {
-              $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+                // Do nothing?
+            }
+            else
+            {
+                $tick->is_pestilence_checked = 1;
+                $amountToDie = intval($dominion->peasants * 0.01);
+                $tick->peasants -= $amountToDie;
+                $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+
+                if($tick->is_pestilence_checked == 0)
+                {
+                  $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
+                }
             }
         }
         else
