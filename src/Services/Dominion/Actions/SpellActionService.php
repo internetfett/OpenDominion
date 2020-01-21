@@ -441,7 +441,8 @@ class SpellActionService
             throw new GameException('Black ops have been disabled for the remainder of the round.');
         }
 
-        if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START) {
+        if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START and !$isInvasionSpell)
+        {
             throw new GameException('You cannot perform black ops for the first day of the round');
         }
 
