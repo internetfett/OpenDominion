@@ -423,9 +423,9 @@ class TickService
             {
                   $tick->{$attr} = 0;
             }
-            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], false))
+            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
             {
-                $tick->{$attr} = [];
+                $tick->{$attr} = ['test'];
             }/*
             elseif ($attr === 'starvation_casualties' or $attr === 'pestilence_units')
             {
