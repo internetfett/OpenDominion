@@ -192,6 +192,7 @@ class TickService
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
 
+                        # Invasion Spell: Pestilence
                         'dominions.is_pestilence_checked' => DB::raw('dominion_tick.is_pestilence_checked'),
 
                         'dominions.last_tick_at' => DB::raw('now()')
