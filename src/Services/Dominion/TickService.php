@@ -114,6 +114,7 @@ class TickService
                     */
                     if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
                     {
+                        die("Pestilence IS ACTIVE active for Dominion: " . var_dump($dominion));
                         $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
                         $amountToDie = intval($dominion->peasants * 0.01);
                         $dominion->peasants = max(1000, $dominion->peasants - $amountToDie);
@@ -121,7 +122,7 @@ class TickService
                     }
                     else
                     {
-                      die("no pestilence for Dominion: " . var_dump($dominion));
+                      die("Pestilence NOT FOUND for Dominion: " . var_dump($dominion));
                     }
 
                     $this->precalculateTick($dominion, true);
