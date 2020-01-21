@@ -412,7 +412,7 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'is_pestilence_checked'], true))
             {
                   $tick->{$attr} = 0;
             }
@@ -687,8 +687,9 @@ class TickService
         }
 
         // Invasion Spell: Pestilence
-        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence') and $dominion->is_pestilence_checked == 0)
         {
+            $tick->is_pestilence_checked = 1;
             $amountToDie = intval($dominion->peasants * 0.01);
             $tick->peasants -= $amountToDie;
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
@@ -696,13 +697,11 @@ class TickService
             if($tick->is_pestilence_checked == 0)
             {
               $this->queueService->queueResources('invasion', $caster, ['military_unit1' => $amountToDie], 12);
-              $tick->is_pestilence_checked = 1;
             }
         }
         else
         {
             $tick->is_pestilence_checked = 1;
-            $tick->peasants -= 0;
         }
 
         // Morale
