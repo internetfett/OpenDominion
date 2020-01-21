@@ -107,13 +107,6 @@ class TickService
                   foreach ($dominions as $dominion)
                   {
                     $this->precalculateTick($dominion, true);
-
-                    $caster = Dominion::findorfail($tick->pestilence_units[0]);
-
-                    if ($dominion !== null)
-                    {
-                        $this->queueService->queueResources('training', $caster, $tick->pestilence_units[1], 12);
-                    }
                   }
 
                 continue;
@@ -271,6 +264,13 @@ class TickService
                     $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
 
                     $this->precalculateTick($dominion, true);
+
+                    $caster = Dominion::findorfail($tick->pestilence_units[0]);
+                    if ($dominion !== null)
+                    {
+                        $this->queueService->queueResources('training', $caster, $tick->pestilence_units[1], 12);
+                    }
+                    
                 }, 5);
             }
 
