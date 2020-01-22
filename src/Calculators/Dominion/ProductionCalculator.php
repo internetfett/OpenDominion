@@ -80,7 +80,7 @@ class ProductionCalculator
           $platinum += $dominion->resource_platinum * $dominion->getTechPerkMultiplier('platinum_interest');
         }
 
-        return $platinum;
+        return max(0,$platinum);
     }
 
     /**
@@ -250,7 +250,7 @@ class ProductionCalculator
             $food *= 2;
         }
 
-        return $food;
+        return max(0,$food);
     }
 
     /**
@@ -469,7 +469,7 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
 
-        return $lumber;
+        return max(0,$lumber);
     }
 
     /**
@@ -611,7 +611,7 @@ class ProductionCalculator
           $mana += $dominion->military_draftees * $dominion->race->getPerkValue('draftee_mana_production');
         }
 
-        return $mana;
+        return max(0,$mana);
     }
 
     /**
@@ -731,7 +731,7 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $ore += $dominion->getUnitPerkProductionBonus('ore_production');
 
-        return $ore;
+        return max(0,$ore);
     }
 
     /**
@@ -829,7 +829,7 @@ class ProductionCalculator
             $gems += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
         }
 
-        return $gems;
+        return max(0,$gems);
     }
 
     /**
@@ -910,7 +910,7 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Sacred Order: Monk)
         $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
-        return $tech;
+        return max(0,$tech);
     }
 
     /**
@@ -968,7 +968,7 @@ class ProductionCalculator
 
         $boats += ($dominion->building_dock / $docksPerBoatPerTick);
 
-        return $boats;
+        return max(0,$boats);
     }
 
     /**
@@ -985,9 +985,9 @@ class ProductionCalculator
         $multiplier = 0;
 
         // Spell: Great Flood (-25%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
+        if ($this->spellCalculator->isSpellActive($dominion, 'great_flood'))
         {
-            $multiplier = -0.25;
+            $multiplier -= 0.25;
         }
 
         // Spell: Rainy Season (-100%)
@@ -1041,7 +1041,7 @@ class ProductionCalculator
               $wildYetis = $wildYetis * 4;
             }
 
-            return $wildYetis;
+            return max(0,$wildYetis);
         }
 
         /**
