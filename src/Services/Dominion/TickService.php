@@ -184,7 +184,8 @@ class TickService
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
 
-                        'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
+                        #'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
+                        'dominions.stat_total_platinum_production' => 0,
                         #'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
                         'dominions.stat_total_food_production' => 0,
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
