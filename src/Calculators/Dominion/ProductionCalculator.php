@@ -206,7 +206,7 @@ class ProductionCalculator
      */
     public function getFoodProduction(Dominion $dominion): int
     {
-        return floor($this->getFoodProductionRaw($dominion) * $this->getFoodProductionMultiplier($dominion));
+        return max(0, floor($this->getFoodProductionRaw($dominion) * $this->getFoodProductionMultiplier($dominion)));
     }
 
     /**
