@@ -609,9 +609,10 @@ class SpellHelper
             ],
         ]);
 
+        #
         if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
         {
-            $spells->prepend([
+            $purification = collect([
                 [
                     'name' => 'Purification',
                     'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
@@ -623,7 +624,10 @@ class SpellHelper
                     'percentage' => 1
                 ],
             ]);
+
+            $spells = $spells->concat($purification);
         }
+
 
         return $spells;
     }
