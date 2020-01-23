@@ -522,6 +522,7 @@ class SpellHelper
         }
     }
 
+    # Available all the time (after first day).
     public function getBlackOpSpells(?Dominion $dominion): Collection
     {
 
@@ -556,82 +557,12 @@ class SpellHelper
           ],
       ]);
 
-      # Commonwealth Academy of Wizardry
-      // Lightning and Arcane
-      if($race->alignment == 'good')
-      {
-        return collect([
-            [
-                'name' => 'Plague',
-                'description' => 'Slows population growth by 25%.',
-                'key' => 'plague',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-            [
-                'name' => 'Insect Swarm',
-                'description' => 'Slows food production by 5%.',
-                'key' => 'insect_swarm',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-            [
-                'name' => 'Great Flood',
-                'description' => 'Slows boat production by 25%.',
-                'key' => 'great_flood',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-            [
-                'name' => 'Earthquake',
-                'description' => 'Slows mine production by 5%.',
-                'key' => 'earthquake',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-        ]);
-      }
-      # Imperial Dark Arts Magic
-      // Fire and Cold
-      elseif($race->alignment == 'evil')
-      {
-        return collect([
-            [
-                'name' => 'Plague',
-                'description' => 'Slows population growth by 25%.',
-                'key' => 'plague',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-            [
-                'name' => 'Insect Swarm',
-                'description' => 'Slows food production by 5%.',
-                'key' => 'insect_swarm',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-            [
-                'name' => 'Great Flood',
-                'description' => 'Slows boat production by 25%.',
-                'key' => 'great_flood',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-            [
-                'name' => 'Earthquake',
-                'description' => 'Slows mine production by 5%.',
-                'key' => 'earthquake',
-                'mana_cost' => 3,
-                'duration' => 12,
-            ],
-        ]);
-      }
-
     }
 
+    # War only.
     public function getWarSpells(?Dominion $dominion): Collection
     {
-        return collect([
+        $spells = collect([
             [
                 'name' => 'Lightning Bolt',
                 'description' => 'Destroy the target\'s improvements (0.33% base damage).',
@@ -677,6 +608,29 @@ class SpellHelper
                 'percentage' => 1,
             ],
         ]);
+
+        #
+        $purificationFactions = ['Human', 'Sacred Order', 'Dwarf'];
+        if(in_array($dominion->race->name, $purification))
+        {
+            $purification = collect([
+                [
+                    'name' => 'Purification',
+                    'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
+                    'key' => 'purification',
+                    'mana_cost' => 3,
+                    'decreases' => [
+                        'military_unit1',
+                    ],
+                    'percentage' => 1
+                ],
+            ]);
+
+            $spells->concat($purification);
+        }
+
+
+        return $spells;
     }
 
 

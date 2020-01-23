@@ -242,6 +242,100 @@
                     </div>
                 </form>
             </div>
+            <div class="box box-primary col-xs-6">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="ra ra-sword"></i> Military Modifiers</h3>
+                </div>
+
+                    <h3>Offensive Modifiers</h3>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="25%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Modifier</th>
+                                    <th class="text-center">Multiplier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Total: </strong></td>
+                                    <td><strong>{{ number_format(($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Prestige: </td>
+                                    <td>{{ number_format($prestigeCalculator->getPrestigeMultiplier($selectedDominion) * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Forges: </td>
+                                    <td>{{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Advancements: </td>
+                                    <td>{{ number_format($selectedDominion->getTechPerkMultiplier('offense') * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Spell: </td>
+                                    <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, 'offense') * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Gryphon Nests: </td>
+                                    <td>{{ number_format($militaryCalculator->getGryphonNestMultiplier($selectedDominion) * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Faction bonus: </td>
+                                    <td>{{ number_format($selectedDominion->race->getPerkMultiplier('offense') * 100, 2) }}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Defensive Modifiers</h3>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="25%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Modifier</th>
+                                    <th class="text-center">Multiplier</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Total: </strong></td>
+                                    <td><strong>{{ number_format(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) - 1) * 100, 2) }}%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Walls: </td>
+                                    <td>{{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'walls') * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Advancements: </td>
+                                    <td>{{ number_format($selectedDominion->getTechPerkMultiplier('defense') * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Spell: </td>
+                                    <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, 'defense') * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Guard Towers: </td>
+                                    <td>{{ number_format($militaryCalculator->getGuardTowerMultiplier($selectedDominion) * 100, 2) }}%</td>
+                                </tr>
+                                <tr>
+                                    <td>Faction bonus: </td>
+                                    <td>{{ number_format($selectedDominion->race->getPerkMultiplier('defense') * 100, 2) }}%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+            </div>
         </div>
 
         <div class="col-sm-12 col-md-3">
