@@ -612,7 +612,7 @@ class SpellHelper
         #
         if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
         {
-            $purification = collect([
+            $spells->concat([
                 [
                     'name' => 'Purification',
                     'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
@@ -625,7 +625,7 @@ class SpellHelper
                 ],
             ]);
 
-            $spells->concat($purification);
+            #($purification);
         }
 
 
