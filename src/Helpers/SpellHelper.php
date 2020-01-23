@@ -610,8 +610,7 @@ class SpellHelper
         ]);
 
         #
-        $purificationFactions = ['Human', 'Sacred Order', 'Dwarf'];
-        if(in_array($dominion->race->name, $purification))
+        if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
         {
             $purification = collect([
                 [
