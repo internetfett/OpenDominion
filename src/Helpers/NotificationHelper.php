@@ -559,6 +559,10 @@ class NotificationHelper
                         $resultString = "Our troops return with unhealing wounds, increasing casualties and food consumption.";
                         break;
 
+                    case 'purification':
+                        $resultString = "{$data['damageString']} die from Purification.";
+                        break;
+
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }

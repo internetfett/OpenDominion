@@ -609,7 +609,6 @@ class SpellHelper
             ],
         ]);
 
-        #
         if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
         {
             $spells = $spells->concat([
@@ -624,8 +623,6 @@ class SpellHelper
                     'percentage' => 1
                 ],
             ]);
-
-            #$spells->concat($purification);
         }
 
 

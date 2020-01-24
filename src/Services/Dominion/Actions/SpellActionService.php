@@ -667,6 +667,15 @@ class SpellActionService
                         $damage *= $damageMultiplier;
                     }
 
+                    // Special for Purification
+                    if($spellInfo['name'] == 'Purification')
+                    {
+                      if($target->race->name !== 'Afflicted')
+                      {
+                        $damage = 0;
+                      }
+                    }
+
                     // Damage reduction from Towers
                     $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
 
