@@ -54,12 +54,16 @@
                                   -->
                                 @else
                                   @if ($dominion->is_locked == 1)
-                                    <tr style="color: #ddd; text-decoration:line-through;">
+                                    <tr style="text-decoration:line-through;">
                                   @else
                                     <tr>
                                   @endif
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
+                                            @if ($dominion->is_locked == 1)
+                                                <i class="ra ra-cancel ra-lg text-grey" title="This dominions has been locked by the administrator."></i>
+                                            @endif
+
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
                                                 <i class="ra ra-droplet ra-lg text-blue" title="Rainy Season"></i>
                                             @endif
