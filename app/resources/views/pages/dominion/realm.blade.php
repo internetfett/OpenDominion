@@ -54,7 +54,7 @@
                                   -->
                                 @else
                                   @if ($dominion->is_locked == 1)
-                                    <tr style="text-decoration:line-through;">
+                                    <tr style="text-decoration:line-through; color: #666">
                                   @else
                                     <tr>
                                   @endif
