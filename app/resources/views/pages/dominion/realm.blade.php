@@ -53,7 +53,11 @@
                                     </tr>
                                   -->
                                 @else
+                                  @if ($dominion->is_locked == 1)
+                                    <tr style="color: #ddd; text-decoration:line-through;">
+                                  @else
                                     <tr>
+                                  @endif
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
