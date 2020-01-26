@@ -53,7 +53,11 @@
                                     </tr>
                                   -->
                                 @else
+                                  @if ($dominion->is_locked == 1)
+                                    <tr style="text-decoration:line-through; color: #666">
+                                  @else
                                     <tr>
+                                  @endif
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
                                             @if ($dominion->is_locked == 1)
