@@ -367,10 +367,10 @@ class PopulationCalculator
             $multiplier -= 0.25;
         }
 
-        // Spell: Great Fever (-100%)
+        // Spell: Great Fever (-25%)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier -= 1.00;
+            $multiplier -= 0.25;
         }
 
         # /SPELLS

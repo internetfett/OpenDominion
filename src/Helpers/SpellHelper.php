@@ -708,7 +708,7 @@ class SpellHelper
               ],
               [
                   'name' => 'Great Fever',
-                  'description' => 'No population growth, -10% platinum production, -20% food production.',
+                  'description' => '-25% population growth, -5% platinum production, -5% food production.',
                   'key' => 'great_fever',
                   'type' => 'offense',
                   'invasion_must_be_successful' => True,
