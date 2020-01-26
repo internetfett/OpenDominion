@@ -567,7 +567,7 @@ class EspionageActionService
                 $resource = 'platinum';
                 $constraints = [
                     'target_amount' => 2/4,
-                    'self_production' => 150,
+                    'self_production' => 0,
                     'spy_carries' => 45/4,
                 ];
                 break;
@@ -585,7 +585,7 @@ class EspionageActionService
                 $resource = 'lumber';
                 $constraints = [
                     'target_amount' => 5,
-                    'self_production' => 150,
+                    'self_production' => 0,
                     'spy_carries' => 50/4,
                 ];
                 break;
@@ -594,7 +594,7 @@ class EspionageActionService
                 $resource = 'mana';
                 $constraints = [
                     'target_amount' => 3/4,
-                    'self_production' => 150,
+                    'self_production' => 0,
                     'spy_carries' => 50/4,
                 ];
                 break;
@@ -603,7 +603,7 @@ class EspionageActionService
                 $resource = 'ore';
                 $constraints = [
                     'target_amount' => 5/4,
-                    'self_production' => 150,
+                    'self_production' => 0,
                     'spy_carries' => 50/4,
                 ];
                 break;
@@ -612,7 +612,7 @@ class EspionageActionService
                 $resource = 'gems';
                 $constraints = [
                     'target_amount' => 2/4,
-                    'self_production' => 100,
+                    'self_production' => 0,
                     'spy_carries' => 50/4,
                 ];
                 break;
