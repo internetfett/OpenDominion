@@ -184,10 +184,10 @@ class ProductionCalculator
           $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
         }
 
-        // Invasion Spell: Unhealing Wounds (-10% production)
+        // Invasion Spell: Unhealing Wounds (-5% production)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier -= 0.10;
+            $multiplier -= 0.05;
         }
 
         // Apply Morale multiplier to production multiplier
@@ -302,10 +302,10 @@ class ProductionCalculator
             $multiplier -= 0.05;
         }
 
-        // Invasion Spell: Great Fever (-20% food production)
+        // Invasion Spell: Great Fever (-5% food production)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier -= 0.20;
+            $multiplier -= 0.05;
         }
 
         # /SPELLS
