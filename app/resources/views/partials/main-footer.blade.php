@@ -18,8 +18,6 @@
 
     </div>
 
-    @if (!isset($selectedDominion))
     <i class="fa fa-file-text-o"></i> <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a> | <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a>
-    @endif
 
 </footer>
