@@ -61,7 +61,7 @@
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
                                             @if ($dominion->is_locked == 1)
-                                                <i class="ra ra-cancel ra-lg text-grey" title="This dominions has been locked by the administrator."></i>
+                                                <i class="ra ra-cancel ra-lg text-grey" title="This dominion has been locked by the administrator."></i>
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
