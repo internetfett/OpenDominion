@@ -670,6 +670,12 @@ class SpellActionService
                     // Damage reduction from Towers
                     $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
 
+                    // Damage reduction from racial perk: immune_to_lightning_bolt
+                    if (strpos($attr, 'improvement_') === 0 and $dominion->race->getPerkValue('immune_to_lightning_bolt'))
+                    {
+                      $damage = 0;
+                    }
+
                     $damage = max($damage, 0);
 
                     $totalDamage += round($damage);
