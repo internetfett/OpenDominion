@@ -725,7 +725,8 @@ class TickService
         }
 
         // Morale
-        if ($isStarving) {
+        if ($isStarving)
+        {
             # Lower morale by 10.
             $starvationMoraleChange = -10;
             if(($dominion->morale + $starvationMoraleChange) < 0)
@@ -736,7 +737,9 @@ class TickService
             {
               $tick->morale = $starvationMoraleChange;
             }
-        } else {
+        }
+        else
+        {
             if ($dominion->morale < 35)
             {
               $tick->morale = 7;
