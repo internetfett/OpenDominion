@@ -102,12 +102,14 @@ class TickService
                         'race.units',
                         'race.units.perks',
                     ])
-                    ->where('locked', '=', 0)
                     ->get();
 
                   foreach ($dominions as $dominion)
                   {
-                    $this->precalculateTick($dominion, true);
+                    if($dominion->locked === 0)
+                    {
+                      $this->precalculateTick($dominion, true);
+                    }
                   }
 
                 continue;
@@ -277,8 +279,10 @@ class TickService
                     $this->cleanupQueues($dominion);
 
                     $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
-
-                    $this->precalculateTick($dominion, true);
+                    if($dominion->is_locked === 0)
+                    {
+                      $this->precalculateTick($dominion, true);
+                    }
                 }, 5);
             }
 
