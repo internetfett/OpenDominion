@@ -500,11 +500,22 @@ class SpellActionService
                     $dominion->military_wizards -= $wizardsKilled;
                 }
 
-                foreach ($dominion->race->units as $unit) {
-                    if ($unit->getPerkValue('counts_as_wizard_offense')) {
-                        $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_wizard_offense') / 2) * ($wizardsKilledPercentage / 100);
-                        $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                        if ($unitKilled > 0) {
+                foreach ($dominion->race->units as $unit)
+                {
+                    if ($unit->getPerkValue('counts_as_wizard_offense'))
+                    {
+                        if($unit->getPerkValue('immortal_wizard'))
+                        {
+                          $unitKilled = 0;
+                        }
+                        else
+                        {
+                          $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_wizard_offense') / 2) * ($wizardsKilledPercentage / 100);
+                          $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                        }
+
+                        if ($unitKilled > 0)
+                        {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                         }
