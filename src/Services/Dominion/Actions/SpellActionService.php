@@ -500,11 +500,22 @@ class SpellActionService
                     $dominion->military_wizards -= $wizardsKilled;
                 }
 
-                foreach ($dominion->race->units as $unit) {
-                    if ($unit->getPerkValue('counts_as_wizard_offense')) {
-                        $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_wizard_offense') / 2) * ($wizardsKilledPercentage / 100);
-                        $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                        if ($unitKilled > 0) {
+                foreach ($dominion->race->units as $unit)
+                {
+                    if ($unit->getPerkValue('counts_as_wizard_offense'))
+                    {
+                        if($unit->getPerkValue('immortal_wizard'))
+                        {
+                          $unitKilled = 0;
+                        }
+                        else
+                        {
+                          $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_wizard_offense') / 2) * ($wizardsKilledPercentage / 100);
+                          $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                        }
+
+                        if ($unitKilled > 0)
+                        {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                         }
@@ -667,14 +678,23 @@ class SpellActionService
                         $damage *= $damageMultiplier;
                     }
 
-                    // Damage reduction from Towers
-                    $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
-
                     // Damage reduction from racial perk: immune_to_lightning_bolt
                     if (strpos($attr, 'improvement_') === 0 and $target->race->getPerkValue('immune_to_lightning_bolt'))
                     {
                       $damage = 0;
                     }
+
+                    // Special for Purification
+                    if($spellInfo['name'] == 'Purification')
+                    {
+                      if($target->race->name !== 'Afflicted')
+                      {
+                        $damage = 0;
+                      }
+                    }
+
+                    // Damage reduction from Towers
+                    $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
 
                     $damage = max($damage, 0);
 
