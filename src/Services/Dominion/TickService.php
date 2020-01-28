@@ -206,30 +206,17 @@ class TickService
                 DB::table('active_spells')
                     ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
                     ->where('dominions.round_id', $round->id)
-                    ->where('duration', '>', 0)
                     ->update([
-                        'duration' => DB::raw('duration - 1'),
+                        'duration' => DB::raw('`duration` - 1'),
                         'active_spells.updated_at' => $this->now,
                     ]);
 
                 // Update queues
-                // Two-step process to avoid getting UNIQUE constraint integrity errors
-                // since we can't reliably use deferred transactions, deferred update
-                // queries or update+orderby cross-database vendors
                 DB::table('dominion_queue')
                     ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                     ->where('dominions.round_id', $round->id)
-                    ->where('hours', '>', 0)
                     ->update([
-                        'hours' => DB::raw('-(`hours` - 1)'),
-                    ]);
-
-                DB::table('dominion_queue')
-                    ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
-                    ->where('dominions.round_id', $round->id)
-                    ->where('hours', '<', 0)
-                    ->update([
-                        'hours' => DB::raw('-`hours`'),
+                        'hours' => DB::raw('`hours` - 1'),
                         'dominion_queue.updated_at' => $this->now,
                     ]);
             }, 10);
@@ -725,8 +712,7 @@ class TickService
         }
 
         // Morale
-        if ($isStarving)
-        {
+        if ($isStarving) {
             # Lower morale by 10.
             $starvationMoraleChange = -10;
             if(($dominion->morale + $starvationMoraleChange) < 0)
@@ -737,9 +723,7 @@ class TickService
             {
               $tick->morale = $starvationMoraleChange;
             }
-        }
-        else
-        {
+        } else {
             if ($dominion->morale < 35)
             {
               $tick->morale = 7;
