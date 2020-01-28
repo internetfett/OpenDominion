@@ -106,7 +106,7 @@
                                             {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:5em;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
                                         <td>
                                             {{ sprintf(
