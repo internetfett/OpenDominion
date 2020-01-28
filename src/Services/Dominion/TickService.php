@@ -106,7 +106,10 @@ class TickService
 
                   foreach ($dominions as $dominion)
                   {
-                    $this->precalculateTick($dominion, true);
+                    if($dominion->is_locked !== 1)
+                    {
+                      $this->precalculateTick($dominion, true);
+                    }
                   }
 
                 continue;
@@ -253,32 +256,38 @@ class TickService
 
             foreach ($dominions as $dominion)
             {
-
-              if(!empty($dominion->tick->pestilence_units))
+              if($dominion->is_locked !== 1)
               {
-                $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
-                if ($caster)
-                {
-                    echo print_r($dominion->tick->pestilence_units);
-                    $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
-                }
+                  if(!empty($dominion->tick->pestilence_units))
+                  {
+                    $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
+                    if ($caster)
+                    {
+                        echo print_r($dominion->tick->pestilence_units);
+                        $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
+                    }
+                  }
+
+                    DB::transaction(function () use ($dominion) {
+                        if (!empty($dominion->tick->starvation_casualties)) {
+                            $this->notificationService->queueNotification(
+                                'starvation_occurred',
+                                $dominion->tick->starvation_casualties
+                            );
+                        }
+
+                        $this->cleanupActiveSpells($dominion);
+                        $this->cleanupQueues($dominion);
+
+                        $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
+
+
+
+                          $this->precalculateTick($dominion, true);
+
+                    }, 5);
               }
 
-                DB::transaction(function () use ($dominion) {
-                    if (!empty($dominion->tick->starvation_casualties)) {
-                        $this->notificationService->queueNotification(
-                            'starvation_occurred',
-                            $dominion->tick->starvation_casualties
-                        );
-                    }
-
-                    $this->cleanupActiveSpells($dominion);
-                    $this->cleanupQueues($dominion);
-
-                    $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
-
-                    $this->precalculateTick($dominion, true);
-                }, 5);
             }
 
             Log::info(sprintf(
