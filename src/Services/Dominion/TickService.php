@@ -102,6 +102,7 @@ class TickService
                         'race.units',
                         'race.units.perks',
                     ])
+                    ->where('locked', '=', 0)
                     ->get();
 
                   foreach ($dominions as $dominion)
