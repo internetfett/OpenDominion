@@ -173,6 +173,7 @@
                                                        placeholder="0"
                                                        min="0"
                                                        max="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
+                                                       style="min-width:5em;" 
                                                        data-slot="{{ $unitSlot }}"
                                                        data-amount="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
                                                        data-op="{{ $unit->power_offense }}"
