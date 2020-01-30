@@ -656,6 +656,7 @@ class SpellActionService
                 foreach ($spellInfo['decreases'] as $attr)
                 {
                     $damage = $target->{$attr} * $baseDamage;
+                    $damageMultiplier = 0;
 
                     // Damage reduction from Forest Havens and racial perk
                     if ($attr == 'peasants')
