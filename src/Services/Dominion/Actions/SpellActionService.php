@@ -188,7 +188,7 @@ class SpellActionService
               $dominion->wizard_strength -= $wizardStrengthLost;
 
               # XP Gained.
-              if(isset($result['damage']))
+              if($result['success'] == True and isset($result['damage']))
               {
                 dd($result);
                 $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
@@ -706,7 +706,7 @@ class SpellActionService
                     // Damage reduction from Towers
                     $damageMultiplier -= min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers'));
 
-                    $damage *= max(0, (1-$damageMultiplier));
+                    $damage = $damage * max(0, (1-$damageMultiplier));
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
@@ -774,7 +774,7 @@ class SpellActionService
             } else {
                 return [
                     'success' => true,
-                    'damage' => $damage,
+                    'damage' => $totalDamage,
                     'message' => sprintf(
                         'Your wizards cast the spell successfully, your target lost %s.',
                         $damageString
