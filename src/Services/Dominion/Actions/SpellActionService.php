@@ -706,7 +706,7 @@ class SpellActionService
                     // Damage reduction from Towers
                     $damageMultiplier -= min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers'));
 
-                    $damage = max(0, $daage * $damageMultiplier);
+                    $damage *= max(0, (1-$damageMultiplier));
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
