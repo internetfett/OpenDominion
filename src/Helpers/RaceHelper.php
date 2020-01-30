@@ -248,10 +248,15 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Experience points per acre on invasions';
                 break;
-            case 'immune_to_lightning_bolt':
-                $negativeBenefit = false;
-                $description = 'No damage from lightning bolts';
-                $booleanValue = true;
+            case 'damage_from_lightning_bolts':
+                $negativeBenefit = true;
+                $description = 'Damage from lightning bolts';
+                $booleanValue = false;
+                break;
+            case 'damage_from_fireballs':
+                $negativeBenefit = true;
+                $description = 'Damage from fireballs';
+                $booleanValue = false;
                 break;
             case 'construction_material':
                 $negativeBenefit = false;

@@ -19,6 +19,8 @@ perks:
   mana_production: -10
   max_population: -15
   construction_cost_only_platinum: 1
+  damage_from_fireballs: -100
+  damage_from_lightning_bolts: -50
 units:
   - name: Merman
     cost:
