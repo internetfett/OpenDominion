@@ -190,6 +190,7 @@ class SpellActionService
               # XP Gained.
               if(isset($result['damage']))
               {
+                dd($result);
                 $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
                 $dominion->resource_tech += $xpGained;
               }
@@ -637,52 +638,61 @@ class SpellActionService
                     )
                 ];
             }
-        } else {
+        }
+        else
+        {
             // Cast spell instantly
             $damageDealt = [];
             $totalDamage = 0;
             $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
 
             # Calculate ratio differential.
-
-            # mris
-            #$baseDamageMultiplier = max(0.10, max( min( min( ($selfWpa-$targetWpa+3)/5,1 ) * max( ($selfWpa/max($targetWpa, 0.01))/5,1 ) ,3) ,0));
-
             $baseDamageMultiplier = (1 + ($selfWpa - $targetWpa) / 10);
 
             $baseDamage *= $baseDamageMultiplier;
 
-            if (isset($spellInfo['decreases'])) {
-                foreach ($spellInfo['decreases'] as $attr) {
+            if (isset($spellInfo['decreases']))
+            {
+                foreach ($spellInfo['decreases'] as $attr)
+                {
                     $damage = $target->{$attr} * $baseDamage;
 
-                    // Damage reduction from Forest Havens
-                    if ($attr == 'peasants') {
+                    // Damage reduction from Forest Havens and racial perk
+                    if ($attr == 'peasants')
+                    {
                         $forestHavenFireballReduction = 8;
-                        $forestHavenFireballReductionMax = 80;
-                        $damageMultiplier = (1 - min(
+                        $forestHavenFireballReductionMax = 0.80;
+                        $damageMultiplier = min(
                             (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $forestHavenFireballReduction),
-                            ($forestHavenFireballReductionMax / 100)
-                        ));
-                        $damage *= $damageMultiplier;
+                            ($forestHavenFireballReductionMax)
+                        );
+
+                        if($target->race->getPerkMultiplier('damage_from_fireballs'))
+                        {
+                          $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
+                        }
+
+                        $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
 
-                    // Damage reduction from Masonries
-                    if (strpos($attr, 'improvement_') === 0) {
+                    // Damage reduction from Masonries and racial perk
+                    if (strpos($attr, 'improvement_') === 0)
+                    {
                         $masonryLightningBoltReduction = 0.75;
                         $masonryLightningBoltReductionMax = 25;
-                        $damageMultiplier = (1 - min(
+                        $damageMultiplier = min(
                             (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $masonryLightningBoltReduction),
                             ($masonryLightningBoltReductionMax / 100)
-                        ));
-                        $damage *= $damageMultiplier;
+                        );
+
+                        if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
+                        {
+                          $damageMultiplier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+                        }
+
+                        $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
 
-                    // Damage reduction from racial perk: immune_to_lightning_bolt
-                    if (strpos($attr, 'improvement_') === 0 and $target->race->getPerkValue('immune_to_lightning_bolt'))
-                    {
-                      $damage = 0;
-                    }
 
                     // Special for Purification
                     if($spellInfo['name'] == 'Purification')
@@ -694,9 +704,9 @@ class SpellActionService
                     }
 
                     // Damage reduction from Towers
-                    $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
+                    $damageMultiplier -= min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers'));
 
-                    $damage = max($damage, 0);
+                    $damage = max(0, $daage * $damageMultiplier);
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
@@ -717,8 +727,11 @@ class SpellActionService
                     $damageDealt = [sprintf('%s %s', number_format($totalDamage), dominion_attr_display('improvement', $totalDamage))];
                 }
             }
-            if (isset($spellInfo['increases'])) {
-                foreach ($spellInfo['increases'] as $attr) {
+
+            if (isset($spellInfo['increases']))
+            {
+                foreach ($spellInfo['increases'] as $attr)
+                {
                     $damage = $target->{$attr} * $baseDamage;
 
                     // Damage reduction from Towers
@@ -727,6 +740,7 @@ class SpellActionService
                     $target->{$attr} += round($damage);
                 }
             }
+
             $target->save([
                 'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
                 'action' => $spellKey
@@ -894,7 +908,7 @@ class SpellActionService
      */
     protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
     {
-      if($damage == 0 or $damage == NULL)
+      if($damage === 0 or $damage === NULL)
       {
         return 0;
       }

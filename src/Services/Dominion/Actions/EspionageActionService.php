@@ -893,18 +893,21 @@ class EspionageActionService
 
         $baseDamage *= $baseDamageMultiplier;
 
-        if (isset($operationInfo['decreases'])) {
+        if (isset($operationInfo['decreases']))
+        {
             foreach ($operationInfo['decreases'] as $attr) {
                 $damage = $target->{$attr} * $baseDamage;
 
                 // Damage reduction from Docks / Harbor
-                if ($attr == 'resource_boats') {
+                if ($attr == 'resource_boats')
+                {
                     $boatsProtected = $this->militaryCalculator->getBoatsProtected($target);
                     $damage = ($target->{$attr} - $boatsProtected) * $baseDamage;
                 }
 
                 // Check for immortal wizards
-                if ($dominion->race->getPerkValue('immortal_wizards') != 0 && $attr == 'military_wizards') {
+                if ($dominion->race->getPerkValue('immortal_wizards') != 0 && $attr == 'military_wizards')
+                {
                     $damage = 0;
                 }
 
@@ -912,13 +915,16 @@ class EspionageActionService
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
 
                 // Update statistics
-                if (isset($dominion->{"stat_{$operationInfo['key']}_damage"})) {
+                if (isset($dominion->{"stat_{$operationInfo['key']}_damage"}))
+                {
                     $dominion->{"stat_{$operationInfo['key']}_damage"} += round($damage);
                 }
             }
         }
-        if (isset($operationInfo['increases'])) {
-            foreach ($operationInfo['increases'] as $attr) {
+        if (isset($operationInfo['increases']))
+        {
+            foreach ($operationInfo['increases'] as $attr)
+            {
                 $damage = $target->{$attr} * $baseDamage;
                 $target->{$attr} += round($damage);
             }
@@ -968,7 +974,7 @@ class EspionageActionService
      */
     protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
     {
-      if($damage == 0 or $damage == NULL)
+      if($damage === 0 or $damage === NULL)
       {
         return 0;
       }
