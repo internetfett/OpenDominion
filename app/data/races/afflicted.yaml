@@ -35,9 +35,8 @@ units:
       defense: 0
     perks:
       conversion: 1
-      fewer_casualties_offense: 50
       does_not_count_as_population: 1
-      food_consumption: 0.125
+      food_consumption: 0.15
   - name: Pest Rat
     need_boat: true
     cost:

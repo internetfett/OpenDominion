@@ -46,7 +46,7 @@ units:
     perks:
       sink_boats_defense: 1
       food_consumption: 1
-      land_limit: water,0.22 # Max 1 unit per 0.22 acres of Water (4.54 Krakens/acre)
+      #land_limit: water,0.22 # Max 1 unit per 0.22 acres of Water (4.54 Krakens/acre)
   - name: Kraken
     cost:
       platinum: 1650
@@ -57,5 +57,5 @@ units:
       sink_boats_offense: 1
       sink_boats_defense: 1
       food_consumption: 0.75
-      land_limit: water,0.17 # Max 1 unit per 0.17 acres of Water (5.88 Krakens/acre)
+      #land_limit: water,0.17 # Max 1 unit per 0.17 acres of Water (5.88 Krakens/acre)
     need_boat: false
