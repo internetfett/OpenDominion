@@ -314,7 +314,7 @@ class UnitHelper
                                 return ($unit->slot === $slot);
                             })->first();
 
-                            $unitNamesToDieInio[] = str_plural($unitToDieInto->name);
+                            $unitNamesToDieInio[] = $unitToDieInto->name;
                         }
                 }
 
