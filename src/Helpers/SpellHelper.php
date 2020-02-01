@@ -452,9 +452,8 @@ class SpellHelper
                 'name' => 'Retribution',
                 'description' => '+5% offensive power if target has recently invaded your realm (in the last six hours).',
                 'key' => 'retribution',
-                'mana_cost' => 12,
-                'duration' => 24*4, # Lasts one day
-                'cooldown' => 24*7, # Every seven days
+                'mana_cost' => 6,
+                'duration' => 6*4, # Six hours
                 'races' => collect(['Jagunii']),
             ],
         ]);

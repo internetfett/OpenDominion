@@ -351,6 +351,7 @@ class InvadeActionService
             $this->handleResearchPoints($dominion, $target, $units);
 
             $this->handleInvasionSpells($dominion, $target);
+            $this->handleSoulCollection($dominion, $target);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1333,6 +1334,7 @@ class InvadeActionService
         }
 
         // Demon soul collection (only from non-Demon races)
+        /*
         if ($dominion->race->name == 'Demon' and $target->race->name !== 'Demon')
         {
           $souls = (int)floor($totalDefensiveCasualties);
@@ -1346,6 +1348,7 @@ class InvadeActionService
               ]
           );
         }
+        */
 
     }
 
@@ -1659,6 +1662,52 @@ class InvadeActionService
 
     }
 
+
+
+    /**
+     * Handles the surviving units returning home.
+     *
+     * @param Dominion $dominion
+     * @param array $units
+     * @param array $convertedUnits
+     */
+    protected function handleSoulCollection(Dominion $attacker, Dominion $defender): void
+    {
+        $souls = 0;
+        if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
+        {
+          if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
+          {
+            $souls += $this->invasionResult['defender']['unitsLost']['draftees'];
+            $souls += $this->invasionResult['defender']['unitsLost']['1'];
+            $souls += $this->invasionResult['defender']['unitsLost']['2'];
+            $souls += $this->invasionResult['defender']['unitsLost']['3'];
+            $souls += $this->invasionResult['defender']['unitsLost']['4'];
+            $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                [
+                    'resource_soul' => $souls,
+                ]
+            );
+          }
+          elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
+          {
+            $souls += $this->invasionResult['attacker']['unitsLost']['draftees'];
+            $souls += $this->invasionResult['attacker']['unitsLost']['1'];
+            $souls += $this->invasionResult['attacker']['unitsLost']['2'];
+            $souls += $this->invasionResult['attacker']['unitsLost']['3'];
+            $souls += $this->invasionResult['attacker']['unitsLost']['4'];
+            $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
+            $defender->resource_soul += $souls;
+          }
+
+        }
+
+
+    }
+
     /**
      * Check whether the invasion is successful.
      *
@@ -1934,4 +1983,5 @@ class InvadeActionService
 
         return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
     }
+
 }

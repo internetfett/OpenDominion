@@ -36,7 +36,7 @@ units:
   - name: Mammoth
     need_boat: true
     cost:
-      platinum: 2200
+      platinum: 2400
     power:
       offense: 8
       defense: 8
@@ -48,7 +48,7 @@ units:
   - name: War Mammoth
     need_boat: true
     cost:
-      ore: 500
+      ore: 600
       gem: 100
       unit1: 4
       unit2: 4
