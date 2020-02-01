@@ -309,7 +309,8 @@ class UnitHelper
                         $unitSlotsToDieInto = array_map('intval', str_split($perkValue));
                         $unitNamesToDieInto = [];
 
-                        foreach ($unitSlotsToConvertTo as $slot) {
+                        foreach ($unitSlotsToDieInto as $slot)
+                        {
                             $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
                                 return ($unit->slot === $slot);
                             })->first();
