@@ -448,6 +448,15 @@ class SpellHelper
                 'cooldown' => 24*7, # Every seven days
                 'races' => collect(['Simian']),
             ],
+            [
+                'name' => 'Stampede',
+                'description' => '',
+                'key' => 'rainy_season',
+                'mana_cost' => 12,
+                'duration' => 24*4, # Lasts one day
+                'cooldown' => 24*7, # Every seven days
+                'races' => collect(['Jagunii']),
+            ],
         ]);
     }
 
@@ -506,7 +515,6 @@ class SpellHelper
         ]);
     }
 
-    # For casting purposes, get invasion spells first.
     public function getHostileSpells(?Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): Collection
     {
         if($isInvasionSpell or $isViewOnly)
@@ -684,5 +692,45 @@ class SpellHelper
         }
     }
 
+
+    /*
+    *
+    * These spells can be cast on friendly dominions:
+    *
+    * @param Dominion $dominion - the caster
+    * @param Dominion $target - the target
+    *
+    */
+    public function getFriendlySpells(Dominion $dominion): Collection
+    {
+        if($dominion->race->name == 'Sacred Order')
+        {
+          return collect([
+            [
+                'name' => 'Holy Aura',
+                'description' => '-10% casualties, +10% population growth rate',
+                'key' => 'holy_aura',
+                'mana_cost' => 16,
+                'duration' => 6*4,
+            ],
+          ]);
+        }
+        elseif($dominion->race->name == 'Sylvan')
+        {
+          return collect([
+            [
+                'name' => 'Holy Aura',
+                'description' => '-10% casualties, +10% population growth rate',
+                'key' => 'holy_aura',
+                'mana_cost' => 16,
+                'duration' => 6*4,
+            ],
+          ]);
+        }
+        else
+        {
+          return collect([]);
+        }
+    }
 
 }

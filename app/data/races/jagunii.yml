@@ -1,0 +1,65 @@
+name: Jagunii
+alignment: good
+description: >-
+  <p>From the Southern Sands come the Jagunii with their enormous Mammoths, which they train into War Mammoths, adorned with an impenetrable armour made from an intricate weave of ore and gems.</p>
+  <p>The warriors chosen for duty with a War Mammoth commit themselves to a lifelong service, until glorious death in battle make them part ways. When its warriors die and armour shatters in battle, the Mammoth returns home and can be retrained as a War Mammoth.</p>
+  <p>Each War Mammoth fits in its armour four Javalineers and four Lancers.</p>
+home_land_type: hill
+playable: 1
+
+attacking: 3
+exploring : 1
+converting: 2
+
+perks:
+  research_points_per_acre: 25
+  prestige_gains: 25
+units:
+  - name: Javelineer
+    need_boat: true
+    cost:
+      platinum: 250
+      ore: 5
+      lumber: 5
+    power:
+      offense: 3
+      defense: 0
+  - name: Lancer
+    need_boat: true
+    cost:
+      platinum: 250
+      ore: 5
+      lumber: 5
+    power:
+      offense: 0
+      defense: 3
+  - name: Mammoth
+    need_boat: true
+    cost:
+      platinum: 2000
+      food: 100
+    power:
+      offense: 8
+      defense: 8
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      extra_food_consumption: 0.25
+      fewer_casualties: 25
+  - name: War Mammoth
+    need_boat: true
+    cost:
+      ore: 500
+      gem: 100
+      unit1: 4
+      unit2: 4
+      unit3: 1
+    power:
+      offense: 20
+      defense: 20
+    perks:
+      dies_into: 3
+      fewer_casualties: 50
+      no_draftee: 1
+      does_not_count_as_population: 1
+      extra_food_consumption: 2

@@ -13,6 +13,7 @@ converting: 1
 perks:
   gem_production: 10
   lumber_production: -15
+  damage_from_fireballs: -50
 units:
   - name: Fire Sprite
     cost:
