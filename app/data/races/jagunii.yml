@@ -8,8 +8,8 @@ home_land_type: hill
 playable: 1
 
 attacking: 3
-exploring : 1
-converting: 2
+exploring : 3
+converting: 3
 
 perks:
   research_points_per_acre: 25

@@ -449,9 +449,9 @@ class SpellHelper
                 'races' => collect(['Simian']),
             ],
             [
-                'name' => 'Stampede',
-                'description' => '',
-                'key' => 'rainy_season',
+                'name' => 'Retribution',
+                'description' => '+5% offensive power if target has recently invaded your realm (in the last six hours).',
+                'key' => 'retribution',
                 'mana_cost' => 12,
                 'duration' => 24*4, # Lasts one day
                 'cooldown' => 24*7, # Every seven days
