@@ -179,7 +179,7 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
-            'dies_into' => 'Upon death, returns as a %1.',
+            'dies_into' => 'Upon death, returns as a %s.',
 
             # TBD
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
@@ -267,8 +267,8 @@ class UnitHelper
                           $perkValue[2] = 1;
                       }
                   }
-                // Special case for conversions and dies_into
-                if ($perk->key === 'conversion' || $perk->key === 'dies_into') {
+                // Special case for conversions
+                if ($perk->key === 'conversion') {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
 
@@ -279,6 +279,20 @@ class UnitHelper
 
                         $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
                     }
+
+
+                  // Special case for dies_into
+                  if ($perk->key === 'dies_into') {
+                      $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
+                      $unitNamesToConvertTo = [];
+
+                      foreach ($unitSlotsToConvertTo as $slot) {
+                          $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
+                              return ($unit->slot === $slot);
+                          })->first();
+
+                          $unitNamesToDieInio[] = str_plural($unitToDieInto->name);
+                      }
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 } elseif ($perk->key === 'staggered_conversion') {
