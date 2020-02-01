@@ -1,0 +1,58 @@
+name: Elementals
+alignment: good
+description: >-
+  <p>Perpetual 
+home_land_type: hill
+playable: 1
+
+attacking: 3
+exploring : 3
+converting: 3
+
+perks:
+  all_units_trained_in_9hrs: 1
+  cannot_train_spies: 1
+  cannot_train_wizards: 1
+  cannot_train_archmages: 1
+units:
+  - name: Fire Elemental
+    need_boat: true
+    cost:
+      platinum: 1200
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      burns_peasants_on_attack: 0.15
+      counts_as_wizard_offense: 0.15
+  - name: Water Elemental
+    need_boat: false
+    cost:
+      platinum: 1200
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      sink_boats_defense: 1
+      sink_boats_offense: 1
+      counts_as_spy_defense: 0.15
+  - name: Earth Elemental
+    need_boat: true
+    cost:
+      platinum: 1200
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      offense_vs_barren_land: 10,1 # ratio%, max
+      counts_as_wizard_defense: 0.15
+  - name: Air Elemental
+    need_boat: false
+    cost:
+      platinum: 1200
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      reduce_combat_losses: 1
+      counts_as_spy_offense: 0.15

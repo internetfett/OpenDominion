@@ -456,6 +456,14 @@ class SpellHelper
                 'duration' => 6*4, # Six hours
                 'races' => collect(['Jagunii']),
             ],
+            [
+                'name' => 'Aether',
+                'description' => '+10% offensive power and defensive power if you have exactly 1/4 of each Elemental in your military.',
+                'key' => 'aether',
+                'mana_cost' => 6,
+                'duration' => 6*4, # Six hours
+                'races' => collect(['Elementals']),
+            ],
         ]);
     }
 

@@ -352,6 +352,7 @@ class InvadeActionService
 
             $this->handleInvasionSpells($dominion, $target);
             $this->handleSoulCollection($dominion, $target);
+            $this->handleChampionCreation($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1314,41 +1315,6 @@ class InvadeActionService
                 ]
             );
         }
-        // Norse champion
-        if ($dominion->race->name == 'Norse')
-        {
-          if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75)
-          {
-            $champions = $units['attackerUnitsDiedInBattleSlot1'];
-            $this->invasionResult['attacker']['champion']['champions'] = $champions;
-
-            $this->queueService->queueResources(
-                'invasion',
-                $dominion,
-                [
-                    'resource_champion' => $champions,
-                ]
-            );
-
-          }
-        }
-
-        // Demon soul collection (only from non-Demon races)
-        /*
-        if ($dominion->race->name == 'Demon' and $target->race->name !== 'Demon')
-        {
-          $souls = (int)floor($totalDefensiveCasualties);
-          $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
-
-          $this->queueService->queueResources(
-              'invasion',
-              $dominion,
-              [
-                  'resource_soul' => $souls,
-              ]
-          );
-        }
-        */
 
     }
 
@@ -1662,14 +1628,11 @@ class InvadeActionService
 
     }
 
-
-
     /**
-     * Handles the surviving units returning home.
+     * Handles the collection of souls for Demons.
      *
-     * @param Dominion $dominion
-     * @param array $units
-     * @param array $convertedUnits
+     * @param Dominion $attacker
+     * @param Dominion $defender
      */
     protected function handleSoulCollection(Dominion $attacker, Dominion $defender): void
     {
@@ -1704,8 +1667,34 @@ class InvadeActionService
           }
 
         }
+    }
 
+    /**
+     * Handles the creation of champions for Norse.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units): void
+    {
+        $champions = 0;
+        if ($attacker->race->name == 'Norse')
+        {
+          if($this->rangeCalculator->getDominionRange($attacker, $defender) >= 75)
+          {
+            $champions = $units['attackerUnitsDiedInBattleSlot1'];
+            $this->invasionResult['attacker']['champion']['champions'] = $champions;
 
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                [
+                    'resource_champion' => $champions,
+                ]
+            );
+
+          }
+        }
     }
 
     /**

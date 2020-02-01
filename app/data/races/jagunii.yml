@@ -14,6 +14,7 @@ converting: 3
 perks:
   research_points_per_acre: 25
   prestige_gains: 25
+  cannot_build_homes: 1
 units:
   - name: Javelineer
     need_boat: true
