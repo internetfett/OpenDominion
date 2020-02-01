@@ -179,7 +179,7 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
-            'dies_into' => 'Upon death, returns as a %s.',
+            'dies_into' => 'Upon death, returns as a %.',
 
             # TBD
             'converts_to_cocoons' => 'Converts casualties to cocoons.',
