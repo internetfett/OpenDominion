@@ -268,7 +268,7 @@ class UnitHelper
                       }
                   }
                 // Special case for conversions and dies_into
-                if ($perk->key === 'conversion' || $perk->key === 'dies_into') {
+                if ($perk->key === 'conversion') {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
 
@@ -314,7 +314,7 @@ class UnitHelper
                                 return ($unit->slot === $slot);
                             })->first();
 
-                            $unitNamesToDieInio[] = $unitToDieInto->name;
+                            $unitNamesToDieInto[] = $unitToDieInto->name;
                         }
                 }
 
