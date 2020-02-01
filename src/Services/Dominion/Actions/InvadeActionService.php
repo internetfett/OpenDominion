@@ -1676,13 +1676,13 @@ class InvadeActionService
         $souls = 0;
         if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
         {
+          # Demon attacking non-Demon
           if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
           {
-            $souls += $this->invasionResult['defender']['unitsLost']['draftees'];
-            $souls += $this->invasionResult['defender']['unitsLost']['1'];
-            $souls += $this->invasionResult['defender']['unitsLost']['2'];
-            $souls += $this->invasionResult['defender']['unitsLost']['3'];
-            $souls += $this->invasionResult['defender']['unitsLost']['4'];
+            foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
+            {
+              $souls += $casualties;
+            }
             $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
             $this->queueService->queueResources(
                 'invasion',
@@ -1692,13 +1692,13 @@ class InvadeActionService
                 ]
             );
           }
+          # Demon defending against non-Demon
           elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
           {
-            $souls += $this->invasionResult['attacker']['unitsLost']['draftees'];
-            $souls += $this->invasionResult['attacker']['unitsLost']['1'];
-            $souls += $this->invasionResult['attacker']['unitsLost']['2'];
-            $souls += $this->invasionResult['attacker']['unitsLost']['3'];
-            $souls += $this->invasionResult['attacker']['unitsLost']['4'];
+            foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
+            {
+              $souls += $casualties;
+            }
             $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
             $defender->resource_soul += $souls;
           }
