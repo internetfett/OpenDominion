@@ -306,8 +306,8 @@ class UnitHelper
                 // Special case for dies_into
                 if ($perk->key === 'dies_into')
                 {
-                        $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
-                        $unitNamesToConvertTo = [];
+                        $unitSlotsToDieInto = array_map('intval', str_split($perkValue));
+                        $unitNamesToDieInto = [];
 
                         foreach ($unitSlotsToConvertTo as $slot) {
                             $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
