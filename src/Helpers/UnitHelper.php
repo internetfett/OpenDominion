@@ -267,8 +267,8 @@ class UnitHelper
                           $perkValue[2] = 1;
                       }
                   }
-                // Special case for conversions
-                if ($perk->key === 'conversion') {
+                // Special case for conversions and dies_into
+                if ($perk->key === 'conversion' || $perk->key === 'dies_into') {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
 
@@ -280,22 +280,11 @@ class UnitHelper
                         $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
                     }
 
-
-                  // Special case for dies_into
-                  if ($perk->key === 'dies_into') {
-                      $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
-                      $unitNamesToConvertTo = [];
-
-                      foreach ($unitSlotsToConvertTo as $slot) {
-                          $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
-                              return ($unit->slot === $slot);
-                          })->first();
-
-                          $unitNamesToDieInio[] = str_plural($unitToDieInto->name);
-                      }
-
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
-                } elseif ($perk->key === 'staggered_conversion') {
+                }
+                elseif
+                ($perk->key === 'staggered_conversion')
+                {
                     foreach ($perkValue as $index => $conversion) {
                         [$convertAboveLandRatio, $slots] = $conversion;
 
@@ -312,6 +301,21 @@ class UnitHelper
 
                         $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
                     }
+                }
+
+                // Special case for dies_into
+                if ($perk->key === 'dies_into')
+                {
+                        $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
+                        $unitNamesToConvertTo = [];
+
+                        foreach ($unitSlotsToConvertTo as $slot) {
+                            $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
+                                return ($unit->slot === $slot);
+                            })->first();
+
+                            $unitNamesToDieInio[] = str_plural($unitToDieInto->name);
+                        }
                 }
 
 
