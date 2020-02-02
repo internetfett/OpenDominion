@@ -17,12 +17,13 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   max_population: 10
+  food_production: -10
 units:
   - name: Fire Elemental
     need_boat: true
     cost:
       platinum: 1200
-      mana: 50
+      mana: 5
     power:
       offense: 5
       defense: 5
@@ -33,7 +34,7 @@ units:
     need_boat: false
     cost:
       platinum: 1200
-      mana: 50
+      mana: 5
     power:
       offense: 5
       defense: 5
@@ -44,7 +45,7 @@ units:
     need_boat: true
     cost:
       platinum: 1200
-      mana: 50
+      mana: 5
     power:
       offense: 5
       defense: 5
@@ -55,7 +56,7 @@ units:
     need_boat: false
     cost:
       platinum: 1200
-      mana: 50
+      mana: 5
     power:
       offense: 5
       defense: 5
