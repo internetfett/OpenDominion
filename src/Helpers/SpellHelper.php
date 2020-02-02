@@ -458,10 +458,10 @@ class SpellHelper
             ],
             [
                 'name' => 'Aether',
-                'description' => '+10% offensive power and defensive power if you have exactly 1/4 of each Elemental in your military.',
+                'description' => '+10% offensive power and defensive power if your military is composed of equal amounts of every Elemental unit.',
                 'key' => 'aether',
                 'mana_cost' => 6,
-                'duration' => 6*4, # Six hours
+                'duration' => 12*4, # Six hours
                 'races' => collect(['Elementals']),
             ],
         ]);

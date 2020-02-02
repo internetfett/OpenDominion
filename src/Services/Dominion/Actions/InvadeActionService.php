@@ -231,7 +231,7 @@ class InvadeActionService
             #{
             # No in-realm invasions
               if ($dominion->realm->id === $target->realm->id) {
-                  throw new GameException('You may not invade other dominions of the Commonwealth.');
+                  throw new GameException('You may not invade other dominions of the same realm.');
               }
             #}
 
@@ -250,7 +250,7 @@ class InvadeActionService
             }
 
             if (!$this->allUnitsHaveOP($dominion, $units)) {
-                throw new GameException('You cannot send units that have no OP');
+                throw new GameException('You cannot send units that have no offensive power');
             }
 
             if (!$this->hasEnoughUnitsAtHome($dominion, $units)) {
@@ -262,7 +262,7 @@ class InvadeActionService
             }
 
             if ($dominion->morale < static::MIN_MORALE) {
-                throw new GameException('You do not have enough morale to invade others');
+                throw new GameException('You do not have enough morale to invade.');
             }
 
             if (!$this->passes33PercentRule($dominion, $target, $units)) {

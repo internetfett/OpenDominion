@@ -1374,6 +1374,19 @@ class MilitaryCalculator
         {
           $multiplier += 0.05;
         }
+
+        // Spell: Aether (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
+        {
+          # Determine if military is equal parts of every units.
+          if($dominion->military_unit1 > 0
+            and $dominion->military_unit1 == $dominion->military_unit2
+            and $dominion->military_unit2 == $dominion->military_unit3
+            and $dominion->military_unit3 == $dominion->military_unit4)
+            {
+              $multiplier += 0.10;
+            }
+        }
       }
       elseif($power == 'defense')
       {
@@ -1413,6 +1426,20 @@ class MilitaryCalculator
         {
           $multiplier += 1.00;
         }
+
+        // Spell: Aether (+10% DP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
+        {
+          # Determine if military is equal parts of every units.
+          if($dominion->military_unit1 > 0
+            and $dominion->military_unit1 == $dominion->military_unit2
+            and $dominion->military_unit2 == $dominion->military_unit3
+            and $dominion->military_unit3 == $dominion->military_unit4)
+            {
+              $multiplier += 0.10;
+            }
+        }
+
       }
       else
       {
