@@ -1713,6 +1713,9 @@ class InvadeActionService
           {
             $unitToDieInto = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
             $unitToDieInto = 'military_unit' . $unitToDieInto;
+
+            $this->invasionResult['attacker']['dies_into']['champions'] = $champions;
+
             $this->queueService->queueResources(
                 'invasion',
                 $attacker,
@@ -1729,7 +1732,7 @@ class InvadeActionService
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into'))
           {
             $unitToDieInto = $defender->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
-            $unitToDieInto = 'military_unit' . $unitToDieInto;
+            $defender->{'military_unit'.$unitToDieInto} += $casualties;
           }
         }
     }

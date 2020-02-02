@@ -1306,6 +1306,37 @@ class MilitaryCalculator
         return false;
     }
 
+
+    /**
+     * Checks Dominion was recently invaded by target's realm.
+     *
+     * 'Recent' refers to the past 24 hours.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $attacker
+     * @return bool
+     */
+    public function recentlyInvadedBy(Dominion $attacker, Dominion $defender): bool
+    {
+        // todo: this touches the db. should probably be in invasion or military service instead
+        $invasionEvents = GameEvent::query()
+            ->where('created_at', '>=', now()->subDay(1))
+            ->where([
+                'target_type' => Dominion::class,
+                'target_id' => $dominion->id,
+                'source_id' => $attacker->id,
+                'type' => 'invasion',
+            ])
+            ->get();
+
+        if (!$invasionEvents->isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     # ODA functions
 
     /**
@@ -1376,9 +1407,9 @@ class MilitaryCalculator
         }
 
         // Spell: Aether (+10% OP)
+        # Condition: must have equal amounts of every unit.
         if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
         {
-          # Determine if military is equal parts of every units.
           if($dominion->military_unit1 > 0
             and $dominion->military_unit1 == $dominion->military_unit2
             and $dominion->military_unit2 == $dominion->military_unit3
@@ -1387,6 +1418,20 @@ class MilitaryCalculator
               $multiplier += 0.10;
             }
         }
+
+        // Spell: Retribution (+10% OP)
+        # Condition: target must have invaded $dominion's realm in the last six hours.
+        if ($this->spellCalculator->isSpellActive($dominion, 'retribution'))
+        {
+          if($dominion->military_unit1 > 0
+            and $dominion->military_unit1 == $dominion->military_unit2
+            and $dominion->military_unit2 == $dominion->military_unit3
+            and $dominion->military_unit3 == $dominion->military_unit4)
+            {
+              $multiplier += 0.10;
+            }
+        }
+
       }
       elseif($power == 'defense')
       {
@@ -1428,9 +1473,9 @@ class MilitaryCalculator
         }
 
         // Spell: Aether (+10% DP)
+        # Condition: must have equal amounts of every unit.
         if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
         {
-          # Determine if military is equal parts of every units.
           if($dominion->military_unit1 > 0
             and $dominion->military_unit1 == $dominion->military_unit2
             and $dominion->military_unit2 == $dominion->military_unit3

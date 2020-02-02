@@ -125,19 +125,6 @@ class PopulationCalculator
       }
 
       return $military;
-      /*
-        return (
-            $dominion->military_draftees
-            + $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1)
-            + $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2)
-            + $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3)
-            + $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4)
-            + $dominion->military_spies
-            + $dominion->military_wizards
-            + $dominion->military_archmages
-            + $this->queueService->getTrainingQueueTotal($dominion)
-        );
-        */
     }
 
     /**
@@ -176,7 +163,7 @@ class PopulationCalculator
         $housingPerNonHome = 15; // except barracks
         $housingPerBarracks = 0;
         $housingPerBarrenLand = (5 + $dominion->race->getPerkValue('extra_barren_max_population'));
-        $housingPerConstructingBuilding = 15; // todo: check how many constructing home/barracks houses
+        $housingPerConstructingBuilding = 15;
 
         // Constructed buildings
         foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType) {
@@ -269,7 +256,6 @@ class PopulationCalculator
         // Values
         $troopsPerBarracks = 36;
 
-        # Legion: cannot build home but barracks house extra troops.
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
           $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
@@ -375,7 +361,6 @@ class PopulationCalculator
 
         # /SPELLS
 
-
         return (1 + $multiplier);
     }
 
@@ -387,14 +372,11 @@ class PopulationCalculator
      */
     public function getPopulationPeasantGrowth(Dominion $dominion): int
     {
-
         $maximumPeasantDeath = ((-0.05 * $dominion->peasants) - $this->getPopulationDrafteeGrowth($dominion));
         $roomForPeasants = ($this->getMaxPopulation($dominion) - $this->getPopulation($dominion) - $this->getPopulationDrafteeGrowth($dominion));
         $currentPopulationChange = ($this->getPopulationBirth($dominion) - $this->getPopulationDrafteeGrowth($dominion));
 
         $maximumPopulationChange = min($roomForPeasants, $currentPopulationChange);
-
-
 
         return max($maximumPeasantDeath, $maximumPopulationChange);
 
@@ -425,16 +407,17 @@ class PopulationCalculator
         $draftees = 0;
 
         // Values (percentages)
-        $growthFactor = 1;
+        $growthFactor = 0.01;
 
         // Racial Spell: Swarming (Ants)
         if ($this->spellCalculator->isSpellActive($dominion, 'swarming'))
         {
-            $growthFactor = 2;
+            $growthFactor = 0.02;
         }
 
-        if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate) {
-            $draftees += round(($dominion->peasants * ($growthFactor / 100)));
+        if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
+        {
+            $draftees += round($dominion->peasants * $growthFactor);
         }
 
         return $draftees;
