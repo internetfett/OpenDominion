@@ -1706,11 +1706,31 @@ class InvadeActionService
 
     protected function handleUnitDiesInto(Dominion $attacker, Dominion $defender, array $units): void
     {
-
-        foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
+        # Check attacker's units.
+        foreach($this->invasionResult['attacker']['unitsLost'] as $unitSlot => $casualties)
         {
-          # Do nothing.
-          $casualties = 1;
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into'))
+          {
+            $unitToDieInto = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
+            $unitToDieInto = 'military_unit' . $unitToDieInto;
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                [
+                    '$unitToDieInto' => $casualties,
+                ]
+            );
+          }
+        }
+
+        # Check defender's units.
+        foreach($this->invasionResult['defender']['unitsLost'] as $unitSlot => $casualties)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into'))
+          {
+            $unitToDieInto = $defender->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
+            $unitToDieInto = 'military_unit' . $unitToDieInto;
+          }
         }
     }
 
