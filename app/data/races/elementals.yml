@@ -22,6 +22,7 @@ units:
     need_boat: true
     cost:
       platinum: 1200
+      mana: 50
     power:
       offense: 5
       defense: 5
@@ -32,6 +33,7 @@ units:
     need_boat: false
     cost:
       platinum: 1200
+      mana: 50
     power:
       offense: 5
       defense: 5
@@ -42,6 +44,7 @@ units:
     need_boat: true
     cost:
       platinum: 1200
+      mana: 50
     power:
       offense: 5
       defense: 5
@@ -52,6 +55,7 @@ units:
     need_boat: false
     cost:
       platinum: 1200
+      mana: 50
     power:
       offense: 5
       defense: 5
