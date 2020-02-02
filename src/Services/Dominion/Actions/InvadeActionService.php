@@ -1703,6 +1703,7 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
+     /*
     protected function handleUnitDiesInto(Dominion $attacker, Dominion $defender, array $units): void
     {
         foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
@@ -1710,7 +1711,7 @@ class InvadeActionService
           $souls += $casualties;
         }
     }
-
+    */
     /**
      * Check whether the invasion is successful.
      *
