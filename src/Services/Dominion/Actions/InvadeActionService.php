@@ -353,6 +353,7 @@ class InvadeActionService
             $this->handleInvasionSpells($dominion, $target);
             $this->handleSoulCollection($dominion, $target);
             $this->handleChampionCreation($dominion, $target, $units);
+            $this->handleUnitDiesInto($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1621,7 +1622,7 @@ class InvadeActionService
           # If all checks are True, cast the spell.
           if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
           {
-            $this->spellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
+            $this->spellActionService->castSpell($defender, $defenderSpell['key'], $attacker, $isInvasionSpell);
           }
 
         }
@@ -1665,7 +1666,6 @@ class InvadeActionService
             $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
             $defender->resource_soul += $souls;
           }
-
         }
     }
 
@@ -1694,6 +1694,20 @@ class InvadeActionService
             );
 
           }
+        }
+    }
+
+    /**
+     * Handles the dies into unit perk.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleUnitDiesInto(Dominion $attacker, Dominion $defender, array $units): void
+    {
+        foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
+        {
+          $souls += $casualties;
         }
     }
 
