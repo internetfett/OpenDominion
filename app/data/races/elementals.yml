@@ -4,7 +4,7 @@ description: >-
   <p>The Elementals are beings forged and by arcane forces from the elements: Fire, Water, Earth, and Air.</p>
   <p>Each unit is unique but they work best together and form Aether.</p>
   <p>Disturbed by the unnatural movements of the Empire, the Elementals have sided with the Commonwealth to restore what they believe to be natural balance.</p>
-home_land_type: hill
+home_land_type: water
 playable: 1
 
 attacking: 3
@@ -16,6 +16,7 @@ perks:
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
+  max_population: 10
 units:
   - name: Fire Elemental
     need_boat: true
@@ -35,8 +36,7 @@ units:
       offense: 5
       defense: 5
     perks:
-      sink_boats_defense: 1
-      sink_boats_offense: 1
+      offense_from_land: water,10,1 # land type, ratio%, max
       counts_as_spy_defense: 0.15
   - name: Earth Elemental
     need_boat: true
