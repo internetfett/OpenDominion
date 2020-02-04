@@ -97,6 +97,8 @@ class DominionFactory
 
         $startingResources['soul'] = 0;
 
+        $startingResources['wild_yeti'] = 0;
+
         $startingResources['morale'] = 100;
 
         $startingResources['prestige'] = intval($acresBase/2);
@@ -217,7 +219,7 @@ class DominionFactory
         }
 
         // Snow Elf: starting yetis.
-        if($race->name == 'Demon')
+        if($race->name == 'Snow Elf')
         {
           $startingResources['wild_yeti'] = 1500;
         }
