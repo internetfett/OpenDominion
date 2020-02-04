@@ -101,6 +101,8 @@ class DominionFactory
 
         $startingResources['morale'] = 100;
 
+        $startingResources['npc_modifier'] = 0;
+
         $startingResources['prestige'] = intval($acresBase/2);
 
         # POPULATION AND MILITARY
