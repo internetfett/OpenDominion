@@ -1709,7 +1709,7 @@ class InvadeActionService
         # Check attacker's units.
         foreach($this->invasionResult['attacker']['unitsLost'] as $unitSlot => $casualties)
         {
-          if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into'))
+          if ($attacker->race->getUnitPerkValueForUnitSlot(intval($unitSlot), 'dies_into'))
           {
             $unitToDieInto = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
             $unitToDieInto = 'military_unit' . $unitToDieInto;
@@ -1729,7 +1729,7 @@ class InvadeActionService
         # Check defender's units.
         foreach($this->invasionResult['defender']['unitsLost'] as $unitSlot => $casualties)
         {
-          if ($defender->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into'))
+          if ($defender->race->getUnitPerkValueForUnitSlot(intval($unitSlot), 'dies_into'))
           {
             $unitToDieInto = $defender->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
             $defender->{'military_unit'.$unitToDieInto} += $casualties;
