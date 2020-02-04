@@ -216,6 +216,12 @@ class DominionFactory
           $startingResources['mana'] = 400 * $acresBase;
         }
 
+        // Snow Elf: starting yetis.
+        if($race->name == 'Demon')
+        {
+          $startingResources['wild_yeti'] = 1500;
+        }
+
         if($race->alignment == 'npc')
         {
           if($race->name == 'Barbarian')
@@ -270,7 +276,7 @@ class DominionFactory
             # New resources
             'resource_champion' => 0,
             'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
-            'resource_wild_yeti' => 0,
+            'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),,
             # End new resources
 
             'improvement_science' => 0,

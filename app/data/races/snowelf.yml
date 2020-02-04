@@ -19,7 +19,6 @@ converting: 2
 perks:
   mana_production: 10
   food_consumption: -25
-  max_population: -5
   gryphon_nests_generates_wild_yetis: 1
   invest_bonus: 20
   mana_drain: -50
