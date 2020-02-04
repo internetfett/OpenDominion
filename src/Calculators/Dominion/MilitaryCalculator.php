@@ -1316,18 +1316,18 @@ class MilitaryCalculator
      * @param Dominion $attacker
      * @return bool
      */
-    public function recentlyInvadedBy(Dominion $attacker, Dominion $defender): bool
+    public function recentlyInvadedByRealm(Dominion $attacker, Dominion $defender): bool
     {
-        // todo: this touches the db. should probably be in invasion or military service instead
-        $invasionEvents = GameEvent::query()
-            ->where('created_at', '>=', now()->subDay(1))
-            ->where([
-                'target_type' => Dominion::class,
-                'target_id' => $dominion->id,
-                'source_id' => $attacker->id,
-                'type' => 'invasion',
-            ])
-            ->get();
+        $invasionEvents = DB::table('game_events')
+                            ->join('dominions as source_dominion','game_events.source_id','id')
+                            ->join('dominions as target_dominion','game_events.target_id','id')
+                            ->where('created_at', '>=', now()->subDay(1))
+                            ->where([
+                                'game_events.type' => 'invasion',
+                                'source_dominion.realm_id' => $defender->realm_id,
+                                'target_dominion.realm_id' => $attacker->realm_id,
+                            ])
+                            ->get();
 
         if (!$invasionEvents->isEmpty()) {
             return true;
