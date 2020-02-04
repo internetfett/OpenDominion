@@ -66,5 +66,4 @@ units:
     perks:
       immortal: 1
       staggered_conversion: 85;3,100;4
-      does_not_count_as_population: 1
       cannot_be_trained: 1
