@@ -276,7 +276,7 @@ class DominionFactory
             # New resources
             'resource_champion' => 0,
             'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
-            'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),,
+            'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),
             # End new resources
 
             'improvement_science' => 0,
