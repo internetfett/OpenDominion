@@ -631,7 +631,7 @@ class TickService
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
             $amountToDie = intval($dominion->peasants * 0.01);
-            $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions')));
+            $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
 
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
