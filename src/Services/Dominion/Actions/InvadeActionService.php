@@ -1638,6 +1638,9 @@ class InvadeActionService
     protected function handleSoulCollection(Dominion $attacker, Dominion $defender): void
     {
         $souls = 0;
+
+        $reduction = (1 - $dominion->race->getPerkMultiplier('reduced_conversions')));
+
         if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
         {
           # Demon attacking non-Demon
@@ -1647,6 +1650,9 @@ class InvadeActionService
             {
               $souls += $casualties;
             }
+
+            $souls *= $reduction;
+
             $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
             $this->queueService->queueResources(
                 'invasion',
@@ -1663,6 +1669,9 @@ class InvadeActionService
             {
               $souls += $casualties;
             }
+
+            $souls *= $reduction;
+            
             $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
             $defender->resource_soul += $souls;
           }
