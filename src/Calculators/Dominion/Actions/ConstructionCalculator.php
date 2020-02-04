@@ -180,6 +180,7 @@ class ConstructionCalculator
             $cost = 0;
             $cost = 100 + (($this->landCalculator->getTotalLand($dominion) - 250) * (pi()/10));
             $cost *= 0.75;
+            $cost *= 3;
             return round($cost);
         }
 
@@ -247,6 +248,7 @@ class ConstructionCalculator
             $cost = 0;
             $cost = 100 + (($this->landCalculator->getTotalLand($dominion) - 250) * (pi()/10));
             $cost *= 0.75;
+            $cost *= 3;
             return round($cost);
         }
 
