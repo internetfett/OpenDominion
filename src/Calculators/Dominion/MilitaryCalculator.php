@@ -1324,7 +1324,7 @@ class MilitaryCalculator
                             ->join('dominions as source_dominion','game_events.source_id','id')
                             ->join('dominions as target_dominion','game_events.target_id','id')
                             ->where([
-                                'game_events.created_at', '>=', now()->subHours(6))
+                                'game_events.created_at', '>=', now()->subHours(6)),
                                 'game_events.type' => 'invasion',
                                 'source_dominion.realm_id' => $defender->realm_id,
                                 'target_dominion.realm_id' => $attacker->realm_id,
