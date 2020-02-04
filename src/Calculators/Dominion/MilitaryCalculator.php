@@ -1320,7 +1320,7 @@ class MilitaryCalculator
     {
         if($defender)
         {
-        $invasionEvents = DB::table('game_events')
+        $invasionEvents = GameEvent::query()
                             ->join('dominions as source_dominion','game_events.source_id','id')
                             ->join('dominions as target_dominion','game_events.target_id','id')
                             ->where('created_at', '>=', now()->subDay(1))
@@ -1331,15 +1331,15 @@ class MilitaryCalculator
                             ])
                             ->get();
 
-        if (!$invasionEvents->isEmpty())
-        {
-            return true;
+          if (!$invasionEvents->isEmpty())
+          {
+              return true;
+          }
+          else
+          {
+            return false;
+          }
         }
-        else
-        {
-          return false;
-        }
-      }
 
         return false;
     }
