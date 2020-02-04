@@ -1321,8 +1321,8 @@ class MilitaryCalculator
         if($defender)
         {
           $invasionEvents = GameEvent::query()
-                              ->join('dominions as source_dominion','game_events.source_id','id')
-                              ->join('dominions as target_dominion','game_events.target_id','id')
+                              ->join('dominions as source_dominion','game_events.source_id','source_dominion.id')
+                              ->join('dominions as target_dominion','game_events.target_id','target_dominion.id')
                               ->where('game_events.created_at', '>=', now()->subHours(6))
                               ->where([
                                   'game_events.type' => 'invasion',
