@@ -353,7 +353,7 @@ class ProductionCalculator
         // Racial Bonus
         $multiplier = $dominion->race->getPerkMultiplier('food_consumption');
 
-        // Invasion Spell: Unhealing Wounds (+15% consumption)
+        // Invasion Spell: Unhealing Wounds (+10% consumption)
         if ($multiplier !== -1 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
         {
             $multiplier += 0.10;
