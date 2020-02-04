@@ -165,7 +165,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getTechPerkMultiplier('offense');
 
         // Spell
-        $multiplier += $this->getSpellMultiplier($dominion, 'offense', $target);
+        $multiplier += $this->getSpellMultiplier($dominion, $target, 'offense');
 
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
@@ -368,7 +368,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getTechPerkMultiplier('defense');
 
         // Spell
-        $multiplier += $this->getSpellMultiplier($dominion, 'defense');
+        $multiplier += $this->getSpellMultiplier($dominion, null, 'defense');
 
         // Beastfolk: Plains increases DP
         if($dominion->race->name == 'Beastfolk')
