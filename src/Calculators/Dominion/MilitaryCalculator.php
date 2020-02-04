@@ -1308,7 +1308,7 @@ class MilitaryCalculator
 
 
     /**
-     * Checks Dominion was recently invaded by target's realm.
+     * Checks if $defender recently invaded $attacker's realm.
      *
      * 'Recent' refers to the past 24 hours.
      *
@@ -1316,7 +1316,7 @@ class MilitaryCalculator
      * @param Dominion $attacker
      * @return bool
      */
-    public function recentlyInvadedByRealm(Dominion $attacker, Dominion $defender = null): bool
+    public function recentlyInvadedAttackersRealm(Dominion $attacker, Dominion $defender = null): bool
     {
         if($defender)
         {
@@ -1431,7 +1431,7 @@ class MilitaryCalculator
         # Condition: target must have invaded $dominion's realm in the last six hours.
         if ($this->spellCalculator->isSpellActive($dominion, 'retribution'))
         {
-          if($this->recentlyInvadedByRealm($dominion, $target))
+          if($this->recentlyInvadedAttackersRealm($dominion, $target))
           {
             $multiplier += 0.10;
           }
