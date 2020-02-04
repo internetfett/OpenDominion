@@ -1363,7 +1363,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getSpellMultiplier(Dominion $dominion, string $power = null): float
+    public function getSpellMultiplier(Dominion $dominion, Dominion $target = null, string $power = null): float
     {
 
       $multiplier = 0;
@@ -1423,13 +1423,10 @@ class MilitaryCalculator
         # Condition: target must have invaded $dominion's realm in the last six hours.
         if ($this->spellCalculator->isSpellActive($dominion, 'retribution'))
         {
-          if($dominion->military_unit1 > 0
-            and $dominion->military_unit1 == $dominion->military_unit2
-            and $dominion->military_unit2 == $dominion->military_unit3
-            and $dominion->military_unit3 == $dominion->military_unit4)
-            {
-              $multiplier += 0.10;
-            }
+          if($this->recentlyInvadedByRealm($dominion, $target))
+          {
+            $multiplier += 0.10;
+          }
         }
 
       }
