@@ -656,7 +656,7 @@ class ProductionCalculator
 
         if($dominion->race->getPerkMultiplier('mana_drain'))
         {
-          $manaDecay *= $dominion->race->getPerkMultiplier('mana_drain');
+          $manaDecay *= (1 + $dominion->race->getPerkMultiplier('mana_drain'));
         }
 
         $decayProtection = 0;
@@ -680,7 +680,7 @@ class ProductionCalculator
         $decay += ($mana * $manaDecay);
 
         // Unit Perk Production Bonus (Dimensionalists Units)
-        $decay += $dominion->getUnitPerkProductionBonus('mana_drain');
+        $decay += min($dominion->resource_mana, $dominion->getUnitPerkProductionBonus('mana_drain'));
 
         return $decay;
     }
