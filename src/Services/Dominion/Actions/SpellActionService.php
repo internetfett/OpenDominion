@@ -694,6 +694,11 @@ class SpellActionService
                         $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
 
+                    // Check for immortal spies
+                    if ($dominion->race->getPerkValue('immortal_spies') != 0 && $attr == 'military_spies')
+                    {
+                        $damage = 0;
+                    }
 
                     // Special for Purification
                     if($spellInfo['name'] == 'Purification')

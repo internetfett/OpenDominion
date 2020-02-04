@@ -844,6 +844,12 @@ class EspionageActionService
                     $dominion->military_spies -= $spiesKilled;
                 }
 
+                # Swarm: immortal spies
+                if($dominion->race->getPerkValue('immortal_spies'))
+                {
+                  $spiesKilled = 0;
+                }
+
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense')) {
                         $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;

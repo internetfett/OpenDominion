@@ -43,11 +43,13 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
+        $npcModifier = 0;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
           # Barbarians start between 400 and 900 acres, randomly.
           # Skewed towards smaller.
           $acresBase *= (max(400,rand(300,900))/1000);
+          $npcModifier = rand(500,1000)/10000;
         }
 
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
@@ -232,6 +234,8 @@ class DominionFactory
             $startingResources['food'] = 0;
             $startingResources['mana'] = 0;
             $startingResources['boats'] = 0;
+
+            $startingResources['npc_modifier'] = intval($npcModifier);
           }
         }
 
@@ -319,6 +323,8 @@ class DominionFactory
             'building_ziggurat' => $startingBuildings['ziggurat'],
             'building_tissue' => $startingBuildings['tissue'],
             'building_mycelia' => $startingBuildings['mycelia'],
+
+            'npc_modifier' =>
         ]);
     }
 
