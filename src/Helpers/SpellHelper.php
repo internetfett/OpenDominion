@@ -450,7 +450,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Retribution',
-                'description' => '+5% offensive power if target has recently invaded your realm (in the last six hours).',
+                'description' => '+10% offensive power if target has recently invaded your realm (in the last six hours).',
                 'key' => 'retribution',
                 'mana_cost' => 6,
                 'duration' => 6*4, # Six hours

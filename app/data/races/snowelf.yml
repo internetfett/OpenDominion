@@ -21,6 +21,8 @@ perks:
   food_consumption: -25
   max_population: -5
   gryphon_nests_generates_wild_yetis: 1
+  invest_bonus: 20
+  mana_drain: -50
 units:
   - name: Arbalist
     need_boat: true

@@ -654,6 +654,11 @@ class ProductionCalculator
 
         $manaDecay = 0.02;
 
+        if($dominion->race->getPerkMultiplier('mana_drain'))
+        {
+          $manaDecay *= $dominion->race->getPerkMultiplier('mana_drain');
+        }
+
         $decayProtection = 0;
         $mana = $dominion->resource_mana;
 

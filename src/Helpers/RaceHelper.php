@@ -300,6 +300,11 @@ class RaceHelper
                 $description = 'Converts killed spies into souls';
                 $booleanValue = true;
                 break;
+                break;
+            case 'mana_drain':
+                $negativeBenefit = true;
+                $description = 'Mana drain';
+                $booleanValue = false;
             default:
                 return null;
         }
