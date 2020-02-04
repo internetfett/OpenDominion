@@ -1316,8 +1316,10 @@ class MilitaryCalculator
      * @param Dominion $attacker
      * @return bool
      */
-    public function recentlyInvadedByRealm(Dominion $attacker, Dominion $defender): bool
+    public function recentlyInvadedByRealm(Dominion $attacker, Dominion $defender = null): bool
     {
+        if($defender)
+        {
         $invasionEvents = DB::table('game_events')
                             ->join('dominions as source_dominion','game_events.source_id','id')
                             ->join('dominions as target_dominion','game_events.target_id','id')
@@ -1329,9 +1331,15 @@ class MilitaryCalculator
                             ])
                             ->get();
 
-        if (!$invasionEvents->isEmpty()) {
+        if (!$invasionEvents->isEmpty())
+        {
             return true;
         }
+        else
+        {
+          return false;
+        }
+      }
 
         return false;
     }
