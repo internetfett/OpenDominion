@@ -324,7 +324,7 @@ class DominionFactory
             'building_tissue' => $startingBuildings['tissue'],
             'building_mycelia' => $startingBuildings['mycelia'],
 
-            'npc_modifier' =>
+            'npc_modifier' => $startingResources['npc_modifier'],
         ]);
     }
 
