@@ -559,6 +559,8 @@ class TickService
 
            # Linear hourly
            $dpa = $constant + ($hours * 0.35 * 1.02); # Down from 0.50.
+           $dpa *= ($dominion->npc_modifier / 1000);
+           $dpa = intval($dpa);
            $opa = intval($dpa * 0.75);
 
            $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;

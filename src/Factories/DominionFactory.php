@@ -244,7 +244,7 @@ class DominionFactory
             $startingResources['mana'] = 0;
             $startingResources['boats'] = 0;
 
-            $startingResources['npc_modifier'] = rand(400,1000);
+            $startingResources['npc_modifier'] = min(1000,rand(400,1200));
           }
         }
 
