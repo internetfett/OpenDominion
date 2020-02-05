@@ -22,6 +22,7 @@ use Throwable;
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
 
 class TickService
 {
@@ -55,6 +56,9 @@ class TickService
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
+    /** @var RangeCalculator */
+    protected $rangeCalculator;
+
     /**
      * TickService constructor.
      */
@@ -71,6 +75,7 @@ class TickService
         $this->spellCalculator = app(SpellCalculator::class);
 
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->rangeCalculator = app(RangeCalculator::class);
 
         /* These calculators need to ignore queued resources for the following tick */
         $this->populationCalculator->setForTick(true);
@@ -630,10 +635,11 @@ class TickService
 
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
-            $amountToDie = intval($dominion->peasants * 0.01);
-            $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
-
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+
+            $amountToDie = intval($dominion->peasants * 0.01);
+            $amountToDie *= $this->rangeCalculator->getDominionRange($caster, $dominion) / 100;
+            $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
 
             $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
             $populationPeasantGrowth -= $amountToDie;
