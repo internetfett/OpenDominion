@@ -57,7 +57,7 @@ units:
       conversion: 3
   - name: Archdemon
     type: hybrid_elite
-    need_boat: true
+    need_boat: false
     cost:
       mana: 100000
       soul: 120
