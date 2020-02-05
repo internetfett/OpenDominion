@@ -1639,7 +1639,7 @@ class InvadeActionService
     {
         $souls = 0;
 
-        $reduction = (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
+        $reduction = (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
 
         if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
         {
