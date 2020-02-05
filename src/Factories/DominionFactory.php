@@ -49,7 +49,6 @@ class DominionFactory
           # Barbarians start between 400 and 900 acres, randomly.
           # Skewed towards smaller.
           $acresBase *= (max(400,rand(300,900))/1000);
-          $npcModifier = rand(500,1000)/10000;
         }
 
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
@@ -245,7 +244,7 @@ class DominionFactory
             $startingResources['mana'] = 0;
             $startingResources['boats'] = 0;
 
-            $startingResources['npc_modifier'] = intval($npcModifier);
+            $startingResources['npc_modifier'] = rand(400,1000)/10000;
           }
         }
 
