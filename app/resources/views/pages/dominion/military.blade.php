@@ -279,7 +279,7 @@
                                 </tr>
                                 <tr>
                                     <td>Spell: </td>
-                                    <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, 'offense') * 100, 2) }}%</td>
+                                    <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, null, 'offense') * 100, 2) }}%</td>
                                 </tr>
                                 <tr>
                                     <td>Gryphon Nests: </td>
@@ -321,7 +321,7 @@
                                 </tr>
                                 <tr>
                                     <td>Spell: </td>
-                                    <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, 'defense') * 100, 2) }}%</td>
+                                    <td>{{ number_format($militaryCalculator->getSpellMultiplier($selectedDominion, null, 'defense') * 100, 2) }}%</td>
                                 </tr>
                                 <tr>
                                     <td>Guard Towers: </td>
