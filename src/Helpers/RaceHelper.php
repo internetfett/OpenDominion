@@ -250,12 +250,17 @@ class RaceHelper
                 break;
             case 'damage_from_lightning_bolts':
                 $negativeBenefit = true;
-                $description = 'Damage from lightning bolts';
+                $description = 'Damage from Lightning Bolts';
                 $booleanValue = false;
                 break;
             case 'damage_from_fireballs':
                 $negativeBenefit = true;
-                $description = 'Damage from fireballs';
+                $description = 'Damage from Fireballs';
+                $booleanValue = false;
+                break;
+            case 'damage_from_insect_swarm':
+                $negativeBenefit = true;
+                $description = 'Effect from Insect Swarm';
                 $booleanValue = false;
                 break;
             case 'construction_material':

@@ -22,6 +22,7 @@ perks:
   immortal_wizards: 1
   damage_from_lightning_bolts: -100
   damage_from_fireballs: -50
+  damage_from_insect_swarm: -100
   draftee_dp: 0
   draftee_mana_production: 1
   peasants_produce_food: 0.5

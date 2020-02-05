@@ -300,6 +300,7 @@ class ProductionCalculator
         if ($this->spellCalculator->isSpellActive($dominion, 'insect_swarm'))
         {
             $multiplier -= 0.05;
+            $multiplier *= (1 - $dominion->race->getPerkMultiplier('damage_from_insect_swarm'));
         }
 
         // Invasion Spell: Great Fever (-5% food production)
