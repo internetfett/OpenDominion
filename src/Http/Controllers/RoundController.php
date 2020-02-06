@@ -63,7 +63,7 @@ class RoundController extends AbstractController
                             ->select('realms.alignment as alignment', DB::raw('count(distinct dominions.id) as dominions'))
                             ->where('dominions.round_id', '=', $round->id)
                             ->groupBy('realms.alignment')
-                            ->pluck('alignment', 'dominions')->all();
+                            ->pluck('dominions', 'alignment')->all();
 /*
         foreach($countAlignment as $alignment => $count)
         {
