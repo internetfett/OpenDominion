@@ -41,7 +41,7 @@
                                   <div class="col-xs-1">
                                     <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
                                   </div>
-                                  <div class="col-xs-12">
+                                  <div class="col-xs-11">
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
                                     <p>Currently X dominions have joined the Commonwealth this round.</p>
@@ -77,10 +77,19 @@
                             </div>
 
                             <div class="col-xs-12">
-                                <div class="text-center">
-                                    <h2>The Empire</h2>
-                                    <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
-                                </div>
+
+                                <div class="col-xs-12">
+                                  <div class="row">
+                                      <div class="col-xs-1">
+                                        <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
+                                      </div>
+                                      <div class="col-xs-11">
+                                        <h2>The Empire</h2>
+                                        <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
+                                        <p>Currently X dominions have joined the Empire this round.</p>
+                                      </div>
+                                  </div>
+
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
                                     <div class="col-xs-12">
@@ -111,10 +120,18 @@
                             </div>
 
                             <div class="col-xs-12">
-                                <div class="text-center">
-                                    <h2>Independent</h2>
-                                    <p>Unaffected or unaffiliated, these are the factions who as a whole do not answer to one and will join either side.</p>
-                                </div>
+
+                                <div class="col-xs-12">
+                                  <div class="row">
+                                      <div class="col-xs-1">
+                                        <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
+                                      </div>
+                                      <div class="col-xs-11">
+                                        <h2>Independent</h2>
+                                        <p>Unaffected or unaffiliated, these are the factions who as a whole do not answer to one and will join either side.</p>
+                                        <p>Independent dominions are randomly placed with the Commonwealth or with the Empire.</p>
+                                      </div>
+                                  </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
                                     <div class="col-xs-12">
@@ -146,9 +163,18 @@
 
                             @if(stristr(Auth::user()->email, '@lykanthropos.com'))
                             <div class="col-xs-12">
-                                <div class="text-center">
-                                    <h2>NPC</h2>
-                                </div>
+
+                                <div class="col-xs-12">
+                                  <div class="row">
+                                      <div class="col-xs-1">
+                                        <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="Barbarian Horde">
+                                      </div>
+                                      <div class="col-xs-11">
+                                        <h2>Barbarian Horde</h2>
+                                        <p></p>
+                                      </div>
+                                  </div>
+
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->alignment === 'npc'; }) as $race)
                                     <div class="col-xs-12">
