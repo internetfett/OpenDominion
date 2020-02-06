@@ -4,6 +4,14 @@
 
 @section('content')
 
+<pre>
+
+{{ print_r($commonwealth) }}
+{{ print_r($empire) }}
+{{ die() }}
+
+</pre>
+
 
     <div class="box box-primary">
         <div class="box-header with-border">
