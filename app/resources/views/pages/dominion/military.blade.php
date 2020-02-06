@@ -368,8 +368,6 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="ra ra-sword"></i> Military Modifiers</h3>
                 </div>
-
-                    <h3>Offensive Modifiers</h3>
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
@@ -377,6 +375,9 @@
                                 <col width="25%">
                             </colgroup>
                             <thead>
+                              <tr>
+                                <td colspan="2">Offensive Modifiers</td>
+                              </tr>
                                 <tr>
                                     <th class="text-center">Modifier</th>
                                     <th class="text-center">Multiplier</th>
