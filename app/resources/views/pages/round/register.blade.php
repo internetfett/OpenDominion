@@ -11,7 +11,6 @@
 {{ print_r($countCommonwealth) }}
 {{ var_dump($countAlignment[0]) }}
 
-{{ var_dump($countAlignment[0]['dominions']) }}
 
 </pre>
 
