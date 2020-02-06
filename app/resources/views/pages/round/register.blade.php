@@ -124,7 +124,7 @@
                                 <div class="col-xs-12">
                                   <div class="row">
                                       <div class="col-xs-1">
-                                        <img src="{{ asset('assets/app/images/odarena-icon.png') }}" class="img-responsive" alt="Independent">
+                                        <h2><i class="ra ra-sword"></i></h2>
                                       </div>
                                       <div class="col-xs-11">
                                         <h2>Independent</h2>
