@@ -67,7 +67,14 @@ class RoundController extends AbstractController
 
         foreach($countAlignment as $alignment => $count)
         {
-          $alignmentCounter[$alignment] = $count;
+          if($alignment == 'good')
+          {
+            $alignmentCounter['good'] = $count;
+          }
+          if($alignment == 'evil')
+          {
+            $alignmentCounter['evil'] = $count;
+          }
         }
 
         $races = Race::query()
