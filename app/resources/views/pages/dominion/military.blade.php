@@ -376,7 +376,7 @@
                             </colgroup>
                             <thead>
                               <tr>
-                                <td colspan="2">Offensive Modifiers</td>
+                                <td colspan="2"><h4>Offensive Modifiers</h4></td>
                               </tr>
                                 <tr>
                                     <th class="text-center">Modifier</th>
@@ -415,8 +415,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <h3>Defensive Modifiers</h3>
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
@@ -424,6 +422,9 @@
                                 <col width="25%">
                             </colgroup>
                             <thead>
+                                <tr>
+                                  <td colspan="2"><h4>Defensive Modifiers</h4></td>
+                                </tr>
                                 <tr>
                                     <th class="text-center">Modifier</th>
                                     <th class="text-center">Multiplier</th>
