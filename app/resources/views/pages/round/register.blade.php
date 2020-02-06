@@ -124,11 +124,11 @@
                                 <div class="col-xs-12">
                                   <div class="row">
                                       <div class="col-xs-1">
-                                        <h2><i class="ra ra-sword"></i></h2>
+                                        <h2><i class="ra ra-round-shield"></i></h2>
                                       </div>
                                       <div class="col-xs-11">
                                         <h2>Independent</h2>
-                                        <p>Unaffected or unaffiliated, these are the factions who as a whole do not answer to one and will join either side.</p>
+                                        <p>Unaffected or unaffiliated, these are the factions who as a whole do not answer to but will join either side.</p>
                                         <p>Independent dominions are randomly placed with the Commonwealth or with the Empire.</p>
                                       </div>
                                   </div>
