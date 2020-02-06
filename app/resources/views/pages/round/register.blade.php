@@ -53,7 +53,7 @@
                                           <div class="row text-left">
                                               <div class="col-lg-4">
                                                   <p>
-                                                      <input type="radio" name="race" value="random_good" autocomplete="off" {{ (old('race') == random_good) ? 'checked' : null }} required>
+                                                      <input type="radio" name="race" value="random_good" autocomplete="off" {{ (old('race') == 'random_good') ? 'checked' : null }} required>
                                                       <strong>Random</strong>
                                                       &nbsp;&mdash;&nbsp;
                                                   <em>You will be randomly assigned a Commonwealth faction. This cannot be undone.</a>
