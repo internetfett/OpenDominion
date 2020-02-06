@@ -44,9 +44,32 @@
                                   <div class="col-xs-11">
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
-                                    <p>Currently X dominions have joined the Commonwealth this round.</p>
+                                    <p>Currently {{ $alignmentCounter->good }} dominions have joined the Commonwealth this round.</p>
                                   </div>
-
+                              <!-- Random Commonwealth -->
+                              </div>
+                                <div class="row">
+                                  <div class="col-xs-12">
+                                      <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
+                                          <div class="row text-left">
+                                              <div class="col-lg-4">
+                                                  <p>
+                                                      <input type="radio" name="race" value="random_good" autocomplete="off" {{ (old('race') == 'random_good') ? 'checked' : null }} required>
+                                                      <strong>Random</strong>
+                                                      &nbsp;&mdash;&nbsp;
+                                                  <em>You will be randomly assigned a <strong>Commonwealth</strong> faction. This cannot be undone.</em>
+                                                </p>
+                                              </div>
+                                              <div class="col-sm-4">
+                                                <ul>
+                                                  <li>Attacking: ?</li>
+                                                  <li>Converting: ?</li>
+                                                  <li>Exploring: ?</li>
+                                                </ul>
+                                              </div>
+                                          </div>
+                                      </label>
+                                  </div>
 
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                         <div class="col-xs-12">
@@ -86,13 +109,35 @@
                                       <div class="col-xs-11">
                                         <h2>The Empire</h2>
                                         <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
-                                        <p>Currently X dominions have joined the Empire this round.</p>
+                                        <p>Currently {{ $alignmentCounter->evil }}  dominions have joined the Empire this round.</p>
                                       </div>
                                   </div>
 
                                 <div class="row">
-
-
+                                  <!-- Random Empire -->
+                                  </div>
+                                    <div class="row">
+                                      <div class="col-xs-12">
+                                          <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
+                                              <div class="row text-left">
+                                                  <div class="col-lg-4">
+                                                      <p>
+                                                          <input type="radio" name="race" value="random_evil" autocomplete="off" {{ (old('race') == 'random_evil') ? 'checked' : null }} required>
+                                                          <strong>Random</strong>
+                                                          &nbsp;&mdash;&nbsp;
+                                                      <em>You will be randomly assigned an <strong>Imperial</strong> faction. This cannot be undone.</em>
+                                                    </p>
+                                                  </div>
+                                                  <div class="col-sm-4">
+                                                    <ul>
+                                                      <li>Attacking: ?</li>
+                                                      <li>Converting: ?</li>
+                                                      <li>Exploring: ?</li>
+                                                    </ul>
+                                                  </div>
+                                              </div>
+                                          </label>
+                                      </div>
 
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
                                     <div class="col-xs-12">
