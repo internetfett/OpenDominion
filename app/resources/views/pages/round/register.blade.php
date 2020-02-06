@@ -124,7 +124,7 @@
                                 <div class="col-xs-12">
                                   <div class="row">
                                       <div class="col-xs-1">
-                                        <h2><i class="ra ra-round-shield"></i></h2>
+                                        <span style="font-size:200%;"><i class="ra ra-perspective-dice-random"></i></span>
                                       </div>
                                       <div class="col-xs-11">
                                         <h2>Independent</h2>
