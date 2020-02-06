@@ -76,8 +76,6 @@ class RoundController extends AbstractController
             'round' => $round,
             'races' => $races,
             'alignmentCounter' => $alignmentCounter,
-            #'goodCount' => $alignmentCounter['good'],
-            #'evilCount' => $alignmentCounter['evil'],
         ]);
     }
 
