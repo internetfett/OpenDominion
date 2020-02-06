@@ -69,11 +69,11 @@ class RoundController extends AbstractController
         {
           if($alignment == 'good')
           {
-            $alignmentCounter['good'] = $count;
+            $alignmentCounter['good'] = intval($count);
           }
           if($alignment == 'evil')
           {
-            $alignmentCounter['evil'] = $count;
+            $alignmentCounter['evil'] = intval($count);
           }
         }
 
