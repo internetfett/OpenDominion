@@ -1071,7 +1071,7 @@ class InvadeActionService
         if (
             !$isInvasionSuccessful ||
             ($totalDefensiveCasualties === 0) ||
-            !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II'], true) // todo: might want to check for conversion unit perks here, instead of hardcoded race names
+            !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II','Demon'], true) // todo: might want to check for conversion unit perks here, instead of hardcoded race names
         )
         {
             return $convertedUnits;
