@@ -6,10 +6,11 @@
 
 <pre>
 
+{{ dd($alignmentCounter) }}
 {{ print_r($alignmentCounter) }}
 {{ var_dump($alignmentCounter) }}
 
-{{ dd($alignmentCounter) }}
+
 
 </pre>
 
