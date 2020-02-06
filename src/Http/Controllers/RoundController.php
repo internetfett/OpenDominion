@@ -64,19 +64,7 @@ class RoundController extends AbstractController
                             ->where('dominions.round_id', '=', $round->id)
                             ->groupBy('realms.alignment')
                             ->pluck('dominions', 'alignment')->all();
-/*
-        foreach($countAlignment as $alignment => $count)
-        {
-          if($alignment == 'good')
-          {
-            $alignmentCounter['good'] = intval($count);
-          }
-          if($alignment == 'evil')
-          {
-            $alignmentCounter['evil'] = intval($count);
-          }
-        }
-*/
+
         $races = Race::query()
             ->with(['perks'])
             ->orderBy('name')
