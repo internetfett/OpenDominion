@@ -11,6 +11,7 @@
 {{ print_r($countCommonwealth) }}
 {{ var_dump($countAlignment[0]) }}
 
+{{ dd($countAlignment) }}
 
 </pre>
 
