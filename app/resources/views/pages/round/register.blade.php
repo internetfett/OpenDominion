@@ -4,16 +4,6 @@
 
 @section('content')
 
-<pre>
-
-{{ print_r($countAlignment) }}
-{{ var_dump($countAlignment) }}
-{{ dd($countAlignment) }}
-
-
-
-</pre>
-
 
     <div class="box box-primary">
         <div class="box-header with-border">
