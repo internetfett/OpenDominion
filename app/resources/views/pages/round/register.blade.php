@@ -39,17 +39,14 @@
                             <div class="col-xs-12">
                               <div class="row">
                                   <div class="col-xs-2">
-                                    <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
+                                    <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth" height="64" width="64">
                                   </div>
                                   <div class="col-xs-10">
                                     <h2>The Commonwealth</h2>
+                                    <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
+                                    <p>Currently X dominions have joined the Commonwealth this round.</p>
                                   </div>
                               </div>
-
-                                <div class="text-center">
-                                    <h2>The Commonwealth</h2>
-                                    <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
-                                </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                         <div class="col-xs-12">
