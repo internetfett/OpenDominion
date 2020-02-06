@@ -62,7 +62,8 @@ class RoundController extends AbstractController
                                 ->join('races', 'dominions.race_id', '=', 'races.id')
                                 ->join('realms', 'realms.id', '=', 'dominions.realm_id')
                                 ->where('dominions.round_id', '=', $round->id)
-                                ->groupBy('realms.alignment');
+                                ->groupBy('realms.alignment')
+                                ->get();
 
 
         $races = Race::query()
@@ -74,6 +75,7 @@ class RoundController extends AbstractController
             'raceHelper' => app(RaceHelper::class),
             'round' => $round,
             'races' => $races,
+            'alignmentCounter' => $alignmentCounter,
             #'goodCount' => $alignmentCounter['good'],
             #'evilCount' => $alignmentCounter['evil'],
         ]);
