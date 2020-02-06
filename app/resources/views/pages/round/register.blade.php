@@ -81,7 +81,7 @@
                                 <div class="col-xs-12">
                                   <div class="row">
                                       <div class="col-xs-1">
-                                        <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
+                                        <img src="{{ asset('assets/app/images/odarena-icon.png') }}" class="img-responsive" alt="Independent">
                                       </div>
                                       <div class="col-xs-11">
                                         <h2>The Empire</h2>
