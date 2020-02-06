@@ -4,7 +4,7 @@
 
 @section('content')
 
-  {{ print_r($alignmentCounter) }}
+  {{ die(print_r($alignmentCounter)) }}
 
     <div class="box box-primary">
         <div class="box-header with-border">
