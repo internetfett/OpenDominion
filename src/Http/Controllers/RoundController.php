@@ -97,8 +97,8 @@ class RoundController extends AbstractController
             'raceHelper' => app(RaceHelper::class),
             'round' => $round,
             'races' => $races,
-            'empire' => intval($empire),
-            'commonwealth' => intval($commonwealth),
+            'empire' => $empire,
+            'commonwealth' => $commonwealth,
         ]);
     }
 
