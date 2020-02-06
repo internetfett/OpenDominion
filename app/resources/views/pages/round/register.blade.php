@@ -6,12 +6,10 @@
 
 <pre>
 
-{{ print_r($countAlignment) }}
-{{ print_r($countEmpire) }}
-{{ print_r($countCommonwealth) }}
-{{ var_dump($countAlignment[0]) }}
+{{ print_r($alignmentCounter) }}
+{{ var_dump($alignmentCounter) }}
 
-{{ dd($countAlignment) }}
+{{ dd($alignmentCounter) }}
 
 </pre>
 
