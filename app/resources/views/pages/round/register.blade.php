@@ -4,9 +4,7 @@
 
 @section('content')
 
-  <pre>
-  {{ die(print_r($commonwealth)) }}
-</pre>
+
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>
@@ -48,7 +46,7 @@
                                   <div class="col-xs-11">
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
-                                    <p>Currently {{ number_format($alignmentCounter['good']) }} dominions have joined the Commonwealth this round.</p>
+                                    <p>Currently {{ number_format($commonwealth['dominions']) }} dominions have joined the Commonwealth this round.</p>
                                   </div>
                               <!-- Random Commonwealth -->
                               </div>
@@ -113,7 +111,7 @@
                                       <div class="col-xs-11">
                                         <h2>The Empire</h2>
                                         <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
-                                        <p>Currently number_format($alignmentCounter['evil']) dominions have joined the Empire this round.</p>
+                                        <p>Currently number_format($empire['dominions']) dominions have joined the Empire this round.</p>
                                       </div>
                                   </div>
 
