@@ -200,12 +200,8 @@ class DominionFactory
         {
           $startingResources['morale'] = 666;
           $startingResources['soul'] = 2000;
-
-          $startingResources['mana'] = 1000 * $acresBase;
-          $startingResources['platinum'] = 1000 * $acresBase;
-          $startingResources['mana'] += $startingResources['lumber'];
-          $startingResources['lumber'] = 0;
-          $startingResources['gems'] = 0;
+          $startingResources['mana'] = 500000;
+          $startingResources['platinum'] += $startingResources['lumber'];
         }
 
         // Void: gets half of plat for troops as mana, gets lumber as mana (then lumber to 0).
