@@ -65,36 +65,10 @@ class RoundController extends AbstractController
                             ->groupBy('realms.alignment')
                             ->get();
 
-        $countEmpire = DB::table('dominions')
-                                ->join('races', 'dominions.race_id', '=', 'races.id')
-                                ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-                                ->select(DB::raw('count(distinct dominions.id) as dominions'))
-                                ->where('dominions.round_id', '=', $round->id)
-                                ->where('realms.alignment', '=', 'evil')
-                                ->groupBy('realms.alignment')
-                                ->get();
-
-        $countCommonwealth = DB::table('dominions')
-                                ->join('races', 'dominions.race_id', '=', 'races.id')
-                                ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-                                ->select(DB::raw('count(distinct dominions.id) as dominions'))
-                                ->where('dominions.round_id', '=', $round->id)
-                                ->where('realms.alignment', '=', 'good')
-                                ->groupBy('realms.alignment')
-                                ->get();
-/*
-                                SELECT
-                                realms.alignment as alignment,
-                                count(distinct dominions.id)
-                                FROM
-                                realms
-                                JOIN dominions on realms.id = dominions.realm_id
-                                JOIN rounds on rounds.id = realms.round_id
-                                WHERE
-                                rounds.id = 17
-                                GROUP BY
-                                realms.alignment
-*/
+        foreach($countAlignment as $alignment => $count)
+        {
+          $alignmentCounter[$alignment] = $count;
+        }
 
         $races = Race::query()
             ->with(['perks'])
@@ -105,9 +79,10 @@ class RoundController extends AbstractController
             'raceHelper' => app(RaceHelper::class),
             'round' => $round,
             'races' => $races,
-            'countAlignment' => $countAlignment,
-            'countEmpire' => $countEmpire,
-            'countCommonwealth' => $countCommonwealth,
+            #'countAlignment' => $countAlignment,
+            #'countEmpire' => $countEmpire,
+            #'countCommonwealth' => $countCommonwealth,
+            '$alignmentCounter' => $alignmentCounter,
         ]);
     }
 
