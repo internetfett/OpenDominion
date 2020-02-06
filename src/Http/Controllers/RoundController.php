@@ -74,7 +74,8 @@ class RoundController extends AbstractController
             'raceHelper' => app(RaceHelper::class),
             'round' => $round,
             'races' => $races,
-            'alignmentCounter' => $alignmentCounter,
+            'goodCount' => $alignmentCounter['good'],
+            'evilCount' => $alignmentCounter['evil'],
         ]);
     }
 

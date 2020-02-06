@@ -44,7 +44,7 @@
                                   <div class="col-xs-11">
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
-                                    <p>Currently {{ $alignmentCounter['good'] }} dominions have joined the Commonwealth this round.</p>
+                                    <p>Currently {{ $goodCount }} dominions have joined the Commonwealth this round.</p>
                                   </div>
                               <!-- Random Commonwealth -->
                               </div>
@@ -109,7 +109,7 @@
                                       <div class="col-xs-11">
                                         <h2>The Empire</h2>
                                         <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
-                                        <p>Currently {{ $alignmentCounter['evil'] }}  dominions have joined the Empire this round.</p>
+                                        <p>Currently {{ $evilCount }}  dominions have joined the Empire this round.</p>
                                       </div>
                                   </div>
 
