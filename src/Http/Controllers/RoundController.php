@@ -60,11 +60,11 @@ class RoundController extends AbstractController
         $countAlignment = DB::table('dominions')
                             ->join('races', 'dominions.race_id', '=', 'races.id')
                             ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-                            ->select('realms.alignment', DB::raw('count(distinct dominions.id) as dominions'))
+                            ->select('realms.alignment as alignment', DB::raw('count(distinct dominions.id) as dominions'))
                             ->where('dominions.round_id', '=', $round->id)
                             ->groupBy('realms.alignment')
-                            ->get();
-
+                            ->pluck('alignment', 'dominions')->all();
+/*
         foreach($countAlignment as $alignment => $count)
         {
           if($alignment == 'good')
@@ -76,7 +76,7 @@ class RoundController extends AbstractController
             $alignmentCounter['evil'] = intval($count);
           }
         }
-
+*/
         $races = Race::query()
             ->with(['perks'])
             ->orderBy('name')
@@ -86,10 +86,10 @@ class RoundController extends AbstractController
             'raceHelper' => app(RaceHelper::class),
             'round' => $round,
             'races' => $races,
-            #'countAlignment' => $countAlignment,
+            'countAlignment' => $countAlignment,
             #'countEmpire' => $countEmpire,
             #'countCommonwealth' => $countCommonwealth,
-            'alignmentCounter' => $alignmentCounter,
+            #'alignmentCounter' => $alignmentCounter,
         ]);
     }
 

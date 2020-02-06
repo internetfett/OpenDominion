@@ -6,9 +6,9 @@
 
 <pre>
 
-{{ print_r($alignmentCounter) }}
-{{ var_dump($alignmentCounter) }}
-{{ dd($alignmentCounter) }}
+{{ print_r($countAlignment) }}
+{{ var_dump($countAlignment) }}
+{{ dd($countAlignment) }}
 
 
 
@@ -56,7 +56,7 @@
                                   <div class="col-xs-11">
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
-                                    <p>Currently {{ number_format($countCommonwealth[0]['dominions']) }} dominions have joined the Commonwealth this round.</p>
+                                    <p>Currently {{ $alignmentCounter->filter(function ($counter) { return }) }} dominions have joined the Commonwealth this round.</p>
                                   </div>
                               <!-- Random Commonwealth -->
                               </div>
