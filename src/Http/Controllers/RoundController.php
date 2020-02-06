@@ -60,7 +60,7 @@ class RoundController extends AbstractController
         $countAlignment = DB::table('dominions')
                             ->join('races', 'dominions.race_id', '=', 'races.id')
                             ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-                            ->select(DB::raw('count(distinct dominions.id) as dominions'))
+                            ->select('realms.alignemnt', DB::raw('count(distinct dominions.id) as dominions'))
                             ->where('dominions.round_id', '=', $round->id)
                             ->groupBy('realms.alignment')
                             ->get();
