@@ -6,8 +6,9 @@
 
 <pre>
 
-{{ print_r($commonwealth) }}
-{{ print_r($empire) }}
+{{ print_r($countAlignment) }}
+{{ print_r($countEmpire) }}
+{{ print_r($countCommonwealth) }}
 {{ die() }}
 
 </pre>
