@@ -82,7 +82,7 @@ class RoundController extends AbstractController
             #'countAlignment' => $countAlignment,
             #'countEmpire' => $countEmpire,
             #'countCommonwealth' => $countCommonwealth,
-            '$alignmentCounter' => $alignmentCounter,
+            'alignmentCounter' => $alignmentCounter,
         ]);
     }
 
