@@ -9,6 +9,7 @@
 {{ print_r($countAlignment) }}
 {{ print_r($countEmpire) }}
 {{ print_r($countCommonwealth) }}
+{{ dd($countCommonwealth) }}
 
 </pre>
 
