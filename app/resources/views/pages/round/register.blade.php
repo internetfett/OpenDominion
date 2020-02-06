@@ -57,7 +57,7 @@
                                                       <input type="radio" name="race" value="random_good" autocomplete="off" {{ (old('race') == 'random_good') ? 'checked' : null }} required>
                                                       <strong>Random</strong>
                                                       &nbsp;&mdash;&nbsp;
-                                                  <em>You will be randomly assigned a <strong>Commonwealth</strong> faction. This cannot be undone.</a>
+                                                  <em>You will be randomly assigned a <strong>Commonwealth</strong> faction. This cannot be undone.</em>
                                                 </p>
                                               </div>
                                               <div class="col-sm-4">
@@ -125,7 +125,7 @@
                                                           <input type="radio" name="race" value="random_evil" autocomplete="off" {{ (old('race') == 'random_evil') ? 'checked' : null }} required>
                                                           <strong>Random</strong>
                                                           &nbsp;&mdash;&nbsp;
-                                                      <em>You will be randomly assigned an <strong>Imperial</strong> faction. This cannot be undone.</a>
+                                                      <em>You will be randomly assigned an <strong>Imperial</strong> faction. This cannot be undone.</em>
                                                     </p>
                                                   </div>
                                                   <div class="col-sm-4">
