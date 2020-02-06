@@ -3,6 +3,9 @@
 @section('page-header', "Register to Round {$round->number} of OD Arena")
 
 @section('content')
+
+  {{ dd($alignmentCounter) }}
+
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>
