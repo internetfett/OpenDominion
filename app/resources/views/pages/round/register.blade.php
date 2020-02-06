@@ -48,6 +48,30 @@
                                   </div>
                               </div>
                                 <div class="row">
+                                  <div class="col-xs-12">
+                                      <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
+                                          <div class="row text-left">
+                                              <div class="col-lg-4">
+                                                  <p>
+                                                      <input type="radio" name="race" value="random_good" autocomplete="off" {{ (old('race') == random_good) ? 'checked' : null }} required>
+                                                      <strong>Random</strong>
+                                                      &nbsp;&mdash;&nbsp;
+                                                  <em>You will be randomly assigned a Commonwealth faction. This cannot be undone.</a>
+                                                </p>
+                                              </div>
+
+                                              <div class="col-sm-4">
+                                                <ul>
+                                                  <li>Attacking: ???</li>
+                                                  <li>Converting: ???</li>
+                                                  <li>Exploring: ???</li>
+                                                </ul>
+                                              </div>
+
+                                          </div>
+                                      </label>
+                                  </div>
+
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                         <div class="col-xs-12">
                                             <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
@@ -124,7 +148,7 @@
                                 <div class="col-xs-12">
                                   <div class="row">
                                       <div class="col-xs-1">
-                                        <span style="font-size:200%;"><i class="ra ra-perspective-dice-random"></i></span>
+                                        <h1><i class="ra ra-perspective-dice-random"></i></h1>
                                       </div>
                                       <div class="col-xs-11">
                                         <h2>Independent</h2>
