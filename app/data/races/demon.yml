@@ -6,9 +6,9 @@ description: >-
   <hr />
   <p>The soul of every enemy unit killed in battle is collected and can be used to summon stronger demons.</p>
   <hr />
-  <p>Starts with 666% Morale and 2,000 Souls.</p>
+  <p>Starts with 2,500 Souls.</p>
   <hr />
-  <p>Instead of National Bank, Demons have Sacrificial Altar where peasants can be sacrificed for either 0.5 Soul or 4 bushels of food.</p>
+  <p>Instead of National Bank, Demons have Sacrificial Altar where peasants can be sacrificed for either 0.5 Soul or 4 bushels of food each.</p>
 home_land_type: mountain
 playable: 1
 
@@ -59,12 +59,12 @@ units:
     type: hybrid_elite
     need_boat: false
     cost:
-      mana: 100000
-      soul: 120
+      mana: 1000000
+      soul: 10000
     power:
       offense: 1
       defense: 0
     perks:
       immortal: 1
-      offense_from_resource: soul,4,0 # +1 OP per 10 souls gems, max +1000
+      offense_from_resource: soul,100,0 # +1 OP per 10 souls, no max
       amount_limit: 1

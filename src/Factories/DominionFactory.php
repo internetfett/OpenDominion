@@ -213,6 +213,12 @@ class DominionFactory
           $startingResources['gems'] = 0;
         }
 
+        // Lux: double starting mana.
+        if($race->name == 'Lux')
+        {
+          $startingResources['mana'] *= 2;
+        }
+
         // Dimensionalists: starts with 333 Summoners and extra mana.
         if($race->name == 'Dimensionalists')
         {
