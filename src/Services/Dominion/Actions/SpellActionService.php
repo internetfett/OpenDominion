@@ -370,6 +370,11 @@ class SpellActionService
                             'resource_boats'
                         ),
 
+
+                    'resource_champion' => $target->resource_champion,
+                    'resource_soul' => $target->resource_soul,
+                    'resource_wild_yeti' => $target->resource_wild_yeti,
+
                     'morale' => $target->morale,
                     'military_draftees' => $target->military_draftees,
                     'military_unit1' => $this->militaryCalculator->getTotalUnitsForSlot($target, 1),

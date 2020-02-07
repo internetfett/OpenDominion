@@ -125,6 +125,23 @@
                                         <td>Boats:</td>
                                         <td>{{ number_format($infoOp->data['resource_boats']) }}</td>
                                     </tr>
+
+                                    @if ($dominion->race->name == 'Norse')
+                                    <tr>
+                                        <td>Champions:</td>
+                                        <td>{{ number_format($infoOp->data['resource_champion']) }}</td>
+                                    </tr>
+                                    @elseif ($dominion->race->name == 'Demon')
+                                    <tr>
+                                        <td>Souls:</td>
+                                        <td>{{ number_format($infoOp->data['resource_soul']) }}</td>
+                                    </tr>
+                                    @elseif ($dominion->race->name == 'Snow Elf')
+                                    <tr>
+                                        <td>Wild yetis:</td>
+                                        <td>{{ number_format($infoOp->data['resource_wild_yeti']) }}</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
