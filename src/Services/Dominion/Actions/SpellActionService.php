@@ -190,7 +190,6 @@ class SpellActionService
               # XP Gained.
               if($result['success'] == True and isset($result['damage']))
               {
-                dd($result);
                 $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
                 $dominion->resource_tech += $xpGained;
               }
