@@ -126,17 +126,17 @@
                                         <td>{{ number_format($infoOp->data['resource_boats']) }}</td>
                                     </tr>
 
-                                    @if ($dominion->race->name == 'Norse')
+                                    @if ($dominion->race->name == 'Norse' and isset($infoOp->data['resource_champion']))
                                     <tr>
                                         <td>Champions:</td>
                                         <td>{{ number_format($infoOp->data['resource_champion']) }}</td>
                                     </tr>
-                                    @elseif ($dominion->race->name == 'Demon')
+                                    @elseif ($dominion->race->name == 'Demon' and isset($infoOp->data['resource_soul']))
                                     <tr>
                                         <td>Souls:</td>
                                         <td>{{ number_format($infoOp->data['resource_soul']) }}</td>
                                     </tr>
-                                    @elseif ($dominion->race->name == 'Snow Elf')
+                                    @elseif ($dominion->race->name == 'Snow Elf' and isset($infoOp->data['resource_wild_yeti']))
                                     <tr>
                                         <td>Wild yetis:</td>
                                         <td>{{ number_format($infoOp->data['resource_wild_yeti']) }}</td>
