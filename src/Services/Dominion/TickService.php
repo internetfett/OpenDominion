@@ -650,9 +650,6 @@ class TickService
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
-        $tick->peasants += $populationPeasantGrowth;
-        $tick->military_draftees = $drafteesGrowthRate;
-
         // Resources
 
         # Max storage

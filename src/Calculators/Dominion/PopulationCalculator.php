@@ -293,21 +293,18 @@ class PopulationCalculator
     public function getPopulationBirthRaw(Dominion $dominion): float
     {
         $birth = 0;
+        $growthFactor = 0;
 
         // Values (percentages)
 
         // Growth only if food > 0.
         if($dominion->resource_food > 0)
         {
-          $growthFactor = 3;
-        }
-        else
-        {
-          $growthFactor = 3;
+          $growthFactor += 0.03;
         }
 
-        // Growth
-        $birth += (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * ($growthFactor / 100));
+        // Population births
+        $birth += (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor);
 
         return $birth;
     }
@@ -322,16 +319,11 @@ class PopulationCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellHarmony = 50;
-        $spellPlague = 25;
-        $templeBonus = 6;
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('population_growth');
 
         // Temples
-        $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * $templeBonus);
+        $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
 
         # SPELLS
 
