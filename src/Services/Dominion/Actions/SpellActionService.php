@@ -672,10 +672,12 @@ class SpellActionService
                             ($forestHavenFireballReductionMax)
                         );
 
+/*
                         if($target->race->getPerkMultiplier('damage_from_fireballs'))
                         {
                           $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
                         }
+*/
 
                         $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
@@ -690,10 +692,12 @@ class SpellActionService
                             ($masonryLightningBoltReductionMax / 100)
                         );
 
+/*
                         if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
                         {
                           $damageMultiplier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
                         }
+*/
 
                         $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
