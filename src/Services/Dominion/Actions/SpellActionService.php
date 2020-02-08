@@ -665,41 +665,35 @@ class SpellActionService
                     // Damage reduction from Forest Havens and racial perk
                     if ($attr == 'peasants')
                     {
-                        $forestHavenFireballReduction = 8;
-                        $forestHavenFireballReductionMax = 0.80;
-                        $damageMultiplier = min(
+
+                      $forestHavenFireballReduction = 8;
+                      $forestHavenFireballReductionMax = 0.80;
+                          $damageMultiplier += min(
                             (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $forestHavenFireballReduction),
                             ($forestHavenFireballReductionMax)
                         );
 
-/*
                         if($target->race->getPerkMultiplier('damage_from_fireballs'))
                         {
                           $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
                         }
-*/
-
-                        $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
 
                     // Damage reduction from Masonries and racial perk
                     if (strpos($attr, 'improvement_') === 0)
                     {
                         $masonryLightningBoltReduction = 0.75;
-                        $masonryLightningBoltReductionMax = 25;
-                        $damageMultiplier = min(
+                        $masonryLightningBoltReductionMax = 0.25;
+                        $damageMultiplier += min(
                             (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $masonryLightningBoltReduction),
-                            ($masonryLightningBoltReductionMax / 100)
+                            ($masonryLightningBoltReductionMax)
                         );
 
-/*
+
                         if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
                         {
                           $damageMultiplier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
                         }
-*/
-
-                        $damageMultiplier = 1 - max(0, $damageMultiplier);
                     }
 
                     // Check for immortal spies
@@ -718,9 +712,12 @@ class SpellActionService
                     }
 
                     // Damage reduction from Towers
-                    $damageMultiplier -= min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers'));
+                    $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
 
-                    $damage = $damage * max(0, (1-$damageMultiplier));
+                    // Cap the damage multiplier at -1
+                    $damageMultiplier = max(-1, $damageMultiplier);
+
+                    $damage = $damage * (1-$damageMultiplier);
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
