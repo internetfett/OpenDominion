@@ -253,7 +253,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-shield"></i> Protection</h3>
+                    <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Protection</h3>
                 </div>
                   <div class="box-body">
                       <p>You are under a magical state of protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }}.</p>
