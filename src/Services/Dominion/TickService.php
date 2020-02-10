@@ -24,6 +24,9 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 
+
+use OpenDominion\Calculators\Dominion\ProtectionCalculator;
+
 class TickService
 {
     /** @var Carbon */
@@ -837,6 +840,9 @@ class TickService
 
           unset($unitsToGenerate);
         }
+
+        // Reduce protection_ticks.
+        $tick->protection_ticks = max(0, $dominion->protection_ticks - 1);
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
