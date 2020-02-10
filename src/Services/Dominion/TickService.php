@@ -142,24 +142,14 @@ class TickService
                 continue;
             }
 
-
-          if(isset($tickDominion))
-          {
-            $tickDominionId = $tickDominion->id;
-          }
-          else
-          {
-            $tickDominionId = '%';
-          }
-
-            DB::transaction(function () use ($round, $tickDominionId)
+            DB::transaction(function () use ($round, $tickDominion)
             {
 
                 // Update dominions
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
-                    ->where('dominions.id', $tickDominionId)
+                    ->where('dominions.id', $tickDominionId->id)
                     ->where('dominions.is_locked', false)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
