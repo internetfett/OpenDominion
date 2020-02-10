@@ -87,9 +87,16 @@ class TickService
      *
      * @throws Exception|Throwable
      */
-    public function tickHourly()
+    public function tickHourly(Dominion $tickDominion = null)
     {
-        Log::debug('Hourly tick started');
+        if(isset($tickDominion))
+        {
+          Log::debug('Tick for ' . $tickDominion->name . ' (' . $tickDominion->id . ') started');
+        }
+        else
+        {
+          Log::debug('Hourly tick started');
+        }
 
         // Hourly tick
 
@@ -99,7 +106,8 @@ class TickService
 
         foreach ($activeRounds as $round) {
             // Precalculate all dominion ticks on hour 0
-            if ($this->now->diffInHours($round->start_date) === 0) {
+            if ($this->now->diffInHours($round->start_date) === 0)
+            {
                 $dominions = $round->activeDominions()
                     ->with([
                         'race',
@@ -107,6 +115,10 @@ class TickService
                         'race.units',
                         'race.units.perks',
                     ])
+                    if(isset($tickDominion))
+                    {
+                      ->where('dominions.id', $tickDominion->id)
+                    }
                     ->get();
 
                   foreach ($dominions as $dominion)
@@ -125,6 +137,10 @@ class TickService
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
                     ->where('dominions.is_locked', false)
+                    if(isset($tickDominion))
+                    {
+                      ->where('dominions.id', $tickDominion->id)
+                    }
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
                         'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
@@ -185,7 +201,6 @@ class TickService
                         'dominions.building_barracks' => DB::raw('dominions.building_barracks + dominion_tick.building_barracks'),
                         'dominions.building_dock' => DB::raw('dominions.building_dock + dominion_tick.building_dock'),
 
-
                         'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
@@ -211,6 +226,10 @@ class TickService
                 DB::table('active_spells')
                     ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
                     ->where('dominions.round_id', $round->id)
+                    if(isset($tickDominion))
+                    {
+                      ->where('dominions.id', $tickDominion->id)
+                    }
                     ->update([
                         'duration' => DB::raw('`duration` - 1'),
                         'active_spells.updated_at' => $this->now,
@@ -220,6 +239,10 @@ class TickService
                 DB::table('dominion_queue')
                     ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                     ->where('dominions.round_id', $round->id)
+                    if(isset($tickDominion))
+                    {
+                      ->where('dominions.id', $tickDominion->id)
+                    }
                     ->update([
                         'hours' => DB::raw('`hours` - 1'),
                         'dominion_queue.updated_at' => $this->now,
@@ -244,6 +267,10 @@ class TickService
                     'race.units',
                     'race.units.perks',
                 ])
+                if(isset($tickDominion))
+                {
+                  ->where('dominions.id', $tickDominion->id)
+                }
                 ->get();
 
             foreach ($dominions as $dominion)

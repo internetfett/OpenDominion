@@ -225,8 +225,6 @@
         </div>
 
         <div class="col-sm-12 col-md-3">
-            {{-- todo: message about black ops not being enabled until 8th day in the round --}}
-
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Information</h3>
@@ -237,18 +235,6 @@
                     <p><a href="{{ route('dominion.rankings', 'land') }}">My Rankings</a></p>
                 </div>
             </div>
-
-            @if ($dominionProtectionService->isUnderProtection($selectedDominion))
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Under Protection</h3>
-                    </div>
-                    <div class="box-body">
-                        <p>You are under a magical state of protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }}.</p>
-                        <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
-                    </div>
-                </div>
-            @endif
         </div>
 
         @if ($selectedDominion->realm->motd && ($selectedDominion->realm->motd_updated_at > now()->subDays(3)))
@@ -260,6 +246,31 @@
                     </div>
                 </div>
             </div>
+        @endif
+
+        @if ($dominionProtectionService->isUnderProtection($selectedDominion))
+
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa ra-shield"></i> Protection</h3>
+                </div>
+                  <div class="box-body">
+                      <p>You are under a magical state of protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }}.</p>
+                      <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
+                      <p>Click the button below to proceed to the next tick.</p>
+
+                      <button type="submit"
+                              class="btn btn-danger"
+                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                              id="invade-button">
+                          <i class="ra ra-crossed-swords"></i>
+                          Proceed to next tick
+                      </button>
+                  </div>
+            </div>
+        </div>
+
         @endif
 
         <div class="col-sm-12 col-md-9">
