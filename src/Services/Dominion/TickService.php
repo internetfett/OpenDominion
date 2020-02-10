@@ -108,6 +108,21 @@ class TickService
             // Precalculate all dominion ticks on hour 0
             if ($this->now->diffInHours($round->start_date) === 0)
             {
+
+              if(isset($tickDominion))
+              {
+                $dominions = $round->activeDominions()
+                    ->where('dominions.id', $tickDominion->id)
+                    ->with([
+                        'race',
+                        'race.perks',
+                        'race.units',
+                        'race.units.perks',
+                    ])
+                    ->get();
+              }
+              else
+              {
                 $dominions = $round->activeDominions()
                     ->with([
                         'race',
@@ -115,11 +130,9 @@ class TickService
                         'race.units',
                         'race.units.perks',
                     ])
-                    if(isset($tickDominion))
-                    {
-                      ->where('dominions.id', $tickDominion->id)
-                    }
                     ->get();
+              }
+
 
                   foreach ($dominions as $dominion)
                   {
@@ -132,15 +145,21 @@ class TickService
 
 
             DB::transaction(function () use ($round) {
+              if(isset($tickDominion))
+              {
+                $tickDominionId = $tickDominion->id;
+              }
+              else
+              {
+                $tickDominionId = '%';
+              }
+
                 // Update dominions
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
+                    ->where('dominions.id', $tickDominionId)
                     ->where('dominions.is_locked', false)
-                    if(isset($tickDominion))
-                    {
-                      ->where('dominions.id', $tickDominion->id)
-                    }
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
                         'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
