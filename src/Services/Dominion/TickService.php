@@ -24,9 +24,6 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 
-
-use OpenDominion\Calculators\Dominion\ProtectionCalculator;
-
 class TickService
 {
     /** @var Carbon */
@@ -204,6 +201,8 @@ class TickService
                         'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
+
+                        'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 
                         'dominions.last_tick_at' => DB::raw('now()')
                     ]);
@@ -634,6 +633,9 @@ class TickService
 
         }
 
+        // Tick
+        $tick->protection_ticks = max(0, $dominion->protection_ticks - 1)
+
         // Population
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
         $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
@@ -667,7 +669,7 @@ class TickService
         $maxStorage['lumber'] = max($acres * 100, $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production')));
         $maxStorage['ore'] = max($acres * 100, $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production')));
         $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
-        if($domiinon->race->name == 'Myconid')
+        if($dominion->race->name == 'Myconid')
         {
           $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
         }
@@ -840,9 +842,6 @@ class TickService
 
           unset($unitsToGenerate);
         }
-
-        // Reduce protection_ticks.
-        $tick->protection_ticks = max(0, $dominion->protection_ticks - 1);
 
         foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
