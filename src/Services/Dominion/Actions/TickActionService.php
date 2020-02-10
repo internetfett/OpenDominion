@@ -8,9 +8,11 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\TickService;
 use OpenDominion\Services\NotificationService;
+use OpenDominion\Traits\DominionGuardsTrait;
 
 class TickActionService
 {
+    use DominionGuardsTrait;
 
     /** @var ProtectionService */
     protected $protectionService;
