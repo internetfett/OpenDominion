@@ -244,7 +244,7 @@
                         <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Under Protection</h3>
                     </div>
                     <div class="box-body">
-                        <p>You are under a magical state of protection for <b>{{ $selectedDominion->protection_ticks) }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }}.</p>
+                        <p>You are under a magical state of protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }}.</p>
                         <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
                     </div>
                 </div>

@@ -13,7 +13,7 @@
 
                 @if ($protectionService->isUnderProtection($selectedDominion))
                     <div class="box-body">
-                        You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> more ticks and may not perform any espionage operations during that time.
+                        You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not perform any espionage operations during that time.
                     </div>
                 @else
                     <form action="{{ route('dominion.espionage') }}" method="post" role="form">
