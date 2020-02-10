@@ -21,6 +21,9 @@ class TickActionService
     /** @var TickService */
     protected $tickService;
 
+    /** @var NotificationService */
+    protected $notificationService;
+
     /**
      * TickActionService constructor.
      *
@@ -28,10 +31,12 @@ class TickActionService
      */
     public function __construct(
         ProtectionService $protectionService,
-        TickService $tickService
+        TickService $tickService,
+        NotificationService $notificationService
     ) {
         $this->protectionService = $protectionService;
         $this->tickService = $tickService;
+        $this->notificationService = $notificationService;
     }
 
     /**
