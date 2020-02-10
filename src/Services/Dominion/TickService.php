@@ -633,8 +633,12 @@ class TickService
 
         }
 
+        $tick->protection_ticks = 0;
         // Tick
-        $tick->protection_ticks = max(0, $dominion->protection_ticks - 1);
+        if($dominion->protection_ticks > 0)
+        {
+          $tick->protection_ticks += -1;
+        }
 
         // Population
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
