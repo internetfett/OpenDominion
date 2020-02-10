@@ -9,7 +9,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\TickService;
 use OpenDominion\Services\NotificationService;
 
-class InvadeActionService
+class TickActionService
 {
 
     /** @var ProtectionService */
