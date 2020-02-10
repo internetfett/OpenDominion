@@ -143,17 +143,17 @@ class TickService
             }
 
 
+          if(isset($tickDominion))
+          {
+            $tickDominionId = $tickDominion->id;
+          }
+          else
+          {
+            $tickDominionId = '%';
+          }
 
-            DB::transaction(function () use ($round)
+            DB::transaction(function () use ($round, $tickDominionId)
             {
-              if(isset($tickDominion))
-              {
-                $tickDominionId = $tickDominion->id;
-              }
-              else
-              {
-                $tickDominionId = '%';
-              }
 
                 // Update dominions
                 DB::table('dominions')
