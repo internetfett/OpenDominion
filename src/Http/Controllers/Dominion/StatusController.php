@@ -13,6 +13,7 @@ use OpenDominion\Services\Dominion\QueueService;
 # ODA
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
+use OpenDominion\Services\Dominion\Actions\TickActionService;
 
 class StatusController extends AbstractDominionController
 {
