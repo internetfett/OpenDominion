@@ -144,7 +144,8 @@ class TickService
 
 
 
-            DB::transaction(function () use ($round) {
+            DB::transaction(function () use ($round)
+            {
               if(isset($tickDominion))
               {
                 $tickDominionId = $tickDominion->id;
@@ -241,31 +242,51 @@ class TickService
                         'dominions.last_tick_at' => DB::raw('now()')
                     ]);
 
-                // Update spells
-                DB::table('active_spells')
-                    ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
-                    ->where('dominions.round_id', $round->id)
-                    if(isset($tickDominion))
-                    {
+                // Update spells and Update queues
+
+                if(isset($tickDominion))
+                {
+                  DB::table('active_spells')
+                      ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.round_id', $round->id)
                       ->where('dominions.id', $tickDominion->id)
-                    }
-                    ->update([
-                        'duration' => DB::raw('`duration` - 1'),
-                        'active_spells.updated_at' => $this->now,
-                    ]);
+                      ->update([
+                          'duration' => DB::raw('`duration` - 1'),
+                          'active_spells.updated_at' => $this->now,
+                      ]);
+
+                  DB::table('dominion_queue')
+                      ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.round_id', $round->id)
+                      ->where('dominions.id', $tickDominion->id)
+                      ->update([
+                          'hours' => DB::raw('`hours` - 1'),
+                          'dominion_queue.updated_at' => $this->now,
+                      ]);
+
+                }
+                else
+                {
+                  DB::table('active_spells')
+                      ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.round_id', $round->id)
+                      ->update([
+                          'duration' => DB::raw('`duration` - 1'),
+                          'active_spells.updated_at' => $this->now,
+                      ]);
+
+                  DB::table('dominion_queue')
+                      ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.round_id', $round->id)
+                      ->update([
+                          'hours' => DB::raw('`hours` - 1'),
+                          'dominion_queue.updated_at' => $this->now,
+                      ]);
+
+                }
 
                 // Update queues
-                DB::table('dominion_queue')
-                    ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
-                    ->where('dominions.round_id', $round->id)
-                    if(isset($tickDominion))
-                    {
-                      ->where('dominions.id', $tickDominion->id)
-                    }
-                    ->update([
-                        'hours' => DB::raw('`hours` - 1'),
-                        'dominion_queue.updated_at' => $this->now,
-                    ]);
+
             }, 10);
 
             Log::info(sprintf(
