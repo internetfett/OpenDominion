@@ -34,4 +34,21 @@ class StatusController extends AbstractDominionController
             'notifications' => $notifications
         ]);
     }
+
+    public function postStatus(TickActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $tickActionService = app(TickActionService::class);
+
+        try {
+            $result = $tickActionService->tickDominion($dominion);
+
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+    }
+
 }

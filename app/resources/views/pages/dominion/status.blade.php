@@ -260,6 +260,8 @@
                       <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
                       <p>Click the button below to proceed to the next tick.</p>
 
+                      <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
+                      <input type="hidden" name="dominion" value="{{ $dominion->id }}" />
                       <button type="submit"
                               class="btn btn-info"
                               {{ $selectedDominion->isLocked() ? 'disabled' : null }}
@@ -267,6 +269,7 @@
                           <i class="ra ra-shield"></i>
                           Proceed to next tick
                       </button>
+                    </form>
                   </div>
             </div>
         </div>
