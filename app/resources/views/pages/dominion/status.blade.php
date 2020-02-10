@@ -261,6 +261,7 @@
                       <p>Click the button below to proceed to the next tick.</p>
 
                       <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
+                        @csrf
                       <input type="hidden" name="dominion" value="{{ $selectedDominion->id }}" />
                       <button type="submit"
                               class="btn btn-info"
