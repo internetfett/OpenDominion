@@ -46,6 +46,16 @@ class ProtectionService
      */
     public function isUnderProtection(Dominion $dominion): bool
     {
+      /*
+        if($dominion->protection_ticks > 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      */
         return ($this->getProtectionEndDate($dominion) >= now());
     }
 
