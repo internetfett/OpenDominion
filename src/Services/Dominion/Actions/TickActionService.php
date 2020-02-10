@@ -40,7 +40,6 @@ class TickActionService
     public function tickDominion(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
-        $this->guardLockedDominion($target);
 
         DB::transaction(function () use ($dominion) {
             // Checks
