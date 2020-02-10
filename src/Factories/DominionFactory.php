@@ -341,6 +341,8 @@ class DominionFactory
             'building_mycelia' => $startingBuildings['mycelia'],
 
             'npc_modifier' => $startingResources['npc_modifier'],
+
+            'protection_ticks' => 7*4,
         ]);
     }
 
