@@ -69,7 +69,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 
             // Status
             $router->get('status')->uses('Dominion\StatusController@getStatus')->name('status');
-            $router->post('invade')->uses('Dominion\StatusController@postStatus');
+            $router->post('status')->uses('Dominion\StatusController@postStatus');
 
             // Advisors
             $router->get('advisors')->uses('Dominion\AdvisorsController@getAdvisors')->name('advisors');
