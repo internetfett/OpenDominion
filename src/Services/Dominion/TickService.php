@@ -300,6 +300,9 @@ class TickService
         }
 
         foreach ($activeRounds as $round) {
+
+          if(isset($tickDominion))
+          {
             $dominions = $round->activeDominions()
                 ->with([
                     'race',
@@ -307,11 +310,21 @@ class TickService
                     'race.units',
                     'race.units.perks',
                 ])
-                if(isset($tickDominion))
-                {
-                  ->where('dominions.id', $tickDominion->id)
-                }
+                ->where('dominions.id', $tickDominion->id)
                 ->get();
+          }
+          else
+          {
+            $dominions = $round->activeDominions()
+                ->with([
+                    'race',
+                    'race.perks',
+                    'race.units',
+                    'race.units.perks',
+                ])
+                ->get();
+          }
+
 
             foreach ($dominions as $dominion)
             {
