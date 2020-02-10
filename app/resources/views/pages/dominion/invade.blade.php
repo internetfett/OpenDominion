@@ -31,7 +31,7 @@
                         <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
                     </div>
                     <div class="box-body">
-                        You are currently under protection for <b>{{ number_format($protectionService->getUnderProtectionHoursLeft($selectedDominion), 2) }}</b> more hours and may not invade during that time.
+                        You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> more hours and may not invade during that time.
                     </div>
                 </div>
             @elseif ($selectedDominion->morale < 50)
@@ -173,7 +173,7 @@
                                                        placeholder="0"
                                                        min="0"
                                                        max="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
-                                                       style="min-width:5em;" 
+                                                       style="min-width:5em;"
                                                        data-slot="{{ $unitSlot }}"
                                                        data-amount="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
                                                        data-op="{{ $unit->power_offense }}"

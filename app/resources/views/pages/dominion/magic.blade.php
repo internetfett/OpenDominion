@@ -74,7 +74,7 @@
 
                         @if ($protectionService->isUnderProtection($selectedDominion))
                             <div class="box-body">
-                                You are currently under protection for <b>{{ number_format($protectionService->getUnderProtectionHoursLeft($selectedDominion), 2) }}</b> more hours and may not cast any offensive spells during that time.
+                                You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> more hours and may not cast any offensive spells during that time.
                             </div>
                         @else
                             <form action="{{ route('dominion.magic') }}" method="post" role="form">
