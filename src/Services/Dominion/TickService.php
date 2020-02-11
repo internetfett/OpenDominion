@@ -1085,7 +1085,7 @@ class TickService
             }, 10);
 
             Log::info(sprintf(
-                'Ticked dominions %s in %s ms',
+                'Ticked dominions %s in %s ms.',
                 $dominion->name,
                 number_format($this->now->diffInMilliseconds(now()))
             ));
@@ -1113,7 +1113,7 @@ class TickService
 
 
             Log::info(sprintf(
-                'Cleaned up queues, sent notifications, and precalculated dominion %s in %s ms in %s',
+                'Cleaned up queues, sent notifications, and precalculated dominion %s in %s ms.',
                 $dominion->name,
                 number_format($this->now->diffInMilliseconds(now()))
             ));
