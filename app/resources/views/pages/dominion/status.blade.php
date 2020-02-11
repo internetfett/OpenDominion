@@ -265,7 +265,7 @@
                       <button type="submit"
                               class="btn btn-info"
                               {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                              id="invade-button">
+                              id="tick-button">
                           <i class="ra ra-shield"></i>
                           Proceed to next tick
                       </button>

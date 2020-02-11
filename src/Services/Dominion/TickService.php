@@ -87,16 +87,9 @@ class TickService
      *
      * @throws Exception|Throwable
      */
-    public function tickHourly(Dominion $tickDominion = null)
+    public function tickHourly()
     {
-        if(isset($tickDominion))
-        {
-          Log::debug('Tick for ' . $tickDominion->name . ' (' . $tickDominion->id . ') started');
-        }
-        else
-        {
-          Log::debug('Hourly tick started');
-        }
+        Log::debug('Hourly tick started');
 
         // Hourly tick
 
@@ -108,21 +101,6 @@ class TickService
             // Precalculate all dominion ticks on hour 0
             if ($this->now->diffInHours($round->start_date) === 0)
             {
-
-              if(isset($tickDominion))
-              {
-                $dominions = $round->activeDominions()
-                    ->where('dominions.id', $tickDominion->id)
-                    ->with([
-                        'race',
-                        'race.perks',
-                        'race.units',
-                        'race.units.perks',
-                    ])
-                    ->get();
-              }
-              else
-              {
                 $dominions = $round->activeDominions()
                     ->with([
                         'race',
@@ -131,8 +109,6 @@ class TickService
                         'race.units.perks',
                     ])
                     ->get();
-              }
-
 
                   foreach ($dominions as $dominion)
                   {
@@ -142,15 +118,15 @@ class TickService
                 continue;
             }
 
-            DB::transaction(function () use ($round, $tickDominion)
+            DB::transaction(function () use ($round)
             {
 
                 // Update dominions
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
-                    ->where('dominions.id', $tickDominionId->id)
                     ->where('dominions.is_locked', false)
+                    ->where('dominions.protection_ticks', '>', 0)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
                         'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
@@ -232,31 +208,7 @@ class TickService
                         'dominions.last_tick_at' => DB::raw('now()')
                     ]);
 
-                // Update spells and Update queues
-
-                if(isset($tickDominion))
-                {
-                  DB::table('active_spells')
-                      ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
-                      ->where('dominions.round_id', $round->id)
-                      ->where('dominions.id', $tickDominion->id)
-                      ->update([
-                          'duration' => DB::raw('`duration` - 1'),
-                          'active_spells.updated_at' => $this->now,
-                      ]);
-
-                  DB::table('dominion_queue')
-                      ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
-                      ->where('dominions.round_id', $round->id)
-                      ->where('dominions.id', $tickDominion->id)
-                      ->update([
-                          'hours' => DB::raw('`hours` - 1'),
-                          'dominion_queue.updated_at' => $this->now,
-                      ]);
-
-                }
-                else
-                {
+                // Update spells
                   DB::table('active_spells')
                       ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
@@ -265,6 +217,7 @@ class TickService
                           'active_spells.updated_at' => $this->now,
                       ]);
 
+                // Update queues
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
@@ -273,7 +226,7 @@ class TickService
                           'dominion_queue.updated_at' => $this->now,
                       ]);
 
-                }
+
 
                 // Update queues
 
@@ -290,21 +243,6 @@ class TickService
         }
 
         foreach ($activeRounds as $round) {
-
-          if(isset($tickDominion))
-          {
-            $dominions = $round->activeDominions()
-                ->with([
-                    'race',
-                    'race.perks',
-                    'race.units',
-                    'race.units.perks',
-                ])
-                ->where('dominions.id', $tickDominion->id)
-                ->get();
-          }
-          else
-          {
             $dominions = $round->activeDominions()
                 ->with([
                     'race',
@@ -313,8 +251,6 @@ class TickService
                     'race.units.perks',
                 ])
                 ->get();
-          }
-
 
             foreach ($dominions as $dominion)
             {
@@ -1017,4 +953,168 @@ class TickService
             }
         }
     }
+
+    # SINGLE DOMINION TICKS, MANUAL TICK
+    /**
+     * Does an hourly tick on all active dominions.
+     *
+     * @throws Exception|Throwable
+     */
+    public function tickManually(Dominion $dominion)
+    {
+        Log::debug('Manual tick started for');
+        $this->precalculateTick($dominion, true);
+
+            DB::transaction(function () use ($dominion)
+            {
+
+                // Update dominions
+                DB::table('dominions')
+                    ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
+                    ->where('dominions.id', $dominion->id)
+                    ->where('dominions.is_locked', false)
+                    ->update([
+                        'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
+                        'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
+                        'dominions.peasants_last_hour' => DB::raw('dominion_tick.peasants'),
+                        'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
+                        'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
+                        'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
+
+                        'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
+                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
+                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
+                        'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
+                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
+                        'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
+                        'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
+                        'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+
+                        # ODA resources
+                        'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
+                        'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
+                        'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
+
+                        'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
+                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 + dominion_tick.generated_unit1'),
+                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 + dominion_tick.generated_unit2'),
+                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3 + dominion_tick.generated_unit3'),
+                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4 + dominion_tick.generated_unit4'),
+                        'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
+                        'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
+                        'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),
+
+                        'dominions.land_plain' => DB::raw('dominions.land_plain + dominion_tick.land_plain'),
+                        'dominions.land_mountain' => DB::raw('dominions.land_mountain + dominion_tick.land_mountain'),
+                        'dominions.land_swamp' => DB::raw('dominions.land_swamp + dominion_tick.land_swamp'),
+                        'dominions.land_cavern' => DB::raw('dominions.land_cavern + dominion_tick.land_cavern'),
+                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest + dominion_tick.generated_land'),
+                        'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
+                        'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
+
+                        'dominions.discounted_land' => DB::raw('dominions.discounted_land + dominion_tick.discounted_land'),
+                        'dominions.building_home' => DB::raw('dominions.building_home + dominion_tick.building_home'),
+                        'dominions.building_alchemy' => DB::raw('dominions.building_alchemy + dominion_tick.building_alchemy'),
+                        'dominions.building_farm' => DB::raw('dominions.building_farm + dominion_tick.building_farm'),
+                        'dominions.building_smithy' => DB::raw('dominions.building_smithy + dominion_tick.building_smithy'),
+                        'dominions.building_masonry' => DB::raw('dominions.building_masonry + dominion_tick.building_masonry'),
+                        'dominions.building_ore_mine' => DB::raw('dominions.building_ore_mine + dominion_tick.building_ore_mine'),
+                        'dominions.building_gryphon_nest' => DB::raw('dominions.building_gryphon_nest + dominion_tick.building_gryphon_nest'),
+                        'dominions.building_tower' => DB::raw('dominions.building_tower + dominion_tick.building_tower'),
+                        'dominions.building_wizard_guild' => DB::raw('dominions.building_wizard_guild + dominion_tick.building_wizard_guild'),
+                        'dominions.building_temple' => DB::raw('dominions.building_temple + dominion_tick.building_temple'),
+                        'dominions.building_diamond_mine' => DB::raw('dominions.building_diamond_mine + dominion_tick.building_diamond_mine'),
+                        'dominions.building_school' => DB::raw('dominions.building_school + dominion_tick.building_school'),
+                        'dominions.building_lumberyard' => DB::raw('dominions.building_lumberyard + dominion_tick.building_lumberyard'),
+                        'dominions.building_forest_haven' => DB::raw('dominions.building_forest_haven + dominion_tick.building_forest_haven'),
+                        'dominions.building_factory' => DB::raw('dominions.building_factory + dominion_tick.building_factory'),
+                        'dominions.building_guard_tower' => DB::raw('dominions.building_guard_tower + dominion_tick.building_guard_tower'),
+                        'dominions.building_shrine' => DB::raw('dominions.building_shrine + dominion_tick.building_shrine'),
+                        'dominions.building_barracks' => DB::raw('dominions.building_barracks + dominion_tick.building_barracks'),
+                        'dominions.building_dock' => DB::raw('dominions.building_dock + dominion_tick.building_dock'),
+
+                        'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
+                        'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
+                        'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
+
+                        'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
+                        #'dominions.stat_total_platinum_production' => 0,
+                        'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
+                        #'dominions.stat_total_food_production' => 0,
+                        'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
+                        'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
+                        'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
+                        'dominions.stat_total_ore_production' => DB::raw('dominions.stat_total_ore_production + dominion_tick.resource_ore'),
+                        'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
+                        'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
+                        'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
+
+                        'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
+
+                        'dominions.last_tick_at' => DB::raw('now()')
+                    ]);
+
+                // Update spells
+                  DB::table('active_spells')
+                      ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.id', $dominion->id)
+                      ->update([
+                          'duration' => DB::raw('`duration` - 1'),
+                          'active_spells.updated_at' => $this->now,
+                      ]);
+
+                // Update queues
+                  DB::table('dominion_queue')
+                      ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.id', $dominion->id)
+                      ->update([
+                          'hours' => DB::raw('`hours` - 1'),
+                          'dominion_queue.updated_at' => $this->now,
+                      ]);
+
+
+
+                // Update queues
+
+            }, 10);
+
+            Log::info(sprintf(
+                'Ticked %s dominions in %s ms in %s',
+                number_format($round->activeDominions->count()),
+                number_format($this->now->diffInMilliseconds(now())),
+                $round->name
+            ));
+
+            $this->now = now();
+
+            # Starvation
+            DB::transaction(function () use ($dominion) {
+                if (!empty($dominion->tick->starvation_casualties)) {
+                    $this->notificationService->queueNotification(
+                        'starvation_occurred',
+                        $dominion->tick->starvation_casualties
+                    );
+                }
+
+            # Clean up
+            $this->cleanupActiveSpells($dominion);
+            $this->cleanupQueues($dominion);
+
+            $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
+
+            $this->precalculateTick($dominion, true);
+
+            }, 5);
+
+
+            Log::info(sprintf(
+                'Cleaned up queues, sent notifications, and precalculated %s dominions in %s ms in %s',
+                number_format($round->activeDominions->count()),
+                number_format($this->now->diffInMilliseconds(now())),
+                $round->name
+            ));
+
+            $this->now = now();
+        }
+
 }
