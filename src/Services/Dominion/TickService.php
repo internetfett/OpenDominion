@@ -963,6 +963,12 @@ class TickService
     public function tickManually(Dominion $dominion)
     {
         Log::debug('Manual tick started for');
+
+        Log::debug(sprintf(
+            'Manual tick started for %s.',
+            $dominion->name
+        ));
+
         $this->precalculateTick($dominion, true);
 
             DB::transaction(function () use ($dominion)
@@ -1079,10 +1085,9 @@ class TickService
             }, 10);
 
             Log::info(sprintf(
-                'Ticked %s dominions in %s ms in %s',
-                number_format($round->activeDominions->count()),
-                number_format($this->now->diffInMilliseconds(now())),
-                $round->name
+                'Ticked dominions %s in %s ms',
+                $dominion->name,
+                number_format($this->now->diffInMilliseconds(now()))
             ));
 
             $this->now = now();
@@ -1108,10 +1113,9 @@ class TickService
 
 
             Log::info(sprintf(
-                'Cleaned up queues, sent notifications, and precalculated %s dominions in %s ms in %s',
-                number_format($round->activeDominions->count()),
-                number_format($this->now->diffInMilliseconds(now())),
-                $round->name
+                'Cleaned up queues, sent notifications, and precalculated dominion %s in %s ms in %s',
+                $dominion->name,
+                number_format($this->now->diffInMilliseconds(now()))
             ));
 
             $this->now = now();
