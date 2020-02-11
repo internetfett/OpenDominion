@@ -126,7 +126,7 @@ class TickService
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
                     ->where('dominions.is_locked', false)
-                    ->where('dominions.protection_ticks', '>', 0)
+                    ->where('dominions.protection_ticks', '=', 0)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
                         'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
@@ -977,6 +977,7 @@ class TickService
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.id', $dominion->id)
+                    ->where('dominions.protection_ticks', '>', 0)
                     ->where('dominions.is_locked', false)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
