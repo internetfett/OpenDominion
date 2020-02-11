@@ -39,7 +39,7 @@ units:
     cost:
       platinum: 2400
     power:
-      offense: 3
+      offense: 0
       defense: 8
     perks:
       no_draftee: 1
@@ -49,14 +49,14 @@ units:
   - name: War Mammoth
     need_boat: true
     cost:
-      ore: 600
-      gem: 100
+      ore: 800
+      gem: 1000
       unit1: 4
       unit2: 4
       unit3: 1
     power:
-      offense: 20
-      defense: 20
+      offense: 24
+      defense: 24
     perks:
       dies_into: 3
       fewer_casualties: 60
