@@ -67,7 +67,7 @@ class TickActionService
         });
 
         # Run the tick.
-        $this->tickService->tickHourly($dominion);
+        $this->tickService->tickManually($dominion);
 
         $this->notificationService->sendNotifications($dominion, 'irregular_dominion');
         return [

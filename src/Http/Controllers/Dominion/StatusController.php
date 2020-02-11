@@ -43,7 +43,7 @@ class StatusController extends AbstractDominionController
         $tickActionService = app(TickActionService::class);
 
         try {
-            $result = $tickActionService->tickManually($dominion);
+            $result = $tickActionService->tickDominion($dominion);
 
         } catch (GameException $e) {
             return redirect()->back()
