@@ -962,7 +962,6 @@ class TickService
      */
     public function tickManually(Dominion $dominion)
     {
-        Log::debug('Manual tick started for');
 
         Log::debug(sprintf(
             'Manual tick started for %s.',
@@ -1085,7 +1084,7 @@ class TickService
             }, 10);
 
             Log::info(sprintf(
-                'Ticked dominions %s in %s ms.',
+                'Ticked dominion %s in %s ms.',
                 $dominion->name,
                 number_format($this->now->diffInMilliseconds(now()))
             ));
