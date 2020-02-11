@@ -44,6 +44,24 @@ class EspionageActionService
      */
     protected const INFO_MULTIPLIER_SUCCESS_RATE = 1.4;
 
+
+    /**
+     * @var float Info op spy strength cost
+     */
+    protected const SPY_STRENGTH_COST_INFO_OPS = 2;
+
+
+    /**
+     * @var float Theft op spy strength cost
+     */
+    protected const SPY_STRENGTH_COST_THEFT_OPS = 5;
+
+
+    /**
+     * @var float Hostile op spy strength cost
+     */
+    protected const SPY_STRENGTH_COST_HOSTILE_OPS = 5;
+
     /** @var BuildingHelper */
     protected $buildingHelper;
 
@@ -181,23 +199,31 @@ class EspionageActionService
 
         DB::transaction(function () use ($dominion, $target, $operationKey, &$result) {
             if ($this->espionageHelper->isInfoGatheringOperation($operationKey)) {
-                $spyStrengthLost = 2;
+
+                $spyStrengthLost = min(static::SPY_STRENGTH_COST_INFO_OPS, $dominion->spy_strength);
+                $dominion->spy_strength -= $spyStrengthLost;
+
                 $result = $this->performInfoGatheringOperation($dominion, $operationKey, $target);
 
             } elseif ($this->espionageHelper->isResourceTheftOperation($operationKey)) {
-                $spyStrengthLost = 5;
+
+                $spyStrengthLost = min(static::SPY_STRENGTH_COST_THEFT_OPS, $dominion->spy_strength);
+                $dominion->spy_strength -= $spyStrengthLost;
+
                 $result = $this->performResourceTheftOperation($dominion, $operationKey, $target);
 
             } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
-                $spyStrengthLost = 5;
+
+                $spyStrengthLost = min(static::SPY_STRENGTH_COST_HOSTILE_OPS, $dominion->spy_strength);
+                $dominion->spy_strength -= $spyStrengthLost;
+
                 $result = $this->performHostileOperation($dominion, $operationKey, $target);
 
             } else {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
 
-            $spyStrengthLost = min($spyStrengthLost, $dominion->spy_strength);
-            $dominion->spy_strength -= $spyStrengthLost;
+
 
             # XP Gained.
             if(isset($result['damage']))
@@ -237,6 +263,11 @@ class EspionageActionService
      */
     protected function performInfoGatheringOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
+        if($dominion->spy_strength < static::SPY_STRENGTH_COST_INFO_OPS)
+        {
+            throw new GameException('You do not have enough spy strength to perform this operation.');
+        }
+
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
         $selfSpa = min(10, $this->militaryCalculator->getSpyRatio($dominion, 'offense'));
@@ -475,6 +506,12 @@ class EspionageActionService
      */
     protected function performResourceTheftOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
+
+        if($dominion->spy_strength < static::SPY_STRENGTH_COST_THEFT_OPS)
+        {
+            throw new GameException('You do not have enough spy strength to perform this operation.');
+        }
+
         if ($dominion->round->hasOffensiveActionsDisabled())
         {
             throw new GameException('Theft has been disabled for the remainder of the round.');
@@ -799,6 +836,12 @@ class EspionageActionService
      */
     protected function performHostileOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
+
+        if($dominion->spy_strength < static::SPY_STRENGTH_COST_HOSTILE_OPS)
+        {
+            throw new GameException('You do not have enough spy strength to perform this operation.');
+        }
+
         if ($dominion->round->hasOffensiveActionsDisabled()) {
             throw new GameException('Black ops have been disabled for the remainder of the round.');
         }
