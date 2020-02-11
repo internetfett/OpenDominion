@@ -9,10 +9,12 @@ class TickActionRequest extends AbstractDominionRequest
     /**
      * {@inheritdoc}
      */
+     /*
     public function rules(): array
     {
         return [
             'dominion' => 'required'
         ];
     }
+    */
 }
