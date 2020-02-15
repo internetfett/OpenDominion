@@ -596,7 +596,8 @@ class InvadeActionService
 
         $offensiveUnitsLost = [];
 
-        if ($isInvasionSuccessful) {
+        if ($isInvasionSuccessful)
+        {
             $totalUnitsSent = array_sum($units);
 
             $averageOPPerUnitSent = ($attackingForceOP / $totalUnitsSent);
@@ -605,31 +606,38 @@ class InvadeActionService
 
             $totalUnitsLeftToKill = ceil($unitsNeededToBreakTarget * $offensiveCasualtiesPercentage);
 
-            foreach ($units as $slot => $amount) {
+            foreach ($units as $slot => $amount)
+            {
                 $slotTotalAmountPercentage = ($amount / $totalUnitsSent);
 
-                if ($slotTotalAmountPercentage === 0) {
+                if ($slotTotalAmountPercentage === 0)
+                {
                     continue;
                 }
 
                 $unitsToKill = ceil($unitsNeededToBreakTarget * $offensiveCasualtiesPercentage * $slotTotalAmountPercentage);
                 $offensiveUnitsLost[$slot] = $unitsToKill;
 
-                if ($totalUnitsLeftToKill < $unitsToKill) {
+                if ($totalUnitsLeftToKill < $unitsToKill)
+                {
                     $unitsToKill = $totalUnitsLeftToKill;
                 }
 
                 $totalUnitsLeftToKill -= $unitsToKill;
 
                 $fixedCasualtiesPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties');
-                if ($fixedCasualtiesPerk) {
+                if ($fixedCasualtiesPerk)
+                {
                     $fixedCasualtiesRatio = $fixedCasualtiesPerk / 100;
                     $unitsActuallyKilled = (int)ceil($amount * $fixedCasualtiesRatio);
                     $offensiveUnitsLost[$slot] = $unitsActuallyKilled;
                 }
             }
-        } else {
-            if ($isOverwhelmed) {
+        }
+        else
+        {
+            if ($isOverwhelmed)
+            {
                 $offensiveCasualtiesPercentage *= 2;
             }
 

@@ -107,12 +107,11 @@ class CasualtiesCalculator
             }
 
             // Race perk-based immortality
-            if (($multiplier !== 1) && $this->isImmortalVersusRacePerk($dominion, $target, $slot))
+            if ($this->isImmortalVersusRacePerk($dominion, $target, $slot))
             {
                 $multiplier = 0;
             }
         }
-
         # END CHECK IMMORTALITY
 
         # CHECK ONLY DIES VS X RAW POWER
@@ -130,6 +129,8 @@ class CasualtiesCalculator
                   $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
                 }
             }
+
+            dd($dpFromUnitsThatKill);
 
             # How much of the DP is from units that kill?
             $dpFromUnitsThatKillRatio = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target);
