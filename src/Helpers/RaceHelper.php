@@ -218,7 +218,7 @@ class RaceHelper
                 break;
             case 'cannot_tech':
                 $negativeBenefit = true;
-                $description = 'Cannot use technological advancements';
+                $description = 'Cannot unlock advancements';
                 $booleanValue = true;
                 break;
             case 'construction_cost_only_platinum':

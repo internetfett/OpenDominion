@@ -7,7 +7,6 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 # ODA
-
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class CasualtiesCalculator
@@ -116,13 +115,53 @@ class CasualtiesCalculator
 
         # END CHECK IMMORTALITY
 
+        # CHECK ONLY DIES VS X RAW POWER
+        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power') !== 0)
+        {
+            $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
+            $dpFromUnitsThatKill = 0;
+
+            # Get the raw DP of each unit of $target.
+            foreach ($target->race->units as $unit)
+            {
+                # If the raw DP on the unit is enough, add it to $dpFromUnitsThatKill.
+                if($this->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') >= $minPowerToKill)
+                {
+                  $dpFromUnitsThatKill += $this->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
+                }
+            }
+
+            # How much of the DP is from units that kill?
+
+            /*
+            *   Example 1
+            *   Min power to kill = 4
+            *   DP: (1000*3+1000*5)=8000
+            *   5000/8000=0.625
+            *   Offensive casualties = 0.085 * 0.625 = 0.053125 - 62.5% of the raw DP is strong enough, so attacker suffers 62.5% of base 8.5% casualties.
+            */
+
+            /*
+            *   Example 2
+            *   Min power to kill = 6
+            *   DP: (1000*3+1000*5)=8000
+            *   0/8000=0
+            *   Offensive casualties = 0.085 * 0 = 0 -- No deaths
+            */
+
+            $dpFromUnitsThatKillRatio = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target);
+
+            $multiplier = $dpFromUnitsThatKillRatio;
+
+        }
+        # END CHECK ONLY DIES VS X RAW POWER
+
         # CHECK UNIT AND RACIAL CASUALTY MODIFIERS
 
         if ($multiplier !== 0)
         {
-
             // Non-Unit bonuses
-            $multiplier = 1;
+            #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
 
             # Shrines
             $multiplier -= $this->getOffensiveCasualtiesReductionFromShrines($dominion);
@@ -249,10 +288,33 @@ class CasualtiesCalculator
           $multiplier = 0;
         }
 
+        # CHECK ONLY DIES VS X RAW POWER
+        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power') !== 0)
+        {
+            $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
+            $opFromUnitsThatKill = 0;
+
+            # Get the raw OP of each unit of $attacker.
+            foreach ($target->race->units as $unit)
+            {
+                # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
+                if($this->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
+                {
+                  $opFromUnitsThatKill += $this->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
+                }
+            }
+
+            # How much of the DP is from units that kill?
+            $opFromUnitsThatKillRatio = $opFromUnitsThatKill / $this->militaryCalculator->getOffensivePowerRaw($attacker, );
+
+            $multiplier = $opFromUnitsThatKillRatio;
+        }
+        # END CHECK ONLY DIES VS X RAW POWER
+
         if ($multiplier !== 0)
         {
             // Non-unit bonuses (hero, tech, wonders), capped at -80%
-            $multiplier = 1;
+            #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
 
             // Spells
             # Troll and Lizardfolk spell: decreases casualties by 25%.

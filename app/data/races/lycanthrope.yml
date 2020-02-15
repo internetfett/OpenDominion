@@ -11,7 +11,7 @@ exploring : 2
 converting: 1
 
 perks:
-  max_population: 30
+  max_population: 20
 units:
   - name: Warg
     cost:
@@ -35,7 +35,7 @@ units:
     perks:
       fewer_casualties_defense: 25
       fewer_casualties_offense: 50
-      offense_from_pairing: 4,2 # slot, amount
+      offense_from_pairing: 4,1 # slot, amount
       conversion: 3 # Werewolves
   - name: Garou
     cost:

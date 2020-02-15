@@ -17,9 +17,7 @@ exploring : 1
 converting: 1
 
 perks:
-  food_consumption: -25
   mana_production: 15
-  max_population: 30
   population_growth: 15
   construction_cost_only_platinum: 1
 units:
@@ -35,13 +33,11 @@ units:
     type: hybrid_specialist
     need_boat: true
     cost:
-      platinum: 660
-      mana: 66
+      platinum: 300
+      mana: 20
     power:
-      offense: 4
-      defense: 4
-    perks:
-      conversion: 1
+      offense: 0
+      defense: 3
   - name: Devil
     type: hybrid_elite
     need_boat: true
@@ -53,8 +49,8 @@ units:
       offense: 6
       defense: 6
     perks:
-      immortal: 1
-      conversion: 3
+      fewer_casualties: 50
+      sacrifices_peasants: 0.002 # 1/0.002=Every 500 Devils sacrifice one Peasant per tick
   - name: Archdemon
     type: hybrid_elite
     need_boat: false
@@ -66,5 +62,5 @@ units:
       defense: 0
     perks:
       immortal: 1
-      offense_from_resource: soul,100,0 # +1 OP per 10 souls, no max
+      offense_from_resource: soul,10,0 # +1 OP per 100 souls, no max
       amount_limit: 1

@@ -1,9 +1,11 @@
 name: Troll
 alignment: evil
 description: >-
-  <p>Trolls can be found in the earliest scriptures and even they speak of trolls in ancient tales. Foul, brutish, and dull, trolls have always been feared by those wandering the lands where forest meets plain.</p>
-  <p>Trolls are notoriously bloodthirsty. What they lack in subtlety they more than make up for in gratuitous violence. It is not uncommon to see fully-armoured soldiers being punted up sixty feet into the air in battle with trolls. <em>[Urg smash!]</em></p>
-home_land_type: plain
+  <p>Legends about Trolls go as far back as the oldest tales of Odarena. They are depicted as foul, brutish, and dull.</p>
+  <p>Many stories tell of Trolls eating unsuspecting wanderers who have wandered too far into the darkest depths of the forests at the foot of the Great Mountains.</p>
+  <p>Trolls have grown to be the largest and strongest land dwellers, with skin and muscles as thick as swords. While they can be overrun and driven away, only the strongest warriors can actually kill them.</p>
+  <p>Often assumed to be stupid in human, dwarven, and elven lore, Trolls have instead been embraced by the Empire for their simple sovereignty and tremendous power.</p>
+home_land_type: forest
 playable: 1
 
 attacking: 3
@@ -11,41 +13,51 @@ exploring : 2
 converting: 3
 
 perks:
-  spy_strength: -10
-  tech_costs: 15
-  invest_bonus: -15
+  max_population: -10
+  food_consumption: 25
+  invest_bonus: -20
+  gem_production: 10
+  cannot_tech: 1
 units:
-  - name: Brute
+  - name: Clubber
     cost:
-      platinum: 320
-      ore: 30
+      platinum: 300
+      ore: 50
+      lumber: 10
     power:
       offense: 4
       defense: 0
-  - name: Ogre
+    perks:
+      only_dies_vs_raw_power: 3 # >=
+  - name: Basher
     cost:
       platinum: 300
-      ore: 20
+      ore: 50
     power:
       offense: 0
-      defense: 3
-  - name: Basher
-    type: offensive_elite
-    cost:
-      platinum: 900
-      ore: 90
-    power:
-      offense: 6
-      defense: 3
+      defense: 4
     perks:
-      reduce_combat_losses: 1
+      only_dies_vs_raw_power: 3 # >=
   - name: Smasher
     type: hybrid_elite
     cost:
-      platinum: 1300
-      ore: 130
+      platinum: 1000
+      ore: 250
+      lumber: 20
     power:
-      offense: 8
-      defense: 8
+      offense: 7
+      defense: 7
     perks:
-      food_consumption: 0.25
+      only_dies_vs_raw_power: 6 # >=
+  - name: Mountain Troll
+    type: hybrid_elite
+    cost:
+      platinum: 1500
+      ore: 500
+    power:
+      offense: 12
+      defense: 12
+    perks:
+      eats_peasants_on_offense: 0.1 # Each Mountain Troll eats 0.1 peasant on attack.
+      eats_draftees_on_offense: 0.1 # Each Mountain Troll eats 0.1 draftee on attack.
+      only_dies_vs_raw_power: 8 # >=

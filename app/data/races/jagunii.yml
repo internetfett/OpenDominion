@@ -45,7 +45,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       food_consumption: 0.25
-      fewer_casualties: 25
+      fewer_casualties: 50
   - name: War Mammoth
     need_boat: true
     cost:
@@ -59,7 +59,7 @@ units:
       defense: 24
     perks:
       dies_into: 3
-      fewer_casualties: 60
+      fewer_casualties: 75
       no_draftee: 1
       does_not_count_as_population: 1
       food_consumption: 2

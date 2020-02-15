@@ -19,10 +19,10 @@ perks:
   max_population: 10
   food_production: -10
 units:
-  - name: Fire Elemental
+  - name: Fire
     need_boat: true
     cost:
-      platinum: 1200
+      platinum: 1100
       mana: 5
     power:
       offense: 5
@@ -30,10 +30,10 @@ units:
     perks:
       burns_peasants_on_attack: 0.15
       counts_as_wizard_offense: 0.15
-  - name: Water Elemental
+  - name: Water
     need_boat: false
     cost:
-      platinum: 1200
+      platinum: 1100
       mana: 5
     power:
       offense: 5
@@ -41,10 +41,10 @@ units:
     perks:
       offense_from_land: water,10,1 # land type, ratio%, max
       counts_as_spy_defense: 0.15
-  - name: Earth Elemental
+  - name: Earth
     need_boat: true
     cost:
-      platinum: 1200
+      platinum: 1100
       mana: 5
     power:
       offense: 5
@@ -52,10 +52,10 @@ units:
     perks:
       offense_vs_barren_land: 10,1 # ratio%, max
       counts_as_wizard_defense: 0.15
-  - name: Air Elemental
+  - name: Air
     need_boat: false
     cost:
-      platinum: 1200
+      platinum: 1100
       mana: 5
     power:
       offense: 5

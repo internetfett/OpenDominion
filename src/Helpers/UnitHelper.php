@@ -179,18 +179,14 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
+            # Round 17
+            'kills_peasants' => 'Eats %s peasants per tick.',
+            'only_dies_vs_raw_power' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
             'dies_into' => 'Upon death, returns as a %s.',
 
             # TBD
-            'converts_to_cocoons' => 'Converts casualties to cocoons.',
-            'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
-            'kills_peasants' => 'Eats %s peasants per tick.',
-            'min_power_to_kill' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
-
             'unit_production' => 'Produces %2$s %1$s per tick.',
-
-            # Abandoned
-            'reduced_casualties_by_land' => 'Casualties increased by 1%% for every %2$s%% %1$ss (max -%3$s).',
+            'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
 
         ];
 

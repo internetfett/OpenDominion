@@ -340,7 +340,7 @@ class InvadeActionService
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
-            $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target);
+            $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units);
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
@@ -647,10 +647,10 @@ class InvadeActionService
             }
         }
 
-        $attackerUnitsDiedInBattleSlot1 = 0;
+        #$attackerUnitsDiedInBattleSlot1 = 0;
         foreach ($offensiveUnitsLost as $slot => &$amount) {
             // Reduce amount of units to kill by further multipliers
-            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP);
+            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $targetRawDP);
 
             if ($unitsToKillMultiplier !== 0) {
                 $amount = (int)ceil($amount * $unitsToKillMultiplier);
@@ -660,10 +660,10 @@ class InvadeActionService
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->{"military_unit{$slot}"} -= $amount;
 
-                if($slot == 1)
-                {
-                    $attackerUnitsDiedInBattleSlot1 = $amount;
-                }
+                #if($slot == 1)
+                #{
+                #    $attackerUnitsDiedInBattleSlot1 = $amount;
+                #}
 
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
             }
@@ -678,7 +678,7 @@ class InvadeActionService
             }
         }
 
-        $survivingUnits['attackerUnitsDiedInBattleSlot1'] = $attackerUnitsDiedInBattleSlot1;
+        #$survivingUnits['attackerUnitsDiedInBattleSlot1'] = $attackerUnitsDiedInBattleSlot1;
 
         return $survivingUnits;
     }
@@ -702,7 +702,7 @@ class InvadeActionService
      * @param Dominion $target
      * @return int
      */
-    protected function handleDefensiveCasualties(Dominion $dominion, Dominion $target): int
+    protected function handleDefensiveCasualties(Dominion $dominion, Dominion $target, array $units): int
     {
         if ($this->invasionResult['result']['overwhelmed'])
         {
@@ -763,7 +763,7 @@ class InvadeActionService
         }
         else
         {
-            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null) * $casualtiesMultiplier));
+            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $units) * $casualtiesMultiplier));
         }
 
         // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)
