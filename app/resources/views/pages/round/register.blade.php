@@ -45,7 +45,14 @@
                                   <div class="col-xs-11">
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
-                                    <p>Currently {{ number_format($countAlignment['good']) or 'no' }} dominions have joined the Commonwealth this round.</p>
+
+                                    <p>So far, 
+                                    @if(isset($countAlignment['good']))
+                                      {{ number_format($countAlignment['good']) }}
+                                    @else
+                                      no
+                                    @endif
+                                     dominions have joined the Commonwealth this round.</p>
                                   </div>
 
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
@@ -86,7 +93,13 @@
                                       <div class="col-xs-11">
                                         <h2>The Empire</h2>
                                         <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
-                                        <p>Currently {{ number_format($countAlignment['evil']) or 'no' }} dominions have joined the Empire this round.</p>
+                                        <p>So far,
+                                        @if(isset($countAlignment['evil']))
+                                          {{ number_format($countAlignment['evil']) }}
+                                        @else
+                                          no
+                                        @endif
+                                         dominions have joined the Empire this round.</p>
                                       </div>
                                   </div>
 
