@@ -133,7 +133,7 @@ class CasualtiesCalculator
             # How much of the DP is from units that kill?
             $multiplier = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target);
 
-            dd($multiplier);
+            #dd($multiplier);
 
             #$multiplier = $dpFromUnitsThatKillRatio;
 
@@ -144,6 +144,7 @@ class CasualtiesCalculator
 
         if ($multiplier !== 0)
         {
+            dd($multiplier);
             // Non-Unit bonuses
             #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
 
