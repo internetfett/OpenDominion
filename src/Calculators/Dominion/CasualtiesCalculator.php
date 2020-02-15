@@ -144,6 +144,7 @@ class CasualtiesCalculator
 
         if ($multiplier !== 0)
         {
+            var_dump($multiplier);
             dd($multiplier);
             // Non-Unit bonuses
             #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
