@@ -136,16 +136,14 @@ class CasualtiesCalculator
             #dd($multiplier);
 
             #$multiplier = $dpFromUnitsThatKillRatio;
-
         }
         # END CHECK ONLY DIES VS X RAW POWER
 
         # CHECK UNIT AND RACIAL CASUALTY MODIFIERS
 
-        if ($multiplier !== 0)
+        if ($multiplier == 1)
         {
-            var_dump($multiplier);
-            dd($multiplier);
+
             // Non-Unit bonuses
             #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
 
