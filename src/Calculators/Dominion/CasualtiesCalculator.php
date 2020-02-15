@@ -289,26 +289,30 @@ class CasualtiesCalculator
         }
 
         # CHECK ONLY DIES VS X RAW POWER
-        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power') !== 0)
+        if(isset($slot))
         {
-            $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
-            $opFromUnitsThatKill = 0;
+          if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power') !== 0)
+          {
+              $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
+              $opFromUnitsThatKill = 0;
 
-            # Get the raw OP of each unit of $attacker.
-            foreach ($target->race->units as $unit)
-            {
-                # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
-                if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
-                {
-                  $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
-                }
-            }
+              # Get the raw OP of each unit of $attacker.
+              foreach ($target->race->units as $unit)
+              {
+                  # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
+                  if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
+                  {
+                    $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
+                  }
+              }
 
-            # How much of the DP is from units that kill?
-            $opFromUnitsThatKillRatio = $opFromUnitsThatKill / $this->militaryCalculator->getOffensivePowerRaw($attacker, );
+              # How much of the DP is from units that kill?
+              $opFromUnitsThatKillRatio = $opFromUnitsThatKill / $this->militaryCalculator->getOffensivePowerRaw($attacker, );
 
-            $multiplier = $opFromUnitsThatKillRatio;
+              $multiplier = $opFromUnitsThatKillRatio;
+          }          
         }
+
         # END CHECK ONLY DIES VS X RAW POWER
 
         if ($multiplier !== 0)
