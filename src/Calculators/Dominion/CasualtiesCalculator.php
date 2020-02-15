@@ -132,23 +132,6 @@ class CasualtiesCalculator
             }
 
             # How much of the DP is from units that kill?
-
-            /*
-            *   Example 1
-            *   Min power to kill = 4
-            *   DP: (1000*3+1000*5)=8000
-            *   5000/8000=0.625
-            *   Offensive casualties = 0.085 * 0.625 = 0.053125 - 62.5% of the raw DP is strong enough, so attacker suffers 62.5% of base 8.5% casualties.
-            */
-
-            /*
-            *   Example 2
-            *   Min power to kill = 6
-            *   DP: (1000*3+1000*5)=8000
-            *   0/8000=0
-            *   Offensive casualties = 0.085 * 0 = 0 -- No deaths
-            */
-
             $dpFromUnitsThatKillRatio = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target);
 
             $multiplier = $dpFromUnitsThatKillRatio;
@@ -257,7 +240,8 @@ class CasualtiesCalculator
         // casualties will then always be 0 anyway
 
         // Only military units with a slot number could be immortal
-        if ($slot !== null) {
+        if ($slot !== null)
+        {
             // Global immortality
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
@@ -269,7 +253,6 @@ class CasualtiesCalculator
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
-
                 $multiplier = 0;
             }
 
@@ -310,7 +293,7 @@ class CasualtiesCalculator
               $opFromUnitsThatKillRatio = $opFromUnitsThatKill / $this->militaryCalculator->getOffensivePowerRaw($attacker, );
 
               $multiplier = $opFromUnitsThatKillRatio;
-          }          
+          }
         }
 
         # END CHECK ONLY DIES VS X RAW POWER

@@ -181,7 +181,7 @@ class UnitHelper
 
             # Round 17
             'kills_peasants' => 'Eats %s peasants per tick.',
-            'only_dies_vs_raw_power' => 'Only dies against units with %s or more OP (when defending) or DP (when invading), unless overwhelmed.',
+            'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power (DP on offense, OP on defense).',
             'dies_into' => 'Upon death, returns as a %s.',
 
             # TBD

@@ -647,24 +647,24 @@ class InvadeActionService
             }
         }
 
-        #$attackerUnitsDiedInBattleSlot1 = 0;
-        foreach ($offensiveUnitsLost as $slot => &$amount) {
+        foreach ($offensiveUnitsLost as $slot => &$amount)
+        {
             // Reduce amount of units to kill by further multipliers
             $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP);
 
-            if ($unitsToKillMultiplier !== 0) {
-                $amount = (int)ceil($amount * $unitsToKillMultiplier);
+            if ($unitsToKillMultiplier !== 0)
+            {
+                $amount = (int)floor($amount * $unitsToKillMultiplier);
+            }
+            else
+            {
+                $amount = 0
             }
 
-            if ($amount > 0) {
+            if ($amount > 0)
+            {
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->{"military_unit{$slot}"} -= $amount;
-
-                #if($slot == 1)
-                #{
-                #    $attackerUnitsDiedInBattleSlot1 = $amount;
-                #}
-
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
             }
         }
@@ -758,7 +758,8 @@ class InvadeActionService
         }
 
         // Dark Elf: Draftees - Unholy Ghost
-        if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost')) {
+        if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
+        {
             $drafteesLost = 0;
         }
         else
@@ -769,7 +770,7 @@ class InvadeActionService
         // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
         {
-            $drafteesLost = min($target->military_draftees, $drafteesLost*3);
+            $drafteesLost = min($target->military_draftees, $drafteesLost * 3);
         }
 
         if ($drafteesLost > 0) {

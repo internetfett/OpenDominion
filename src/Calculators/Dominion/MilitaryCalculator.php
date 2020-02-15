@@ -1076,6 +1076,9 @@ class MilitaryCalculator
         # Hideouts
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
 
+        // Tech
+        $multiplier += $dominion->getTechPerkMultiplier('spy_strength');
+
         // Beastfolk: Cavern increases Spy Strength
         if($dominion->race->name == 'Beastfolk')
         {
@@ -1151,14 +1154,14 @@ class MilitaryCalculator
         // Improvement: Towers
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
 
+        // Tech
+        $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
+
         // Beastfolk: Swamp increases Wizard Strength
         if($dominion->race->name == 'Beastfolk')
         {
           $multiplier += 2 * ($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion))  * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
-
-        // Tech: Magical Weaponry  (+15%)
-        // todo
 
         return (1 + $multiplier);
     }
