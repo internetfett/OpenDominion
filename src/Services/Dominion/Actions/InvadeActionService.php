@@ -785,7 +785,7 @@ class InvadeActionService
                 continue;
             }
 
-            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot)) * $casualtiesMultiplier);
+            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units)) * $casualtiesMultiplier);
 
             if ($slotLost > 0) {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
