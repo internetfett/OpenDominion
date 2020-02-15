@@ -130,10 +130,10 @@ class CasualtiesCalculator
                 }
             }
 
-            dd($dpFromUnitsThatKill);
-
             # How much of the DP is from units that kill?
             $dpFromUnitsThatKillRatio = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target);
+
+            dd($dpFromUnitsThatKillRatio);
 
             $multiplier = $dpFromUnitsThatKillRatio;
 
