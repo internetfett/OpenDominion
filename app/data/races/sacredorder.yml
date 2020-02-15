@@ -61,5 +61,5 @@ units:
     perks:
       no_draftee: 1
       offense_from_building: shrine,5,2 # building type, ratio%, max
-      offense_from_building: shrine,10,1 # building type, ratio%, max
+      defense_from_building: shrine,10,1 # building type, ratio%, max
       conversion: 1
