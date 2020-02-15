@@ -125,9 +125,9 @@ class CasualtiesCalculator
             foreach ($target->race->units as $unit)
             {
                 # If the raw DP on the unit is enough, add it to $dpFromUnitsThatKill.
-                if($this->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') >= $minPowerToKill)
+                if($this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') >= $minPowerToKill)
                 {
-                  $dpFromUnitsThatKill += $this->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
+                  $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
                 }
             }
 
@@ -298,9 +298,9 @@ class CasualtiesCalculator
             foreach ($target->race->units as $unit)
             {
                 # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
-                if($this->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
+                if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
                 {
-                  $opFromUnitsThatKill += $this->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
+                  $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
                 }
             }
 
