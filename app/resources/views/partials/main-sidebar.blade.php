@@ -65,13 +65,11 @@
                 @endif
 
                 <!-- NATIONAL BANK -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_exchange'))
                 <li class="{{ Route::is('dominion.bank') ? 'active' : null }}"><a href="{{ route('dominion.bank') }}">
-                @if ($selectedDominion->race->name == 'Demon')
-                  <i class="ra ra-daggers ra-fw"></i> <span>Sacrificial Altar
-                @else
-                  <i class="fa fa-money fa-fw"></i> <span>Exchange
-                @endif
+                <i class="fa fa-money fa-fw"></i> <span>Exchange
                 </span></a></li>
+                @endif
 
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))

@@ -3,12 +3,9 @@ alignment: evil
 description: >-
   <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
   <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
-  <hr />
-  <p>The soul of every enemy unit killed in battle is collected and can be used to summon stronger demons.</p>
+  <p>The soul of every enemy unit slain in battle is collected.</p>
   <hr />
   <p>Starts with 2,500 Souls.</p>
-  <hr />
-  <p>Instead of National Bank, Demons have Sacrificial Altar where peasants can be sacrificed for either 0.5 Soul or 4 bushels of food each.</p>
 home_land_type: mountain
 playable: 1
 
@@ -19,7 +16,6 @@ converting: 1
 perks:
   mana_production: 15
   population_growth: 15
-  construction_cost_only_platinum: 1
 units:
   - name: Fiend
     need_boat: true

@@ -198,9 +198,8 @@ class DominionFactory
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
-          $startingResources['soul'] = 2000;
+          $startingResources['soul'] = 3000;
           $startingResources['mana'] = 500000;
-          $startingResources['platinum'] += $startingResources['lumber'];
         }
 
         // Void: gets half of plat for troops as mana, gets lumber as mana (then lumber to 0).

@@ -138,6 +138,7 @@ class ImproveActionService
             'mana' => 5,
             'gems' => 12,
             'food' => 1,
+            'soul' => 6,
         ];
 
         if(isset($dominion) and $dominion->race->getPerkValue('ore_improvement_points'))
