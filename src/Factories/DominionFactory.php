@@ -48,7 +48,7 @@ class DominionFactory
         {
           # Barbarians start between 400 and 900 acres, randomly.
           # Skewed towards smaller.
-          $npcModifier = min(1000,rand(400,1200));
+          $npcModifier = min(1000,rand(400,1200)) / 1000;
           $acresBase *= $npcModifier;
         }
 
