@@ -5,7 +5,7 @@ description: >-
   <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
   <p>The soul of every enemy unit slain in battle is collected.</p>
   <hr />
-  <p>Starts with 2,500 Souls.</p>
+  <p>Starts with 3,000 Souls and 1 Archdemon.</p>
 home_land_type: mountain
 playable: 1
 
@@ -52,12 +52,14 @@ units:
     type: hybrid_elite
     need_boat: false
     cost:
-      mana: 1000000
+      platinum: 1000000
+      mana: 100000
       soul: 10000
+      archmage: 100
     power:
       offense: 1
       defense: 0
     perks:
       immortal: 1
-      offense_from_resource: soul,10,0 # +1 OP per 100 souls, no max
+      offense_from_resource: soul,10,0 # +1 OP per 10 souls, no max
       amount_limit: 1

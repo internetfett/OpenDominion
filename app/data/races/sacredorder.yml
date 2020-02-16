@@ -27,6 +27,7 @@ units:
       fixed_casualties: 100
       cannot_be_trained: 1
   - name: Monk
+    static_networth: 3
     cost:
       platinum: 0
       ore: 0
@@ -40,7 +41,7 @@ units:
   - name: Fanatic
     cost:
       platinum: 800
-      ore: 50
+      ore: 75
       unit2: 1
     power:
       offense: 2

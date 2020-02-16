@@ -48,7 +48,8 @@ class DominionFactory
         {
           # Barbarians start between 400 and 900 acres, randomly.
           # Skewed towards smaller.
-          $acresBase *= (max(400,rand(300,900))/1000);
+          $npcModifier = min(1000,rand(400,1200));
+          $acresBase *= $npcModifier;
         }
 
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
@@ -79,20 +80,20 @@ class DominionFactory
         // values, and then deviating values are set below.
 
         # RESOURCES
-        $platForTroops = 2000 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
-        $startingResources['platinum'] = 2000 * $acresBase * 0.75; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500 - As of round 11, reduced by 25%
-        $startingResources['platinum'] += 350 * $acresBase; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
+        $platForTroops = 200.0 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
+        $startingResources['platinum'] = 200.0 * $acresBase * 0.75; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500 - As of round 11, reduced by 25%
+        $startingResources['platinum'] += 35.0 * $acresBase; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
         $startingResources['platinum'] += $platForTroops;
         $startingResources['ore'] = intval($platForTroops * 0.15); # For troops: 15% of plat for troops in ore
 
-        $startingResources['gems'] = 20 * $acresBase;
+        $startingResources['gems'] = 2.0 * $acresBase;
 
-        $startingResources['lumber'] = 355 * $acresBase * 0.75; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500 - As of round 11, reduced by 25%
+        $startingResources['lumber'] = 35.5 * $acresBase * 0.75; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500 - As of round 11, reduced by 25%
 
         $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
         $startingResources['mana'] = 20 * $acresBase; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
 
-        $startingResources['boats'] = 0.2 * $acresBase;
+        $startingResources['boats'] = 0.02 * $acresBase;
 
         $startingResources['soul'] = 0;
 
@@ -100,7 +101,7 @@ class DominionFactory
 
         $startingResources['morale'] = 100;
 
-        $startingResources['npc_modifier'] = 0;
+        $startingResources['npc_modifier'] = $npcModifier;
 
         $startingResources['prestige'] = intval($acresBase/2);
 
@@ -183,7 +184,7 @@ class DominionFactory
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 4000; #1000 * 4 * 96;
+          $startingResources['food'] = $acresBase * 400.0; #1000 * 4 * 96;
           $startingResources['draft_rate'] = 100;
         }
 
@@ -192,21 +193,21 @@ class DominionFactory
         {
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
-          $startingResources['food'] = $acresBase * 400;
+          $startingResources['food'] = $acresBase * 40.0;
         }
 
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
-          $startingResources['soul'] = 3000;
-          $startingResources['mana'] = 500000;
+          $startingResources['soul'] = 2000;
+          $startingResources['unit4'] = 1;
         }
 
         // Void: gets half of plat for troops as mana, gets lumber as mana (then lumber to 0).
         if($race->name == 'Void')
         {
-          $startingResources['mana'] = 1000 * $acresBase;
-          $startingResources['platinum'] = 1000 * $acresBase;
+          $startingResources['mana'] = 100.0 * $acresBase;
+          $startingResources['platinum'] = 100.0 * $acresBase;
           $startingResources['mana'] += $startingResources['lumber'];
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
@@ -221,14 +222,14 @@ class DominionFactory
         // Dimensionalists: starts with 333 Summoners and extra mana.
         if($race->name == 'Dimensionalists')
         {
-          $startingResources['unit1'] = 333;
-          $startingResources['mana'] = 400 * $acresBase;
+          $startingResources['unit1'] = 33;
+          $startingResources['mana'] = 40.0 * $acresBase;
         }
 
         // Snow Elf: starting yetis.
         if($race->name == 'Snow Elf')
         {
-          $startingResources['wild_yeti'] = 1500;
+          $startingResources['wild_yeti'] = 150.0;
         }
 
         if($race->alignment == 'npc')
@@ -250,7 +251,11 @@ class DominionFactory
             $startingResources['mana'] = 0;
             $startingResources['boats'] = 0;
 
-            $startingResources['npc_modifier'] = min(1000,rand(400,1200));
+            # Starting units for Barbarians
+            $startingResources['unit1'] = 33;
+            $startingResources['unit1'] = 33;
+            $startingResources['unit1'] = 33;
+            $startingResources['unit1'] = 33;
           }
         }
 
@@ -300,9 +305,9 @@ class DominionFactory
 
             'military_draftees' => intval($startingResources['draftees'] * $startingResourcesMultiplier),
             'military_unit1' => intval($startingResources['unit1'] * $startingResourcesMultiplier),
-            'military_unit2' => intval($startingResources['unit2'] * $startingResourcesMultiplier),
-            'military_unit3' => intval($startingResources['unit3'] * $startingResourcesMultiplier),
-            'military_unit4' => intval($startingResources['unit4'] * $startingResourcesMultiplier),
+            'military_unit2' => intval($startingResources['unit2']),
+            'military_unit3' => intval($startingResources['unit3']),
+            'military_unit4' => intval($startingResources['unit4']),
             'military_spies' => intval($startingResources['spies'] * $startingResourcesMultiplier),
             'military_wizards' => intval($startingResources['wizards'] * $startingResourcesMultiplier),
             'military_archmages' => intval($startingResources['archmages'] * $startingResourcesMultiplier),
@@ -341,7 +346,7 @@ class DominionFactory
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
-            'protection_ticks' => 7*4,
+            'protection_ticks' => 80,
         ]);
     }
 
