@@ -79,6 +79,8 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
+        $startingResources['protection_ticks'] = 80;
+
         # RESOURCES
         $platForTroops = 200.0 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
         $startingResources['platinum'] = 200.0 * $acresBase * 0.75; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500 - As of round 11, reduced by 25%
@@ -236,7 +238,6 @@ class DominionFactory
         {
           if($race->name == 'Barbarian')
           {
-
             $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
             $startingResources['draftees'] = 0;
 
@@ -254,18 +255,20 @@ class DominionFactory
             # Starting units for Barbarians
             $dpaTarget = $acresBase * 20;
             $dpaTargetSpecsRatio = rand(50,100)/100;
-            $dpaTargetElitesratio = 1-$dpaTargetSpecsRatio;
+            $dpaTargetElitesRatio = 1-$dpaTargetSpecsRatio;
             $dpRequired = $acresBase * $dpaTarget;
 
             $opaTarget = $dpaTarget * 0.75;
             $opaTargetSpecsRatio = rand(50,100)/100;
-            $opaTargetElitesratio = 1-$opaTargetSpecsRatio;
+            $opaTargetElitesRatio = 1-$opaTargetSpecsRatio;
             $opRequired = $acresBase * $opaTarget;
 
-            $startingResources['unit1'] = floor($opRequired * $opaTargetSpecsRatio);
-            $startingResources['unit2'] = floor($dpRequired * $dpaTargetSpecsRatio);
-            $startingResources['unit3'] = floor($dpRequired * $dpaTargetElitesratio);
-            $startingResources['unit4'] = floor($opRequired * $opaTargetElitesratio);
+            $startingResources['unit1'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
+            $startingResources['unit2'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
+            $startingResources['unit3'] = floor(($dpRequired * $dpaTargetElitesRatio)/5);
+            $startingResources['unit4'] = floor(($dpRequired * $opaTargetElitesRatio)/5);
+
+            $startingResources['protection_ticks'] = 0;
           }
         }
 
@@ -314,7 +317,7 @@ class DominionFactory
             'improvement_tissue' => 0,
 
             'military_draftees' => intval($startingResources['draftees'] * $startingResourcesMultiplier),
-            'military_unit1' => intval($startingResources['unit1'] * $startingResourcesMultiplier),
+            'military_unit1' => intval($startingResources['unit1']),
             'military_unit2' => intval($startingResources['unit2']),
             'military_unit3' => intval($startingResources['unit3']),
             'military_unit4' => intval($startingResources['unit4']),
@@ -356,7 +359,7 @@ class DominionFactory
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
-            'protection_ticks' => 80,
+            'protection_ticks' => $startingResources['protection_ticks'],
         ]);
     }
 
