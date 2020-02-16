@@ -90,7 +90,7 @@ class DominionFactory
 
         $startingResources['gems'] = 2.0 * $acresBase;
 
-        $startingResources['lumber'] = 35.5 * $acresBase * 0.75; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500 - As of round 11, reduced by 25%
+        $startingResources['lumber'] = 355 * $acresBase * 0.75 * 0.50; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500 - As of round 11, reduced by 25% - As of round 17, reduced by 50% due to longer protection
 
         $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
         $startingResources['mana'] = 20 * $acresBase; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
