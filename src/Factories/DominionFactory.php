@@ -252,21 +252,20 @@ class DominionFactory
             $startingResources['boats'] = 0;
 
             # Starting units for Barbarians
-            $dpaTarget = $acresBase * 20 * $npcModifier;
+            $dpaTarget = $acresBase * 20;
             $dpaTargetSpecsRatio = rand(50,100)/100;
             $dpaTargetElitesratio = 1-$dpaTargetSpecsRatio;
             $dpRequired = $acresBase * $dpaTarget;
 
-
-            $opaTarget = $acresBase * 20 * $npcModifier * 0.75;
+            $opaTarget = $dpaTarget * 0.75;
             $opaTargetSpecsRatio = rand(50,100)/100;
-            $opaTargetElitesratio = 1-$dpaTargetSpecsRatio;
-            $opRequired = $acresBase * $dpaTarget;
+            $opaTargetElitesratio = 1-$opaTargetSpecsRatio;
+            $opRequired = $acresBase * $opaTarget;
 
-            $startingResources['unit1'] = $opRequired * $opaTargetSpecsRatio;
-            $startingResources['unit2'] = $dpRequired * $dpaTargetSpecsRatio;
-            $startingResources['unit3'] = $dpRequired * $dpaTargetElitesratio;
-            $startingResources['unit4'] = $opRequired * $opaTargetElitesratio;
+            $startingResources['unit1'] = floor($opRequired * $opaTargetSpecsRatio);
+            $startingResources['unit2'] = floor($dpRequired * $dpaTargetSpecsRatio);
+            $startingResources['unit3'] = floor($dpRequired * $dpaTargetElitesratio);
+            $startingResources['unit4'] = floor($opRequired * $opaTargetElitesratio);
           }
         }
 
