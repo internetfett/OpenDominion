@@ -648,7 +648,7 @@ class TickService
 
         // Population
         $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
-        $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
+        $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion) - $this->populationCalculator->getPeasantsSacrified($dominion);
 
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {

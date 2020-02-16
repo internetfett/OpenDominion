@@ -269,8 +269,7 @@ class PopulationCalculator
      */
     public function getPopulationBirth(Dominion $dominion): int
     {
-        $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
-        return $populationBirth - $this->getPeasantsSacrified($dominion);
+        return = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
     }
 
     /**
@@ -311,8 +310,7 @@ class PopulationCalculator
             $peasantsSacrified += floor($sacrificingUnits * $peasantsSacrifiedPerUnit);
           }
         }
-
-        return $peasantsSacrified;
+        return min($dominion->peasants, $peasantsSacrified);
     }
 
     /**
