@@ -153,43 +153,31 @@ class PopulationCalculator
     {
         $population = 0;
 
-        // Values
-        $housingPerHome = 30;
-
-        $housingPerZiggurat = 20;
-        $housingPerTissue = 160;
-        $housingPerMycelia = 30;
-
-        $housingPerNonHome = 15; // except barracks
-        $housingPerBarracks = 0;
-        $housingPerBarrenLand = (5 + $dominion->race->getPerkValue('extra_barren_max_population'));
-        $housingPerConstructingBuilding = 15;
-
         // Constructed buildings
         foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType) {
             switch ($buildingType) {
                 case 'home':
-                    $housing = $housingPerHome;
+                    $housing = 30;
                     break;
 
                 case 'barracks':
-                    $housing = $housingPerBarracks;
+                    $housing = 0;
                     break;
 
                 case 'ziggurat':
-                    $housing = $housingPerZiggurat;
+                    $housing = 20;
                     break;
 
                 case 'tissue':
-                    $housing = $housingPerTissue;
+                    $housing = 160;
                     break;
 
                 case 'mycelia':
-                    $housing = $housingPerMycelia;
+                    $housing = 30;
                     break;
 
                 default:
-                    $housing = $housingPerNonHome;
+                    $housing = 15;
                     break;
             }
 
@@ -197,9 +185,10 @@ class PopulationCalculator
         }
 
         // Constructing buildings
-        $population += ($this->queueService->getConstructionQueueTotal($dominion) * $housingPerConstructingBuilding);
+        $population += ($this->queueService->getConstructionQueueTotal($dominion) * 15);
 
         // Barren land
+        $housingPerBarrenLand = (5 + $dominion->race->getPerkValue('extra_barren_max_population'));
         $population += ($this->landCalculator->getTotalBarrenLand($dominion) * $housingPerBarrenLand);
 
         return $population;
@@ -253,9 +242,8 @@ class PopulationCalculator
      */
     public function getMaxPopulationMilitaryBonus(Dominion $dominion): float
     {
-        // Values
-        $troopsPerBarracks = 36;
 
+        // Race
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
           $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
@@ -269,7 +257,7 @@ class PopulationCalculator
 
         return min(
             ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
-            ($dominion->building_barracks * $troopsPerBarracks)
+            ($dominion->building_barracks * 36)
         );
     }
 
@@ -281,7 +269,8 @@ class PopulationCalculator
      */
     public function getPopulationBirth(Dominion $dominion): int
     {
-        return round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
+        $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
+        return $populationBirth - $this->getPeasantsSacrified($dominion);
     }
 
     /**
@@ -292,21 +281,43 @@ class PopulationCalculator
      */
     public function getPopulationBirthRaw(Dominion $dominion): float
     {
-        $birth = 0;
-        $growthFactor = 0;
-
-        // Values (percentages)
-
-        // Growth only if food > 0.
-        if($dominion->resource_food > 0)
+        // Growth only if food > 0 or race doesn't eat food.
+        if($dominion->resource_food > 0 or $race->getPerkMultiplier('food_consumption') == -1)
         {
-          $growthFactor += 0.03;
+          $growthFactor = 0.03;
         }
 
         // Population births
-        $birth += (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor);
+        $birth = (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor);
 
         return $birth;
+    }
+
+    /**
+     * Demon: Returns the amount of peasants sacrificed.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getPeasantsSacrified(Dominion $dominion): float
+    {
+        $peasantsSacrified = 0;
+        if($dominion->race->name !== 'Demon')
+        {
+          return $peasantsSacrified;
+        }
+
+        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        {
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifies_peasants'))
+          {
+            $sacrificingUnits = $dominion->{"military_unit".$slot};
+            $peasantsSacrifiedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifies_peasants');
+            $peasantsSacrified += floor($sacrificingUnits * $peasantsSacrifiedPerUnit);
+          }
+        }
+
+        return $peasantsSacrified;
     }
 
     /**
