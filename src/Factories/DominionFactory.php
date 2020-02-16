@@ -253,7 +253,7 @@ class DominionFactory
             $startingResources['boats'] = 0;
 
             # Starting units for Barbarians
-            $dpaTarget = $acresBase * 20;
+            $dpaTarget = 20;
             $dpaTargetSpecsRatio = rand(50,100)/100;
             $dpaTargetElitesRatio = 1-$dpaTargetSpecsRatio;
             $dpRequired = $acresBase * $dpaTarget;
@@ -263,10 +263,10 @@ class DominionFactory
             $opaTargetElitesRatio = 1-$opaTargetSpecsRatio;
             $opRequired = $acresBase * $opaTarget;
 
-            $startingResources['unit1'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
+            $startingResources['unit1'] = floor(($opRequired * $opaTargetSpecsRatio)/3);
             $startingResources['unit2'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
             $startingResources['unit3'] = floor(($dpRequired * $dpaTargetElitesRatio)/5);
-            $startingResources['unit4'] = floor(($dpRequired * $opaTargetElitesRatio)/5);
+            $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
 
             $startingResources['protection_ticks'] = 0;
           }
