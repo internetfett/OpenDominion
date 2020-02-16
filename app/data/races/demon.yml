@@ -16,6 +16,7 @@ converting: 1
 perks:
   mana_production: 15
   population_growth: 15
+  can_invest_soul: 1
 units:
   - name: Fiend
     need_boat: true
