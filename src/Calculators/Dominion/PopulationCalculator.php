@@ -269,7 +269,7 @@ class PopulationCalculator
      */
     public function getPopulationBirth(Dominion $dominion): int
     {
-        return = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
+        return round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
     }
 
     /**
