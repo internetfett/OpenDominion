@@ -303,10 +303,10 @@ class PopulationCalculator
         $peasantsSacrified = 0;
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifies_peasants'))
+          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants'))
           {
             $sacrificingUnits = $dominion->{"military_unit".$slot};
-            $peasantsSacrifiedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifies_peasants');
+            $peasantsSacrifiedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants');
             $peasantsSacrified += floor($sacrificingUnits * $peasantsSacrifiedPerUnit);
           }
         }
