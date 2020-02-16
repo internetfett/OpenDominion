@@ -302,11 +302,6 @@ class PopulationCalculator
     public function getPeasantsSacrified(Dominion $dominion): float
     {
         $peasantsSacrified = 0;
-        if($dominion->race->name !== 'Demon')
-        {
-          return $peasantsSacrified;
-        }
-
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifies_peasants'))
