@@ -122,7 +122,7 @@ class DominionFactory
         # RESOURCES
         $startingResources['platinum'] = 3000000; # Unit training costs
         $startingResources['platinum'] += 1000000; # Construction
-        $startingResources['platinum'] += 1000000; # Rezoning
+        $startingResources['platinum'] += 500000; # Rezoning
         $startingResources['ore'] = intval(3000000 * 0.15); # For troops: 15% of plat for troops in ore
 
         $startingResources['gems'] = 20000;
