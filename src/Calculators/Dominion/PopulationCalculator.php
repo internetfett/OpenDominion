@@ -369,9 +369,12 @@ class PopulationCalculator
      */
     public function getPopulationPeasantGrowth(Dominion $dominion): int
     {
+
+        $peasantsSacrified = $this->getPeasantsSacrified($dominion);
+
         $maximumPeasantDeath = ((-0.05 * $dominion->peasants) - $this->getPopulationDrafteeGrowth($dominion));
         $roomForPeasants = ($this->getMaxPopulation($dominion) - $this->getPopulation($dominion) - $this->getPopulationDrafteeGrowth($dominion));
-        $currentPopulationChange = ($this->getPopulationBirth($dominion) - $this->getPopulationDrafteeGrowth($dominion) - $this->getPeasantsSacrified($dominion));
+        $currentPopulationChange = ($this->getPopulationBirth($dominion) - $this->getPopulationDrafteeGrowth($dominion));
 
         $maximumPopulationChange = min($roomForPeasants, $currentPopulationChange);
 
