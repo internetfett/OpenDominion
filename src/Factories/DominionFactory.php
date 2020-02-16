@@ -252,10 +252,21 @@ class DominionFactory
             $startingResources['boats'] = 0;
 
             # Starting units for Barbarians
-            $startingResources['unit1'] = 33;
-            $startingResources['unit1'] = 33;
-            $startingResources['unit1'] = 33;
-            $startingResources['unit1'] = 33;
+            $dpaTarget = $acresBase * 20 * $npcModifier;
+            $dpaTargetSpecsRatio = rand(50,100)/100;
+            $dpaTargetElitesratio = 1-$dpaTargetSpecsRatio;
+            $dpRequired = $acresBase * $dpaTarget;
+
+
+            $opaTarget = $acresBase * 20 * $npcModifier * 0.75;
+            $opaTargetSpecsRatio = rand(50,100)/100;
+            $opaTargetElitesratio = 1-$dpaTargetSpecsRatio;
+            $opRequired = $acresBase * $dpaTarget;
+
+            $startingResources['unit1'] = $opRequired * $opaTargetSpecsRatio;
+            $startingResources['unit2'] = $dpRequired * $dpaTargetSpecsRatio;
+            $startingResources['unit3'] = $dpRequired * $dpaTargetElitesratio;
+            $startingResources['unit4'] = $opRequired * $opaTargetElitesratio;
           }
         }
 
