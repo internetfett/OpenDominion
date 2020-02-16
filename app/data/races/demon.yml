@@ -47,7 +47,7 @@ units:
       defense: 6
     perks:
       fewer_casualties: 50
-      sacrifices_peasants: 0.002 # 1/0.002=Every 500 Devils sacrifice one Peasant per tick
+      sacrifices_peasants: 0.02 # 1/0.02=Every 50 Devils sacrifice one Peasant per tick
   - name: Archdemon
     type: hybrid_elite
     need_boat: false
