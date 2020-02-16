@@ -49,6 +49,7 @@ units:
       defense: 7
     perks:
       only_dies_vs_raw_power: 6 # >=
+      eats_peasants_on_attack: 0.05 # Each Smasher eats 0.1 peasant on attack.
   - name: Mountain Troll
     type: hybrid_elite
     cost:
@@ -58,6 +59,6 @@ units:
       offense: 12
       defense: 12
     perks:
-      eats_peasants_on_offense: 0.1 # Each Mountain Troll eats 0.1 peasant on attack.
-      eats_draftees_on_offense: 0.1 # Each Mountain Troll eats 0.1 draftee on attack.
+      eats_peasants_on_attack: 0.1 # Each Smasher eats 0.1 peasant on attack.
+      eats_draftees_on_attack: 0.1 # Each Mountain Troll eats 0.1 draftee on attack.
       only_dies_vs_raw_power: 8 # >=

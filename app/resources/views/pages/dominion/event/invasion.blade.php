@@ -257,6 +257,26 @@
                                 </p>
                             @endif
 
+                            @if (isset($event->data['attacker']['peasants_eaten']))
+                              @if ($event->source->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                              @else
+                                <p class="text-center text-red">
+                              @endif
+                                  <strong>{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</strong> peasants were eaten alive.</p>
+                                </p>
+                            @endif
+
+                            @if (isset($event->data['attacker']['draftees_eaten']))
+                              @if ($event->source->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                              @else
+                                <p class="text-center text-red">
+                              @endif
+                                  <strong>{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</strong> draftees were eaten alive.</p>
+                                </p>
+                            @endif
+
 
                             @if (isset($event->data['attacker']['improvements_damage']))
                               @if ($event->source->id === $selectedDominion->id)

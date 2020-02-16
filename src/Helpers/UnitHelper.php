@@ -185,6 +185,9 @@ class UnitHelper
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
             'dies_into' => 'Upon death, returns as a %s.',
 
+            'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
+            'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
+
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',

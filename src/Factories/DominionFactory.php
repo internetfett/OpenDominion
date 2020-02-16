@@ -79,7 +79,7 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
-        $startingResources['protection_ticks'] = 40;
+        $startingResources['protection_ticks'] = 80;
 
         /*  ROUND 17: New Protection:
 
@@ -120,10 +120,10 @@ class DominionFactory
         */
 
         # RESOURCES
-        $startingResources['platinum'] = 3000000; # Unit training costs
-        $startingResources['platinum'] += 1000000; # Construction
+        $startingResources['platinum'] = 2000000; # Unit training costs
+        $startingResources['platinum'] += 500000; # Construction
         $startingResources['platinum'] += 500000; # Rezoning
-        $startingResources['ore'] = intval(3000000 * 0.15); # For troops: 15% of plat for troops in ore
+        $startingResources['ore'] = intval(2000000 * 0.05); # For troops: 5% of plat for troops in ore
 
         $startingResources['gems'] = 20000;
 
@@ -257,11 +257,11 @@ class DominionFactory
           $startingResources['mana'] *= 2;
         }
 
-        // Dimensionalists: starts with 333 Summoners and extra mana.
+        // Dimensionalists: starts with 33 Summoners and double mana.
         if($race->name == 'Dimensionalists')
         {
           $startingResources['unit1'] = 33;
-          $startingResources['mana'] = 40.0 * $acresBase;
+          $startingResources['mana'] *= 2;
         }
 
         // Snow Elf: starting yetis.
