@@ -311,7 +311,6 @@ class PopulationCalculator
             $peasantsSacrified += floor($sacrificingUnits * $peasantsSacrifiedPerUnit);
           }
         }
-
         return min($dominion->peasants, $peasantsSacrified);
     }
 
@@ -373,7 +372,6 @@ class PopulationCalculator
         $maximumPeasantDeath = ((-0.05 * $dominion->peasants) - $this->getPopulationDrafteeGrowth($dominion));
         $roomForPeasants = ($this->getMaxPopulation($dominion) - $this->getPopulation($dominion) - $this->getPopulationDrafteeGrowth($dominion));
         $currentPopulationChange = ($this->getPopulationBirth($dominion) - $this->getPopulationDrafteeGrowth($dominion));
-        $currentPopulationChange -= $this->getPeasantsSacrified($dominion);
 
         $maximumPopulationChange = min($roomForPeasants, $currentPopulationChange);
 
