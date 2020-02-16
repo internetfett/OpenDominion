@@ -706,6 +706,9 @@ class TickService
         $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
         $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
 
+        #$tick->resource_soul_production += $this->productionCalculator->getSoulProduction($dominion);
+        $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
+
         $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
 
         // Check for starvation before adjusting food

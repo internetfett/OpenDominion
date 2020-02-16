@@ -1094,5 +1094,27 @@ class ProductionCalculator
             return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
         }
 
-    //</editor-fold>
+        /**
+         * Returns the Dominion's net wild yeti change.
+         *
+         * @param Dominion $dominion
+         * @return int
+         */
+        public function getWildYetiNetChange(Dominion $dominion): int
+        {
+            #return intval($this->getWildYetiProduction($dominion));
+            return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
+        }
+
+        /**
+         * Returns the Dominion's soul production, based on peasants sacrified.
+         *
+         * @param Dominion $dominion
+         * @return float
+         */
+        public function getSoulProduction(Dominion $dominion): float
+        {
+            return $this->populationCalculator->getPeasantsSacrified($dominion);
+        }
+
 }
