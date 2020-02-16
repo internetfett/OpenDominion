@@ -141,7 +141,7 @@ class CasualtiesCalculator
 
         # CHECK UNIT AND RACIAL CASUALTY MODIFIERS
 
-        if ($multiplier == 1)
+        if ($multiplier != 0)
         {
 
             // Non-Unit bonuses
@@ -299,7 +299,7 @@ class CasualtiesCalculator
 
         # END CHECK ONLY DIES VS X RAW POWER
 
-        if ($multiplier !== 0)
+        if ($multiplier != 0)
         {
             // Non-unit bonuses (hero, tech, wonders), capped at -80%
             #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
