@@ -298,7 +298,7 @@ class PopulationCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getPeasantsSacrified(Dominion $dominion): float
+    public function getPeasantsSacrified(Dominion $dominion): int
     {
         $peasantsSacrified = 0;
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
@@ -310,6 +310,7 @@ class PopulationCalculator
             $peasantsSacrified += floor($sacrificingUnits * $peasantsSacrifiedPerUnit);
           }
         }
+        
         return min($dominion->peasants, $peasantsSacrified);
     }
 
