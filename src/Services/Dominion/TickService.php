@@ -663,8 +663,6 @@ class TickService
         }
 
         $tick->peasants = $populationPeasantGrowth;
-        $tick->peasants -= $this->populationCalculator->getPeasantsSacrified($dominion);
-
         $tick->military_draftees = $drafteesGrowthRate;
 
         // Resources
