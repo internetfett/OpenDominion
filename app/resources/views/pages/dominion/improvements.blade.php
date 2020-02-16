@@ -125,8 +125,7 @@
                             <select name="resource" class="form-control">
                                 @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                                 <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
-                                @else
-                                @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
+                                @elseif ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
                                 <option value="mana" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
                                 @else
                                 <option value="gems" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
