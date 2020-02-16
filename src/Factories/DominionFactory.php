@@ -79,23 +79,60 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
-        $startingResources['protection_ticks'] = 80;
+        $startingResources['protection_ticks'] = 40;
+
+        /*  ROUND 17: New Protection:
+
+            1. Unit Costs
+            --------------------------------------
+            Average cost of 20 DPA at 1000 acres:
+            Human: 2000*3 + 2000*7 = 20,000 DP -- 2000 * 275 + 2000 * 1000 = 2,550,000 platinum
+            Goblin: 6666*3 = 19,999 DP -- 6666 * 350 = 2,333,100 platinum
+            Simian: 2000*3 + 2000*7 = 20,000 DP -- 2000 * 200 + 2000 * 1200 = 2,800,000 platinum
+
+            Average = (2,550,000 + 2,333,100 + 2,800,000) = 2,561,033
+            Max smithies = 2,561,033 * 0.6 = 1,536,619
+
+            Average cost of 20 OPA at 1000 acres:
+            Human: 2500 * 7 * (1+5%+10%) = 20,125 OP -- 2500 * 1250 = 3,125,000 platinum
+            Goblin: (2100 * 4 + 1800 * 5) * (1+5%+10%) = 20,010 OP -- 2100 * 600 + 1800 * 700 = 2,520,000 platinum
+            Simian: 2750 * 7 * (1+5%) = 20,212.5 OP -- 2750 * 1200 = 3,300,000 platinum
+
+            Average = (3,125,000 + 2,520,000 + 3,300,000) = 2,981,666
+            Max smithies = 2,981,666 * 0.6 = 1,788,999
+
+            Total with max Smithies = 1,536,619 + 1,788,999 = 3,325,618
+
+            Platinum for troops = 3,000,000
+
+            2. Construction costs
+            --------------------------------------
+            Cost of building 1,000 acres:
+            Platinum: 1000 * (250+(1000*1.5)) = 1,750,000
+            Lumber: 1000 * (100+(1000-250)*(3.14/10)) = 335,500
+
+            3. Rezoning costs
+            --------------------------------------
+            Cost of building 1,000 acres:
+            Platinum: 1000 * (1000-250*0.06+250) = 1,235,000
+
+
+        */
 
         # RESOURCES
-        $platForTroops = 200.0 * $acresBase; # For troops: 800000/600x1000=1,333,333 - Assuming people aiming for 800,000 plat hour 61 at 600 acres in OD
-        $startingResources['platinum'] = 200.0 * $acresBase * 0.75; # For buildings: (850+(1000-250)*1.53)*1000=1,997,500 - As of round 11, reduced by 25%
-        $startingResources['platinum'] += 35.0 * $acresBase; # For rezoning: ((1000 - 250) * 0.6 + 250)*500 = 350,000
-        $startingResources['platinum'] += $platForTroops;
-        $startingResources['ore'] = intval($platForTroops * 0.15); # For troops: 15% of plat for troops in ore
+        $startingResources['platinum'] = 3000000; # Unit training costs
+        $startingResources['platinum'] += 1000000; # Construction
+        $startingResources['platinum'] += 1000000; # Rezoning
+        $startingResources['ore'] = intval(3000000 * 0.15); # For troops: 15% of plat for troops in ore
 
-        $startingResources['gems'] = 2.0 * $acresBase;
+        $startingResources['gems'] = 20000;
 
-        $startingResources['lumber'] = 355 * $acresBase * 0.75 * 0.50; # For buildings: (88+(1000-250)*0.35)*1000 = 350,500 - As of round 11, reduced by 25% - As of round 17, reduced by 50% due to longer protection
+        $startingResources['lumber'] = 200000; # For buildings
 
-        $startingResources['food'] = 50 * $acresBase; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
-        $startingResources['mana'] = 20 * $acresBase; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
+        $startingResources['food'] = 50000; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
+        $startingResources['mana'] = 20000; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
 
-        $startingResources['boats'] = 0.02 * $acresBase;
+        $startingResources['boats'] = 100;
 
         $startingResources['soul'] = 0;
 
@@ -108,7 +145,7 @@ class DominionFactory
         $startingResources['prestige'] = intval($acresBase/2);
 
         # POPULATION AND MILITARY
-        $startingResources['peasants'] = intval(1000 * 15 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
+        $startingResources['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
         $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
         $startingResources['peasants'] -= intval($startingResources['draftees']);
         $startingResources['draft_rate'] = 40;
@@ -175,7 +212,6 @@ class DominionFactory
         // Still gets plat for troops.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
-          $startingResources['platinum'] = $platForTroops;
           $startingResources['platinum'] += $startingResources['lumber'] / 2;
           $startingResources['lumber'] = 0;
         }
@@ -186,7 +222,7 @@ class DominionFactory
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 400.0; #1000 * 4 * 96;
+          $startingResources['food'] = $acresBase * 400.0;
           $startingResources['draft_rate'] = 100;
         }
 
