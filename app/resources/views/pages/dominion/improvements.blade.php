@@ -127,7 +127,7 @@
                                 <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
                                 @else
                                   @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
-                                  <option value="mana" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
+                                  <option value="soul" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
                                   @endif
                                 <option value="gems" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
                                 <option value="lumber" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
