@@ -400,7 +400,7 @@ class DominionFactory
 
             'protection_ticks' => $startingResources['protection_ticks'],
 
-            'royal_guard_active_at' => $startingLand['royal_guard_active_at'],
+            'royal_guard_active_at' => $startingResources['royal_guard_active_at'],
         ]);
     }
 
