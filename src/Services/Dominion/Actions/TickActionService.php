@@ -71,7 +71,7 @@ class TickActionService
 
         $this->notificationService->sendNotifications($dominion, 'irregular_dominion');
         return [
-            'message' => 'One tick has been processed. You now have ' . $dominion->protection_ticks . ' left.',
+            'message' => 'One tick has been processed. You now have ' . $dominion->protection_ticks . ' tick(s) left.',
             'alert-type' => 'success',
             'redirect' => route('dominion.status')
         ];
