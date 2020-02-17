@@ -143,6 +143,8 @@ class DominionFactory
         $startingResources['npc_modifier'] = $npcModifier;
 
         $startingResources['prestige'] = intval($acresBase/2);
+        
+        $startingResources['royal_guard_active_at'] = NULL;
 
         # POPULATION AND MILITARY
         $startingResources['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
@@ -305,6 +307,7 @@ class DominionFactory
             $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
 
             $startingResources['protection_ticks'] = 0;
+            $startingResources['royal_guard_active_at'] = now();
           }
         }
 
@@ -396,6 +399,8 @@ class DominionFactory
             'npc_modifier' => $startingResources['npc_modifier'],
 
             'protection_ticks' => $startingResources['protection_ticks'],
+
+            'royal_guard_active_at' => $startingLand['royal_guard_active_at'];
         ]);
     }
 
