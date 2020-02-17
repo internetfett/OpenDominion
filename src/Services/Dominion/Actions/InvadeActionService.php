@@ -1512,11 +1512,12 @@ class InvadeActionService
       */
       foreach($returningUnits as $unitKey => $returningAmount)
       {
+          $slot = intval(str_replace('military_unit','',$unitKey));
           $this->queueService->queueResources(
               'invasion',
               $dominion,
               [$unitKey => $returningAmount],
-              $this->getUnitReturnHoursForSlot($dominion, $i)
+              $this->getUnitReturnHoursForSlot($dominion, $slot)
           );
       }
     }
