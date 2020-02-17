@@ -1464,10 +1464,10 @@ class InvadeActionService
     protected function handleReturningUnits(Dominion $dominion, array $units, array $convertedUnits): void
     {
         $returningUnits = [
-          'military_unit1' = 0,
-          'military_unit2' = 0,
-          'military_unit3' = 0,
-          'military_unit4' = 0,
+          'military_unit1' => 0,
+          'military_unit2' => 0,
+          'military_unit3' => 0,
+          'military_unit4' => 0,
         ];
 
         for ($i = 1; $i <= 4; $i++)
