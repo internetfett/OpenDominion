@@ -62,9 +62,11 @@
                                                     <div class="col-lg-4">
                                                         <p>
                                                             <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                            <strong>{{ $race->name }}</strong> (so far: {{ $countRace[$race->name] }})
+                                                            <strong>{{ $race->name }}</strong>
                                                             &nbsp;&mdash;&nbsp;
                                                         <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                        &nbsp;&mdash;&nbsp;
+                                                        ({{ $countRace[$race->name] }})
                                                       </p>
                                                     </div>
 
