@@ -662,7 +662,7 @@ class TickService
             $populationPeasantGrowth -= $amountToDie;
         }
 
-        $tick->peasants_sacrificed = $this->populationCalculator->getPeasantsSacrificed($dominion);
+        $tick->peasants_sacrificed = $this->populationCalculator->getPeasantsSacrificed($dominion) * -1;
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
@@ -985,7 +985,7 @@ class TickService
                     ->where('dominions.is_locked', false)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
-                        'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants - dominion_tick.peasants_sacrificed'),
+                        'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants + dominion_tick.peasants_sacrificed'),
                         'dominions.peasants_last_hour' => DB::raw('dominion_tick.peasants'),
                         'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
