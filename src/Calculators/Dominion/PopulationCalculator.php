@@ -299,19 +299,19 @@ class PopulationCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getPeasantsSacrified(Dominion $dominion): int
+    public function getPeasantsSacrificed(Dominion $dominion): int
     {
-        $peasantsSacrified = 0;
+        $peasantsSacrificed = 0;
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
           if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants'))
           {
             $sacrificingUnits = $dominion->{"military_unit".$unitSlot};
-            $peasantsSacrifiedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants');
-            $peasantsSacrified += floor($sacrificingUnits * $peasantsSacrifiedPerUnit);
+            $peasantsSacrificedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants');
+            $peasantsSacrificed += floor($sacrificingUnits * $peasantsSacrificedPerUnit);
           }
         }
-        return min($dominion->peasants, $peasantsSacrified);
+        return min($dominion->peasants, $peasantsSacrificed);
     }
 
     /**
@@ -370,10 +370,10 @@ class PopulationCalculator
     public function getPopulationPeasantGrowth(Dominion $dominion): int
     {
 
-        $peasantsSacrified = $this->getPeasantsSacrified($dominion);
-
         $maximumPeasantDeath = ((-0.05 * $dominion->peasants) - $this->getPopulationDrafteeGrowth($dominion));
+
         $roomForPeasants = ($this->getMaxPopulation($dominion) - $this->getPopulation($dominion) - $this->getPopulationDrafteeGrowth($dominion));
+
         $currentPopulationChange = ($this->getPopulationBirth($dominion) - $this->getPopulationDrafteeGrowth($dominion));
 
         $maximumPopulationChange = min($roomForPeasants, $currentPopulationChange);

@@ -1095,14 +1095,14 @@ class ProductionCalculator
         }
 
         /**
-         * Returns the Dominion's soul production, based on peasants sacrified.
+         * Returns the Dominion's soul production, based on peasants sacrificed.
          *
          * @param Dominion $dominion
          * @return float
          */
         public function getSoulProduction(Dominion $dominion): float
         {
-            return $this->populationCalculator->getPeasantsSacrified($dominion);
+            return $this->populationCalculator->getPeasantsSacrificed($dominion);
         }
 
 }
