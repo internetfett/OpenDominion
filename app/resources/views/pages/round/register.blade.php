@@ -46,7 +46,7 @@
                                     <h2>The Commonwealth</h2>
                                     <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
 
-                                    <p>So far, 
+                                    <p>So far,
                                     @if(isset($countAlignment['good']))
                                       {{ number_format($countAlignment['good']) }}
                                     @else
@@ -62,7 +62,7 @@
                                                     <div class="col-lg-4">
                                                         <p>
                                                             <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                            <strong>{{ $race->name }}</strong>
+                                                            <strong>{{ $race->name }}</strong> (so far: {{ $countRace[$race->name] }})
                                                             &nbsp;&mdash;&nbsp;
                                                         <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
                                                       </p>
