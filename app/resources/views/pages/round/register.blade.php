@@ -54,6 +54,9 @@
                                     @endif
                                      dominions have joined the Commonwealth this round.</p>
                                   </div>
+                                    @php
+                                    dd($countRaces)
+                                    @endphp
 
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                         <div class="col-xs-12">
