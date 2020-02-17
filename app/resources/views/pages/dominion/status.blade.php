@@ -256,10 +256,10 @@
                     <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Protection</h3>
                 </div>
                   <div class="box-body">
-                      <p>You are under a magical state of protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }}.</p>
+                      <p>You are under a magical state of protection. You have <b>{{ $selectedDominion->protection_ticks }}</b> protection {{ str_plural('tick', $selectedDominion->protection_ticks) }} left.</p>
                       <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
+                      <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
                       <p>Click the button below to proceed to the next tick.</p>
-
                       <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
                       @csrf
                       <button type="submit"

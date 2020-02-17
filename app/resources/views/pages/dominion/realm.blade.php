@@ -73,7 +73,7 @@
                                             @endif
 
                                             @if ($protectionService->isUnderProtection($dominion))
-                                                <i class="ra ra-shield ra-lg text-aqua" title="Under Protection"></i>
+                                                <i class="ra ra-shield ra-lg text-aqua" title="{{ $dominion->protection_ticks }} protection tick(s) left"></i>
                                             @endif
 
                                             @if ($guardMembershipService->isEliteGuardMember($dominion))
