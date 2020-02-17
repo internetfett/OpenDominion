@@ -66,7 +66,7 @@
                                                             &nbsp;&mdash;&nbsp;
                                                         <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
                                                         &nbsp;&mdash;&nbsp;
-                                                        ({{ $countRace[$race->name] }})
+                                                        ({{ $countRaces[$race->name] }})
                                                       </p>
                                                     </div>
 
