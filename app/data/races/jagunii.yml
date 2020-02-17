@@ -46,6 +46,7 @@ units:
       does_not_count_as_population: 1
       food_consumption: 0.25
       fewer_casualties: 50
+      faster_return: 6
   - name: War Mammoth
     need_boat: true
     cost:
