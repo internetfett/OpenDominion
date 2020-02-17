@@ -321,7 +321,7 @@
 
                       @if($round->hasStarted())
                       <p>This round has already started and ends {{ $round->end_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
-                      <p>Protection lasts seven hours and starts immediately when you click the Register button.</p>
+                      <p>As you register, you get 80 protection ticks which you must manually tick through before leave protection and can join the fight.</p>
                       <p>To help you get going, you will get 1% extra starting resources for every hour since the round started (max +100%).</p>
 
                         @if ($discordInviteLink = config('app.discord_invite_link'))
@@ -330,8 +330,7 @@
 
                       @else
                       <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
-                      <p>Protection lasts seven hours.</p>
-                      <p>If 12:00 to 19:00 UTC are not convenient hours for you, consider registering a little later. To compensate, you get 1% extra starting resources for every hour late you join (max +100%).</p>
+                      <p>As you register, you get 80 protection ticks which you must manually tick through before leave protection and can join the fight.</p>
 
                         @if ($discordInviteLink = config('app.discord_invite_link'))
                         <p>In the meantime, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
