@@ -1463,30 +1463,66 @@ class InvadeActionService
      */
     protected function handleReturningUnits(Dominion $dominion, array $units, array $convertedUnits): void
     {
-        for ($i = 1; $i <= 4; $i++) {
+        $returningUnits = [
+          'military_unit1' = 0,
+          'military_unit2' = 0,
+          'military_unit3' = 0,
+          'military_unit4' = 0,
+        ];
+
+        for ($i = 1; $i <= 4; $i++)
+        {
+
             $unitKey = "military_unit{$i}";
             $returningAmount = 0;
 
-            if (array_key_exists($i, $units)) {
+            if (array_key_exists($i, $units))
+            {
                 $returningAmount += $units[$i];
                 $dominion->$unitKey -= $units[$i];
             }
 
-            if (array_key_exists($i, $convertedUnits)) {
+            if (array_key_exists($i, $convertedUnits))
+            {
                 $returningAmount += $convertedUnits[$i];
             }
 
-            if ($returningAmount === 0) {
+            if ($returningAmount === 0)
+            {
                 continue;
             }
-
-            $this->queueService->queueResources(
-                'invasion',
-                $dominion,
-                [$unitKey => $returningAmount],
-                $this->getUnitReturnHoursForSlot($dominion, $i)
-            );
+            $returningUnits[$i] = $amount;
         }
+
+        # Look for dies_into amongst the dead.
+        foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
+        {
+          $unitKey = "military_unit{$slot}";
+          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+          {
+            # Which unit do they die into?
+            $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
+
+            $returningUnits[$newUnitSlot] += $casualties;
+          }
+        }
+        /*
+        $this->queueService->queueResources(
+            'invasion',
+            $dominion,
+            [$unitKey => $returningAmount],
+            $this->getUnitReturnHoursForSlot($dominion, $i)
+        );
+      */
+      foreach($returningUnits as $unitKey => $returningAmount)
+      {
+          $this->queueService->queueResources(
+              'invasion',
+              $dominion,
+              [$unitKey => $returningAmount],
+              $this->getUnitReturnHoursForSlot($dominion, $i)
+          );
+      }
     }
 
     /**
