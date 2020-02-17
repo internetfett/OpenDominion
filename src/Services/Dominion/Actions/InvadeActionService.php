@@ -353,7 +353,7 @@ class InvadeActionService
             $this->handleInvasionSpells($dominion, $target);
             $this->handleSoulCollection($dominion, $target);
             $this->handleChampionCreation($dominion, $target, $units);
-            $this->handleUnitDiesInto($dominion, $target, $units);
+            #$this->handleUnitDiesInto($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1472,7 +1472,6 @@ class InvadeActionService
 
         for ($i = 1; $i <= 4; $i++)
         {
-
             $unitKey = "military_unit{$i}";
             $returningAmount = 0;
 
@@ -1487,11 +1486,7 @@ class InvadeActionService
                 $returningAmount += $convertedUnits[$i];
             }
 
-            if ($returningAmount === 0)
-            {
-                continue;
-            }
-            $returningUnits[$i] = $amount;
+            $returningUnits[$unitKey] = $returningAmount;
         }
 
         # Look for dies_into amongst the dead.
@@ -1502,8 +1497,9 @@ class InvadeActionService
           {
             # Which unit do they die into?
             $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
+            $newUnitKey = "military_unit{$newUnitSlot}";
 
-            $returningUnits[$newUnitSlot] += $casualties;
+            $returningUnits[$newUnitKey] += $casualties;
           }
         }
         /*
@@ -1795,7 +1791,7 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-
+/*
     protected function handleUnitDiesInto(Dominion $attacker, Dominion $defender, array $units): void
     {
         # Check attacker's units.
@@ -1828,7 +1824,7 @@ class InvadeActionService
           }
         }
     }
-
+*/
     /**
      * Check whether the invasion is successful.
      *
