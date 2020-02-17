@@ -143,7 +143,7 @@ class DominionFactory
         $startingResources['npc_modifier'] = $npcModifier;
 
         $startingResources['prestige'] = intval($acresBase/2);
-        
+
         $startingResources['royal_guard_active_at'] = NULL;
 
         # POPULATION AND MILITARY
@@ -400,7 +400,7 @@ class DominionFactory
 
             'protection_ticks' => $startingResources['protection_ticks'],
 
-            'royal_guard_active_at' => $startingLand['royal_guard_active_at'];
+            'royal_guard_active_at' => $startingLand['royal_guard_active_at'],
         ]);
     }
 
