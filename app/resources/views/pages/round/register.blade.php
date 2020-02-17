@@ -67,8 +67,8 @@
                                                         <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
                                                         &nbsp;&mdash;&nbsp;
                                                         <p>Currently:&nbsp;
-                                                        @if(isset($countAlignment['good']))
-                                                          {{ number_format($countAlignment['good']) }}
+                                                        @if(isset($countRaces[$race->name]))
+                                                          {{ number_format($countRaces[$race->name]) }}
                                                         @else
                                                         0
                                                         @endif
@@ -122,6 +122,13 @@
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
                                                     <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                    &nbsp;&mdash;&nbsp;
+                                                    <p>Currently:&nbsp;
+                                                    @if(isset($countRaces[$race->name]))
+                                                      {{ number_format($countRaces[$race->name]) }}
+                                                    @else
+                                                    0
+                                                    @endif
                                                   </p>
                                                 </div>
 
@@ -164,6 +171,13 @@
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
                                                     <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                    &nbsp;&mdash;&nbsp;
+                                                    <p>Currently:&nbsp;
+                                                    @if(isset($countRaces[$race->name]))
+                                                      {{ number_format($countRaces[$race->name]) }}
+                                                    @else
+                                                    0
+                                                    @endif
                                                   </p>
                                                 </div>
 
