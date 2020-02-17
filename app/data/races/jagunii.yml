@@ -5,7 +5,7 @@ description: >-
   <p>The warriors chosen for duty with a War Mammoth commit themselves to a lifelong service &mdash; until glorious death in battle make them part ways. When its warriors die and armour shatters in battle, the Mammoth returns home and can be retrained as a War Mammoth.</p>
   <p>Each War Mammoth fits in its armour four Javalineers and four Lancers.</p>
 home_land_type: hill
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3

@@ -5,7 +5,7 @@ description: >-
   <p>Each unit is unique but they work best together and form Aether.</p>
   <p>Disturbed by the unnatural movements of the Empire, the Elementals have sided with the Commonwealth to restore what they believe to be natural balance.</p>
 home_land_type: water
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3
