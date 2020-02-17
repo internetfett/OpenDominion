@@ -7,7 +7,7 @@ description: >-
   <hr />
   <p>Starts with 3,000 Souls and 1 Archdemon.</p>
 home_land_type: mountain
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 1
