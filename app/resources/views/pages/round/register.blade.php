@@ -72,7 +72,6 @@
                                                         @else
                                                         0
                                                         @endif
-                                                      </div>
                                                       </p>
                                                     </div>
 
