@@ -295,10 +295,13 @@ class CasualtiesCalculator
               # Get the raw OP of each unit of $attacker.
               foreach ($attacker->race->units as $unit)
               {
-                  # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
-                  if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
+                  if(isset($units[$unit->slot]))
                   {
-                    $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
+                    # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
+                    if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') >= $minPowerToKill)
+                    {
+                      $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $dominion, $landRatio, $unit, 'offense') * $units[$unit->slot];
+                    }
                   }
               }
 
