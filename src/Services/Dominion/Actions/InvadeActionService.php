@@ -300,15 +300,21 @@ class InvadeActionService
             }
 
             // Imperial Gnome: check Factories cover Unit4
-            if($dominion->race->name == 'Imperial Gnome' and $units['4'] > $dominion->building_factory * 2)
+            if($dominion->race->name == 'Imperial Gnome' and isset($units['4']))
             {
-                throw new GameException('You do not have enough Factories to control that many machines on the battlefield. You must have at least one Factory for every two Airships sent on invasion (modified by Workshops improvements).');
+                if($units['4'] > $dominion->building_factory * 2)
+                {
+                  throw new GameException('You do not have enough Factories to control that many machines on the battlefield. You must have at least one Factory for every two Airships sent on invasion (modified by Workshops improvements).');
+                }
             }
 
             // Armada: check Docks cover Unit4
-            if($dominion->race->name == 'Armada' and $units['4'] > $dominion->building_dock * 2)
+            if($dominion->race->name == 'Armada' and isset($units['4']))
             {
-                throw new GameException('You do not have enough Docks to control that many ships on the battlefield. You must have at least one Dock for every two Siege Ships sent on invasion (modified by Harbor improvements).');
+                if($units['4'] > $dominion->building_dock * 2)
+                {
+                  throw new GameException('You do not have enough Docks to control that many ships on the battlefield. You must have at least one Dock for every two Siege Ships sent on invasion (modified by Harbor improvements).');
+                }
             }
 
             // Handle invasion results
