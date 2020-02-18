@@ -626,7 +626,7 @@ class TickService
              'military_unit4' => intval(($opToTrain * $elitesRatio) / $opUnit4),
            ];
 
-           // Train the units
+           // 50% chance the Barbarian train
            if(rand(1,2) == 1)
            {
              foreach($units as $unit => $amountToTrain)
