@@ -346,7 +346,7 @@ class InvadeActionService
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
-            $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units);
+            $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
@@ -716,7 +716,7 @@ class InvadeActionService
      * @param Dominion $target
      * @return int
      */
-    protected function handleDefensiveCasualties(Dominion $dominion, Dominion $target, array $units): int
+    protected function handleDefensiveCasualties(Dominion $dominion, Dominion $target, array $units, float $landRatio): int
     {
         if ($this->invasionResult['result']['overwhelmed'])
         {
