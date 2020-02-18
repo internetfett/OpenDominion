@@ -279,6 +279,7 @@ class CasualtiesCalculator
           {
               $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
               $opFromUnitsThatKill = 0;
+              $landRatio = $this->rangeCalculator->getDominionRange($dominion, $attacker) / 100; 
 
               # Get the raw OP of each unit of $attacker.
               foreach ($attacker->race->units as $unit)
