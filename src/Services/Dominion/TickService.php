@@ -89,7 +89,7 @@ class TickService
      */
     public function tickHourly()
     {
-        Log::debug('Hourly tick started');
+        Log::debug('Scheduled tick started');
 
         // Hourly tick
 
@@ -212,6 +212,7 @@ class TickService
                   DB::table('active_spells')
                       ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
+                      ->where('dominions.protection_ticks', '=', 0)
                       ->update([
                           'duration' => DB::raw('`duration` - 1'),
                           'active_spells.updated_at' => $this->now,
@@ -221,6 +222,7 @@ class TickService
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
+                      ->where('dominions.protection_ticks', '=', 0)
                       ->update([
                           'hours' => DB::raw('`hours` - 1'),
                           'dominion_queue.updated_at' => $this->now,
@@ -323,9 +325,9 @@ class TickService
         DB::transaction(function () {
             foreach (Round::with('dominions')->active()->get() as $round) {
                 // Ignore the first hour 0 of the round
-                if ($this->now->diffInHours($round->start_date) === 0) {
-                    continue;
-                }
+                #if ($this->now->diffInHours($round->start_date) === 0) {
+                #    continue;
+                #}
 
                 // toBase required to prevent ambiguous updated_at column in query
                 $round->dominions()->toBase()->update([
