@@ -8,6 +8,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
 
 class CasualtiesCalculator
 {
@@ -26,6 +27,9 @@ class CasualtiesCalculator
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
+    /** @var RangeCalculator */
+    protected $rangeCalculator;
+
     /**
      * CasualtiesCalculator constructor.
      *
@@ -33,8 +37,17 @@ class CasualtiesCalculator
      * @param PopulationCalculator $populationCalculator
      * @param SpellCalculator $spellCalculator
      * @param UnitHelper $unitHelper
+     * @param MilitaryCalculator $militaryCalculator
+     * @param RangeCalculator $rangeCalculator
      */
-    public function __construct(LandCalculator $landCalculator, PopulationCalculator $populationCalculator, SpellCalculator $spellCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator, MilitaryCalculator $militaryCalculator)
+    public function __construct(
+        LandCalculator $landCalculator,
+        PopulationCalculator $populationCalculator,
+        SpellCalculator $spellCalculator,
+        UnitHelper $unitHelper,
+        ImprovementCalculator $improvementCalculator,
+        MilitaryCalculator $militaryCalculator,
+        RangeCalculator $rangeCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->populationCalculator = $populationCalculator;
@@ -43,6 +56,7 @@ class CasualtiesCalculator
         $this->populationCalculator = $populationCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->militaryCalculator = $militaryCalculator;
+        $this->rangeCalculator = $rangeCalculator;
     }
 
     /**
@@ -279,7 +293,7 @@ class CasualtiesCalculator
           {
               $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
               $opFromUnitsThatKill = 0;
-              $landRatio = $this->rangeCalculator->getDominionRange($dominion, $attacker) / 100; 
+              $landRatio = $this->rangeCalculator->getDominionRange($dominion, $attacker) / 100;
 
               # Get the raw OP of each unit of $attacker.
               foreach ($attacker->race->units as $unit)
