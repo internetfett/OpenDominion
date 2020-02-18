@@ -1777,7 +1777,7 @@ class InvadeActionService
         {
           if($this->rangeCalculator->getDominionRange($attacker, $defender) >= 75)
           {
-            $champions = $units['attackerUnitsDiedInBattleSlot1'];
+            $champions = $this->$invasionResult['attacker']['unitsLost']['1'];
             $this->invasionResult['attacker']['champion']['champions'] = $champions;
 
             $this->queueService->queueResources(
