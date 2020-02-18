@@ -8,7 +8,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Calculators\Dominion\RangeCalculator;
+#use OpenDominion\Calculators\Dominion\RangeCalculator;
 
 class CasualtiesCalculator
 {
@@ -46,8 +46,7 @@ class CasualtiesCalculator
         SpellCalculator $spellCalculator,
         UnitHelper $unitHelper,
         ImprovementCalculator $improvementCalculator,
-        MilitaryCalculator $militaryCalculator,
-        RangeCalculator $rangeCalculator)
+        MilitaryCalculator $militaryCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->populationCalculator = $populationCalculator;
@@ -56,7 +55,6 @@ class CasualtiesCalculator
         $this->populationCalculator = $populationCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->militaryCalculator = $militaryCalculator;
-        $this->rangeCalculator = $rangeCalculator;
     }
 
     /**
@@ -293,7 +291,6 @@ class CasualtiesCalculator
           {
               $minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power');
               $opFromUnitsThatKill = 0;
-              $landRatio = $this->rangeCalculator->getDominionRange($dominion, $attacker) / 100;
 
               # Get the raw OP of each unit of $attacker.
               foreach ($attacker->race->units as $unit)

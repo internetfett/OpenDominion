@@ -778,7 +778,7 @@ class InvadeActionService
         }
         else
         {
-            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units) * $casualtiesMultiplier));
+            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
         }
 
         // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)
@@ -800,7 +800,7 @@ class InvadeActionService
                 continue;
             }
 
-            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units)) * $casualtiesMultiplier);
+            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio)) * $casualtiesMultiplier);
 
             if ($slotLost > 0) {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
