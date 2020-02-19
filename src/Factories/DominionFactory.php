@@ -43,12 +43,16 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
-        $npcModifier = 0;
+        $startingResources['npc_modifier'] = 0;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
-          # Barbarians start between 400 and 900 acres, randomly.
-          # Skewed towards smaller.
-          $npcModifier = min(1000,rand(400,1200)) / 1000;
+          # NPC modifier is a number from 500 to 1000 (skewed toward smaller).
+          # It is to be used as a multiplier but stored as an int in database.
+          $startingResources['npc_modifier'] = max(rand(300,1000), 500);
+
+          # For usage in this function, divide npc_modifier by 1000 to create a multiplier.
+          $npcModifier = $startingResources['npc_modifier'] / 1000;
+          
           $acresBase *= $npcModifier;
         }
 
@@ -139,8 +143,6 @@ class DominionFactory
         $startingResources['wild_yeti'] = 0;
 
         $startingResources['morale'] = 100;
-
-        $startingResources['npc_modifier'] = $npcModifier;
 
         $startingResources['prestige'] = intval($acresBase/2);
 

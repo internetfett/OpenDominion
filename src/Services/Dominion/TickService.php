@@ -91,10 +91,6 @@ class TickService
     {
         Log::debug('Scheduled tick started');
 
-        // Hourly tick
-
-        //DB::connection()->enableQueryLog();
-
         $activeRounds = Round::active()->get();
 
         foreach ($activeRounds as $round) {
