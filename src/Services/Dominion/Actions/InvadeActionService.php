@@ -358,7 +358,7 @@ class InvadeActionService
 
             $this->handleInvasionSpells($dominion, $target);
             $this->handleSoulCollection($dominion, $target);
-            $this->handleChampionCreation($dominion, $target, $units);
+            $this->handleChampionCreation($dominion, $target, $units, $landRatio);
             #$this->handleUnitDiesInto($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
@@ -1770,12 +1770,12 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units): void
+    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
     {
         $champions = 0;
         if ($attacker->race->name == 'Norse')
         {
-          if($this->rangeCalculator->getDominionRange($attacker, $defender) >= 75)
+          if($landRatio >= 75)
           {
             $champions = $this->invasionResult['attacker']['unitsLost']['1'];
             $this->invasionResult['attacker']['champion']['champions'] = $champions;
