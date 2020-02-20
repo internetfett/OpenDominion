@@ -14,6 +14,9 @@ converting: 3
 perks:
   all_units_trained_in_9hrs: 1
   max_population: 10
+  cannot_train_wizards: 1
+  cannot_train_spies: 1
+  cannot_train_archmages: 1
   food_consumption: -10
 units:
   - name: Fire
