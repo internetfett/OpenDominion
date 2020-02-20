@@ -1775,7 +1775,7 @@ class InvadeActionService
         $champions = 0;
         if ($attacker->race->name == 'Norse')
         {
-          if($landRatio >= 75)
+          if($landRatio >= 0.75)
           {
             $champions = $this->invasionResult['attacker']['unitsLost']['1'];
             $this->invasionResult['attacker']['champion']['champions'] = $champions;
