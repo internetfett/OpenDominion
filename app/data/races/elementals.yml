@@ -13,11 +13,8 @@ converting: 3
 
 perks:
   all_units_trained_in_9hrs: 1
-  cannot_train_spies: 1
-  cannot_train_wizards: 1
-  cannot_train_archmages: 1
   max_population: 10
-  food_production: -10
+  food_consumption: -10
 units:
   - name: Fire
     need_boat: true
@@ -30,6 +27,7 @@ units:
     perks:
       burns_peasants_on_attack: 0.15
       counts_as_wizard_offense: 0.15
+      immortal_wizard: 1
   - name: Water
     need_boat: false
     cost:
@@ -63,3 +61,4 @@ units:
     perks:
       reduce_combat_losses: 1
       counts_as_spy_offense: 0.15
+      immortal_spy: 1

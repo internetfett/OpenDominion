@@ -156,6 +156,7 @@ class UnitHelper
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
 
             'immortal_wizard' => 'Immortal wizard (cannot be killed when casting spells).',
+            'immortal_spy' => 'Immortal spy (cannot be killed when conducting espionage).',
 
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours).',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours).',
