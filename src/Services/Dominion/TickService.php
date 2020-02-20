@@ -714,7 +714,8 @@ class TickService
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
 
         // Starvation casualties
-        if (($dominion->resource_food + $foodNetChange) < 0) {
+        if (($dominion->resource_food + $foodNetChange) < 0)
+        {
             $isStarving = true;
             $casualties = $this->casualtiesCalculator->getStarvationCasualtiesByUnitType(
                 $dominion,
@@ -729,7 +730,10 @@ class TickService
 
             // Decrement to zero
             $tick->resource_food = -$dominion->resource_food;
-        } else {
+            $tick->resource_food = max(0, $tick->resource_food); # TEMPORARY
+        }
+        else
+        {
             // Food production
             $isStarving = false;
             $tick->resource_food += $foodNetChange;
