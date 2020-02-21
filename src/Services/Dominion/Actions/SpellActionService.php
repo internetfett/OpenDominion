@@ -684,15 +684,15 @@ class SpellActionService
                     {
                         $masonryLightningBoltReduction = 0.75;
                         $masonryLightningBoltReductionMax = 0.25;
-                        $damageMultiplier += min(
-                            (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $masonryLightningBoltReduction),
+                        $damageMultiplier -= min(
+                            (($target->building_masonry / $this->landCalculator->getTotalLand($target)) * $masonryLightningBoltReduction),
                             ($masonryLightningBoltReductionMax)
                         );
 
 
                         if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
                         {
-                          $damageMultiplier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+                          $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_lightning_bolts');
                         }
                     }
 
