@@ -52,7 +52,8 @@ class ImproveActionService
 
         $worth = $this->getImprovementWorth($dominion);
 
-        foreach ($data as $improvementType => $amount) {
+        foreach ($data as $improvementType => $amount)
+        {
             if ($amount === 0) {
                 continue;
             }
