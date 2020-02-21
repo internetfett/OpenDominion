@@ -668,14 +668,14 @@ class SpellActionService
 
                       $forestHavenFireballReduction = 8;
                       $forestHavenFireballReductionMax = 0.80;
-                          $damageMultiplier += min(
+                          $damageMultiplier -= min(
                             (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $forestHavenFireballReduction),
                             ($forestHavenFireballReductionMax)
                         );
 
                         if($target->race->getPerkMultiplier('damage_from_fireballs'))
                         {
-                          $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
+                          $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_fireballs');
                         }
                     }
 
