@@ -56,6 +56,8 @@ class ConstructActionService
     {
         $this->guardLockedDominion($dominion);
 
+        dd($data);
+
         if(!isset($data['building_tunnels']))
         {
 
