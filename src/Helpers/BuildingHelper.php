@@ -57,6 +57,10 @@ class BuildingHelper
           {
             $buildings = ['mycelia'];
           }
+          if($dominion->race->name == 'Swarm')
+          {
+            $buildings = ['tunnels'];
+          }
         }
 
       return $buildings;
@@ -176,6 +180,17 @@ class BuildingHelper
               'water' => [],
           ];
           }
+          elseif($dominion->race->name == 'Swarm')
+          {
+          $buildings = [
+              'plain' => ['tunnels'],
+              'mountain' => ['tunnels'],
+              'swamp' => ['tunnels'],
+              'forest' => ['tunnels'],
+              'hill' => ['tunnels'],
+              'water' => ['tunnels'],
+          ];
+          }
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
           {
@@ -221,6 +236,7 @@ class BuildingHelper
             'ziggurat' => 2,
             'tissue' => 2,
             'mycelia' => 2,
+            'tunnels' => 2,
         ];
 
         switch ($buildingTypes[$buildingType]) {
@@ -265,6 +281,7 @@ class BuildingHelper
             'ziggurat' => 'Houses 20 people or units, produces 1 mana/tick, and provides 4 raw DP.',
             'tissue' => 'Houses 120 cells, amoeba, or units. Produces 4 food/tick.',
             'mycelia' => 'House 10 people or units. Produces 4 food/tick.',
+            'tunnels' => 'Dig, dig, dig.'
         ];
 
         return $helpStrings[$buildingType] ?: null;

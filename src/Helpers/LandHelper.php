@@ -67,6 +67,17 @@ class LandHelper
           'mycelia' => 'forest'
         ];
       }
+      elseif($race->name == 'Swarm')
+      {
+        $buildings = [
+            'tunnels' => 'plain',
+            'tunnels' => 'mountain',
+            'tunnels' => 'swamp',
+            'tunnels' => 'forest',
+            'tunnels' => 'hill',
+            'tunnels' => 'water',
+        ];
+      }
       else
       {
         $buildings = [

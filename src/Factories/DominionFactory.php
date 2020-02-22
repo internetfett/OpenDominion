@@ -52,7 +52,7 @@ class DominionFactory
 
           # For usage in this function, divide npc_modifier by 1000 to create a multiplier.
           $npcModifier = $startingResources['npc_modifier'] / 1000;
-          
+
           $acresBase *= $npcModifier;
         }
 
@@ -397,6 +397,7 @@ class DominionFactory
             'building_ziggurat' => $startingBuildings['ziggurat'],
             'building_tissue' => $startingBuildings['tissue'],
             'building_mycelia' => $startingBuildings['mycelia'],
+            'building_tunnels' => $startingBuildings['tunnels'],
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
@@ -539,6 +540,7 @@ class DominionFactory
                 'ziggurat' => 0,
                 'tissue' => 0,
                 'mycelia' => 0,
+                'tunnels' => 0,
             ];
         }
         # Void
@@ -551,6 +553,7 @@ class DominionFactory
               'ziggurat' => intval($acresBase/2),
               'tissue' => 0,
               'mycelia' => 0,
+              'tunnels' => 0,
           ];
         }
         # Growth
@@ -563,6 +566,7 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => $acresBase,
               'mycelia' => 0,
+              'tunnels' => 0,
           ];
         }
         # Myconid
@@ -575,6 +579,7 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => $acresBase,
+              'tunnels' => 0,
           ];
         }
         # Merfolk
@@ -587,6 +592,20 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
+              'tunnels' => 0,
+          ];
+        }
+        # Myconid
+        elseif($race->getPerkValue('can_only_build_tunnels'))
+        {
+          $startingBuildings = [
+              'tower' => 0,
+              'farm' => 0,
+              'lumberyard' => 0,
+              'ziggurat' => 0,
+              'tissue' => 0,
+              'mycelia' => 0,
+              'tunnels' => $acresBase,
           ];
         }
         # Default
@@ -599,6 +618,7 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
+              'tunnels' => 0,
           ];
         }
 
@@ -619,7 +639,7 @@ class DominionFactory
         $startingLand = [
             'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'],
             'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'],
-            'swamp' => $startingBarrenLand['swamp'] + + $startingBuildings['tower'] + $startingBuildings['tissue'],
+            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['tissue'],
             'cavern' => $startingBarrenLand['cavern'],
             'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['mycelia'],
             'hill' => $startingBarrenLand['hill'],
