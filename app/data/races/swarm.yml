@@ -18,6 +18,7 @@ perks:
   extra_barren_max_population: 25
   #cannot_construct: 1
   can_only_build_tunnels: 1
+  cannot_build_homes: 1
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
