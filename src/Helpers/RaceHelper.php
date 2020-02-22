@@ -209,6 +209,11 @@ class RaceHelper
                 $description = 'Cannot build homes';
                 $booleanValue = true;
                 break;
+            case 'cannot_build_barracks':
+                $negativeBenefit = true;
+                $description = 'Cannot build barracks';
+                $booleanValue = true;
+                break;
             case 'castle_max':
                 $negativeBenefit = false;
                 $description = 'Improvement bonuses max';
