@@ -50,8 +50,8 @@ units:
       defense: 0
     perks:
       pairing_limit: 4,1 # Unit slot, amount (max 1 of this unit per each Unit 4)
-      no_draftee_required: 1
-      no_housing_required: 1
+      does_not_count_as_population: 1
+      no_draftee: 1
   - name: Mountain Troll
     type: hybrid_elite
     cost:
