@@ -56,17 +56,15 @@ class ConstructActionService
     {
         $this->guardLockedDominion($dominion);
 
-        dd($data);
+        #dd($data);
 
         if(!isset($data['building_tunnels']))
         {
-
             $data = array_only($data, array_map(function ($value) {
                 return "building_{$value}";
             }, $this->buildingHelper->getBuildingTypes($dominion)));
 
             $data = array_map('\intval', $data);
-
         }
 
         $totalBuildingsToConstruct = array_sum($data);
