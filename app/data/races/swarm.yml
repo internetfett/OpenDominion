@@ -25,15 +25,14 @@ converting: 1
 
 perks:
   extra_barren_max_population: 25
-  #cannot_construct: 1
-  can_only_build_tunnels: 1
+  cannot_construct: 1
+  #can_only_build_tunnels: 1
   construction_cost_only_platinum: 1
-  cannot_build_homes: 1
+  #cannot_build_homes: 1
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
   damage_from_lightning_bolts: -100
-  damage_from_fireballs: -50
   damage_from_insect_swarm: -100
   draftee_dp: 0
   draftee_mana_production: 1
