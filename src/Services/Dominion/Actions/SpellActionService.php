@@ -652,7 +652,9 @@ class SpellActionService
             $baseDamage = $spellInfo['percentage'] / 100;
 
             # Calculate ratio differential.
-            $baseDamageMultiplier = $this->getBaseDamageMultiplier($dominion, $target);
+            #$baseDamageMultiplier = $this->getBaseDamageMultiplier($dominion, $target);
+
+            $baseDamageMultiplier = ($selfWpa - $targetWpa) / 10;
 
             $baseDamage *= (1 + $baseDamageMultiplier);
 
@@ -865,23 +867,6 @@ class SpellActionService
 
         return $base * $landRatio;
       }
-    }
-
-
-    /**
-     * Returns the base damage multiplier, which is dependent on WPA difference.
-     *
-     * @param Dominion $caster
-     * @param Dominion $target
-     * @param string $spell
-     * @param string $attribute
-     * @return float|null
-     */
-    public function getBaseDamageMultiplier(Dominion $caster, Dominion $target): float
-    {
-        $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
-        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
-        return ($casterWpa - $targetWpa) / 10;
     }
 
     /**
