@@ -648,7 +648,8 @@ class SpellActionService
             // Cast spell instantly
             $damageDealt = [];
             $totalDamage = 0;
-            $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
+            $damage = 0;
+            $baseDamage = $spellInfo['percentage'] / 100;
 
             # Calculate ratio differential.
             $baseDamageMultiplier = $this->spellCalculator->getBaseDamageMultiplier($dominion, $target);
