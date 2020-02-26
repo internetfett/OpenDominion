@@ -975,16 +975,16 @@ class EspionageActionService
         {
             foreach ($operationInfo['decreases'] as $attr)
             {
-                $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $operationInfo, $attr);
-                $damage = $target->{$attr} * $baseDamage;
 
+                $damageReduction = 0;
                 // Damage reduction from Docks / Harbor
-                if ($attribute == 'resource_boats')
+                if ($attr == 'resource_boats')
                 {
-                    $boatsProtected = $this->militaryCalculator->getBoatsProtected($target);
-                    $damageMultiplier -= $boatsProtected / $target->resource_boats;
+                    $damageReduction -= $boatsProtected $this->militaryCalculator->getBoatsProtected($target);
                 }
 
+                $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $operationInfo, $attr);
+                $damage = ($target->{$attr} - $damageReduction) * $baseDamage;
 
                 $target->{$attr} -= round($damage);
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
