@@ -17,9 +17,6 @@ class SpellCalculator
     /** @var SpellHelper */
     protected $spellHelper;
 
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
     /** @var array */
     protected $activeSpells = [];
 
@@ -31,12 +28,10 @@ class SpellCalculator
      */
     public function __construct(
           LandCalculator $landCalculator,
-          SpellHelper $spellHelper,
-          MilitaryCalculator $militaryCalculator)
+          SpellHelper $spellHelper)
     {
         $this->landCalculator = $landCalculator;
         $this->spellHelper = $spellHelper;
-        $this->militaryCalculator = $militaryCalculator;
     }
 
     /**
