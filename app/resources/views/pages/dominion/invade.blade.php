@@ -106,9 +106,6 @@
                                             })->first();
                                         @endphp
 
-                                        @if ($unit->power_offense == 0 and $unit->getPerkValue('sendable_with_zero_op') !== 1)
-                                            @continue
-                                        @endif
 
                                         @php
                                             $offensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'offense');
