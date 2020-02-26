@@ -360,7 +360,8 @@ class UnitHelper
 
     public function getUnitTypeIconHtml(string $unitType, Race $race = null): string
     {
-        switch ($unitType) {
+        switch ($unitType)
+        {
             case 'draftees':
                 $iconClass = 'fa fa-user';
                 $colorClass = 'text-green';
@@ -405,7 +406,8 @@ class UnitHelper
                 return '';
         }
 
-        if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4'])) {
+        if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+        {
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
@@ -427,6 +429,10 @@ class UnitHelper
                 elseif (strtolower($type) == 'machinery')
                 {
                     $iconClass = 'ra ra-cog';
+                }
+                elseif (strtolower($type) == 'equipment')
+                {
+                    $iconClass = 'ra ra-vest';
                 }
 
                 if (strtolower($proficiency) == 'specialist')

@@ -41,7 +41,7 @@ units:
     perks:
       only_dies_vs_raw_power: 3 # >=
   - name: Ironskin
-    type: hybrid_elite
+    type: elite_equipment
     need_boat: false
     cost:
       lumber: 200
