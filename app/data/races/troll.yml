@@ -46,7 +46,7 @@ units:
       lumber: 200
       ore: 200
     power:
-      offense: 1
+      offense: 0
       defense: 0
     perks:
       pairing_limit: 4,1 # Unit slot, amount (max 1 of this unit per each Unit 4)

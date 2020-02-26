@@ -926,6 +926,9 @@ class InvadeActionService
             // Improvement: Cartography
             $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
+            // Resource: XP
+            $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
+
             $landGenerated = $landGenerated * $landGeneratedMultiplier;
 
             # No generated acres for in-realm invasions.

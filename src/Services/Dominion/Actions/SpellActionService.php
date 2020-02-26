@@ -651,104 +651,37 @@ class SpellActionService
             $baseDamage = (isset($spellInfo['percentage']) ? $spellInfo['percentage'] : 1) / 100;
 
             # Calculate ratio differential.
-            $baseDamageMultiplier = (1 + ($selfWpa - $targetWpa) / 10);
+            $baseDamageMultiplier = $this->spellCalculator->getBaseDamageMultiplier($dominion, $target);
 
-            $baseDamage *= $baseDamageMultiplier;
+            $baseDamage *= (1 + $baseDamageMultiplier);
 
             if (isset($spellInfo['decreases']))
             {
                 foreach ($spellInfo['decreases'] as $attr)
                 {
-                    $damage = $target->{$attr} * $baseDamage;
-                    $damageMultiplier = 0;
-
-                    // Damage reduction from Forest Havens and racial perk
-                    if ($attr == 'peasants')
-                    {
-
-                      $forestHavenFireballReduction = 8;
-                      $forestHavenFireballReductionMax = 0.80;
-                          $damageMultiplier -= min(
-                            (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $forestHavenFireballReduction),
-                            ($forestHavenFireballReductionMax)
-                        );
-
-                        if($target->race->getPerkMultiplier('damage_from_fireballs'))
-                        {
-                          $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_fireballs');
-                        }
-                    }
-
-                    // Damage reduction from Masonries and racial perk
-                    if (strpos($attr, 'improvement_') === 0)
-                    {
-                        $masonryLightningBoltReduction = 0.75;
-                        $masonryLightningBoltReductionMax = 0.25;
-                        $damageMultiplier -= min(
-                            (($target->building_masonry / $this->landCalculator->getTotalLand($target)) * $masonryLightningBoltReduction),
-                            ($masonryLightningBoltReductionMax)
-                        );
-
-
-                        if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
-                        {
-                          $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_lightning_bolts');
-                        }
-                    }
-
-                    // Check for immortal spies
-                    if ($dominion->race->getPerkValue('immortal_spies') != 0 && $attr == 'military_spies')
-                    {
-                        $damage = 0;
-                    }
-
-                    // Special for Purification
-                    if($spellInfo['name'] == 'Purification')
-                    {
-                      if($target->race->name !== 'Afflicted')
-                      {
-                        $damage = 0;
-                      }
-                    }
-
-                    // Damage reduction from Towers
-                    $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
-
-                    // Cap the damage multiplier at -1
-                    $damageMultiplier = max(-1, $damageMultiplier);
-
-                    $damage = $damage * (1 + $damageMultiplier);
+                    $damageMultiplier = $this->spellCalculator->getDamageMultiplier($dominion, $target, $spellInfo, $attr)
+                    $damage = $target->{$attr} * $baseDamage * (1 + $damageMultiplier);
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
 
                     // Update statistics
-                    if (isset($dominion->{"stat_{$spellInfo['key']}_damage"})) {
+                    if (isset($dominion->{"stat_{$spellInfo['key']}_damage"}))
+                    {
                         // Only count peasants killed by fireball
-                        if (!($spellInfo['key'] == 'fireball' && $attr == 'resource_food')) {
+                        if (!($spellInfo['key'] == 'fireball' && $attr == 'resource_food'))
+                        {
                             $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
                         }
                     }
                 }
 
                 // Combine lightning bolt damage into single string
-                if ($spellInfo['key'] === 'lightning_bolt') {
+                if ($spellInfo['key'] === 'lightning_bolt')
+                {
                     // Combine lightning bold damage into single string
                     $damageDealt = [sprintf('%s %s', number_format($totalDamage), dominion_attr_display('improvement', $totalDamage))];
-                }
-            }
-
-            if (isset($spellInfo['increases']))
-            {
-                foreach ($spellInfo['increases'] as $attr)
-                {
-                    $damage = $target->{$attr} * $baseDamage;
-
-                    // Damage reduction from Towers
-                    $damage *= (1 - min(1, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers')));
-
-                    $target->{$attr} += round($damage);
                 }
             }
 
@@ -759,7 +692,8 @@ class SpellActionService
 
             // Surreal Perception
             $sourceDominionId = null;
-            if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+            if ($this->spellCalculator->isSpellActive($target, 'surreal_perception'))
+            {
                 $sourceDominionId = $dominion->id;
             }
 

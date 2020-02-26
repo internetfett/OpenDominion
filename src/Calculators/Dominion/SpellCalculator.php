@@ -207,30 +207,89 @@ class SpellCalculator
     }
 
     /**
-     * Returns the multiplier bonus when one or more spells are active for a
-     * Dominion.
+     * Returns the base damage multiplier, which is dependent on WPA difference.
      *
-     * Returns the first active spell it finds. Multiple active spells do not
-     * stack.
-     *
-     * @param Dominion $dominion
-     * @param string|array $spell
-     * @param float|null $bonusPercentage
-     * @return float
+     * @param Dominion $caster
+     * @param Dominion $target
+     * @param string $spell
+     * @param string $attribute
+     * @return float|null
      */
-    public function getActiveSpellMultiplierBonus(Dominion $dominion, $spell, float $bonusPercentage = null): float
+    public function getBaseDamageMultiplier(Dominion $caster, Dominion $target): float
     {
-        if (!is_array($spell)) {
-            $spell = [$spell => $bonusPercentage];
-        }
-
-        // todo: check this foreach
-        foreach ($spell as $spellName => $bonusPercentage) {
-            if ($this->isSpellActive($dominion, $spellName)) {
-                return ($bonusPercentage / 100);
-            }
-        }
-
-        return 0;
+        $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
+        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
+        return ($casterWpa - $targetWpa) / 10;
     }
+
+    /**
+     * Returns the damage done by a spell.
+     *
+     * @param Dominion $caster
+     * @param Dominion $target
+     * @param string $spell
+     * @param string $attribute
+     * @return float|null
+     */
+    public function getDamageMultiplier(Dominion $caster, Dominion $target, array $spellInfo, string $attribute): float
+    {
+
+        $damageMultiplier = 0;
+
+        // Damage reduction from Towers
+        $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
+
+        // Fireballs: peasants and food
+        if($spellInfo['key'] == 'fireball')
+        {
+          # General fireball damage modification.
+          if($target->race->getPerkMultiplier('damage_from_fireballs'))
+          {
+              $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_fireballs');
+          }
+
+          # Forest Havens lower damage to peasants from fireballs.
+          if($attribute == 'peasants')
+          {
+              $damageMultiplier -= ($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 0.8;
+          }
+        }
+
+        // Lightning Bolts: improvements
+        if($spellInfo['key'] == 'lightning_bolt')
+        {
+          # General fireball damage modification.
+          if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
+          {
+              $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+          }
+
+          $damageMultiplier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
+        }
+
+        // Disband Spies: spies
+        if($spellInfo['key'] == 'disband_spies')
+        {
+          if ($dominion->race->getPerkValue('immortal_spies'))
+          {
+            $damageMultiplier = -1;
+          }
+        }
+
+        // Purification: only effective against Afflicted.
+        if($spellInfo['key'] == 'Purification')
+        {
+          if($target->race->name !== 'Afflicted')
+          {
+            $damageMultiplier = -1;
+          }
+        }
+
+        // Cap at -1.
+        $damageMultiplier = max(-1, $damageMultiplier);
+
+        return $damageMultiplier;
+
+    }
+
 }
