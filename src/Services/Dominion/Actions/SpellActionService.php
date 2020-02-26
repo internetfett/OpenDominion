@@ -660,7 +660,7 @@ class SpellActionService
             {
                 foreach ($spellInfo['decreases'] as $attr)
                 {
-                    $damageMultiplier = $this->spellCalculator->getDamageMultiplier($dominion, $target, $spellInfo, $attr)
+                    $damageMultiplier = $this->spellCalculator->getDamageMultiplier($dominion, $target, $spellInfo, $attr);
                     $damage = $target->{$attr} * $baseDamage * (1 + $damageMultiplier);
 
                     $totalDamage += round($damage);
