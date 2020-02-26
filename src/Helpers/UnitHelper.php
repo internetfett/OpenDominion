@@ -189,6 +189,9 @@ class UnitHelper
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
 
+            # Round 18
+            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
