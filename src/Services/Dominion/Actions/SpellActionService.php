@@ -932,7 +932,7 @@ class SpellActionService
         // Disband Spies: spies
         if($spellInfo['key'] == 'disband_spies')
         {
-          if ($dominion->race->getPerkValue('immortal_spies'))
+          if ($target->race->getPerkValue('immortal_spies'))
           {
             $damageMultiplier = -1;
           }
