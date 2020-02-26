@@ -8,7 +8,8 @@ use Illuminate\Support\Collection;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Models\Dominion;
 
-// todo: rename params $spell to $spellKey for clarity. Also use $spellInfo for just info. Spell instances should be $spell
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class SpellCalculator
 {
     /** @var LandCalculator */
@@ -16,6 +17,9 @@ class SpellCalculator
 
     /** @var SpellHelper */
     protected $spellHelper;
+
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
 
     /** @var array */
     protected $activeSpells = [];
@@ -26,10 +30,14 @@ class SpellCalculator
      * @param LandCalculator $landCalculator
      * @param SpellHelper $spellHelper
      */
-    public function __construct(LandCalculator $landCalculator, SpellHelper $spellHelper)
+    public function __construct(
+          LandCalculator $landCalculator,
+          SpellHelper $spellHelper,
+          MilitaryCalculator $militaryCalculator)
     {
         $this->landCalculator = $landCalculator;
         $this->spellHelper = $spellHelper;
+        $this->militaryCalculator = $militaryCalculator;
     }
 
     /**
