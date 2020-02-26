@@ -915,7 +915,7 @@ class InvadeActionService
             $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
             $landGained = ($landConquered + $landGenerated);
 
-            $landGeneratedMultiplier = 1;
+            $landGeneratedMultiplier = 0;
 
             // Add 20% to generated if Nomad spell Campaign is enabled.
             if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
@@ -929,7 +929,7 @@ class InvadeActionService
             // Resource: XP
             $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
 
-            $landGenerated = $landGenerated * $landGeneratedMultiplier;
+            $landGenerated = $landGenerated * (1 + $landGeneratedMultiplier);
 
             # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
