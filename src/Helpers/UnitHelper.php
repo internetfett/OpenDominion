@@ -191,6 +191,9 @@ class UnitHelper
 
             # Round 18
             'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+            'mob_on_defense' => 'Defense increased by +%1$s if you outnumber the invading military.',
+            'mob_on_offense' => 'Offense increased by +%1$s if you outnumber the defending military.',
+
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
