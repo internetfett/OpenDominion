@@ -1912,7 +1912,8 @@ class InvadeActionService
                 continue;
             }
 
-            if ($unit->power_offense === 0.0) {
+            if ($unit->power_offense === 0.0 and $unit->getPerkValue('sendable_with_zero_op') != 1)
+            {
                 return false;
             }
         }
