@@ -899,14 +899,16 @@ class InvadeActionService
             $target->discounted_land += $buildingsToDestroy;
 
             // Destroy buildings
-            foreach ($buildingsLostForLandType as $buildingType => $buildingsLost) {
+            foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
+            {
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
-                if ($buildingsInQueueToRemove !== 0) {
+                if ($buildingsInQueueToRemove !== 0)
+                {
                     $this->queueService->dequeueResource('construction', $target, $resourceName, $buildingsInQueueToRemove);
                 }
             }
@@ -962,8 +964,9 @@ class InvadeActionService
 
         $queueData = $landGainedPerLandType;
 
-        // Only gain discounted acres at or above prestige range
-        if ($range >= 75) {
+        // Only gain discounted acres when hitting over 75%.
+        if ($range >= 75)
+        {
             $queueData += [
                 'discounted_land' => array_sum($landGainedPerLandType)
             ];

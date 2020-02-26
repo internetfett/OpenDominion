@@ -652,7 +652,7 @@ class SpellActionService
             $baseDamage = $spellInfo['percentage'] / 100;
 
             # Calculate ratio differential.
-            $baseDamageMultiplier = $this->getBaseDamageMultiplier($dominion, $target);
+            $baseDamageMultiplier = $this->getSpellBaseDamageMultiplier($dominion, $target);
 
             $baseDamage *= (1 + $baseDamageMultiplier);
 
@@ -660,7 +660,7 @@ class SpellActionService
             {
                 foreach ($spellInfo['decreases'] as $attr)
                 {
-                    $damageMultiplier = $this->getDamageMultiplier($dominion, $target, $spellInfo, $attr);
+                    $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $spellInfo, $attr);
                     $damage = $target->{$attr} * $baseDamage * (1 + $damageMultiplier);
 
                     $totalDamage += round($damage);
@@ -877,7 +877,7 @@ class SpellActionService
      * @param string $attribute
      * @return float|null
      */
-    public function getBaseDamageMultiplier(Dominion $caster, Dominion $target): float
+    public function getSpellBaseDamageMultiplier(Dominion $caster, Dominion $target): float
     {
         $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
         $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
@@ -893,7 +893,7 @@ class SpellActionService
      * @param string $attribute
      * @return float|null
      */
-    public function getDamageMultiplier(Dominion $caster, Dominion $target, array $spellInfo, string $attribute): float
+    public function getSpellDamageMultiplier(Dominion $caster, Dominion $target, array $spellInfo, string $attribute): float
     {
 
         $damageMultiplier = 0;
@@ -907,7 +907,7 @@ class SpellActionService
           # General fireball damage modification.
           if($target->race->getPerkMultiplier('damage_from_fireballs'))
           {
-              $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_fireballs');
+              $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
           }
 
           # Forest Havens lower damage to peasants from fireballs.
@@ -923,7 +923,7 @@ class SpellActionService
           # General fireball damage modification.
           if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
           {
-              $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+              $damageMultiplier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
           }
 
           $damageMultiplier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
