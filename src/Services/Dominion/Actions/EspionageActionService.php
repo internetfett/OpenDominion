@@ -978,6 +978,14 @@ class EspionageActionService
                 $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $operationInfo, $attr);
                 $damage = $target->{$attr} * $baseDamage;
 
+                // Damage reduction from Docks / Harbor
+                if ($attribute == 'resource_boats')
+                {
+                    $boatsProtected = $this->militaryCalculator->getBoatsProtected($target);
+                    $damageMultiplier -= $boatsProtected / $target->resource_boats;
+                }
+
+
                 $target->{$attr} -= round($damage);
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
 
@@ -1111,17 +1119,13 @@ class EspionageActionService
 
         $damageMultiplier = 0;
 
-        // Damage reduction from Docks / Harbor
-        if ($attribute == 'resource_boats')
-        {
-            $boatsProtected = $this->militaryCalculator->getBoatsProtected($target);
-            $damageMultiplier -= $boatsProtected / $target->resource_boats;
-        }
-
         // Check for immortal wizards
-        if ($target->race->getPerkValue('immortal_wizards') != 0 && $attr == 'military_wizards')
+        if($operationInfo['key'] == 'assassinate_wizards')
         {
-            $damageMultiplier = -1;
+            if ($target->race->getPerkValue('immortal_wizards') != 0)
+            {
+                $damageMultiplier = -1;
+            }
         }
 
         // Cap at -1.
