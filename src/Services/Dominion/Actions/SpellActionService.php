@@ -25,6 +25,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Models\BlackOp;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class SpellActionService
 {
@@ -652,7 +653,7 @@ class SpellActionService
             $baseDamage = $spellInfo['percentage'] / 100;
 
             # Calculate ratio differential.
-            $baseDamageMultiplier = $this->spellCalculator->getBaseDamageMultiplier($dominion, $target);
+            $baseDamageMultiplier = $this->getBaseDamageMultiplier($dominion, $target);
 
             $baseDamage *= (1 + $baseDamageMultiplier);
 
@@ -660,7 +661,7 @@ class SpellActionService
             {
                 foreach ($spellInfo['decreases'] as $attr)
                 {
-                    $damageMultiplier = $this->spellCalculator->getDamageMultiplier($dominion, $target, $spellInfo, $attr);
+                    $damageMultiplier = $this->getDamageMultiplier($dominion, $target, $spellInfo, $attr);
                     $damage = $target->{$attr} * $baseDamage * (1 + $damageMultiplier);
 
                     $totalDamage += round($damage);
@@ -865,6 +866,93 @@ class SpellActionService
 
         return $base * $landRatio;
       }
+    }
+
+
+    /**
+     * Returns the base damage multiplier, which is dependent on WPA difference.
+     *
+     * @param Dominion $caster
+     * @param Dominion $target
+     * @param string $spell
+     * @param string $attribute
+     * @return float|null
+     */
+    public function getBaseDamageMultiplier(Dominion $caster, Dominion $target): float
+    {
+        $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
+        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
+        return ($casterWpa - $targetWpa) / 10;
+    }
+
+    /**
+     * Returns the damage done by a spell.
+     *
+     * @param Dominion $caster
+     * @param Dominion $target
+     * @param string $spell
+     * @param string $attribute
+     * @return float|null
+     */
+    public function getDamageMultiplier(Dominion $caster, Dominion $target, array $spellInfo, string $attribute): float
+    {
+
+        $damageMultiplier = 0;
+
+        // Damage reduction from Towers
+        $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
+
+        // Fireballs: peasants and food
+        if($spellInfo['key'] == 'fireball')
+        {
+          # General fireball damage modification.
+          if($target->race->getPerkMultiplier('damage_from_fireballs'))
+          {
+              $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_fireballs');
+          }
+
+          # Forest Havens lower damage to peasants from fireballs.
+          if($attribute == 'peasants')
+          {
+              $damageMultiplier -= ($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 0.8;
+          }
+        }
+
+        // Lightning Bolts: improvements
+        if($spellInfo['key'] == 'lightning_bolt')
+        {
+          # General fireball damage modification.
+          if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
+          {
+              $damageMultiplier -= $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+          }
+
+          $damageMultiplier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
+        }
+
+        // Disband Spies: spies
+        if($spellInfo['key'] == 'disband_spies')
+        {
+          if ($dominion->race->getPerkValue('immortal_spies'))
+          {
+            $damageMultiplier = -1;
+          }
+        }
+
+        // Purification: only effective against Afflicted.
+        if($spellInfo['key'] == 'Purification')
+        {
+          if($target->race->name !== 'Afflicted')
+          {
+            $damageMultiplier = -1;
+          }
+        }
+
+        // Cap at -1.
+        $damageMultiplier = max(-1, $damageMultiplier);
+
+        return $damageMultiplier;
+
     }
 
 
