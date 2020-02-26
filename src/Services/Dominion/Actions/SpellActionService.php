@@ -25,7 +25,6 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Models\BlackOp;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class SpellActionService
 {
