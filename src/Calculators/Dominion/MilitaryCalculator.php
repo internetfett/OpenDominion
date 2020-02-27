@@ -1035,6 +1035,8 @@ class MilitaryCalculator
               return 0;
           }
 
+          $powerFromPerk = 0;
+
           if (!empty($calc))
           {
               # Override resource amount for invasion calculator
