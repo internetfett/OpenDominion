@@ -686,7 +686,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-    protected function getUnitPowerFromVersusBuildingPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    protected function getUnitPowerFromVersusBuildingPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
     {
         if ($target === null && empty($calc)) {
             return 0;
@@ -723,7 +723,7 @@ class MilitaryCalculator
     }
 
 
-    protected function getUnitPowerFromVersusLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    protected function getUnitPowerFromVersusLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
     {
         if ($target === null && empty($calc)) {
             return 0;
@@ -759,7 +759,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-    protected function getUnitPowerFromVersusBarrenLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    protected function getUnitPowerFromVersusBarrenLandPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
     {
         if ($target === null && empty($calc))
         {
@@ -935,7 +935,7 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-    protected function getUnitPowerFromVersusResourcePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+    protected function getUnitPowerFromVersusResourcePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
     {
         if ($target === null && empty($calc))
         {
@@ -1020,7 +1020,7 @@ class MilitaryCalculator
     }
 
 
-      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = [], array $units = null): float
+      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
       {
           #dd($units);
           if ($target === null && empty($calc))
