@@ -1022,7 +1022,7 @@ class MilitaryCalculator
 
       protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
       {
-          #dd($units);
+          dd($units);
           if ($target === null && empty($calc))
           {
               return 0;
