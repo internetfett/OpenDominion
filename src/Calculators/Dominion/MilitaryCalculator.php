@@ -659,7 +659,7 @@ class MilitaryCalculator
         }
 
         $unitSlot = (int)$pairingPerkData[0];
-        $amount = (int)$pairingPerkData[1];
+        $amount = (float)$pairingPerkData[1];
         if (isset($pairingPerkData[2]))
         {
             $numRequired = (float)$pairingPerkData[2];
