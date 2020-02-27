@@ -220,10 +220,11 @@ class MilitaryCalculator
         array $units = null,
         float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
-        bool $isAmbush = false
+        bool $isAmbush = false,
+        array $units = []
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush);
+        $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush, $units);
         $dp *= $this->getDefensivePowerMultiplier($dominion, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($dominion));
@@ -247,7 +248,8 @@ class MilitaryCalculator
         array $units = null,
         float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
-        bool $isAmbush = false
+        bool $isAmbush = false,
+        array $units = []
     ): float
     {
         $dp = 0;
@@ -439,6 +441,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
@@ -1011,6 +1014,67 @@ class MilitaryCalculator
 
         return $powerFromPerk;
     }
+
+
+      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target, Unit $unit, string $powerType, array $calc = []): float
+      {
+          if ($target === null && empty($calc))
+          {
+              return 0;
+          }
+
+          $mobPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "mob_on_{$powerType}", null);
+
+          if(!$mobPerk)
+          {
+              return 0;
+          }
+
+          if (!empty($calc))
+          {
+              # Override resource amount for invasion calculator
+              if (isset($calc['opposing_units']))
+              {
+                  if(array_sum($units) > $calc['opposing_units'])
+                  {
+                    $powerFromPerk = $mobPerk;
+                  }
+              }
+          }
+          elseif ($target !== null)
+          {
+            # mob_on_offense: Do we outnumber the defenders?
+            if($powerType == 'offense')
+            {
+              $targetUnits = 0;
+              $targetUnits += $target->military_unit1;
+              $targetUnits += $target->military_unit2;
+              $targetUnits += $target->military_unit3;
+              $targetUnits += $target->military_unit4;
+              if(array_sum($units) > $targetUnits)
+              {
+                $powerFromPerk = $mobPerk;
+              }
+            }
+
+            # mob_on_offense: Do we outnumber the defenders?
+            if($powerType == 'defense')
+            {
+              $mobUnits = 0;
+              $mobUnits += $dominion->military_unit1;
+              $mobUnits += $dominion->military_unit2;
+              $mobUnits += $dominion->military_unit3;
+              $mobUnits += $dominion->military_unit4;
+              if(array_sum($units) < $mobUnits)
+              {
+                $powerFromPerk = $mobPerk;
+              }
+            }
+          }
+
+          return $powerFromPerk;
+      }
+
 
     /**
      * Returns the Dominion's morale modifier.
