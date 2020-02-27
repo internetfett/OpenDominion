@@ -277,7 +277,7 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endif
-                                    @if($mobOffense)
+                                    @if(isset($mobOffense))
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <b>Enter amounts of units defending against your units:</b>
