@@ -1014,7 +1014,7 @@ class MilitaryCalculator
     }
 
 
-      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target, Unit $unit, string $powerType, array $calc = []): float
+      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
       {
           if ($target === null && empty($calc))
           {
