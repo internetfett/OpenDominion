@@ -1078,7 +1078,7 @@ class MilitaryCalculator
               $mobUnits += $dominion->military_unit3;
               $mobUnits += $dominion->military_unit4;
 
-              Log::debug('$unit->slot = ' . $unit->slot);
+              Log::debug('$unit->name = ' . $unit->name . '(' . $unit->slot .')');
               Log::debug('$mobUnits = ' . $mobUnits);
               Log::debug('$mobPerk = ' . print_r($mobPerk));
 
