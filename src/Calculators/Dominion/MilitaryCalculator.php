@@ -418,7 +418,7 @@ class MilitaryCalculator
         Unit $unit,
         string $powerType,
         ?array $calc = [],
-        ?array $units = null
+        array $units = null
     ): float
     {
         $unitPower = $unit->{"power_$powerType"};
@@ -449,10 +449,6 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units);
-        }
-        else
-        {
-          $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units);
         }
 
         return $unitPower;
@@ -1085,7 +1081,6 @@ class MilitaryCalculator
 
               Log::debug('$unit->name = ' . $unit->name . '(' . $unit->slot .')');
               Log::debug('$mobUnits = ' . $mobUnits);
-              Log::debug('$powerFromPerk = ' . $powerFromPerk);
               Log::debug('array_sum($units) = ' . array_sum($units));
               Log::debug('***');
 
