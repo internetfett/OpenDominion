@@ -1075,7 +1075,7 @@ class MilitaryCalculator
               $mobUnits += $dominion->military_unit2;
               $mobUnits += $dominion->military_unit3;
               $mobUnits += $dominion->military_unit4;
-              dd($units);
+              #dd($units);
               if($mobUnits > array_sum($units))
               {
                 $powerFromPerk = $mobPerk[0];
