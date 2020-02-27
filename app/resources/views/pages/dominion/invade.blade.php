@@ -276,7 +276,7 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endif
-                                    @if($offenseVsOpposingUnitsPerk)
+                                    @if($offenseVsOpposingUnits)
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <b>Enter target defending units amount:</b>
