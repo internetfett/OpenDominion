@@ -145,9 +145,9 @@
                                                     $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
                                                 }
 
-                                                $mobOnOffensePerk = $unit->getPerkValue('offense_mob');
-                                                if ($mobOnOffensePerk) {
-                                                    $mobOnOffense[] = explode(',', $mobOnOffensePerk)[0];
+                                                $offenseMobPerk = $unit->getPerkValue('offense_mob');
+                                                if ($offenseMobPerk) {
+                                                    $mobOffense = explode(',', $offenseMobPerk)[0];
                                                 }
 
 
@@ -277,7 +277,7 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endif
-                                    @if($mobOnOffense)
+                                    @if($mobOffense)
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <b>Enter amounts of units defending against your units:</b>
