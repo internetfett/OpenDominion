@@ -116,7 +116,7 @@
                                             $defensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'defense');
 
                                             $hasDynamicOffensivePower = $unit->perks->filter(static function ($perk) {
-                                                return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_', 'mob_on_offense']);
+                                                return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_', 'offense_m']);
                                             })->count() > 0;
                                             if ($hasDynamicOffensivePower)
                                             {
