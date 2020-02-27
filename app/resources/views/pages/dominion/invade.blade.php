@@ -98,6 +98,7 @@
                                         $offenseVsPrestige = [];
                                         $offenseVsBarren = [];
                                         $offenseVsResource = [];
+                                        $offenseVsOpposingUnits = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -142,6 +143,11 @@
                                                 $offenseVsResourcePerk = $unit->getPerkValue('offense_vs_resource');
                                                 if ($offenseVsResourcePerk) {
                                                     $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
+                                                }
+
+                                                $mobPerk = $unit->getPerkValue('mob_on_offense');
+                                                if ($mobPerk) {
+                                                    $mob = explode(',', $mobPerk)[0];
                                                 }
 
                                             }
@@ -262,6 +268,22 @@
                                             <td>
                                                 <input type="number"
                                                        name="calc[{{ $offenseVsResource }}]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    @endif
+                                    @if($mobPerk)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter target defending units amount:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc['opposing_units']"
                                                        class="form-control text-center"
                                                        min="0"
                                                        placeholder="0"
