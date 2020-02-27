@@ -435,6 +435,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromDefenseMob($dominion, $target, $unit, $powerType, $calc, $units);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -448,7 +449,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units);
+            $unitPower += $this->getUnitPowerFromOffenseMob($dominion, $target, $unit, $powerType, $calc, $units);
         }
 
         return $unitPower;
@@ -1022,8 +1023,8 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
-
-    protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
+    # offense_mob: extra OP if attacker outnumber defender.
+    protected function getUnitPowerFromOffenseMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
     {
 
         if ($target === null && empty($calc))
@@ -1031,7 +1032,7 @@ class MilitaryCalculator
             return 0;
         }
 
-        $mobPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_mob", null);
+        $mobPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "offense_mob", null);
 
         if(!$mobPerk)
         {
@@ -1054,41 +1055,59 @@ class MilitaryCalculator
         }
         elseif ($target !== null)
         {
-          # mob_on_offense: Do we ($units) outnumber the defenders ($target)?
-          if($powerType == 'offense')
+          # Do we ($units) outnumber the defenders ($target)?
+          $targetUnits = 0;
+          $targetUnits += $target->draftees;
+          $targetUnits += $target->military_unit1;
+          $targetUnits += $target->military_unit2;
+          $targetUnits += $target->military_unit3;
+          $targetUnits += $target->military_unit4;
+          if(array_sum($units) > $targetUnits)
           {
-            $targetUnits = 0;
-            $targetUnits += $target->draftees;
-            $targetUnits += $target->military_unit1;
-            $targetUnits += $target->military_unit2;
-            $targetUnits += $target->military_unit3;
-            $targetUnits += $target->military_unit4;
-            if(array_sum($units) > $targetUnits)
-            {
-              $powerFromPerk = $mobPerk[0];
-            }
+            $powerFromPerk = $mobPerk[0];
+          }
+        }
+
+        return $powerFromPerk
+      }
+
+
+      # offense_mob: extra DP if defender outnumbers attacker.
+      protected function getUnitPowerFromDefenseMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
+      {
+
+          if ($target === null && empty($calc))
+          {
+              return 0;
           }
 
-          # mob_on_offense: Do we ($dominion) outnumber the attackers ($units)?
-          if($powerType == 'defense')
+          $mobPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "defense_mob", null);
+
+          if(!$mobPerk)
           {
-            $mobUnits = 0;
-            $mobUnits += $dominion->draftees;
-            $mobUnits += $dominion->military_unit1;
-            $mobUnits += $dominion->military_unit2;
-            $mobUnits += $dominion->military_unit3;
-            $mobUnits += $dominion->military_unit4;
-
-            Log::debug('$unit->name = ' . $unit->name . '(' . $unit->slot .')');
-            Log::debug('$mobUnits = ' . $mobUnits);
-            Log::debug('array_sum($units) = ' . array_sum($units));
-            Log::debug('***');
-
-            if($mobUnits > array_sum($units))
-            {
-              $powerFromPerk = $mobPerk[0];
-            }
+              return 0;
           }
+
+          $powerFromPerk = 0;
+
+          # Do we ($dominion) outnumber the attackers ($units)?
+          $mobUnits = 0;
+          $mobUnits += $dominion->draftees;
+          $mobUnits += $dominion->military_unit1;
+          $mobUnits += $dominion->military_unit2;
+          $mobUnits += $dominion->military_unit3;
+          $mobUnits += $dominion->military_unit4;
+
+          Log::debug('$unit->name = ' . $unit->name . '(' . $unit->slot .')');
+          Log::debug('$mobUnits = ' . $mobUnits);
+          Log::debug('array_sum($units) = ' . array_sum($units));
+          Log::debug('***');
+
+          if($mobUnits > array_sum($units))
+          {
+            $powerFromPerk = $mobPerk[0];
+          }
+
         }
 
         return $powerFromPerk;
