@@ -5,6 +5,8 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
+use Log;
+
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\QueueService;
 
