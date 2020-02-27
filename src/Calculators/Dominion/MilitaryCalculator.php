@@ -116,13 +116,14 @@ class MilitaryCalculator
         Dominion $target = null,
         float $landRatio = null,
         array $units = null,
-        array $calc = []
+        array $calc = [],
+        array $units = null
     ): float
     {
         $op = 0;
 
         foreach ($dominion->race->units as $unit) {
-            $powerOffense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'offense', $calc);
+            $powerOffense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'offense', $calc, $units);
             $numberOfUnits = 0;
 
             if ($units === null) {
@@ -247,7 +248,8 @@ class MilitaryCalculator
         array $units = null,
         float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
-        bool $isAmbush = false
+        bool $isAmbush = false,
+        array $units = null
     ): float
     {
         $dp = 0;
@@ -286,7 +288,7 @@ class MilitaryCalculator
 
         // Military
         foreach ($dominion->race->units as $unit) {
-            $powerDefense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'defense');
+            $powerDefense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'defense', $units);
 
             $numberOfUnits = 0;
 
@@ -410,7 +412,8 @@ class MilitaryCalculator
         ?float $landRatio,
         Unit $unit,
         string $powerType,
-        array $calc = []
+        array $calc = [],
+        array $units = null
     ): float
     {
         $unitPower = $unit->{"power_$powerType"};
@@ -439,7 +442,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units);
         }
 
         return $unitPower;
@@ -1014,7 +1017,7 @@ class MilitaryCalculator
     }
 
 
-      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = []): float
+      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, array $calc = [], array $units = null): float
       {
           dd($units);
           if ($target === null && empty($calc))
