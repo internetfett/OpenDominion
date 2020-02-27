@@ -411,7 +411,7 @@ class MilitaryCalculator
         Unit $unit,
         string $powerType,
         array $calc = [],
-        array $units = null
+        ?array $units = null
     ): float
     {
         $unitPower = $unit->{"power_$powerType"};
