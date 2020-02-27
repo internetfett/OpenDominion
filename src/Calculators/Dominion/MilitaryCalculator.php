@@ -1054,6 +1054,7 @@ class MilitaryCalculator
             if($powerType == 'offense')
             {
               $targetUnits = 0;
+              $targetUnits += $target->draftees;
               $targetUnits += $target->military_unit1;
               $targetUnits += $target->military_unit2;
               $targetUnits += $target->military_unit3;
@@ -1068,6 +1069,7 @@ class MilitaryCalculator
             if($powerType == 'defense')
             {
               $mobUnits = 0;
+              $mobUnits += $dominion->draftees;
               $mobUnits += $dominion->military_unit1;
               $mobUnits += $dominion->military_unit2;
               $mobUnits += $dominion->military_unit3;

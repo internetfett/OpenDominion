@@ -147,8 +147,9 @@
 
                                                 $mobOnOffensePerk = $unit->getPerkValue('mob_on_offense');
                                                 if ($mobOnOffensePerk) {
-                                                    $mobOnOffense = explode(',', $mobOnOffensePerk)[0];
+                                                    $mobOnOffense[] = explode(',', $mobOnOffensePerk)[0];
                                                 }
+
 
                                             }
                                             $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
