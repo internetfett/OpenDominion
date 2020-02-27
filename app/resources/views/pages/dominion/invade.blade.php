@@ -279,7 +279,7 @@
                                     @if($mobOnOffense)
                                         <tr>
                                             <td colspan="3" class="text-right">
-                                                <b>Enter target defending units amount:</b>
+                                                <b>Enter amounts of units defending against your units:</b>
                                             </td>
                                             <td>
                                                 <input type="number"
