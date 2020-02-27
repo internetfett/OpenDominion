@@ -1051,7 +1051,7 @@ class MilitaryCalculator
           }
           elseif ($target !== null)
           {
-            # mob_on_offense: Do we outnumber the defenders?
+            # mob_on_offense: Do we ($units) outnumber the defenders ($target)?
             if($powerType == 'offense')
             {
               $targetUnits = 0;
@@ -1066,7 +1066,7 @@ class MilitaryCalculator
               }
             }
 
-            # mob_on_offense: Do we outnumber the defenders?
+            # mob_on_offense: Do we ($dominion) outnumber the attackers ($units)?
             if($powerType == 'defense')
             {
               $mobUnits = 0;
