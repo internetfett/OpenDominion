@@ -116,7 +116,7 @@
                                             $defensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'defense');
 
                                             $hasDynamicOffensivePower = $unit->perks->filter(static function ($perk) {
-                                                return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_']);
+                                                return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_', 'mob_on_offense']);
                                             })->count() > 0;
                                             if ($hasDynamicOffensivePower)
                                             {
@@ -145,9 +145,9 @@
                                                     $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
                                                 }
 
-                                                $offenseVsOpposingUnitsPerk = $unit->getPerkValue('mob_on_offense');
-                                                if ($offenseVsOpposingUnitsPerk) {
-                                                    $offenseVsOpposingUnits = explode(',', $offenseVsOpposingUnitsPerk)[0];
+                                                $mobOnOffensePerk = $unit->getPerkValue('mob_on_offense');
+                                                if ($mobOnOffensePerk) {
+                                                    $mobOnOffense = explode(',', $mobOnOffensePerk)[0];
                                                 }
 
                                             }
@@ -276,7 +276,7 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endif
-                                    @if($offenseVsOpposingUnits)
+                                    @if($mobOnOffense)
                                         <tr>
                                             <td colspan="3" class="text-right">
                                                 <b>Enter target defending units amount:</b>
