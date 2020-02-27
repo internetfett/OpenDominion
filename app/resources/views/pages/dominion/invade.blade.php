@@ -145,7 +145,7 @@
                                                     $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
                                                 }
 
-                                                $mobOnOffensePerk = $unit->getPerkValue('mob_on_offense');
+                                                $mobOnOffensePerk = $unit->getPerkValue('offense_mob');
                                                 if ($mobOnOffensePerk) {
                                                     $mobOnOffense[] = explode(',', $mobOnOffensePerk)[0];
                                                 }

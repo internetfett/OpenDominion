@@ -1028,7 +1028,7 @@ class MilitaryCalculator
               return 0;
           }
 
-          $mobPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "mob_on_{$powerType}", null);
+          $mobPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_mob", null);
 
           if(!$mobPerk)
           {
