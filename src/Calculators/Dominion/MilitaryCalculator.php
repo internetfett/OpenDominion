@@ -220,8 +220,7 @@ class MilitaryCalculator
         array $units = null,
         float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
-        bool $isAmbush = false,
-        array $units = []
+        bool $isAmbush = false
     ): float
     {
         $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush, $units);
