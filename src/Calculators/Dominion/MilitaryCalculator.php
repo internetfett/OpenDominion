@@ -116,8 +116,7 @@ class MilitaryCalculator
         Dominion $target = null,
         float $landRatio = null,
         array $units = null,
-        array $calc = [],
-        array $units = null
+        array $calc = []
     ): float
     {
         $op = 0;
