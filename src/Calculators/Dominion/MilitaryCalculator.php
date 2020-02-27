@@ -415,7 +415,7 @@ class MilitaryCalculator
         ?float $landRatio,
         Unit $unit,
         string $powerType,
-        array $calc = [],
+        ?array $calc = [],
         ?array $units = null
     ): float
     {
