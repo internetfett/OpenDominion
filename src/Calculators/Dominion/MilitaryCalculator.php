@@ -1108,8 +1108,6 @@ class MilitaryCalculator
             $powerFromPerk = $mobPerk[0];
           }
 
-        }
-
         return $powerFromPerk;
     }
 
