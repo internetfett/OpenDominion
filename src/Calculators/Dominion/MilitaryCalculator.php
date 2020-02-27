@@ -1022,7 +1022,7 @@ class MilitaryCalculator
 
       protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
       {
-          dd($units);
+
           if ($target === null && empty($calc))
           {
               return 0;
@@ -1075,6 +1075,7 @@ class MilitaryCalculator
               $mobUnits += $dominion->military_unit2;
               $mobUnits += $dominion->military_unit3;
               $mobUnits += $dominion->military_unit4;
+              dd($units);
               if($mobUnits > array_sum($units))
               {
                 $powerFromPerk = $mobPerk[0];
