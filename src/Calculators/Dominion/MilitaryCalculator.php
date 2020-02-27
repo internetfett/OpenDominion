@@ -1080,8 +1080,9 @@ class MilitaryCalculator
 
               Log::debug('$unit->name = ' . $unit->name . '(' . $unit->slot .')');
               Log::debug('$mobUnits = ' . $mobUnits);
-              Log::debug('$mobPerk = ' . print_r($mobPerk));
+              Log::debug('$powerFromPerk = ' . $powerFromPerk);
               Log::debug('array_sum($units) = ' . array_sum($units));
+              Log::debug('***');
 
               if($mobUnits > array_sum($units))
               {
