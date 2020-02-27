@@ -1062,15 +1062,15 @@ class MilitaryCalculator
           $targetUnits += $target->military_unit2;
           $targetUnits += $target->military_unit3;
           $targetUnits += $target->military_unit4;
+
           if(array_sum($units) > $targetUnits)
           {
             $powerFromPerk = $mobPerk[0];
           }
         }
 
-        return $powerFromPerk
+        return $powerFromPerk;
       }
-
 
       # offense_mob: extra DP if defender outnumbers attacker.
       protected function getUnitPowerFromDefenseMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
