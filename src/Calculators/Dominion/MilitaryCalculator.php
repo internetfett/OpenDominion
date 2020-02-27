@@ -1042,7 +1042,7 @@ class MilitaryCalculator
               {
                   if(array_sum($units) > $calc['opposing_units'])
                   {
-                    $powerFromPerk = $mobPerk;
+                    $powerFromPerk = $mobPerk[0];
                   }
               }
           }
@@ -1058,7 +1058,7 @@ class MilitaryCalculator
               $targetUnits += $target->military_unit4;
               if(array_sum($units) > $targetUnits)
               {
-                $powerFromPerk = $mobPerk;
+                $powerFromPerk = $mobPerk[0];
               }
             }
 
@@ -1072,7 +1072,7 @@ class MilitaryCalculator
               $mobUnits += $dominion->military_unit4;
               if(array_sum($units) < $mobUnits)
               {
-                $powerFromPerk = $mobPerk;
+                $powerFromPerk = $mobPerk[0];
               }
             }
           }
