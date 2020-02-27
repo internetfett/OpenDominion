@@ -1081,6 +1081,7 @@ class MilitaryCalculator
 
               Log::debug('$unit->name = ' . $unit->name . '(' . $unit->slot .')');
               Log::debug('$mobUnits = ' . $mobUnits);
+              Log::debug('array_sum($unit) = ' . array_sum($unit));
               Log::debug('array_sum($units) = ' . array_sum($units));
               Log::debug('***');
 
