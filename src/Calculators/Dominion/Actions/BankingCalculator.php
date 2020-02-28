@@ -18,7 +18,7 @@ class BankingCalculator
         $foodSell = 0;
         if($dominion->race->getPerkMultiplier('can_sell_food'))
         {
-          $foodSell = 0.25;
+          $foodSell = 0.50;
         }
 
         $resources = [
