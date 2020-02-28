@@ -36,7 +36,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      defense_from_pairing: 3,0.5,1 # slot, amount, num required
+      defense_from_pairing: 3,1,1 # slot, amount, num required
   - name: Beast
     cost:
       platinum: 600
@@ -45,7 +45,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      defense_mob: 1 # +1 DP when they outnumber attacker's units
+      #defense_mob: 1 # +1 DP when they outnumber attacker's units
   - name: Overlord
     cost:
       platinum: 800
@@ -55,4 +55,4 @@ units:
       defense: 2
     perks:
       offense_mob: 1 # +1 OP when they outnumber the defender's units
-      defense_mob: 1 # +1 DP when they outnumber attacker's units
+      #defense_mob: 1 # +1 DP when they outnumber attacker's units

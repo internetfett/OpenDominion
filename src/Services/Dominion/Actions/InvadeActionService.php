@@ -2112,7 +2112,9 @@ class InvadeActionService
           $isAmbush = false;
         }
 
-        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
+        
+
+        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush, $invadingUnits);
     }
 
 }
