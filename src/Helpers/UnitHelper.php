@@ -191,8 +191,10 @@ class UnitHelper
 
             # Round 18
             'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
-            'defense_mob' => 'Defense increased by +%1$s if you outnumber the invading military.',
-            'offense_mob' => 'Offense increased by +%1$s if you outnumber the defending military.',
+            #'defense_mob' => 'Defense increased by +%1$s if you outnumber the invading military.',
+
+            'offense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
+            'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
 
             # TBD
