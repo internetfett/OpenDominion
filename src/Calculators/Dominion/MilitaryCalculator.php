@@ -1042,6 +1042,8 @@ class MilitaryCalculator
 
           if (!empty($calc))
           {
+              return 0;
+              /*
               # Override resource amount for invasion calculator
               if (isset($calc['opposing_units']))
               {
@@ -1051,6 +1053,7 @@ class MilitaryCalculator
                     $powerFromPerk = $mobPerk[0];
                   }
               }
+              */
           }
           elseif ($target !== null)
           {
