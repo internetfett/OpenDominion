@@ -1541,7 +1541,7 @@ class MilitaryCalculator
         // Spell: Icekin Blizzard (+5% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
         {
-          $multiplier += 0.5;
+          $multiplier += 0.05;
         }
 
         // Spell: Halfling Defensive Frenzy (+20% DP)
