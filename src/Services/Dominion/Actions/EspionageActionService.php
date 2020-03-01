@@ -969,7 +969,6 @@ class EspionageActionService
 
         # Calculate ratio differential.
         $baseDamageMultiplier = $this->getOpBaseDamageMultiplier($dominion, $target);
-        $baseDamage *= (1+$baseDamageMultiplier);
 
         if (isset($operationInfo['decreases']))
         {
@@ -985,7 +984,7 @@ class EspionageActionService
 
                 $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
                 #$damage = ($target->{$attr} - $damageReduction) * $baseDamage * $damageMultiplier;
-                $damage = ($target->{$attr} - $damageReduction) * $baseDamage;
+                $damage = ($target->{$attr} - $damageReduction) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
 
                 $target->{$attr} -= round($damage);
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
