@@ -972,7 +972,7 @@ class InvadeActionService
 
         $extraLandGenerated = round($acresLost * $landGeneratedMultiplier);
 
-        $this->invasionResult['attacker']['landGenerated'][$homeLandType] += $extraLandGenerated;
+        $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
         $landGainedPerLandType[$homeLandType] += $extraLandGenerated;
 
         $this->landLost = $acresLost;
