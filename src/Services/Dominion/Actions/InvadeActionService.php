@@ -885,12 +885,15 @@ class InvadeActionService
         $landAndBuildingsLostPerLandType = $this->landCalculator->getLandLostByLandType($target, $landLossRatio);
 
         $landGainedPerLandType = [];
-        foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost) {
-            if (!isset($this->invasionResult['attacker']['landConquered'][$landType])) {
+        foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost)
+        {
+            if (!isset($this->invasionResult['attacker']['landConquered'][$landType]))
+            {
                 $this->invasionResult['attacker']['landConquered'][$landType] = 0;
             }
 
-            if (!isset($this->invasionResult['attacker']['landGenerated'][$landType])) {
+            if (!isset($this->invasionResult['attacker']['landGenerated'][$landType]))
+            {
                 $this->invasionResult['attacker']['landGenerated'][$landType] = 0;
             }
 
@@ -923,22 +926,6 @@ class InvadeActionService
             $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
             $landGained = ($landConquered + $landGenerated);
 
-            $landGeneratedMultiplier = 0;
-
-            // Add 20% to generated if Nomad spell Campaign is enabled.
-            if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
-            {
-                $landGeneratedMultiplier += 0.25;
-            }
-
-            // Improvement: Cartography
-            $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
-
-            // Resource: XP
-            $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
-
-            $landGenerated = $landGenerated * (1 + $landGeneratedMultiplier);
-
             # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
             {
@@ -965,6 +952,28 @@ class InvadeActionService
             $this->invasionResult['attacker']['landConquered'][$landType] += $landConquered;
             $this->invasionResult['attacker']['landGenerated'][$landType] += $landGenerated;
         }
+
+
+        // Calculate extra generated land (becomes home land type).
+        $landGeneratedMultiplier = 0;
+        $homeLandType = 'land_' . $dominion->race->home_land_type;
+
+        // Add 20% to generated if Nomad spell Campaign is enabled.
+        if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
+        {
+            $landGeneratedMultiplier += 0.25;
+        }
+
+        // Improvement: Cartography
+        $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
+
+        // Resource: XP
+        $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
+
+        $extraLandGenerated = round($acresLost * $landGeneratedMultiplier);
+
+        $this->invasionResult['attacker']['landGenerated'][$homeLandType] += $extraLandGenerated;
+        $landGainedPerLandType[$homeLandType] += $extraLandGenerated;
 
         $this->landLost = $acresLost;
 
