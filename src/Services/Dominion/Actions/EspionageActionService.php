@@ -967,7 +967,7 @@ class EspionageActionService
         $damageDealt = [];
         #$baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
 
-        $baseDamage = $operationInfo['percentage'] / 100;
+        $baseDamage = $operationInfo['percentage'] / 100 / 2;
 
         # Calculate ratio differential.
         $baseDamageMultiplier = $this->getOpBaseDamageMultiplier($dominion, $target);
