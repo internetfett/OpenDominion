@@ -1100,9 +1100,9 @@ class EspionageActionService
      */
     public function getOpBaseDamageMultiplier(Dominion $performer, Dominion $target): float
     {
-        $casterWpa = $this->militaryCalculator->getSpyRatio($caster, 'offense');
-        $targetWpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
-        return ($casterWpa - $targetWpa) / 10;
+        $performerSpa = $this->militaryCalculator->getSpyRatio($performer, 'offense');
+        $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        return ($performerSpa - $targetSpa) / 10;
     }
 
     /**
