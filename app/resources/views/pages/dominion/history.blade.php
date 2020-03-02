@@ -39,13 +39,11 @@
                                           <td>
                                               {{ $event->delta }}
 
-                                              @foreach(json_decode($event->delta, TRUE) as $details)
-
-                                              <pre>
-                                              {{ var_dump($details) }}
-                                            </pre>
-
+                                              <ul>
+                                              @foreach(json_decode($event->delta, TRUE) as $data => $delta)
+                                                <li>{{ $data }}: {{ $delta }}</li>
                                               @endforeach
+                                              </ul>
                                           </td>
                                       </tr>
                                   @endforeach
