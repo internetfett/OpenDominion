@@ -14,7 +14,7 @@ class HistoryController extends AbstractDominionController
         $history = DB::table('dominion_history')
                             ->where('dominion_history.dominion_id', '=', $selectedDominion->id)
                             ->orderBy('dominion_history.created_at')
-                            ->pluck('dominions', 'alignment')->all();
+                            ->all();
 
         return view('pages.dominion.history', [
             'history' => $history
