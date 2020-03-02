@@ -49,17 +49,5 @@
                   </div>
               </div>
           </div>
-
-        <div class="col-sm-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
-                </div>
-                <div class="box-body">
-                    <p>This is your history.</p>
-                </div>
-            </div>
-        </div>
-
     </div>
 @endsection
