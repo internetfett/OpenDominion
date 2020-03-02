@@ -13,7 +13,37 @@
                 <div class="box-body no-padding">
                     <div class="row">
 
-                        HISTORY
+                      <div class="box-body table-responsive no-padding">
+                          <table class="table">
+                              <colgroup>
+                                  <col width="150">
+                                  <col width="150">
+                                  <col>
+                              </colgroup>
+                              <thead>
+                                  <tr>
+                                      <th>Date and Time</th>
+                                      <th>Action</th>
+                                      <th>Details</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($history as $event)
+                                      <tr>
+                                          <td>
+                                              {{ $event['created_at'] }}
+                                          </td>
+                                          <td>
+                                              {{ $event['event'] }}
+                                          </td>
+                                          <td>
+                                              {{ $event['delta'] }}
+                                          </td>
+                                      </tr>
+                                  @endforeach
+                              </tbody>
+                          </table>
+                      </div>
 
                     </div>
                 </div>
