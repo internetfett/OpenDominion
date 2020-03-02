@@ -974,7 +974,7 @@ class InvadeActionService
 
         #$this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
 
-        if($this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type])
+        if(isset($this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type]))
         {
           $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
         }
@@ -983,7 +983,7 @@ class InvadeActionService
           $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] = $extraLandGenerated;
         }
 
-        if($landGainedPerLandType[$homeLandType])
+        if(isset($landGainedPerLandType[$homeLandType]))
         {
           $landGainedPerLandType[$homeLandType] += $extraLandGenerated;
         }
