@@ -29,7 +29,7 @@
                               </thead>
                               <tbody>
                                   @foreach ($history as $event)
-                                    {{ $action = $historyHelper->getAction($event) }}
+                                    {{ $action = $historyHelper->getAction($event->event) }}
                                       <tr>
                                           <td>
                                               {{ $event->created_at }}
