@@ -22,7 +22,7 @@
                               </colgroup>
                               <thead>
                                   <tr>
-                                      <th>Date and Time</th>
+                                      <th>Date</th>
                                       <th>Action</th>
                                       <th>Details</th>
                                   </tr>
@@ -38,6 +38,12 @@
                                           </td>
                                           <td>
                                               {{ $event->delta }}
+
+                                              @foreach(json_decode($event->delta, TRUE) as $details)
+
+                                              {{ print_r($details) }}
+
+                                              @endforeach
                                           </td>
                                       </tr>
                                   @endforeach
