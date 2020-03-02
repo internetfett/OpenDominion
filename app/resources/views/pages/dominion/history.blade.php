@@ -34,7 +34,7 @@
                                               {{ $event->created_at }}
                                           </td>
                                           <td>
-                                              {{ $event->event }}
+                                              {{ $historyHelper->getAction(event->event) }}
                                           </td>
                                           <td>
                                               {{ $event->delta }}

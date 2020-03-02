@@ -3,6 +3,7 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 use DB;
+use OpenDominion\Helpers\HistoryHelper;
 
 class HistoryController extends AbstractDominionController
 {
@@ -17,6 +18,7 @@ class HistoryController extends AbstractDominionController
                             ->get();
 
         return view('pages.dominion.history', [
+            'historyHelper' => app(HistoryHelper::class),
             'history' => $history
         ]);
     }
