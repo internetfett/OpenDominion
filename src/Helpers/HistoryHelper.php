@@ -63,7 +63,7 @@ class HistoryHelper
               $text = 'Exchange';
               break;
           default:
-              $icon = 'ra-help'
+              $icon = 'ra ra-help ra-fw';
               $text = 'Undefined';
               break;
       }
