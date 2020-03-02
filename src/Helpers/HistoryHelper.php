@@ -74,7 +74,7 @@ class HistoryHelper
         $return['icon'] = $icon;
         $return['text'] = $text;
 
-      return $action;
+      return $return;
     }
 
 }
