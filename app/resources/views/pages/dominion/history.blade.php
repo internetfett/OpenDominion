@@ -37,8 +37,6 @@
                                                 <i class="{{ $historyHelper->getEventIcon($event->event) }}"></i> {{ $historyHelper->getEventName($event->event) }}</a>
                                           </td>
                                           <td>
-                                              {{ $event->delta }}
-
                                               <ul>
                                               @foreach(json_decode($event->delta, TRUE) as $data => $delta)
                                                 <li>{{ $data }}: {{ $delta }}</li>
