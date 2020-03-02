@@ -41,7 +41,9 @@
 
                                               @foreach(json_decode($event->delta, TRUE) as $details)
 
-                                              {{ print_r($details) }}
+                                              <pre>
+                                              {{ var_dump($details) }}
+                                            </pre>
 
                                               @endforeach
                                           </td>
