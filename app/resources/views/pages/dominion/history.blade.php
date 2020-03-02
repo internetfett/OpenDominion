@@ -29,13 +29,12 @@
                               </thead>
                               <tbody>
                                   @foreach ($history as $event)
-                                    {{ $action = $historyHelper->getAction($event->event) }}
                                       <tr>
                                           <td>
                                               {{ $event->created_at }}
                                           </td>
                                           <td>
-                                            <i class="{{ $action['icon'] }}"></i> <span>{{ $action['text'] }}</span></a>
+                                                <i class="{{ $historyHelper->getEventIcon($event->event) }}"></i> {{ $historyHelper->getEventName($event->event) }}</a>
                                           </td>
                                           <td>
                                               {{ $event->delta }}
