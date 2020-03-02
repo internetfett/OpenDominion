@@ -32,13 +32,13 @@
                                   @foreach ($history as $event)
                                       <tr>
                                           <td>
-                                              {{ $event['created_at'] }}
+                                              {{ $event->created_at }}
                                           </td>
                                           <td>
-                                              {{ $event['event'] }}
+                                              {{ $event->event }}
                                           </td>
                                           <td>
-                                              {{ $event['delta'] }}
+                                              {{ $event->delta }}
                                           </td>
                                       </tr>
                                   @endforeach
