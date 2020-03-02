@@ -24,6 +24,7 @@ class HistoryHelper
             'release' => 'ra ra-sword ra-fw',
             'perform espionage operation' => 'fa fa-user-secret fa-fw',
             'bank' => 'fa fa-money fa-fw',
+            'explore' => 'ra ra-telescope ra-fw',
         ];
 
         return $icons[$event];
@@ -46,6 +47,7 @@ class HistoryHelper
             'release' => 'Release',
             'perform espionage operation' => 'Espionage',
             'bank' => 'Exchange',
+            'explore' => 'Explore',
         ];
 
         return $icons[$event];
