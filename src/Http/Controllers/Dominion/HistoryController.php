@@ -2,14 +2,7 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
-use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Calculators\Dominion\PopulationCalculator;
-use OpenDominion\Calculators\NetworthCalculator;
-use OpenDominion\Helpers\NotificationHelper;
-use OpenDominion\Services\Dominion\ProtectionService;
-use OpenDominion\Services\Dominion\QueueService;
-
+use DB;
 
 class HistoryController extends AbstractDominionController
 {
