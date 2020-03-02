@@ -28,6 +28,7 @@
                                   </tr>
                               </thead>
                               <tbody>
+                                {{ dd($history) }}
                                   @foreach ($history as $event)
                                       <tr>
                                           <td>
