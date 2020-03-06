@@ -32,7 +32,7 @@ class HistoryHelper
 
     public function getEventName(string $event): string
     {
-        $icons = [
+        $name = [
           'bank' => 'Exchange',
           'cast spell' => 'Spell',
           'change draft rate' => 'Draft rate',
@@ -50,7 +50,7 @@ class HistoryHelper
           'train' => 'Training',
         ];
 
-        return $icons[$event];
+        return $name[$event];
     }
 
 }

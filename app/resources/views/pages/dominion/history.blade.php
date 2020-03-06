@@ -19,7 +19,7 @@
                       </colgroup>
                       <thead>
                           <tr>
-                              <th>Date</th>
+                              <th>Date and Time</th>
                               <th>Action</th>
                               <th>Details</th>
                           </tr>
@@ -36,6 +36,11 @@
                                         <td>
                                             <ul>
                                             @foreach(json_decode($event->delta, TRUE) as $data => $delta)
+                                              <li>{{ $data }}: {{ $delta }}</li>
+                                            @endforeach
+
+
+                                            @foreach(json_decode($event->delta, TRUE) as $delta)
                                               <li>{{ $data }}: {{ $delta }}</li>
                                             @endforeach
                                             </ul>
