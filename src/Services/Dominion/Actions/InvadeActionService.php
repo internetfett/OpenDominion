@@ -246,19 +246,19 @@ class InvadeActionService
             $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
 
             if (!$this->hasAnyOP($dominion, $units)) {
-                throw new GameException('You need to send at least some units');
+                throw new GameException('You need to send at least some units.');
             }
 
             if (!$this->allUnitsHaveOP($dominion, $units)) {
-                throw new GameException('You cannot send units that have no offensive power');
+                throw new GameException('You cannot send units that have no offensive power.');
             }
 
             if (!$this->hasEnoughUnitsAtHome($dominion, $units)) {
-                throw new GameException('You don\'t have enough units at home to send this many units');
+                throw new GameException('You don\'t have enough units at home to send this many units.');
             }
 
             if (!$this->hasEnoughBoats($dominion, $units)) {
-                throw new GameException('You do not have enough boats to send this many units');
+                throw new GameException('You do not have enough boats to send this many units.');
             }
 
             if ($dominion->morale < static::MIN_MORALE) {
@@ -266,11 +266,11 @@ class InvadeActionService
             }
 
             if (!$this->passes33PercentRule($dominion, $target, $units)) {
-                throw new GameException('You need to leave more DP units at home, based on the OP you\'re sending out (33% rule)');
+                throw new GameException('You need to leave at least 1/3 of your total defensive power at home.');
             }
 
             if (!$this->passes54RatioRule($dominion, $target, $landRatio, $units)) {
-                throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule)');
+                throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
             }
 
             foreach($units as $amount)
