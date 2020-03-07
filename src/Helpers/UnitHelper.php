@@ -324,6 +324,7 @@ class UnitHelper
                 }
 
                 // Special case for dies_into and wins_into ("change_into")
+                /*
                 if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
                 {
                         $unitToChangeIntoSlot = array_map('intval', str_split($perkValue));
@@ -335,6 +336,23 @@ class UnitHelper
                         })->first();
 
                         $unitToChangeIntoName = $unitToChangeInto->name;
+                }
+                */
+                // Special case for conversions
+                if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
+                {
+                    $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
+                    $unitNamesToConvertTo = [];
+
+                    foreach ($unitSlotsToConvertTo as $slot) {
+                        $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
+                            return ($unit->slot === $slot);
+                        })->first();
+
+                        $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
+                    }
+
+                    $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
 
 
