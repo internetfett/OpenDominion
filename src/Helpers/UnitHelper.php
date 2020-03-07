@@ -193,9 +193,13 @@ class UnitHelper
             'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
             #'defense_mob' => 'Defense increased by +%1$s if you outnumber the invading military.',
 
-            'offense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
+            'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
+            # Round 19
+            'wins_into' => 'Upon victory, returns as a %s.',
+            'dies_into_multiple' => 'Upon victory, returns as %2%s %1$s.',
+            'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio to train.',
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
@@ -313,7 +317,7 @@ class UnitHelper
                 }
 
                 // Special case for dies_into
-                if ($perk->key === 'dies_into')
+                if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
                 {
                         $unitSlotsToDieInto = array_map('intval', str_split($perkValue));
                         $unitNamesToDieInto = [];
