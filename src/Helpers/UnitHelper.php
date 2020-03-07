@@ -331,7 +331,7 @@ class UnitHelper
 
                         $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitToChangeIntoSlot)
                         {
-                          return ($unit->slot === $unitToChangeIntoSlot)
+                          return ($unit->slot === $unitToChangeIntoSlot);
                         })->first();
 
                         $unitToChangeIntoName = $unitToChangeInto->name;
