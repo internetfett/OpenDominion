@@ -280,8 +280,9 @@ class UnitHelper
                           $perkValue[2] = 1;
                       }
                   }
-                // Special case for conversions and dies_into
-                if ($perk->key === 'conversion') {
+                // Special case for conversions
+                if ($perk->key === 'conversion')
+                {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
 
@@ -316,20 +317,17 @@ class UnitHelper
                     }
                 }
 
-                // Special case for dies_into
+                // Special case for dies_into and wins_into ("change_into")
                 if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
                 {
-                        $unitSlotsToDieInto = array_map('intval', str_split($perkValue));
-                        $unitNamesToDieInto = [];
+                        $unitSlotToChangeInto = array_map('intval', str_split($perkValue));
+                        $unitNameToChangeInto = '';
 
-                        foreach ($unitSlotsToDieInto as $slot)
-                        {
-                            $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
-                                return ($unit->slot === $slot);
-                            })->first();
+                        $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitSlotToChangeInto) {
+                            return ($unit->slot === $unitSlotToChangeInto);
+                        })->first();
 
-                            $unitNamesToDieInto[] = $unitToDieInto->name;
-                        }
+                        $unitNameToChangeInto = $unitToChangeInto->name;
                 }
 
 
