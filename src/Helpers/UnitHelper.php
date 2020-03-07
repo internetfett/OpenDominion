@@ -326,15 +326,15 @@ class UnitHelper
                 // Special case for dies_into and wins_into ("change_into")
                 if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
                 {
-                        $unitSlotToChangeInto = array_map('intval', str_split($perkValue));
-                        $unitNameToChangeInto = '';
+                        $unitToChangeIntoSlot = array_map('intval', str_split($perkValue));
+                        $unitToChangeIntoName = '';
 
-                        $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitSlotToChangeInto)
+                        $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitToChangeIntoSlot)
                         {
-                          return ($unit->slot === $unitSlotToChangeInto)
+                          return ($unit->slot === $unitToChangeIntoSlot)
                         })->first();
-                        
-                        $unitNameToChangeInto = $unitToChangeInto->name;
+
+                        $unitToChangeIntoName = $unitToChangeInto->name;
                 }
 
 
