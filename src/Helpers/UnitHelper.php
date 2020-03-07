@@ -327,6 +327,8 @@ class UnitHelper
                             return ($unit->slot === $unitSlotToChangeInto);
                         })->first();
 
+                        dd($unitToChangeInto);
+
                         $unitNameToChangeInto = $unitToChangeInto->name;
                 }
 
