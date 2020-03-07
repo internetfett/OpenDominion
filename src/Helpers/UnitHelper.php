@@ -180,30 +180,25 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
-            # Round 17
             'kills_peasants' => 'Eats %s peasants per tick.',
             'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul each.',
+
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
-            'dies_into' => 'Upon death, returns as a %s.',
+            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+
+            'dies_into' => 'Upon death, returns as a %.',
+            'wins_into' => 'Upon victory, returns as a %1.',
 
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
 
-            # Round 18
-            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
-            #'defense_mob' => 'Defense increased by +%1$s if you outnumber the invading military.',
-
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
-            # Round 19
-            'wins_into' => 'Upon victory, returns as a %s.',
-            'dies_into_multiple' => 'Upon victory, returns as %2%s %1$s.',
             'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio to train.',
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
 
         ];
 
@@ -324,21 +319,6 @@ class UnitHelper
                 }
 
                 // Special case for dies_into and wins_into ("change_into")
-                /*
-                if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
-                {
-                        $unitToChangeIntoSlot = array_map('intval', str_split($perkValue));
-                        $unitToChangeIntoName = '';
-
-                        $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitToChangeIntoSlot)
-                        {
-                          return ($unit->slot === $unitToChangeIntoSlot);
-                        })->first();
-
-                        $unitToChangeIntoName = $unitToChangeInto->name;
-                }
-                */
-                // Special case for conversions
                 if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
                 {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
