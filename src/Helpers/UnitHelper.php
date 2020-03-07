@@ -208,7 +208,8 @@ class UnitHelper
         ];
 
         // Get unit - same logic as military page
-        if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4'])) {
+        if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+        {
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
@@ -223,8 +224,10 @@ class UnitHelper
             # ODA: Show base OP and DP in unitHelperString
             $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . '</li>';
 
-            foreach ($unit->perks as $perk) {
-                if (!array_key_exists($perk->key, $perkTypeStrings)) {
+            foreach ($unit->perks as $perk)
+            {
+                if (!array_key_exists($perk->key, $perkTypeStrings))
+                {
                     //\Debugbar::warning("Missing perk help text for unit perk '{$perk->key}'' on unit '{$unit->name}''.");
                     continue;
                 }
@@ -266,20 +269,23 @@ class UnitHelper
                         $perkValue[2] = 1;
                     }
                 }
-                  // Special case for unit_production
-                  if ($perk->key === 'unit_production') {
-                      $slot = (int)$perkValue[0];
-                      $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
-                          return ($unit->slot === $slot);
-                      })->first();
 
-                      $perkValue[0] = $pairedUnit->name;
-                      if (isset($perkValue[2]) && $perkValue[2] > 1) {
-                          $perkValue[0] = str_plural($perkValue[0]);
-                      } else {
-                          $perkValue[2] = 1;
-                      }
-                  }
+                // Special case for unit_production
+                if ($perk->key === 'unit_production')
+                {
+                    $slot = (int)$perkValue[0];
+                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    $perkValue[0] = $pairedUnit->name;
+                    if (isset($perkValue[2]) && $perkValue[2] > 1) {
+                        $perkValue[0] = str_plural($perkValue[0]);
+                    } else {
+                        $perkValue[2] = 1;
+                    }
+                }
+
                 // Special case for conversions
                 if ($perk->key === 'conversion')
                 {
@@ -323,12 +329,11 @@ class UnitHelper
                         $unitSlotToChangeInto = array_map('intval', str_split($perkValue));
                         $unitNameToChangeInto = '';
 
-                        $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitSlotToChangeInto) {
-                            return ($unit->slot === $unitSlotToChangeInto);
+                        $unitToChangeInto = $race->units->filter(static function ($unit) use ($unitSlotToChangeInto)
+                        {
+                          return ($unit->slot === $unitSlotToChangeInto)
                         })->first();
-
-                        dd($unitToChangeInto);
-
+                        
                         $unitNameToChangeInto = $unitToChangeInto->name;
                 }
 
