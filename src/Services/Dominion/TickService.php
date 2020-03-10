@@ -267,27 +267,21 @@ class TickService
                   }
                 }
 
+                // Improvements Decay: remove points from each improvement type.
+                if($dominion->tick->improvements_decay > 0)
+                {
+                    foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
+                    {
+                        $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
+                    }
+                }
+
                 DB::transaction(function () use ($dominion) {
                     if (!empty($dominion->tick->starvation_casualties)) {
                         $this->notificationService->queueNotification(
                             'starvation_occurred',
                             $dominion->tick->starvation_casualties
                         );
-                    }
-
-                    // Improvements Decay: remove points from each improvement type.
-                    if($dominion->tick->improvements_decay > 0)
-                    {
-                      Log::info($dominion->id . ' has improvements decay: ' . $dominion->tick->improvements_decay);
-                      foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
-                      {
-                        if($dominion->{'improvement_' . $improvementType} > 0)
-                        {
-                          Log::info("\t" . 'improvement_' . $improvementType . ' (' . $dominion->{'improvement_' . $improvementType} . ') decayed by ' . $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000));
-                          $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
-                          Log::info("\t" . 'improvement_' . $improvementType . ' = ' . $dominion->{'improvement_' . $improvementType});                          
-                        }
-                      }
                     }
 
                     $this->cleanupActiveSpells($dominion);
