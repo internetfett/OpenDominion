@@ -675,10 +675,13 @@ class TickService
         if($dominion->race->getPerkValue('improvements_decay'))
         {
           $decay = $dominion->race->getPerkValue('improvements_decay') / 100;
+          $improvementsDecay = [];
           foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
           {
-              $tick->castle_decay[] = [$improvementType => $dominion->{'improvement_' . $improvementType} * $decay];
+              $improvementsDecay[] = [$improvementType => $dominion->{'improvement_' . $improvementType} * $decay];
           }
+
+          $tick->castle_decay = $improvementsDecay[];
         }
 
         // Resources
