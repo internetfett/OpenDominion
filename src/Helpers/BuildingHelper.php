@@ -277,7 +277,7 @@ class BuildingHelper
             'shrine' => 'Reduces offensive casualties.<br><br>Casualties reduced by -5.5% per 1% owned, up to a maximum of -80% at 14.55% owned.', // todo: hero level gain and hero bonuses
             'barracks' => 'Houses 36 trained or training military units.<br><br>Does not increase in capacity for population bonuses.',
             'dock' => 'Produces 1 boat every 20 ticks on average, produces 35 bushels of food per tick and each dock prevents 2.5 of your boats from being sunk.',
-            'ziggurat' => 'Houses 20 people or units, produces 1 mana/tick, and provides 4 raw DP.',
+            'ziggurat' => 'Produces 60 mana/tick.',
             'tissue' => 'Houses 160 cells, amoeba, or units. Produces 4 food/tick.',
             'mycelia' => 'House 10 people or units. Produces 4 food/tick.',
             'tunnels' => 'Dig, dig, dig.'

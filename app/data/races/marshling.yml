@@ -2,7 +2,7 @@ name: Marshling
 alignment: independent
 description: >-
   <p>Bubbling and oozing from the deepest, dankest swamps, Marshlings live a cyclical life.</p>
-  <p>They start their lives as bogpoles, which when fed a diet of food and lumber can, with the touch of magic, turn into what in the common tongue are commonly refered to as blobs.</p>
+  <p>They start their lives as bogpoles, which when fed a diet of food and lumber can, with the touch of magic, turn into spawns.</p>
 home_land_type: swamp
 playable: 1
 
@@ -12,20 +12,21 @@ converting: 2
 
 perks:
   cannot_build_barracks: 1
+  construction_cost: 20
 units:
   - name: Spawn
     need_boat: true
     cost:
       food: 100
-      mana: 100
       lumber: 100
+      mana: 10
     power:
       offense: 2
       defense: 2
     perks:
       minimum_wpa_to_train: 0.25
       wins_into: 2
-  - name: Blob
+  - name: Slime
     need_boat: true
     cost:
       platinum: 0
@@ -36,24 +37,25 @@ units:
       cannot_be_trained: 1
       wins_into: 3
       dies_into: 1
-  - name: Large Blob
+  - name: Goo
     need_boat: true
     cost:
       platinum: 0
     power:
-      offense: 6
+      offense: 5
       defense: 8
     perks:
       cannot_be_trained: 1
       wins_into: 4
       dies_into: 2
-  - name: Giant Blob
+  - name: Ooze
     need_boat: true
     cost:
       platinum: 0
     power:
       offense: 8
-      defense: 6
+      defense: 5
     perks:
       cannot_be_trained: 1
       dies_into: 1
+      conversion: 1

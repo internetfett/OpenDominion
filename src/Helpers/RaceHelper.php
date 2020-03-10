@@ -287,6 +287,11 @@ class RaceHelper
                 $description = 'Can only build Ziggurats';
                 $booleanValue = true;
                 break;
+            case 'defense_per_ziggurat':
+                $negativeBenefit = false;
+                $description = 'Raw defensive power per Ziggurat';
+                $booleanValue = true;
+                break;
             case 'can_only_build_tissue':
                 $negativeBenefit = false;
                 $description = 'Can only build Tissue';

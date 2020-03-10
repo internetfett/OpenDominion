@@ -164,10 +164,6 @@ class PopulationCalculator
                     $housing = 0;
                     break;
 
-                case 'ziggurat':
-                    $housing = 20;
-                    break;
-
                 case 'tissue':
                     $housing = 160;
                     break;

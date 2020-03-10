@@ -327,9 +327,6 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
-        // Void: Ziggurat
-        $dp += $dominion->building_ziggurat * 4;
-
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
         {

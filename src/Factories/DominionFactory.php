@@ -66,8 +66,8 @@ class DominionFactory
 
 
 
-        // Give +1% starting resources per hour late, max +100% (at 100 hours, mid-day 4).
-        #$hourSinceRoundStarted = ($realm->round->start_date)->diffInHours(now());
+        # Late-joiner bonus:
+        # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
         if($realm->round->hasStarted())
         {
           $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
@@ -77,13 +77,13 @@ class DominionFactory
           $hoursSinceRoundStarted = 0;
         }
 
-        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.01);
+        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.015);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
-        $startingResources['protection_ticks'] = 80;
+        $startingResources['protection_ticks'] = 84;
 
         /*  ROUND 17: New Protection:
 

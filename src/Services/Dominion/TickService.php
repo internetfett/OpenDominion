@@ -476,8 +476,9 @@ class TickService
 
           if($invade)
           {
-            # Grow by 4-12% (random).
-            $landGainRatio = max(400,rand(300,1200))/10000;
+            # Grow by 5-10% (random), skewed to lower.
+            $landGainRatio = max(500,rand(400,1000))/10000;
+            $landGainRatio *= $dominion->npc_modifier / 1000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $landGainRatio;
@@ -525,19 +526,19 @@ class TickService
                );
             }
 
-           # Queue the incoming land.
-           foreach($landGained as $type => $amount)
-           {
-             $data = [$type => $amount];
-             $this->queueService->queueResources(
-                 'invasion',
-                 $dominion,
-                 $data
-             );
+            # Queue the incoming land.
+            foreach($landGained as $type => $amount)
+            {
+               $data = [$type => $amount];
+               $this->queueService->queueResources(
+                   'invasion',
+                   $dominion,
+                   $data
+               );
 
-             $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
+               $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
 
-           }
+            }
          }
         }
 
@@ -565,7 +566,7 @@ class TickService
            $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
 
            # Linear hourly
-           $dpa = $constant + ($hours * 0.35 * 1.02); # Down from 0.50.
+           $dpa = $constant + ($hours * 0.35 * 1.12);
            $dpa *= ($dominion->npc_modifier / 1000);
            $dpa = intval($dpa);
            $opa = intval($dpa * 0.75);
