@@ -268,16 +268,12 @@ class TickService
                 }
 
                 // Improvements Decay: remove points from each improvement type.
-                if(!empty($dominion->tick->improvements_decay))
+                if($dominion->tick->improvements_decay > 0)
                 {
-                  #foreach($dominion->tick->improvements_decay as $improvementType => $amountDecayed)
-                  #{
-                  #  $dominion->{'improvement_' . $improvementType} -= min(floor($amountDecayed), $dominion->{'improvement_' . $improvementType});
-                  #}
-
+                  $percentageDecayed = $dominion->tick->improvements_decay / 10000;
                   foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
                   {
-                    $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 100 / 100);
+                    $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
                   }
                 }
 
