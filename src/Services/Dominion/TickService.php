@@ -281,9 +281,12 @@ class TickService
                       Log::info($dominion->id . ' has improvements decay: ' . $dominion->tick->improvements_decay);
                       foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
                       {
-                        Log::info("\t" . 'improvement_' . $improvementType . ' (' . $dominion->{'improvement_' . $improvementType} . ') decayed by ' . $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000));
-                        $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
-                        Log::info("\t" . 'improvement_' . $improvementType . ' = ' . $dominion->{'improvement_' . $improvementType});
+                        if($dominion->{'improvement_' . $improvementType} > 0)
+                        {
+                          Log::info("\t" . 'improvement_' . $improvementType . ' (' . $dominion->{'improvement_' . $improvementType} . ') decayed by ' . $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000));
+                          $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
+                          Log::info("\t" . 'improvement_' . $improvementType . ' = ' . $dominion->{'improvement_' . $improvementType});                          
+                        }
                       }
                     }
 
