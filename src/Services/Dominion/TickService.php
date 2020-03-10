@@ -674,7 +674,7 @@ class TickService
         // Void: Improvements Decay - Lower all improvements by
         if($dominion->race->getPerkValue('improvements_decay'))
         {
-          $decay = $dominion->getPerkValue('improvements_decay') / 100;
+          $decay = $dominion->race->getPerkValue('improvements_decay') / 100;
           foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
           {
               $tick->castle_decay[] = [$improvementType => $dominion->{'improvement_' . $improVementType} * $decay];
