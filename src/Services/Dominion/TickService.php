@@ -263,10 +263,19 @@ class TickService
                   $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
                   if ($caster)
                   {
-                      echo print_r($dominion->tick->pestilence_units);
                       $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
                   }
                 }
+
+                // Improvements Decay: remove points from each improvement type.
+                if(!empty($dominion->tick->improvements_decay))
+                {
+                  foreach($dominion->tick->improvements_decay as $improvementType => $amountDecayed)
+                  {
+                    $dominion->{'improvement_' . $improvementType} -= min(floor($amountDecayed), $dominion->{'improvement_' . $improvementType});
+                  }
+                }
+
 
                   DB::transaction(function () use ($dominion) {
                       if (!empty($dominion->tick->starvation_casualties)) {
@@ -678,7 +687,7 @@ class TickService
           $improvementsDecay = [];
           foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
           {
-              $improvementsDecay[] = [$improvementType => $dominion->{'improvement_' . $improvementType} * $decay];
+              $improvementsDecay[] = [$improvementType => floor($dominion->{'improvement_' . $improvementType} * $decay)];
           }
 
           $tick->improvements_decay = $improvementsDecay;
