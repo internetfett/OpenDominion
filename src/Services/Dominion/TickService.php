@@ -270,9 +270,14 @@ class TickService
                 // Improvements Decay: remove points from each improvement type.
                 if(!empty($dominion->tick->improvements_decay))
                 {
-                  foreach($dominion->tick->improvements_decay as $improvementType => $amountDecayed)
+                  #foreach($dominion->tick->improvements_decay as $improvementType => $amountDecayed)
+                  #{
+                  #  $dominion->{'improvement_' . $improvementType} -= min(floor($amountDecayed), $dominion->{'improvement_' . $improvementType});
+                  #}
+
+                  foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
                   {
-                    $dominion->{'improvement_' . $improvementType} -= min(floor($amountDecayed), $dominion->{'improvement_' . $improvementType});
+                    $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay) / 100 / 100);
                   }
                 }
 
@@ -443,11 +448,11 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units', 'improvements_decay'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units'], true))
             {
                   $tick->{$attr} = 0;
             }
-            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'improvements_decay'], true))
+            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
             {
                 $tick->{$attr} = [];
             }/*
@@ -684,13 +689,15 @@ class TickService
         if($dominion->race->getPerkValue('improvements_decay'))
         {
           $decay = $dominion->race->getPerkValue('improvements_decay') / 100;
+          /*
           $improvementsDecay = [];
           foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
           {
               $improvementsDecay[] = [$improvementType => floor($dominion->{'improvement_' . $improvementType} * $decay)];
           }
+          */
 
-          $tick->improvements_decay = $improvementsDecay;
+          $tick->improvements_decay = $dominion->race->getPerkValue('improvements_decay') * 100;
         }
 
         // Resources
