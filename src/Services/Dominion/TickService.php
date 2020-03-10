@@ -671,7 +671,7 @@ class TickService
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
-        // Void: Improvements Decay - Lower all improvements by
+        // Void: Improvements Decay - Lower all improvements by improvements_decay%.
         if($dominion->race->getPerkValue('improvements_decay'))
         {
           $decay = $dominion->race->getPerkValue('improvements_decay') / 100;
@@ -681,7 +681,7 @@ class TickService
               $improvementsDecay[] = [$improvementType => $dominion->{'improvement_' . $improvementType} * $decay];
           }
 
-          $tick->castle_decay = $improvementsDecay;
+          $tick->improvements_decay = $improvementsDecay;
         }
 
         // Resources
