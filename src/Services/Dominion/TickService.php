@@ -278,9 +278,10 @@ class TickService
                     // Improvements Decay: remove points from each improvement type.
                     if($dominion->tick->improvements_decay > 0)
                     {
-                      Log::info($dominion->id . ' has improvements decay.');
+                      Log::info($dominion->id . ' has improvements decay: ' . $dominion->tick->improvements_decay);
                       foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
                       {
+                        Log::info("\t" . $dominion->{'improvement_' . $improvementType} . ' decayed by ' . $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000));
                         $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
                       }
                     }
@@ -681,15 +682,6 @@ class TickService
         // Void: Improvements Decay - Lower all improvements by improvements_decay%.
         if($dominion->race->getPerkValue('improvements_decay'))
         {
-          $decay = $dominion->race->getPerkValue('improvements_decay') / 100;
-          /*
-          $improvementsDecay = [];
-          foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
-          {
-              $improvementsDecay[] = [$improvementType => floor($dominion->{'improvement_' . $improvementType} * $decay)];
-          }
-          */
-
           $tick->improvements_decay = $dominion->race->getPerkValue('improvements_decay') * 100;
         }
 
