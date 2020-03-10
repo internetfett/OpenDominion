@@ -277,7 +277,7 @@ class TickService
 
                   foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
                   {
-                    $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay) / 100 / 100);
+                    $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 100 / 100);
                   }
                 }
 
