@@ -283,6 +283,7 @@ class TickService
                       {
                         Log::info("\t" . 'improvement_' . $improvementType . ' (' . $dominion->{'improvement_' . $improvementType} . ') decayed by ' . $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000));
                         $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
+                        Log::info("\t" . 'improvement_' . $improvementType . ' = ' . $dominion->{'improvement_' . $improvementType});
                       }
                     }
 
