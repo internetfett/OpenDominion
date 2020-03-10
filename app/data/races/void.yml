@@ -23,9 +23,10 @@ perks:
 #  extra_barren_max_population: 19 - Removed in favour of new building: Ziggurat
 #  max_population: 10 - Removed in favour of turning extra barren to 19 (17*1.1)
   food_consumption: -100
-  platinum_production: -20
+  #platinum_production: -20
   can_invest_mana: 1
   castle_max: 100
+  improvements_decay: 0.5
   population_growth: 40
   reduce_conversions: 100
   construction_cost_only_mana: 1
@@ -35,15 +36,15 @@ units:
   - name: Fallen
     need_boat: false
     cost:
-      platinum: 200
-      mana: 50
+      platinum: 0
+      mana: 200
     power:
       offense: 3
       defense: 0
   - name: Shadow
     cost:
-      platinum: 200
-      mana: 50
+      platinum: 0
+      mana: 200
     power:
       offense: 0
       defense: 3
@@ -51,8 +52,8 @@ units:
       mana_production: 1.5
   - name: Vision
     cost:
-      platinum: 550
-      mana: 150
+      platinum: 0
+      mana: 700
     power:
       offense: 0
       defense: 5
@@ -61,8 +62,8 @@ units:
   - name: Nightmare
     need_boat: false
     cost:
-      platinum: 400
-      mana: 400
+      platinum: 0
+      mana: 900
     power:
       offense: 5
       defense: 3

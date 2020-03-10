@@ -222,6 +222,11 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Improvement bonuses max';
                 break;
+            case 'improvements_decay':
+                $negativeBenefit = true;
+                $description = 'Improvements decay';
+                $valueType = ' % per tick';
+                break;
             case 'tech_costs':
                 $negativeBenefit = true;
                 $description = 'Cost of technological advancements';

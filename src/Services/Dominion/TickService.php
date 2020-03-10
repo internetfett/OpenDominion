@@ -23,6 +23,7 @@ use Throwable;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Helpers\ImprovementHelper;
 
 class TickService
 {
@@ -59,6 +60,9 @@ class TickService
     /** @var RangeCalculator */
     protected $rangeCalculator;
 
+    /** @var ImprovementHelper */
+    protected $improvementHelper;
+
     /**
      * TickService constructor.
      */
@@ -76,6 +80,7 @@ class TickService
 
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->improvementHelper = app(ImprovementHelper::class);
 
         /* These calculators need to ignore queued resources for the following tick */
         $this->populationCalculator->setForTick(true);
@@ -666,6 +671,18 @@ class TickService
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
+        // Void: Improvements Decay - Lower all improvements by
+        if($dominion->race->getPerkValue('improvements_decay'))
+        {
+          $decay = $dominion->getPerkValue('improvements_decay') / 100;
+          foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
+          {
+              $dominion->{'improvement_' . $improVementType};
+              $tick->castle_decay[] = [$improVementType]
+          }
+          $tick->castle_decay = [];
+        }
+
         // Resources
 
         # Max storage
@@ -742,7 +759,8 @@ class TickService
         }
 
         // Morale
-        if ($isStarving) {
+        if ($isStarving)
+        {
             # Lower morale by 10.
             $starvationMoraleChange = -10;
             if(($dominion->morale + $starvationMoraleChange) < 0)
@@ -753,7 +771,9 @@ class TickService
             {
               $tick->morale = $starvationMoraleChange;
             }
-        } else {
+        }
+        else
+        {
             if ($dominion->morale < 35)
             {
               $tick->morale = 7;
@@ -801,11 +821,6 @@ class TickService
 
         $slot = 1;
         $acresToExplore = 0;
-        #$tick->generated_unit1 = 0;
-        #$tick->generated_unit2 = 0;
-        #$tick->generated_unit3 = 0;
-        #$tick->generated_unit4 = 0;
-
         $tick->generated_land = 0;
 
         while($slot <= 4)
@@ -818,12 +833,6 @@ class TickService
             #$acresToExplore += intval($landPerTick) + (rand(0,1) < fmod($landPerTick, 1) ? 1 : 0);
           }
 
-          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
-          {
-            $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
-            $unitsToGenerate[$unitGeneration[0]] = intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
-          }
-
           $slot++;
         }
 
@@ -832,8 +841,6 @@ class TickService
           $hours = 12;
           $homeLandType = 'land_' . $dominion->race->home_land_type;
           $data = array($homeLandType => $acresToExplore);
-
-          #$this->queueService->queueResources('exploration', $dominion, $data, $hours);
           $tick->generated_land = $acresToExplore;
 
           unset($data);
