@@ -191,12 +191,9 @@ class TickService
                         'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-                        #'dominions.building_tunnels' => DB::raw('dominions.building_tunnels + dominion_tick.building_tunnels'),
 
                         'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
-                        #'dominions.stat_total_platinum_production' => 0,
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
-                        #'dominions.stat_total_food_production' => 0,
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
                         'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
                         'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
@@ -265,15 +262,6 @@ class TickService
                   {
                       $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
                   }
-                }
-
-                // Improvements Decay: remove points from each improvement type.
-                if($dominion->tick->improvements_decay > 0)
-                {
-                    foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
-                    {
-                        $dominion->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * ($dominion->tick->improvements_decay / 10000);
-                    }
                 }
 
                 DB::transaction(function () use ($dominion) {
@@ -447,11 +435,7 @@ class TickService
             elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
             {
                 $tick->{$attr} = [];
-            }/*
-            elseif ($attr === 'starvation_casualties' or $attr === 'pestilence_units')
-            {
-                $tick->{$attr} = [];
-            }*/
+            }
           }
 
         // Hacky refresh for dominion
@@ -680,7 +664,11 @@ class TickService
         // Void: Improvements Decay - Lower all improvements by improvements_decay%.
         if($dominion->race->getPerkValue('improvements_decay'))
         {
-          $tick->improvements_decay = $dominion->race->getPerkValue('improvements_decay') * 100;
+            foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
+            {
+                $percentageDecayed = $dominion->race->getPerkValue('improvements_decay')/10000;
+                $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
+            }
         }
 
         // Resources
@@ -829,8 +817,6 @@ class TickService
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
           {
             $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
-            #$landPerTick = $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
-            #$acresToExplore += intval($landPerTick) + (rand(0,1) < fmod($landPerTick, 1) ? 1 : 0);
           }
 
           $slot++;
@@ -846,29 +832,8 @@ class TickService
           unset($data);
         }
 
-        if(isset($unitsToGenerate))
+        foreach ($incomingQueue as $row)
         {
-          if(isset($unitsToGenerate[1]))
-          {
-            $tick->generated_unit1 = $unitsToGenerate[1];
-          }
-          if(isset($unitsToGenerate[2]))
-          {
-            $tick->generated_unit2 = $unitsToGenerate[2];
-          }
-          if(isset($unitsToGenerate[3]))
-          {
-            $tick->generated_unit3 = $unitsToGenerate[3];
-          }
-          if(isset($unitsToGenerate[4]))
-          {
-            $tick->generated_unit4 = $unitsToGenerate[4];
-          }
-
-          unset($unitsToGenerate);
-        }
-
-        foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
             $dominion->{$row->resource} -= $row->amount;
         }
@@ -1010,6 +975,24 @@ class TickService
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+
+                        # Improvements
+                        'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
+                        'dominions.improvement_keep' => DB::raw('dominions.improvement_keep + dominion_tick.improvement_keep'),
+                        'dominions.improvement_forges' => DB::raw('dominions.improvement_forges + dominion_tick.improvement_forges'),
+                        'dominions.improvement_walls' => DB::raw('dominions.improvement_walls + dominion_tick.improvement_walls'),
+                        'dominions.improvement_armory' => DB::raw('dominions.improvement_armory + dominion_tick.improvement_armory'),
+                        'dominions.improvement_infirmary' => DB::raw('dominions.improvement_infirmary + dominion_tick.improvement_infirmary'),
+                        'dominions.improvement_workshops' => DB::raw('dominions.improvement_workshops + dominion_tick.improvement_workshops'),
+                        'dominions.improvement_observatory' => DB::raw('dominions.improvement_observatory + dominion_tick.improvement_observatory'),
+                        'dominions.improvement_cartography' => DB::raw('dominions.improvement_cartography + dominion_tick.improvement_cartography'),
+                        'dominions.improvement_towers' => DB::raw('dominions.improvement_towers + dominion_tick.improvement_towers'),
+                        'dominions.improvement_hideouts' => DB::raw('dominions.improvement_hideouts + dominion_tick.improvement_hideouts'),
+                        'dominions.improvement_granaries' => DB::raw('dominions.improvement_granaries + dominion_tick.improvement_granaries'),
+                        'dominions.improvement_harbor' => DB::raw('dominions.improvement_harbor + dominion_tick.improvement_harbor'),
+                        'dominions.improvement_forestry' => DB::raw('dominions.improvement_forestry + dominion_tick.improvement_forestry'),
+                        'dominions.improvement_refinery' => DB::raw('dominions.improvement_refinery + dominion_tick.improvement_refinery'),
+                        'dominions.improvement_tissue' => DB::raw('dominions.improvement_tissue + dominion_tick.improvement_tissue'),
 
                         # ODA resources
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
