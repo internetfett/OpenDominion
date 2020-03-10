@@ -6,6 +6,7 @@ description: >-
   <p>After their mighty ziggurats came into physical existence, the Void have ended their loyalty to the empire and will now join either side of the conflict.</p>
   <hr />
   <ul>
+  <li>All peasants (including unemployed) produce 2.7 plat/hr raw.</li>
   <li>Unique building: Ziggurat - houses 20, produces 10 mana/tick, and provides 4 raw DP.</li>
   <li>Starts with 500 Ziggurats.</li>
   </ul>
@@ -21,52 +22,49 @@ perks:
 #  cannot_tech: 1
 #  extra_barren_max_population: 19 - Removed in favour of new building: Ziggurat
 #  max_population: 10 - Removed in favour of turning extra barren to 19 (17*1.1)
+  food_consumption: -100
   platinum_production: -20
   can_invest_mana: 1
   castle_max: 100
+  population_growth: 40
   reduce_conversions: 100
   construction_cost_only_mana: 1
   can_only_build_ziggurat: 1
   cannot_build_homes: 1
-  no_population: 1
 units:
   - name: Fallen
     need_boat: false
     cost:
-      platinum: 0
-      mana: 250
+      platinum: 200
+      mana: 50
     power:
       offense: 3
       defense: 0
   - name: Shadow
     cost:
-      platinum: 0
-      mana: 250
+      platinum: 200
+      mana: 50
     power:
       offense: 0
       defense: 3
     perks:
-      no_draftee_required_to_train: 1
-      does_not_count_as_population: 1
+      mana_production: 1.5
   - name: Vision
     cost:
-      platinum: 0
-      mana: 700
+      platinum: 550
+      mana: 150
     power:
       offense: 0
       defense: 5
     perks:
-      no_draftee_required_to_train: 1
-      does_not_count_as_population: 1
+      mana_production: 4
   - name: Nightmare
     need_boat: false
     cost:
-      platinum: 0
-      mana: 800
+      platinum: 400
+      mana: 400
     power:
       offense: 5
       defense: 3
     perks:
       offense_per_hour: 0.003,1 # amount, max
-      no_draftee_required_to_train: 1
-      does_not_count_as_population: 1
