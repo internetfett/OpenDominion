@@ -329,12 +329,12 @@
                                 <div class="box-footer">
 
                                   @if ((bool)$selectedDominion->race->getPerkValue('cannot_invade'))
-                                    <strong><em>Your faction is not able to invade other dominions.</em></strong>
+                                    <p><strong><em>Your faction is not able to invade other dominions.</em></strong></p>
 
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
-                                    <strong><em>You cannot invade during the Rainy Season.</em></strong>
+                                    <p><strong><em>You cannot invade during the Rainy Season.</em></strong></p>
 
-                                  @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') !== -1)
+                                  @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
 
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
                                       <p><strong><em>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
@@ -351,7 +351,7 @@
                                           Teleport units to battle
                                       </button>
                                       @else
-                                        <strong><em>You must open a portal before you can send your units to invade.</em></strong>
+                                        <p><strong><em>You must open a portal before you can send your units to invade.</em></strong></p>
                                       @endif
 
                                     @else
@@ -365,7 +365,6 @@
                                     @endif
                                   @endif
                                 </div>
-
 
                                 <p><em style="color:#888; margin-left: 10px;">Note that minimum raw DP is 10 DP per acre.</em></p>
 
