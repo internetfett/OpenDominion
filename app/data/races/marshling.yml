@@ -13,6 +13,8 @@ converting: 2
 perks:
   cannot_build_barracks: 1
   construction_cost: 20
+  draftees_cannot_be_abducted: 1
+  peasants_cannot_be_abducted: 1
 units:
   - name: Spawn
     need_boat: true

@@ -25,7 +25,7 @@ perks:
   food_consumption: -100
   #platinum_production: -20
   can_invest_mana: 1
-  castle_max: 100
+  improvements_max: 100
   improvements_decay: 0.5
   population_growth: 40
   reduce_conversions: 100
