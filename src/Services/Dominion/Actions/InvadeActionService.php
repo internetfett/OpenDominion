@@ -226,16 +226,10 @@ class InvadeActionService
                 throw new GameException('Nice try, but you cannot invade cross-round');
             }
 
-            // Commonwealth (good) cannot invade in-realm
-            #if($dominion->realm->alignment == 'good' and $dominion->realm->alignment == $target->realm->alignment)
-            #{
-            # No in-realm invasions
-              if ($dominion->realm->id === $target->realm->id) {
-                  throw new GameException('You may not invade other dominions of the same realm.');
-              }
-            #}
+            if ($dominion->realm->id === $target->realm->id) {
+                throw new GameException('You may not invade other dominions of the same realm.');
+            }
 
-            // Cannot invade yourself
             if ($dominion->id == $target->id)
             {
               throw new GameException('You cannot invade yourself.');
@@ -266,7 +260,7 @@ class InvadeActionService
             }
 
             if (!$this->passes33PercentRule($dominion, $target, $units)) {
-                throw new GameException('You need to leave at least 1/3 of your total defensive power at home.');
+                throw new GameException('You need to leave at least 1/3 of your total defensive power at home (33% rule).');
             }
 
             if (!$this->passes54RatioRule($dominion, $target, $landRatio, $units)) {
@@ -280,7 +274,7 @@ class InvadeActionService
                }
              }
 
-            if ($dominion->race->getPerkValue('cannot_invade ') == 1)
+            if ($dominion->race->getPerkValue('cannot_invade') == 1)
             {
                 throw new GameException('Your faction is unable to invade.');
             }
