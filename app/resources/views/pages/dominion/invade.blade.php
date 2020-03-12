@@ -335,7 +335,6 @@
                                     <p><strong><em>You cannot invade during the Rainy Season.</em></strong></p>
 
                                   @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
-
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
                                       <p><strong><em>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
 

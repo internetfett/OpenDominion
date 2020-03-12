@@ -339,6 +339,21 @@ class RaceHelper
                 $description = 'Can exchange food';
                 $booleanValue = true;
                 break;
+            case 'can_sell_mana':
+                $negativeBenefit = false;
+                $description = 'Can exchange mana';
+                $booleanValue = true;
+                break;
+            case 'draftees_cannot_be_abducted':
+                $negativeBenefit = false;
+                $description = 'Draftees cannot be abducted';
+                $booleanValue = true;
+                break;
+            case 'peasants_cannot_be_abducted':
+                $negativeBenefit = false;
+                $description = 'Peasants cannot be abducted';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }

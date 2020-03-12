@@ -1530,6 +1530,12 @@ class InvadeActionService
                 $returningAmount += $convertedUnits[$i];
             }
 
+            # Look for wins_into amongst the survivors.
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))
+            {
+
+            }
+
             $returningUnits[$unitKey] = $returningAmount;
         }
 
@@ -1546,6 +1552,9 @@ class InvadeActionService
             $returningUnits[$newUnitKey] += $casualties;
           }
         }
+
+
+
         /*
         $this->queueService->queueResources(
             'invasion',

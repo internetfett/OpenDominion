@@ -195,6 +195,27 @@ class EspionageActionService
           }
         #}
 
+        # Special case for draftee and peasant abduction.
+        if($operationKey == 'abduct_draftees' or $operationKey == 'abduct_peasants')
+        {
+          # These factions can only abduct from themselves.
+          if(
+              ($dominion->race->getPerkValue('draftees_cannot_be_abducted') or $dominion->race->getPerkValue('peasants_cannot_be_abducted')) and
+              $dominion->race->name !== $target->race->name
+              )
+          {
+            throw new GameException('You cannot only abduct draftees or peasants from other ' . $target->race->name . ' dominions.');
+          }
+          # Otherwise, can't steal from them.
+          elseif($target->race->getPerkValue('draftees_cannot_be_abducted') or $target->race->getPerkValue('peasants_cannot_be_abducted'))
+          {
+            throw new GameException('You cannot abduct draftees or peasants from ' . $target->race->name . '. They are not compatible with your population.');
+          }
+
+        }
+
+
+
         $result = null;
 
         DB::transaction(function () use ($dominion, $target, $operationKey, &$result) {
