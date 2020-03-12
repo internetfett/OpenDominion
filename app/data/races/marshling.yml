@@ -20,7 +20,7 @@ units:
     need_boat: true
     cost:
       food: 100
-      lumber: 100
+      lumber: 50
       mana: 10
     power:
       offense: 2

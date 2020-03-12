@@ -186,8 +186,8 @@ class UnitHelper
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
             'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
 
-            'dies_into' => 'Upon death, returns as a %1.',
-            'wins_into' => 'Upon victory, returns as a %1.',
+            'dies_into' => 'Upon death, returns as %s.',
+            'wins_into' => 'Upon victory, returns as %s.',
 
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
