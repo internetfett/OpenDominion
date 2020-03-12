@@ -29,7 +29,6 @@ class RaceHelper
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
                 $description = 'Population from barren land';
-                $valueType = '';
                 break;
             case 'food_consumption':
                 $negativeBenefit = true;
@@ -296,7 +295,7 @@ class RaceHelper
             case 'mana_per_ziggurat':
                 $negativeBenefit = false;
                 $description = 'Ziggurat mana production';
-                $valueType = ' % per tick';
+                $valueType = ' mana/tick';
                 $booleanValue = 'static';
                 break;
             case 'can_only_build_tissue':
