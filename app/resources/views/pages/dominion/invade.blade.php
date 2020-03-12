@@ -10,34 +10,6 @@
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
-            @if ($protectionService->isUnderProtection($selectedDominion))
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
-                    </div>
-                    <div class="box-body">
-                        You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not invade during that time.
-                    </div>
-                </div>
-          @elseif (!$selectedDominion->round->hasStarted())
-              <div class="box box-primary">
-                  <div class="box-header with-border">
-                      <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
-                  </div>
-                  <div class="box-body">
-                      You cannot invade until the round has started.
-                  </div>
-              </div>
-            @elseif ($selectedDominion->morale < 50)
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
-                    </div>
-                    <div class="box-body">
-                        Your military needs at least 50% morale to invade others. Your military currently has {{ $selectedDominion->morale }}% morale.
-                    </div>
-                </div>
-            @else
                 <form action="{{ route('dominion.invade') }}" method="post" role="form" id="invade_form">
                     @csrf
 
@@ -270,7 +242,6 @@
                                             </td>
                                             <td>&nbsp;</td>
                                         </tr>
-                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -337,6 +308,15 @@
                                   @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
                                       <p><strong><em>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
+
+                                  @elseif ($protectionService->isUnderProtection($selectedDominion))
+                                  <p><strong><em>You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not invade during that time.</em></strong></p>
+
+                                  @elseif (!$selectedDominion->round->hasStarted())
+                                  <p><strong><em>You cannot invade until the round has started.</em></strong></p>
+
+                                  @elseif ($selectedDominion->morale < 50)
+                                  <p><strong><em>Your military needs at least 50% morale to invade others. Your military currently has {{ $selectedDominion->morale }}% morale..</em></strong></p>
 
                                   @else
                                     @if($selectedDominion->race->name == 'Dimensionalists')
