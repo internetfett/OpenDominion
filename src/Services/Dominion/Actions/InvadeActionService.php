@@ -290,7 +290,7 @@ class InvadeActionService
             // Spell: Rainy Season (cannot invade)
             if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
             {
-                throw new GameException('You cannot invade during Rainy Season.');
+                throw new GameException('You cannot invade during the Rainy Season.');
             }
 
             // Imperial Gnome: check Factories cover Unit4
@@ -1510,8 +1510,19 @@ class InvadeActionService
 
         for ($i = 1; $i <= 4; $i++)
         {
+
             $unitKey = "military_unit{$i}";
             $returningAmount = 0;
+
+            # See if slot $i has wins_into perk.
+            if($this->invasionResult['success'])
+            {
+                if($dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into'))
+                {
+                    $returnsAsSlot = $dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into');
+                    $unitKey = 'military_unit' . $returnsAsSlot;
+                }
+            }
 
             if (array_key_exists($i, $units))
             {
@@ -1524,13 +1535,7 @@ class InvadeActionService
                 $returningAmount += $convertedUnits[$i];
             }
 
-            # Look for wins_into amongst the survivors.
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))
-            {
-
-            }
-
-            $returningUnits[$unitKey] = $returningAmount;
+            $returningUnits[$unitKey] += $returningAmount;
         }
 
         # Look for dies_into amongst the dead.
