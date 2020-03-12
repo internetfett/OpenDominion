@@ -327,6 +327,11 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
+        if($dominion->race->getPerkValue('defense_per_ziggurat'))
+        {
+            $dp += $dominion->building_ziggurat * $dominion->race->getPerkValue('defense_per_ziggurat');
+        }
+
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
         {
