@@ -84,8 +84,6 @@
                     <div class="box-footer">
                       @if(!$selectedDominion->round->isExploringAllowed())
                         <p><strong>Exploring has been disabled for this round.</strong></p>
-                      @elseif($protectionService->isUnderProtection($selectedDominion))
-                        <p><strong>Exploring is not possible during protection.</strong></p>
                       @elseif ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
                         <p><strong>Your faction is not able to explore.</strong></p>
                       @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
