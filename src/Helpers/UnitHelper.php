@@ -195,7 +195,7 @@ class UnitHelper
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
-            'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio to train.',
+            'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',

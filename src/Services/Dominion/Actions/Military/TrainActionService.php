@@ -12,13 +12,9 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use Throwable;
 
-// ODA: For Armada and Imperial Gnomes
+// ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
-
-// ODA: For Lux and Legion
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-
-// ODA: For Legion
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class TrainActionService
@@ -236,6 +232,17 @@ class TrainActionService
               )
             {
               throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $landLimit[0] .'s.');
+            }
+
+            # Land limit check complete.
+            # Chcek for minimum WPA to train.
+            $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train')
+            if($minimumWpaToTrain)
+            {
+                if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
+                {
+                  throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
+                }
             }
           }
 
