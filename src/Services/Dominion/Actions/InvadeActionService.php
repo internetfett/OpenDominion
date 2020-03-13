@@ -1515,7 +1515,7 @@ class InvadeActionService
             $returningAmount = 0;
 
             # See if slot $i has wins_into perk.
-            if($this->invasionResult['success'])
+            if($this->invasionResult['result']['success'])
             {
                 if($dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into'))
                 {
