@@ -22,7 +22,7 @@ units:
     cost:
       food: 80
       lumber: 80
-      mana: 80
+      mana: 40
     power:
       offense: 2
       defense: 2
