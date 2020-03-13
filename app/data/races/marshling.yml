@@ -20,9 +20,9 @@ units:
   - name: Spawn
     need_boat: true
     cost:
-      food: 100
-      lumber: 50
-      mana: 10
+      food: 80
+      lumber: 80
+      mana: 80
     power:
       offense: 2
       defense: 2
