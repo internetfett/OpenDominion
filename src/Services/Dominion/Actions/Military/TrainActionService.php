@@ -233,19 +233,7 @@ class TrainActionService
             {
               throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $landLimit[0] .'s.');
             }
-
-            # Land limit check complete.
-            # Chcek for minimum WPA to train.
-            $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train');
-            if($minimumWpaToTrain)
-            {
-                if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
-                {
-                  throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
-                }
-            }
           }
-
           # Land limit check complete.
           # Check for amount limit.
           $amountLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'amount_limit');
@@ -264,6 +252,19 @@ class TrainActionService
               throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
             }
           }
+
+
+          # Amount limit check complete.
+          # Chcek for minimum WPA to train.
+          $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train');
+          if($minimumWpaToTrain)
+          {
+              if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
+              {
+                throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
+              }
+          }
+
 
         }
 
