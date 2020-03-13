@@ -1512,6 +1512,7 @@ class InvadeActionService
         {
 
             $unitKey = "military_unit{$i}";
+            $returningUnitKey = $unitKey;
             $returningAmount = 0;
 
             # See if slot $i has wins_into perk.
@@ -1520,9 +1521,10 @@ class InvadeActionService
                 if($dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into'))
                 {
                     $returnsAsSlot = $dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into');
-                    $unitKey = 'military_unit' . $returnsAsSlot;
+                    $returningUnitKey = 'military_unit' . $returnsAsSlot;
                 }
             }
+
 
             if (array_key_exists($i, $units))
             {
@@ -1535,7 +1537,7 @@ class InvadeActionService
                 $returningAmount += $convertedUnits[$i];
             }
 
-            $returningUnits[$unitKey] += $returningAmount;
+            $returningUnits[$returningUnitKey] += $returningAmount;
         }
 
         # Look for dies_into amongst the dead.
