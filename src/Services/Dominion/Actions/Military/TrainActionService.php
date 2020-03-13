@@ -236,7 +236,7 @@ class TrainActionService
 
             # Land limit check complete.
             # Chcek for minimum WPA to train.
-            $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train')
+            $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train');
             if($minimumWpaToTrain)
             {
                 if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
