@@ -16,6 +16,7 @@ use Throwable;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class TrainActionService
 {
@@ -40,13 +41,17 @@ class TrainActionService
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
+    /** @var LandCalculator */
+    protected $landCalculator;
+
     /**
      * TrainActionService constructor.
      */
     public function __construct(
         ImprovementCalculator $improvementCalculator,
         SpellCalculator $spellCalculator,
-        MilitaryCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator,
+        LandCalculator $landCalculator
         )
     {
         $this->queueService = app(QueueService::class);
@@ -56,6 +61,7 @@ class TrainActionService
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->militaryCalculator = $militaryCalculator;
+        $this->landCalculator = $landCalculator;
     }
 
     /**
