@@ -199,7 +199,7 @@ class BuildingHelper
 
           if($dominion->race->getPerkValue('cannot_build_barracks'))
           {
-              $buildings = array_diff($buildings, array('barracks'));
+              $buildings['hill'] = array_diff($buildings['hill'], array('barracks'));
           }
 
         }
