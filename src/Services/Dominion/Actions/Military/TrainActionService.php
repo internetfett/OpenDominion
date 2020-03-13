@@ -440,8 +440,8 @@ class TrainActionService
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
-                $timeReductionSpecs += 2;
-                $timeReductionElites += 2;
+                $timeReductionSpecs += 4;
+                $timeReductionElites += 4;
               }
               // Legion: Spell (reduce training times by 4 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
@@ -449,7 +449,13 @@ class TrainActionService
                 $timeReductionSpecs += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
                 $timeReductionElites += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
               }
-              // Legion: all units train in 9 hours.
+              // Spell: Spawning Pool (increase units trained, for free)
+              if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool'))
+              {
+                $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion));
+                $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
+              }
+              // Legion and Elementals: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {
                 $timeReductionElites += 3;
@@ -460,7 +466,6 @@ class TrainActionService
                 $timeReductionSpecs += min($fasterTraining, $hoursSpecs-2);
                 $timeReductionElites += min($fasterTraining, $hoursElites-2);
               }
-
               // Look for reduced training times.
               if($timeReductionSpecs > 0)
               {
@@ -470,7 +475,6 @@ class TrainActionService
               {
                 $hoursElites -= $timeReductionElites;
               }
-
               // Look for instant training.
               if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'instant_training') and $amountToTrain > 0)
               {
