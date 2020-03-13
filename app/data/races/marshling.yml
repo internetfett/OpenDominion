@@ -12,13 +12,14 @@ converting: 1
 
 perks:
   cannot_build_barracks: 1
-  construction_cost: 20
+  construction_cost: 25
   draftees_cannot_be_abducted: 1
   peasants_cannot_be_abducted: 1
   platinum_production: -50
 units:
   - name: Spawn
     need_boat: true
+    static_networth: 3
     cost:
       food: 80
       lumber: 80
@@ -31,6 +32,7 @@ units:
       wins_into: 2
   - name: Slime
     need_boat: true
+    static_networth: 5
     cost:
       platinum: 0
     power:
@@ -42,6 +44,7 @@ units:
       dies_into: 1
   - name: Goo
     need_boat: true
+    static_networth: 7
     cost:
       platinum: 0
     power:
@@ -53,6 +56,7 @@ units:
       dies_into: 2
   - name: Ooze
     need_boat: true
+    static_networth: 8
     cost:
       platinum: 0
     power:
@@ -61,4 +65,3 @@ units:
     perks:
       cannot_be_trained: 1
       dies_into: 1
-      conversion: 1
