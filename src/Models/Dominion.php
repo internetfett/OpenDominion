@@ -344,6 +344,11 @@ class Dominion extends AbstractModel
         return $this->hasMany(Dominion\Queue::class);
     }
 
+    public function valuables()
+    {
+        return $this->hasMany(Valuable::class, 'source_dominion_id', 'id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

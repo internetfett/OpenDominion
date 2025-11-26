@@ -17,6 +17,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Mappers\Dominion\InfoMapper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
@@ -29,6 +30,7 @@ use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ValuablesService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
@@ -87,6 +89,12 @@ class SpellActionService
     /** @var SpellHelper */
     protected $spellHelper;
 
+    /** @var ValuablesHelper */
+    protected $valuablesHelper;
+
+    /** @var ValuablesService */
+    protected $valuablesService;
+
     /**
      * SpellActionService constructor.
      */
@@ -109,6 +117,8 @@ class SpellActionService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
+        $this->valuablesHelper = app(ValuablesHelper::class);
+        $this->valuablesService = app(ValuablesService::class);
     }
 
     public const BLACK_OPS_HOURS_AFTER_ROUND_START = 24 * 3;
@@ -491,10 +501,21 @@ class SpellActionService
 
         $infoOp->save();
 
+        // Try to discover a valuable
+        $valuable = $this->valuablesService->attemptDiscovery($dominion, $target);
+        $valuableMessage = '';
+        if ($valuable) {
+            $valuableMessage = sprintf(
+                ' Your wizards have discovered %s in the target\'s possession!',
+                $this->valuablesHelper->getDiscoveryDisplay($valuable)
+            );
+        }
+
         return [
             'success' => true,
-            'message' => 'Your wizards cast the spell successfully, and a wealth of information appears before you.',
-            'bounty' => $bountyRewards
+            'message' => 'Your wizards cast the spell successfully, and a wealth of information appears before you.' . $valuableMessage,
+            'bounty' => $bountyRewards,
+            'valuable' => $valuable
         ];
     }
 

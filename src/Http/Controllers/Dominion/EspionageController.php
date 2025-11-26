@@ -10,6 +10,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\EspionageHelper;
+use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
@@ -33,6 +34,7 @@ class EspionageController extends AbstractDominionController
             'protectionService' => app(ProtectionService::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'targetDominion' => $targetDominion,
+            'valuablesHelper' => app(ValuablesHelper::class),
         ]);
     }
 

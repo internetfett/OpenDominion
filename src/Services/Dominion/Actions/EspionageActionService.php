@@ -18,6 +18,7 @@ use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Mappers\Dominion\InfoMapper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\InfoOp;
@@ -27,6 +28,7 @@ use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ValuablesService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
@@ -91,6 +93,12 @@ class EspionageActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var ValuablesHelper */
+    protected $valuablesHelper;
+
+    /** @var ValuablesService */
+    protected $valuablesService;
+
     /**
      * EspionageActionService constructor.
      */
@@ -115,6 +123,8 @@ class EspionageActionService
         $this->queueService = app(QueueService::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
+        $this->valuablesHelper = app(ValuablesHelper::class);
+        $this->valuablesService = app(ValuablesService::class);
     }
 
     public const BLACK_OPS_HOURS_AFTER_ROUND_START = 24 * 3;
@@ -393,10 +403,21 @@ class EspionageActionService
 
         $infoOp->save();
 
+        // Try to discover a valuable
+        $valuable = $this->valuablesService->attemptDiscovery($dominion, $target);
+        $valuableMessage = '';
+        if ($valuable) {
+            $valuableMessage = sprintf(
+                ' Your spies have discovered %s in the target\'s possession!',
+                $this->valuablesHelper->getDiscoveryDisplay($valuable)
+            );
+        }
+
         return [
             'success' => true,
-            'message' => 'Your spies infiltrate the target\'s dominion successfully and return with a wealth of information.',
-            'bounty' => $bountyRewards
+            'message' => 'Your spies infiltrate the target\'s dominion successfully and return with a wealth of information.' . $valuableMessage,
+            'bounty' => $bountyRewards,
+            'valuable' => $valuable
         ];
     }
 
