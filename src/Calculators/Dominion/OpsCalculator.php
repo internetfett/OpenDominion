@@ -483,12 +483,11 @@ class OpsCalculator
         $wizardsPerGuild = 6;
 
         // Wizard Protection
-        $wizardRatio = $this->militaryCalculator->getWizardRatioRaw($dominion);
-        $rawWizards = $wizardRatio * $this->landCalculator->getTotalLand($dominion);
-        $protected += $rawWizards * $peasantsPerWizard;
+        $wizardCount = rfloor($this->militaryCalculator->getWizardCount($dominion));
+        $protected += $wizardCount * $peasantsPerWizard;
         $protected += min(
             ($dominion->building_wizard_guild * $wizardsPerGuild),
-            $rawWizards
+            $wizardCount
         ) * $peasantsPerWizardGuild;
 
         return $protected;

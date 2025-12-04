@@ -987,4 +987,81 @@ class EspionageActionService
             'warRewards' => $warRewardsString,
         ];
     }
+
+    /**
+     * Start an investigation on a valuable
+     *
+     * @param Dominion $dominion
+     * @param int $valuableId
+     * @param int $spiesAssigned
+     * @return array
+     * @throws GameException
+     */
+    public function startInvestigation(Dominion $dominion, int $valuableId, int $spiesAssigned): array
+    {
+        $this->guardLockedDominion($dominion);
+        $this->guardActionsDuringTick($dominion);
+
+        // Find the valuable
+        $valuable = $dominion->valuables()->find($valuableId);
+
+        if (!$valuable) {
+            throw new GameException('Valuable not found.');
+        }
+
+        // Make sure the valuable is discovered
+        if (!$valuable->isDiscovered()) {
+            // TODO: This status should be enough without checking others (discovered but not attempted)
+            throw new GameException('This valuable has not been discovered yet.');
+        }
+
+        // Make sure the valuable hasn't been attempted yet
+        if ($valuable->isAttempted()) {
+            throw new GameException('This valuable has already been attempted.');
+        }
+
+        // Make sure investigation hasn't already started
+        if ($valuable->investigation_started_at !== null) {
+            throw new GameException('Investigation has already started for this valuable.');
+        }
+
+        // Validate spies assigned
+        if ($spiesAssigned < 1) {
+            // TODO: Calculate minimum based on rarity / land size
+            throw new GameException('You must assign at least 1 spy.');
+        }
+
+        // TODO: Add chance for failure due to age of the information
+
+        // Calculate available spies
+        $totalSpies = (int) $this->militaryCalculator->getSpyCount($dominion);
+        $currentSpiesAssigned = $dominion->valuables()
+            ->active()
+            ->where('id', '!=', $valuable->id)
+            ->sum('spies_assigned');
+        $availableSpies = max(0, $totalSpies - $currentSpiesAssigned);
+
+        if ($spiesAssigned > $availableSpies) {
+            throw new GameException(sprintf(
+                'You only have %s %s available.',
+                number_format($availableSpies),
+                str_plural('spy', $availableSpies)
+            ));
+        }
+
+        DB::transaction(function () use ($valuable, $spiesAssigned) {
+            $valuable->spies_assigned = $spiesAssigned;
+            $valuable->investigation_started_at = now();
+            $valuable->save();
+        });
+
+        return [
+            'message' => sprintf(
+                'You have assigned %s %s to investigate this valuable.',
+                number_format($spiesAssigned),
+                str_plural('spy', $spiesAssigned)
+            ),
+            'alert-type' => 'success',
+        ];
+    }
 }

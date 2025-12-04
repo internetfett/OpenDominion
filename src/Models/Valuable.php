@@ -116,57 +116,17 @@ class Valuable extends AbstractModel
     }
 
     /**
-     * Scope to valuables that are being investigated (spies assigned, not yet attempted)
+     * Scope to active valuables (discovered or investigating, not yet attempted)
      */
-    public function scopeBeingInvestigated(Builder $query): Builder
+    public function scopeActive(Builder $query): Builder
     {
-        return $query
-            ->whereNotNull('investigation_started_at')
-            ->whereNull('attempted_at');
+        return $query->whereNull('attempted_at');
     }
 
     /**
-     * Scope to valuables that are ready to steal (investigation complete, not yet attempted)
-     */
-    public function scopeStealable(Builder $query): Builder
-    {
-        return $query
-            ->whereNotNull('investigation_started_at')
-            ->whereNull('attempted_at');
-    }
-
-    /**
-     * Scope to valuables that have been attempted
-     */
-    public function scopeAttempted(Builder $query): Builder
-    {
-        return $query->whereNotNull('attempted_at');
-    }
-
-    /**
-     * Scope to successfully stolen valuables
+     * Scope to successfully stolen valuables that haven't been sold yet
      */
     public function scopeStolen(Builder $query): Builder
-    {
-        return $query
-            ->whereNotNull('attempted_at')
-            ->where('success', true);
-    }
-
-    /**
-     * Scope to failed theft attempts
-     */
-    public function scopeFailed(Builder $query): Builder
-    {
-        return $query
-            ->whereNotNull('attempted_at')
-            ->where('success', false);
-    }
-
-    /**
-     * Scope to valuables that can be sold (stolen and not yet sold)
-     */
-    public function scopeSellable(Builder $query): Builder
     {
         return $query
             ->whereNotNull('attempted_at')
@@ -175,10 +135,15 @@ class Valuable extends AbstractModel
     }
 
     /**
-     * Scope to valuables that have been sold
+     * Scope to completed valuables (sold or failed)
      */
-    public function scopeSold(Builder $query): Builder
+    public function scopeCompleted(Builder $query): Builder
     {
-        return $query->whereNotNull('sold_at');
+        return $query->where(function($q) {
+            $q->whereNotNull('sold_at')
+              ->orWhere(function($q2) {
+                  $q2->whereNotNull('attempted_at')->where('success', false);
+              });
+        });
     }
 }

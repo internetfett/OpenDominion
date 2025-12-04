@@ -916,12 +916,12 @@ class MilitaryCalculator
     }
 
     /**
-     * Returns the Dominion's raw spy ratio.
+     * Returns the Dominion's raw spy count.
      *
      * @param Dominion $dominion
      * @return float
      */
-    public function getSpyRatioRaw(Dominion $dominion): float
+    public function getSpyCount(Dominion $dominion): float
     {
         $spies = $dominion->military_spies + ($dominion->military_assassins * 2);
 
@@ -932,7 +932,18 @@ class MilitaryCalculator
             }
         }
 
-        return ($spies / $this->landCalculator->getTotalLand($dominion));
+        return $spies;
+    }
+
+    /**
+     * Returns the Dominion's raw spy ratio.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getSpyRatioRaw(Dominion $dominion): float
+    {
+        return $this->getSpyCount($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
     /**
@@ -996,6 +1007,8 @@ class MilitaryCalculator
         $maxMasteryBonus = 2;
         $regen += min(1000, $dominion->spy_mastery) / 1000 * $maxMasteryBonus;
 
+        // TODO: Reduce regen based on number of Valuables being investigated
+
         return $regen;
     }
 
@@ -1010,13 +1023,13 @@ class MilitaryCalculator
         return ($this->getWizardRatioRaw($dominion) * $this->getWizardRatioMultiplier($dominion, $type));
     }
 
-    /**
-     * Returns the Dominion's raw wizard ratio.
+     /**
+     * Returns the Dominion's raw wizard count.
      *
      * @param Dominion $dominion
      * @return float
      */
-    public function getWizardRatioRaw(Dominion $dominion): float
+    public function getWizardCount(Dominion $dominion): float
     {
         $wizards = $dominion->military_wizards + ($dominion->military_archmages * 2);
 
@@ -1027,7 +1040,18 @@ class MilitaryCalculator
             }
         }
 
-        return ($wizards / $this->landCalculator->getTotalLand($dominion));
+        return $wizards;
+    }
+
+    /**
+     * Returns the Dominion's raw wizard ratio.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getWizardRatioRaw(Dominion $dominion): float
+    {
+        return ($this->getWizardCount($dominion) / $this->landCalculator->getTotalLand($dominion));
     }
 
     /**

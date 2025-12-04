@@ -13,6 +13,7 @@ use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Valuable;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
@@ -65,5 +66,64 @@ class EspionageController extends AbstractDominionController
         return redirect()
             ->to($bountyRedirect ?? $result['redirect'] ?? route('dominion.espionage'))
             ->with('target_dominion', $request->get('target_dominion'));
+    }
+
+    public function getInvestigate(Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $militaryCalculator = app(MilitaryCalculator::class);
+        $valuablesHelper = app(ValuablesHelper::class);
+
+        // Make sure this valuable belongs to this dominion
+        if ($valuable->source_dominion_id !== $dominion->id) {
+            // TODO: Can use ->back() in place of redirect?
+            return redirect()
+                ->route('dominion.espionage')
+                ->withErrors(['This valuable does not belong to you.']);
+        }
+
+        // Make sure this valuable is active and hasn't started investigation yet
+        // TODO: Just make this change the display in the template (form disabled)
+        if (!$valuable->isDiscovered() || $valuable->isAttempted() || $valuable->investigation_started_at !== null) {
+            return redirect()
+                ->route('dominion.espionage')
+                ->withErrors(['This valuable cannot be investigated.']);
+        }
+
+        // Calculate available spies
+        $totalSpies = (int) $militaryCalculator->getSpyCount($dominion);
+        $spiesAssigned = $dominion->valuables()
+            ->active()
+            ->sum('spies_assigned');
+        $availableSpies = max(0, $totalSpies - $spiesAssigned);
+
+        return view('pages.dominion.valuables.investigate', [
+            'valuable' => $valuable,
+            'valuablesHelper' => $valuablesHelper,
+            'availableSpies' => $availableSpies,
+        ]);
+    }
+
+    public function postInvestigate(Request $request, Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $espionageActionService = app(EspionageActionService::class);
+
+
+        try {
+            $result = $espionageActionService->startInvestigation(
+                $dominion,
+                $valuable->id,
+                $request->input('spies_assigned')
+            );
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+        return redirect()->route('dominion.espionage');
     }
 }
