@@ -201,9 +201,6 @@
                         </thead>
                         <tbody>
                             @forelse ($selectedDominion->valuables()->active()->orderByDesc('created_at')->get() as $valuable)
-                                @php
-                                    $successChance = $valuablesHelper->getTheftSuccessChance($valuable);
-                                @endphp
                                 <tr>
                                     <td>
                                         <span title="{{ $valuable->created_at }}">{{ $valuable->created_at->diffForHumans() }}</span>
@@ -225,7 +222,9 @@
                                     <td class="text-center">
                                         @if ($valuable->investigation_started_at)
                                             @php
-                                                $percentage = $successChance * 100;
+                                                $progress = $espionageCalculator->getTheftProgress($valuable);
+                                                $required = $valuablesHelper->getRequiredSpyHours($valuable);
+                                                $percentage = min(($progress / $required) * 100, 100);
                                                 if ($percentage >= 75) {
                                                     $colorClass = 'text-green';
                                                 } elseif ($percentage >= 50) {
@@ -236,8 +235,8 @@
                                                     $colorClass = 'text-red';
                                                 }
                                             @endphp
-                                            {{ number_format($valuable->spies_assigned * $valuable->investigation_started_at->diffInHours()) }}
-                                            / {{ number_format($valuable->spies_assigned * 40) }}
+                                            {{ number_format($progress) }}
+                                            / {{ number_format($required) }}
                                             (<span class="{{ $colorClass }}">{{ number_format($percentage, 1) }}%</span>)
                                         @else
                                             <span class="text-muted">-</span>
@@ -281,6 +280,7 @@
                                 <th>Stolen</th>
                                 <th>Name</th>
                                 <th>Target</th>
+                                <th>Price History</th>
                                 <th>Current Price</th>
                                 <th>Actions</th>
                             </tr>
@@ -300,41 +300,12 @@
                                     </td>
                                     <td>
                                         @php
-                                            // Get price history for the past 10 hours
-                                            $priceHistory = [];
-                                            $minPrice = PHP_INT_MAX;
-                                            $maxPrice = 0;
-
-                                            for ($h = 10; $h >= 0; $h--) {
-                                                $price = $espionageCalculator->getValuableSellPrice($valuable, $h);
-                                                $priceHistory[] = $price;
-                                                $minPrice = min($minPrice, $price);
-                                                $maxPrice = max($maxPrice, $price);
-                                            }
-
-                                            $currentPrice = $priceHistory[count($priceHistory) - 1];
-                                            $priceRange = $maxPrice - $minPrice;
+                                            $priceHistory = $espionageCalculator->getValuableSellPrice($valuable, 24);
                                         @endphp
-
-                                        <div>
-                                            <strong>{{ number_format($currentPrice) }} platinum</strong>
-                                        </div>
-
-                                        {{-- Simple bar chart --}}
-                                        <div style="display: flex; align-items: flex-end; height: 30px; gap: 2px; margin-top: 5px;">
-                                            @foreach ($priceHistory as $index => $price)
-                                                @php
-                                                    $isLast = $index === count($priceHistory) - 1;
-                                                    $heightPercent = $priceRange > 0 ? (($price - $minPrice) / $priceRange) * 100 : 50;
-                                                    $heightPercent = max(10, $heightPercent); // Minimum 10% for visibility
-                                                    $barColor = $isLast ? '#3c8dbc' : '#d2d6de';
-                                                @endphp
-                                                <div
-                                                    style="flex: 1; background-color: {{ $barColor }}; height: {{ $heightPercent }}%; border-radius: 2px;"
-                                                    title="{{ $index === 0 ? '10 hours ago' : ($index === count($priceHistory) - 1 ? 'Now' : ($index . ' hours ago')) }}: {{ number_format($price) }} platinum"
-                                                ></div>
-                                            @endforeach
-                                        </div>
+                                        <span class="sparkline-price" data-sparkline="{{ implode(',', $priceHistory) }}"></span>
+                                    </td>
+                                    <td>
+                                        <strong>{{ number_format($priceHistory[0]) }} platinum</strong>
                                     </td>
                                     <td>
                                         <button type="submit" class="btn btn-sm btn-block btn-primary">
@@ -430,6 +401,7 @@
 
 @push('page-scripts')
     <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
 @endpush
 
 @push('inline-scripts')
@@ -496,5 +468,26 @@
                 <div style="clear: both;"></div>
             `);
         }
+
+        // Initialize sparklines for price history
+        $('.sparkline-price').each(function() {
+            var $this = $(this);
+            var sparklineData = $this.data('sparkline').toString().split(',');
+
+            $this.sparkline(sparklineData, {
+                type: 'line',
+                lineColor: '#3c8dbc',
+                fillColor: false,
+                lineWidth: 2,
+                height: '30',
+                width: '150',
+                spotColor: '#00a65a',
+                minSpotColor: '#f39c12',
+                maxSpotColor: '#00a65a',
+                highlightSpotColor: '#dd4b39',
+                highlightLineColor: '#222',
+                tooltipSuffix: ' platinum'
+            });
+        });
     </script>
 @endpush

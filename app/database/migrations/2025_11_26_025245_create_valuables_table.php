@@ -22,6 +22,7 @@ class CreateValuablesTable extends Migration
             $table->string('type');
             $table->string('name');
             $table->unsignedInteger('spies_assigned')->default(0);
+            $table->unsignedInteger('spy_hours')->nullable();
             $table->timestamp('investigation_started_at')->nullable();
             //$table->float('investigation_progress')->default(0);
             $table->timestamp('attempted_at')->nullable();

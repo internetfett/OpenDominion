@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string $type
  * @property string $name
  * @property int $spies_assigned
+ * @property int|null $spy_hours
  * @property \Illuminate\Support\Carbon|null $investigation_started_at
  * @property \Illuminate\Support\Carbon|null $attempted_at
  * @property bool $success

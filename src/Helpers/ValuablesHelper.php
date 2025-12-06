@@ -56,7 +56,7 @@ class ValuablesHelper
                 'base_value_min' => 5000,
                 'base_value_max' => 10000,
                 'discovery_chance' => 0.15, // 15% chance
-                'spy_hours' => 12, // Hours of spy investigation to reach max success
+                'spy_hours_multiplier' => 0.5, // Spy-hours = target land × multiplier
             ],
             [
                 'key' => 'uncommon',
@@ -64,7 +64,7 @@ class ValuablesHelper
                 'base_value_min' => 10000,
                 'base_value_max' => 25000,
                 'discovery_chance' => 0.10, // 10% chance
-                'spy_hours' => 24,
+                'spy_hours_multiplier' => 1.0,
             ],
             [
                 'key' => 'rare',
@@ -72,7 +72,7 @@ class ValuablesHelper
                 'base_value_min' => 25000,
                 'base_value_max' => 50000,
                 'discovery_chance' => 0.05, // 5% chance
-                'spy_hours' => 48,
+                'spy_hours_multiplier' => 2.0,
             ],
             [
                 'key' => 'epic',
@@ -80,7 +80,7 @@ class ValuablesHelper
                 'base_value_min' => 50000,
                 'base_value_max' => 100000,
                 'discovery_chance' => 0.02, // 2% chance
-                'spy_hours' => 72,
+                'spy_hours_multiplier' => 3.0,
             ],
             [
                 'key' => 'legendary',
@@ -88,7 +88,7 @@ class ValuablesHelper
                 'base_value_min' => 100000,
                 'base_value_max' => 250000,
                 'discovery_chance' => 0.005, // 0.5% chance
-                'spy_hours' => 120,
+                'spy_hours_multiplier' => 5.0,
             ],
         ]);
     }
@@ -99,41 +99,38 @@ class ValuablesHelper
     }
 
     /**
-     * Calculate theft success chance based on investigation progress
+     * Calculate required spy-hours based on target's current land
      *
      * @param Valuable $valuable
-     * @return float Success chance (0.0 to 1.0)
+     * @return int
      */
-    public function getTheftSuccessChance(Valuable $valuable): float
+    public function calculateSpyHours(Valuable $valuable): int
     {
-        if (!$valuable->investigation_started_at || $valuable->spies_assigned === 0) {
-            return 0.0;
-        }
-
         $rarityInfo = $this->getValuableRarityInfo($valuable->rarity);
         if (!$rarityInfo) {
-            return 0.0;
+            return 0;
         }
 
-        $spyHours = $rarityInfo['spy_hours'];
-        $hoursInvestigated = now()->diffInHours($valuable->investigation_started_at);
+        $landCalculator = app(\OpenDominion\Calculators\Dominion\LandCalculator::class);
+        $targetLand = $landCalculator->getTotalLand($valuable->targetDominion);
+        $multiplier = $rarityInfo['spy_hours_multiplier'];
 
-        // Progress = (spies_assigned * hours_investigated) / spy_hours
-        // Capped at 1.0 (100%)
-        $progress = min(1.0, ($valuable->spies_assigned * $hoursInvestigated) / $spyHours);
-
-        return $progress;
+        return (int) round($targetLand * $multiplier);
     }
 
     /**
-     * Get the required spy-hours for a valuable's rarity
+     * Get the required spy-hours for a valuable
+     * Returns stored value if set, otherwise calculates on-the-fly
      *
      * @param Valuable $valuable
      * @return int
      */
     public function getRequiredSpyHours(Valuable $valuable): int
     {
-        $rarityInfo = $this->getValuableRarityInfo($valuable->rarity);
-        return $rarityInfo['spy_hours'] ?? 0;
+        if ($valuable->spy_hours !== null) {
+            return $valuable->spy_hours;
+        }
+
+        return $this->calculateSpyHours($valuable);
     }
 }

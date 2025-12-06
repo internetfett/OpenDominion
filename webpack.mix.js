@@ -35,6 +35,9 @@ const vendorDirs = {
     'node_modules/select2/dist/css': 'public/assets/vendor/select2/css',
     'node_modules/select2/dist/js': 'public/assets/vendor/select2/js',
 
+    // jQuery Sparkline
+    'node_modules/jquery-sparkline': 'public/assets/vendor/jquery-sparkline',
+
 };
 
 for (const dir in vendorDirs) {

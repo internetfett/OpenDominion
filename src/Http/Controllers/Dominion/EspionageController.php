@@ -97,10 +97,18 @@ class EspionageController extends AbstractDominionController
             ->sum('spies_assigned');
         $availableSpies = max(0, $totalSpies - $spiesAssigned);
 
+        // Calculate min/max spies based on required spy-hours
+        $requiredSpyHours = $valuablesHelper->getRequiredSpyHours($valuable);
+        $minSpies = (int) ceil($requiredSpyHours / 40);
+        $maxSpies = (int) ceil($requiredSpyHours / 6);
+
         return view('pages.dominion.valuables.investigate', [
             'valuable' => $valuable,
             'valuablesHelper' => $valuablesHelper,
             'availableSpies' => $availableSpies,
+            'minSpies' => $minSpies,
+            'maxSpies' => $maxSpies,
+            'requiredSpyHours' => $requiredSpyHours,
         ]);
     }
 

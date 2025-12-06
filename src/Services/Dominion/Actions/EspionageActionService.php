@@ -1025,10 +1025,26 @@ class EspionageActionService
             throw new GameException('Investigation has already started for this valuable.');
         }
 
+        // Calculate required spy-hours and min/max spies
+        $requiredSpyHours = $this->valuablesHelper->getRequiredSpyHours($valuable);
+        $minSpies = (int) ceil($requiredSpyHours / 40);
+        $maxSpies = (int) ceil($requiredSpyHours / 6);
+
         // Validate spies assigned
-        if ($spiesAssigned < 1) {
-            // TODO: Calculate minimum based on rarity / land size
-            throw new GameException('You must assign at least 1 spy.');
+        if ($spiesAssigned < $minSpies) {
+            throw new GameException(sprintf(
+                'You must assign at least %s %s for this valuable.',
+                number_format($minSpies),
+                str_plural('spy', $minSpies)
+            ));
+        }
+
+        if ($spiesAssigned > $maxSpies) {
+            throw new GameException(sprintf(
+                'You cannot assign more than %s %s to this valuable.',
+                number_format($maxSpies),
+                str_plural('spy', $maxSpies)
+            ));
         }
 
         // TODO: Add chance for failure due to age of the information
@@ -1051,6 +1067,7 @@ class EspionageActionService
 
         DB::transaction(function () use ($valuable, $spiesAssigned) {
             $valuable->spies_assigned = $spiesAssigned;
+            $valuable->spy_hours = $this->valuablesHelper->calculateSpyHours($valuable);
             $valuable->investigation_started_at = now();
             $valuable->save();
         });

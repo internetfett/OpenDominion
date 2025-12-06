@@ -40,10 +40,10 @@
                                         name="spies_assigned"
                                         id="spies_assigned"
                                         class="form-control text-center"
-                                        value="{{ old('spies_assigned') }}"
-                                        placeholder="0"
-                                        min="1"
-                                        max="{{ $availableSpies }}"
+                                        value="{{ old('spies_assigned', $minSpies) }}"
+                                        placeholder="{{ $minSpies }}"
+                                        min="{{ $minSpies }}"
+                                        max="{{ min($maxSpies, $availableSpies) }}"
                                         {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                             </div>
                             <div class="form-group col-sm-8 col-lg-8">
@@ -51,9 +51,9 @@
                                 <input type="number"
                                         id="spiesSlider"
                                         class="form-control slider"
-                                        data-slider-value="0"
-                                        data-slider-min="1"
-                                        data-slider-max="{{ $availableSpies }}"
+                                        data-slider-value="{{ $minSpies }}"
+                                        data-slider-min="{{ $minSpies }}"
+                                        data-slider-max="{{ min($maxSpies, $availableSpies) }}"
                                         data-slider-step="1"
                                         data-slider-tooltip="show"
                                         data-slider-handle="triangle"
@@ -80,12 +80,8 @@
                 <div class="box-body">
                     <p>Assign spies to investigate this valuable. The more spies you assign, the faster your investigation will progress.</p>
                     <p><strong>Note:</strong> Once you start an investigation, you cannot change the number of spies assigned.</p>
-                    <p>Investigation progress increases each hour based on the number of spies assigned.</p>
-                    @php
-                        $rarityInfo = $valuablesHelper->getValuableRarityInfo($valuable->rarity);
-                        $requiredSpyHours = $rarityInfo['spy_hours'] ?? 0;
-                    @endphp
-                    <p>This {{ $valuable->rarity }} valuable requires <strong>{{ number_format($requiredSpyHours) }}</strong> spy-hours to reach 100% success chance.</p>
+                    <p>This {{ $valuable->rarity }} valuable requires <strong>{{ number_format($requiredSpyHours) }}</strong> spy-hours to complete.</p>
+                    <p>You must assign between <strong>{{ number_format($minSpies) }}</strong> and <strong>{{ number_format($maxSpies) }}</strong> {{ str_plural('spy', $maxSpies) }}.</p>
                     <p>You have <strong>{{ number_format($availableSpies) }}</strong> {{ str_plural('spy', $availableSpies) }} available for assignment.</p>
                 </div>
             </div>

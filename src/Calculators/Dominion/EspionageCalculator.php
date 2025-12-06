@@ -39,59 +39,85 @@ class EspionageCalculator
     }
 
     /**
-     * Calculate the sell price of a valuable using a random walk
+     * Calculate the sell price of a valuable using a random walk algorithm.
      *
-     * Uses the valuable's ID as a random seed and hours since theft as iterations
-     * to create a deterministic but fluctuating price within the rarity's min/max bounds
+     * When $hoursAgo is 0, returns the current price as an integer.
+     * When $hoursAgo > 0, returns an array of prices from $hoursAgo down to 0.
      *
      * @param Valuable $valuable
-     * @param int $hoursAgo Number of hours in the past to check (default: 0 for current)
-     * @return int
+     * @param int $hoursAgo Number of hours of price history to return (0 = current price only)
+     * @return int|array Returns int when $hoursAgo=0, array otherwise
      */
-    public function getValuableSellPrice(Valuable $valuable, int $hoursAgo = 0): int
+    public function getValuableSellPrice(Valuable $valuable, int $hoursAgo = 0)
     {
         if (!$valuable->attempted_at) {
-            return 0;
+            return $hoursAgo > 0 ? [] : 0;
         }
 
         $rarityInfo = $this->valuablesHelper->getValuableRarityInfo($valuable->rarity);
         if (!$rarityInfo) {
+            return $hoursAgo > 0 ? [] : 0;
+        }
+
+        $minPrice = $rarityInfo['base_value_min'];
+        $maxPrice = $rarityInfo['base_value_max'];
+        $stepSize = ($maxPrice - $minPrice) * 0.1;
+
+        $currentHoursSinceTheft = now()->diffInHours($valuable->attempted_at);
+        $prices = [];
+
+        // Initialize random seed for deterministic price walk
+        mt_srand($valuable->id);
+        $price = ($minPrice + $maxPrice) / 2;
+
+        // Walk through each hour from theft to present
+        for ($hour = 0; $hour <= $currentHoursSinceTheft; $hour++) {
+            // Apply random walk step
+            if ($hour > 0) {
+                // Single random value: -100 to +100 for both direction and volatility
+                $randomStep = mt_rand(-100, 100) / 100;
+                $price += $randomStep * $stepSize;
+                $price = clamp($price, $minPrice, $maxPrice);
+            }
+
+            // Store price if it falls within our requested range
+            $hoursBeforeNow = $currentHoursSinceTheft - $hour;
+            if ($hoursAgo > 0 && $hoursBeforeNow <= $hoursAgo) {
+                $prices[$hoursBeforeNow] = (int) round($price);
+            }
+        }
+
+        mt_srand();
+
+        // Return current price as int, or array of historical prices
+        if ($hoursAgo === 0) {
+            return (int) round($price);
+        }
+
+        return $prices;
+    }
+
+    /**
+     * Get accumulated spy-hours for a valuable investigation
+     * Capped at the required spy_hours for the valuable
+     *
+     * @param Valuable $valuable
+     * @return int Total spy-hours accumulated (spies_assigned * hours_investigated)
+     */
+    public function getTheftProgress(Valuable $valuable): int
+    {
+        if (!$valuable->investigation_started_at || $valuable->spies_assigned === 0) {
             return 0;
         }
 
-        $minValue = $rarityInfo['base_value_min'];
-        $maxValue = $rarityInfo['base_value_max'];
+        $hoursInvestigated = now()->diffInHours($valuable->investigation_started_at);
+        $progress = $valuable->spies_assigned * $hoursInvestigated;
 
-        // Start at the midpoint
-        $currentPrice = ($minValue + $maxValue) / 2;
-
-        // Calculate hours since theft, adjusted for looking into the past
-        $hoursSinceTheft = now()->diffInHours($valuable->attempted_at) - $hoursAgo;
-
-        // Can't look further back than the theft itself
-        if ($hoursSinceTheft < 0) {
-            $hoursSinceTheft = 0;
+        // Cap at required spy_hours
+        if ($valuable->spy_hours !== null) {
+            $progress = min($progress, $valuable->spy_hours);
         }
 
-        // Use valuable ID as seed for deterministic randomness
-        mt_srand($valuable->id);
-
-        // Random walk: each hour the price moves up or down
-        // Step size is proportional to the range
-        $stepSize = ($maxValue - $minValue) * 0.05; // 5% of range per step
-
-        for ($i = 0; $i < $hoursSinceTheft; $i++) {
-            // Random step: -1 or +1
-            $direction = (mt_rand(0, 1) * 2) - 1;
-            $currentPrice += $direction * $stepSize;
-
-            // Keep within bounds
-            $currentPrice = max($minValue, min($maxValue, $currentPrice));
-        }
-
-        // Reset the random seed to avoid affecting other random operations
-        mt_srand();
-
-        return (int) round($currentPrice);
+        return $progress;
     }
 }
