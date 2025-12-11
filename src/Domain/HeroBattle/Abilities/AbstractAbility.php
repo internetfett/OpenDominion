@@ -1,0 +1,115 @@
+<?php
+
+namespace OpenDominion\Domain\HeroBattle\Abilities;
+
+abstract class AbstractAbility implements AbilityInterface
+{
+    protected string $key;
+    protected string $name;
+    protected string $description;
+    protected array $config;
+    protected ?int $charges;
+    protected ?int $cooldown;
+    protected ?int $lastUsedTurn;
+
+    public function __construct(string $key, array $config = [])
+    {
+        $this->key = $key;
+        $this->config = $config;
+        $this->name = $config['display_name'] ?? ucfirst($key);
+        $this->description = $config['description'] ?? '';
+        $this->charges = $config['charges'] ?? null;
+        $this->cooldown = $config['cooldown'] ?? null;
+        $this->lastUsedTurn = null;
+    }
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getConfig(): array
+    {
+        return $this->config;
+    }
+
+    public function hasCharges(): bool
+    {
+        return $this->charges === null || $this->charges > 0;
+    }
+
+    public function consume(): void
+    {
+        if ($this->charges !== null && $this->charges > 0) {
+            $this->charges--;
+        }
+    }
+
+    public function getCharges(): ?int
+    {
+        return $this->charges;
+    }
+
+    public function setCharges(?int $charges): void
+    {
+        $this->charges = $charges;
+    }
+
+    public function isOnCooldown(int $currentTurn): bool
+    {
+        if ($this->cooldown === null || $this->lastUsedTurn === null) {
+            return false;
+        }
+
+        $turnsSinceUse = $currentTurn - $this->lastUsedTurn;
+        return $turnsSinceUse < $this->cooldown;
+    }
+
+    public function markUsed(int $currentTurn): void
+    {
+        $this->lastUsedTurn = $currentTurn;
+    }
+
+    public function getLastUsedTurn(): ?int
+    {
+        return $this->lastUsedTurn;
+    }
+
+    public function setLastUsedTurn(?int $turn): void
+    {
+        $this->lastUsedTurn = $turn;
+    }
+
+    public function getCooldown(): ?int
+    {
+        return $this->cooldown;
+    }
+
+    public function getState(): array
+    {
+        return array_filter([
+            'charges' => $this->charges,
+            'last_used_turn' => $this->lastUsedTurn,
+        ], fn($v) => $v !== null);
+    }
+
+    public function restoreState(array $state): void
+    {
+        if (isset($state['charges'])) {
+            $this->charges = $state['charges'];
+        }
+        if (isset($state['last_used_turn'])) {
+            $this->lastUsedTurn = $state['last_used_turn'];
+        }
+    }
+}
