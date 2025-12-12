@@ -5,6 +5,7 @@ namespace Tests\Unit\Domain\HeroBattle\Combat;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\Enrage;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\Rally;
+use OpenDominion\Domain\HeroBattle\Abilities\Passive\Retribution;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\LastStand;
 use OpenDominion\Domain\HeroBattle\Combat\CombatCalculator;
 use OpenDominion\Models\HeroBattle;
@@ -282,5 +283,28 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $healing = $this->calculator->calculateCombatHeal($combatant, $abilities);
 
         $this->assertEquals(28, $healing); // 25 * 1.1 = 27.5, rounded to 28
+    }
+
+    public function testCalculateCounterWithoutAbilities()
+    {
+        $combatant = new HeroCombatant();
+        $combatant->counter = 25;
+
+        $counter = $this->calculator->calculateCounter($combatant, collect());
+
+        $this->assertEquals(25, $counter);
+    }
+
+    public function testCalculateCounterWithRetribution()
+    {
+        $combatant = new HeroCombatant();
+        $combatant->counter = 25;
+
+        $retribution = new Retribution('retribution', []);
+        $abilities = collect([$retribution]);
+
+        $counter = $this->calculator->calculateCounter($combatant, $abilities);
+
+        $this->assertEquals(40, $counter); // 25 + 15
     }
 }

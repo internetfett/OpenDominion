@@ -4,6 +4,7 @@ namespace OpenDominion\Domain\HeroBattle\Combat;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesAttack;
+use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesCounter;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesDefense;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesEvasion;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesRecovery;
@@ -139,6 +140,27 @@ class CombatCalculator
         }
 
         return (int) round($recovery);
+    }
+
+    /**
+     * Calculate counter stat with ability modifiers
+     *
+     * @param HeroCombatant $combatant
+     * @param Collection $abilities Abilities that implement ModifiesCounter
+     * @return int
+     */
+    public function calculateCounter(HeroCombatant $combatant, Collection $abilities): int
+    {
+        $counter = $combatant->counter;
+
+        // Apply ability modifiers
+        foreach ($abilities as $ability) {
+            if ($ability instanceof ModifiesCounter) {
+                $counter = $ability->modifyCounter($combatant, $counter);
+            }
+        }
+
+        return (int) round($counter);
     }
 
     /**
