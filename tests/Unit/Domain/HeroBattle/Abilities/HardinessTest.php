@@ -39,7 +39,7 @@ class HardinessTest extends AbstractBrowserKitTestCase
         // Assert: Death prevented
         $this->assertFalse($shouldDie);
         $this->assertEquals(1, $target->current_health);
-        $this->assertEquals(0, $hardiness->getCharges());
+        $this->assertEquals(0, $hardiness->charges);
         $this->assertStringContainsString('clings to life with 1 health', $context->getMessagesString());
     }
 
@@ -64,7 +64,7 @@ class HardinessTest extends AbstractBrowserKitTestCase
 
         // First death
         $hardiness->beforeDeath($context);
-        $this->assertEquals(0, $hardiness->getCharges());
+        $this->assertEquals(0, $hardiness->charges);
 
         // Second death - should allow death
         $target->current_health = 1;

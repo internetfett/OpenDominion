@@ -54,7 +54,7 @@ class PowerStrikeTest extends AbstractBrowserKitTestCase
         $newAbility->restoreState($state);
 
         // Verify state was restored correctly
-        $this->assertEquals(5, $newAbility->getLastUsedTurn());
+        $this->assertEquals(5, $newAbility->lastUsedTurn);
         $this->assertTrue($newAbility->isOnCooldown(6));
         $this->assertTrue($newAbility->isOnCooldown(7));
         $this->assertFalse($newAbility->isOnCooldown(8));
@@ -120,8 +120,8 @@ class PowerStrikeTest extends AbstractBrowserKitTestCase
 
         $newAbility->restoreState($state);
 
-        $this->assertEquals(3, $newAbility->getCharges());
-        $this->assertEquals(2, $newAbility->getLastUsedTurn());
+        $this->assertEquals(3, $newAbility->charges);
+        $this->assertEquals(2, $newAbility->lastUsedTurn);
         $this->assertTrue($newAbility->isOnCooldown(3));
     }
 }

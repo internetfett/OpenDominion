@@ -25,7 +25,10 @@ class AbilityRegistry
     {
         $abilities = collect();
         $abilityData = $combatant->abilities ?? [];
-        $savedStates = $combatant->ability_state ?? [];
+
+        // Get saved states from status attribute
+        $status = $combatant->status ?? [];
+        $savedStates = $status['ability_state'] ?? [];
 
         foreach ($abilityData as $abilityItem) {
             // Support both string format and object format with config
@@ -79,16 +82,19 @@ class AbilityRegistry
      */
     public function saveAbilityStates(HeroCombatant $combatant, Collection $abilities): void
     {
-        $state = [];
+        $abilityStates = [];
 
         foreach ($abilities as $ability) {
             $abilityState = $ability->getState();
             if (!empty($abilityState)) {
-                $state[$ability->getKey()] = $abilityState;
+                $abilityStates[$ability->key] = $abilityState;
             }
         }
 
-        $combatant->ability_state = $state;
+        // Save to status attribute
+        $status = $combatant->status ?? [];
+        $status['ability_state'] = $abilityStates;
+        $combatant->status = $status;
         $combatant->save();
     }
 

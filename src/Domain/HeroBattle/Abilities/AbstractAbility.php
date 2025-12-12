@@ -23,26 +23,6 @@ abstract class AbstractAbility implements AbilityInterface
         $this->lastUsedTurn = null;
     }
 
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function getConfig(): array
-    {
-        return $this->config;
-    }
-
     public function hasCharges(): bool
     {
         return $this->charges === null || $this->charges > 0;
@@ -53,16 +33,6 @@ abstract class AbstractAbility implements AbilityInterface
         if ($this->charges !== null && $this->charges > 0) {
             $this->charges--;
         }
-    }
-
-    public function getCharges(): ?int
-    {
-        return $this->charges;
-    }
-
-    public function setCharges(?int $charges): void
-    {
-        $this->charges = $charges;
     }
 
     public function isOnCooldown(int $currentTurn): bool
@@ -78,21 +48,6 @@ abstract class AbstractAbility implements AbilityInterface
     public function markUsed(int $currentTurn): void
     {
         $this->lastUsedTurn = $currentTurn;
-    }
-
-    public function getLastUsedTurn(): ?int
-    {
-        return $this->lastUsedTurn;
-    }
-
-    public function setLastUsedTurn(?int $turn): void
-    {
-        $this->lastUsedTurn = $turn;
-    }
-
-    public function getCooldown(): ?int
-    {
-        return $this->cooldown;
     }
 
     public function getState(): array

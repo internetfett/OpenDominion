@@ -24,9 +24,11 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
             'hardiness',
             'power_strike',
         ];
-        $combatant->ability_state = [
-            'hardiness' => ['charges' => 0],
-            'power_strike' => ['last_used_turn' => 3],
+        $combatant->status = [
+            'ability_state' => [
+                'hardiness' => ['charges' => 0],
+                'power_strike' => ['last_used_turn' => 3],
+            ]
         ];
 
         // Load abilities - should restore state
@@ -36,12 +38,12 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
 
         // Check hardiness state
         $hardiness = $abilities->firstWhere('key', 'hardiness');
-        $this->assertEquals(0, $hardiness->getCharges());
+        $this->assertEquals(0, $hardiness->charges);
         $this->assertFalse($hardiness->hasCharges());
 
         // Check power strike state
         $powerStrike = $abilities->firstWhere('key', 'power_strike');
-        $this->assertEquals(3, $powerStrike->getLastUsedTurn());
+        $this->assertEquals(3, $powerStrike->lastUsedTurn);
         $this->assertTrue($powerStrike->isOnCooldown(4));
         $this->assertTrue($powerStrike->isOnCooldown(5));
         $this->assertFalse($powerStrike->isOnCooldown(6));
@@ -54,7 +56,7 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
 
         $combatant = new HeroCombatant();
         $combatant->abilities = ['hardiness', 'power_strike'];
-        $combatant->ability_state = [];
+        $combatant->status = [];
 
         // Load abilities
         $abilities = $registry->getAbilitiesForCombatant($combatant);
@@ -71,9 +73,11 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
 
         // Verify state was saved to combatant
         $this->assertEquals([
-            'hardiness' => ['charges' => 0],
-            'power_strike' => ['last_used_turn' => 5],
-        ], $combatant->ability_state);
+            'ability_state' => [
+                'hardiness' => ['charges' => 0],
+                'power_strike' => ['last_used_turn' => 5],
+            ]
+        ], $combatant->status);
     }
 
     public function testAbilityRegistryLoadsAbilitiesWithPerCombatantConfig()
@@ -89,8 +93,8 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
         $abilities = $registry->getAbilitiesForCombatant($combatant);
 
         $lifesteal = $abilities->first();
-        $this->assertEquals('lifesteal', $lifesteal->getKey());
-        $this->assertEquals(1.0, $lifesteal->getConfig()['heal_percent']);
+        $this->assertEquals('lifesteal', $lifesteal->key);
+        $this->assertEquals(1.0, $lifesteal->config['heal_percent']);
     }
 
     public function testAbilityRegistryOnlySavesNonEmptyState()
@@ -106,7 +110,7 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
         // These abilities have no state (no charges, no cooldowns)
         $registry->saveAbilityStates($combatant, $abilities);
 
-        // Should save empty array since no abilities have state
-        $this->assertEquals([], $combatant->ability_state);
+        // Should save empty object since no abilities have state
+        $this->assertEquals(['ability_state' => []], $combatant->status);
     }
 }
