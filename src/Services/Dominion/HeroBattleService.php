@@ -791,6 +791,30 @@ class HeroBattleService
 
     public function processPostCombat(HeroCombatant $combatant): string
     {
+        $messages = '';
+
+        // Check for death and trigger death abilities using the new ability system
+        if ($combatant->current_health <= 0) {
+            $abilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
+
+            foreach ($abilities as $ability) {
+                if ($ability instanceof TriggersOnDeath) {
+                    $context = new CombatContext($combatant, $combatant, $combatant->battle);
+                    $shouldDie = $ability->beforeDeath($context);
+
+                    if (!$shouldDie) {
+                        // Death was prevented (e.g., Hardiness)
+                        $messages .= ' ' . $context->getMessagesString();
+
+                        // Save ability state since it consumed a charge
+                        $this->abilityRegistry->saveAbilityStates($combatant, $abilities);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Old encounter-specific abilities (will be migrated to ability classes later)
         if (in_array('dying_light', $combatant->abilities ?? []) && $combatant->current_health <= 0) {
             $this->spendAbility($combatant, 'dying_light');
 
@@ -803,16 +827,10 @@ class HeroBattleService
                 // Reduce Nightbringer's evasion to 0
                 $nightbringer->evasion = 0;
                 $nightbringer->save();
-                return " {$combatant->name} explodes in a blast of light, exposing the Nightbringer!";
+                return $messages . " {$combatant->name} explodes in a blast of light, exposing the Nightbringer!";
             }
 
-            return " {$combatant->name} explodes in a blast of light.";
-        }
-
-        if (in_array('hardiness', $combatant->abilities ?? []) && $combatant->current_health < 1) {
-            $combatant->current_health = 1;
-            $this->spendAbility($combatant, 'hardiness');
-            return " {$combatant->name} clings to life with 1 health.";
+            return $messages . " {$combatant->name} explodes in a blast of light.";
         }
 
         // Power source: when this combatant dies, weakens the specified target
@@ -842,14 +860,14 @@ class HeroBattleService
 
                         if (!empty($changes)) {
                             $changesString = implode(', ', $changes);
-                            return " {$combatant->name} crumbles to dust, severing its connection to {$targetName} ({$changesString})!";
+                            return $messages . " {$combatant->name} crumbles to dust, severing its connection to {$targetName} ({$changesString})!";
                         }
                     }
                 }
             }
         }
 
-        return '';
+        return $messages;
     }
 
     /**
