@@ -5,6 +5,7 @@ namespace Tests\Unit\Domain\HeroBattle\Abilities;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenDominion\Domain\HeroBattle\Abilities\AbilityRegistry;
 use OpenDominion\Helpers\HeroAbilityHelper;
+use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Tests\AbstractBrowserKitTestCase;
 
@@ -17,8 +18,14 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
         $abilityHelper = new HeroAbilityHelper();
         $registry = new AbilityRegistry($abilityHelper);
 
+        // Create a battle first (required for FK constraint)
+        $battle = HeroBattle::create([
+            'current_turn' => 1,
+        ]);
+
         // Create a combatant with abilities and saved state
         $combatant = new HeroCombatant();
+        $combatant->hero_battle_id = $battle->id;
         $combatant->abilities = [
             'lifesteal',
             'hardiness',
@@ -54,7 +61,12 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
         $abilityHelper = new HeroAbilityHelper();
         $registry = new AbilityRegistry($abilityHelper);
 
+        $battle = HeroBattle::create([
+            'current_turn' => 1,
+        ]);
+
         $combatant = new HeroCombatant();
+        $combatant->hero_battle_id = $battle->id;
         $combatant->abilities = ['hardiness', 'power_strike'];
         $combatant->status = [];
 
@@ -85,7 +97,12 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
         $abilityHelper = new HeroAbilityHelper();
         $registry = new AbilityRegistry($abilityHelper);
 
+        $battle = HeroBattle::create([
+            'current_turn' => 1,
+        ]);
+
         $combatant = new HeroCombatant();
+        $combatant->hero_battle_id = $battle->id;
         $combatant->abilities = [
             ['key' => 'lifesteal', 'config' => ['heal_percent' => 1.0]], // 100%
         ];
@@ -102,7 +119,12 @@ class AbilityRegistryTest extends AbstractBrowserKitTestCase
         $abilityHelper = new HeroAbilityHelper();
         $registry = new AbilityRegistry($abilityHelper);
 
+        $battle = HeroBattle::create([
+            'current_turn' => 1,
+        ]);
+
         $combatant = new HeroCombatant();
+        $combatant->hero_battle_id = $battle->id;
         $combatant->abilities = ['lifesteal', 'elusive'];
 
         $abilities = $registry->getAbilitiesForCombatant($combatant);

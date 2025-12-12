@@ -47,9 +47,10 @@ class SimultaneousProcessingTest extends AbstractBrowserKitTestCase
         $this->assertEquals(15, $contextA->healing);
 
         // PHASE 2: Apply ALL damage/healing simultaneously
+        // Apply all damage first, then all healing (order matters for max health clamping)
         $contextA->applyDamage();
-        $contextA->applyHealing();
         $contextB->applyDamage();
+        $contextA->applyHealing();
         $contextB->applyHealing();
 
         // Final state: Both attacks happened "at the same time"
@@ -92,10 +93,10 @@ class SimultaneousProcessingTest extends AbstractBrowserKitTestCase
         $this->assertEquals(20, $contextA->healing);
         $this->assertEquals(20, $contextB->healing);
 
-        // Apply simultaneously
+        // Apply simultaneously (damage first, then healing)
         $contextA->applyDamage();
-        $contextA->applyHealing();
         $contextB->applyDamage();
+        $contextA->applyHealing();
         $contextB->applyHealing();
 
         // Both end up at the same health (fair)

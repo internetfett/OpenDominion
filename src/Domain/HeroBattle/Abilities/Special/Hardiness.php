@@ -10,15 +10,12 @@ class Hardiness extends AbstractAbility implements TriggersOnDeath
 {
     /**
      * Prevents death once, leaving the combatant at 1 HP
-     *
-     * IMPORTANT: Does NOT modify health directly - sets flag in context
-     * HeroBattleService will prevent death and set health to 1
      */
     public function beforeDeath(CombatContext $context): bool
     {
         if ($this->hasCharges()) {
-            // Don't modify health directly - just signal prevention
             $this->consume();
+            $context->target->current_health = 1;
             $context->addMessage("{$context->target->name} clings to life with 1 health.");
 
             return false; // Prevent death
