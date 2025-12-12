@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use OpenDominion\Domain\HeroBattle\Abilities\AbilityRegistry;
 use OpenDominion\Helpers\HeroAbilityHelper;
 use OpenDominion\Models\HeroCombatant;
-use Tests\AbstractBrowserKitTestCase;
+use OpenDominion\Tests\AbstractBrowserKitTestCase;
 
 class AbilityRegistryTest extends AbstractBrowserKitTestCase
 {

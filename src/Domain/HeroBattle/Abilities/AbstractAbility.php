@@ -4,13 +4,13 @@ namespace OpenDominion\Domain\HeroBattle\Abilities;
 
 abstract class AbstractAbility implements AbilityInterface
 {
-    protected string $key;
-    protected string $name;
-    protected string $description;
-    protected array $config;
-    protected ?int $charges;
-    protected ?int $cooldown;
-    protected ?int $lastUsedTurn;
+    public string $key;
+    public string $name;
+    public string $description;
+    public array $config;
+    public ?int $charges;
+    public ?int $cooldown;
+    public ?int $lastUsedTurn;
 
     public function __construct(string $key, array $config = [])
     {

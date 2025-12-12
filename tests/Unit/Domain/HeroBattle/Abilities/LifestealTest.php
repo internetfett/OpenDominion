@@ -7,7 +7,7 @@ use OpenDominion\Domain\HeroBattle\Abilities\Passive\Lifesteal;
 use OpenDominion\Domain\HeroBattle\Context\CombatContext;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
-use Tests\AbstractBrowserKitTestCase;
+use OpenDominion\Tests\AbstractBrowserKitTestCase;
 
 class LifestealTest extends AbstractBrowserKitTestCase
 {

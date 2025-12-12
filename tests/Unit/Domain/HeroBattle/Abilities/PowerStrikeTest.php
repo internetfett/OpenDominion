@@ -7,7 +7,7 @@ use OpenDominion\Domain\HeroBattle\Abilities\Active\PowerStrike;
 use OpenDominion\Domain\HeroBattle\Context\CombatContext;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
-use Tests\AbstractBrowserKitTestCase;
+use OpenDominion\Tests\AbstractBrowserKitTestCase;
 
 class PowerStrikeTest extends AbstractBrowserKitTestCase
 {
