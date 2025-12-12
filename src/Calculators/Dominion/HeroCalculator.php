@@ -408,60 +408,27 @@ class HeroCalculator
 
     public function getCombatStat(HeroCombatant $combatant, string $stat): int
     {
-        $multiplier = 1;
+        // Use CombatCalculator with ability system instead of hardcoded checks
+        $combatCalculator = app('OpenDominion\Domain\HeroBattle\Combat\CombatCalculator');
+        $abilityRegistry = app('OpenDominion\Domain\HeroBattle\Abilities\AbilityRegistry');
 
-        if (in_array('last_stand', $combatant->abilities ?? []) && $combatant->current_health <= 40) {
-            $multiplier = 1.1;
+        $abilities = $abilityRegistry->getAbilitiesForCombatant($combatant);
+
+        switch ($stat) {
+            case 'attack':
+                return $combatCalculator->calculateAttack($combatant, $abilities);
+            case 'defense':
+                return $combatCalculator->calculateDefense($combatant, $abilities);
+            case 'evasion':
+                return $combatCalculator->calculateEvasion($combatant, $abilities);
+            case 'recover':
+                return $combatCalculator->calculateRecovery($combatant, $abilities);
+            case 'counter':
+                return $combatCalculator->calculateCounter($combatant, $abilities);
+            default:
+                // For stats without ability modifiers, just return the base value
+                return (int) round($combatant->{$stat});
         }
-
-        if ($stat == 'attack') {
-            // Enrage
-            if (in_array('enrage', $combatant->abilities ?? []) && $combatant->current_health <= 40) {
-                return round($combatant->attack * $multiplier) + 10;
-            }
-        }
-
-        if ($stat == 'defense') {
-            // Rally
-            if (in_array('rally', $combatant->abilities ?? []) && $combatant->current_health <= 40) {
-                return round($combatant->defense * $multiplier) + 5;
-            }
-            // Arcane Shield
-            if (in_array('arcane_shield', $combatant->abilities ?? [])) {
-                return round($combatant->defense * $multiplier) + 10;
-            }
-            // Weakened
-            if (in_array('weakened', $combatant->abilities ?? [])) {
-                return round($combatant->defense * $multiplier) - 15;
-            }
-            // Undying Legion
-            if (in_array('undying_legion', $combatant->abilities ?? [])) {
-                $livingMinions = $combatant->battle->combatants
-                    ->where('id', '!=', $combatant->id)
-                    ->where('hero_id', null)
-                    ->where('current_health', '>', 0)
-                    ->count();
-                if ($livingMinions > 0) {
-                    return 999;
-                }
-            }
-        }
-
-        if ($stat == 'recover') {
-            // Mending
-            if (in_array('mending', $combatant->abilities ?? []) && $combatant->has_focus) {
-                return round($combatant->recover * $multiplier) + round($combatant->focus * $multiplier);
-            }
-        }
-
-        if ($stat == 'counter') {
-            // Retribution
-            if (in_array('retribution', $combatant->abilities ?? [])) {
-                return round($combatant->counter * $multiplier) + 15;
-            }
-        }
-
-        return round($combatant->{$stat} * $multiplier);
     }
 
     public function calculateCombatDamage(HeroCombatant $combatant, HeroCombatant $target, array $actionDef, bool $counterAttack = false): int
