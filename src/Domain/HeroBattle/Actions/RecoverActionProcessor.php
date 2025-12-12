@@ -14,8 +14,14 @@ class RecoverActionProcessor extends AbstractActionProcessor
 {
     public function process(CombatContext $context): void
     {
-        // Calculate healing amount
-        $context->healing = $this->heroCalculator->calculateCombatHeal($context->attacker);
+        // Ensure abilities are loaded
+        $attackerAbilities = $context->attackerAbilities ?? collect();
+
+        // Calculate healing amount with ability modifiers
+        $context->healing = $this->combatCalculator->calculateCombatHeal(
+            $context->attacker,
+            $attackerAbilities
+        );
 
         // No damage dealt
         $context->damage = 0;

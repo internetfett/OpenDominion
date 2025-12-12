@@ -2,17 +2,17 @@
 
 namespace OpenDominion\Domain\HeroBattle\Actions;
 
-use OpenDominion\Calculators\Dominion\HeroCalculator;
+use OpenDominion\Domain\HeroBattle\Combat\CombatCalculator;
 use OpenDominion\Domain\HeroBattle\Context\CombatContext;
 
 abstract class AbstractActionProcessor implements ActionProcessorInterface
 {
-    protected HeroCalculator $heroCalculator;
+    protected CombatCalculator $combatCalculator;
     protected string $actionKey;
 
-    public function __construct(HeroCalculator $heroCalculator, string $actionKey)
+    public function __construct(CombatCalculator $combatCalculator, string $actionKey)
     {
-        $this->heroCalculator = $heroCalculator;
+        $this->combatCalculator = $combatCalculator;
         $this->actionKey = $actionKey;
     }
 

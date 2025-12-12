@@ -2,6 +2,7 @@
 
 namespace OpenDominion\Domain\HeroBattle\Context;
 
+use Illuminate\Support\Collection;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
 
@@ -26,6 +27,10 @@ class CombatContext
     public HeroCombatant $target;
     public HeroBattle $battle;
     public array $actionDef;
+
+    // Abilities (set by HeroBattleService)
+    public ?Collection $attackerAbilities = null;
+    public ?Collection $targetAbilities = null;
 
     // Damage/healing to apply (modified by abilities)
     public int $damage = 0;

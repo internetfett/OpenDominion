@@ -5,7 +5,21 @@ namespace OpenDominion\Services\Dominion;
 use Illuminate\Support\Collection;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Calculators\RaidCalculator;
+use OpenDominion\Domain\HeroBattle\Abilities\AbilityRegistry;
+use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesDamage;
+use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesEvasion;
+use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesFocus;
+use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesHealing;
+use OpenDominion\Domain\HeroBattle\Abilities\Traits\TriggersOnDeath;
+use OpenDominion\Domain\HeroBattle\Actions\AttackActionProcessor;
+use OpenDominion\Domain\HeroBattle\Actions\CounterActionProcessor;
+use OpenDominion\Domain\HeroBattle\Actions\DefendActionProcessor;
+use OpenDominion\Domain\HeroBattle\Actions\FocusActionProcessor;
+use OpenDominion\Domain\HeroBattle\Actions\RecoverActionProcessor;
+use OpenDominion\Domain\HeroBattle\Combat\CombatCalculator;
+use OpenDominion\Domain\HeroBattle\Context\CombatContext;
 use OpenDominion\Exceptions\GameException;
+use OpenDominion\Helpers\HeroAbilityHelper;
 use OpenDominion\Helpers\HeroEncounterHelper;
 use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\Models\Dominion;
@@ -34,6 +48,18 @@ class HeroBattleService
     /** @var ProtectionService */
     protected $protectionService;
 
+    /** @var HeroAbilityHelper */
+    protected $heroAbilityHelper;
+
+    /** @var AbilityRegistry */
+    protected $abilityRegistry;
+
+    /** @var CombatCalculator */
+    protected $combatCalculator;
+
+    /** @var array */
+    protected $actionProcessors;
+
     /**
      * HeroBattleService constructor.
      */
@@ -43,6 +69,18 @@ class HeroBattleService
         $this->heroEncounterHelper = app(HeroEncounterHelper::class);
         $this->heroHelper = app(HeroHelper::class);
         $this->protectionService = app(ProtectionService::class);
+        $this->heroAbilityHelper = app(HeroAbilityHelper::class);
+        $this->abilityRegistry = new AbilityRegistry($this->heroAbilityHelper);
+        $this->combatCalculator = new CombatCalculator();
+
+        // Register action processors with CombatCalculator
+        $this->actionProcessors = [
+            'attack' => new AttackActionProcessor($this->combatCalculator, 'attack'),
+            'defend' => new DefendActionProcessor($this->combatCalculator, 'defend'),
+            'focus' => new FocusActionProcessor($this->combatCalculator, 'focus'),
+            'counter' => new CounterActionProcessor($this->combatCalculator, 'counter'),
+            'recover' => new RecoverActionProcessor($this->combatCalculator, 'recover'),
+        ];
     }
 
     public const DEFAULT_TIME_BANK = 2 * 60 * 60;
@@ -264,7 +302,8 @@ class HeroBattleService
             $combatant->current_target = $nextAction['target'];
         }
 
-        // Perform the actions and persist results
+        // PHASE 1: Process all actions and collect contexts
+        $contexts = [];
         foreach ($livingCombatants as $combatant) {
             $actionDefinitions = $this->heroHelper->getAvailableCombatActions($combatant);
             $actionDef = $actionDefinitions->get($combatant->current_action);
@@ -280,29 +319,41 @@ class HeroBattleService
                 $target = $combatant;
             }
 
-            $result = $this->processAction($combatant, $target, $actionDef);
+            // Process action - returns CombatContext with calculated values
+            $context = $this->processAction($combatant, $target, $actionDef);
+            $contexts[] = $context;
+        }
 
-            $combatant->current_health += $result['health'];
-            if ($target->shield > 0) {
-                $shield_damage = min($target->shield, $result['damage']);
-                $target->shield -= $shield_damage;
-                $result['damage'] -= $shield_damage;
-            }
-            $target->current_health -= $result['damage'];
+        // PHASE 2: Apply ALL damage and healing simultaneously
+        foreach ($contexts as $context) {
+            $context->applyDamage();   // Handles shield then health
+            $context->applyHealing();  // Caps at max health
+        }
 
-            $result['description'] .= $this->processPostCombat($combatant);
-            $result['description'] .= $this->processPostCombat($target);
+        // PHASE 3: Process post-combat effects and deaths
+        foreach ($contexts as $context) {
+            $postCombatMessages = '';
+            $postCombatMessages .= $this->processPostCombat($context->attacker);
+            $postCombatMessages .= $this->processPostCombat($context->target);
+            $context->addMessage($postCombatMessages);
 
-            $action = HeroBattleAction::create([
+            // Save action to database
+            HeroBattleAction::create([
                 'hero_battle_id' => $heroBattle->id,
-                'combatant_id' => $combatant->id,
-                'target_combatant_id' => $target->id,
+                'combatant_id' => $context->attacker->id,
+                'target_combatant_id' => $context->target->id,
                 'turn' => $heroBattle->current_turn,
-                'action' => $combatant->current_action,
-                'damage' => $result['damage'],
-                'health' => $result['health'],
-                'description' => $result['description']
+                'action' => $context->attacker->current_action,
+                'damage' => $context->damage,
+                'health' => $context->healing,
+                'description' => $context->getMessagesString()
             ]);
+        }
+
+        // PHASE 4: Save ability states for all combatants
+        foreach ($livingCombatants as $combatant) {
+            $abilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
+            $this->abilityRegistry->saveAbilityStates($combatant, $abilities);
         }
 
         // Prepare combatants for next turn
@@ -411,18 +462,6 @@ class HeroBattleService
         return random_choice_weighted($options->toArray());
     }
 
-    public function spendFocus(HeroCombatant $combatant): void
-    {
-        if (in_array('channeling', $combatant->abilities ?? []) && $combatant->has_focus) {
-            if ($combatant->hero !== null) {
-                $combatStats = $this->heroCalculator->getHeroCombatStats($combatant->hero);
-                $combatant->focus = $combatStats['focus'];
-            }
-        }
-
-        $combatant->has_focus = false;
-    }
-
     public function spendAbility(HeroCombatant $combatant, string $ability): void
     {
         $abilities = $combatant->abilities ?? [];
@@ -434,144 +473,97 @@ class HeroBattleService
         }
     }
 
-    public function processAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
+    public function processAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): CombatContext
     {
+        // Create combat context
+        $battle = $combatant->battle;
+        $context = new CombatContext($combatant, $target, $battle, $actionDef);
+
         if ($actionDef === null) {
-            return [
-                'damage' => 0,
-                'health' => 0,
-                'description' => ''
-            ];
+            return $context;
         }
 
-        $processorMethod = 'process' . ucfirst($actionDef['processor']) . 'Action';
+        // Get action processor
+        $processorKey = $actionDef['processor'];
+        $processor = $this->actionProcessors[$processorKey] ?? null;
 
-        return $this->$processorMethod($combatant, $target, $actionDef);
+        if (!$processor) {
+            return $context;
+        }
+
+        // Load abilities for combatant and target
+        $combatantAbilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
+        $targetAbilities = $this->abilityRegistry->getAbilitiesForCombatant($target);
+
+        // Set abilities in context for use by processors
+        $context->attackerAbilities = $combatantAbilities;
+        $context->targetAbilities = $targetAbilities;
+
+        // Process action
+        $processor->process($context);
+
+        // Trigger abilities based on action type
+        $this->triggerAbilities($context, $combatantAbilities, $targetAbilities, $processorKey);
+
+        return $context;
     }
 
-    public function processAttackAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
-    {
-        $damage = $this->heroCalculator->calculateCombatDamage($combatant, $target, $actionDef);
-        $evaded = $this->heroCalculator->calculateCombatEvade($target, $actionDef);
-        $evadeMultiplier = 0.5;
-        if (in_array('elusive', $target->abilities ?? []) && !$combatant->has_focus) {
-            $evadeMultiplier = 0;
+    protected function triggerAbilities(
+        CombatContext $context,
+        Collection $combatantAbilities,
+        Collection $targetAbilities,
+        string $actionType
+    ): void {
+        // Trigger abilities based on action type
+        switch ($actionType) {
+            case 'attack':
+                // Trigger evasion modifiers on target
+                foreach ($targetAbilities as $ability) {
+                    if ($ability instanceof ModifiesEvasion) {
+                        $ability->beforeDamageReceived($context);
+                    }
+                }
+
+                // Trigger damage modifiers on attacker
+                foreach ($combatantAbilities as $ability) {
+                    if ($ability instanceof ModifiesDamage) {
+                        $ability->afterDamageDealt($context);
+                    }
+                }
+
+                // Handle focus spending with Channeling
+                $preventSpending = false;
+                foreach ($combatantAbilities as $ability) {
+                    if ($ability instanceof ModifiesFocus) {
+                        if ($ability->beforeFocusSpent($context)) {
+                            $preventSpending = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$preventSpending) {
+                    $context->attacker->has_focus = false;
+                }
+                break;
+
+            case 'focus':
+                // Trigger focus modifiers (Channeling stacking)
+                foreach ($combatantAbilities as $ability) {
+                    if ($ability instanceof ModifiesFocus) {
+                        $ability->afterFocus($context);
+                    }
+                }
+                break;
+
+            case 'recover':
+                // Trigger healing modifiers (Mending)
+                foreach ($combatantAbilities as $ability) {
+                    if ($ability instanceof ModifiesHealing) {
+                        $ability->afterHealingCalculated($context);
+                    }
+                }
+                break;
         }
-        $this->spendFocus($combatant);
-        $health = 0;
-        $countered = false;
-
-        if ($target->current_action == 'counter') {
-            $countered = true;
-            $counterDamage = $this->heroCalculator->calculateCombatDamage($target, $combatant, $actionDef);
-            $health = -$counterDamage;
-        }
-
-        $messages = $actionDef['messages'];
-
-        if ($damage > 0 && $evaded) {
-            $damageEvaded = $damage;
-            $damage = round($damage * $evadeMultiplier);
-            if ($countered) {
-                $description = sprintf(
-                    $messages['evaded_countered'],
-                    $combatant->name,
-                    $damageEvaded,
-                    $target->name,
-                    $damage,
-                    $target->name,
-                    $counterDamage
-                );
-            } else {
-                $description = sprintf(
-                    $messages['evaded'],
-                    $combatant->name,
-                    $damageEvaded,
-                    $target->name,
-                    $damage
-                );
-            }
-        } else {
-            if ($countered) {
-                $description = sprintf(
-                    $messages['countered'],
-                    $combatant->name,
-                    $damage,
-                    $target->name,
-                    $counterDamage
-                );
-            } else {
-                $description = sprintf(
-                    $messages['hit'],
-                    $combatant->name,
-                    $damage,
-                    $target->name
-                );
-            }
-        }
-
-        if (in_array('lifesteal', $combatant->abilities ?? []) && $damage > 0) {
-            $healing = round($damage / 2);
-            $health += $healing;
-            $description .= sprintf(' %s heals for %s health.', $combatant->name, $healing);
-        }
-
-        return [
-            'damage' => $damage,
-            'health' => $health,
-            'description' => $description
-        ];
-    }
-
-    public function processDefendAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
-    {
-        return [
-            'damage' => 0,
-            'health' => 0,
-            'description' => sprintf($actionDef['messages']['defend'], $combatant->name)
-        ];
-    }
-
-    public function processFocusAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
-    {
-        if (in_array('channeling', $combatant->abilities ?? []) && $combatant->has_focus) {
-            if ($combatant->hero !== null) {
-                $combatStats = $this->heroCalculator->getHeroCombatStats($combatant->hero);
-                $combatant->focus += $combatStats['focus'];
-            }
-        }
-
-        $combatant->has_focus = true;
-
-        return [
-            'damage' => 0,
-            'health' => 0,
-            'description' => sprintf($actionDef['messages']['focus'], $combatant->name)
-        ];
-    }
-
-    public function processCounterAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
-    {
-        return [
-            'damage' => 0,
-            'health' => 0,
-            'description' => sprintf($actionDef['messages']['counter'], $combatant->name)
-        ];
-    }
-
-    public function processRecoverAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
-    {
-        $health = $this->heroCalculator->calculateCombatHeal($combatant);
-
-        if (in_array('mending', $combatant->abilities ?? [])) {
-            $this->spendFocus($combatant);
-        }
-
-        return [
-            'damage' => 0,
-            'health' => $health,
-            'description' => sprintf($actionDef['messages']['recover'], $combatant->name, $health)
-        ];
     }
 
     public function processStatAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array

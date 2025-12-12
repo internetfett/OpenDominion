@@ -14,17 +14,24 @@ class AttackActionProcessor extends AbstractActionProcessor
 {
     public function process(CombatContext $context): void
     {
-        // Calculate base damage
-        $context->damage = $this->heroCalculator->calculateCombatDamage(
+        // Ensure abilities are loaded
+        $attackerAbilities = $context->attackerAbilities ?? collect();
+        $targetAbilities = $context->targetAbilities ?? collect();
+
+        // Calculate base damage with ability modifiers
+        $context->damage = $this->combatCalculator->calculateCombatDamage(
             $context->attacker,
             $context->target,
-            $context->actionDef
+            $context->actionDef,
+            $attackerAbilities,
+            $targetAbilities
         );
 
-        // Calculate evasion
-        $context->evaded = $this->heroCalculator->calculateCombatEvade(
+        // Calculate evasion with ability modifiers
+        $context->evaded = $this->combatCalculator->calculateCombatEvade(
             $context->target,
-            $context->actionDef
+            $context->actionDef,
+            $targetAbilities
         );
 
         // Apply evasion multiplier
@@ -36,10 +43,12 @@ class AttackActionProcessor extends AbstractActionProcessor
         // Check for counter attack
         if ($context->target->current_action === 'counter') {
             $context->countered = true;
-            $counterDamage = $this->heroCalculator->calculateCombatDamage(
+            $counterDamage = $this->combatCalculator->calculateCombatDamage(
                 $context->target,
                 $context->attacker,
-                $context->actionDef
+                $context->actionDef,
+                $targetAbilities,
+                $attackerAbilities
             );
             // Counter damage is applied to attacker
             $context->healing = -$counterDamage;
