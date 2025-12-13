@@ -14,6 +14,19 @@ class AttackActionProcessor extends AbstractActionProcessor
 {
     public function process(CombatContext $context): void
     {
+        $this->calculateDamage($context);
+        $this->handleEvasion($context);
+        $this->handleCounter($context);
+        $this->buildCombatMessage($context);
+        $this->afterCombat($context);
+    }
+
+    /**
+     * Calculate base damage with ability modifiers
+     * Override this to customize damage calculation
+     */
+    protected function calculateDamage(CombatContext $context): void
+    {
         // Ensure abilities are loaded
         $attackerAbilities = $context->attackerAbilities ?? collect();
         $targetAbilities = $context->targetAbilities ?? collect();
@@ -28,6 +41,15 @@ class AttackActionProcessor extends AbstractActionProcessor
             $attackerAbilities,
             $targetAbilities
         );
+    }
+
+    /**
+     * Handle evasion mechanics
+     * Override this to customize evasion behavior
+     */
+    protected function handleEvasion(CombatContext $context): void
+    {
+        $targetAbilities = $context->targetAbilities ?? collect();
 
         // Calculate evasion with ability modifiers
         $context->evaded = $this->combatCalculator->calculateCombatEvade(
@@ -38,9 +60,19 @@ class AttackActionProcessor extends AbstractActionProcessor
 
         // Apply evasion multiplier
         if ($context->evaded && $context->damage > 0) {
-            $damageBeforeEvasion = $context->damage;
+            $context->damageBeforeEvasion = $context->damage;
             $context->damage = (int) round($context->damage * $context->evadeMultiplier);
         }
+    }
+
+    /**
+     * Handle counter attack mechanics
+     * Override this to customize counter behavior
+     */
+    protected function handleCounter(CombatContext $context): void
+    {
+        $attackerAbilities = $context->attackerAbilities ?? collect();
+        $targetAbilities = $context->targetAbilities ?? collect();
 
         // Check for counter attack
         if ($context->targetAction === 'counter') {
@@ -56,11 +88,29 @@ class AttackActionProcessor extends AbstractActionProcessor
             );
             // Counter damage is applied to attacker
             $context->healing = -$counterDamage;
+            $context->counterDamage = $counterDamage;
         }
+    }
 
-        // Build message
-        $this->buildMessage($context, $damageBeforeEvasion ?? 0, $counterDamage ?? 0);
+    /**
+     * Build combat message based on what happened
+     * Override this to customize messages
+     */
+    protected function buildCombatMessage(CombatContext $context): void
+    {
+        $this->buildMessage(
+            $context,
+            $context->damageBeforeEvasion ?? 0,
+            $context->counterDamage ?? 0
+        );
+    }
 
+    /**
+     * After combat processing (focus spending, etc.)
+     * Override this to add custom after-effects
+     */
+    protected function afterCombat(CombatContext $context): void
+    {
         // Spend focus if used
         $this->spendFocus($context->attacker);
     }

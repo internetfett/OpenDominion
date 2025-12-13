@@ -2,6 +2,9 @@
 
 namespace OpenDominion\Domain\HeroBattle\Abilities;
 
+use OpenDominion\Domain\HeroBattle\Context\CombatContext;
+use OpenDominion\Models\HeroCombatant;
+
 abstract class AbstractAbility implements AbilityInterface
 {
     public string $key;
@@ -65,6 +68,73 @@ abstract class AbstractAbility implements AbilityInterface
         }
         if (isset($state['last_used_turn'])) {
             $this->lastUsedTurn = $state['last_used_turn'];
+        }
+    }
+
+    // ==================== Helper Methods for Ability Development ====================
+
+    /**
+     * Deal damage through the context (for step-based processing)
+     */
+    protected function dealDamage(int $amount, CombatContext $context): void
+    {
+        $context->damage = $amount;
+    }
+
+    /**
+     * Add to existing damage (for bonus damage abilities)
+     */
+    protected function addBonusDamage(int $amount, CombatContext $context): void
+    {
+        $context->damage += $amount;
+    }
+
+    /**
+     * Heal a combatant through the context
+     */
+    protected function healCombatant(HeroCombatant $combatant, int $amount, CombatContext $context): void
+    {
+        if ($combatant === $context->attacker) {
+            $context->healing += $amount;
+        } else {
+            // Healing target - set negative damage
+            $context->damage = -$amount;
+        }
+    }
+
+    /**
+     * Add a message to the combat log
+     */
+    protected function addCombatMessage(string $message, CombatContext $context): void
+    {
+        $context->addMessage($message);
+    }
+
+    /**
+     * Format a message using a template and arguments
+     */
+    protected function formatMessage(string $template, ...$args): string
+    {
+        return sprintf($template, ...$args);
+    }
+
+    /**
+     * Get a message template from ability config
+     */
+    protected function getMessageTemplate(string $key): ?string
+    {
+        return $this->config['messages'][$key] ?? null;
+    }
+
+    /**
+     * Build and add a formatted message
+     */
+    protected function buildMessage(CombatContext $context, string $messageKey, ...$args): void
+    {
+        $template = $this->getMessageTemplate($messageKey);
+        if ($template) {
+            $message = sprintf($template, ...$args);
+            $context->addMessage($message);
         }
     }
 }

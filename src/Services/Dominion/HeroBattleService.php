@@ -16,6 +16,7 @@ use OpenDominion\Domain\HeroBattle\Actions\CounterActionProcessor;
 use OpenDominion\Domain\HeroBattle\Actions\DefendActionProcessor;
 use OpenDominion\Domain\HeroBattle\Actions\FocusActionProcessor;
 use OpenDominion\Domain\HeroBattle\Actions\RecoverActionProcessor;
+use OpenDominion\Domain\HeroBattle\Actions\VolatileMixtureProcessor;
 use OpenDominion\Domain\HeroBattle\Combat\CombatCalculator;
 use OpenDominion\Domain\HeroBattle\Context\CombatContext;
 use OpenDominion\Exceptions\GameException;
@@ -80,6 +81,7 @@ class HeroBattleService
             'focus' => new FocusActionProcessor($this->combatCalculator, 'focus'),
             'counter' => new CounterActionProcessor($this->combatCalculator, 'counter'),
             'recover' => new RecoverActionProcessor($this->combatCalculator, 'recover'),
+            'volatile' => new VolatileMixtureProcessor($this->combatCalculator, 'volatile_mixture'),
         ];
     }
 

@@ -39,11 +39,14 @@ class CombatContext
     // Damage/healing to apply (modified by abilities)
     public int $damage = 0;
     public int $healing = 0;
+    public int $damageBeforeEvasion = 0;  // For message building
+    public int $counterDamage = 0;        // For message building
 
     // Combat flags
     public bool $evaded = false;
     public bool $countered = false;
     public float $evadeMultiplier = 1.0;
+    public bool $backfired = false;       // For abilities like Volatile Mixture
 
     // Messages for battle log
     public array $messages = [];
