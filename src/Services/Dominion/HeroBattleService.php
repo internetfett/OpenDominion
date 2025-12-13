@@ -295,32 +295,57 @@ class HeroBattleService
             }
         }
 
-        // Determine which action to take via queue or automated strategy
+        // PHASE 1A: Determine all actions and targets for all combatants
+        $combatantActions = [];
         foreach ($livingCombatants as $combatant) {
             $nextAction = $this->determineAction($combatant);
-            $combatant->current_action = $nextAction['action'];
-            $combatant->current_target = $nextAction['target'];
-        }
+            $action = $nextAction['action'];
+            $targetId = $nextAction['target'];
 
-        // PHASE 1: Process all actions and collect contexts
-        $contexts = [];
-        foreach ($livingCombatants as $combatant) {
             $actionDefinitions = $this->heroHelper->getAvailableCombatActions($combatant);
-            $actionDef = $actionDefinitions->get($combatant->current_action);
+            $actionDef = $actionDefinitions->get($action);
 
-            if ($combatant->current_target !== null) {
-                // Use specified target
-                $target = $livingCombatants->where('id', $combatant->current_target)->first();
+            // Skip if action definition not found
+            if ($actionDef === null) {
+                continue;
+            }
+
+            // Determine target combatant
+            if ($targetId !== null) {
+                $target = $livingCombatants->where('id', $targetId)->first();
             } elseif ($actionDef['type'] == 'hostile') {
-                // Attack a random opponent
-                $target = $livingCombatants->where('hero_id', '!=', $combatant->hero_id)->random();
+                // Find opponents (different hero_id, or if null, different combatant)
+                if ($combatant->hero_id !== null) {
+                    $opponents = $livingCombatants->where('hero_id', '!=', $combatant->hero_id);
+                } else {
+                    $opponents = $livingCombatants->where('id', '!=', $combatant->id);
+                }
+                $target = $opponents->isNotEmpty() ? $opponents->random() : $combatant;
             } else {
-                // Default to self
                 $target = $combatant;
             }
 
-            // Process action - returns CombatContext with calculated values
-            $context = $this->processAction($combatant, $target, $actionDef);
+            $combatantActions[$combatant->id] = [
+                'combatant' => $combatant,
+                'action' => $action,
+                'actionDef' => $actionDef,
+                'target' => $target,
+            ];
+        }
+
+        // PHASE 1B: Process all actions with knowledge of everyone's chosen actions
+        $contexts = [];
+        foreach ($combatantActions as $combatantId => $actionData) {
+            $combatant = $actionData['combatant'];
+            $action = $actionData['action'];
+            $actionDef = $actionData['actionDef'];
+            $target = $actionData['target'];
+
+            // Get the target's chosen action for defensive calculations
+            $targetAction = $combatantActions[$target->id]['action'] ?? '';
+
+            // Process action - returns CombatContext with both actions
+            $context = $this->processAction($combatant, $target, $action, $targetAction, $actionDef);
             $contexts[] = $context;
         }
 
@@ -343,17 +368,22 @@ class HeroBattleService
                 'combatant_id' => $context->attacker->id,
                 'target_combatant_id' => $context->target->id,
                 'turn' => $heroBattle->current_turn,
-                'action' => $context->attacker->current_action,
+                'action' => $context->action,
                 'damage' => $context->damage,
                 'health' => $context->healing,
                 'description' => $context->getMessagesString()
             ]);
         }
 
-        // PHASE 4: Save ability states for all combatants
-        foreach ($livingCombatants as $combatant) {
-            $abilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
-            $this->abilityRegistry->saveAbilityStates($combatant, $abilities);
+        // PHASE 4: Save ability states and last actions for all combatants
+        foreach ($contexts as $context) {
+            // Save last action
+            $context->attacker->last_action = $context->action;
+            $context->attacker->save();
+
+            // Save ability states
+            $abilities = $this->abilityRegistry->getAbilitiesForCombatant($context->attacker);
+            $this->abilityRegistry->saveAbilityStates($context->attacker, $abilities);
         }
 
         // Prepare combatants for next turn
@@ -361,9 +391,10 @@ class HeroBattleService
             if ($combatant->current_health > $combatant->health) {
                 $combatant->current_health = $combatant->health;
             }
-            $combatant->last_action = $combatant->current_action;
-            unset($combatant->current_action);
-            unset($combatant->current_target);
+        }
+
+        // Save all combatant health changes before refreshing
+        foreach ($heroBattle->combatants as $combatant) {
             $combatant->save();
         }
 
@@ -473,11 +504,11 @@ class HeroBattleService
         }
     }
 
-    public function processAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): CombatContext
+    public function processAction(HeroCombatant $combatant, HeroCombatant $target, string $action, string $targetAction, array $actionDef): CombatContext
     {
         // Create combat context
         $battle = $combatant->battle;
-        $context = new CombatContext($combatant, $target, $battle, $actionDef);
+        $context = new CombatContext($combatant, $target, $battle, $action, $targetAction, $actionDef);
 
         if ($actionDef === null) {
             return $context;

@@ -76,6 +76,14 @@ class HeroAbilityHelper
                 'icon' => 'ra-health',
                 'type' => 'passive',
             ],
+            'weakened' => [
+                'class' => \OpenDominion\Domain\HeroBattle\Abilities\StatusEffect\Weakened::class,
+                'config' => [],
+                'display_name' => 'Weakened',
+                'description' => 'Defense reduced by 15',
+                'icon' => 'ra-broken-shield',
+                'type' => 'status_effect',
+            ],
         ]);
     }
 

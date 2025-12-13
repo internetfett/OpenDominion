@@ -22,6 +22,8 @@ class AttackActionProcessor extends AbstractActionProcessor
         $context->damage = $this->combatCalculator->calculateCombatDamage(
             $context->attacker,
             $context->target,
+            $context->action,
+            $context->targetAction,
             $context->actionDef,
             $attackerAbilities,
             $targetAbilities
@@ -41,11 +43,13 @@ class AttackActionProcessor extends AbstractActionProcessor
         }
 
         // Check for counter attack
-        if ($context->target->current_action === 'counter') {
+        if ($context->targetAction === 'counter') {
             $context->countered = true;
             $counterDamage = $this->combatCalculator->calculateCombatDamage(
                 $context->target,
                 $context->attacker,
+                $context->targetAction,
+                $context->action,
                 $context->actionDef,
                 $targetAbilities,
                 $attackerAbilities

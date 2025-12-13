@@ -26,6 +26,10 @@ class CombatContext
     public HeroCombatant $attacker;
     public HeroCombatant $target;
     public HeroBattle $battle;
+
+    // Actions being performed
+    public string $action;        // Attacker's action
+    public string $targetAction;  // Target's action (for defensive bonuses)
     public array $actionDef;
 
     // Abilities (set by HeroBattleService)
@@ -48,11 +52,15 @@ class CombatContext
         HeroCombatant $attacker,
         HeroCombatant $target,
         HeroBattle $battle,
+        string $action = '',
+        string $targetAction = '',
         array $actionDef = []
     ) {
         $this->attacker = $attacker;
         $this->target = $target;
         $this->battle = $battle;
+        $this->action = $action;
+        $this->targetAction = $targetAction;
         $this->actionDef = $actionDef;
     }
 

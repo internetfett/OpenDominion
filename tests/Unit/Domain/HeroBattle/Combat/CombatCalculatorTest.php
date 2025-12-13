@@ -133,18 +133,18 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $attacker = new HeroCombatant();
         $attacker->hero_battle_id = $battle->id;
         $attacker->attack = 50;
-        $attacker->current_action = 'attack';
 
         $target = new HeroCombatant();
         $target->hero_battle_id = $battle->id;
         $target->defense = 20;
-        $target->current_action = 'attack';
 
         $actionDef = ['attributes' => []];
 
         $damage = $this->calculator->calculateCombatDamage(
             $attacker,
             $target,
+            'attack',
+            'attack',
             $actionDef,
             collect(),
             collect()
@@ -162,18 +162,18 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $attacker->attack = 50;
         $attacker->focus = 15;
         $attacker->has_focus = true;
-        $attacker->current_action = 'attack';
 
         $target = new HeroCombatant();
         $target->hero_battle_id = $battle->id;
         $target->defense = 20;
-        $target->current_action = 'attack';
 
         $actionDef = ['attributes' => []];
 
         $damage = $this->calculator->calculateCombatDamage(
             $attacker,
             $target,
+            'attack',
+            'attack',
             $actionDef,
             collect(),
             collect()
@@ -189,18 +189,18 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $attacker = new HeroCombatant();
         $attacker->hero_battle_id = $battle->id;
         $attacker->attack = 50;
-        $attacker->current_action = 'attack';
 
         $target = new HeroCombatant();
         $target->hero_battle_id = $battle->id;
         $target->defense = 20;
-        $target->current_action = 'defend';
 
         $actionDef = ['attributes' => ['defend' => 10]];
 
         $damage = $this->calculator->calculateCombatDamage(
             $attacker,
             $target,
+            'attack',
+            'defend',
             $actionDef,
             collect(),
             collect()
@@ -218,13 +218,11 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $attacker->hero_battle_id = $battle->id;
         $attacker->attack = 50;
         $attacker->current_health = 30;
-        $attacker->current_action = 'attack';
 
         $target = new HeroCombatant();
         $target->hero_battle_id = $battle->id;
         $target->defense = 20;
         $target->current_health = 35;
-        $target->current_action = 'attack';
 
         $actionDef = ['attributes' => []];
 
@@ -234,6 +232,8 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $damage = $this->calculator->calculateCombatDamage(
             $attacker,
             $target,
+            'attack',
+            'attack',
             $actionDef,
             collect([$enrage]),
             collect([$rally])
@@ -251,18 +251,18 @@ class CombatCalculatorTest extends AbstractBrowserKitTestCase
         $attacker = new HeroCombatant();
         $attacker->hero_battle_id = $battle->id;
         $attacker->attack = 10;
-        $attacker->current_action = 'attack';
 
         $target = new HeroCombatant();
         $target->hero_battle_id = $battle->id;
         $target->defense = 50;
-        $target->current_action = 'attack';
 
         $actionDef = ['attributes' => []];
 
         $damage = $this->calculator->calculateCombatDamage(
             $attacker,
             $target,
+            'attack',
+            'attack',
             $actionDef,
             collect(),
             collect()

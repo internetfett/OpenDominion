@@ -168,6 +168,8 @@ class CombatCalculator
      *
      * @param HeroCombatant $combatant
      * @param HeroCombatant $target
+     * @param string $attackerAction Action the attacker is performing
+     * @param string $targetAction Action the target is performing
      * @param array $actionDef
      * @param Collection $combatantAbilities
      * @param Collection $targetAbilities
@@ -176,6 +178,8 @@ class CombatCalculator
     public function calculateCombatDamage(
         HeroCombatant $combatant,
         HeroCombatant $target,
+        string $attackerAction,
+        string $targetAction,
         array $actionDef,
         Collection $combatantAbilities,
         Collection $targetAbilities
@@ -186,7 +190,7 @@ class CombatCalculator
         $bonusDamage = $actionDef['attributes']['bonus_damage'] ?? 0;
 
         // Add counter bonus if countering
-        if ($combatant->current_action == 'counter') {
+        if ($attackerAction == 'counter') {
             $baseDamage += $combatant->counter;
         }
 
@@ -199,11 +203,11 @@ class CombatCalculator
         $baseDamage += $bonusDamage;
 
         // Target action modifiers
-        if ($target->current_action == 'recover') {
+        if ($targetAction == 'recover') {
             $baseDefense -= 5;
         }
 
-        if ($target->current_action == 'defend') {
+        if ($targetAction == 'defend') {
             $baseDefense *= 2;
             $baseDefense += $defendModifier;
         }

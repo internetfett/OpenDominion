@@ -95,6 +95,7 @@ class AbilityRegistry
         $status = $combatant->status ?? [];
         $status['ability_state'] = $abilityStates;
         $combatant->status = $status;
+
         $combatant->save();
     }
 
