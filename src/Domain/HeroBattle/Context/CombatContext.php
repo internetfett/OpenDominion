@@ -7,7 +7,7 @@ use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
 
 /**
- * CombatContext - Stores combat state for phase-based processing
+ * CombatContext - Stores combat state for step-based turn processing
  *
  * IMPORTANT: For simultaneous turn processing, abilities modify this context
  * but do NOT directly modify combatant health/stats. The HeroBattleService

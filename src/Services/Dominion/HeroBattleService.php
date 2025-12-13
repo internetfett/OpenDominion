@@ -295,7 +295,7 @@ class HeroBattleService
             }
         }
 
-        // PHASE 1A: Determine all actions and targets for all combatants
+        // STEP 1A: Determine all actions and targets for all combatants
         $combatantActions = [];
         foreach ($livingCombatants as $combatant) {
             $nextAction = $this->determineAction($combatant);
@@ -333,7 +333,7 @@ class HeroBattleService
             ];
         }
 
-        // PHASE 1B: Process all actions with knowledge of everyone's chosen actions
+        // STEP 1B: Process all actions with knowledge of everyone's chosen actions
         $contexts = [];
         foreach ($combatantActions as $combatantId => $actionData) {
             $combatant = $actionData['combatant'];
@@ -349,13 +349,13 @@ class HeroBattleService
             $contexts[] = $context;
         }
 
-        // PHASE 2: Apply ALL damage and healing simultaneously
+        // STEP 2: Apply ALL damage and healing simultaneously
         foreach ($contexts as $context) {
             $context->applyDamage();   // Handles shield then health
             $context->applyHealing();  // Caps at max health
         }
 
-        // PHASE 3: Process post-combat effects and deaths
+        // STEP 3: Process post-combat effects and deaths
         foreach ($contexts as $context) {
             $postCombatMessages = '';
             $postCombatMessages .= $this->processPostCombat($context->attacker);
@@ -375,7 +375,7 @@ class HeroBattleService
             ]);
         }
 
-        // PHASE 4: Save ability states and last actions for all combatants
+        // STEP 4: Save ability states and last actions for all combatants
         foreach ($contexts as $context) {
             // Save last action
             $context->attacker->last_action = $context->action;

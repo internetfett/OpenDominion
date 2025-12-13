@@ -8,7 +8,7 @@ use OpenDominion\Domain\HeroBattle\Context\CombatContext;
  * Attack Action Processor
  *
  * Calculates damage and handles combat mechanics like evasion and counters.
- * Does NOT directly modify health - stores values in context for phase-based processing.
+ * Does NOT directly modify health - stores values in context for step-based turn processing.
  */
 class AttackActionProcessor extends AbstractActionProcessor
 {
