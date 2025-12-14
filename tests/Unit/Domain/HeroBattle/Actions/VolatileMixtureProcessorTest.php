@@ -250,4 +250,186 @@ class VolatileMixtureProcessorTest extends TestCase
         $this->assertLessThan(95, $successes, 'Should have some backfires with 80% success rate');
         $this->assertEquals($iterations, $successes + $backfires, 'All iterations should be accounted for');
     }
+
+    /**
+     * Integration test: Verify backfire damage is actually applied to attacker's health
+     */
+    public function testBackfireDamageIsActuallyApplied()
+    {
+        $battle = new HeroBattle();
+        $battle->current_turn = 1;
+
+        $attacker = new HeroCombatant();
+        $attacker->hero_battle_id = $battle->id;
+        $attacker->attack = 50;
+        $attacker->current_health = 100;
+        $attacker->shield = 0;
+
+        $target = new HeroCombatant();
+        $target->hero_battle_id = $battle->id;
+        $target->defense = 20;
+
+        $actionDef = [
+            'attributes' => [
+                'success_chance' => 0.0,  // Force backfire
+                'attack_bonus' => 1.5,
+            ],
+            'messages' => [
+                'backfire' => '%s\'s volatile mixture explodes prematurely! %s is caught in the blast, taking %s damage.',
+            ]
+        ];
+
+        $context = new CombatContext($attacker, $target, $battle, 'volatile_mixture', 'attack', $actionDef);
+        $context->attackerAbilities = collect();
+        $context->targetAbilities = collect();
+
+        $this->processor->process($context);
+
+        // Verify context is set correctly
+        $this->assertEquals(-30, $context->healing, 'Context should have negative healing');
+
+        // Actually apply the healing (which should damage the attacker)
+        $context->applyHealing();
+
+        // Verify attacker's health was reduced
+        $this->assertEquals(70, $attacker->current_health, 'Attacker health should be reduced by backfire damage');
+    }
+
+    /**
+     * Integration test: Verify counter damage is actually applied to attacker's health
+     */
+    public function testCounterDamageIsActuallyApplied()
+    {
+        $battle = new HeroBattle();
+        $battle->current_turn = 1;
+
+        $attacker = new HeroCombatant();
+        $attacker->hero_battle_id = $battle->id;
+        $attacker->attack = 50;
+        $attacker->current_health = 100;
+        $attacker->shield = 0;
+
+        $target = new HeroCombatant();
+        $target->hero_battle_id = $battle->id;
+        $target->defense = 20;
+        $target->counter = 15;
+
+        $actionDef = [
+            'attributes' => [
+                'success_chance' => 1.0,  // Success
+                'attack_bonus' => 1.5,
+            ],
+            'messages' => [
+                'success_countered' => '%s hurls an unstable concoction, dealing %s damage to %s, who then counters for %s damage.',
+            ]
+        ];
+
+        $context = new CombatContext($attacker, $target, $battle, 'volatile_mixture', 'counter', $actionDef);
+        $context->attackerAbilities = collect();
+        $context->targetAbilities = collect();
+
+        $this->processor->process($context);
+
+        // Verify context has counter damage
+        $this->assertLessThan(0, $context->healing, 'Context should have negative healing from counter');
+
+        $initialHealth = $attacker->current_health;
+
+        // Actually apply the healing (which should damage the attacker)
+        $context->applyHealing();
+
+        // Verify attacker's health was reduced
+        $this->assertLessThan($initialHealth, $attacker->current_health, 'Attacker health should be reduced by counter damage');
+    }
+
+    /**
+     * Integration test: Verify negative healing respects shield
+     */
+    public function testNegativeHealingWithShield()
+    {
+        $battle = new HeroBattle();
+        $battle->current_turn = 1;
+
+        $attacker = new HeroCombatant();
+        $attacker->hero_battle_id = $battle->id;
+        $attacker->attack = 50;
+        $attacker->current_health = 100;
+        $attacker->shield = 20;  // Shield should absorb some damage
+
+        $target = new HeroCombatant();
+        $target->hero_battle_id = $battle->id;
+        $target->defense = 20;
+
+        $actionDef = [
+            'attributes' => [
+                'success_chance' => 0.0,  // Force backfire
+                'attack_bonus' => 1.5,
+            ],
+            'messages' => [
+                'backfire' => '%s\'s volatile mixture explodes prematurely! %s is caught in the blast, taking %s damage.',
+            ]
+        ];
+
+        $context = new CombatContext($attacker, $target, $battle, 'volatile_mixture', 'attack', $actionDef);
+        $context->attackerAbilities = collect();
+        $context->targetAbilities = collect();
+
+        $this->processor->process($context);
+
+        // Backfire damage is 30
+        $this->assertEquals(-30, $context->healing);
+
+        // Apply healing (which damages attacker)
+        $context->applyHealing();
+
+        // Shield should absorb 20, health should lose 10
+        $this->assertEquals(0, $attacker->shield, 'Shield should be depleted');
+        $this->assertEquals(90, $attacker->current_health, 'Health should only lose damage after shield');
+    }
+
+    /**
+     * Integration test: Verify backfire + counter both apply
+     */
+    public function testBackfireAndCounterBothApply()
+    {
+        $battle = new HeroBattle();
+        $battle->current_turn = 1;
+
+        $attacker = new HeroCombatant();
+        $attacker->hero_battle_id = $battle->id;
+        $attacker->attack = 50;
+        $attacker->current_health = 100;
+        $attacker->shield = 0;
+
+        $target = new HeroCombatant();
+        $target->hero_battle_id = $battle->id;
+        $target->defense = 20;
+        $target->counter = 15;
+
+        $actionDef = [
+            'attributes' => [
+                'success_chance' => 0.0,  // Force backfire
+                'attack_bonus' => 1.5,
+            ],
+            'messages' => [
+                'backfire_countered' => '%s\'s volatile mixture explodes prematurely! %s is caught in the blast for %s damage, then %s counters the distracted alchemist for %s damage.',
+            ]
+        ];
+
+        $context = new CombatContext($attacker, $target, $battle, 'volatile_mixture', 'counter', $actionDef);
+        $context->attackerAbilities = collect();
+        $context->targetAbilities = collect();
+
+        $this->processor->process($context);
+
+        // Should have backfire (30) + counter damage combined
+        $totalDamageToAttacker = -$context->healing;
+        $this->assertGreaterThan(30, $totalDamageToAttacker, 'Should have both backfire and counter damage');
+
+        // Apply the damage
+        $context->applyHealing();
+
+        // Verify attacker took both damages
+        $this->assertEquals(100 - $totalDamageToAttacker, $attacker->current_health, 'Attacker should take combined damage');
+    }
 }

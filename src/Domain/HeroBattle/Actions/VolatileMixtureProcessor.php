@@ -42,6 +42,25 @@ class VolatileMixtureProcessor extends AttackActionProcessor
     }
 
     /**
+     * Override counter handling to preserve backfire damage
+     */
+    protected function handleCounter(CombatContext $context): void
+    {
+        // Store backfire damage if it exists
+        $backfireDamage = $context->healing;
+
+        // Call parent to calculate counter damage
+        parent::handleCounter($context);
+
+        // If backfire happened, ADD counter damage instead of replacing
+        if ($context->backfired && $context->countered) {
+            // Parent set: $context->healing = -$counterDamage
+            // We need to add backfire damage to it
+            $context->healing = $backfireDamage + $context->healing;
+        }
+    }
+
+    /**
      * Override message building to handle backfire scenarios
      */
     protected function buildCombatMessage(CombatContext $context): void

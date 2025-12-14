@@ -129,14 +129,32 @@ class CombatContext
 
     /**
      * Apply healing to attacker (called by HeroBattleService after all abilities process)
+     * Also handles negative healing (counter damage, backfire, etc.)
      */
     public function applyHealing(): void
     {
-        if ($this->healing > 0) {
-            $this->attacker->current_health = min(
-                $this->attacker->current_health + $this->healing,
-                $this->attacker->max_health
-            );
+        if ($this->healing != 0) {
+            if ($this->healing > 0) {
+                // Positive healing - cap at max health
+                $this->attacker->current_health = min(
+                    $this->attacker->current_health + $this->healing,
+                    $this->attacker->max_health
+                );
+            } else {
+                // Negative healing = damage to attacker (counter damage, backfire, etc.)
+                $damage = -$this->healing;
+                // Apply to shield first, then health
+                if ($this->attacker->shield > 0) {
+                    $shieldDamage = min($damage, $this->attacker->shield);
+                    $this->attacker->shield -= $shieldDamage;
+                    $remainingDamage = $damage - $shieldDamage;
+                    if ($remainingDamage > 0) {
+                        $this->attacker->current_health -= $remainingDamage;
+                    }
+                } else {
+                    $this->attacker->current_health -= $damage;
+                }
+            }
         }
     }
 }
