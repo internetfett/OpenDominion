@@ -55,7 +55,6 @@ class ValuablesHelper
                 'name' => 'Common',
                 'base_value_min' => 5000,
                 'base_value_max' => 10000,
-                'discovery_chance' => 0.15, // 15% chance
                 'spy_hours_multiplier' => 0.5, // Spy-hours = target land × multiplier
             ],
             [
@@ -63,7 +62,6 @@ class ValuablesHelper
                 'name' => 'Uncommon',
                 'base_value_min' => 10000,
                 'base_value_max' => 25000,
-                'discovery_chance' => 0.10, // 10% chance
                 'spy_hours_multiplier' => 1.0,
             ],
             [
@@ -71,7 +69,6 @@ class ValuablesHelper
                 'name' => 'Rare',
                 'base_value_min' => 25000,
                 'base_value_max' => 50000,
-                'discovery_chance' => 0.05, // 5% chance
                 'spy_hours_multiplier' => 2.0,
             ],
             [
@@ -79,7 +76,6 @@ class ValuablesHelper
                 'name' => 'Epic',
                 'base_value_min' => 50000,
                 'base_value_max' => 100000,
-                'discovery_chance' => 0.02, // 2% chance
                 'spy_hours_multiplier' => 3.0,
             ],
             [
@@ -87,7 +83,6 @@ class ValuablesHelper
                 'name' => 'Legendary',
                 'base_value_min' => 100000,
                 'base_value_max' => 250000,
-                'discovery_chance' => 0.005, // 0.5% chance
                 'spy_hours_multiplier' => 5.0,
             ],
         ]);

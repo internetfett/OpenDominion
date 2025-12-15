@@ -2,10 +2,14 @@
 
 namespace OpenDominion\Services\Dominion;
 
+use DB;
 use Illuminate\Support\Facades\File;
 use LogicException;
+use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Round;
 use OpenDominion\Models\Valuable;
 
 class ValuablesService
@@ -13,9 +17,17 @@ class ValuablesService
     /** @var ValuablesHelper */
     protected $valuablesHelper;
 
+    /** @var LandCalculator */
+    protected $landCalculator;
+
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
     public function __construct()
     {
         $this->valuablesHelper = app(ValuablesHelper::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
     }
 
     /**
@@ -27,17 +39,45 @@ class ValuablesService
      */
     public function attemptDiscovery(Dominion $sourceDominion, Dominion $targetDominion): ?Valuable
     {
-        // Get all rarities and their discovery chances
-        $rarities = $this->valuablesHelper->getValuableRarities();
-
-        // Try to discover a valuable based on rarity chances
-        foreach ($rarities as $rarity) {
-            if (random_chance($rarity['discovery_chance'])) {
-                return $this->createValuable($sourceDominion, $targetDominion, $rarity['key']);
-            }
+        // 1% chance to discover any valuable
+        if (!random_chance(0.01)) {
+            return null;
         }
 
-        return null;
+        // Calculate combined metric to determine rarity
+        // Land score: normalized between 500 (0.0) and 8000 (1.0)
+        $targetLand = $this->landCalculator->getTotalLand($targetDominion);
+        $landScore = min(1.0, max(0, ($targetLand - 500) / 7500));
+
+        // Spy score: raw spy ratio (already 0-1, typically around 0.2)
+        $attackerSpyRatio = $this->militaryCalculator->getSpyRatio($sourceDominion);
+        $spyScore = min(1.0, $attackerSpyRatio);
+
+        // Combined metric: average of both scores
+        $rarityScore = ($landScore + $spyScore) / 2;
+
+        // Select rarity based on score
+        $rarity = $this->selectRarityByMetric($rarityScore);
+
+        return $this->createValuable($sourceDominion, $targetDominion, $rarity);
+    }
+
+    /**
+     * Select rarity tier based on combined metric score
+     *
+     * @param float $score Combined metric score (0.0 to 1.0)
+     * @return string Rarity key
+     */
+    protected function selectRarityByMetric(float $score): string
+    {
+        $rarities = $this->valuablesHelper->getValuableRarities();
+
+        // Map score to rarity index using linear distribution
+        // Lower scores → common rarities, higher scores → rare rarities
+        $maxIndex = count($rarities) - 1;
+        $index = (int) round($score * $maxIndex);
+
+        return $rarities[$index]['key'];
     }
 
     /**
@@ -102,6 +142,44 @@ class ValuablesService
         $suffix = $data['suffixes'][array_rand($data['suffixes'])];
 
         return "{$prefix} {$base} {$suffix}";
+    }
+
+    /**
+     * Process completed valuable investigations (called by hourly tick)
+     *
+     * @param Round $round
+     * @return void
+     */
+    public function processCompletedInvestigations(Round $round): void
+    {
+        // Find investigations ready for automatic theft
+        $readyThefts = Valuable::where('round_id', $round->id)
+            ->whereNotNull('investigation_completes_at')
+            ->where('investigation_completes_at', '<=', now())
+            ->whereNull('completed_at')
+            ->get();
+
+        foreach ($readyThefts as $valuable) {
+            DB::transaction(function () use ($valuable) {
+                $valuable->completed_at = now();
+                $valuable->success = true;
+                $valuable->save();
+            }, 5);
+        }
+
+        // Find expired valuables (48 hours after discovery, not yet completed)
+        $expiredValuables = Valuable::where('round_id', $round->id)
+            ->where('created_at', '<=', now()->subHours(48))
+            ->whereNull('completed_at')
+            ->get();
+
+        foreach ($expiredValuables as $valuable) {
+            DB::transaction(function () use ($valuable) {
+                $valuable->completed_at = now();
+                $valuable->success = false;
+                $valuable->save();
+            }, 5);
+        }
     }
 
 }

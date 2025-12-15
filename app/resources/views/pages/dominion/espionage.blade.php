@@ -206,11 +206,7 @@
                                         <span title="{{ $valuable->created_at }}">{{ $valuable->created_at->diffForHumans() }}</span>
                                     </td>
                                     <td>
-                                        @if ($valuable->investigation_started_at)
-                                            <strong>{{ $valuable->name }}</strong>
-                                        @else
-                                            <span class="text-muted">???</span>
-                                        @endif
+                                        <strong>{{ $valuable->name }}</strong>
                                         <br><small class="text-muted">{{ ucfirst($valuable->rarity) }} {{ ucfirst($valuable->type) }}</small>
                                     </td>
                                     <td>
@@ -221,30 +217,31 @@
                                     </td>
                                     <td class="text-center">
                                         @if ($valuable->investigation_started_at)
-                                            @php
-                                                $progress = $espionageCalculator->getTheftProgress($valuable);
-                                                $required = $valuablesHelper->getRequiredSpyHours($valuable);
-                                                $percentage = min(($progress / $required) * 100, 100);
-                                                if ($percentage >= 75) {
-                                                    $colorClass = 'text-green';
-                                                } elseif ($percentage >= 50) {
-                                                    $colorClass = 'text-info';
-                                                } elseif ($percentage >= 25) {
-                                                    $colorClass = 'text-warning';
-                                                } else {
-                                                    $colorClass = 'text-red';
-                                                }
-                                            @endphp
-                                            {{ number_format($progress) }}
-                                            / {{ number_format($required) }}
-                                            (<span class="{{ $colorClass }}">{{ number_format($percentage, 1) }}%</span>)
+                                            @if ($valuable->investigation_completes_at && $valuable->investigation_completes_at > now())
+                                                <span class="{{ $valuable->getProgressColorClass() }}">
+                                                    {{ $valuable->getTicksRemaining() }} {{ str_plural('tick', $valuable->getTicksRemaining()) }} remaining
+                                                </span>
+                                                <br><small class="text-muted">({{ number_format($valuable->getInvestigationProgress(), 1) }}% complete)</small>
+                                            @elseif ($valuable->investigation_completes_at)
+                                                <span class="text-success">
+                                                    <i class="fa fa-check"></i> Ready to steal
+                                                </span>
+                                                <br><small class="text-muted">Expires in {{ $valuable->getTicksUntilExpiration() }} {{ str_plural('tick', $valuable->getTicksUntilExpiration()) }}</small>
+                                            @else
+                                                <span class="text-muted">Calculating...</span>
+                                            @endif
                                         @else
                                             <span class="text-muted">-</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if ($valuable->investigation_started_at)
-                                            <button class="btn btn-sm btn-block btn-danger">Cancel</button>
+                                            <form action="{{ route('dominion.espionage.valuables.cancel', $valuable) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-block btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
+                                                    Cancel
+                                                </button>
+                                            </form>
                                         @else
                                             <a href="{{ route('dominion.espionage.valuables.investigate', $valuable) }}" class="btn btn-sm btn-block btn-primary">
                                                 <i class="ra ra-scout"></i> Investigate
@@ -286,10 +283,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($selectedDominion->valuables()->stolen()->orderByDesc('attempted_at')->get() as $valuable)
+                            @forelse ($selectedDominion->valuables()->stolen()->orderByDesc('completed_at')->get() as $valuable)
                                 <tr>
                                     <td>
-                                        <span title="{{ $valuable->attempted_at }}">{{ $valuable->attempted_at->diffForHumans() }}</span>
+                                        <span title="{{ $valuable->completed_at }}">{{ $valuable->completed_at->diffForHumans() }}</span>
                                     </td>
                                     <td>
                                         <strong>{{ $valuable->name }}</strong>
@@ -308,14 +305,21 @@
                                         <strong>{{ number_format($priceHistory[0]) }} platinum</strong>
                                     </td>
                                     <td>
-                                        <button type="submit" class="btn btn-sm btn-block btn-primary">
-                                            Sell
-                                        </button>
+                                        @if (!$valuable->isSold())
+                                            <form action="{{ route('dominion.espionage.valuables.sell', $valuable) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-block btn-success">
+                                                    Sell
+                                                </button>
+                                            </form>
+                                        @else
+                                            <span class="text-muted">Sold</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted">No valuables stolen</td>
+                                    <td colspan="6" class="text-center text-muted">No valuables stolen</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -336,8 +340,8 @@
                                     <td>
                                         @if ($valuable->sold_at)
                                             <span title="{{ $valuable->sold_at }}">{{ $valuable->sold_at->diffForHumans() }}</span>
-                                        @elseif ($valuable->attempted_at)
-                                            <span title="{{ $valuable->attempted_at }}">{{ $valuable->attempted_at->diffForHumans() }}</span>
+                                        @elseif ($valuable->completed_at)
+                                            <span title="{{ $valuable->completed_at }}">{{ $valuable->completed_at->diffForHumans() }}</span>
                                         @endif
                                     </td>
                                     <td>

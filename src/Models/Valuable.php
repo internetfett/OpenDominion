@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Builder;
  * @property int $spies_assigned
  * @property int|null $spy_hours
  * @property \Illuminate\Support\Carbon|null $investigation_started_at
- * @property \Illuminate\Support\Carbon|null $attempted_at
+ * @property \Illuminate\Support\Carbon|null $investigation_completes_at
+ * @property \Illuminate\Support\Carbon|null $completed_at
  * @property bool $success
  * @property \Illuminate\Support\Carbon|null $sold_at
  * @property int|null $platinum_received
@@ -43,7 +44,8 @@ class Valuable extends AbstractModel
 
     protected $dates = [
         'investigation_started_at',
-        'attempted_at',
+        'investigation_completes_at',
+        'completed_at',
         'sold_at',
         'created_at',
         'updated_at'
@@ -77,15 +79,15 @@ class Valuable extends AbstractModel
      */
     public function isBeingInvestigated(): bool
     {
-        return $this->investigation_started_at !== null && $this->attempted_at === null;
+        return $this->investigation_started_at !== null && $this->completed_at === null;
     }
 
     /**
-     * Check if theft has been attempted
+     * Check if theft has been completed
      */
-    public function isAttempted(): bool
+    public function isCompleted(): bool
     {
-        return $this->attempted_at !== null;
+        return $this->completed_at !== null;
     }
 
     /**
@@ -93,7 +95,102 @@ class Valuable extends AbstractModel
      */
     public function isStolen(): bool
     {
-        return $this->attempted_at !== null && $this->success === true;
+        return $this->completed_at !== null && $this->success === true;
+    }
+
+    /**
+     * Check if investigation is ready for automatic theft
+     */
+    public function isReadyForTheft(): bool
+    {
+        return $this->investigation_completes_at !== null
+            && $this->investigation_completes_at <= now()
+            && $this->completed_at === null;
+    }
+
+    /**
+     * Get the expiration time (48 hours after discovery)
+     */
+    public function getExpiresAt(): ?\Illuminate\Support\Carbon
+    {
+        if ($this->created_at === null) {
+            return null;
+        }
+
+        return $this->created_at->copy()->addHours(48);
+    }
+
+    /**
+     * Get investigation progress percentage (0-100)
+     */
+    public function getInvestigationProgress(): float
+    {
+        if ($this->investigation_started_at === null || $this->investigation_completes_at === null) {
+            return 0.0;
+        }
+
+        $totalHours = $this->investigation_started_at->diffInHours($this->investigation_completes_at);
+        if ($totalHours === 0) {
+            return 100.0;
+        }
+
+        $hoursRemaining = max(0, now()->diffInHours($this->investigation_completes_at, false));
+        $percentage = (($totalHours - $hoursRemaining) / $totalHours) * 100;
+
+        return min($percentage, 100.0);
+    }
+
+    /**
+     * Get CSS color class based on investigation progress
+     */
+    public function getProgressColorClass(): string
+    {
+        $percentage = $this->getInvestigationProgress();
+
+        if ($percentage >= 75) {
+            return 'text-green';
+        } elseif ($percentage >= 50) {
+            return 'text-info';
+        } elseif ($percentage >= 25) {
+            return 'text-warning';
+        } else {
+            return 'text-red';
+        }
+    }
+
+    /**
+     * Get ticks remaining until investigation completes
+     */
+    public function getTicksRemaining(): int
+    {
+        if ($this->investigation_completes_at === null) {
+            return 0;
+        }
+
+        return max(0, now()->diffInHours($this->investigation_completes_at, false));
+    }
+
+    /**
+     * Get ticks remaining until valuable expires
+     */
+    public function getTicksUntilExpiration(): int
+    {
+        $expiresAt = $this->getExpiresAt();
+        if ($expiresAt === null) {
+            return 0;
+        }
+
+        return max(0, now()->diffInHours($expiresAt, false));
+    }
+
+    /**
+     * Check if valuable has expired (48 hours after discovery)
+     */
+    public function isExpired(): bool
+    {
+        return $this->getExpiresAt() !== null
+            && $this->getExpiresAt() <= now()
+            && $this->completed_at === null;
     }
 
     /**
@@ -117,11 +214,11 @@ class Valuable extends AbstractModel
     }
 
     /**
-     * Scope to active valuables (discovered or investigating, not yet attempted)
+     * Scope to active valuables (discovered or investigating, not yet completed)
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->whereNull('attempted_at');
+        return $query->whereNull('completed_at');
     }
 
     /**
@@ -130,7 +227,7 @@ class Valuable extends AbstractModel
     public function scopeStolen(Builder $query): Builder
     {
         return $query
-            ->whereNotNull('attempted_at')
+            ->whereNotNull('completed_at')
             ->where('success', true)
             ->whereNull('sold_at');
     }
@@ -143,7 +240,7 @@ class Valuable extends AbstractModel
         return $query->where(function($q) {
             $q->whereNotNull('sold_at')
               ->orWhere(function($q2) {
-                  $q2->whereNotNull('attempted_at')->where('success', false);
+                  $q2->whereNotNull('completed_at')->where('success', false);
               });
         });
     }

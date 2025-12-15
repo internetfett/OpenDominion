@@ -83,6 +83,9 @@ class TickService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var ValuablesService */
+    protected $valuablesService;
+
     /** @var WonderService */
     protected $wonderService;
 
@@ -106,6 +109,7 @@ class TickService
         $this->rankingsHelper = app(RankingsHelper::class);
         $this->raidService = app(RaidService::class);
         $this->spellCalculator = app(SpellCalculator::class);
+        $this->valuablesService = app(ValuablesService::class);
         $this->wonderService = app(WonderService::class);
     }
 
@@ -141,6 +145,9 @@ class TickService
 
             // Process completed raids and distribute rewards
             $this->raidService->processCompletedRaids($round);
+
+            // Process completed valuable investigations
+            $this->valuablesService->processCompletedInvestigations($round);
         }
 
         // Realm Assignment

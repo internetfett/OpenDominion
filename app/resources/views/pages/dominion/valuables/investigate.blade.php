@@ -34,38 +34,87 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-sm-4 col-lg-4">
-                                <label for="spies_assigned" id="spiesLabel">Spies to Assign</label>
-                                <input type="number"
-                                        name="spies_assigned"
-                                        id="spies_assigned"
-                                        class="form-control text-center"
-                                        value="{{ old('spies_assigned', $minSpies) }}"
-                                        placeholder="{{ $minSpies }}"
-                                        min="{{ $minSpies }}"
-                                        max="{{ min($maxSpies, $availableSpies) }}"
-                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                            </div>
-                            <div class="form-group col-sm-8 col-lg-8">
-                                <label for="spiesSlider">Number of Spies</label>
-                                <input type="number"
-                                        id="spiesSlider"
-                                        class="form-control slider"
-                                        data-slider-value="{{ $minSpies }}"
-                                        data-slider-min="{{ $minSpies }}"
-                                        data-slider-max="{{ min($maxSpies, $availableSpies) }}"
-                                        data-slider-step="1"
-                                        data-slider-tooltip="show"
-                                        data-slider-handle="triangle"
-                                        data-slider-id="yellow"
-                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Select Investigation Duration</label>
+                                    <table class="table table-condensed table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Duration</th>
+                                                <th class="text-center">Spies Required</th>
+                                                <th class="text-center">Completes At</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $hourOptions = [6, 12, 18, 24, 30, 36];
+                                                $recommendedHours = 24;
+                                            @endphp
+                                            @foreach ($hourOptions as $hours)
+                                                @php
+                                                    $spiesNeeded = (int) ceil($requiredSpyHours / $hours);
+                                                    $isWithinBounds = $spiesNeeded >= $minSpies && $spiesNeeded <= $maxSpies;
+                                                    $hasEnoughSpies = $spiesNeeded <= $availableSpies;
+                                                    $isValid = $isWithinBounds && $hasEnoughSpies;
+                                                    $completesAt = now()->addHours($hours);
+                                                    $rowClass = '';
+                                                    $disabled = '';
+                                                    $reason = '';
+
+                                                    if (!$isValid) {
+                                                        $rowClass = 'text-muted';
+                                                        $disabled = 'disabled';
+                                                        if (!$hasEnoughSpies) {
+                                                            $reason = 'Not enough spies';
+                                                        } elseif ($spiesNeeded < $minSpies) {
+                                                            $reason = 'Too few spies (min ' . number_format($minSpies) . ')';
+                                                        } else {
+                                                            $reason = 'Too slow (max ' . number_format($maxSpies) . ' spies)';
+                                                        }
+                                                    }
+                                                @endphp
+                                                <tr class="{{ $rowClass }}">
+                                                    <td class="text-center">
+                                                        <strong>{{ $hours }} hours</strong>
+                                                        @if ($hours === $recommendedHours && $isValid)
+                                                            <span class="label label-success">Recommended</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ number_format($spiesNeeded) }}
+                                                        @if (!$isValid)
+                                                            <br><small class="text-danger">{{ $reason }}</small>
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span title="{{ $completesAt }}">{{ $completesAt->format('M j, g:ia') }}</span>
+                                                        <br><small class="text-muted">{{ $completesAt->diffForHumans() }}</small>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($isValid)
+                                                            <button type="submit"
+                                                                    name="spies_assigned"
+                                                                    value="{{ $spiesNeeded }}"
+                                                                    class="btn btn-sm btn-primary"
+                                                                    {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
+                                                                <i class="ra ra-scout"></i> Start
+                                                            </button>
+                                                        @else
+                                                            <button type="button" class="btn btn-sm btn-default" disabled>
+                                                                Unavailable
+                                                            </button>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                            <i class="ra ra-scout"></i> Start Investigation
-                        </button>
                         <a href="{{ route('dominion.espionage') }}" class="btn btn-default">Cancel</a>
                     </div>
                 </form>
@@ -78,48 +127,14 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>Assign spies to investigate this valuable. The more spies you assign, the faster your investigation will progress.</p>
-                    <p><strong>Note:</strong> Once you start an investigation, you cannot change the number of spies assigned.</p>
+                    <p>Choose how quickly you want to complete the investigation. Faster investigations require more spies.</p>
+                    <p><strong>Note:</strong> Once you start an investigation, you cannot change or cancel it.</p>
                     <p>This {{ $valuable->rarity }} valuable requires <strong>{{ number_format($requiredSpyHours) }}</strong> spy-hours to complete.</p>
-                    <p>You must assign between <strong>{{ number_format($minSpies) }}</strong> and <strong>{{ number_format($maxSpies) }}</strong> {{ str_plural('spy', $maxSpies) }}.</p>
-                    <p>You have <strong>{{ number_format($availableSpies) }}</strong> {{ str_plural('spy', $availableSpies) }} available for assignment.</p>
+                    <p>You have <strong>{{ number_format($availableSpies) }}</strong> {{ str_plural('spy', $availableSpies) }} available.</p>
+                    <p><strong>After completion:</strong> You'll have 12 hours to sell the valuable before the opportunity expires.</p>
                 </div>
             </div>
         </div>
 
     </div>
 @endsection
-
-@push('page-styles')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/slider.css') }}">
-@endpush
-
-@push('page-scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
-@endpush
-
-@push('inline-scripts')
-    <script type="text/javascript">
-        (function ($) {
-            var spiesElement = $('#spies_assigned'),
-                spiesSliderElement = $('#spiesSlider');
-
-            spiesElement.on('change', function() {
-                var spiesValue = Math.min(parseInt(spiesElement.val() || 0), {{ $availableSpies }});
-                if (spiesValue == 0) {
-                    spiesValue = '';
-                }
-                spiesElement.val(spiesValue);
-                spiesSliderElement.slider('setValue', spiesValue || 0);
-            });
-
-            spiesSliderElement.slider({
-                formatter: function (value) {
-                    return value.toLocaleString();
-                }
-            }).on('change', function (slideEvent) {
-                spiesElement.val(slideEvent.value.newValue).change();
-            });
-        })(jQuery);
-    </script>
-@endpush

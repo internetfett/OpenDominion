@@ -5,6 +5,7 @@ namespace OpenDominion\Services\Dominion\Actions;
 use DB;
 use Exception;
 use LogicException;
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -22,6 +23,7 @@ use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Mappers\Dominion\InfoMapper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\InfoOp;
+use OpenDominion\Models\Valuable;
 use OpenDominion\Services\Dominion\BountyService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
@@ -1015,14 +1017,50 @@ class EspionageActionService
             throw new GameException('This valuable has not been discovered yet.');
         }
 
-        // Make sure the valuable hasn't been attempted yet
-        if ($valuable->isAttempted()) {
-            throw new GameException('This valuable has already been attempted.');
+        // Make sure the valuable hasn't been completed yet
+        if ($valuable->isCompleted()) {
+            throw new GameException('This valuable has already been completed.');
         }
 
         // Make sure investigation hasn't already started
         if ($valuable->investigation_started_at !== null) {
             throw new GameException('Investigation has already started for this valuable.');
+        }
+
+        // Check staleness - accelerating curve from 0% to 100% over 48 hours
+        $hoursSinceDiscovery = now()->diffInHours($valuable->created_at);
+
+        // Hard limit: 48 hours = guaranteed failure
+        if ($hoursSinceDiscovery >= 48) {
+            DB::transaction(function () use ($valuable) {
+                $valuable->completed_at = now();
+                $valuable->success = false;
+                $valuable->save();
+            });
+
+            return [
+                'message' => 'Investigation failed - the information was too old and the valuable could not be located.',
+                'alert-type' => 'danger',
+            ];
+        }
+
+        // Accelerating staleness chance: (hours/48)^2
+        $stalenessChance = pow($hoursSinceDiscovery / 48, 2);
+
+        if (random_chance($stalenessChance)) {
+            DB::transaction(function () use ($valuable) {
+                $valuable->completed_at = now();
+                $valuable->success = false;
+                $valuable->save();
+            });
+
+            return [
+                'message' => sprintf(
+                    'Investigation failed - the valuable could not be located. (%d%% staleness chance)',
+                    round($stalenessChance * 100)
+                ),
+                'alert-type' => 'danger',
+            ];
         }
 
         // Calculate required spy-hours and min/max spies
@@ -1047,8 +1085,6 @@ class EspionageActionService
             ));
         }
 
-        // TODO: Add chance for failure due to age of the information
-
         // Calculate available spies
         $totalSpies = (int) $this->militaryCalculator->getSpyCount($dominion);
         $currentSpiesAssigned = $dominion->valuables()
@@ -1069,6 +1105,11 @@ class EspionageActionService
             $valuable->spies_assigned = $spiesAssigned;
             $valuable->spy_hours = $this->valuablesHelper->calculateSpyHours($valuable);
             $valuable->investigation_started_at = now();
+
+            // Calculate completion time aligned to hour boundaries (since tick processes hourly)
+            $hoursToComplete = ceil($valuable->spy_hours / $spiesAssigned);
+            $valuable->investigation_completes_at = now()->addHours($hoursToComplete)->startOfHour();
+
             $valuable->save();
         });
 
@@ -1077,6 +1118,85 @@ class EspionageActionService
                 'You have assigned %s %s to investigate this valuable.',
                 number_format($spiesAssigned),
                 str_plural('spy', $spiesAssigned)
+            ),
+            'alert-type' => 'success',
+        ];
+    }
+
+    public function cancelInvestigation(Dominion $dominion, Valuable $valuable): array
+    {
+        $this->guardLockedDominion($dominion);
+
+        // Validate ownership
+        if ($valuable->source_dominion_id !== $dominion->id) {
+            throw new GameException('This valuable does not belong to you.');
+        }
+
+        // Validate investigation is in progress
+        if (!$valuable->isBeingInvestigated()) {
+            throw new GameException('This valuable is not being investigated.');
+        }
+
+        $spiesFreed = $valuable->spies_assigned;
+
+        DB::transaction(function () use ($valuable) {
+            // Reset investigation progress but keep valuable discovered
+            $valuable->spies_assigned = 0;
+            $valuable->spy_hours = null;
+            $valuable->investigation_started_at = null;
+            $valuable->investigation_completes_at = null;
+            $valuable->save();
+        });
+
+        return [
+            'message' => sprintf(
+                'Investigation canceled. %s %s freed for reassignment.',
+                number_format($spiesFreed),
+                str_plural('spy', $spiesFreed)
+            ),
+            'alert-type' => 'success',
+        ];
+    }
+
+    public function sellValuable(Dominion $dominion, Valuable $valuable): array
+    {
+        $this->guardLockedDominion($dominion);
+
+        // Validate ownership
+        if ($valuable->source_dominion_id !== $dominion->id) {
+            throw new GameException('This valuable does not belong to you.');
+        }
+
+        // Validate stolen status
+        if (!$valuable->isStolen()) {
+            throw new GameException('This valuable has not been stolen yet.');
+        }
+
+        // Validate not already sold
+        if ($valuable->isSold()) {
+            throw new GameException('This valuable has already been sold.');
+        }
+
+        // Calculate current market price
+        $espionageCalculator = app(EspionageCalculator::class);
+        $salePrice = $espionageCalculator->getValuableSellPrice($valuable);
+
+        DB::transaction(function () use ($dominion, $valuable, $salePrice) {
+            // Update valuable
+            $valuable->sold_at = now();
+            $valuable->platinum_received = $salePrice;
+            $valuable->save();
+
+            // Give platinum to dominion
+            $dominion->resource_platinum += $salePrice;
+            $dominion->save(['event' => HistoryService::EVENT_ACTION_SELL_VALUABLE]);
+        });
+
+        return [
+            'message' => sprintf(
+                'You sold %s for %s platinum.',
+                $valuable->name,
+                number_format($salePrice)
             ),
             'alert-type' => 'success',
         ];

@@ -50,7 +50,7 @@ class EspionageCalculator
      */
     public function getValuableSellPrice(Valuable $valuable, int $hoursAgo = 0)
     {
-        if (!$valuable->attempted_at) {
+        if (!$valuable->completed_at) {
             return $hoursAgo > 0 ? [] : 0;
         }
 
@@ -63,7 +63,7 @@ class EspionageCalculator
         $maxPrice = $rarityInfo['base_value_max'];
         $stepSize = ($maxPrice - $minPrice) * 0.1;
 
-        $currentHoursSinceTheft = now()->diffInHours($valuable->attempted_at);
+        $currentHoursSinceTheft = now()->diffInHours($valuable->completed_at);
         $prices = [];
 
         // Initialize random seed for deterministic price walk

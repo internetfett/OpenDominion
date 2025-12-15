@@ -84,7 +84,7 @@ class EspionageController extends AbstractDominionController
 
         // Make sure this valuable is active and hasn't started investigation yet
         // TODO: Just make this change the display in the template (form disabled)
-        if (!$valuable->isDiscovered() || $valuable->isAttempted() || $valuable->investigation_started_at !== null) {
+        if (!$valuable->isDiscovered() || $valuable->isCompleted() || $valuable->investigation_started_at !== null) {
             return redirect()
                 ->route('dominion.espionage')
                 ->withErrors(['This valuable cannot be investigated.']);
@@ -133,5 +133,44 @@ class EspionageController extends AbstractDominionController
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 
         return redirect()->route('dominion.espionage');
+    }
+
+    public function postCancelInvestigation(Request $request, Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $espionageActionService = app(EspionageActionService::class);
+
+        try {
+            $result = $espionageActionService->cancelInvestigation(
+                $dominion,
+                $valuable
+            );
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+        return redirect()->route('dominion.espionage');
+    }
+
+    public function postSell(Request $request, Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $espionageActionService = app(EspionageActionService::class);
+
+        try {
+            $result = $espionageActionService->sellValuable(
+                $dominion,
+                $valuable
+            );
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withErrors([$e->getMessage()]);
+        }
+
+        return redirect()->route('dominion.espionage')
+            ->withSuccess($result['message']);
     }
 }

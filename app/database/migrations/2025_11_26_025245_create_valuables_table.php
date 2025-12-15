@@ -24,8 +24,8 @@ class CreateValuablesTable extends Migration
             $table->unsignedInteger('spies_assigned')->default(0);
             $table->unsignedInteger('spy_hours')->nullable();
             $table->timestamp('investigation_started_at')->nullable();
-            //$table->float('investigation_progress')->default(0);
-            $table->timestamp('attempted_at')->nullable();
+            $table->timestamp('investigation_completes_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->boolean('success')->default(false);
             $table->timestamp('sold_at')->nullable();
             $table->unsignedInteger('platinum_received')->nullable();
