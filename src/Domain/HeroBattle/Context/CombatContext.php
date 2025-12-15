@@ -108,9 +108,10 @@ class CombatContext
     }
 
     /**
-     * Apply damage to target (called by HeroBattleService after all abilities process)
+     * Apply health changes to target (called by HeroBattleService after all abilities process)
+     * Reduces target health based on damage value (respects shields)
      */
-    public function applyDamage(): void
+    public function applyTargetHealthChange(): void
     {
         if ($this->damage > 0) {
             // Apply to shield first, then health
@@ -128,10 +129,10 @@ class CombatContext
     }
 
     /**
-     * Apply healing to attacker (called by HeroBattleService after all abilities process)
-     * Also handles negative healing (counter damage, backfire, etc.)
+     * Apply health changes to attacker (called by HeroBattleService after all abilities process)
+     * Handles both positive (healing) and negative (counter damage, backfire, etc.) values
      */
-    public function applyHealing(): void
+    public function applyAttackerHealthChange(): void
     {
         if ($this->healing != 0) {
             if ($this->healing > 0) {

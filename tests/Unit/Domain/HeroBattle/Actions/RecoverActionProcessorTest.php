@@ -55,7 +55,7 @@ class RecoverActionProcessorTest extends TestCase
         $this->assertEquals(0, $context->damage, 'No damage should be dealt');
 
         // Actually apply the healing
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Verify health was increased
         $this->assertEquals(70, $attacker->current_health, 'Current health should increase by recover amount');
@@ -91,7 +91,7 @@ class RecoverActionProcessorTest extends TestCase
         $this->processor->process($context);
 
         // Apply the healing
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Verify health was capped at max
         $this->assertEquals(100, $attacker->current_health, 'Health should not exceed max health');
@@ -125,7 +125,7 @@ class RecoverActionProcessorTest extends TestCase
         $context->targetAbilities = collect();
 
         $this->processor->process($context);
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Verify health stays at max
         $this->assertEquals(100, $attacker->current_health, 'Health should remain at max');

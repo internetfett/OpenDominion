@@ -51,7 +51,7 @@ class LifestealTest extends AbstractBrowserKitTestCase
         $this->assertEquals(50, $attacker->current_health);
 
         // When context applies healing (Phase 2)
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
         $this->assertEquals(70, $attacker->current_health);
     }
 
@@ -84,7 +84,7 @@ class LifestealTest extends AbstractBrowserKitTestCase
         $this->assertEquals(30, $context->healing);
 
         // Apply healing
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
         $this->assertEquals(80, $attacker->current_health);
     }
 
@@ -116,7 +116,7 @@ class LifestealTest extends AbstractBrowserKitTestCase
         $this->assertEquals(20, $context->healing);
 
         // When applied, should cap at max health
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
         $this->assertEquals(100, $attacker->current_health);
     }
 

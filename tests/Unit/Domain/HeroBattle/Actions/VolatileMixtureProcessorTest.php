@@ -289,7 +289,7 @@ class VolatileMixtureProcessorTest extends TestCase
         $this->assertEquals(-30, $context->healing, 'Context should have negative healing');
 
         // Actually apply the healing (which should damage the attacker)
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Verify attacker's health was reduced
         $this->assertEquals(70, $attacker->current_health, 'Attacker health should be reduced by backfire damage');
@@ -336,7 +336,7 @@ class VolatileMixtureProcessorTest extends TestCase
         $initialHealth = $attacker->current_health;
 
         // Actually apply the healing (which should damage the attacker)
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Verify attacker's health was reduced
         $this->assertLessThan($initialHealth, $attacker->current_health, 'Attacker health should be reduced by counter damage');
@@ -380,7 +380,7 @@ class VolatileMixtureProcessorTest extends TestCase
         $this->assertEquals(-30, $context->healing);
 
         // Apply healing (which damages attacker)
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Shield should absorb 20, health should lose 10
         $this->assertEquals(0, $attacker->shield, 'Shield should be depleted');
@@ -427,7 +427,7 @@ class VolatileMixtureProcessorTest extends TestCase
         $this->assertGreaterThan(30, $totalDamageToAttacker, 'Should have both backfire and counter damage');
 
         // Apply the damage
-        $context->applyHealing();
+        $context->applyAttackerHealthChange();
 
         // Verify attacker took both damages
         $this->assertEquals(100 - $totalDamageToAttacker, $attacker->current_health, 'Attacker should take combined damage');

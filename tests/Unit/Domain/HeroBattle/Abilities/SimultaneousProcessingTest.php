@@ -48,10 +48,10 @@ class SimultaneousProcessingTest extends AbstractBrowserKitTestCase
 
         // PHASE 2: Apply ALL damage/healing simultaneously
         // Apply all damage first, then all healing (order matters for max health clamping)
-        $contextA->applyDamage();
-        $contextB->applyDamage();
-        $contextA->applyHealing();
-        $contextB->applyHealing();
+        $contextA->applyTargetHealthChange();
+        $contextB->applyTargetHealthChange();
+        $contextA->applyAttackerHealthChange();
+        $contextB->applyAttackerHealthChange();
 
         // Final state: Both attacks happened "at the same time"
         // Player A: 100 - 25 + 15 = 90 (took 25, healed 15)
@@ -94,10 +94,10 @@ class SimultaneousProcessingTest extends AbstractBrowserKitTestCase
         $this->assertEquals(20, $contextB->healing);
 
         // Apply simultaneously (damage first, then healing)
-        $contextA->applyDamage();
-        $contextB->applyDamage();
-        $contextA->applyHealing();
-        $contextB->applyHealing();
+        $contextA->applyTargetHealthChange();
+        $contextB->applyTargetHealthChange();
+        $contextA->applyAttackerHealthChange();
+        $contextB->applyAttackerHealthChange();
 
         // Both end up at the same health (fair)
         // 50 - 40 + 20 = 30
@@ -127,7 +127,7 @@ class SimultaneousProcessingTest extends AbstractBrowserKitTestCase
         $context->damage = 50;
 
         // Apply damage
-        $context->applyDamage();
+        $context->applyTargetHealthChange();
 
         // Shield absorbs 30, health takes remaining 20
         $this->assertEquals(0, $target->shield);
@@ -151,7 +151,7 @@ class SimultaneousProcessingTest extends AbstractBrowserKitTestCase
         $context = new CombatContext($attacker, $target, $battle);
         $context->damage = 30;
 
-        $context->applyDamage();
+        $context->applyTargetHealthChange();
 
         // Shield absorbs all damage
         $this->assertEquals(20, $target->shield);

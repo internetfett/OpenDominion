@@ -353,8 +353,8 @@ class HeroBattleService
 
         // STEP 2: Apply ALL damage and healing simultaneously
         foreach ($contexts as $context) {
-            $context->applyDamage();   // Handles shield then health
-            $context->applyHealing();  // Caps at max health
+            $context->applyTargetHealthChange();   // Handles shield then health
+            $context->applyAttackerHealthChange();  // Caps at max health
         }
 
         // STEP 3: Process post-combat effects and deaths
