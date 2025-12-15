@@ -135,10 +135,10 @@ class CombatContext
     {
         if ($this->healing != 0) {
             if ($this->healing > 0) {
-                // Positive healing - cap at max health
+                // Positive healing - cap at max health (health property = max)
                 $this->attacker->current_health = min(
                     $this->attacker->current_health + $this->healing,
-                    $this->attacker->max_health
+                    $this->attacker->health
                 );
             } else {
                 // Negative healing = damage to attacker (counter damage, backfire, etc.)
