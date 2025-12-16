@@ -8,6 +8,8 @@ use OpenDominion\Domain\HeroBattle\Abilities\Passive\Channeling;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\Elusive;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\Lifesteal;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\Mending;
+use OpenDominion\Domain\HeroBattle\Abilities\Periodic\Darkness;
+use OpenDominion\Domain\HeroBattle\Abilities\Periodic\SummonSkeleton;
 use OpenDominion\Domain\HeroBattle\Abilities\Special\Hardiness;
 
 class HeroAbilityHelper
@@ -83,6 +85,33 @@ class HeroAbilityHelper
                 'description' => 'Defense reduced by 15',
                 'icon' => 'ra-broken-shield',
                 'type' => 'status_effect',
+            ],
+            'darkness' => [
+                'class' => Darkness::class,
+                'config' => [
+                    'attributes' => [
+                        'turns' => 2,
+                        'stat' => 'evasion',
+                        'value' => 20,
+                    ],
+                ],
+                'display_name' => 'Darkness',
+                'description' => 'Boost evasion by 20 every 2 turns',
+                'icon' => 'ra-moon',
+                'type' => 'periodic',
+            ],
+            'summon_skeleton' => [
+                'class' => SummonSkeleton::class,
+                'config' => [
+                    'attributes' => [
+                        'turns' => 4,
+                        'enemy' => 'skeleton_warrior',
+                    ],
+                ],
+                'display_name' => 'Summon Skeleton',
+                'description' => 'Summon a skeleton warrior every 4 turns',
+                'icon' => 'ra-death-skull',
+                'type' => 'periodic',
             ],
         ]);
     }

@@ -11,6 +11,8 @@ use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesEvasion;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesFocus;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\ModifiesHealing;
 use OpenDominion\Domain\HeroBattle\Abilities\Traits\TriggersOnDeath;
+use OpenDominion\Domain\HeroBattle\AI\CombatAI;
+use OpenDominion\Domain\HeroBattle\AI\StrategyRegistry;
 use OpenDominion\Domain\HeroBattle\Actions\AttackActionProcessor;
 use OpenDominion\Domain\HeroBattle\Actions\CounterActionProcessor;
 use OpenDominion\Domain\HeroBattle\Actions\DefendActionProcessor;
@@ -58,6 +60,9 @@ class HeroBattleService
     /** @var CombatCalculator */
     protected $combatCalculator;
 
+    /** @var StrategyRegistry */
+    protected $strategyRegistry;
+
     /** @var array */
     protected $actionProcessors;
 
@@ -73,6 +78,11 @@ class HeroBattleService
         $this->heroAbilityHelper = app(HeroAbilityHelper::class);
         $this->abilityRegistry = new AbilityRegistry($this->heroAbilityHelper);
         $this->combatCalculator = new CombatCalculator();
+        $this->strategyRegistry = new StrategyRegistry(
+            $this->heroHelper,
+            $this->combatCalculator,
+            $this->heroCalculator
+        );
 
         // Register action processors with CombatCalculator
         $this->actionProcessors = [
@@ -430,56 +440,51 @@ class HeroBattleService
 
     public function determineAction(HeroCombatant $combatant): array
     {
+        // Player queued actions (highest priority)
+        $queuedAction = $this->getQueuedAction($combatant);
+        if ($queuedAction !== null) {
+            return $queuedAction;
+        }
+
+        // AI decision-making
+        $ai = $this->createCombatAI($combatant);
+        return $ai->determineAction(
+            $combatant,
+            $combatant->battle,
+            $combatant->battle->combatants->where('current_health', '>', 0)
+        );
+    }
+
+    /**
+     * Create a CombatAI instance for the given combatant
+     */
+    protected function createCombatAI(HeroCombatant $combatant): CombatAI
+    {
+        $strategy = $this->strategyRegistry->get($combatant->strategy ?? 'balanced');
+        $abilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
+        $limitedActions = $this->heroHelper->getLimitedCombatActions();
+
+        return new CombatAI($strategy, $abilities, $limitedActions);
+    }
+
+    /**
+     * Get queued action from player, if any
+     */
+    protected function getQueuedAction(HeroCombatant $combatant): ?array
+    {
         $queuedActions = $combatant->actions ?? [];
 
         if (count($queuedActions) > 0) {
             $limitedActions = $this->heroHelper->getLimitedCombatActions();
             $nextAction = array_shift($queuedActions);
             $combatant->actions = $queuedActions;
+
             if (!$limitedActions->contains($nextAction['action']) || $nextAction['action'] != $combatant->last_action) {
                 return $nextAction;
             }
         }
 
-        // Darkness
-        if (in_array('darkness', $combatant->abilities ?? []) && $combatant->evasion < 100) {
-            $actionDef = $this->heroHelper->getCombatActions()->get('darkness');
-            if ((($combatant->battle->current_turn - 1) % $actionDef['attributes']['turns']) == 0) {
-                return ['action' => 'darkness', 'target' => null];
-            }
-        }
-
-        // Summoning
-        if (in_array('summon_skeleton', $combatant->abilities ?? [])) {
-            $actionDef = $this->heroHelper->getCombatActions()->get('summon_skeleton');
-            if ((($combatant->battle->current_turn - 1) % $actionDef['attributes']['turns']) == 0) {
-                return ['action' => 'summon_skeleton', 'target' => null];
-            }
-        }
-
-        $strategies = $this->heroHelper->getCombatStrategies();
-        $strategy = $strategies->get($combatant->strategy) ?? $strategies->get('balanced');
-        $options = collect($strategy['options']);
-
-        if ($combatant->has_focus) {
-            $options->forget('focus');
-        }
-        if ($combatant->health < ($combatant->current_health + $combatant->recover)) {
-            $options->forget('recover');
-        }
-        if ($combatant->current_health <= 40 && isset($options['recover'])) {
-            $options->forget('focus');
-            $options['recover'] = $options['attack'] * 2;
-        }
-
-        $action = $this->randomAction($options, $combatant->last_action);
-
-        // Upgrade attack to crushing_blow if ability is active
-        if ($action == 'attack' && in_array('crushing_blow', $combatant->abilities ?? [])) {
-            $action = 'crushing_blow';
-        }
-
-        return ['action' => $action, 'target' => null];
+        return null;
     }
 
     public function randomAction(Collection $options, ?string $last_action): string
