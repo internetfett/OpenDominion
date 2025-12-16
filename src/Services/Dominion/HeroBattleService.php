@@ -834,6 +834,7 @@ class HeroBattleService
         // Check for death and trigger death abilities using the new ability system
         if ($combatant->current_health <= 0) {
             $abilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
+            $livingCombatants = $combatant->battle->combatants->where('current_health', '>', 0);
 
             foreach ($abilities as $ability) {
                 if ($ability instanceof TriggersOnDeath) {
@@ -847,58 +848,12 @@ class HeroBattleService
                         // Save ability state since it consumed a charge
                         $this->abilityRegistry->saveAbilityStates($combatant, $abilities);
                         break;
-                    }
-                }
-            }
-        }
-
-        // Old encounter-specific abilities (will be migrated to ability classes later)
-        if (in_array('dying_light', $combatant->abilities ?? []) && $combatant->current_health <= 0) {
-            $this->spendAbility($combatant, 'dying_light');
-
-            // Find the Nightbringer in this battle
-            $nightbringer = $combatant->battle->combatants
-                ->where('name', 'The Nightbringer')
-                ->first();
-
-            if ($nightbringer) {
-                // Reduce Nightbringer's evasion to 0
-                $nightbringer->evasion = 0;
-                $nightbringer->save();
-                return $messages . " {$combatant->name} explodes in a blast of light, exposing the Nightbringer!";
-            }
-
-            return $messages . " {$combatant->name} explodes in a blast of light.";
-        }
-
-        // Power source: when this combatant dies, weakens the specified target
-        if (in_array('power_source', $combatant->abilities ?? []) && $combatant->current_health <= 0) {
-            $this->spendAbility($combatant, 'power_source');
-
-            $status = $combatant->status ?? [];
-            $powerSourceConfig = $status['power_source'] ?? null;
-
-            if ($powerSourceConfig) {
-                $targetName = $powerSourceConfig['target_name'] ?? null;
-                $statReductions = $powerSourceConfig['stat_reductions'] ?? [];
-
-                if ($targetName && !empty($statReductions)) {
-                    $target = $combatant->battle->combatants
-                        ->where('name', $targetName)
-                        ->first();
-
-                    if ($target !== null) {
-                        $changes = [];
-                        foreach ($statReductions as $stat => $reduction) {
-                            $oldValue = $target->$stat;
-                            $target->$stat = max(0, $oldValue - $reduction);
-                            $changes[] = "{$stat} -{$reduction}";
-                        }
-                        $target->save();
-
-                        if (!empty($changes)) {
-                            $changesString = implode(', ', $changes);
-                            return $messages . " {$combatant->name} crumbles to dust, severing its connection to {$targetName} ({$changesString})!";
+                    } else {
+                        // Allow ability to trigger on death (e.g., DyingLight, PowerSource)
+                        $deathMessage = $ability->onDeath($combatant, $combatant->battle, $livingCombatants);
+                        if ($deathMessage) {
+                            $messages .= ' ' . $deathMessage;
+                            $this->spendAbility($combatant, $combatant->abilities ?? []);
                         }
                     }
                 }
@@ -973,78 +928,24 @@ class HeroBattleService
         $health = 0;
         $description = '';
 
-        if (in_array('undying', $combatant->abilities ?? [])) {
-            if ($combatant->current_health <= 0) {
-                $status = $combatant->status ?? [];
-                if (!isset($status['undying'])) {
-                    $status['undying'] = 5;
-                    $description = "{$combatant->name} will return from the dead in {$status['undying']} turns.";
-                } else {
-                    $status['undying'] -= 1;
-                    if ($status['undying'] == 0) {
-                        unset($status['undying']);
-                        $health = round($combatant->health / 2);
-                        $combatant->update(['current_health' => $health, 'health' => $health, 'has_focus' => false]);
-                        $description = "{$combatant->name} has returned to life.";
-                    } else {
-                        $description = "{$combatant->name} will return from the dead in {$status['undying']} turns.";
-                    }
+        // Process status-based abilities using the new ability system
+        $abilities = $this->abilityRegistry->getAbilitiesForCombatant($combatant);
+        $livingCombatants = $combatant->battle->combatants->where('current_health', '>', 0);
+
+        foreach ($abilities as $ability) {
+            // Handle Undying resurrection countdown
+            if ($ability instanceof \OpenDominion\Domain\HeroBattle\Abilities\Special\Undying) {
+                $statusMessage = $ability->processStatus($combatant);
+                if ($statusMessage) {
+                    $description .= ($description ? ' ' : '') . $statusMessage;
                 }
-                $combatant->update(['status' => $status]);
-            }
-        }
-
-        // Darkness
-        if (in_array('darkness', $combatant->abilities ?? []) && $combatant->evasion < 100) {
-            $actionDef = $this->heroHelper->getCombatActions()->get('darkness');
-            if (($combatant->battle->current_turn % $actionDef['attributes']['turns']) == 0) {
-                $description = "Darkness surrounds {$combatant->name}.";
-            }
-        }
-
-        // Summoning
-        if (in_array('summon_skeleton', $combatant->abilities ?? [])) {
-            $actionDef = $this->heroHelper->getCombatActions()->get('summon_skeleton');
-            if (($combatant->battle->current_turn % $actionDef['attributes']['turns']) == 0) {
-                $description = "A summoning circle begins to glow around {$combatant->name}.";
-            }
-        }
-
-        // Generic phase-cycling ability processing
-        foreach ($combatant->abilities ?? [] as $abilityKey) {
-            $actionDef = $this->heroHelper->getCombatActions()->get($abilityKey);
-
-            if (!$actionDef || !isset($actionDef['attributes']['phases'])) {
-                continue;
             }
 
-            $turnsPerPhase = $actionDef['attributes']['turns_per_phase'] ?? 4;
-            $maxPhase = $actionDef['attributes']['max_phase'] ?? 5;
-            $cyclePhases = $actionDef['attributes']['cycle_phases'] ?? false;
-            $currentTurn = $combatant->battle->current_turn;
-
-            if ($cyclePhases) {
-                // Cycle back to phase 1 after reaching max phase
-                $currentPhase = (int) ((floor(($currentTurn - 1) / $turnsPerPhase) % $maxPhase) + 1);
-            } else {
-                // Stay at max phase after reaching it
-                $currentPhase = (int) min($maxPhase, floor(($currentTurn - 1) / $turnsPerPhase) + 1);
-            }
-
-            $status = $combatant->status ?? [];
-            $lastPhase = $status["{$abilityKey}_phase"] ?? null;
-
-            // Only apply phase changes if the combatant is still alive
-            if ($currentPhase !== $lastPhase && $combatant->current_health > 0) {
-                $status["{$abilityKey}_phase"] = $currentPhase;
-                $combatant->update(['status' => $status]);
-
-                $phaseDef = $actionDef['attributes']['phases'][$currentPhase] ?? null;
-                if ($phaseDef) {
-                    $phaseDescription = $this->applyPhaseAbilities($combatant, $abilityKey, $phaseDef);
-                    if ($phaseDescription !== '') {
-                        $description .= $phaseDescription;
-                    }
+            // Handle phase-cycling abilities (tome_of_power, etc.)
+            if ($ability instanceof \OpenDominion\Domain\HeroBattle\Abilities\Traits\PhaseCycles) {
+                $phaseMessage = $ability->processPhase($combatant, $combatant->battle, $livingCombatants);
+                if ($phaseMessage) {
+                    $description .= ($description ? ' ' : '') . $phaseMessage;
                 }
             }
         }

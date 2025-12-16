@@ -10,7 +10,11 @@ use OpenDominion\Domain\HeroBattle\Abilities\Passive\Lifesteal;
 use OpenDominion\Domain\HeroBattle\Abilities\Passive\Mending;
 use OpenDominion\Domain\HeroBattle\Abilities\Periodic\Darkness;
 use OpenDominion\Domain\HeroBattle\Abilities\Periodic\SummonSkeleton;
+use OpenDominion\Domain\HeroBattle\Abilities\Phased\TomeOfPower;
+use OpenDominion\Domain\HeroBattle\Abilities\Special\DyingLight;
 use OpenDominion\Domain\HeroBattle\Abilities\Special\Hardiness;
+use OpenDominion\Domain\HeroBattle\Abilities\Special\PowerSource;
+use OpenDominion\Domain\HeroBattle\Abilities\Special\Undying;
 
 class HeroAbilityHelper
 {
@@ -112,6 +116,42 @@ class HeroAbilityHelper
                 'description' => 'Summon a skeleton warrior every 4 turns',
                 'icon' => 'ra-death-skull',
                 'type' => 'periodic',
+            ],
+            'dying_light' => [
+                'class' => DyingLight::class,
+                'config' => [],
+                'display_name' => 'Dying Light',
+                'description' => 'Explodes in a blast of light upon death, exposing the Nightbringer',
+                'icon' => 'ra-light-bulb',
+                'type' => 'special',
+            ],
+            'power_source' => [
+                'class' => PowerSource::class,
+                'config' => [],
+                'display_name' => 'Power Source',
+                'description' => 'Weakens a connected target when destroyed',
+                'icon' => 'ra-crystal-ball',
+                'type' => 'special',
+            ],
+            'undying' => [
+                'class' => Undying::class,
+                'config' => [
+                    'attributes' => [
+                        'turns' => 5,
+                    ],
+                ],
+                'display_name' => 'Undying',
+                'description' => 'Returns to life after 5 turns with half health',
+                'icon' => 'ra-player-pyromaniac',
+                'type' => 'special',
+            ],
+            'tome_of_power' => [
+                'class' => TomeOfPower::class,
+                'config' => [],
+                'display_name' => 'Tome of Power',
+                'description' => 'Cycles through 5 phases, gaining more abilities each phase',
+                'icon' => 'ra-book',
+                'type' => 'phased',
             ],
         ]);
     }
