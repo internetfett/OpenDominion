@@ -7,6 +7,16 @@ use OpenDominion\Models\Valuable;
 
 class ValuablesHelper
 {
+    // Valuable expiration and timing constants
+    const EXPIRATION_HOURS = 48;
+    const MIN_INVESTIGATION_HOURS = 36;  // Slowest option (least spies)
+    const MAX_INVESTIGATION_HOURS = 6;   // Fastest option (most spies)
+    const INVESTIGATION_HOUR_STEP = 6;   // UI hour increment
+
+    // Discovery and pricing constants
+    const DISCOVERY_CHANCE = 0.01; // 1%
+    const PRICE_VOLATILITY = 0.1;   // 10%
+
     /**
      * Get display string for a discovered valuable
      *
@@ -127,5 +137,21 @@ class ValuablesHelper
         }
 
         return $this->calculateSpyHours($valuable);
+    }
+
+    /**
+     * Get ticks remaining until valuable expires
+     *
+     * @param Valuable $valuable
+     * @return int
+     */
+    public function getTicksUntilExpiration(Valuable $valuable): int
+    {
+        if ($valuable->created_at === null) {
+            return 0;
+        }
+
+        $expiresAt = $valuable->created_at->copy()->addHours(self::EXPIRATION_HOURS);
+        return max(0, now()->diffInHours($expiresAt, false));
     }
 }

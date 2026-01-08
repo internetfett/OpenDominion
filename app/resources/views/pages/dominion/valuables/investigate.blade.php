@@ -49,7 +49,6 @@
                                         <tbody>
                                             @php
                                                 $hourOptions = [6, 12, 18, 24, 30, 36];
-                                                $recommendedHours = 24;
                                             @endphp
                                             @foreach ($hourOptions as $hours)
                                                 @php
@@ -77,9 +76,6 @@
                                                 <tr class="{{ $rowClass }}">
                                                     <td class="text-center">
                                                         <strong>{{ $hours }} hours</strong>
-                                                        @if ($hours === $recommendedHours && $isValid)
-                                                            <span class="label label-success">Recommended</span>
-                                                        @endif
                                                     </td>
                                                     <td class="text-center">
                                                         {{ number_format($spiesNeeded) }}

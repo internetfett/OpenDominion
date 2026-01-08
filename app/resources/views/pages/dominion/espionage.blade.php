@@ -226,7 +226,7 @@
                                                 <span class="text-success">
                                                     <i class="fa fa-check"></i> Ready to steal
                                                 </span>
-                                                <br><small class="text-muted">Expires in {{ $valuable->getTicksUntilExpiration() }} {{ str_plural('tick', $valuable->getTicksUntilExpiration()) }}</small>
+                                                <br><small class="text-muted">Expires in {{ $valuablesHelper->getTicksUntilExpiration($valuable) }} {{ str_plural('tick', $valuablesHelper->getTicksUntilExpiration($valuable)) }}</small>
                                             @else
                                                 <span class="text-muted">Calculating...</span>
                                             @endif

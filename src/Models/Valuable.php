@@ -109,18 +109,6 @@ class Valuable extends AbstractModel
     }
 
     /**
-     * Get the expiration time (48 hours after discovery)
-     */
-    public function getExpiresAt(): ?\Illuminate\Support\Carbon
-    {
-        if ($this->created_at === null) {
-            return null;
-        }
-
-        return $this->created_at->copy()->addHours(48);
-    }
-
-    /**
      * Get investigation progress percentage (0-100)
      */
     public function getInvestigationProgress(): float
@@ -168,29 +156,6 @@ class Valuable extends AbstractModel
         }
 
         return max(0, now()->diffInHours($this->investigation_completes_at, false));
-    }
-
-    /**
-     * Get ticks remaining until valuable expires
-     */
-    public function getTicksUntilExpiration(): int
-    {
-        $expiresAt = $this->getExpiresAt();
-        if ($expiresAt === null) {
-            return 0;
-        }
-
-        return max(0, now()->diffInHours($expiresAt, false));
-    }
-
-    /**
-     * Check if valuable has expired (48 hours after discovery)
-     */
-    public function isExpired(): bool
-    {
-        return $this->getExpiresAt() !== null
-            && $this->getExpiresAt() <= now()
-            && $this->completed_at === null;
     }
 
     /**

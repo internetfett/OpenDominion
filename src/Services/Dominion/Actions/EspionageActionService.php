@@ -1039,11 +1039,11 @@ class EspionageActionService
             throw new GameException('Investigation has already started for this valuable.');
         }
 
-        // Check staleness - accelerating curve from 0% to 100% over 48 hours
+        // Check staleness - accelerating curve from 0% to 100% over expiration window
         $hoursSinceDiscovery = now()->diffInHours($valuable->created_at);
 
-        // Hard limit: 48 hours = guaranteed failure
-        if ($hoursSinceDiscovery >= 48) {
+        // Hard limit: guaranteed failure at expiration
+        if ($hoursSinceDiscovery >= $this->valuablesHelper::EXPIRATION_HOURS) {
             DB::transaction(function () use ($valuable) {
                 $valuable->completed_at = now();
                 $valuable->success = false;
@@ -1056,8 +1056,8 @@ class EspionageActionService
             ];
         }
 
-        // Accelerating staleness chance: (hours/48)^2
-        $stalenessChance = pow($hoursSinceDiscovery / 48, 2);
+        // Accelerating staleness chance: (hours/expiration)^2
+        $stalenessChance = pow($hoursSinceDiscovery / $this->valuablesHelper::EXPIRATION_HOURS, 2);
 
         if (random_chance($stalenessChance)) {
             DB::transaction(function () use ($valuable) {
@@ -1067,18 +1067,15 @@ class EspionageActionService
             });
 
             return [
-                'message' => sprintf(
-                    'Investigation failed - the valuable could not be located. (%d%% staleness chance)',
-                    round($stalenessChance * 100)
-                ),
+                'message' => 'Investigation failed - the information was too old and the valuable could not be located.',
                 'alert-type' => 'danger',
             ];
         }
 
         // Calculate required spy-hours and min/max spies
         $requiredSpyHours = $this->valuablesHelper->getRequiredSpyHours($valuable);
-        $minSpies = (int) ceil($requiredSpyHours / 40);
-        $maxSpies = (int) ceil($requiredSpyHours / 6);
+        $minSpies = (int) ceil($requiredSpyHours / $this->valuablesHelper::MIN_INVESTIGATION_HOURS);
+        $maxSpies = (int) ceil($requiredSpyHours / $this->valuablesHelper::MAX_INVESTIGATION_HOURS);
 
         // Validate spies assigned
         if ($spiesAssigned < $minSpies) {
@@ -1095,6 +1092,12 @@ class EspionageActionService
                 number_format($maxSpies),
                 str_plural('spy', $maxSpies)
             ));
+        }
+
+        // Validate that the resulting hours are a valid multiple of the step
+        $hoursToComplete = (int) ceil($requiredSpyHours / $spiesAssigned);
+        if ($hoursToComplete % $this->valuablesHelper::INVESTIGATION_HOUR_STEP !== 0) {
+            throw new GameException('Invalid spy assignment - must result in investigation time that is a multiple of 6 hours.');
         }
 
         // Calculate available spies

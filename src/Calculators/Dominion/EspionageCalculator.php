@@ -61,7 +61,7 @@ class EspionageCalculator
 
         $minPrice = $rarityInfo['base_value_min'];
         $maxPrice = $rarityInfo['base_value_max'];
-        $stepSize = ($maxPrice - $minPrice) * 0.1;
+        $stepSize = ($maxPrice - $minPrice) * $this->valuablesHelper::PRICE_VOLATILITY;
 
         $currentHoursSinceTheft = now()->diffInHours($valuable->completed_at);
         $prices = [];

@@ -40,7 +40,7 @@ class ValuablesService
     public function attemptDiscovery(Dominion $sourceDominion, Dominion $targetDominion): ?Valuable
     {
         // 1% chance to discover any valuable
-        if (!random_chance(0.01)) {
+        if (!random_chance($this->valuablesHelper::DISCOVERY_CHANCE)) {
             return null;
         }
 
@@ -169,7 +169,7 @@ class ValuablesService
 
         // Find expired valuables (48 hours after discovery, not yet completed)
         $expiredValuables = Valuable::where('round_id', $round->id)
-            ->where('created_at', '<=', now()->subHours(48))
+            ->where('created_at', '<=', now()->subHours($this->valuablesHelper::EXPIRATION_HOURS))
             ->whereNull('completed_at')
             ->get();
 
