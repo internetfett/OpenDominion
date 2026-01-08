@@ -18,7 +18,7 @@ class HeroHelper
                 'key' => 'alchemist',
                 'class_type' => 'basic',
                 'perk_type' => 'platinum_production',
-                'coefficient' => 0.2,
+                'coefficient' => 0.25,
                 'icon' => 'ra-gold-bar'
             ],
             [
@@ -26,7 +26,7 @@ class HeroHelper
                 'key' => 'architect',
                 'class_type' => 'basic',
                 'perk_type' => 'construction_cost',
-                'coefficient' => -1.2,
+                'coefficient' => -1.25,
                 'icon' => 'ra-quill-ink'
             ],
             [
@@ -34,7 +34,7 @@ class HeroHelper
                 'key' => 'blacksmith',
                 'class_type' => 'basic',
                 'perk_type' => 'military_cost',
-                'coefficient' => -0.25,
+                'coefficient' => -0.2,
                 'icon' => 'ra-anvil'
             ],
             [
@@ -42,7 +42,7 @@ class HeroHelper
                 'key' => 'engineer',
                 'class_type' => 'basic',
                 'perk_type' => 'invest_bonus',
-                'coefficient' => 0.75,
+                'coefficient' => 0.5,
                 'icon' => 'ra-hammer'
             ],
             [
@@ -58,7 +58,7 @@ class HeroHelper
                 'key' => 'healer',
                 'class_type' => 'basic',
                 'perk_type' => 'casualties',
-                'coefficient' => -1,
+                'coefficient' => -0.75,
                 'icon' => 'ra-apothecary'
             ],
             [
@@ -85,8 +85,8 @@ class HeroHelper
                 'coefficient' => 0.1,
                 'perks' => ['pursuit_of_knowledge'],
                 'icon' => 'ra-graduate-cap',
-                'requirement_stat' => 'resource_tech',
-                'requirement_value' => 7500
+                'requirement_stat' => 'techCount',
+                'requirement_value' => 2
             ],
             [
                 'name' => 'Scion',
@@ -96,8 +96,8 @@ class HeroHelper
                 'coefficient' => -0.25,
                 'perks' => ['disarmament', 'martyrdom', 'revised_strategy'],
                 'icon' => 'ra-ankh',
-                'requirement_stat' => 'prestige',
-                'requirement_value' => 500
+                'requirement_stat' => 'stat_attacking_success',
+                'requirement_value' => 6
             ]
         ])->keyBy('key');
     }
@@ -174,6 +174,11 @@ class HeroHelper
     public function getHeroUpgradePerkStrings()
     {
         return [
+            // Doctrine
+            'xp_from_land_gain_bonus' => 'Experience gains from invasion and exploration are doubled',
+            'xp_from_ops_bonus' => 'Experience gains from magic and espionage are doubled',
+            'xp_from_ops_penalty' => 'Experience cannot be gained from magic and espionage',
+
             // Magic
             'enemy_lightning_bolt_damage' => '%+g%% enemy lightning bolt damage',
             'enemy_spy_losses' => '%+g%% enemy spy losses on failed operations',
@@ -258,7 +263,7 @@ class HeroHelper
                     'hit' => '%s deals %s damage to %s.',
                     'evaded' => '%s deals %s damage, but %s evades, reducing damage to %s.',
                     'countered' => '%s deals %s damage to %s, who then counters for %s damage.',
-                    'evaded_countered' => '%s deals %s damage, but %s evades, reducing damage to %s, then %s counters for %s damage.'
+                    'evaded_countered' => '%s deals %s damage, but %s evades, reducing damage to %s, then %s counters for %s damage.',
                 ]
             ],
             'defend' => [
@@ -318,7 +323,7 @@ class HeroHelper
                     'success_evaded' => '%s\'s explosive mixture detonates, but %s evades most of the blast, taking only %s damage.',
                     'success_countered' => '%s hurls an unstable concoction, dealing %s damage to %s, who then counters for %s damage.',
                     'success_evaded_countered' => '%s\'s explosive mixture detonates, but %s evades most of the blast, taking only %s damage, then %s counters for %s damage.',
-                    'backfire_countered' => '%s\'s volatile mixture explodes prematurely! %s is caught in the blast for %s damage, then %s counters the distracted alchemist for %s damage.'
+                    'backfire_countered' => '%s\'s volatile mixture explodes prematurely! %s is caught in the blast for %s damage, then %s counters the distracted alchemist for %s damage.',
                 ]
             ],
             'fortify' => [
@@ -345,10 +350,10 @@ class HeroHelper
                 'class' => 'blacksmith',
                 'attributes' => [
                     'stat' => 'attack',
-                    'value' => 2,
+                    'value' => 1,
                 ],
                 'messages' => [
-                    'stat' => '%s increases attack value by 2.'
+                    'stat' => '%s increases attack value by 1.'
                 ]
             ],
             'tactical_awareness' => [
@@ -398,6 +403,23 @@ class HeroHelper
                     'countered' => '%s strikes from the shadows, dealing %s damage to %s, who then counters for %s damage.',
                 ]
             ],
+            'crushing_blow' => [
+                'name' => 'Crushing Blow',
+                'processor' => 'attack',
+                'type' => 'hostile',
+                'limited' => false,
+                'special' => true,
+                'attributes' => [
+                    'bonus_damage' => 15,
+                    'defend' => 15,
+                ],
+                'messages' => [
+                    'hit' => '%s delivers a crushing blow for %s damage to %s!',
+                    'evaded' => '%s delivers a crushing blow for %s damage, but %s evades, reducing damage to %s!',
+                    'countered' => '%s delivers a crushing blow for %s damage to %s, who then counters for %s damage!',
+                    'evaded_countered' => '%s delivers a crushing blow for %s damage, but %s evades, reducing damage to %s, then %s counters for %s damage!',
+                ]
+            ],
             'combat_analysis' => [
                 'name' => 'Combat Analysis',
                 'processor' => 'stat',
@@ -443,7 +465,7 @@ class HeroHelper
                     'hit' => '%s unleashes a blade flurry, striking %s times for %s damage to %s.',
                     'evaded' => '%s unleashes a blade flurry, striking %s times for %s damage, but %s evades, reducing damage to %s.',
                     'countered' => '%s unleashes a blade flurry, striking %s times for %s damage to %s, who then counters %s times for %s damage.',
-                    'evaded_countered' => '%s unleashes a blade flurry, striking %s times for %s damage, but %s evades, reducing damage to %s, then %s counters %s times for %s damage.'
+                    'evaded_countered' => '%s unleashes a blade flurry, striking %s times for %s damage, but %s evades, reducing damage to %s, then %s counters %s times for %s damage.',
                 ]
             ],
             'undying' => [
@@ -502,6 +524,78 @@ class HeroHelper
                 'limited' => false,
                 'special' => true,
             ],
+            'lifesteal' => [
+                'name' => 'Lifesteal',
+                'processor' => null,
+                'type' => 'passive',
+                'limited' => false,
+                'special' => true,
+            ],
+            'tome_of_power' => [
+                'name' => 'Tome of Power',
+                'processor' => null,
+                'type' => 'passive',
+                'limited' => false,
+                'special' => true,
+                'attributes' => [
+                    'turns_per_phase' => 3,
+                    'max_phase' => 4,
+                    'cycle_phases' => true,
+                    'phases' => [
+                        1 => [
+                            'name' => 'Chapter of Blood',
+                            'self_abilities' => ['weakened'],
+                            'ally_abilities' => ['lifesteal'],
+                            'message' => '%s turns to the Chapter of Blood!'
+                        ],
+                        2 => [
+                            'name' => 'Chapter of Protection',
+                            'self_abilities' => ['elusive'],
+                            'ally_abilities' => ['arcane_shield'],
+                            'message' => '%s turns to the Chapter of Protection!'
+                        ],
+                        3 => [
+                            'name' => 'Chapter of Destruction',
+                            'self_abilities' => ['weakened'],
+                            'ally_abilities' => ['crushing_blow'],
+                            'message' => '%s turns to the Chapter of Destruction!'
+                        ],
+                        4 => [
+                            'name' => 'Chapter of Vengeance',
+                            'self_abilities' => ['elusive'],
+                            'ally_abilities' => ['retribution'],
+                            'message' => '%s turns to the Chapter of Vengeance!'
+                        ],
+                    ]
+                ]
+            ],
+            'power_source' => [
+                'name' => 'Power Source',
+                'processor' => null,
+                'type' => 'passive',
+                'limited' => false,
+                'special' => true,
+            ],
+            'weakened' => [
+                'name' => 'Weakened',
+                'processor' => null,
+                'type' => 'passive',
+                'limited' => false,
+                'special' => true,
+                'attributes' => [
+                    'defense' => -15,
+                ],
+            ],
+            'retribution' => [
+                'name' => 'Retribution',
+                'processor' => null,
+                'type' => 'passive',
+                'limited' => false,
+                'special' => true,
+                'attributes' => [
+                    'counter' => 15,
+                ],
+            ],
         ]);
     }
 
@@ -550,25 +644,32 @@ class HeroHelper
     public function getSpecialAbilitiesTooltip(HeroCombatant $combatant): string
     {
         $descriptions = [
+            'arcane_shield' => 'Arcane Shield: Defense value is increased by 10.',
             'blade_flurry' => 'Blade Flurry: Attack twice for 75% damage each time.',
             'channeling' => 'Channeling: Focus can be used while already active, stacking bonus damage.',
             'combat_analysis' => 'Combat Analysis: Decreases target\'s defense value by 1 for the remainder of the battle.',
+            'crushing_blow' => 'Crushing Blow: Deals 15 additional damage if the target is not defending.',
             'darkness' => 'Darkness: Increases evasion value by 25.',
             'dying_light' => 'Dying Light: Upon death, reduces the Nightbringer\'s evasion to 0.',
             'enrage' => 'Enrage: When at 40 health or less, attack value is increased by 10.',
             'elusive' => 'Elusive: When evading a non-focused attack, damage is reduced to 0 instead of half.',
-            'forge' => 'Forge: Increases attack value by 2 for the remainder of the battle.',
+            'forge' => 'Forge: Increases attack value by 1 for the remainder of the battle.',
             'fortify' => 'Fortify: Prevent the next 20 non-counter damage dealt.',
             'hardiness' => 'Hardiness: Remain on 1 health the first time your health would be reduced below 1.',
             'last_stand' => 'Last Stand: When at 40 health or less, all combat stats are increased by 10%.',
+            'lifesteal' => 'Lifesteal: Attacks heal for 50% of the damage dealt.',
             'mending' => 'Mending: Focus enhances your Recover ability, increasing healing.',
+            'power_source' => 'Power Source: Upon destruction, weakens a connected ally.',
             'rally' => 'Rally: When at 40 health or less, defense value is increased by 5.',
+            'retribution' => 'Retribution: Counter attack damage is increased by 15.',
             'shadow_strike' => 'Shadow Strike: Attack that cannot be evaded and deals +2 damage if the target is defending.',
             'summon_skeleton' => 'Summon: Summons a Skeleton Warrior every 4th turn.',
             'tactical_awareness' => 'Tactical Awareness: Reduces target\'s counter value by 2 for the remainder of the battle.',
+            'tome_of_power' => 'Tome of Power: Cycles through 4 chapters every 3rd turn, granting different abilities each chapter.',
             'undying' => 'Undying: Returns from the dead 5 turns after being defeated.',
             'undying_legion' => 'Undying Legion: Immune to damage while any minions are alive.',
             'volatile_mixture' => 'Volatile Mixture: Attack for 150% damage, but 20% chance to hit yourself.',
+            'weakened' => 'Weakened: Defense value is decreased by 15.',
         ];
 
         $combatantDescriptions = [];

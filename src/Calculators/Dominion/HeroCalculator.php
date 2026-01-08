@@ -19,7 +19,7 @@ class HeroCalculator
     /**
      * @var int Hours required between class changes
      */
-    public const CLASS_CHANGE_COOLDOWN_HOURS = 72;
+    public const CLASS_CHANGE_COOLDOWN_HOURS = 96;
 
     /** @var HeroHelper */
     protected $heroHelper;
@@ -40,12 +40,46 @@ class HeroCalculator
      * Returns the Dominion's experience gain.
      *
      * @param Dominion $dominion
-     * @param int $xpGain
+     * @param int $value
      * @return float
      */
-    public function getExperienceGain(Dominion $dominion, float $xpGain): float
+    public function getExperienceGain(Dominion $dominion, int $value, string $source): float
     {
-        return $xpGain * $this->getExperienceMultiplier($dominion);
+        $landGainBonus = $dominion->hero->getPerkMultiplier('xp_from_land_gain_bonus');
+        $opsBonus = $dominion->hero->getPerkMultiplier('xp_from_ops_bonus');
+        $opsPenalty = $dominion->hero->getPerkMultiplier('xp_from_ops_penalty');
+
+        if ($source == 'invasion') {
+            $coefficient = 1;
+            if ($landGainBonus != 0) {
+                $coefficient *= (1 + $landGainBonus);
+            }
+        } elseif ($source == 'exploration') {
+            $coefficient = 0.6;
+            if ($landGainBonus != 0) {
+                $coefficient *= (1 + $landGainBonus);
+            }
+        } elseif ($source == 'spy') {
+            $coefficient = 0.5;
+            if ($opsBonus != 0) {
+                $coefficient *= (1 + $opsBonus);
+            }
+            if ($opsPenalty != 0) {
+                $coefficient *= (1 - $opsPenalty);
+            }
+        } elseif ($source == 'magic') {
+            $coefficient = 1;
+            if ($opsBonus != 0) {
+                $coefficient *= (1 + $opsBonus);
+            }
+            if ($opsPenalty != 0) {
+                $coefficient *= (1 - $opsPenalty);
+            }
+        } else {
+            $coefficient = 1;
+        }
+
+        return $coefficient * $value * $this->getExperienceMultiplier($dominion);
     }
 
     /**
@@ -252,39 +286,39 @@ class HeroCalculator
             ],
             [
                 'level' => 1,
-                'xp' => 100,
+                'xp' => 200,
             ],
             [
                 'level' => 2,
-                'xp' => 300,
+                'xp' => 700,
             ],
             [
                 'level' => 3,
-                'xp' => 600,
+                'xp' => 1200,
             ],
             [
                 'level' => 4,
-                'xp' => 1000,
+                'xp' => 1750,
             ],
             [
                 'level' => 5,
-                'xp' => 1500,
+                'xp' => 2300,
             ],
             [
                 'level' => 6,
-                'xp' => 2250,
+                'xp' => 2900,
             ],
             [
                 'level' => 7,
-                'xp' => 3000,
+                'xp' => 3500,
             ],
             [
                 'level' => 8,
-                'xp' => 3750,
+                'xp' => 4250,
             ],
             [
                 'level' => 9,
-                'xp' => 4750,
+                'xp' => 5000,
             ],
             [
                 'level' => 10,
@@ -292,7 +326,7 @@ class HeroCalculator
             ],
             [
                 'level' => 11,
-                'xp' => 7750,
+                'xp' => 7500,
             ],
             [
                 'level' => 12,
@@ -344,25 +378,31 @@ class HeroCalculator
             return 0;
         }
 
+        // TODO: Refactor this
         $maxUnlockLevel = 6;
         $heroLevel = min($this->getHeroLevel($hero), $maxUnlockLevel);
         $upgradeLevels = $hero->upgrades->where('type', '!=', 'directive')->pluck('level')->all();
 
         if ($heroLevel < 2) {
-            $evenLevels = [];
+            $unlockLevels = [];
         } elseif ($heroLevel < 4) {
-            $evenLevels = [2];
+            $unlockLevels = [2];
         } elseif ($heroLevel < 6) {
-            $evenLevels = [2, 4];
+            $unlockLevels = [2, 4];
         } else {
-            $evenLevels = range(2, $heroLevel, 2);
+            $unlockLevels = range(2, $heroLevel, 2);
+        }
+
+        // Add doctrines
+        if ($heroLevel > 0) {
+            $unlockLevels[] = 1;
         }
 
         if ($hero->class === 'scion') {
-            $evenLevels[] = 0;
+            $unlockLevels[] = 0;
         }
 
-        return count(array_diff($evenLevels, $upgradeLevels));
+        return count(array_diff($unlockLevels, $upgradeLevels));
     }
 
     public function canUnlockUpgrade(Hero $hero, HeroUpgrade $upgrade): bool
@@ -426,6 +466,14 @@ class HeroCalculator
             if (in_array('rally', $combatant->abilities ?? []) && $combatant->current_health <= 40) {
                 return round($combatant->defense * $multiplier) + 5;
             }
+            // Arcane Shield
+            if (in_array('arcane_shield', $combatant->abilities ?? [])) {
+                return round($combatant->defense * $multiplier) + 10;
+            }
+            // Weakened
+            if (in_array('weakened', $combatant->abilities ?? [])) {
+                return round($combatant->defense * $multiplier) - 15;
+            }
             // Undying Legion
             if (in_array('undying_legion', $combatant->abilities ?? [])) {
                 $livingMinions = $combatant->battle->combatants
@@ -446,6 +494,13 @@ class HeroCalculator
             }
         }
 
+        if ($stat == 'counter') {
+            // Retribution
+            if (in_array('retribution', $combatant->abilities ?? [])) {
+                return round($combatant->counter * $multiplier) + 15;
+            }
+        }
+
         return round($combatant->{$stat} * $multiplier);
     }
 
@@ -454,12 +509,16 @@ class HeroCalculator
         $baseDamage = $this->getCombatStat($combatant, 'attack');
         $baseDefense = $this->getCombatStat($target, 'defense');
         $defendModifier = $actionDef['attributes']['defend'] ?? 0;
+        $bonusDamage = $actionDef['attributes']['bonus_damage'] ?? 0;
 
         if ($combatant->current_action == 'counter') {
             $baseDamage += $this->getCombatStat($combatant, 'counter');
         } elseif ($combatant->has_focus) {
             $baseDamage += $this->getCombatStat($combatant, 'focus');
         }
+
+        // Add bonus damage
+        $baseDamage += $bonusDamage;
 
         if ($target->current_action == 'recover') {
             $baseDefense -= 5;

@@ -143,7 +143,6 @@
                                                        data-amount="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
                                                        data-op="{{ $unit->power_offense }}"
                                                        data-dp="{{ $unit->power_defense }}"
-                                                       data-need-boat="{{ $militaryCalculator->getUnitNeedBoats($dominion, $unit) }}"
                                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             </td>
                                             <td class="text-center" id="unit{{ $unitSlot }}_stats">
@@ -396,6 +395,13 @@
 
             $('input[name^=\'unit\']').change(function (e) {
                 updateUnitStats();
+            });
+
+            $('input[name^=\'unit\']').on('input', function (e) {
+                if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+                    invasionForceOPElement.removeClass('text-green');
+                    invasionForceOPElement.removeClass('text-red');
+                }
             });
 
             function updateUnitStats() {

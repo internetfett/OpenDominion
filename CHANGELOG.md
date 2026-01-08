@@ -4,6 +4,34 @@ All notable changes relevant to players in this project will be documented in th
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). This project uses its own versioning system.
 
 ## [Unreleased]
+### Changed
+- Heroes
+  - XP requirement to level up has been increased for levels 1-7
+  - XP is no longer gained or lost for bottomfeeds
+  - XP is no longer gained when taking multiple info ops of the same type in the same hour
+  - Shrines no longer modify the bonus XP from bounties
+  - XP gain from spy ops reduced to 0.5 XP per strength spent
+  - XP gain from magic ops reduced to 1 XP per strength spent
+  - XP gain from exploration increased to 0.6 per acre (from 0.25)
+  - Cooldown to change hero classes reverted to 96 hours (from 72)
+  - Alchemist bonus increased to 0.25 per level (from 0.2)
+  - Architect bonus increased to 1.25 per level (from 1.2)
+  - Blacksmith bonus reduced to 0.2 per level (from 0.25)
+  - Engineer bonus reduced to 0.5 per level (from 0.75)
+  - Healer bonus reduced to 0.75 per level (from 1)
+  - Pursuit of Knowledge upgrade (Scholar) research point production reduced to 25% (from 30%)
+- New Hero Upgrades
+  - Lead from the Front: Experience gains from invasion and exploration are doubled, but experience cannot be gained from magic and espionage
+  - Lead from the Shadows: Experience gains from magic and espionage are doubled
+
+## [1.47.1] - 2025-12-11
+### Changed
+- Heroes
+  - Scholar now requires 2 unlocked techs to unlock (from 7,500 research points)
+  - Scion now requires 6 successful attacks to unlock (from 500 prestige)
+
+### Fixed
+- Barracks Spy and Defense Calculator will now round home and away numbers consistently (and avoid floating point errors)
 
 ## [1.47.0] - 2025-10-31
 ### Changed
@@ -11,7 +39,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). 
 - Starting bot DP reduced slightly across the board, but reduced significantly between 526 and ~560 acres
 - Disarmament upgrade (Scion) now includes Docks and Smithies
 - Scholar max population per level changed to 0.1% (from 0.2%)
-- Cooldown to change hero classes reduced to 72 (from 96)
+- Cooldown to change hero classes reduced to 72 hours (from 96)
 - Shrines now increase hero bonuses and XP gains by 40% per 1% owned, up to a maximum of 200% at 5% owned (was 25%, max 200% at 8% owned)
 - XP per bounty changed to normal XP + 6 (from flat 8)
 - XP per black op spell changed to 7 (from 4)

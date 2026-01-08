@@ -202,10 +202,14 @@ class EspionageActionService
         $xpMessage = '';
 
         DB::transaction(function () use ($dominion, $target, $operationKey, &$result, &$bountyMessage, &$xpMessage) {
-            $xpGain = 0;
+            $xpValue = 0;
+            $latestOp = $dominion->realm->infoOps()
+                ->where('target_dominion_id', $target->id)
+                ->where('type', $operationKey)
+                ->where('latest', true)
+                ->first();
 
             if ($this->espionageHelper->isInfoGatheringOperation($operationKey)) {
-                $xpGain = 2;
                 $spyStrengthLost = 2;
                 if ($this->guardMembershipService->isBlackGuardMember($dominion)) {
                     $spyStrengthLost = 1;
@@ -216,35 +220,44 @@ class EspionageActionService
                         $spyStrengthLost = 1;
                     }
                 }
+                $xpValue = $spyStrengthLost;
                 $result = $this->performInfoGatheringOperation($dominion, $operationKey, $target);
             } elseif ($this->espionageHelper->isResourceTheftOperation($operationKey)) {
                 $spyStrengthLost = 5;
                 $spyStrengthLost += $dominion->getSpellPerkValue('theft_strength_cost');
+                $xpValue = 0;
                 $result = $this->performResourceTheftOperation($dominion, $operationKey, $target);
             } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
-                if ($this->espionageHelper->isWarOperation($operationKey)) {
-                    $xpGain = 6;
-                } else {
-                    $xpGain = 4;
-                }
                 $spyStrengthLost = 5;
+                $xpValue = $spyStrengthLost;
                 $result = $this->performHostileOperation($dominion, $operationKey, $target);
                 if (isset($result['damage']) && $result['damage'] == 0) {
-                    $xpGain = 0;
+                    $xpValue = 0;
                 }
                 $dominion->resetAbandonment();
             } else {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
 
-            // No XP for bots
-            if ($target && $target->user_id == null) {
-                $xpGain = 0;
-            }
-
             $dominion->spy_strength -= $spyStrengthLost;
 
+            // No XP for bots
+            if ($target && $target->user_id == null) {
+                $xpValue = 0;
+            }
+
+            // No XP for repeat ops
+            if ($this->espionageHelper->isInfoGatheringOperation($operationKey)) {
+                if ($latestOp !== null && !$latestOp->isStale()) {
+                    $xpValue = 0;
+                }
+            }
+
             if ($result['success']) {
+                $xpGain = 0;
+                if ($dominion->hero) {
+                    $xpGain = $this->heroCalculator->getExperienceGain($dominion, $xpValue, 'spy');
+                }
                 $dominion->stat_espionage_success += 1;
                 // Bounty result
                 if (isset($result['bounty']) && $result['bounty']) {
@@ -261,7 +274,6 @@ class EspionageActionService
                 }
                 // Hero Experience
                 if ($dominion->hero && $xpGain) {
-                    $xpGain = $this->heroCalculator->getExperienceGain($dominion, $xpGain);
                     $dominion->hero->experience += $xpGain;
                     $dominion->hero->save();
                     $xpMessage = sprintf(' You gain %.3g XP.', $xpGain);

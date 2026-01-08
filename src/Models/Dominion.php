@@ -861,4 +861,16 @@ class Dominion extends AbstractModel
 
         return false;
     }
+
+    // Accessors
+
+    /**
+     * Get the count of unlocked techs.
+     *
+     * @return int
+     */
+    public function getTechCountAttribute(): int
+    {
+        return $this->techs->count();
+    }
 }
