@@ -205,11 +205,26 @@
                                 @endif
                             </span>
                         @endif
-
                     </a>
                 </li>
                 <li class="{{ Route::is('dominion.espionage') ? 'active' : null }}">
-                    <a href="{{ route('dominion.espionage') }}"><i class="fa fa-user-secret fa-fw"></i> <span>Espionage</span></a>
+                    <a href="{{ route('dominion.espionage') }}">
+                        <i class="fa fa-user-secret fa-fw"></i> <span>Espionage</span>
+                        @if ($valuablesDiscovered > 0 || $valuablesStolen > 0)
+                            <span class="pull-right-container">
+                                @if ($valuablesStolen > 0)
+                                    <small class="label pull-right bg-blue">
+                                        {{ $valuablesStolen }}
+                                    </small>
+                                @endif
+                                @if ($valuablesDiscovered > 0)
+                                    <small class="label label-primary pull-right">
+                                        {{ $valuablesDiscovered }}
+                                    </small>
+                                @endif
+                            </span>
+                        @endif
+                    </a>
                 </li>
                 @if ($selectedDominion->black_guard_active_at !== null)
                     <li class="{{ Route::is('dominion.black-guard') ? 'active' : null }}">
