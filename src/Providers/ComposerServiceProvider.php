@@ -103,10 +103,10 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $view->with('activeHostileSpells', $activeHostileSpells);
             $view->with('activeFriendlySpells', $activeFriendlySpells);
 
-            $valuablesDiscovered = $selectedDominion->valuables()->active()->count();
+            $valuablesDiscovered = $selectedDominion->valuables()->active()->where('investigation_started_at', null)->count();
             $valuablesStolen = $selectedDominion->valuables()->stolen()->count();
             $view->with('valuablesDiscovered', $valuablesDiscovered);
-            $view->with('valuablesStolen', $valuablesDiscovered);
+            $view->with('valuablesStolen', $valuablesStolen);
 
             // Show icon for techs
             $techCalculator = app(TechCalculator::class);
