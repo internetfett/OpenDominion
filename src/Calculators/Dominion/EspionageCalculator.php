@@ -41,8 +41,11 @@ class EspionageCalculator
     /**
      * Calculate the sell price of a valuable using a random walk algorithm.
      *
+     * The price walks randomly for up to 48 hours (EXPIRATION_HOURS), then remains constant.
      * When $hoursAgo is 0, returns the current price as an integer.
      * When $hoursAgo > 0, returns an array of prices from $hoursAgo down to 0.
+     * If the valuable was stolen more recently than $hoursAgo, earlier hours are padded
+     * with the starting price (midpoint between min and max).
      *
      * @param Valuable $valuable
      * @param int $hoursAgo Number of hours of price history to return (0 = current price only)
@@ -64,20 +67,28 @@ class EspionageCalculator
         $stepSize = ($maxPrice - $minPrice) * $this->valuablesHelper::PRICE_VOLATILITY;
 
         $currentHoursSinceTheft = now()->diffInHours($valuable->completed_at);
+        $priceWalkLimit = $this->valuablesHelper::EXPIRATION_HOURS; // 48 hours
         $prices = [];
 
         // Initialize random seed for deterministic price walk
         mt_srand($valuable->id);
         $price = ($minPrice + $maxPrice) / 2;
+        $priceAtLimit = null;
 
-        // Walk through each hour from theft to present
-        for ($hour = 0; $hour <= $currentHoursSinceTheft; $hour++) {
+        // Walk through each hour from theft to price walk limit or present (whichever is earlier)
+        $walkUntil = min($currentHoursSinceTheft, $priceWalkLimit);
+        for ($hour = 0; $hour <= $walkUntil; $hour++) {
             // Apply random walk step
             if ($hour > 0) {
                 // Single random value: -100 to +100 for both direction and volatility
                 $randomStep = mt_rand(-100, 100) / 100;
                 $price += $randomStep * $stepSize;
                 $price = clamp($price, $minPrice, $maxPrice);
+            }
+
+            // Store the price at the limit for use beyond that point
+            if ($hour === $priceWalkLimit) {
+                $priceAtLimit = (int) round($price);
             }
 
             // Store price if it falls within our requested range
@@ -87,12 +98,36 @@ class EspionageCalculator
             }
         }
 
+        // If we're past the price walk limit, fill remaining hours with the price at limit
+        if ($currentHoursSinceTheft > $priceWalkLimit) {
+            $finalPrice = $priceAtLimit ?? (int) round($price);
+            for ($hour = $priceWalkLimit + 1; $hour <= $currentHoursSinceTheft; $hour++) {
+                $hoursBeforeNow = $currentHoursSinceTheft - $hour;
+                if ($hoursAgo > 0 && $hoursBeforeNow <= $hoursAgo) {
+                    $prices[$hoursBeforeNow] = $finalPrice;
+                }
+            }
+            // Update current price to the final price
+            $price = $finalPrice;
+        }
+
         mt_srand();
 
         // Return current price as int, or array of historical prices
         if ($hoursAgo === 0) {
             return (int) round($price);
         }
+
+        // If we don't have enough price history, pad the beginning with starting price
+        if ($currentHoursSinceTheft < $hoursAgo) {
+            $startingPrice = (int) round(($minPrice + $maxPrice) / 2);
+            for ($hour = $currentHoursSinceTheft + 1; $hour <= $hoursAgo; $hour++) {
+                $prices[$hour] = $startingPrice;
+            }
+        }
+
+        // Sort by hour (descending: most recent first)
+        krsort($prices);
 
         return $prices;
     }

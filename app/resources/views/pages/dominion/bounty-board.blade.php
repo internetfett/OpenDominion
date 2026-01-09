@@ -28,6 +28,90 @@
                     ])
                 </div>
             </div>
+
+            {{-- NEW SECTION: Realm Valuables Available for Transfer --}}
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="ra ra-gem"></i> Realm Valuables Available for Transfer
+                    </h3>
+                </div>
+                <div class="box-body">
+                    @if ($realmValuablesForTransfer->isEmpty())
+                        <p class="text-center text-muted">No valuables currently available for transfer from your realm mates.</p>
+                    @else
+                        <div class="table-responsive">
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Offered By</th>
+                                        <th>Valuable</th>
+                                        <th>Target</th>
+                                        <th>Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($realmValuablesForTransfer as $valuable)
+                                        <tr>
+                                            <td>
+                                                @if ($valuable->source_dominion_id === $selectedDominion->id)
+                                                    <strong>You</strong>
+                                                @else
+                                                    {{ $valuable->sourceDominion->name }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <strong>{{ $valuable->name }}</strong>
+                                                <br>
+                                                <small class="text-muted">
+                                                    {{ ucfirst($valuable->rarity) }} {{ ucfirst($valuable->type) }}
+                                                </small>
+                                            </td>
+                                            <td>
+                                                {{ $valuable->targetDominion->name }}
+                                                <br>
+                                                <small class="text-muted">(#{{ $valuable->targetDominion->realm->number }})</small>
+                                            </td>
+                                            <td>
+                                                <strong>{{ number_format($valuablesHelper->getTransferPrice($valuable)) }}</strong> platinum
+                                                <br>
+                                                <small class="text-muted">
+                                                    Spy-Hours: {{ number_format($valuable->spy_hours) }}
+                                                </small>
+                                            </td>
+                                            <td>
+                                                @if ($valuable->source_dominion_id === $selectedDominion->id)
+                                                    {{-- Seller sees unlist button --}}
+                                                    <form action="{{ route('dominion.espionage.valuables.unlist', $valuable) }}" method="post">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-warning" {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
+                                                            Unlist
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    {{-- Buyer sees purchase button --}}
+                                                    <form action="{{ route('dominion.espionage.valuables.purchase', $valuable) }}" method="post">
+                                                        @csrf
+                                                        <button type="submit"
+                                                                class="btn btn-sm btn-success"
+                                                                {{ ($selectedDominion->isLocked() || $selectedDominion->resource_platinum < $valuablesHelper->getTransferPrice($valuable)) ? 'disabled' : '' }}>
+                                                            Purchase
+                                                        </button>
+                                                    </form>
+                                                    @if ($selectedDominion->resource_platinum < $valuablesHelper->getTransferPrice($valuable))
+                                                        <small class="text-danger">Insufficient platinum</small>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <div class="col-sm-12 col-md-3">

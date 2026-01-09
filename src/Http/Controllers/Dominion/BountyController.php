@@ -7,9 +7,11 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\InfoHelper;
+use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\BountyActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\ObserveActionRequest;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Valuable;
 use OpenDominion\Services\Dominion\BountyService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -26,11 +28,23 @@ class BountyController extends AbstractDominionController
         $bounties = $bountyService->getBounties($dominion->realm);
         $bountiesCollected = $bountyService->getBountiesCollected($dominion);
 
+        // Get valuables listed for transfer by realm mates
+        $realmValuablesForTransfer = Valuable::where('round_id', $dominion->round_id)
+            ->listedForTransfer()
+            ->whereHas('sourceDominion', function ($query) use ($dominion) {
+                $query->where('realm_id', $dominion->realm_id);
+            })
+            ->with(['sourceDominion', 'targetDominion', 'targetDominion.realm'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
         return view('pages.dominion.bounty-board', [
             'bountiesActive' => $bounties->where('active', true),
             'bountiesInactive' => $bounties->where('active', false),
             'bountiesCollected' => $bountiesCollected,
             'bountyService' => $bountyService,
+            'realmValuablesForTransfer' => $realmValuablesForTransfer,
+            'valuablesHelper' => app(ValuablesHelper::class),
             'guardMembershipService' => app(GuardMembershipService::class),
             'landCalculator' => app(LandCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class)

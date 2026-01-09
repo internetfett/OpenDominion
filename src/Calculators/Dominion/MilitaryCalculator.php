@@ -5,6 +5,7 @@ namespace OpenDominion\Calculators\Dominion;
 use DB;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
@@ -1007,7 +1008,16 @@ class MilitaryCalculator
         $maxMasteryBonus = 2;
         $regen += min(1000, $dominion->spy_mastery) / 1000 * $maxMasteryBonus;
 
-        // TODO: Reduce regen based on number of Valuables being investigated
+        // Reduce regen based on valuables being investigated
+        $activeInvestigations = $dominion->valuables
+            ->where('investigation_started_at', '!=', null)
+            ->where('completed_at', null)
+            ->count();
+
+        if ($activeInvestigations > 0) {
+            $regenReduction = $activeInvestigations * ValuablesHelper::SPY_STRENGTH_PER_INVESTIGATION;
+            $regen -= $regenReduction;
+        }
 
         return $regen;
     }

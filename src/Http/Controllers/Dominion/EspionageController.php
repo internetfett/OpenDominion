@@ -15,6 +15,7 @@ use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Valuable;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
+use OpenDominion\Services\Dominion\Actions\ValuableActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
@@ -23,7 +24,19 @@ class EspionageController extends AbstractDominionController
 {
     public function getEspionage(Request $request)
     {
+        $dominion = $this->getSelectedDominion();
         $targetDominion = $request->input('dominion');
+
+        // Query valuables collections once in controller instead of in views
+        $activeValuables = $dominion->valuables()
+            ->active()
+            ->orderByDesc('created_at')
+            ->get();
+
+        $stolenValuables = $dominion->valuables()
+            ->stolen()
+            ->orderByDesc('completed_at')
+            ->get();
 
         return view('pages.dominion.espionage', [
             'espionageCalculator' => app(EspionageCalculator::class),
@@ -36,6 +49,8 @@ class EspionageController extends AbstractDominionController
             'rangeCalculator' => app(RangeCalculator::class),
             'targetDominion' => $targetDominion,
             'valuablesHelper' => app(ValuablesHelper::class),
+            'activeValuables' => $activeValuables,
+            'stolenValuables' => $stolenValuables,
         ]);
     }
 
@@ -102,6 +117,9 @@ class EspionageController extends AbstractDominionController
         $minSpies = (int) ceil($requiredSpyHours / $valuablesHelper::MIN_INVESTIGATION_HOURS);
         $maxSpies = (int) ceil($requiredSpyHours / $valuablesHelper::MAX_INVESTIGATION_HOURS);
 
+        // Get current spy strength regeneration
+        $currentSpyStrengthRegen = $militaryCalculator->getSpyStrengthRegen($dominion);
+
         return view('pages.dominion.valuables.investigate', [
             'valuable' => $valuable,
             'valuablesHelper' => $valuablesHelper,
@@ -109,17 +127,17 @@ class EspionageController extends AbstractDominionController
             'minSpies' => $minSpies,
             'maxSpies' => $maxSpies,
             'requiredSpyHours' => $requiredSpyHours,
+            'currentSpyStrengthRegen' => $currentSpyStrengthRegen,
         ]);
     }
 
     public function postInvestigate(Request $request, Valuable $valuable)
     {
         $dominion = $this->getSelectedDominion();
-        $espionageActionService = app(EspionageActionService::class);
-
+        $valuableActionService = app(ValuableActionService::class);
 
         try {
-            $result = $espionageActionService->startInvestigation(
+            $result = $valuableActionService->startInvestigation(
                 $dominion,
                 $valuable->id,
                 $request->input('spies_assigned')
@@ -138,10 +156,10 @@ class EspionageController extends AbstractDominionController
     public function postCancelInvestigation(Request $request, Valuable $valuable)
     {
         $dominion = $this->getSelectedDominion();
-        $espionageActionService = app(EspionageActionService::class);
+        $valuableActionService = app(ValuableActionService::class);
 
         try {
-            $result = $espionageActionService->cancelInvestigation(
+            $result = $valuableActionService->cancelInvestigation(
                 $dominion,
                 $valuable
             );
@@ -158,10 +176,10 @@ class EspionageController extends AbstractDominionController
     public function postSell(Request $request, Valuable $valuable)
     {
         $dominion = $this->getSelectedDominion();
-        $espionageActionService = app(EspionageActionService::class);
+        $valuableActionService = app(ValuableActionService::class);
 
         try {
-            $result = $espionageActionService->sellValuable(
+            $result = $valuableActionService->sellValuable(
                 $dominion,
                 $valuable
             );
@@ -170,7 +188,79 @@ class EspionageController extends AbstractDominionController
                 ->withErrors([$e->getMessage()]);
         }
 
-        return redirect()->route('dominion.espionage')
-            ->withSuccess($result['message']);
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+        return redirect()->route('dominion.espionage');
+    }
+
+    public function postListForTransfer(Request $request, Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $valuableActionService = app(ValuableActionService::class);
+
+        try {
+            $result = $valuableActionService->listForTransfer($dominion, $valuable);
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+        return redirect()->route('dominion.espionage');
+    }
+
+    public function postUnlistFromTransfer(Request $request, Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $valuableActionService = app(ValuableActionService::class);
+
+        try {
+            $result = $valuableActionService->unlistFromTransfer($dominion, $valuable);
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+        return redirect()->route('dominion.espionage');
+    }
+
+    public function postPurchaseValuable(Request $request, Valuable $valuable)
+    {
+        $dominion = $this->getSelectedDominion();
+        $valuableActionService = app(ValuableActionService::class);
+
+        try {
+            $result = $valuableActionService->transferToRealmMate($dominion, $valuable);
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+        return redirect()->route('dominion.espionage');
+    }
+
+    public function getValuablesHistory(Request $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $valuablesHelper = app(ValuablesHelper::class);
+        $espionageCalculator = app(EspionageCalculator::class);
+
+        // Get all completed valuables (either sold or failed)
+        $valuablesHistory = $dominion->valuables()
+            ->whereNotNull('completed_at')
+            ->with(['targetDominion', 'targetDominion.realm'])
+            ->orderBy('completed_at', 'desc')
+            ->get();
+
+        return view('pages.dominion.valuables.history', [
+            'valuablesHistory' => $valuablesHistory,
+            'valuablesHelper' => $valuablesHelper,
+            'espionageCalculator' => $espionageCalculator,
+        ]);
     }
 }

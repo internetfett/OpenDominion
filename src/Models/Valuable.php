@@ -38,6 +38,8 @@ class Valuable extends AbstractModel
 
     protected $casts = [
         'success' => 'boolean',
+        'listed_for_transfer' => 'boolean',
+        'transferred' => 'boolean',
         'spies_assigned' => 'integer',
         'platinum_received' => 'integer',
     ];
@@ -155,7 +157,7 @@ class Valuable extends AbstractModel
             return 0;
         }
 
-        return max(0, now()->diffInHours($this->investigation_completes_at, false));
+        return max(0, now()->startOfHour()->diffInHours($this->investigation_completes_at, false));
     }
 
     /**
@@ -164,6 +166,27 @@ class Valuable extends AbstractModel
     public function isSold(): bool
     {
         return $this->sold_at !== null;
+    }
+
+    /**
+     * Check if valuable is eligible for transfer to realm mates
+     */
+    public function isEligibleForTransfer(): bool
+    {
+        return $this->created_at !== null
+            && $this->investigation_started_at === null
+            && $this->completed_at === null
+            && !$this->listed_for_transfer
+            && !$this->transferred;
+    }
+
+    /**
+     * Check if valuable is currently listed for transfer
+     */
+    public function isListedForTransfer(): bool
+    {
+        return $this->listed_for_transfer === true
+            && $this->completed_at === null;
     }
 
     // Eloquent Query Scopes
@@ -208,5 +231,15 @@ class Valuable extends AbstractModel
                   $q2->whereNotNull('completed_at')->where('success', false);
               });
         });
+    }
+
+    /**
+     * Scope to valuables listed for transfer to realm mates
+     */
+    public function scopeListedForTransfer(Builder $query): Builder
+    {
+        return $query
+            ->where('listed_for_transfer', true)
+            ->whereNull('completed_at');
     }
 }

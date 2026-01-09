@@ -17,6 +17,9 @@ class ValuablesHelper
     const DISCOVERY_CHANCE = 0.01; // 1%
     const PRICE_VOLATILITY = 0.1;   // 10%
 
+    // Spy strength cost constant
+    const SPY_STRENGTH_PER_INVESTIGATION = 2.0; // 2% per spy per hour
+
     /**
      * Get display string for a discovered valuable
      *
@@ -66,6 +69,7 @@ class ValuablesHelper
                 'base_value_min' => 5000,
                 'base_value_max' => 10000,
                 'spy_hours_multiplier' => 0.5, // Spy-hours = target land × multiplier
+                'transfer_price' => 2500,
             ],
             [
                 'key' => 'uncommon',
@@ -73,6 +77,7 @@ class ValuablesHelper
                 'base_value_min' => 10000,
                 'base_value_max' => 25000,
                 'spy_hours_multiplier' => 1.0,
+                'transfer_price' => 5000,
             ],
             [
                 'key' => 'rare',
@@ -80,6 +85,7 @@ class ValuablesHelper
                 'base_value_min' => 25000,
                 'base_value_max' => 50000,
                 'spy_hours_multiplier' => 2.0,
+                'transfer_price' => 10000,
             ],
             [
                 'key' => 'epic',
@@ -87,6 +93,7 @@ class ValuablesHelper
                 'base_value_min' => 50000,
                 'base_value_max' => 100000,
                 'spy_hours_multiplier' => 3.0,
+                'transfer_price' => 20000,
             ],
             [
                 'key' => 'legendary',
@@ -94,6 +101,7 @@ class ValuablesHelper
                 'base_value_min' => 100000,
                 'base_value_max' => 250000,
                 'spy_hours_multiplier' => 5.0,
+                'transfer_price' => 40000,
             ],
         ]);
     }
@@ -153,5 +161,37 @@ class ValuablesHelper
 
         $expiresAt = $valuable->created_at->copy()->addHours(self::EXPIRATION_HOURS);
         return max(0, now()->diffInHours($expiresAt, false));
+    }
+
+    /**
+     * Get transfer price for a valuable based on rarity
+     *
+     * @param Valuable $valuable
+     * @return int
+     */
+    public function getTransferPrice(Valuable $valuable): int
+    {
+        $rarityInfo = $this->getValuableRarityInfo($valuable->rarity);
+
+        if (!$rarityInfo || !isset($rarityInfo['transfer_price'])) {
+            // Fallback to common price
+            $commonInfo = $this->getValuableRarityInfo('common');
+            return $commonInfo['transfer_price'] ?? 2500;
+        }
+
+        return $rarityInfo['transfer_price'];
+    }
+
+    /**
+     * Calculate total spy strength recovery cost for an investigation duration
+     * Each investigation costs a flat 2% per hour ongoing drain on spy strength recovery
+     * This method returns the total spy strength lost over the investigation period
+     *
+     * @param int $investigationHours
+     * @return float Total spy strength cost over duration (e.g., 6 hours = 12%, 36 hours = 72%)
+     */
+    public function getInvestigationSpyStrengthCost(int $investigationHours): float
+    {
+        return $investigationHours * self::SPY_STRENGTH_PER_INVESTIGATION;
     }
 }

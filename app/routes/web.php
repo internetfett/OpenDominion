@@ -202,6 +202,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('espionage/valuables/{valuable}/investigate')->uses('Dominion\EspionageController@postInvestigate');
             $router->post('espionage/valuables/{valuable}/cancel')->uses('Dominion\EspionageController@postCancelInvestigation')->name('espionage.valuables.cancel');
             $router->post('espionage/valuables/{valuable}/sell')->uses('Dominion\EspionageController@postSell')->name('espionage.valuables.sell');
+            $router->post('espionage/valuables/{valuable}/list')->uses('Dominion\EspionageController@postListForTransfer')->name('espionage.valuables.list');
+            $router->post('espionage/valuables/{valuable}/unlist')->uses('Dominion\EspionageController@postUnlistFromTransfer')->name('espionage.valuables.unlist');
+            $router->post('espionage/valuables/{valuable}/purchase')->uses('Dominion\EspionageController@postPurchaseValuable')->name('espionage.valuables.purchase');
+            $router->get('espionage/valuables/history')->uses('Dominion\EspionageController@getValuablesHistory')->name('espionage.valuables.history');
 
             // Black Guard
             $router->get('black-guard')->uses('Dominion\BlackGuardController@getBlackGuard')->name('black-guard');

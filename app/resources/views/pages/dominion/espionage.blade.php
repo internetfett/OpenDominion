@@ -200,7 +200,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($selectedDominion->valuables()->active()->orderByDesc('created_at')->get() as $valuable)
+                            @forelse ($activeValuables as $valuable)
                                 <tr>
                                     <td>
                                         <span title="{{ $valuable->created_at }}">{{ $valuable->created_at->diffForHumans() }}</span>
@@ -215,13 +215,15 @@
                                     <td>
                                         {{ number_format($valuable->spies_assigned) }}
                                     </td>
-                                    <td class="text-center">
+                                    <td>
                                         @if ($valuable->investigation_started_at)
                                             @if ($valuable->investigation_completes_at && $valuable->investigation_completes_at > now())
                                                 <span class="{{ $valuable->getProgressColorClass() }}">
-                                                    {{ $valuable->getTicksRemaining() }} {{ str_plural('tick', $valuable->getTicksRemaining()) }} remaining
-                                                </span>
-                                                <br><small class="text-muted">({{ number_format($valuable->getInvestigationProgress(), 1) }}% complete)</small>
+                                                    {{ number_format($valuable->getInvestigationProgress(), 1) }}% complete
+                                                </span><br>
+                                                <small class="text-muted">
+                                                    ({{ $valuable->getTicksRemaining() }} {{ str_plural('tick', $valuable->getTicksRemaining()) }} remaining)
+                                                </small>
                                             @elseif ($valuable->investigation_completes_at)
                                                 <span class="text-success">
                                                     <i class="fa fa-check"></i> Ready to steal
@@ -236,14 +238,46 @@
                                     </td>
                                     <td>
                                         @if ($valuable->investigation_started_at)
+                                            {{-- Cancel button for active investigations --}}
                                             <form action="{{ route('dominion.espionage.valuables.cancel', $valuable) }}" method="post">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-block btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
                                                     Cancel
                                                 </button>
                                             </form>
+                                        @elseif ($valuable->isListedForTransfer())
+                                            {{-- Unlist button for valuables listed for transfer --}}
+                                            <form action="{{ route('dominion.espionage.valuables.unlist', $valuable) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-block btn-warning" {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
+                                                    Unlist ({{ number_format($valuablesHelper->getTransferPrice($valuable)) }}p)
+                                                </button>
+                                            </form>
+                                        @elseif ($valuable->isEligibleForTransfer())
+                                            {{-- List for transfer and Investigate buttons --}}
+                                            <div class="btn-group btn-block" role="group">
+                                                <a href="{{ route('dominion.espionage.valuables.investigate', $valuable) }}"
+                                                   class="btn btn-sm btn-primary"
+                                                   {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
+                                                    Investigate
+                                                </a>
+                                                <form action="{{ route('dominion.espionage.valuables.list', $valuable) }}"
+                                                      method="post"
+                                                      style="display: inline;">
+                                                    @csrf
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-success"
+                                                            {{ $selectedDominion->isLocked() ? 'disabled' : '' }}
+                                                            title="List for transfer to realm mates">
+                                                        Offer ({{ number_format($valuablesHelper->getTransferPrice($valuable)) }}p)
+                                                    </button>
+                                                </form>
+                                            </div>
                                         @else
-                                            <a href="{{ route('dominion.espionage.valuables.investigate', $valuable) }}" class="btn btn-sm btn-block btn-primary">
+                                            {{-- Just Investigate button --}}
+                                            <a href="{{ route('dominion.espionage.valuables.investigate', $valuable) }}"
+                                               class="btn btn-sm btn-block btn-primary"
+                                               {{ $selectedDominion->isLocked() ? 'disabled' : '' }}>
                                                 <i class="ra ra-scout"></i> Investigate
                                             </a>
                                         @endif
@@ -283,7 +317,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($selectedDominion->valuables()->stolen()->orderByDesc('completed_at')->get() as $valuable)
+                            @forelse ($stolenValuables as $valuable)
                                 <tr>
                                     <td>
                                         <span title="{{ $valuable->completed_at }}">{{ $valuable->completed_at->diffForHumans() }}</span>
@@ -323,63 +357,6 @@
                                 </tr>
                             @endforelse
                         </tbody>
-                        {{--
-                        <thead>
-                            <tr class="active">
-                                <th>History</th>
-                                <th>Name</th>
-                                <th>Target</th>
-                                <th>Status</th>
-                                <th class="text-center">Sale Price</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($selectedDominion->valuables()->completed()->orderByDesc('updated_at')->get() as $valuable)
-                                <tr>
-                                    <td>
-                                        @if ($valuable->sold_at)
-                                            <span title="{{ $valuable->sold_at }}">{{ $valuable->sold_at->diffForHumans() }}</span>
-                                        @elseif ($valuable->completed_at)
-                                            <span title="{{ $valuable->completed_at }}">{{ $valuable->completed_at->diffForHumans() }}</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($valuable->investigation_started_at)
-                                            {{ $valuable->name }}
-                                        @else
-                                            <span class="text-muted">???</span>
-                                        @endif
-                                        <br><small class="text-muted">{{ ucfirst($valuable->rarity) }} {{ ucfirst($valuable->type) }}</small>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('dominion.op-center.show', $valuable->targetDominion->id) }}">{{ $valuable->targetDominion->name }}</a> (#{{ $valuable->targetDominion->realm->number }})
-                                    </td>
-                                    <td>
-                                        @if ($valuable->sold_at)
-                                            <span class="label label-success">Sold</span>
-                                        @else
-                                            <span class="label label-danger">Failed</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($valuable->platinum_received)
-                                            {{ number_format($valuable->platinum_received) }} platinum
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <span class="text-muted">-</span>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="text-center text-muted">No history</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                        --}}
                     </table>
                 </div>
             </div>
@@ -393,6 +370,12 @@
                 <div class="box-body">
                     <p>You can investigate things. Each investigation uses up 1% spy strength per hour.</p>
                     <p>Once the thing is stolen you can sell it for current market price.</p>
+                    <hr>
+                    <p>
+                        <a href="{{ route('dominion.espionage.valuables.history') }}" class="btn btn-primary btn-block">
+                            <i class="fa fa-history"></i> View Valuables History
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

@@ -27,6 +27,8 @@ class CreateValuablesTable extends Migration
             $table->timestamp('investigation_completes_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->boolean('success')->default(false);
+            $table->boolean('listed_for_transfer')->default(false);
+            $table->boolean('transferred')->default(false);
             $table->timestamp('sold_at')->nullable();
             $table->unsignedInteger('platinum_received')->nullable();
             $table->timestamps();
