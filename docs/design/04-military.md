@@ -368,6 +368,10 @@ During the return window, those units are unavailable for defense at home. This 
 
 **Army composition** — The most consequential ongoing choice. Pure offensive armies maximize OP but leave home vulnerable; mixed armies are harder to break but hit softer. Pairing bonus perks reward keeping specific unit ratios.
 
+**Spec vs. Elite efficiency** — Specialist units (slots 1–2) have lower OP/DP values per unit, making them population-inefficient — more bodies are needed to reach the same total power. However, they are cheap and train quickly, making them ideal for rapid early scaling. Elite units (slots 3–4) have higher OP/DP values per unit, meaning fewer units are needed for the same power output. This frees up population for peasants, improving platinum income. Elites cost more resources and train slower, so they represent a long-term investment: expensive to build up but economically superior once established, since each elite ties up less population than the equivalent power in specs.
+
+**Attacker vs. Explorer economy** — Attackers must maintain both offensive and defensive units, which means a larger share of their population is consumed by military. Explorers only need defense — their offensive "action" (exploring) costs platinum and draftees, not trained offensive units. Because attackers tie up population in offense that contributes nothing to defense (and vice versa), they have fewer peasants producing platinum than an equivalently-sized explorer. This is the fundamental economic cost of aggression: attackers trade platinum income for the ability to take land by force, while explorers enjoy a leaner military and stronger economy at the cost of slower, more predictable growth.
+
 **When to invade** — Timing relative to morale state, target morale, war status, and the 40% home defense rule. Hitting too frequently drains morale. Hitting too rarely loses momentum and prestige income.
 
 **Target selection** — Range determines prestige outcome. Hitting targets at full range (75%+) earns prestige; bottom-feeding costs it. Larger targets yield more land per hit but are harder to break.
