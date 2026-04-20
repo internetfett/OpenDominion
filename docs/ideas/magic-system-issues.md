@@ -64,6 +64,24 @@ Realms don't control which playstyles their members choose. A realm that happens
 
 ---
 
+## 9. Rejuvenation Solves the Wrong Problem
+
+Rejuvenation exists to address prolonged griefing — a real problem where a target gets hammered by the same hostile spells tick after tick with no recourse. That intent is correct. But the implementation has two compounding flaws.
+
+**The duration feels arbitrary.** There's no intuitive logic to how long the protection lasts or why. It doesn't scale with how much damage the player has taken, how long they were under attack, or any in-game property the player can observe or influence. It's a magic number, which makes it hard to reason about strategically and easy to dismiss as a band-aid.
+
+**It protects the wrong players.** Rejuvenation triggers based on being the target of hostile spells, but the players who attract the most incoming spell traffic aren't necessarily the vulnerable ones — they're often the militarily dominant players, top attackers who barely invest in wizards at all. These players get blanket spell immunity not because they're being singled out and can't defend themselves, but simply because their military aggression draws retaliation. Meanwhile a small dominion being methodically targeted because it has no wizard ratio may not qualify or may benefit far less. The protection doesn't distinguish between a powerful player absorbing natural pushback and a weaker player being exploited specifically because they're defenceless.
+
+The underlying problem — that a player with no wizard ratio can be indefinitely pummeled with zero ability to respond — is a real design gap. But Rejuvenation as currently designed addresses the symptom rather than the structural cause. Any rework should tie protection to measurable vulnerability rather than raw incoming cast count.
+
+---
+
+## 10. Damage Rankings Incentivize Targeting the Defenceless
+
+Spell damage statistics reward volume of damage dealt, which creates a perverse incentive: the optimal target for ranking purposes is a dominion with no wizard ratio, no Spell Reflect, and no Rejuvenation — not the dominion that actually threatens your realm. A militarily powerful attacker with solid defences reduces a caster's damage accumulation per cast, so players chasing rankings are directly incentivized to ignore the actual threat and farm whoever is easiest to hit. The most dangerous players in the round are structurally protected from spell campaigns not by any design mechanic, but because attacking them is bad for stats. This inverts the intended purpose of offensive magic entirely.
+
+---
+
 ## Priority Summary
 
 | Priority | Issue |
