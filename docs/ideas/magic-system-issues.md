@@ -82,6 +82,16 @@ Spell damage statistics reward volume of damage dealt, which creates a perverse 
 
 ---
 
+## 11. There Is No Skill Gap Between Good and Bad Mages
+
+A skilled mage and an unskilled mage make identical decisions. The only variable that separates them is how many wizards they trained — which is itself determined before the round begins at dominion creation, not through any in-game choices. Once the round starts, there are no sequencing decisions, no timing windows, no resource tradeoffs, and no reactive options that a better player can exploit over a worse one. The system produces the same optimal play regardless of who is executing it: cast your best spells, in any order, whenever wizard strength allows.
+
+This creates a perverse incentive structure on top of the problem. The player who tanks their own economy the most — sacrificing land productivity, military population, and resource income to maximize wizard ratio — is the one with the highest spell success rate. Magical dominance is awarded not to the player who plays better, but to the player who commits the most self-destructive investment. The "best mage" is simply whoever made their dominion least viable in every other system.
+
+There are no in-game actions that distinguish a skilled mage from an unskilled one. Spell sequencing has no effect. Timing has no effect. Resource management has no strategic dimension beyond "have enough mana to cast." The gap between players exists entirely in army composition decisions made before the game started, not in play during the round.
+
+---
+
 ## Priority Summary
 
 | Priority | Issue |
@@ -94,3 +104,4 @@ Spell damage statistics reward volume of damage dealt, which creates a perverse 
 | High | Spell Reflect is trivially scouted and probed (#5) |
 | Medium | Being snared offers zero agency (#6) |
 | Medium | Late-round magic scaling falls behind military (#7) |
+| Medium | No skill expression — good and bad mages make identical decisions; only ratio (pre-round economy sacrifice) separates them (#11) |
