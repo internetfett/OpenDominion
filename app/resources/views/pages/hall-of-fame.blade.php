@@ -23,20 +23,20 @@
             'roles' => ['Content Creator'],
             'testimonials' => [
                 ['quote' => 'Rio is a great realmmate and has dominated many rounds, capitalizing on mistakes of others, while developing amazing strategies. He has added a lot to the community through his rankings and podcast, which has helped scrubs learn and become competitive.', 'author' => 'GrapesOfMath'],
-                ['quote' => "OD's number one radio gameplay analyst. He has one of the best understanding of the game and backs that up with probably the best OD instincts of any player. 2 wins in a row not only FA but in all different playstyles. 1 of the best teachers in the game as well and always willing to help with strat talk. Arguably the GOAT.", 'author' => 'Mithrandir'],
+                ['quote' => "OD's number one radio gameplay analyst. He has one of the best understandings of the game and backs that up with probably the best OD instincts of any player. 2 wins in a row not only FA but in all different playstyles. 1 of the best teachers in the game as well and always willing to help with strat talk. Arguably the GOAT.", 'author' => 'Mithrandir'],
                 ['quote' => 'Rio won back-to-back rounds, a major feat by itself. Rio helped launch Riol Talk, which was just a joke in Dom chat for a while but once up and running was a crucial part of the Dom community’s entertainment as he recapped the round and gave unique insight.', 'author' => 'Cerbrus87'],
             ],
         ],
         [
             'key' => 'wavehack',
-            'name' => 'Wavehack',
+            'name' => 'WaveHack',
             'initial' => 'W',
             'title' => 'The Founder',
-            'bio' => 'Wavehack (also known as Sharqy) is the original developer and administrator of OpenDominion, before passing the project along to InternetFett in August 2020. While their playing career was short-lived, the work they put into developing and administering this game throughout the "beta" rounds is nothing short of heroic.',
+            'bio' => 'WaveHack (also known as Sharqy) is the original developer and administrator of OpenDominion, before passing the project along to InternetFett in August 2020. While their playing career was short-lived, the work they put into developing and administering this game throughout the "beta" rounds is nothing short of heroic.',
             'achievements' => [],
             'roles' => ['Developer', 'Admin'],
             'testimonials' => [
-                ['quote' => "Does Dominion ever come back without Wavehack? It's hard to say for sure, but probably not.", 'author' => 'Scratch'],
+                ['quote' => "Does Dominion ever come back without WaveHack? It's hard to say for sure, but probably not.", 'author' => 'Scratch'],
             ],
         ],
         [
@@ -69,8 +69,8 @@
             'key' => 'blackreign',
             'name' => 'Blackreign',
             'initial' => 'B',
-            'title' => 'The Forger',
-            'bio' => "Blackreign was a major contributor in the origin and early years of OpenDominion. He functioned as a source for considerable data in the development stage, reverse engineered numbers to get formulas for how the game functioned, and was an original member of the Gameplay Committee. Blackreign's playing career was largely nonexistent, having only played one round, and being content with sitting on the sidelines and helping develop the game. The impact he made on the community, however, is still felt by every single player. This is due to one tool in particular that he created and maintained until his departure from the community in 2020 — the Excel Simulator.",
+            'title' => 'The Artificer',
+            'bio' => "Blackreign was a major contributor in the origin and early years of OpenDominion. He functioned as a source for considerable data in the development stage, reverse engineered numbers to get formulas for how the game functioned, and was an original member of the Gameplay Committee. Blackreign's playing career was largely nonexistent, having only played a few rounds, and being content with sitting on the sidelines and helping develop the game. The impact he made on the community, however, is still felt by every single player. This is due to one tool in particular that he created and maintained until his departure from the community in 2020 — the Excel Simulator.",
             'achievements' => [],
             'roles' => ['Developer', 'Gameplay Committee'],
             'testimonials' => [
@@ -81,7 +81,7 @@
             'key' => 'rush',
             'name' => 'Rush',
             'initial' => 'R',
-            'title' => 'The Bard',
+            'title' => 'The Storyteller',
             'bio' => 'Rush is a mainstay of the OpenDominion community who has carved a legacy uniquely his own. As a regular correspondent on the podcast "Riol Talk", co-host of the blops-focused spinoff podcast "Rush Hour", namesake of the blops ranking system "Rush Ranks", author of a series of "Round Fails" which provide a chronology of his realm\'s experience every round told in comedic fashion, and more recently one of the head writers for storylines that take place within in-game Raids — to say Rush has left an enormous impact on OpenDominion would be an understatement. A mentor for many, and a massive presence within OD, Rush holds a special place as one of the most prominent community-forward players in the game.',
             'achievements' => ['Pack win: Round 31'],
             'roles' => ['Content Creator'],
@@ -132,6 +132,8 @@
         ],
     ];
 
+    usort($inductees, fn($a, $b) => strcmp($a['key'], $b['key']));
+
     // 3-2-3-2 layout
     $rows = [
         array_slice($inductees, 0, 3),
@@ -145,7 +147,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpenDominion Hall of Fame &mdash; Inaugural Class 2026</title>
+<title>OpenDominion Hall of Fame &mdash; Inaugural Class &mdash; Round 50</title>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -201,7 +203,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem;
+    padding: 2rem 2rem 7rem;
     background:
       radial-gradient(ellipse 80% 50% at 50% 0%, rgba(212,168,67,0.12) 0%, transparent 60%),
       radial-gradient(ellipse 60% 40% at 50% 100%, rgba(212,168,67,0.08) 0%, transparent 50%),
@@ -223,8 +225,8 @@
     height: 120px;
     opacity: 0.45;
   }
-  .corner-decor path:first-child { fill: var(--gold-700); }
-  .corner-decor path:last-child { fill: var(--gold-500); }
+  .corner-decor path:first-child { fill: var(--gold-500); }
+  .corner-decor path:last-child { fill: var(--gold-600); }
   .corner-decor--tl { top: 30px; left: 30px; }
   .corner-decor--tr { top: 30px; right: 30px; transform: scaleX(-1); }
   .corner-decor--bl { bottom: 30px; left: 30px; transform: scaleY(-1); }
@@ -444,8 +446,8 @@
   .cards-container.cols-2 {
     grid-template-columns: repeat(6, 1fr);
   }
-  .cards-container.cols-2 > .inductee-card:nth-child(1) { grid-column: 2 / 4; }
-  .cards-container.cols-2 > .inductee-card:nth-child(2) { grid-column: 4 / 6; }
+  .cards-container.cols-2 > .inductee-card:nth-of-type(1) { grid-column: 2 / 4; }
+  .cards-container.cols-2 > .inductee-card:nth-of-type(2) { grid-column: 4 / 6; }
 
   @media (max-width: 900px) {
     .cards-container.cols-3,
@@ -454,8 +456,8 @@
       max-width: 520px;
       margin: 0 auto;
     }
-    .cards-container.cols-2 > .inductee-card:nth-child(1),
-    .cards-container.cols-2 > .inductee-card:nth-child(2) {
+    .cards-container.cols-2 > .inductee-card:nth-of-type(1),
+    .cards-container.cols-2 > .inductee-card:nth-of-type(2) {
       grid-column: auto;
     }
   }
@@ -476,8 +478,8 @@
   .inductee-card.visible {
     animation: fadeInUp 0.7s ease-out forwards;
   }
-  .cards-container > .inductee-card.visible:nth-child(2) { animation-delay: 0.1s; }
-  .cards-container > .inductee-card.visible:nth-child(3) { animation-delay: 0.2s; }
+  .cards-container > .inductee-card.visible:nth-of-type(2) { animation-delay: 0.1s; }
+  .cards-container > .inductee-card.visible:nth-of-type(3) { animation-delay: 0.2s; }
 
   .inductee-card:hover {
     transform: translateY(-3px);
@@ -652,6 +654,19 @@
     min-height: 0;
   }
 
+  /* Per-card panel slot is hidden on desktop; row-level slot is used instead */
+  .row-panel[data-panel-scope="card"] {
+    display: none;
+  }
+  @media (max-width: 900px) {
+    .row-panel[data-panel-scope="row"] {
+      display: none;
+    }
+    .row-panel[data-panel-scope="card"] {
+      display: grid;
+    }
+  }
+
   .panel-content {
     position: relative;
     background: var(--cream);
@@ -687,27 +702,36 @@
 
   .panel-close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 32px;
-    height: 32px;
-    border: 1px solid rgba(212,168,67,0.3);
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(212,168,67,0.35);
     background: transparent;
     border-radius: 50%;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0;
     color: var(--gold-500);
-    font-size: 1rem;
-    line-height: 1;
-    transition: all 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
     z-index: 2;
   }
+  .panel-close::before,
+  .panel-close::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 11px;
+    height: 1px;
+    background: currentColor;
+    transform-origin: center;
+  }
+  .panel-close::before { transform: translate(-50%, -50%) rotate(45deg); }
+  .panel-close::after  { transform: translate(-50%, -50%) rotate(-45deg); }
   .panel-close:hover {
     border-color: var(--gold-500);
-    color: var(--gold-600);
-    background: rgba(252,234,187,0.3);
+    color: var(--gold-700);
+    background: rgba(252,234,187,0.4);
   }
 
   .panel-grid {
@@ -997,7 +1021,7 @@
   </p>
   <div class="hero-year">
     <span class="line"></span>
-    Inaugural Class &middot; MMXXVI
+    Inaugural Class &middot; Round 50
     <span class="line"></span>
   </div>
 
@@ -1031,7 +1055,7 @@
 <section class="inductees-section">
   <div class="inductees-header">
     <p class="eyebrow">The Inaugural Class</p>
-    <h2>2026 Inductees</h2>
+    <h2>Round 50 Inductees</h2>
   </div>
 
   <div class="inductees-list">
@@ -1064,7 +1088,7 @@
 
               <template class="panel-template">
                 <div class="panel-content" id="panel-{{ $inductee['key'] }}">
-                  <button type="button" class="panel-close" aria-label="Close">&times;</button>
+                  <button type="button" class="panel-close" aria-label="Close"></button>
                   <div class="panel-grid">
                     <div class="panel-main">
                       <p class="panel-eyebrow">Tribute</p>
@@ -1110,10 +1134,13 @@
                 </div>
               </template>
             </article>
+            <div class="row-panel" data-panel-scope="card" aria-hidden="true">
+              <div class="row-panel-inner"></div>
+            </div>
           @endforeach
         </div>
 
-        <div class="row-panel" aria-hidden="true">
+        <div class="row-panel" data-panel-scope="row" aria-hidden="true">
           <div class="row-panel-inner"></div>
         </div>
       </div>
@@ -1132,7 +1159,7 @@
   </div>
   <blockquote>
     &ldquo;Dominion was never just a game. It was a world we built together &mdash;
-    one realm, one round, one community at a time.&rdquo;
+    defined by the players who made it their own.&rdquo;
   </blockquote>
   <cite>The OpenDominion Community</cite>
 </section>
@@ -1141,7 +1168,7 @@
 <footer class="site-footer">
   <p class="footer-logo">OpenDominion Hall of Fame</p>
   <p class="footer-text">
-    Inaugural Class &middot; 2026 &middot; <a href="{{ route('home') }}">opendominion.net</a>
+    Inaugural Class &middot; Round 50 &middot; <a href="{{ route('home') }}">opendominion.net</a>
   </p>
 </footer>
 
@@ -1158,18 +1185,43 @@
     }, { threshold: 0.15 });
     document.querySelectorAll('.intro h2, .intro p, .inductee-card').forEach(el => observer.observe(el));
 
-    // Accordion: one open card at a time, panel slides into the row that contains it
+    // Accordion: one open card at a time. Desktop uses a row-level panel; mobile
+    // uses a panel slot directly after the clicked card.
     let openCard = null;
+    const mobileQuery = window.matchMedia('(max-width: 900px)');
 
-    function closeRow(card) {
-      const row = card.closest('.inductees-row');
-      const panel = row.querySelector('.row-panel');
-      const inner = row.querySelector('.row-panel-inner');
+    function isMobile() {
+      return mobileQuery.matches;
+    }
+
+    function getPanelFor(card) {
+      if (isMobile()) {
+        return card.nextElementSibling;
+      }
+      return card.closest('.inductees-row').querySelector('.row-panel[data-panel-scope="row"]');
+    }
+
+    function injectPanel(card, inner) {
+      const tpl = card.querySelector('.panel-template');
+      inner.innerHTML = '';
+      inner.appendChild(tpl.content.cloneNode(true));
+      const closeBtn = inner.querySelector('.panel-close');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          closePanelFor(card);
+          openCard = null;
+        });
+      }
+    }
+
+    function closePanelFor(card) {
+      const panel = getPanelFor(card);
+      const inner = panel.querySelector('.row-panel-inner');
       card.classList.remove('is-open');
       card.setAttribute('aria-expanded', 'false');
       panel.classList.remove('is-open');
       panel.setAttribute('aria-hidden', 'true');
-      // Clear injected content after collapse animation finishes
       const onEnd = (e) => {
         if (e.propertyName !== 'grid-template-rows') return;
         if (!panel.classList.contains('is-open')) inner.innerHTML = '';
@@ -1178,80 +1230,65 @@
       panel.addEventListener('transitionend', onEnd);
     }
 
-    function openInRow(card) {
-      const row = card.closest('.inductees-row');
-      const panel = row.querySelector('.row-panel');
-      const inner = row.querySelector('.row-panel-inner');
-      const tpl = card.querySelector('.panel-template');
-
-      inner.innerHTML = '';
-      inner.appendChild(tpl.content.cloneNode(true));
+    function openPanelFor(card) {
+      const panel = getPanelFor(card);
+      const inner = panel.querySelector('.row-panel-inner');
+      injectPanel(card, inner);
 
       card.classList.add('is-open');
       card.setAttribute('aria-expanded', 'true');
-      // force layout so the transition runs
-      panel.offsetHeight;
+      panel.offsetHeight; // force layout so the transition runs
       panel.classList.add('is-open');
       panel.setAttribute('aria-hidden', 'false');
-
-      // Wire close button
-      const closeBtn = inner.querySelector('.panel-close');
-      if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          closeRow(card);
-          openCard = null;
-        });
-      }
     }
 
     function toggleCard(card) {
       if (openCard === card) {
-        closeRow(card);
+        closePanelFor(card);
         openCard = null;
         return;
       }
 
       if (openCard) {
-        const sameRow = openCard.closest('.inductees-row') === card.closest('.inductees-row');
-        const prev = openCard;
-        if (sameRow) {
-          // Swap content in-place — keep the panel open, just replace inner
-          const row = card.closest('.inductees-row');
-          const inner = row.querySelector('.row-panel-inner');
-          const tpl = card.querySelector('.panel-template');
-          prev.classList.remove('is-open');
-          prev.setAttribute('aria-expanded', 'false');
-          inner.innerHTML = '';
-          inner.appendChild(tpl.content.cloneNode(true));
+        const sameRowDesktop = !isMobile() &&
+          openCard.closest('.inductees-row') === card.closest('.inductees-row');
+
+        if (sameRowDesktop) {
+          // Swap content in-place — panel stays open, content replaced
+          const panel = getPanelFor(card);
+          const inner = panel.querySelector('.row-panel-inner');
+          openCard.classList.remove('is-open');
+          openCard.setAttribute('aria-expanded', 'false');
+          injectPanel(card, inner);
           card.classList.add('is-open');
           card.setAttribute('aria-expanded', 'true');
-          const closeBtn = inner.querySelector('.panel-close');
-          if (closeBtn) {
-            closeBtn.addEventListener('click', (e) => {
-              e.stopPropagation();
-              closeRow(card);
-              openCard = null;
-            });
-          }
           openCard = card;
           return;
         }
-        closeRow(prev);
+        closePanelFor(openCard);
       }
 
-      openInRow(card);
+      openPanelFor(card);
       openCard = card;
 
-      // Smooth scroll the open panel into view if the card is near the top of the viewport
+      // Smooth-scroll the panel into view if it's clipped
       setTimeout(() => {
-        const panel = card.closest('.inductees-row').querySelector('.row-panel');
+        const panel = getPanelFor(card);
         const rect = panel.getBoundingClientRect();
         if (rect.top < 80 || rect.bottom > window.innerHeight) {
           panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       }, 350);
     }
+
+    // If the viewport crosses the breakpoint while a panel is open, close it so
+    // we don't leave a stale panel in the wrong slot
+    mobileQuery.addEventListener('change', () => {
+      if (openCard) {
+        closePanelFor(openCard);
+        openCard = null;
+      }
+    });
 
     document.querySelectorAll('.inductee-card').forEach(card => {
       card.addEventListener('click', () => toggleCard(card));
