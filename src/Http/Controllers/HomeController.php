@@ -115,4 +115,9 @@ class HomeController extends AbstractController
     {
         return view('pages.user-agreement');
     }
+
+    public function getHallOfFame()
+    {
+        return view('pages.hall-of-fame');
+    }
 }

@@ -10,6 +10,7 @@ $router->get('about')->uses('HomeController@getAboutPage')->name('about');
 $router->get('terms')->uses('HomeController@getTermsPage')->name('terms');
 $router->get('privacy')->uses('HomeController@getPrivacyPage')->name('privacy');
 $router->get('landing')->uses('HomeController@getLanding')->name('landing');
+$router->get('hall-of-fame')->uses('HomeController@getHallOfFame')->name('hall-of-fame');
 
 // Authentication
 
