@@ -150,7 +150,7 @@ Goal: clearer counter-relationships between offensive spells and the new defensi
 | Lightning Bolt | Destroys % of current castle | Repair |
 | Targeted Lightning Spells | Destroys % of a specific castle improvement | Repair |
 | Lightning Storm | Castle DoT — *tentative* | Repair / Cleanse |
-| Thunderstruck | Prevents repairs for 1 hour (expensive) — *tentative* | — |
+| Ruination | Prevents repairs for 1 hour (expensive) — *tentative* | — |
 | Mana Burn | Destroys % of target mana or shield, or increases drain | — |
 | Dispel | Reduces duration of a random friendly spell on the target | — |
 | Silence | Increases mana cost of friendly spells cast by the target | — |
@@ -161,11 +161,11 @@ Goal: clearer counter-relationships between offensive spells and the new defensi
 
 - **Mana Burn** is an explicit counter to Mana Shield and to mana stockpiling more broadly. Exact target (mana pool vs. shield vs. drain rate) is open.
 - **Burning** is intentionally **limited** — likely a realm-role spell or otherwise restricted, so it isn't spammed by every member of an aggressor realm.
-- **Lightning Storm** as a castle DoT and **Thunderstruck** as a repair-lockout are both candidates for the same anti-repair niche; the design needs to pick one or differentiate clearly.
+- **Lightning Storm** as a castle DoT and **Ruination** as a repair-lockout are both candidates for the same anti-repair niche; the design needs to pick one or differentiate clearly.
 
 ### Open Questions
 
-- A spell that **prevents revives for one hour** (mirror of Thunderstruck on the peasant axis) is on the table but unspecified.
+- A spell that **prevents revives for one hour** (mirror of Ruination on the peasant axis) is on the table but unspecified.
 
 ---
 

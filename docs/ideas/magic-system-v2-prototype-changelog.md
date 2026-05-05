@@ -209,7 +209,7 @@ New table `dominion_damage_log` powers Revive/Repair targeting:
 
 ### Deferred
 - `lightning_storm` (castle DoT) — wait on Burning playtest.
-- `thunderstruck` (1h repair lockout) — wait on Repair playtest.
+- `ruination` (1h repair lockout) — wait on Repair playtest.
 - `miasma` (anti-ward) — wait on Ward usage data.
 - "prevent revives 1h" — wait on Revive playtest.
 
