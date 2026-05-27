@@ -39,6 +39,7 @@
 
         @include('partials.beta-indicator')
         @include('partials.protection-indicator')
+        @include('partials.tutorial-widget')
 
         {{-- app-content-header hidden — page-header is redundant with card titles.
              Kept in markup so pages can be updated individually before removing.

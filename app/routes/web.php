@@ -308,6 +308,11 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('misc/tick')->uses('Dominion\MiscController@getTickDominion')->name('misc.tick');
             $router->get('misc/undo-tick')->uses('Dominion\MiscController@getUndoTickDominion')->name('misc.undo-tick');
 
+            // Tutorial
+            $router->post('tutorial/skip/{step}')->uses('Dominion\TutorialController@postSkip')->name('tutorial.skip');
+            $router->post('tutorial/complete/{step}')->uses('Dominion\TutorialController@postComplete')->name('tutorial.complete');
+            $router->post('tutorial/branch/{branch}')->uses('Dominion\TutorialController@postBranch')->name('tutorial.branch');
+
             // Protection
             // todo: move pack/restart/rename/tick
             $router->get('protection/buildings')->uses('Dominion\ProtectionController@getBuildings')->name('protection.buildings');

@@ -27,6 +27,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string|null $avatar
  * @property int $rating
  * @property array|null $affinities
+ * @property array|null $tutorial_progress
  * @property string|null $remember_token
  * @property int $activated
  * @property string $activation_code
@@ -57,6 +58,7 @@ class User extends AbstractModel implements AuthenticatableContract, Authorizabl
     protected $casts = [
         'settings' => 'array',
         'affinities' => 'array',
+        'tutorial_progress' => 'array',
         'last_online' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -169,6 +171,26 @@ class User extends AbstractModel implements AuthenticatableContract, Authorizabl
         }
 
         return Arr::get($this->affinities, $key);
+    }
+
+    public function getTutorialProgress(): array
+    {
+        return array_merge([
+            'branch' => null,
+            'completed' => [],
+            'skipped' => [],
+            'done' => false,
+        ], $this->tutorial_progress ?? []);
+    }
+
+    public function setTutorialProgress(array $progress): void
+    {
+        $this->tutorial_progress = $progress;
+    }
+
+    public function isTutorialDone(): bool
+    {
+        return !empty($this->tutorial_progress['done']);
     }
 
     /**
