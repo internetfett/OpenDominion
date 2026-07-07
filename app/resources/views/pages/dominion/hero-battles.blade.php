@@ -61,6 +61,17 @@
                                                                 </td>
                                                             </tr>
                                                         @endforeach
+                                                        @if (!empty($combatant->status['frozen']))
+                                                            <tr>
+                                                                <td><span class="text-info" data-bs-toggle="tooltip" title="Attack, counter, and recover are reduced to 0 this turn.">Frozen</span></td>
+                                                                <td><i class="fa fa-snowflake text-info"></i></td>
+                                                            </tr>
+                                                        @elseif (!empty($combatant->status['frozen_pending']))
+                                                            <tr>
+                                                                <td><span class="text-warning" data-bs-toggle="tooltip" title="Will be frozen next turn.">Freezing</span></td>
+                                                                <td><i class="fa fa-snowflake text-warning"></i></td>
+                                                            </tr>
+                                                        @endif
                                                         <tr>
                                                             <td><span data-bs-toggle="tooltip" title="Time remaining to set manual actions">Time</span></td>
                                                             <td>{{ rfloor($combatant->timeLeft() / 3600) }}h, {{ rfloor($combatant->timeLeft() % 3600 / 60) }}m</td>

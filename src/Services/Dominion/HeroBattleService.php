@@ -404,6 +404,17 @@ class HeroBattleService
 
     public function determineAction(HeroCombatant $combatant): array
     {
+        // Snow Witch's Curse: on even turns, fire the queued telegraphed move
+        if (in_array('snow_witch_curse', $combatant->abilities ?? [])) {
+            $telegraphedMove = $combatant->status['telegraphed_move'] ?? null;
+            if ($telegraphedMove !== null && ($combatant->battle->current_turn % 2) === 0) {
+                $status = $combatant->status ?? [];
+                unset($status['telegraphed_move']);
+                $combatant->update(['status' => $status]);
+                return ['action' => $telegraphedMove, 'target' => null];
+            }
+        }
+
         $queuedActions = $combatant->actions ?? [];
 
         if (count($queuedActions) > 0) {
@@ -594,6 +605,14 @@ class HeroBattleService
             $healing = round($damage / 2);
             $health += $healing;
             $description .= sprintf(' %s heals for %s health.', $combatant->name, $healing);
+        }
+
+        // Frostbite: landed non-zero damage on a hero-owned target adds a Frostbite stack
+        if (in_array('frostbite', $combatant->abilities ?? []) && $damage > 0 && $target->hero_id !== null) {
+            $status = $target->status ?? [];
+            $status['frostbite'] = (int) ($status['frostbite'] ?? 0) + 1;
+            $target->status = $status;
+            $description .= sprintf(' Frostbite creeps into %s (stack %s).', $target->name, $status['frostbite']);
         }
 
         return [
@@ -902,6 +921,93 @@ class HeroBattleService
         ];
     }
 
+    public function processBloodrendAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
+    {
+        $attributes = $actionDef['attributes'];
+        $messages = $actionDef['messages'];
+
+        if ($target->current_action === 'defend') {
+            $damage = $attributes['defend_damage'];
+            $healing = (int) round($damage / 2);
+            $description = sprintf($messages['defend'], $combatant->name, $target->name, $damage, $healing);
+        } elseif ($target->current_action === 'attack') {
+            $damage = $attributes['attack_damage'];
+            $healing = $damage;
+            $description = sprintf($messages['attack'], $combatant->name, $target->name, $damage, $healing);
+        } else {
+            $damage = $attributes['default_damage'];
+            $healing = $damage;
+            $description = sprintf($messages['default'], $combatant->name, $target->name, $damage, $healing);
+        }
+
+        return [
+            'damage' => $damage,
+            'health' => $healing,
+            'description' => $description,
+        ];
+    }
+
+    public function processFrostGripAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
+    {
+        $attributes = $actionDef['attributes'];
+        $messages = $actionDef['messages'];
+
+        if ($target->current_action === 'focus') {
+            return [
+                'damage' => 0,
+                'health' => 0,
+                'description' => sprintf($messages['focus'], $target->name),
+            ];
+        }
+
+        $status = $target->status ?? [];
+        $status['frozen_pending'] = true;
+
+        if ($target->current_action === 'recover') {
+            $stacks = $attributes['recover_frostbite_stacks'];
+            $status['frostbite'] = (int) ($status['frostbite'] ?? 0) + $stacks;
+            $target->status = $status;
+            $description = sprintf($messages['recover'], $target->name, $target->name);
+        } else {
+            $target->status = $status;
+            $description = sprintf($messages['default'], $target->name, $target->name);
+        }
+
+        return [
+            'damage' => 0,
+            'health' => 0,
+            'description' => $description,
+        ];
+    }
+
+    public function processWintersBreathAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
+    {
+        $attributes = $actionDef['attributes'];
+        $messages = $actionDef['messages'];
+
+        if ($target->current_action === 'attack') {
+            return [
+                'damage' => 0,
+                'health' => 0,
+                'description' => sprintf($messages['attack'], $target->name, $combatant->name),
+            ];
+        }
+
+        if ($target->current_action === 'defend') {
+            $damage = $attributes['defend_damage'];
+            $description = sprintf($messages['defend'], $combatant->name, $target->name, $damage);
+        } else {
+            $damage = $attributes['default_damage'];
+            $description = sprintf($messages['default'], $combatant->name, $damage, $target->name);
+        }
+
+        return [
+            'damage' => $damage,
+            'health' => 0,
+            'description' => $description,
+        ];
+    }
+
     public function processSummonAction(HeroCombatant $combatant, HeroCombatant $target, array $actionDef): array
     {
         $message = $actionDef['messages']['summon'];
@@ -1108,6 +1214,19 @@ class HeroBattleService
         $health = 0;
         $description = '';
 
+        // Frozen state machine: promote pending → active at end of the turn Frost Grip landed,
+        // then clear active at end of the frozen turn.
+        if (isset($combatant->status['frozen_pending']) || isset($combatant->status['frozen'])) {
+            $status = $combatant->status ?? [];
+            if (isset($status['frozen_pending'])) {
+                unset($status['frozen_pending']);
+                $status['frozen'] = true;
+            } elseif (isset($status['frozen'])) {
+                unset($status['frozen']);
+            }
+            $combatant->update(['status' => $status]);
+        }
+
         if (in_array('undying', $combatant->abilities ?? [])) {
             if ($combatant->current_health <= 0) {
                 $status = $combatant->status ?? [];
@@ -1207,6 +1326,28 @@ class HeroBattleService
                     if ($phaseDescription !== '') {
                         $description .= $phaseDescription;
                     }
+                }
+            }
+        }
+
+        // Snow Witch's Curse: on odd turns, roll the next telegraphed move for the following (even) turn
+        if (in_array('snow_witch_curse', $combatant->abilities ?? []) && $combatant->current_health > 0) {
+            $currentTurn = $combatant->battle->current_turn;
+            if (($currentTurn % 2) === 1) {
+                $curseDef = $this->heroHelper->getCombatActions()->get('snow_witch_curse');
+                $moves = $curseDef['attributes']['moves'] ?? [];
+                if (!empty($moves)) {
+                    $nextMove = $moves[array_rand($moves)];
+                    $status = $combatant->status ?? [];
+                    $status['telegraphed_move'] = $nextMove;
+                    $combatant->update(['status' => $status]);
+
+                    $telegraphMessages = [
+                        'bloodrend' => "{$combatant->name} raises her hands slowly, blue veins pulsing beneath frost-white skin.",
+                        'frost_grip' => "The temperature plummets. Frost begins to creep up around your feet.",
+                        'winters_breath' => "{$combatant->name} inhales deeply, drawing the mountain's frigid air into her lungs.",
+                    ];
+                    $description .= ' ' . ($telegraphMessages[$nextMove] ?? '');
                 }
             }
         }

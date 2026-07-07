@@ -394,6 +394,18 @@ class HeroEncounterHelper
                 'strategy' => 'fortify',
                 'abilities' => ['fortify', 'hardiness'],
             ],
+            'eliza_heart_of_ice' => [
+                'name' => 'Eliza, the Heart of Ice',
+                'health' => 200,
+                'attack' => 35,
+                'defense' => 15,
+                'evasion' => 25,
+                'focus' => 20,
+                'counter' => 15,
+                'recover' => 10,
+                'strategy' => 'wraith',
+                'abilities' => ['snow_witch_curse', 'frostbite'],
+            ],
         ]);
     }
 
@@ -509,6 +521,13 @@ class HeroEncounterHelper
                 'source' => 'Raid (Omen of Fire)',
                 'enemies' => [
                     ['key' => 'thessadrash_veil', 'name' => 'Veil of Thessadrash'],
+                ],
+            ],
+            'heart_of_ice' => [
+                'name' => 'Eliza, the Heart of Ice',
+                'source' => 'Raid (Heart of Ice)',
+                'enemies' => [
+                    ['key' => 'eliza_heart_of_ice', 'name' => 'Eliza, the Heart of Ice'],
                 ],
             ],
         ]);
