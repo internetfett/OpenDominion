@@ -9,6 +9,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Helpers\AIHelper;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
+use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Tests\AbstractBrowserKitTestCase;
 use RuntimeException;
 
@@ -63,6 +64,10 @@ class AISpawnCommandTest extends AbstractBrowserKitTestCase
         $this->assertEquals(AIHelper::ATTACKER_STARTING_DOCKS, $bot->building_dock);
         $this->assertEquals(AIHelper::ATTACKER_STARTING_DOCKS, $bot->land_water);
         $this->assertGreaterThanOrEqual(AIHelper::ATTACKER_STARTING_BOATS, $bot->resource_boats);
+
+        $incomingUnit1 = $this->app->make(QueueService::class)->getTrainingQueueTotalByResource($bot, 'military_unit1');
+        $this->assertGreaterThanOrEqual(300, $incomingUnit1);
+        $this->assertLessThanOrEqual(350, $incomingUnit1);
     }
 
     public function testAttackerStartingDocksKeepTotalLand(): void

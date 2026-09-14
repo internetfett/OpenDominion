@@ -9,6 +9,7 @@ use OpenDominion\Factories\DominionFactory;
 use OpenDominion\Helpers\AIHelper;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Round;
+use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\TickService;
 use RuntimeException;
 
@@ -32,6 +33,7 @@ class AISpawnCommand extends Command implements CommandInterface
     {
         $aiHelper = app(AIHelper::class);
         $dominionFactory = app(DominionFactory::class);
+        $queueService = app(QueueService::class);
         $tickService = app(TickService::class);
 
         $roundId = $this->option('round');
@@ -103,6 +105,9 @@ class AISpawnCommand extends Command implements CommandInterface
 
             if ($type === AIHelper::STRATEGY_ATTACKER) {
                 $dominion->update($aiHelper->getAttackerStartingAttributes($dominion));
+                foreach ($aiHelper->getAttackerIncomingOffense() as $hours => $amount) {
+                    $queueService->queueResources('training', $dominion, ['military_unit1' => $amount], $hours);
+                }
             }
 
             // Tick ahead

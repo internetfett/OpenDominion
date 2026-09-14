@@ -251,9 +251,7 @@ class AIService
 
         foreach ($dominions as $dominion) {
             try {
-                if ($this->attemptInvasion($dominion, $dominion->ai_config)) {
-                    Log::info(sprintf('AI dominion %s invaded in %s', $dominion->id, $round->name));
-                }
+                $this->attemptInvasion($dominion, $dominion->ai_config);
             } catch (Exception $e) {
                 continue;
             }
@@ -668,6 +666,27 @@ class AIService
     }
 
     /**
+     * Returns resources to hold back from training so barren and incoming conquered land can be rezoned and built.
+     *
+     * @return array{platinum: int, lumber: int}
+     */
+    public function getConstructionReserve(Dominion $dominion): array
+    {
+        $acres = $this->landCalculator->getTotalBarrenLand($dominion)
+            + $this->queueService->getInvasionQueueTotalByPrefix($dominion, 'land_');
+
+        if ($acres <= 0) {
+            return ['platinum' => 0, 'lumber' => 0];
+        }
+
+        return [
+            'platinum' => $this->constructionCalculator->getTotalPlatinumCost($dominion, $acres)
+                + ($acres * $this->rezoningCalculator->getPlatinumCost($dominion)),
+            'lumber' => $this->constructionCalculator->getTotalLumberCost($dominion, $acres),
+        ];
+    }
+
+    /**
      * Returns defensive power from units that never leave on invasions, including those in training.
      */
     public function getHomeGuardDefense(Dominion $dominion): float
@@ -694,16 +713,20 @@ class AIService
     public function trainAttackerMilitary(Dominion $dominion, array $config, int $totalLand): void
     {
         $defenseRequired = $this->aiHelper->getDefenseForNonPlayer($dominion->round, $totalLand);
+        $reserve = $this->getConstructionReserve($dominion);
 
         foreach ($config['military'] as $index => $command) {
             if (in_array($command['unit'], ['spies', 'wizards'])) {
-                $amount = $this->getOperativesToTrain($dominion, $command);
+                $amount = min(
+                    $this->getOperativesToTrain($dominion, $command),
+                    $this->getMaxTrainableWithReserve($dominion, $command['unit'], $reserve)
+                );
             } else {
                 $unit = $command['unit'];
                 if ($index === 0 && $this->getHomeGuardDefense($dominion) >= $defenseRequired) {
                     $unit = $config['offense'];
                 }
-                $amount = $this->trainingCalculator->getMaxTrainable($dominion)[$unit];
+                $amount = $this->getMaxTrainableWithReserve($dominion, $unit, $reserve);
                 $command['unit'] = $unit;
             }
 
@@ -711,6 +734,26 @@ class AIService
                 $this->trainActionService->train($dominion, ['military_' . $command['unit'] => $amount]);
             }
         }
+    }
+
+    /**
+     * Returns the most units trainable without spending into the reserved resources.
+     *
+     * @param array<string, int> $reserve
+     */
+    protected function getMaxTrainableWithReserve(Dominion $dominion, string $unit, array $reserve): int
+    {
+        $amount = $this->trainingCalculator->getMaxTrainable($dominion)[$unit];
+        $costs = $this->trainingCalculator->getTrainingCostsPerUnit($dominion)[$unit];
+
+        foreach ($reserve as $resource => $reserved) {
+            if (($costs[$resource] ?? 0) > 0) {
+                $available = max(0, $dominion->{"resource_{$resource}"} - $reserved);
+                $amount = min($amount, (int) floor($available / $costs[$resource]));
+            }
+        }
+
+        return $amount;
     }
 
     /**

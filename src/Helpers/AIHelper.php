@@ -298,6 +298,26 @@ class AIHelper
     }
 
     /**
+     * Returns additional unit1 queued in training for a newly spawned attacker, keyed by hours until arrival.
+     *
+     * @return array<int, int>
+     */
+    public function getAttackerIncomingOffense(): array
+    {
+        $total = mt_rand(300, 350);
+        $hours = collect(range(4, 9))->random(mt_rand(2, 5))->sort()->values();
+
+        $incoming = [];
+        $perHour = intdiv($total, $hours->count());
+        foreach ($hours as $hour) {
+            $incoming[$hour] = $perHour;
+        }
+        $incoming[$hours->last()] += $total - ($perHour * $hours->count());
+
+        return $incoming;
+    }
+
+    /**
      * Returns racial self spells an attacker casts only right before invading.
      *
      * @return array<int, string>
@@ -425,8 +445,8 @@ class AIHelper
         ];
 
         $config['build'][] = [
-            'land_type' => $race->home_land_type,
-            'building' => 'home',
+            'land_type' => $this->landHelper->getLandTypeForBuildingByRace('barracks', $race),
+            'building' => 'barracks',
             'amount' => -1
         ];
 

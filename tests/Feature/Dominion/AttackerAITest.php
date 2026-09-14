@@ -174,6 +174,55 @@ class AttackerAITest extends AbstractBrowserKitTestCase
         $this->assertEquals(0, $this->queueService->getTrainingQueueTotalByResource($this->attacker, 'military_unit3'));
     }
 
+    public function testTrainingHoldsBackResourcesForBarrenAndIncomingLand(): void
+    {
+        $this->assertEquals(['platinum' => 0, 'lumber' => 0], $this->aiService->getConstructionReserve($this->attacker));
+
+        $this->attacker->update(['land_mountain' => $this->attacker->land_mountain + 60, 'military_draftees' => 5000]);
+        $this->queueService->queueResources('invasion', $this->attacker, ['land_plain' => 40], 6);
+        $this->attacker->refresh();
+
+        $reserve = $this->aiService->getConstructionReserve($this->attacker);
+        $this->assertGreaterThan(0, $reserve['platinum']);
+        $this->assertGreaterThan(0, $reserve['lumber']);
+
+        $landCalculator = $this->app->make(LandCalculator::class);
+        $totalLand = $landCalculator->getTotalLandIncoming($this->attacker);
+        $unit = $this->aiService->getHomeGuardDefense($this->attacker) >= $this->aiHelper->getDefenseForNonPlayer($this->round, $totalLand)
+            ? $this->attacker->ai_config['offense']
+            : $this->attacker->ai_config['military'][0]['unit'];
+        $costs = $this->app->make(\OpenDominion\Calculators\Dominion\Actions\TrainingCalculator::class)->getTrainingCostsPerUnit($this->attacker)[$unit];
+
+        $this->attacker->update([
+            'resource_platinum' => $reserve['platinum'] + (10 * $costs['platinum']),
+            'resource_lumber' => $reserve['lumber'] + 1000000,
+            'resource_ore' => 1000000,
+        ]);
+
+        $this->aiService->trainAttackerMilitary($this->attacker->refresh(), $this->attacker->ai_config, $totalLand);
+
+        $this->assertEquals(10, $this->queueService->getTrainingQueueTotalByResource($this->attacker->refresh(), 'military_' . $unit));
+        $this->assertGreaterThanOrEqual($reserve['platinum'], $this->attacker->resource_platinum);
+    }
+
+    public function testRezonesBarrenLandTheBuildPlanDoesNotUse(): void
+    {
+        $landCalculator = $this->app->make(LandCalculator::class);
+        $this->attacker->update([
+            'land_mountain' => $this->attacker->land_mountain + 50,
+            'resource_platinum' => 1000000,
+        ]);
+        $this->attacker->refresh();
+        $this->assertEquals(50, $landCalculator->getBarrenLandByLandType($this->attacker)['mountain']);
+
+        $totalLand = $landCalculator->getTotalLandIncoming($this->attacker);
+        $this->aiService->rezoneForBuildPlan($this->attacker, $this->attacker->ai_config, $totalLand);
+
+        $this->attacker->refresh();
+        $this->assertEquals(0, $landCalculator->getBarrenLandByLandType($this->attacker)['mountain']);
+        $this->assertEquals($totalLand, $landCalculator->getTotalLandIncoming($this->attacker));
+    }
+
     public function testUnitsToSendIsSmallestForceThatBreaksTarget(): void
     {
         $rangeCalculator = $this->app->make(RangeCalculator::class);

@@ -67,8 +67,8 @@ class AIHelperTest extends AbstractBrowserKitTestCase
         $this->assertEquals('water', $build['dock']['land_type']);
         $this->assertGreaterThanOrEqual(30, $build['dock']['amount']);
         $this->assertLessThanOrEqual(50, $build['dock']['amount']);
-        $this->assertEquals(-1, $build['home']['amount']);
-        $this->assertEquals($orc->home_land_type, $build['home']['land_type']);
+        $this->assertFalse($build->has('home'));
+        $this->assertEquals(['land_type' => 'hill', 'building' => 'barracks', 'amount' => -1], $build['barracks']);
         $this->assertEquals(0.08, $build['farm']['amount']);
         $this->assertFalse($build->has('ore_mine'));
     }
@@ -126,5 +126,18 @@ class AIHelperTest extends AbstractBrowserKitTestCase
 
         $this->assertEquals($current, $this->aiHelper->getDefenseForNonPlayer($round, 1000, now()));
         $this->assertLessThan($current, $this->aiHelper->getDefenseForNonPlayer($round, 1000, now()->subHours(12)));
+    }
+
+    public function testAttackerIncomingOffense(): void
+    {
+        $incoming = $this->aiHelper->getAttackerIncomingOffense();
+
+        $this->assertGreaterThanOrEqual(300, array_sum($incoming));
+        $this->assertLessThanOrEqual(350, array_sum($incoming));
+        $this->assertGreaterThanOrEqual(2, count($incoming));
+        foreach (array_keys($incoming) as $hours) {
+            $this->assertGreaterThanOrEqual(4, $hours);
+            $this->assertLessThanOrEqual(9, $hours);
+        }
     }
 }
