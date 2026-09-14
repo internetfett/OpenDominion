@@ -445,7 +445,7 @@ class AIHelper
         ];
 
         $config['build'][] = [
-            'land_type' => $this->landHelper->getLandTypeForBuildingByRace('barracks', $race),
+            'land_type' => 'hill',
             'building' => 'barracks',
             'amount' => -1
         ];

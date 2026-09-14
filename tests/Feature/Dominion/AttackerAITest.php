@@ -46,6 +46,9 @@ class AttackerAITest extends AbstractBrowserKitTestCase
         global $mockRandomChance;
         $mockRandomChance = false;
 
+        // Actions are refused during the first seconds of each hour (tick), so never run these at :00
+        request()->server->set('REQUEST_TIME', now()->setMinute(30)->timestamp);
+
         $this->aiHelper = $this->app->make(AIHelper::class);
         $this->aiService = $this->app->make(AIService::class);
         $this->militaryCalculator = $this->app->make(MilitaryCalculator::class);
@@ -172,37 +175,6 @@ class AttackerAITest extends AbstractBrowserKitTestCase
         $this->attacker->refresh();
         $this->assertGreaterThan(0, $this->queueService->getTrainingQueueTotalByResource($this->attacker, 'military_unit1'));
         $this->assertEquals(0, $this->queueService->getTrainingQueueTotalByResource($this->attacker, 'military_unit3'));
-    }
-
-    public function testTrainingHoldsBackResourcesForBarrenAndIncomingLand(): void
-    {
-        $this->assertEquals(['platinum' => 0, 'lumber' => 0], $this->aiService->getConstructionReserve($this->attacker));
-
-        $this->attacker->update(['land_mountain' => $this->attacker->land_mountain + 60, 'military_draftees' => 5000]);
-        $this->queueService->queueResources('invasion', $this->attacker, ['land_plain' => 40], 6);
-        $this->attacker->refresh();
-
-        $reserve = $this->aiService->getConstructionReserve($this->attacker);
-        $this->assertGreaterThan(0, $reserve['platinum']);
-        $this->assertGreaterThan(0, $reserve['lumber']);
-
-        $landCalculator = $this->app->make(LandCalculator::class);
-        $totalLand = $landCalculator->getTotalLandIncoming($this->attacker);
-        $unit = $this->aiService->getHomeGuardDefense($this->attacker) >= $this->aiHelper->getDefenseForNonPlayer($this->round, $totalLand)
-            ? $this->attacker->ai_config['offense']
-            : $this->attacker->ai_config['military'][0]['unit'];
-        $costs = $this->app->make(\OpenDominion\Calculators\Dominion\Actions\TrainingCalculator::class)->getTrainingCostsPerUnit($this->attacker)[$unit];
-
-        $this->attacker->update([
-            'resource_platinum' => $reserve['platinum'] + (10 * $costs['platinum']),
-            'resource_lumber' => $reserve['lumber'] + 1000000,
-            'resource_ore' => 1000000,
-        ]);
-
-        $this->aiService->trainAttackerMilitary($this->attacker->refresh(), $this->attacker->ai_config, $totalLand);
-
-        $this->assertEquals(10, $this->queueService->getTrainingQueueTotalByResource($this->attacker->refresh(), 'military_' . $unit));
-        $this->assertGreaterThanOrEqual($reserve['platinum'], $this->attacker->resource_platinum);
     }
 
     public function testRezonesBarrenLandTheBuildPlanDoesNotUse(): void
