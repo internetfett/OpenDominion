@@ -147,6 +147,10 @@ damage that ignores defense, evasion and counters (boss moves).
 - **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. Ally-targeted abilities pick the most wounded ally. Player-selectable strategies are flagged `playerSelectable`.
 - **Pass** is chosen when nothing is usable (e.g. while stunned).
 
+## Daily PvP experience
+
+`HeroBattleOutcomeService::grantDailyExperience()`: when a PvP battle (including tournaments) finishes, each hero whose combatant still has time bank left gains, once per round day (`Round::daysInRound()` of `last_pvp_reward_at` differs from today's, so days roll over at the round's start time), a flat `DAILY_PVP_EXPERIENCE` (25, no experience multipliers), win or lose. Tracked in `heroes.last_pvp_reward_at`; a status line is added to the battle log.
+
 ## Encounters and enemies
 
 An `EnemyTemplate` gives stats, active abilities (`AbstractEnemy` adds the five basics), innate

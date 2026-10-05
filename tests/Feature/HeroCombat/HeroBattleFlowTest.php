@@ -235,6 +235,103 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertStringContainsString('matches the stored combat log', \Illuminate\Support\Facades\Artisan::output());
     }
 
+    protected function finishAutomatedPvpBattle(Dominion $a, Dominion $b, array $timeBanks = []): HeroBattle
+    {
+        $battle = $this->heroBattleService->createBattle($a, $b);
+        $battle->combatants()->update(['automated' => true]);
+        foreach ($timeBanks as $dominionId => $timeBank) {
+            $battle->combatants()->where('dominion_id', $dominionId)->update(['time_bank' => $timeBank]);
+        }
+        $this->heroBattleService->processTurn($battle->fresh());
+
+        return $battle->fresh();
+    }
+
+    public function testFinishingAPvpBattleGrantsFlatDailyExperience(): void
+    {
+        $alice = $this->dominionWithHero('Alice');
+        $bob = $this->dominionWithHero('Bob');
+        $aliceXp = $alice->hero->experience;
+        $bobXp = $bob->hero->experience;
+
+        $battle = $this->finishAutomatedPvpBattle($alice, $bob);
+
+        $this->assertTrue($battle->finished);
+        $this->assertEquals($aliceXp + 25, $alice->hero->fresh()->experience, 'Flat, no experience multipliers');
+        $this->assertEquals($bobXp + 25, $bob->hero->fresh()->experience, 'Win or lose');
+        $this->assertNotNull($alice->hero->fresh()->last_pvp_reward_at);
+        $this->assertStringContainsString("earns 25 experience for today's battle", $battle->actions->pluck('description')->implode(' '));
+    }
+
+    public function testDailyExperienceOnlyOncePerDay(): void
+    {
+        $alice = $this->dominionWithHero('Alice');
+        $bob = $this->dominionWithHero('Bob');
+
+        $this->finishAutomatedPvpBattle($alice, $bob);
+        $afterFirst = $alice->hero->fresh()->experience;
+        $this->finishAutomatedPvpBattle($alice->fresh(), $bob->fresh());
+
+        $this->assertEquals($afterFirst, $alice->hero->fresh()->experience);
+
+        \Illuminate\Support\Carbon::setTestNow(now()->addDay()->startOfDay()->addHour());
+        try {
+            $this->finishAutomatedPvpBattle($alice->fresh(), $bob->fresh());
+            $this->assertEquals($afterFirst + 25, $alice->hero->fresh()->experience, 'Available again the next day');
+        } finally {
+            \Illuminate\Support\Carbon::setTestNow();
+        }
+    }
+
+    public function testDailyExperienceFollowsRoundDaysNotCalendarDays(): void
+    {
+        $this->round->update(['start_date' => now()->subDays(3)->setTime(18, 0)]);
+        $alice = $this->dominionWithHero('Alice');
+        $bob = $this->dominionWithHero('Bob');
+        $experience = fn () => $alice->hero->fresh()->experience;
+
+        try {
+            \Illuminate\Support\Carbon::setTestNow(now()->setTime(23, 50));
+            $this->finishAutomatedPvpBattle($alice, $bob);
+            $afterFirst = $experience();
+
+            \Illuminate\Support\Carbon::setTestNow(now()->addDay()->setTime(0, 10));
+            $this->finishAutomatedPvpBattle($alice->fresh(), $bob->fresh());
+            $this->assertEquals($afterFirst, $experience(), 'Midnight is not a new round day');
+
+            \Illuminate\Support\Carbon::setTestNow(now()->setTime(18, 5));
+            $this->finishAutomatedPvpBattle($alice->fresh(), $bob->fresh());
+            $this->assertEquals($afterFirst + 25, $experience(), 'The round day rolls over at the round start time');
+        } finally {
+            \Illuminate\Support\Carbon::setTestNow();
+        }
+    }
+
+    public function testNoDailyExperienceAfterRunningOutOfTime(): void
+    {
+        $alice = $this->dominionWithHero('Alice');
+        $bob = $this->dominionWithHero('Bob');
+        $aliceXp = $alice->hero->experience;
+
+        $this->finishAutomatedPvpBattle($alice, $bob, [$alice->id => 0]);
+
+        $this->assertEquals($aliceXp, $alice->hero->fresh()->experience);
+        $this->assertGreaterThan($bob->hero->experience, $bob->hero->fresh()->experience);
+    }
+
+    public function testPracticeBattlesDoNotGrantDailyExperience(): void
+    {
+        $dominion = $this->dominionWithHero('Solo');
+        $experience = $dominion->hero->experience;
+        $battle = $this->heroBattleService->createPracticeBattle($dominion);
+        $battle->combatants()->update(['automated' => true]);
+
+        $this->heroBattleService->processTurn($battle->fresh());
+
+        $this->assertTrue($battle->fresh()->finished);
+        $this->assertEquals($experience, $dominion->hero->fresh()->experience);
+    }
+
     public function testUnknownEncounterIsRejected(): void
     {
         $dominion = $this->dominionWithHero('Solo');

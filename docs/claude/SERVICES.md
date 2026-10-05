@@ -111,7 +111,7 @@ Realm bounty board system.
 Entry points for hero combat; the rules live in `src/HeroCombat` (see [HERO_COMBAT.md](HERO_COMBAT.md)).
 - `createBattle()` (1v1 PvP), `createTeamBattle()`, `createPracticeBattle()`, `createEncounterBattle()` (PvE, used by raids)
 - `processTurn()` locks the battle row, advances the engine while everyone is ready, persists, and finalizes outcomes
-- `HeroBattleOutcomeService::finalize()` - per-team W/L/D, Elo vs opposing team average, tournament standings, raid contributions
+- `HeroBattleOutcomeService::finalize()` - per-team W/L/D, Elo vs opposing team average, tournament standings, daily flat PvP experience, raid contributions
 - Time bank 2h (`CombatantFactory::DEFAULT_TIME_BANK`), default strategy 'balanced'
 - Processed during hourly tick
 

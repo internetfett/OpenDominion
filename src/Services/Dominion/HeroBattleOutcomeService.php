@@ -4,7 +4,9 @@ namespace OpenDominion\Services\Dominion;
 
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Calculators\RaidCalculator;
+use OpenDominion\HeroCombat\Engine\Events\LogEntry;
 use OpenDominion\Models\HeroBattle;
+use OpenDominion\Models\HeroBattleAction;
 use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Models\RaidContribution;
 use OpenDominion\Services\NotificationService;
@@ -16,6 +18,9 @@ use OpenDominion\Services\NotificationService;
  */
 class HeroBattleOutcomeService
 {
+    /** Flat experience (no multipliers) for a hero's first finished PvP battle each day. */
+    public const DAILY_PVP_EXPERIENCE = 25;
+
     public function __construct(
         protected HeroCalculator $heroCalculator,
         protected RaidCalculator $raidCalculator,
@@ -25,12 +30,13 @@ class HeroBattleOutcomeService
 
     public function finalize(HeroBattle $heroBattle): void
     {
-        $heroBattle->loadMissing('combatants.hero.dominion', 'tournaments.participants');
+        $heroBattle->loadMissing('round', 'combatants.hero.dominion', 'tournaments.participants');
 
         $this->recordResults($heroBattle);
 
         if ($heroBattle->pvp) {
             $this->updateRatings($heroBattle);
+            $this->grantDailyExperience($heroBattle);
             $this->notify($heroBattle);
         }
 
@@ -96,6 +102,41 @@ class HeroBattleOutcomeService
                 $score,
             );
             $combatant->hero->save();
+        }
+    }
+
+    /**
+     * Once per round day, a hero that finishes a PvP battle without running out of time bank
+     * earns a flat amount of experience, win or lose. Round days roll over at the round's
+     * start time, not at midnight.
+     */
+    protected function grantDailyExperience(HeroBattle $heroBattle): void
+    {
+        $round = $heroBattle->round;
+        $today = $round->daysInRound();
+
+        foreach ($heroBattle->combatants->whereNotNull('hero_id') as $combatant) {
+            $hero = $combatant->hero;
+            if ($combatant->time_bank <= 0) {
+                continue;
+            }
+            if ($hero->last_pvp_reward_at !== null && $round->daysInRound($hero->last_pvp_reward_at) === $today) {
+                continue;
+            }
+
+            $hero->experience += self::DAILY_PVP_EXPERIENCE;
+            $hero->last_pvp_reward_at = now();
+            $hero->save();
+
+            HeroBattleAction::create([
+                'hero_battle_id' => $heroBattle->id,
+                'combatant_id' => $combatant->id,
+                'turn' => $heroBattle->current_turn,
+                'action' => LogEntry::STATUS,
+                'damage' => 0,
+                'health' => 0,
+                'description' => "{$hero->name} earns " . self::DAILY_PVP_EXPERIENCE . ' experience for today\'s battle.',
+            ]);
         }
     }
 

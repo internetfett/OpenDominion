@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Moves hero battles onto the team-based combat engine (src/HeroCombat):
- * teams, effect instances, cooldowns, charges, structured log events, and the seed plus
- * initial state needed to replay a battle.
+ * teams, effect instances, cooldowns, charges, structured log events, the seed plus
+ * initial state needed to replay a battle, and the daily PvP experience reward.
  */
 class UpgradeHeroBattlesForCombatEngine extends Migration
 {
@@ -29,6 +29,10 @@ class UpgradeHeroBattlesForCombatEngine extends Migration
             $table->text('effects')->nullable()->after('abilities');
             $table->text('cooldowns')->nullable()->after('effects');
             $table->text('charges')->nullable()->after('cooldowns');
+        });
+
+        Schema::table('heroes', function (Blueprint $table) {
+            $table->timestamp('last_pvp_reward_at')->nullable()->after('experience');
         });
 
         Schema::table('hero_battle_actions', function (Blueprint $table) {
@@ -75,6 +79,10 @@ class UpgradeHeroBattlesForCombatEngine extends Migration
             $table->unsignedInteger('shield')->default(0)->after('recover');
             $table->text('status')->nullable()->after('abilities');
             $table->dropColumn(['team', 'template_key', 'effects', 'cooldowns', 'charges']);
+        });
+
+        Schema::table('heroes', function (Blueprint $table) {
+            $table->dropColumn('last_pvp_reward_at');
         });
 
         Schema::table('hero_battle_actions', function (Blueprint $table) {

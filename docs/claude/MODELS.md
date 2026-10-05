@@ -111,7 +111,7 @@ Round-wide perks configured by admins (no perk-type table; `key` is a plain stri
 
 ### Hero (`heroes`)
 - **Relations**: dominion, battles (btm HeroBattle), upgrades (btm HeroUpgrade), combatants, queue
-- **Casts**: class_data (array)
+- **Casts**: class_data (array), last_class_change_at, last_pvp_reward_at (daily PvP experience)
 - **Key methods**: `combatActionRequired()`, `getPerkValue()`, `getPerkMultiplier()`
 
 ### HeroBattle (`hero_battles`)

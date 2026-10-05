@@ -15,6 +15,7 @@ use OpenDominion\Services\NotificationService;
  * @property int $experience
  * @property array $class_data
  * @property \Illuminate\Support\Carbon|null $last_class_change_at
+ * @property \Illuminate\Support\Carbon|null $last_pvp_reward_at when the hero last earned its daily PvP battle experience
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \OpenDominion\Models\Dominion $dominion
@@ -40,6 +41,7 @@ class Hero extends AbstractModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'last_class_change_at' => 'datetime',
+        'last_pvp_reward_at' => 'datetime',
     ];
 
     public function dominion()

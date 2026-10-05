@@ -190,6 +190,9 @@ hero, investment, exploration, espionage, magic, invasion
 ### Upgrades
 40+ hero upgrades with level/class requirements, granting permanent perk bonuses.
 
+### Daily PvP Experience
+Once per round day, finishing a PvP hero battle with time bank remaining grants a flat 25 experience (no multipliers), win or lose.
+
 ## Realm Assignment Algorithm
 
 Pre-round player distribution (RealmAssignmentService):
