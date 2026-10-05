@@ -19,6 +19,12 @@ enum TargetRule: string
         return in_array($this, [self::SingleEnemy, self::SingleAlly, self::SingleAny], true);
     }
 
+    /** With no target chosen, the ability applies to its user. */
+    public function defaultsToSelf(): bool
+    {
+        return $this === self::SingleAlly;
+    }
+
     public function isHostile(): bool
     {
         return in_array($this, [self::SingleEnemy, self::AllEnemies, self::RandomEnemy, self::AllOthers], true);

@@ -109,7 +109,7 @@ final class ActionValidator
      */
     private function project(CombatantState $actor, Ability $ability, int $turn, array &$cooldowns, array &$charges): void
     {
-        $cooldown = $ability->cooldown($actor, $this->battle);
+        $cooldown = $this->cooldownFor($actor, $ability);
         if ($cooldown > 0) {
             $cooldowns[$ability->key()] = $turn + $cooldown + 1;
         }
@@ -118,6 +118,19 @@ final class ActionValidator
         if ($max !== null) {
             $charges[$ability->key()] = max(0, ($charges[$ability->key()] ?? $max) - 1);
         }
+    }
+
+    /**
+     * The ability's cooldown after effects (e.g. disciplines) adjust it.
+     */
+    public function cooldownFor(CombatantState $actor, Ability $ability): int
+    {
+        $cooldown = $ability->cooldown($actor, $this->battle);
+        foreach ($this->battle->effects->applicableTo($actor) as [$effect, $instance]) {
+            $cooldown = $effect->adjustCooldown($instance, $actor, $ability->key(), $cooldown);
+        }
+
+        return max(0, $cooldown);
     }
 
     /**

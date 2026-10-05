@@ -12,136 +12,34 @@
                 </div>
                 <div class="card-body">
                     @foreach ($activeBattles as $battle)
-                        @php $view = $battlePresenter->present($battle, $hero->id); @endphp
-                        <form action="{{ route('dominion.heroes.battles') }}" method="post" role="form">
-                            @csrf
-                            @if ($view->viewer)
-                                <input type="hidden" name="combatant" value="{{ $view->viewer->id }}">
-                            @endif
-                            <div class="row">
-                                <div class="col-md-6">
-                                    @foreach ($view->sides() as $side)
-                                        <h5 class="mb-2">{{ $side['label'] }}</h5>
-                                        <div class="row">
-                                            @foreach ($side['combatants'] as $combatant)
-                                                @include('partials.dominion.hero-combatant', ['view' => $view, 'combatant' => $combatant])
-                                            @endforeach
-                                        </div>
-                                    @endforeach
+                        @php $view = $battlePresenter->present($battle, $selectedDominion->id); @endphp
+                        <div class="row">
+                            <div class="col-md-6">
+                                @foreach ($view->sides() as $side)
+                                    <h5 class="mb-2">{{ $side['label'] }}</h5>
                                     <div class="row">
-                                        <div class="col-sm-12">
-                                            @if ($battle->finished)
-                                                <div class="text-center">
-                                                    @if ($battle->isDraw())
-                                                        <h4>Draw!</h4>
-                                                    @else
-                                                        <h4>{{ $battle->winnerLabel() }} {{ $battle->winningCombatants()->whereNotNull('hero_id')->count() > 1 ? 'win' : 'wins' }}!</h4>
-                                                    @endif
-                                                </div>
-                                            @elseif ($view->viewer)
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-6">
-                                                        <label class="form-label">
-                                                            Actions in queue
-                                                        </label>
-                                                        <table class="table-sm">
-                                                            @foreach ($view->queue() as $idx => $queued)
-                                                                <tr>
-                                                                    <td>{{ $queued['turn'] }}</td>
-                                                                    <td>
-                                                                        {{ $queued['ability'] }}
-                                                                        @if ($queued['target'])
-                                                                            <small class="text-muted">&rarr; {{ $queued['target'] }}</small>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('dominion.heroes.battles.action.delete', ['combatant'=>$view->viewer->id, 'action'=>$idx]) }}">
-                                                                            <i class="fa fa-trash text-danger"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </table>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label class="form-label">
-                                                            Perform/Queue an action
-                                                        </label>
-                                                        <div>
-                                                            @foreach ($view->abilities() as $ability)
-                                                                @php
-                                                                    $label = $ability['name'];
-                                                                    if ($ability['cooldown'] > 0) {
-                                                                        $label .= " ({$ability['cooldown']})";
-                                                                    }
-                                                                    if ($ability['charges'] !== null) {
-                                                                        $label .= " [{$ability['charges']}]";
-                                                                    }
-                                                                    $targets = $ability['needsTarget'] ? $view->targetsFor($ability['key']) : [];
-                                                                @endphp
-                                                                @if (!$ability['usable'] || ($ability['needsTarget'] && count($targets) == 0))
-                                                                    <a class="btn btn-block btn-secondary disabled mb-1" aria-disabled="true" tabindex="-1" title="{{ $ability['description'] }}">
-                                                                        {{ $label }}
-                                                                    </a>
-                                                                @elseif ($ability['needsTarget'] && count($targets) > 1)
-                                                                    <div class="dropdown mb-1">
-                                                                        <button class="btn btn-block btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ $ability['description'] }}">
-                                                                            {{ $label }}
-                                                                        </button>
-                                                                        <ul class="dropdown-menu w-100">
-                                                                            @foreach ($targets as $target)
-                                                                                <li>
-                                                                                    <a class="dropdown-item" href="{{ route('dominion.heroes.battles.action', ['combatant'=>$view->viewer->id, 'target'=>$target->id, 'action'=>$ability['key']]) }}">
-                                                                                        {{ $target->name }} <small class="text-muted">({{ $target->currentHealth }} hp)</small>
-                                                                                    </a>
-                                                                                </li>
-                                                                            @endforeach
-                                                                        </ul>
-                                                                    </div>
-                                                                @else
-                                                                    <a class="btn btn-block btn-primary mb-1" title="{{ $ability['description'] }}"
-                                                                        href="{{ route('dominion.heroes.battles.action', ['combatant'=>$view->viewer->id, 'target'=>$targets[0]->id ?? null, 'action'=>$ability['key']]) }}">
-                                                                        {{ $label }}
-                                                                    </a>
-                                                                @endif
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-12">
-                                                        <label class="form-label">
-                                                            Strategy <small>(for turns taken while offline)</small>
-                                                        </label>
-                                                        <select name="strategy" class="form-select">
-                                                            @foreach ($view->strategies() as $key => $strategyName)
-                                                                <option value="{{ $key }}" {{ $view->viewer->ai == $key ? 'selected' : null }}>{{ $strategyName }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <div class="col-sm-9">
-                                                        <div class="form-check">
-                                                            <input type="checkbox" id="automated" name="automated" class="form-check-input" {{ $view->viewer->automated ? 'checked' : null }}>
-                                                            <label for="automated" class="form-check-label">
-                                                                Automate all of my turns
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <button class="btn btn-primary">Update</button>
-                                                    </div>
-                                                </div>
-                                            @endif
-                                        </div>
+                                        @foreach ($side['combatants'] as $combatant)
+                                            @include('partials.dominion.hero-combatant', ['view' => $view, 'combatant' => $combatant])
+                                        @endforeach
                                     </div>
-                                </div>
-                                <div class="col-md-6" style="max-height: {{ count($view->battle->combatants()) > 2 ? '645px' : '272px' }}; overflow-y: scroll;">
-                                    @include('partials.dominion.hero-combat-log', ['view' => $view, 'battle' => $battle])
-                                </div>
+                                @endforeach
+                                @if ($battle->finished)
+                                    <div class="text-center">
+                                        @if ($battle->isDraw())
+                                            <h4>Draw!</h4>
+                                        @else
+                                            <h4>{{ $battle->winnerLabel() }} {{ $battle->winningCombatants()->whereNotNull('hero_id')->count() > 1 ? 'win' : 'wins' }}!</h4>
+                                        @endif
+                                    </div>
+                                @endif
+                                @foreach ($view->commandable() as $combatant)
+                                    @include('partials.dominion.hero-combat-controls', ['view' => $view, 'combatant' => $combatant])
+                                @endforeach
                             </div>
-                        </form>
+                            <div class="col-md-6" style="max-height: {{ count($view->battle->combatants()) > 2 ? '645px' : '272px' }}; overflow-y: scroll;">
+                                @include('partials.dominion.hero-combat-log', ['view' => $view, 'battle' => $battle])
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -170,7 +68,7 @@
                                         <td>
                                             @if ($battle->isDraw())
                                                 Draw
-                                            @elseif ($battle->isWinner($battle->combatants->firstWhere('hero_id', $hero->id)))
+                                            @elseif ($battle->hasWinningController($selectedDominion->id))
                                                 Win
                                             @else
                                                 Loss

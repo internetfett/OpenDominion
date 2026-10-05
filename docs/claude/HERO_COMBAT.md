@@ -82,6 +82,7 @@ processTurn(HeroBattle)
 | `hero_battles.winning_team` | source of truth for results; `winner_combatant_id` is kept as a representative (first human on the winning team) for older views |
 | `hero_battles.initial_state` | `StateSnapshot` JSON taken at creation, for replays |
 | `hero_combatants.team / template_key` | team number; enemy template key (null for heroes) |
+| `hero_combatants.controller_dominion_id` | dominion piloting the combatant (`dominion_id` is the owner) |
 | `hero_combatants.health … recover` | base stats (`health` = max health). Effects never mutate these |
 | `hero_combatants.abilities` | active ability keys the combatant can choose |
 | `hero_combatants.effects / cooldowns / charges` | effect instances; ability → turn it's usable again; ability → charges left |
@@ -117,7 +118,9 @@ state lives on the `EffectInstance` (stacks, remaining turns, `data`).
 | `beforeDamageTaken` | target's effects | Shield absorbs (priority 10) |
 | `onLethalDamage` → bool | target's effects | Hardiness (priority -10, after shields) |
 | `afterDamageTaken` / `afterDamageDealt` | target / attacker | Lifesteal, Frostbite stacks |
-| `onAbilityUsed` | actor's effects | consume Focused after an Attack-tagged ability |
+| `onAbilityDeclared` | actor's own effects, right after `Ability::onDeclare` | swap or adjust stances (Shadow Dance, Rejuvenation) |
+| `onAbilityUsed` | actor's effects | consume Focused after an Attack-tagged ability; Form openers; Battle Fury streaks |
+| `adjustCooldown` → int | holder's effects, when a cooldown starts | Riposte, Attunement |
 | `onDeath` | the dead combatant's own effects | PowerSource, PhaseCycle cleanup |
 | `onAnyDeath` | every other effect | soul tribute / harvest style mechanics |
 
@@ -143,13 +146,73 @@ damage that ignores defense, evasion and counters (boss moves).
 
 - **Abilities** implement `key/name/description/resolve`. `AbstractAbility` supplies defaults: SingleEnemy, priority 0, no cooldown, unlimited charges. `cooldown()` returns the turns to wait after use; 1 means "not twice in a row" (Focus, Counter, Recover, class abilities). Both `cooldown()` and `maxCharges()` receive the actor, so they can vary.
 - **Queue validation** (`ActionValidator::canQueue`) projects cooldowns and charges forward through the actions already queued. At resolution, an invalid queued action falls back to AI.
-- **Target rules**: Self, SingleEnemy, SingleAlly, SingleAny, AllEnemies, AllAllies, AllOthers, RandomEnemy. A dead single-enemy target is replaced with a random living enemy; dead ally targets fizzle. `Provoked` forces single-enemy targeting onto the provoker.
-- **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. Ally-targeted abilities pick the most wounded ally. Player-selectable strategies are flagged `playerSelectable`.
+- **Target rules**: Self, SingleEnemy, SingleAlly, SingleAny, AllEnemies, AllAllies, AllOthers, RandomEnemy. A dead single-enemy target is replaced with a random living enemy; dead ally targets fizzle. `Provoked` forces single-enemy targeting onto the provoker. `SingleAlly` with no target chosen means yourself (`TargetRule::defaultsToSelf()`).
+- **Defend and Recover take an ally target.** Defend on an ally is a guard: the defender takes the `defending` stance and puts `covered` on the ally, so hits aimed at the ally strike the defender. Redirects happen once per hit, so mutual guards can't loop. Recover heals the target with the caster's recover stat; the `recovering` −5 defense stays on the caster. In 1v1 the only ally is yourself, so PvP plays exactly as before.
+- **Cooldowns can be adjusted by effects** (`Effect::adjustCooldown`, applied by `ActionValidator::cooldownFor`). Riposte uses this to remove Counter's cooldown, Attunement to remove Focus's.
+- **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. For ally-targeted abilities, healing goes to the most wounded ally; Defend stays on yourself unless a partner is at ≤40 HP. Player-selectable strategies are flagged `playerSelectable`.
 - **Pass** is chosen when nothing is usable (e.g. while stunned).
+
+## Techniques and gear (hero upgrades)
+
+Hero upgrades follow a level schedule (`HeroCalculator::getUpgradeSlots()`, data-driven from `heroes.yml`). A slot exists for every level that has at least one active, slot-consuming upgrade available to the hero's class; directives are free picks. One pick per level.
+
+| Level | Pick | Notes |
+|---|---|---|
+| 0 | Scion directives/effects | class-gated |
+| 1 | Doctrine | |
+| 2, 4, 6 (8) | Dominion upgrades (spellbooks, items) | **no combat stats** |
+| 3 | Discipline (`type: discipline`) | one per hero |
+| 5, 9 | Gear (`type: gear`) | the only upgrades with `combat_*` perks |
+| 7 | Form (`type: form`) | |
+
+**Disciplines** and **Forms** have no perks. Their upgrade key is the key of an innate effect in `Content/Effects/Techniques/`, which `CombatantFactory::addHero()` applies to the hero's combatant (`CombatantFactory::TECHNIQUE_TYPES`). They work in every mode, PvP included, because they change how basic actions behave rather than adding buttons.
+
+| Discipline | Rule (constants on the class) |
+|---|---|
+| `overpower` | attacks against a Defending target ignore 5 defense |
+| `battle_fury` | each consecutive Attack: +5 attack, −5 defense (max 3 stacks); any other action resets it |
+| `attunement` | Focus has no cooldown and stacks to 2 |
+| `rejuvenation` | Recover heals 50% now and 50% at the end of the next turn (`rejuvenating`), with no defense penalty |
+| `riposte` | Counter has no cooldown |
+| `shadow_dance` | Defend also grants +30 evasion (`shadow_dance_stance`); evaded unfocused hits deal 0 and grant Focus |
+
+**Forms** extend `AbstractForm`: a hidden innate trigger with an `opener()` ability. When the opener resolves, it applies a visible status named after the Form (`<key>_status`, a `FormStatus` built by the provider for each Form) that grants `statusModifiers()` for exactly the following turn (applied with duration 2; inactive on the turn it was applied).
+
+| Form | After | Next turn |
+|---|---|---|
+| `shield_bash` | Defend | +5 attack |
+| `second_wind` | Recover | +5 defense |
+| `spellweave` | Focus | +5 counter |
+| `arcane_ward` | Focus | +5 defense |
+| `ambush` | Counter | +5 attack |
+| `feint` | Attack | +10 evasion |
+
+**Gear** is plain `combat_*` perks summed by `HeroCalculator::getHeroCombatStats()`.
+
+Upgrade kinds are shown only in icon tooltips on the heroes page; the table's Combat column shows the technique's effect description (`HeroHelper::getCombatUpgradeDescription()`).
+
+## Parties and borrowed heroes
+
+- `Encounter::maxPartySize()` (default 1). Above 1, a pilot may bring realmmates' heroes. Party-enabled encounters are designed for the party size: there's no automatic scaling.
+- `hero_combatants.controller_dominion_id` is who pilots a combatant; `dominion_id` stays the owner. `CombatantState::$controllerDominionId` carries it through the engine.
+- `HeroBattleService::createEncounterBattle(..., $companions)` / `createPracticeBattle(..., $companions)` validate party size, same realm and round, and no duplicates. `availableCompanions()` lists every other hero in the realm. Any number of realmmates can borrow the same hero at once (each battle has its own combatant row).
+- Everything player-facing goes through the controller: queueing and strategy changes (`HeroCombatant::isControlledBy()`), "battle in progress" checks (`hasBattleInProgress()`), the battle list (`HeroBattle::scopeControlledBy()`), raid objective completion (`HeroBattle::hasWinningController()`). Battles where your hero was borrowed don't block you or appear as yours.
+- Raid wins credit one contribution per controller dominion. Owners of borrowed heroes get nothing for now.
+- UI: the raid hero tactic form and the practice page show a "Bring a realmmate's hero" select only when the encounter's `maxPartySize() > 1`. The battle page renders one control panel per living combatant you pilot (`BattleView::commandable()`), marked "(borrowed)".
 
 ## Daily PvP experience
 
 `HeroBattleOutcomeService::grantDailyExperience()`: when a PvP battle (including tournaments) finishes, each hero whose combatant still has time bank left gains, once per round day (`Round::daysInRound()` of `last_pvp_reward_at` differs from today's, so days roll over at the round's start time), a flat `DAILY_PVP_EXPERIENCE` (25, no experience multipliers), win or lose. Tracked in `heroes.last_pvp_reward_at`; a status line is added to the battle log.
+
+## Analysis: Tactician and the simulator (offline only)
+
+`src/HeroCombat/Analysis/` holds tools for studying 1v1 PvP balance. **Nothing here is registered in the game**; `BattleSimulator` builds its own registry copy.
+
+- `TurnPreview` copies a battle through `StateSnapshot` (no queues or intents, so nothing private leaks), resolves one turn with forced actions, and enumerates every evasion outcome via `Battle::$evasionRoll`, weighting each by probability. It returns a `TurnOutcome` (expected health, attack potential, death chance per combatant), cached for the current turn.
+- `MatrixGameSolver` solves a zero-sum matrix game exactly (simplex on the column player's LP; the row mix comes from the duals).
+- `TacticianStrategy` (`tactician:balanced|aggressive|defensive`, from `TacticianProfile`) previews every pairing of both sides' legal basic actions, scores outcomes (damage dealt/taken, healing, change in attack potential, win/loss chance), solves for a mixed strategy and samples it. `temperature` blends toward uniform play to make it weaker.
+- `BuildFactory` parses specs like `level=9;discipline=riposte;form=feint;gear=greatsword,tower_shield` straight from `heroes.yml`. `BattleSimulator::run()` plays seeded battles (alternating combatant ids); `balancedScore()` also plays the swapped matchup on the same seeds to cancel seed luck.
+- Command: `php artisan hero-combat:simulate --a=<spec> --b=<spec> [--strategy-a=tactician:balanced] [--strategy-b=balanced] [--temperature=0.2] [--battles=200] [--seed=1]`, or `--grid=disciplines|forms|gear [--level=9]` for a round-robin score matrix. Expect about 0.1s per Tactician battle.
 
 ## Encounters and enemies
 

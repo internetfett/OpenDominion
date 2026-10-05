@@ -140,17 +140,20 @@ class HeroController extends AbstractDominionController
         $heroCalculator = app(HeroCalculator::class);
         $heroHelper = app(HeroHelper::class);
 
-        $hero = $this->getSelectedDominion()->hero;
+        $dominion = $this->getSelectedDominion();
+        $hero = $dominion->hero;
         if ($hero === null) {
             return redirect()->route('dominion.heroes');
         }
 
-        $activeBattles = $hero->battles()
+        $activeBattles = HeroBattle::query()
+            ->controlledBy($dominion)
             ->with('combatants', 'actions.combatant')
             ->active()
             ->orderByDesc('created_at')
             ->get();
-        $inactiveBattles = $hero->battles()
+        $inactiveBattles = HeroBattle::query()
+            ->controlledBy($dominion)
             ->with('combatants')
             ->inactive()
             ->orderByDesc('created_at')
@@ -177,16 +180,19 @@ class HeroController extends AbstractDominionController
         $heroCalculator = app(HeroCalculator::class);
         $heroHelper = app(HeroHelper::class);
 
-        $hero = $this->getSelectedDominion()->hero;
-        if ($hero === null) {
+        $dominion = $this->getSelectedDominion();
+        if ($dominion->hero === null) {
             return redirect()->route('dominion.heroes');
         }
 
-        if (!$battle->combatants->pluck('hero_id')->contains($hero->id)) {
+        $involved = $battle->combatants->contains(
+            fn ($combatant) => $combatant->controller_dominion_id === $dominion->id || $combatant->dominion_id === $dominion->id
+        );
+        if (!$involved) {
             return redirect()->route('dominion.heroes.battles');
         }
 
-        $view = app(BattlePresenter::class)->present($battle, $hero->id);
+        $view = app(BattlePresenter::class)->present($battle, $dominion->id);
 
         return view('pages.dominion.hero-battle-report', compact(
             'battle',
@@ -285,9 +291,13 @@ class HeroController extends AbstractDominionController
         }
 
         $encounters = collect(app(CombatRegistry::class)->encounters())->except('default');
+        $companions = $encounters->contains(fn ($encounter) => $encounter->maxPartySize() > 1)
+            ? app(HeroBattleService::class)->availableCompanions($dominion)
+            : collect();
 
         return view('pages.dominion.hero-battle-practice', compact(
             'encounters',
+            'companions',
             'heroCalculator',
             'heroHelper',
         ));
@@ -300,7 +310,15 @@ class HeroController extends AbstractDominionController
 
         try {
             $this->guardLockedDominion($dominion);
-            $result = $heroBattleService->createPracticeBattle($dominion, $request->get('encounter'));
+            $companions = [];
+            if ($request->filled('companion_hero_id')) {
+                $companion = $heroBattleService->availableCompanions($dominion)->firstWhere('id', (int) $request->get('companion_hero_id'));
+                if ($companion === null) {
+                    throw new GameException('You can only bring heroes from your own realm.');
+                }
+                $companions[] = $companion;
+            }
+            $result = $heroBattleService->createPracticeBattle($dominion, $request->get('encounter'), $companions);
         } catch (GameException $e) {
             return redirect()->back()
                 ->withInput($request->all())

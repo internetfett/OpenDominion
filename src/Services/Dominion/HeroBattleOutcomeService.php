@@ -5,6 +5,7 @@ namespace OpenDominion\Services\Dominion;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Calculators\RaidCalculator;
 use OpenDominion\HeroCombat\Engine\Events\LogEntry;
+use OpenDominion\Models\Dominion;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroBattleAction;
 use OpenDominion\Models\HeroCombatant;
@@ -144,8 +145,13 @@ class HeroBattleOutcomeService
     {
         $tactic = $heroBattle->tactic;
 
-        foreach ($heroBattle->winningCombatants()->whereNotNull('hero_id') as $combatant) {
-            $dominion = $combatant->hero->dominion;
+        $controllerIds = $heroBattle->winningCombatants()
+            ->whereNotNull('hero_id')
+            ->pluck('controller_dominion_id')
+            ->filter()
+            ->unique();
+
+        foreach (Dominion::query()->whereIn('id', $controllerIds)->get() as $dominion) {
 
             $dominion->stat_raid_score += $this->raidCalculator->getTacticPointsEarned($dominion, $tactic);
             $dominion->save(['event' => HistoryService::EVENT_ACTION_RAID_ACTION]);

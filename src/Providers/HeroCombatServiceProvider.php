@@ -96,6 +96,20 @@ class HeroCombatServiceProvider extends ServiceProvider
         Effects\Boss\WoundedRetreat::class,
         Effects\Boss\SoulRendCharge::class,
         Effects\Boss\HungeringMoonCurse::class,
+        Effects\Techniques\Overpower::class,
+        Effects\Techniques\BattleFury::class,
+        Effects\Techniques\Attunement::class,
+        Effects\Techniques\Rejuvenation::class,
+        Effects\Techniques\Rejuvenating::class,
+        Effects\Techniques\Riposte::class,
+        Effects\Techniques\ShadowDance::class,
+        Effects\Techniques\ShadowDanceStance::class,
+        Effects\Techniques\ShieldBash::class,
+        Effects\Techniques\SecondWind::class,
+        Effects\Techniques\Spellweave::class,
+        Effects\Techniques\ArcaneWard::class,
+        Effects\Techniques\Ambush::class,
+        Effects\Techniques\Feint::class,
     ];
 
     /** @var array<int, class-string> */
@@ -165,7 +179,11 @@ class HeroCombatServiceProvider extends ServiceProvider
             $registry->registerAbility(new $class());
         }
         foreach (self::EFFECTS as $class) {
-            $registry->registerEffect(new $class());
+            $effect = new $class();
+            $registry->registerEffect($effect);
+            if ($effect instanceof Effects\Techniques\AbstractForm) {
+                $registry->registerEffect($effect->statusEffect());
+            }
         }
         foreach (WeightedStrategy::presets() as $strategy) {
             $registry->registerStrategy($strategy);

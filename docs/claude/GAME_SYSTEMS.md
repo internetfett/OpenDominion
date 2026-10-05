@@ -183,12 +183,13 @@ hero, investment, exploration, espionage, magic, invasion
 
 ### Combat
 - Simultaneous-turn battles between teams (1v1 PvP, team PvP, co-op PvE vs encounters) with per-player time banks (2h default)
+- Party-enabled encounters let a player bring a realmmate's hero and pilot both
 - Tournaments with bracket elimination
 - Processed during hourly tick and whenever a player queues an action
 - Engine details: see [HERO_COMBAT.md](HERO_COMBAT.md)
 
 ### Upgrades
-40+ hero upgrades with level/class requirements, granting permanent perk bonuses.
+Hero upgrades follow a level schedule: level 1 doctrine, even levels (2/4/6, and 8) dominion upgrades with no combat stats, and odd levels for combat picks: level 3 Discipline, 5 Gear, 7 Form, 9 Gear. Disciplines and Forms change how basic combat actions behave; Gear is the only source of combat stat bonuses. See [HERO_COMBAT.md](HERO_COMBAT.md).
 
 ### Daily PvP Experience
 Once per round day, finishing a PvP hero battle with time bank remaining grants a flat 25 experience (no multipliers), win or lose.

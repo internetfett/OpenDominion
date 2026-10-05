@@ -20,6 +20,7 @@ class EloquentCombatantSpawner implements CombatantSpawner
             'hero_battle_id' => $state->id,
             'hero_id' => $combatant->heroId,
             'dominion_id' => $combatant->dominionId,
+            'controller_dominion_id' => $combatant->controllerDominionId,
             'team' => $combatant->team,
             'template_key' => $combatant->templateKey,
             'name' => $combatant->name,

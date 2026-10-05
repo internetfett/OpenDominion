@@ -14,7 +14,10 @@ use OpenDominion\HeroCombat\Engine\Random\SeededRandomSource;
 use OpenDominion\HeroCombat\Persistence\BattleRepository;
 use OpenDominion\HeroCombat\Persistence\CombatantFactory;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
+use Illuminate\Support\Collection;
+use OpenDominion\HeroCombat\Contracts\Encounter;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroBattleQueue;
 use OpenDominion\Models\RaidObjectiveTactic;
@@ -99,7 +102,10 @@ class HeroBattleService
         return $heroBattle;
     }
 
-    public function createPracticeBattle(Dominion $dominion, ?string $encounterKey = null): HeroBattle
+    /**
+     * @param Hero[] $companions realmmates' heroes to bring along, piloted by the dominion
+     */
+    public function createPracticeBattle(Dominion $dominion, ?string $encounterKey = null, array $companions = []): HeroBattle
     {
         if ($this->protectionService->isUnderProtection($dominion)) {
             throw new GameException('You cannot battle while under protection');
@@ -109,17 +115,20 @@ class HeroBattleService
             throw new GameException('You must have a hero to practice');
         }
 
-        if ($dominion->hero->battles->where('finished', false)->count() > 0) {
+        if ($this->hasBattleInProgress($dominion)) {
             throw new GameException('You already have a battle in progress');
         }
 
-        return $this->createEncounterBattle($encounterKey ?? 'default', [$dominion], BattleState::MODE_PRACTICE);
+        return $this->createEncounterBattle($encounterKey ?? 'default', [$dominion], BattleState::MODE_PRACTICE, companions: $companions);
     }
 
     /**
      * A PvE battle: the dominions' heroes (team 1) against an encounter's roster (team 2).
+     * Companions are realmmates' heroes piloted by the first dominion, allowed only in
+     * party-enabled encounters.
      *
      * @param Dominion[] $dominions
+     * @param Hero[] $companions
      */
     public function createEncounterBattle(
         string $encounterKey,
@@ -127,20 +136,30 @@ class HeroBattleService
         string $mode,
         ?RaidObjectiveTactic $tactic = null,
         int $priorWins = 0,
+        array $companions = [],
     ): HeroBattle {
         if (!$this->registry->hasEncounter($encounterKey)) {
             throw new GameException('This encounter is not available.');
         }
 
         $encounter = $this->registry->encounter($encounterKey);
+        $this->validateCompanions($encounter, $dominions, $companions);
 
-        return DB::transaction(function () use ($encounter, $dominions, $mode, $tactic, $priorWins) {
+        return DB::transaction(function () use ($encounter, $dominions, $mode, $tactic, $priorWins, $companions) {
             $heroBattle = $this->newBattle($dominions[0]->round_id, $mode, $encounter->key(), $tactic);
             $battle = $this->repository->load($heroBattle);
 
+            $party = [];
             foreach ($dominions as $dominion) {
-                $combatant = $this->combatantFactory->addHero($battle, $dominion->hero, self::PLAYER_TEAM);
-                $grants = $encounter->playerGrants($combatant, $this->combatantFactory->heroClasses($dominion->hero));
+                $party[] = [$dominion->hero, $dominion->id];
+            }
+            foreach ($companions as $companion) {
+                $party[] = [$companion, $dominions[0]->id];
+            }
+
+            foreach ($party as [$hero, $controllerId]) {
+                $combatant = $this->combatantFactory->addHero($battle, $hero, self::PLAYER_TEAM, [], $controllerId);
+                $grants = $encounter->playerGrants($combatant, $this->combatantFactory->heroClasses($hero));
                 $combatant->abilities = $this->loadouts->withGrants($combatant->abilities, $grants);
             }
 
@@ -181,7 +200,7 @@ class HeroBattleService
             throw new GameException('You are already in the queue');
         }
 
-        if ($dominion->hero->battles->where('finished', false)->count() > 0) {
+        if ($this->hasBattleInProgress($dominion)) {
             throw new GameException('You already have a battle in progress');
         }
 
@@ -281,6 +300,56 @@ class HeroBattleService
 
             return true;
         });
+    }
+
+    public function hasBattleInProgress(Dominion $dominion): bool
+    {
+        return HeroBattle::query()->controlledBy($dominion)->active()->exists();
+    }
+
+    /**
+     * Heroes the dominion may bring along: every other hero in its realm this round.
+     *
+     * @return Collection<int, Hero>
+     */
+    public function availableCompanions(Dominion $dominion): Collection
+    {
+        return Hero::query()
+            ->with('dominion')
+            ->whereHas('dominion', fn ($query) => $query
+                ->where('realm_id', $dominion->realm_id)
+                ->where('round_id', $dominion->round_id)
+                ->where('id', '!=', $dominion->id))
+            ->orderBy('name')
+            ->get();
+    }
+
+    /**
+     * @param Dominion[] $dominions
+     * @param Hero[] $companions
+     */
+    protected function validateCompanions(Encounter $encounter, array $dominions, array $companions): void
+    {
+        if ($companions === []) {
+            return;
+        }
+
+        if (count($dominions) + count($companions) > $encounter->maxPartySize()) {
+            throw new GameException('This encounter does not allow that many heroes.');
+        }
+
+        $pilot = $dominions[0];
+        $heroIds = array_map(fn (Dominion $dominion) => $dominion->hero->id, $dominions);
+
+        foreach ($companions as $companion) {
+            if (in_array($companion->id, $heroIds, true)) {
+                throw new GameException('That hero is already in your party.');
+            }
+            if ($companion->dominion->realm_id !== $pilot->realm_id || $companion->dominion->round_id !== $pilot->round_id) {
+                throw new GameException('You can only bring heroes from your own realm.');
+            }
+            $heroIds[] = $companion->id;
+        }
     }
 
     /**

@@ -20,6 +20,11 @@ abstract class AbstractEncounter implements Encounter
         return [];
     }
 
+    public function maxPartySize(): int
+    {
+        return 1;
+    }
+
     public function victoryCondition(): VictoryCondition
     {
         return new LastTeamStanding();

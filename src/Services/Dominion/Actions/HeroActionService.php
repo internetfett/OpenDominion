@@ -280,7 +280,7 @@ class HeroActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if ($dominion->hero === null || $dominion->hero->id !== $combatant->hero_id) {
+        if (!$combatant->isControlledBy($dominion)) {
             throw new GameException('You cannot change settings for another hero.');
         }
 
@@ -306,7 +306,7 @@ class HeroActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if ($dominion->hero === null || $dominion->hero->id !== $combatant->hero_id) {
+        if (!$combatant->isControlledBy($dominion)) {
             throw new GameException('You cannot queue actions for another hero.');
         }
 
@@ -347,7 +347,7 @@ class HeroActionService
 
         $actions[] = [
             'ability' => $action,
-            'target' => $ability->targetRule()->needsChosenTarget() ? $targetState->id : null,
+            'target' => $ability->targetRule()->needsChosenTarget() ? $targetState?->id : null,
         ];
         $combatant->actions = $actions;
         $combatant->automated = false;
@@ -358,7 +358,7 @@ class HeroActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if ($dominion->hero === null || $dominion->hero->id !== $combatant->hero_id) {
+        if (!$combatant->isControlledBy($dominion)) {
             throw new GameException('You cannot delete actions for another hero.');
         }
 

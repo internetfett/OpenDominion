@@ -523,12 +523,80 @@ class RaidActionServiceTest extends AbstractBrowserKitTestCase
         $battle->refresh();
         $this->assertTrue($battle->finished);
         $this->assertEquals(1, $battle->winning_team);
-        $this->assertTrue($battle->hasWinningDominion($this->dominion->id));
+        $this->assertTrue($battle->hasWinningController($this->dominion->id));
         $this->assertEquals(1, RaidContribution::where('raid_tactic_id', $tactic->id)->where('dominion_id', $this->dominion->id)->count());
 
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('You have already completed this objective');
         $this->raidActionService->performAction($this->dominion->fresh(), $tactic, []);
+    }
+
+    public function testHeroTactic_BorrowedHeroWinCreditsOnlyThePilot()
+    {
+        // Arrange - a party-enabled encounter and a realmmate's hero to bring along
+        $this->app->make(\OpenDominion\HeroCombat\Registry\CombatRegistry::class)->registerEncounter(new class extends \OpenDominion\HeroCombat\Content\AbstractEncounter {
+            public function key(): string
+            {
+                return 'test_party_raid';
+            }
+
+            public function name(): string
+            {
+                return 'Test Party Raid';
+            }
+
+            public function maxPartySize(): int
+            {
+                return 2;
+            }
+
+            public function roster(\OpenDominion\HeroCombat\Engine\EncounterContext $context): array
+            {
+                return [['template' => 'dragonkin', 'name' => 'Dragonkin']];
+            }
+        });
+        Hero::create(['dominion_id' => $this->dominion->id, 'name' => 'Pilot', 'experience' => 1000, 'class' => 'alchemist']);
+        $owner = $this->createDominionWithLegacyStats($this->createUser(), $this->round, Race::first(), $this->dominion->realm);
+        $lent = Hero::create(['dominion_id' => $owner->id, 'name' => 'Lender', 'experience' => 1000, 'class' => 'farmer']);
+        $tactic = RaidObjectiveTactic::create([
+            'raid_objective_id' => $this->objective->id,
+            'type' => 'hero',
+            'name' => 'Party Battle',
+            'attributes' => ['name' => 'Dragonkin', 'encounter' => 'test_party_raid', 'points_awarded' => 400],
+        ]);
+
+        // Act
+        $this->raidActionService->performAction($this->dominion->fresh(), $tactic, ['companion_hero_id' => $lent->id]);
+        $battle = \OpenDominion\Models\HeroBattle::query()->controlledBy($this->dominion)->firstOrFail();
+        $enemy = $battle->combatants->firstWhere('team', 2);
+        $enemy->update(['current_health' => 1, 'evasion' => 0]);
+        foreach ($battle->combatants->where('team', 1) as $hero) {
+            $hero->update(['actions' => [['ability' => 'attack', 'target' => $enemy->id]]]);
+        }
+        app(\OpenDominion\Services\Dominion\HeroBattleService::class)->processTurn($battle->fresh());
+
+        // Assert - one contribution, the pilot's; the owner's records are untouched
+        $this->assertTrue($battle->fresh()->hasWinningController($this->dominion->id));
+        $this->assertEquals(1, RaidContribution::where('raid_tactic_id', $tactic->id)->count());
+        $this->assertEquals(1, RaidContribution::where('raid_tactic_id', $tactic->id)->where('dominion_id', $this->dominion->id)->count());
+        $this->assertEquals(0, RaidContribution::where('dominion_id', $owner->id)->count());
+    }
+
+    public function testHeroTactic_CannotBorrowFromAnotherRealm()
+    {
+        Hero::create(['dominion_id' => $this->dominion->id, 'name' => 'Pilot', 'experience' => 1000, 'class' => 'alchemist']);
+        $stranger = $this->createDominionWithLegacyStats($this->createUser(), $this->round, Race::first(), $this->createRealm($this->round, $this->dominion->realm->alignment));
+        $theirs = Hero::create(['dominion_id' => $stranger->id, 'name' => 'Stranger', 'experience' => 1000, 'class' => 'farmer']);
+        $tactic = RaidObjectiveTactic::create([
+            'raid_objective_id' => $this->objective->id,
+            'type' => 'hero',
+            'name' => 'Party Battle',
+            'attributes' => ['name' => 'Dragonkin', 'encounter' => 'dragonkin', 'points_awarded' => 400],
+        ]);
+
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('You can only bring heroes from your own realm.');
+        $this->raidActionService->performAction($this->dominion->fresh(), $tactic, ['companion_hero_id' => $theirs->id]);
     }
 
     public function testPerformAction_HeroTactic_NoHero()

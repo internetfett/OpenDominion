@@ -12,6 +12,7 @@ use OpenDominion\Helpers\RaidHelper;
 use OpenDominion\HeroCombat\Engine\BattleState;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
+use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\RaidContribution;
 use OpenDominion\Models\RaidObjective;
 use OpenDominion\Models\RaidObjectiveTactic;
@@ -169,9 +170,13 @@ class RaidActionService
         }
 
         $objectiveTacticIds = $tactic->objective->tactics->pluck('id');
-        $objectiveBattles = $dominion->hero->battles->whereIn('raid_tactic_id', $objectiveTacticIds);
+        $objectiveBattles = HeroBattle::query()
+            ->controlledBy($dominion)
+            ->whereIn('raid_tactic_id', $objectiveTacticIds)
+            ->with('combatants')
+            ->get();
         foreach ($objectiveBattles->where('finished', true) as $finishedBattle) {
-            if ($finishedBattle->hasWinningDominion($dominion->id)) {
+            if ($finishedBattle->hasWinningController($dominion->id)) {
                 throw new GameException('You have already completed this objective');
             }
         }
@@ -184,12 +189,23 @@ class RaidActionService
             ->where('realm_id', $dominion->realm_id)
             ->count();
 
-        app(HeroBattleService::class)->createEncounterBattle(
+        $heroBattleService = app(HeroBattleService::class);
+        $companions = [];
+        if (!empty($data['companion_hero_id'])) {
+            $companion = $heroBattleService->availableCompanions($dominion)->firstWhere('id', (int) $data['companion_hero_id']);
+            if ($companion === null) {
+                throw new GameException('You can only bring heroes from your own realm.');
+            }
+            $companions[] = $companion;
+        }
+
+        $heroBattleService->createEncounterBattle(
             $tactic->attributes['encounter'],
             [$dominion],
             BattleState::MODE_RAID,
             $tactic,
             $priorWins,
+            $companions,
         );
 
         return [

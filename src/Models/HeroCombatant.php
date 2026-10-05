@@ -8,7 +8,8 @@ namespace OpenDominion\Models;
  * @property int $id
  * @property int $hero_battle_id
  * @property int $hero_id
- * @property int $dominion_id
+ * @property int $dominion_id owner of the hero
+ * @property int|null $controller_dominion_id dominion piloting this combatant (owner, or a realmmate borrowing the hero)
  * @property int $team
  * @property string|null $template_key
  * @property string $name
@@ -68,6 +69,16 @@ class HeroCombatant extends AbstractModel
     public function dominion()
     {
         return $this->belongsTo(Dominion::class);
+    }
+
+    public function controller()
+    {
+        return $this->belongsTo(Dominion::class, 'controller_dominion_id');
+    }
+
+    public function isControlledBy(Dominion $dominion): bool
+    {
+        return $this->controller_dominion_id === $dominion->id;
     }
 
     public function isHuman(): bool

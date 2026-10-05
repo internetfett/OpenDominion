@@ -11,7 +11,9 @@ class RaidActionRequest extends AbstractDominionRequest
      */
     public function rules()
     {
-        $rules = [];
+        $rules = [
+            'companion_hero_id' => 'integer|nullable',
+        ];
 
         // invasion
         for ($i = 1; $i <= 4; $i++) {
@@ -29,6 +31,7 @@ class RaidActionRequest extends AbstractDominionRequest
         return [
             'unit.*.integer' => 'Unit amounts must be integers.',
             'unit.*.min' => 'Unit amounts must be non-negative.',
+            'companion_hero_id.integer' => 'Invalid hero.',
         ];
     }
 }

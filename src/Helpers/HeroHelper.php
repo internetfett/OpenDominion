@@ -4,6 +4,9 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
+use OpenDominion\HeroCombat\Persistence\CombatantFactory;
+use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroUpgrade;
 
@@ -237,6 +240,14 @@ class HeroHelper
 
     public function getCombatUpgradeDescription(HeroUpgrade $heroUpgrade, string $separator = ', '): string
     {
+        if (in_array($heroUpgrade->type, CombatantFactory::TECHNIQUE_TYPES, true)) {
+            $registry = app(CombatRegistry::class);
+
+            return $registry->hasEffect($heroUpgrade->key)
+                ? $registry->effect($heroUpgrade->key)->description(new EffectInstance($heroUpgrade->key))
+                : '';
+        }
+
         $perkStrings = [];
         foreach ($heroUpgrade->perks as $perk) {
             if (Str::startsWith($perk->key, 'combat_')) {
@@ -342,7 +353,7 @@ class HeroHelper
     public function getUpgradeIcon(HeroUpgrade $upgrade)
     {
         return sprintf(
-            '<i class="hero-icon ra ra-fw %s" title="Level %s: %s<br>(%s)" data-toggle="tooltip"></i>',
+            '<i class="hero-icon ra ra-fw %s" title="Level %s: %s<br>(%s)" data-bs-toggle="tooltip"></i>',
             $upgrade->icon,
             $upgrade->level,
             $upgrade->name,
@@ -353,7 +364,7 @@ class HeroHelper
     public function getLockIcon(int $level)
     {
         return sprintf(
-            '<i class="hero-icon ra ra-rw ra-padlock" title="Level %s: Locked" data-toggle="tooltip"></i>',
+            '<i class="hero-icon ra ra-rw ra-padlock" title="Level %s: Locked" data-bs-toggle="tooltip"></i>',
             $level
         );
     }

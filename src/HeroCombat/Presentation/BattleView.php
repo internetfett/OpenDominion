@@ -17,12 +17,24 @@ class BattleView
 {
     private ActionValidator $validator;
 
+    /**
+     * The combatant that represents the viewer (their own hero, else the first one they pilot).
+     */
+    public readonly ?CombatantState $viewer;
+
+    /**
+     * @param CombatantState[] $controlled combatants the viewing dominion pilots
+     */
     public function __construct(
         public readonly HeroBattle $model,
         public readonly Battle $battle,
-        public readonly ?CombatantState $viewer,
+        public readonly array $controlled = [],
+        ?int $viewerDominionId = null,
     ) {
         $this->validator = new ActionValidator($battle);
+
+        $own = array_filter($controlled, fn (CombatantState $c) => $c->dominionId === $viewerDominionId);
+        $this->viewer = reset($own) ?: (reset($controlled) ?: null);
     }
 
     /**
@@ -51,9 +63,40 @@ class BattleView
         return $sides;
     }
 
-    public function isViewer(CombatantState $combatant): bool
+    public function isControlled(CombatantState $combatant): bool
     {
-        return $this->viewer !== null && $combatant->id === $this->viewer->id;
+        foreach ($this->controlled as $controlled) {
+            if ($controlled->id === $combatant->id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * A combatant the viewer pilots but does not own.
+     */
+    public function isBorrowed(CombatantState $combatant): bool
+    {
+        return $this->isControlled($combatant) && $this->viewer !== null && $combatant->dominionId !== $this->viewer->dominionId;
+    }
+
+    /**
+     * Piloted combatants that still need orders, the viewer's own hero first.
+     *
+     * @return CombatantState[]
+     */
+    public function commandable(): array
+    {
+        if ($this->model->finished) {
+            return [];
+        }
+
+        $living = array_values(array_filter($this->controlled, fn (CombatantState $c) => $c->isAlive()));
+        usort($living, fn (CombatantState $a, CombatantState $b) => [$this->isBorrowed($a), $a->id] <=> [$this->isBorrowed($b), $b->id]);
+
+        return $living;
     }
 
     public function model(CombatantState $combatant): ?HeroCombatant
@@ -124,26 +167,22 @@ class BattleView
         return (int) ($this->battle->effects->find($combatant, 'shield')?->data['pool'] ?? 0);
     }
 
-    public function canAct(): bool
+    public function canAct(CombatantState $combatant): bool
     {
-        $model = $this->viewer !== null ? $this->model($this->viewer) : null;
+        $model = $this->model($combatant);
 
-        return $model !== null && !$this->model->finished && $this->viewer->isAlive() && $model->time_bank > 0;
+        return $model !== null && $this->isControlled($combatant) && !$this->model->finished && $combatant->isAlive() && $model->time_bank > 0;
     }
 
     /**
-     * The viewer's action menu.
+     * A piloted combatant's action menu.
      *
      * @return array<int, array{key: string, name: string, description: string, usable: bool, needsTarget: bool, hostile: bool, cooldown: int, charges: int|null}>
      */
-    public function abilities(): array
+    public function abilities(CombatantState $combatant): array
     {
-        if ($this->viewer === null) {
-            return [];
-        }
-
         $abilities = [];
-        foreach ($this->viewer->abilities as $key) {
+        foreach ($combatant->abilities as $key) {
             if (!$this->battle->registry->hasAbility($key)) {
                 continue;
             }
@@ -156,11 +195,11 @@ class BattleView
                 'key' => $key,
                 'name' => $ability->name(),
                 'description' => $ability->description(),
-                'usable' => $this->canAct() && $this->validator->canQueue($this->viewer, $key),
+                'usable' => $this->canAct($combatant) && $this->validator->canQueue($combatant, $key),
                 'needsTarget' => $ability->targetRule()->needsChosenTarget(),
                 'hostile' => $ability->targetRule()->isHostile(),
-                'cooldown' => $this->validator->turnsUntilReady($this->viewer, $key),
-                'charges' => $this->validator->chargesRemaining($this->viewer, $key),
+                'cooldown' => $this->validator->turnsUntilReady($combatant, $key),
+                'charges' => $this->validator->chargesRemaining($combatant, $key),
             ];
         }
 
@@ -168,35 +207,27 @@ class BattleView
     }
 
     /**
-     * Valid targets the viewer could pick for an ability.
+     * Valid targets a piloted combatant could pick for an ability.
      *
      * @return CombatantState[]
      */
-    public function targetsFor(string $abilityKey): array
+    public function targetsFor(CombatantState $combatant, string $abilityKey): array
     {
-        if ($this->viewer === null) {
-            return [];
-        }
-
         $ability = $this->battle->registry->ability($abilityKey);
 
         return array_values(array_filter(
             $this->battle->living(),
-            fn (CombatantState $c) => $this->battle->targets->isValidChoice($this->viewer, $ability, $c),
+            fn (CombatantState $c) => $this->battle->targets->isValidChoice($combatant, $ability, $c),
         ));
     }
 
     /**
      * @return array<int, array{turn: int, ability: string, target: string|null}>
      */
-    public function queue(): array
+    public function queue(CombatantState $combatant): array
     {
-        if ($this->viewer === null) {
-            return [];
-        }
-
         $queue = [];
-        foreach ($this->viewer->queue as $index => $queued) {
+        foreach ($combatant->queue as $index => $queued) {
             $queue[] = [
                 'turn' => $this->battle->turn() + $index,
                 'ability' => $this->abilityName($queued['ability']),

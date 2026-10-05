@@ -118,11 +118,13 @@ Round-wide perks configured by admins (no perk-type table; `key` is a plain stri
 - **Relations**: round, combatants, actions, winner (representative HeroCombatant), tournaments (btm), tactic
 - **Scopes**: `active()` (finished = false)
 - **Key fields**: `mode` (pvp/practice/raid), `encounter_key`, `seed`, `winning_team`, `effects` (team/field), `initial_state` (replay snapshot)
-- **Key methods**: `winningCombatants()`, `isWinner()`, `isDraw()`, `hasWinningDominion()`, `winnerLabel()`, `matchupLabel()`
+- **Scopes**: `controlledBy(Dominion)` (battles the dominion pilots a combatant in)
+- **Key methods**: `winningCombatants()`, `isWinner()`, `isDraw()`, `hasWinningController()`, `winnerLabel()`, `matchupLabel()`
 
 ### HeroCombatant (`hero_combatants`)
 - **Relations**: battle, hero, dominion
-- **Key fields**: `team`, `template_key`, base stats, `current_health`, `abilities`, `effects`, `cooldowns`, `charges`, `actions` (queue), `strategy`, `time_bank`, `automated`
+- **Key fields**: `team`, `template_key`, `controller_dominion_id` (pilot; `dominion_id` is the owner), base stats, `current_health`, `abilities`, `effects`, `cooldowns`, `charges`, `actions` (queue), `strategy`, `time_bank`, `automated`
+- **Key methods**: `isControlledBy(Dominion)`, `isHuman()`
 - Mapped to `CombatantState` by `BattleRepository`; see [HERO_COMBAT.md](HERO_COMBAT.md)
 
 ### HeroBattleAction (`hero_battle_actions`)

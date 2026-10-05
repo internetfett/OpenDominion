@@ -18,6 +18,7 @@ enum Hook: string
     case LethalDamage = 'onLethalDamage';
     case AfterDamageTaken = 'afterDamageTaken';
     case AfterDamageDealt = 'afterDamageDealt';
+    case AbilityDeclared = 'onAbilityDeclared';
     case AbilityUsed = 'onAbilityUsed';
     case Death = 'onDeath';
     case AnyDeath = 'onAnyDeath';

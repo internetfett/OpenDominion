@@ -140,7 +140,13 @@ final class DamageResolver
 
     private function rollEvade(CombatantState $target): bool
     {
-        return $this->battle->random->int(0, 100) < $this->battle->stat($target, Stat::Evasion);
+        $evasion = $this->battle->stat($target, Stat::Evasion);
+
+        if ($this->battle->evasionRoll !== null) {
+            return ($this->battle->evasionRoll)($target, $evasion);
+        }
+
+        return $this->battle->random->int(0, 100) < $evasion;
     }
 
     private function record(DamageContext $context): void

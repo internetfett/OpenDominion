@@ -6,6 +6,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
+use OpenDominion\Models\HeroHeroUpgrade;
+use OpenDominion\Models\HeroUpgrade;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Round;
 use OpenDominion\Tests\AbstractBrowserKitTestCase;
@@ -364,5 +366,90 @@ class HeroCalculatorTest extends AbstractBrowserKitTestCase
                 "Hero with {$testCase['xp']} XP should need {$testCase['expectedNext']} XP for next level"
             );
         }
+    }
+
+    protected function heroAtExperience(float $experience, string $class = 'alchemist'): Hero
+    {
+        return Hero::create([
+            'dominion_id' => $this->dominion->id,
+            'name' => 'Test Hero',
+            'class' => $class,
+            'experience' => $experience,
+            'class_data' => [],
+        ]);
+    }
+
+    protected function unlock(Hero $hero, string $key): void
+    {
+        HeroHeroUpgrade::create([
+            'hero_id' => $hero->id,
+            'hero_upgrade_id' => HeroUpgrade::where('key', $key)->firstOrFail()->id,
+        ]);
+        $hero->load('upgrades');
+    }
+
+    public function testUpgradeSlotsFollowTheOddAndEvenSchedule()
+    {
+        $hero = $this->heroAtExperience(10000); // Level 12
+
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 9], array_keys($this->heroCalculator->getUpgradeSlots($hero)));
+    }
+
+    public function testScionHasALevelZeroSlot()
+    {
+        $hero = $this->heroAtExperience(0, 'scion');
+
+        $this->assertArrayHasKey(0, $this->heroCalculator->getUpgradeSlots($hero));
+        $this->assertEquals(1, $this->heroCalculator->getUnlockableUpgradeCount($hero));
+    }
+
+    public function testDirectivesDoNotCreateSlots()
+    {
+        $hero = $this->heroAtExperience(0, 'scholar');
+
+        $this->assertArrayNotHasKey(0, $this->heroCalculator->getUpgradeSlots($hero));
+    }
+
+    public function testUnlockableCountGrowsWithLevel()
+    {
+        $this->assertEquals(0, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(0)));
+        $this->assertEquals(1, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(200)), 'Level 1: doctrine');
+        $this->assertEquals(3, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(1200)), 'Level 3: doctrine, 2, 3');
+        $this->assertEquals(7, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(4250)), 'Level 8: 1 through 7');
+        $this->assertEquals(8, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(5000)), 'Level 9: adds the second gear pick');
+    }
+
+    public function testOnePickPerOddLevel()
+    {
+        $hero = $this->heroAtExperience(2300); // Level 5
+        $overpower = HeroUpgrade::where('key', 'overpower')->firstOrFail();
+        $riposte = HeroUpgrade::where('key', 'riposte')->firstOrFail();
+        $greatsword = HeroUpgrade::where('key', 'greatsword')->firstOrFail();
+        $executionersAxe = HeroUpgrade::where('key', 'executioners_axe')->firstOrFail();
+
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $overpower));
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $greatsword));
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $executionersAxe), 'Level 9 gear needs level 9');
+
+        $this->unlock($hero, 'overpower');
+
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $riposte), 'Only one discipline');
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $greatsword));
+        $this->assertSame('overpower', $this->heroCalculator->getUpgradeSlots($hero)[3]->key);
+    }
+
+    public function testUpgradesNoLongerGrantCombatStatsExceptGear()
+    {
+        $hero = $this->heroAtExperience(2900); // Level 6
+        $base = $this->heroCalculator->getHeroCombatStats($hero);
+
+        $this->unlock($hero, 'lead_from_the_front');
+        $this->unlock($hero, 'evocation');
+        $this->assertEquals($base, $this->heroCalculator->getHeroCombatStats($hero));
+
+        $this->unlock($hero, 'greatsword');
+        $withGear = $this->heroCalculator->getHeroCombatStats($hero);
+        $this->assertEquals($base['attack'] + 2, $withGear['attack']);
+        $this->assertEquals($base['evasion'] - 5, $withGear['evasion']);
     }
 }

@@ -29,6 +29,9 @@ final class CombatantState
 
     public int $timeBank = 0;
 
+    /** Dominion whose player chooses this combatant's actions (differs from the owner for borrowed heroes). */
+    public ?int $controllerDominionId = null;
+
     /** True once death triggers have run for the current downed state. */
     public bool $deathProcessed = false;
 

@@ -4,6 +4,7 @@ namespace OpenDominion\Tests\Unit\HeroCombat\Support;
 
 use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\Effects\Hook;
 use OpenDominion\HeroCombat\Engine\Intent;
 use OpenDominion\HeroCombat\Engine\BattleEngine;
 use OpenDominion\HeroCombat\Engine\CombatantState;
@@ -42,7 +43,9 @@ trait BuildsBattles
         $actor = $this->named($battle, $name);
         $intent = new Intent($actor->id, $ability);
         $battle->state->intents[$actor->id] = $intent;
-        $battle->registry->ability($ability)->onDeclare(new ActionContext($battle, $actor, $battle->registry->ability($ability), $intent));
+        $context = new ActionContext($battle, $actor, $battle->registry->ability($ability), $intent);
+        $battle->registry->ability($ability)->onDeclare($context);
+        $battle->dispatcher->runOwn(Hook::AbilityDeclared, $actor, $context, $battle);
     }
 
     /**

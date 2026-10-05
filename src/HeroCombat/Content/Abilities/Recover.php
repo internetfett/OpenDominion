@@ -24,12 +24,12 @@ class Recover extends AbstractAbility
 
     public function description(): string
     {
-        return 'Heals damage equal to your recover value, but reduces your defense by 5 this turn.';
+        return 'Heals you or an ally for your recover value, but reduces your defense by 5 this turn.';
     }
 
     public function targetRule(): TargetRule
     {
-        return TargetRule::Self;
+        return TargetRule::SingleAlly;
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int
@@ -49,13 +49,18 @@ class Recover extends AbstractAbility
 
     public function resolve(ActionContext $context): void
     {
+        $target = $context->target();
         $amount = $context->battle->stat($context->actor, Stat::Recover);
-        $healed = $context->heal($context->actor, $amount);
-        $context->say('recover', ['amount' => $healed]);
+        $healed = $context->heal($target, $amount);
+
+        $context->say($target->id === $context->actor->id ? 'recover' : 'mend', ['amount' => $healed]);
     }
 
     public function messages(): array
     {
-        return ['recover' => '{actor} recovers {amount} health.'];
+        return [
+            'recover' => '{actor} recovers {amount} health.',
+            'mend' => '{actor} tends to {target}, restoring {amount} health.',
+        ];
     }
 }

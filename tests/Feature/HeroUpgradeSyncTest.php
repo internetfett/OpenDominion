@@ -2,6 +2,8 @@
 
 namespace OpenDominion\Tests\Feature;
 
+use OpenDominion\HeroCombat\Persistence\CombatantFactory;
+use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\HeroUpgrade;
 use OpenDominion\Tests\AbstractTestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -65,6 +67,41 @@ class HeroUpgradeSyncTest extends AbstractTestCase
         foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
             $this->assertNotNull($upgrades->get($upgradeKey), "Hero upgrade {$upgradeKey} was not synced");
             $this->assertSame($upgradeData['name'], $upgrades->get($upgradeKey)->name);
+        }
+    }
+
+    public function testOnlyGearGrantsCombatStats(): void
+    {
+        foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
+            if ($upgradeData['type'] === 'gear') {
+                continue;
+            }
+
+            foreach (array_keys($upgradeData['perks'] ?? []) as $perk) {
+                $this->assertStringStartsNotWith('combat_', $perk, "{$upgradeKey} grants {$perk}; only gear may grant combat stats");
+            }
+        }
+    }
+
+    public function testEveryTechniqueHasACombatEffect(): void
+    {
+        $registry = $this->app->make(CombatRegistry::class);
+
+        foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
+            if (in_array($upgradeData['type'], CombatantFactory::TECHNIQUE_TYPES, true)) {
+                $this->assertTrue($registry->hasEffect($upgradeKey), "Technique {$upgradeKey} has no effect class");
+            }
+        }
+    }
+
+    public function testCombatPicksSitOnOddLevels(): void
+    {
+        $expected = ['discipline' => [3], 'gear' => [5, 9], 'form' => [7]];
+
+        foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
+            if (isset($expected[$upgradeData['type']])) {
+                $this->assertContains($upgradeData['level'], $expected[$upgradeData['type']], "{$upgradeKey} is on the wrong level");
+            }
         }
     }
 }

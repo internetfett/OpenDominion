@@ -502,7 +502,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 ['value']
             );
 
-            $heroUpgradePerkTypes = array_keys(get_object_vars($heroUpgradePerks));
+            $heroUpgradePerkTypes = array_keys((array) $heroUpgradePerks);
             $heroUpgrade->perks()->whereNotIn('key', $heroUpgradePerkTypes)->delete();
         }
     }

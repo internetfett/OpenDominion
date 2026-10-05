@@ -10,7 +10,9 @@
             <tr>
                 <th colspan=2 class="text-center">
                     {{ $combatant->name }}
-                    @if ($view->isViewer($combatant))
+                    @if ($view->isBorrowed($combatant))
+                        <small class="text-muted">(borrowed)</small>
+                    @elseif ($view->isControlled($combatant))
                         (you)
                     @endif
                     @if (!$combatant->isAlive())

@@ -37,6 +37,7 @@ final class TurnResolver
                 $intent,
             );
             $context->ability->onDeclare($context);
+            $battle->dispatcher->runOwn(Hook::AbilityDeclared, $context->actor, $context, $battle);
             $contexts[] = $context;
         }
 

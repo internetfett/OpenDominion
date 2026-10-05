@@ -38,7 +38,13 @@ class Focus extends AbstractAbility
 
     public function canUse(CombatantState $actor, Battle $battle): bool
     {
-        return !$battle->hasTag($actor, CombatTag::Focused) || $battle->effects->has($actor, 'channeling');
+        if (!$battle->hasTag($actor, CombatTag::Focused)) {
+            return true;
+        }
+
+        $maxStacks = $battle->registry->effect('focused')->maxStacks($battle, $actor);
+
+        return $maxStacks === null || $battle->effects->stacks($actor, 'focused') < $maxStacks;
     }
 
     public function resolve(ActionContext $context): void

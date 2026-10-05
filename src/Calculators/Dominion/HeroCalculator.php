@@ -415,31 +415,41 @@ class HeroCalculator
             return 0;
         }
 
-        // TODO: Refactor this
-        $maxUnlockLevel = 6;
-        $heroLevel = min($this->getHeroLevel($hero), $maxUnlockLevel);
-        $upgradeLevels = $hero->upgrades->where('type', '!=', 'directive')->pluck('level')->all();
+        $heroLevel = $this->getHeroLevel($hero);
+        $openLevels = array_filter(
+            $this->getUpgradeSlots($hero),
+            fn ($upgrade, $level) => $upgrade === null && $level <= $heroLevel,
+            ARRAY_FILTER_USE_BOTH
+        );
 
-        if ($heroLevel < 2) {
-            $unlockLevels = [];
-        } elseif ($heroLevel < 4) {
-            $unlockLevels = [2];
-        } elseif ($heroLevel < 6) {
-            $unlockLevels = [2, 4];
-        } else {
-            $unlockLevels = range(2, $heroLevel, 2);
+        return count($openLevels);
+    }
+
+    /**
+     * Upgrade slots by level: every level with at least one active, slot-consuming upgrade
+     * available to the hero's class, mapped to the upgrade chosen there (or null).
+     * Directives are free picks and never take a slot.
+     *
+     * @return array<int, HeroUpgrade|null>
+     */
+    public function getUpgradeSlots(Hero $hero): array
+    {
+        $slotLevels = $this->heroHelper->getHeroUpgradesByClass($hero->class)
+            ->where('active', true)
+            ->where('type', '!=', 'directive')
+            ->pluck('level')
+            ->unique()
+            ->sort()
+            ->values();
+
+        $chosen = $hero->upgrades->where('type', '!=', 'directive')->keyBy('level');
+
+        $slots = [];
+        foreach ($slotLevels as $level) {
+            $slots[$level] = $chosen->get($level);
         }
 
-        // Add doctrines
-        if ($heroLevel > 0) {
-            $unlockLevels[] = 1;
-        }
-
-        if ($hero->class === 'scion') {
-            $unlockLevels[] = 0;
-        }
-
-        return count(array_diff($unlockLevels, $upgradeLevels));
+        return $slots;
     }
 
     public function canUnlockUpgrade(Hero $hero, HeroUpgrade $upgrade): bool

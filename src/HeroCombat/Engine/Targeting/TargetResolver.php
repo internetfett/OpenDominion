@@ -27,7 +27,7 @@ final class TargetResolver
             TargetRule::Self => [$actor],
             TargetRule::SingleEnemy => $this->singleEnemy($actor, $requested),
             TargetRule::RandomEnemy => $this->randomEnemy($actor),
-            TargetRule::SingleAlly => $requested !== null && $requested->isAlive() && $requested->team === $actor->team ? [$requested] : [],
+            TargetRule::SingleAlly => $this->singleAlly($actor, $requested, $requestedId),
             TargetRule::SingleAny => $requested !== null && $requested->isAlive() ? [$requested] : [],
             TargetRule::AllEnemies => $this->battle->enemiesOf($actor),
             TargetRule::AllAllies => $this->battle->alliesOf($actor),
@@ -46,7 +46,11 @@ final class TargetResolver
             return true;
         }
 
-        if ($target === null || !$target->isAlive()) {
+        if ($target === null) {
+            return $rule->defaultsToSelf();
+        }
+
+        if (!$target->isAlive()) {
             return false;
         }
 
@@ -72,6 +76,21 @@ final class TargetResolver
         }
 
         return $this->randomEnemy($actor);
+    }
+
+    /**
+     * The chosen living ally, or the actor when nothing was chosen. A chosen ally who has
+     * fallen makes the ability fizzle.
+     *
+     * @return CombatantState[]
+     */
+    private function singleAlly(CombatantState $actor, ?CombatantState $requested, ?int $requestedId): array
+    {
+        if ($requestedId === null) {
+            return [$actor];
+        }
+
+        return $requested !== null && $requested->isAlive() && $requested->team === $actor->team ? [$requested] : [];
     }
 
     /**

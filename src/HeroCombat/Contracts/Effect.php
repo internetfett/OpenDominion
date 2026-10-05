@@ -86,7 +86,13 @@ interface Effect
 
     public function afterDamageDealt(EffectInstance $instance, DamageContext $damage, Battle $battle): void;
 
+    /** Called on the actor's own effects right after its ability's onDeclare. */
+    public function onAbilityDeclared(EffectInstance $instance, ActionContext $context, Battle $battle): void;
+
     public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void;
+
+    /** Adjusts the cooldown the holder's ability starts after use. */
+    public function adjustCooldown(EffectInstance $instance, CombatantState $holder, string $abilityKey, int $cooldown): int;
 
     /** Called on the dying combatant's own effects. */
     public function onDeath(EffectInstance $instance, CombatantState $dead, Battle $battle): void;

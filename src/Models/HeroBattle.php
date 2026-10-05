@@ -74,6 +74,14 @@ class HeroBattle extends AbstractModel
         return $this->belongsTo(RaidObjectiveTactic::class, 'raid_tactic_id');
     }
 
+    /**
+     * Battles in which the dominion pilots at least one combatant.
+     */
+    public function scopeControlledBy(Builder $query, Dominion $dominion): Builder
+    {
+        return $query->whereHas('combatants', fn (Builder $combatants) => $combatants->where('controller_dominion_id', $dominion->id));
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('finished', false);
@@ -106,9 +114,12 @@ class HeroBattle extends AbstractModel
         return $combatant !== null && $this->finished && $this->winning_team !== null && $combatant->team === $this->winning_team;
     }
 
-    public function hasWinningDominion(int $dominionId): bool
+    /**
+     * Whether the dominion piloted a combatant on the winning side.
+     */
+    public function hasWinningController(int $dominionId): bool
     {
-        return $this->winningCombatants()->contains('dominion_id', $dominionId);
+        return $this->winningCombatants()->contains('controller_dominion_id', $dominionId);
     }
 
     /**

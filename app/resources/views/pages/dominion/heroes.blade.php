@@ -89,7 +89,6 @@
                                 @php
                                     $heroClass = $heroHelper->getClasses()[$hero->class];
                                     $perkType = $heroClass['perk_type'];
-                                    $upgrades = $hero->upgrades->groupBy('level');
                                     $unlockedUpgrades = $hero->upgrades->pluck('key')->all();
                                     $heroLevel = $heroCalculator->getHeroLevel($hero);
                                     $baseCombatStats = $heroCalculator->getBaseCombatStats($heroLevel);
@@ -116,61 +115,16 @@
                                                 <div class="col-6 text-center">
                                                     <i class="hero-icon ra ra-fw {{ $heroHelper->getClassIcon($hero->class) }}" title="Current Class: {{ $heroHelper->getClassDisplayName($hero->class) }}" data-bs-toggle="tooltip"></i>
                                                 </div>
-                                                @if (isset($upgrades[0]))
-                                                    @foreach ($upgrades[0]->where('type', 'directive') as $upgrade)
-                                                        <div class="col-6 text-center">
-                                                            {!! $heroHelper->getUpgradeIcon($upgrade) !!}
-                                                        </div>
-                                                    @endforeach
-                                                @else
+                                                @foreach ($hero->upgrades->where('type', 'directive') as $upgrade)
                                                     <div class="col-6 text-center">
-                                                        {!! $heroHelper->getLockIcon(0) !!}
+                                                        {!! $heroHelper->getUpgradeIcon($upgrade) !!}
                                                     </div>
-                                                @endif
-                                                @if (isset($upgrades[1]))
-                                                    @foreach ($upgrades[1] as $upgrade)
-                                                        <div class="col-6 text-center">
-                                                            {!! $heroHelper->getUpgradeIcon($upgrade) !!}
-                                                        </div>
-                                                    @endforeach
-                                                @else
+                                                @endforeach
+                                                @foreach ($heroCalculator->getUpgradeSlots($hero) as $level => $upgrade)
                                                     <div class="col-6 text-center">
-                                                        {!! $heroHelper->getLockIcon(1) !!}
+                                                        {!! $upgrade ? $heroHelper->getUpgradeIcon($upgrade) : $heroHelper->getLockIcon($level) !!}
                                                     </div>
-                                                @endif
-                                                @if (isset($upgrades[2]))
-                                                    @foreach ($upgrades[2] as $upgrade)
-                                                        <div class="col-6 text-center">
-                                                            {!! $heroHelper->getUpgradeIcon($upgrade) !!}
-                                                        </div>
-                                                    @endforeach
-                                                @else
-                                                    <div class="col-6 text-center">
-                                                        {!! $heroHelper->getLockIcon(2) !!}
-                                                    </div>
-                                                @endif
-                                                @if (isset($upgrades[4]))
-                                                    @foreach ($upgrades[4] as $upgrade)
-                                                        <div class="col-6 text-center">
-                                                            {!! $heroHelper->getUpgradeIcon($upgrade) !!}
-                                                        </div>
-                                                    @endforeach
-                                                @else
-                                                    <div class="col-6 text-center">
-                                                        {!! $heroHelper->getLockIcon(4) !!}
-                                                    </div>
-                                                @endif
-                                                @if (isset($upgrades[6]))
-                                                    @foreach ($upgrades[6] as $upgrade)
-                                                        <div class="col-6 text-center">
-                                                            {!! $heroHelper->getUpgradeIcon($upgrade) !!}
-                                                        </div>
-                                                    @endforeach
-                                                @else
-                                                    <div class="col-6 text-center">
-                                                        {!! $heroHelper->getLockIcon(6) !!}
-                                                    </div>
-                                                @endif
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-6">

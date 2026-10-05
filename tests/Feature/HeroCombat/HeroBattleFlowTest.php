@@ -235,6 +235,23 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertStringContainsString('matches the stored combat log', \Illuminate\Support\Facades\Artisan::output());
     }
 
+    public function testUnlockedTechniquesAreGrantedInBattle(): void
+    {
+        $dominion = $this->dominionWithHero('Solo');
+        foreach (['riposte', 'shield_bash'] as $key) {
+            \OpenDominion\Models\HeroHeroUpgrade::create([
+                'hero_id' => $dominion->hero->id,
+                'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', $key)->firstOrFail()->id,
+            ]);
+        }
+        $dominion->hero->load('upgrades');
+
+        $battle = $this->heroBattleService->createPracticeBattle($dominion->fresh());
+        $player = $this->combatantFor($battle, $dominion);
+
+        $this->assertEqualsCanonicalizing(['riposte', 'shield_bash'], collect($player->effects)->pluck('key')->all());
+    }
+
     protected function finishAutomatedPvpBattle(Dominion $a, Dominion $b, array $timeBanks = []): HeroBattle
     {
         $battle = $this->heroBattleService->createBattle($a, $b);

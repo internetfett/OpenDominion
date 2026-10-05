@@ -2,6 +2,7 @@
 
 namespace OpenDominion\HeroCombat\Presentation;
 
+use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Persistence\BattleRepository;
 use OpenDominion\Models\HeroBattle;
 
@@ -11,18 +12,18 @@ class BattlePresenter
     {
     }
 
-    public function present(HeroBattle $heroBattle, ?int $viewerHeroId = null): BattleView
+    /**
+     * A view of the battle for the dominion, with the combatants it pilots.
+     */
+    public function present(HeroBattle $heroBattle, ?int $viewerDominionId = null): BattleView
     {
         $battle = $this->repository->load($heroBattle);
 
-        $viewer = null;
-        foreach ($battle->combatants() as $combatant) {
-            if ($viewerHeroId !== null && $combatant->heroId === $viewerHeroId) {
-                $viewer = $combatant;
-                break;
-            }
-        }
+        $controlled = array_values(array_filter(
+            $battle->combatants(),
+            fn (CombatantState $combatant) => $viewerDominionId !== null && $combatant->controllerDominionId === $viewerDominionId,
+        ));
 
-        return new BattleView($heroBattle, $battle, $viewer);
+        return new BattleView($heroBattle, $battle, $controlled, $viewerDominionId);
     }
 }

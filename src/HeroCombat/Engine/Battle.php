@@ -36,6 +36,14 @@ final class Battle
 
     public readonly ?Encounter $encounter;
 
+    /**
+     * Analysis only: decides evasion rolls instead of the random source.
+     * Receives the target and its evasion chance (0-100) and returns whether the hit is evaded.
+     *
+     * @var (\Closure(CombatantState, int): bool)|null
+     */
+    public ?\Closure $evasionRoll = null;
+
     public function __construct(
         public readonly BattleState $state,
         public readonly CombatRegistry $registry,

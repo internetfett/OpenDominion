@@ -89,4 +89,23 @@ class HeroBattlePagesTest extends AbstractTestCase
             ->assertSee('Admiral Varos')
             ->assertSee('Combat Log');
     }
+
+    public function testHeroesPageShowsUpgradeSlotsAndTechniqueDescriptions(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 1200]);
+        \OpenDominion\Models\HeroHeroUpgrade::create([
+            'hero_id' => $dominion->hero->id,
+            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'riposte')->firstOrFail()->id,
+        ]);
+
+        $this->get(route('dominion.heroes'))
+            ->assertOk()
+            ->assertSee('Level 3: Riposte', false)
+            ->assertSee('Level 9: Locked', false)
+            ->assertSee('Counter can be used every turn')
+            ->assertSee('Shield Bash')
+            ->assertSee('Greatsword')
+            ->assertDontSee('Discipline</td>', false);
+    }
 }

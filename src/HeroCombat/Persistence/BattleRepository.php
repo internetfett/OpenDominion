@@ -151,6 +151,7 @@ class BattleRepository
         $combatant->lastAction = $model->last_action;
         $combatant->automated = (bool) $model->automated;
         $combatant->timeBank = (int) $model->time_bank;
+        $combatant->controllerDominionId = $model->controller_dominion_id;
         $combatant->deathProcessed = !$combatant->isAlive();
 
         return $combatant;

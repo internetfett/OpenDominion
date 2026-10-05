@@ -138,8 +138,17 @@ abstract class AbstractEffect implements Effect
     {
     }
 
+    public function onAbilityDeclared(EffectInstance $instance, ActionContext $context, Battle $battle): void
+    {
+    }
+
     public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void
     {
+    }
+
+    public function adjustCooldown(EffectInstance $instance, CombatantState $holder, string $abilityKey, int $cooldown): int
+    {
+        return $cooldown;
     }
 
     public function onDeath(EffectInstance $instance, CombatantState $dead, Battle $battle): void

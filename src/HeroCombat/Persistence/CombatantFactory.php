@@ -16,6 +16,9 @@ class CombatantFactory
     public const DEFAULT_TIME_BANK = 2 * 60 * 60;
     public const DEFAULT_STRATEGY = 'balanced';
 
+    /** Upgrade types whose key names an innate combat effect. */
+    public const TECHNIQUE_TYPES = ['discipline', 'form'];
+
     public function __construct(
         protected HeroCalculator $heroCalculator,
         protected HeroClassLoadouts $loadouts,
@@ -24,8 +27,9 @@ class CombatantFactory
 
     /**
      * @param string[] $grantedAbilities extra abilities (e.g. from the encounter)
+     * @param int|null $controllerDominionId who pilots the hero; defaults to its owner
      */
-    public function addHero(Battle $battle, Hero $hero, int $team, array $grantedAbilities = []): CombatantState
+    public function addHero(Battle $battle, Hero $hero, int $team, array $grantedAbilities = [], ?int $controllerDominionId = null): CombatantState
     {
         $stats = $this->heroCalculator->getHeroCombatStats($hero);
 
@@ -41,6 +45,7 @@ class CombatantFactory
             dominionId: $hero->dominion_id,
         );
         $combatant->timeBank = self::DEFAULT_TIME_BANK;
+        $combatant->controllerDominionId = $controllerDominionId ?? $hero->dominion_id;
 
         $combatant->id = $battle->spawner->spawn($battle->state, $combatant);
         $battle->state->addCombatant($combatant);
@@ -49,7 +54,27 @@ class CombatantFactory
             $battle->effects->apply($combatant, $passive);
         }
 
+        foreach ($this->techniqueKeys($hero) as $technique) {
+            if ($battle->registry->hasEffect($technique)) {
+                $battle->effects->apply($combatant, $technique);
+            }
+        }
+
         return $combatant;
+    }
+
+    /**
+     * Disciplines and Forms the hero has unlocked; each is an innate effect with the same key.
+     *
+     * @return string[]
+     */
+    public function techniqueKeys(Hero $hero): array
+    {
+        return $hero->upgrades
+            ->whereIn('type', self::TECHNIQUE_TYPES)
+            ->pluck('key')
+            ->values()
+            ->all();
     }
 
     /**
