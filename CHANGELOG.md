@@ -4,6 +4,15 @@ All notable changes relevant to players in this project will be documented in th
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). This project uses its own versioning system.
 
 ## [Unreleased]
+
+## [1.52.0] - 2026-10-16
+### Changed
+- Locate Valuables removed
+- Theft now based on total resource amount (was unprotected amount)
+- Incoming military on bots at round start will now be split evenly between hours 4-9 and 10-12
+- Lycanthrope Garou: +35p (to 1150p)
+- Icekin FrostMage: +30p (to 995p)
+
 ### Fixed
 - Ops started from the bounty board are now blocked if the bounty was already collected or has expired
 - Overkill when destroying a wonder no longer applies to statistics and rewards
@@ -2700,7 +2709,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). 
 ### Added
 - This CHANGELOG file
 
-[Unreleased]: https://github.com/OpenDominion/OpenDominion/compare/1.51.0...HEAD
+[Unreleased]: https://github.com/OpenDominion/OpenDominion/compare/1.52.0...HEAD
+[1.52.0]: https://github.com/OpenDominion/OpenDominion/compare/1.51.0...1.52.0
 [1.51.0]: https://github.com/OpenDominion/OpenDominion/compare/1.50.2...1.51.0
 [1.50.2]: https://github.com/OpenDominion/OpenDominion/compare/1.50.1...1.50.2
 [1.50.1]: https://github.com/OpenDominion/OpenDominion/compare/1.50.0...1.50.1

@@ -38,7 +38,7 @@ The game tick (`php artisan game:tick`) runs every hour and is the core game eng
 - Move inactive dominions to graveyard (3+ days old, 3+ days offline)
 - Spawn wonders every 3 days
 - Update active player counts for realms/raids
-- Update daily rankings
+- Update daily rankings (human dominions only; bots — `user_id` null — are excluded and any existing bot rows are purged)
 - Update Valor rankings
 
 ### Pre-calculation System
@@ -150,8 +150,9 @@ Realm-level PvE objectives that grant bonuses:
 
 Storyline-driven bonuses applied to every dominion in a round, configured per round in the admin UI (Staff → Rounds → show page).
 - Stored in `round_perks`; each row = key + value, optionally limited by race alignment and an inclusive `from_day`/`until_day` window (`Round::daysInRound()`)
+- Never active before `start_date` (`RoundPerk::appliesTo()` checks `Round::hasStarted()`), since `daysInRound()` reports day 1 pre-round and pre-round protection ticks would otherwise get the bonus; perks show as upcoming until the round starts
 - Calculators add `$dominion->getRoundPerkMultiplier('key')` / `getRoundPerkValue('key')` as an explicit `// Round Perks` line next to the racial bonus
-- Supported keys live in `RoundPerkHelper::getPerkTypes()`; a new perk type = registry entry + calculator call site. Current keys: offense, defense, platinum/food/lumber/mana/ore/gem/tech_production, wartime_platinum_production (flat %, once if the realm has any active incoming/outgoing war), construction_cost, explore_platinum_cost, invest_bonus, max_population, alchemy_platinum_production_raw, farm_food_production_raw, tower_mana_production_raw
+- Supported keys live in `RoundPerkHelper::getPerkTypes()`; a new perk type = registry entry + calculator call site. Current keys: offense, defense, platinum/food/lumber/mana/ore/gem/tech_production, wartime_platinum_production (flat %, once if the realm has any active incoming/outgoing war), construction_cost, explore_platinum_cost, invest_bonus, max_population, hero_experience, alchemy_platinum_production_raw, farm_food_production_raw, tower_mana_production_raw
 - Status page shows the round description + all perks (wide card) and active perk values under racial perks in the Information card
 
 ## Raid System

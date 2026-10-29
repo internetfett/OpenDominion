@@ -3,6 +3,7 @@
 namespace OpenDominion\Tests\Feature;
 
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
+use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
@@ -95,6 +96,42 @@ class RoundPerkTest extends AbstractTestCase
         $this->assertSame(3.0, $this->goodDominion->getRoundPerkValue('offense'));
     }
 
+    public function testPerksDoNotApplyBeforeRoundStarts(): void
+    {
+        $upcomingRound = $this->createRound('+2 days');
+        $dominion = $this->createDominion($this->createUser(), $upcomingRound, Race::where('key', 'human')->firstOrFail());
+
+        app(RoundPerkService::class)->create($upcomingRound, ['key' => 'offense', 'value' => '5']);
+        app(RoundPerkService::class)->create($upcomingRound, ['key' => 'offense', 'value' => '3', 'from_day' => 1]);
+        $dominion->round->load('perks');
+
+        $this->assertSame(0.0, $dominion->getRoundPerkValue('offense'));
+        $this->assertNull($dominion->getRoundPerkValueParts('offense'));
+
+        $statuses = app(RoundPerkService::class)
+            ->getPerksForDominion($dominion)
+            ->pluck('status')
+            ->unique()
+            ->all();
+
+        $this->assertSame([RoundPerkService::STATUS_UPCOMING], $statuses);
+    }
+
+    public function testPerksApplyOnceRoundStarts(): void
+    {
+        $round = $this->createRound('-1 minute');
+        $dominion = $this->createDominion($this->createUser(), $round, Race::where('key', 'human')->firstOrFail());
+
+        app(RoundPerkService::class)->create($round, ['key' => 'offense', 'value' => '5', 'from_day' => 1]);
+        $dominion->round->load('perks');
+
+        $this->assertSame(5.0, $dominion->getRoundPerkValue('offense'));
+        $this->assertSame(
+            RoundPerkService::STATUS_ACTIVE,
+            app(RoundPerkService::class)->getPerksForDominion($dominion)->first()['status']
+        );
+    }
+
     public function testMatchingPerksAreSummed(): void
     {
         $this->createPerk(['key' => 'defense', 'value' => '5']);
@@ -157,6 +194,16 @@ class RoundPerkTest extends AbstractTestCase
         $this->createPerk(['key' => 'tech_production', 'value' => '10']);
 
         $this->assertEqualsWithDelta($baseline + 0.10, $productionCalculator->getTechProductionMultiplier($this->goodDominion), 0.0001);
+    }
+
+    public function testHeroExperienceMultiplierIncludesRoundPerk(): void
+    {
+        $heroCalculator = app(HeroCalculator::class);
+        $baseline = $heroCalculator->getExperienceMultiplier($this->goodDominion);
+
+        $this->createPerk(['key' => 'hero_experience', 'value' => '15']);
+
+        $this->assertEqualsWithDelta($baseline + 0.15, $heroCalculator->getExperienceMultiplier($this->goodDominion), 0.0001);
     }
 
     public function testWartimePlatinumPerkOnlyAppliesWhileAtWar(): void

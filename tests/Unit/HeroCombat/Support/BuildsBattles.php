@@ -4,10 +4,10 @@ namespace OpenDominion\Tests\Unit\HeroCombat\Support;
 
 use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
-use OpenDominion\HeroCombat\Engine\Effects\Hook;
-use OpenDominion\HeroCombat\Engine\Intent;
 use OpenDominion\HeroCombat\Engine\BattleEngine;
 use OpenDominion\HeroCombat\Engine\CombatantState;
+use OpenDominion\HeroCombat\Engine\Effects\Hook;
+use OpenDominion\HeroCombat\Engine\Intent;
 use OpenDominion\HeroCombat\Engine\TurnResolver;
 
 trait BuildsBattles

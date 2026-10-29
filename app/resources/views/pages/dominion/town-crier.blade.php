@@ -94,15 +94,33 @@
                             </p>
                         @endif
                     <p>
-                        <label for="realm-select">Event Types:</label>
+                        <label for="event-select">Event Types:</label>
                         <select id="event-select" class="form-select">
                             @foreach ($typeChoices as $typeChoice)
                                 <option value="{{ $typeChoice }}" {{ $type == $typeChoice ? 'selected' : null }}>
-                                    {{ ucwords($typeChoice) }}
+                                    {{ $typeLabels[$typeChoice] ?? ucwords($typeChoice) }}
                                 </option>
                             @endforeach
                         </select>
                     </p>
+                    @if (!$fromOpCenter)
+                        <form id="town-crier-default-form" action="{{ route('dominion.misc.town-crier-default', $realm->number ?? null) }}" method="post">
+                            @csrf
+                            <input type="hidden" name="type" value="{{ $type }}" />
+                            @if ($singleDominion !== null)
+                                <input type="hidden" name="dominion" value="{{ $singleDominion->id }}" />
+                            @endif
+                            @if ($type === $defaultType)
+                                <button type="submit" class="btn btn-secondary" disabled>
+                                    Default
+                                </button>
+                            @else
+                                <button type="submit" class="btn btn-primary">
+                                    Set as default
+                                </button>
+                            @endif
+                        </form>
+                    @endif
                     @endif
                 </div>
             </div>

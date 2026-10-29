@@ -151,6 +151,62 @@ class DominionFactory
     }
 
     /**
+     * Splits a non-player dominion's incoming defense into hourly training batches.
+     *
+     * One to three batches arrive between hours 5 and 10 and one or two arrive between hours 11 and 13.
+     * The same 40-60% share of each unit type is held back for the late batches, so the late share of
+     * total defense stays within that range regardless of the spec/elite mix.
+     *
+     * @return array<int, array<string, int>> Training queue resources keyed by hour
+     */
+    public function getNonPlayerIncomingDefenseSchedule(int $incSpecs, int $incElites): array
+    {
+        $earlyHours = collect(range(5, 10))->random(mt_rand(1, 3));
+        $lateHours = collect(range(11, 13))->random(mt_rand(1, 2));
+        $lateFraction = mt_rand(40, 60) / 100;
+
+        $late = [
+            'military_unit2' => (int) round($incSpecs * $lateFraction),
+            'military_unit3' => (int) round($incElites * $lateFraction),
+        ];
+        $early = [
+            'military_unit2' => $incSpecs - $late['military_unit2'],
+            'military_unit3' => $incElites - $late['military_unit3'],
+        ];
+
+        $schedule = $this->splitIncomingUnitsAcrossHours($early, $earlyHours->all())
+            + $this->splitIncomingUnitsAcrossHours($late, $lateHours->all());
+        ksort($schedule);
+
+        return $schedule;
+    }
+
+    /**
+     * Spreads incoming units across the given hours. Each hour but the last takes a fifth to a third of
+     * the remaining amount of one unit type, and the last hour takes whatever is left.
+     *
+     * @param array<string, int> $units
+     * @param array<int, int> $hours
+     * @return array<int, array<string, int>>
+     */
+    protected function splitIncomingUnitsAcrossHours(array $units, array $hours): array
+    {
+        $bulkHour = array_pop($hours);
+
+        $schedule = [];
+        foreach ($hours as $hour) {
+            $unitType = ($units['military_unit3'] > 0 && random_chance(0.5)) ? 'military_unit3' : 'military_unit2';
+            $amount = mt_rand(intdiv($units[$unitType], 5), intdiv($units[$unitType], 3));
+            $units[$unitType] -= $amount;
+            $schedule[$hour] = [$unitType => $amount];
+        }
+
+        $schedule[$bulkHour] = $units;
+
+        return $schedule;
+    }
+
+    /**
      * Creates and returns a new Dominion instance.
      *
      * @param User $user
@@ -761,22 +817,8 @@ class DominionFactory
         $additionalDefense = (2 * $landSize) + mt_rand(200, 500);
         $incSpecs = (int) ($additionalDefense / $defenseMod / $specPower * $specRatio);
         $incElites = (int) ($additionalDefense / $defenseMod / $elitePower * (1 - $specRatio));
-        $hourRange = collect(range(4, 9));
-        $hours = $hourRange->random(mt_rand(2, 5));
-        foreach ($hours as $hour) {
-            if ($hour == $hours->last()) {
-                $queueService->queueResources('training', $dominion, ['military_unit2' => $incSpecs, 'military_unit3' => $incElites], $hour);
-            } else {
-                if ($incElites > 0 && random_chance(0.5)) {
-                    $amount = mt_rand($incElites / 5, $incElites / 3);
-                    $incElites -= min($amount, $incElites);
-                    $queueService->queueResources('training', $dominion, ['military_unit3' => $amount], $hour);
-                } elseif ($incSpecs > 0) {
-                    $amount = mt_rand($incSpecs / 5, $incSpecs / 3);
-                    $queueService->queueResources('training', $dominion, ['military_unit2' => $amount], $hour);
-                    $incSpecs -= min($amount, $incSpecs);
-                }
-            }
+        foreach ($this->getNonPlayerIncomingDefenseSchedule($incSpecs, $incElites) as $hour => $resources) {
+            $queueService->queueResources('training', $dominion, $resources, $hour);
         }
 
         // Cast spells

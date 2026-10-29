@@ -151,7 +151,10 @@ Two-phase: queue then send.
 
 ### GameEventService
 Town Crier event retrieval.
-- `getTownCrier()` - paginated events filtered by realm/type
+- `getTownCrier()` - paginated events filtered by realm/type; `all` remains the initial default; `all_without_bots` and `invasions_without_bots` exclude bot-initiated invasions before pagination. Direct history and Clairvoyance retrieval continue to include bots.
+- `TOWN_CRIER_TYPES` defines the available filters. `MiscController::postTownCrierDefault()` saves `settings.town_crier_default_type`; changing the current filter does not change this default.
+- `getUnreadCounts()` splits ordinary events from bot invasions in one aggregate query using the same `town_crier_last_seen` timestamp, falling back to round creation. The existing Town Crier read update clears both categories together.
+- Dominion Settings can hide the bot badge independently with `hide_bot_attack_badge`
 - Event types: invasion, war_declared/canceled, wonder_spawned/attacked/destroyed, raid_attacked, abandoned
 
 ### UserRatingService
@@ -168,7 +171,7 @@ Wonder lifecycle management.
 - Sentient wonders attack top 3 damage-dealing realms
 
 ### RoundPerkService
-Admin CRUD for round perks (`create()`, `update()`, `delete()`) and `getPerksForDominion()`, which returns every round perk with a status (active / upcoming / expired / not_applicable) for the Status page.
+Admin CRUD for round perks (`create()`, `update()`, `delete()`) and `getPerksForDominion()`, which returns every round perk with a status (active / upcoming / expired / not_applicable) for the Status page; every applicable perk is upcoming before the round starts.
 
 ### RaidService
 Raid completion and reward distribution.

@@ -12,17 +12,35 @@
                 </div>
                 <div class="card-body">
                     @foreach ($activeBattles as $battle)
-                        @php $view = $battlePresenter->present($battle, $selectedDominion->id); @endphp
+                        @php
+                            $view = $battlePresenter->present($battle, $selectedDominion->id);
+                            $sides = $view->sides();
+                            $commandable = $view->commandable();
+                            $showQueue = count($commandable) > 0 && $view->canQueueAhead();
+                            $queueBesideOpponent = $showQueue && count($commandable) === 1 && count($sides) === 2 && count($sides[1]['combatants']) === 1;
+                        @endphp
                         <div class="row">
                             <div class="col-md-6">
-                                @foreach ($view->sides() as $side)
-                                    <h5 class="mb-2">{{ $side['label'] }}</h5>
-                                    <div class="row">
-                                        @foreach ($side['combatants'] as $combatant)
-                                            @include('partials.dominion.hero-combatant', ['view' => $view, 'combatant' => $combatant])
-                                        @endforeach
-                                    </div>
-                                @endforeach
+                                <div class="row">
+                                    @foreach ($sides as $side)
+                                        <div class="col-sm">
+                                            <h5 class="mb-2 text-center">{{ $side['label'] }}</h5>
+                                            <div class="row">
+                                                @foreach ($side['combatants'] as $combatant)
+                                                    @include('partials.dominion.hero-combatant', ['view' => $view, 'combatant' => $combatant])
+                                                @endforeach
+                                            </div>
+                                            @foreach ($commandable as $combatant)
+                                                @if ($combatant->team === $side['team'])
+                                                    @include('partials.dominion.hero-combat-controls', ['view' => $view, 'combatant' => $combatant, 'showQueue' => $showQueue, 'queueInline' => !$queueBesideOpponent])
+                                                @endif
+                                            @endforeach
+                                            @if ($queueBesideOpponent && $side['team'] !== $commandable[0]->team)
+                                                @include('partials.dominion.hero-battle-queue', ['view' => $view, 'combatant' => $commandable[0]])
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                                 @if ($battle->finished)
                                     <div class="text-center">
                                         @if ($battle->isDraw())
@@ -32,8 +50,8 @@
                                         @endif
                                     </div>
                                 @endif
-                                @foreach ($view->commandable() as $combatant)
-                                    @include('partials.dominion.hero-combat-controls', ['view' => $view, 'combatant' => $combatant])
+                                @foreach ($commandable as $combatant)
+                                    @include('partials.dominion.hero-combat-settings', ['view' => $view, 'combatant' => $combatant])
                                 @endforeach
                             </div>
                             <div class="col-md-6" style="max-height: {{ count($view->battle->combatants()) > 2 ? '645px' : '272px' }}; overflow-y: scroll;">

@@ -4,6 +4,7 @@ namespace OpenDominion\Tests\Unit\Services\Action;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use LogicException;
 use Notification;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Exceptions\GameException;
@@ -117,7 +118,7 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $mockRandomChance = true;
 
         // Arrange: target's raw platinum production exceeds its stockpile, so the
-        // unprotected portion is zero and the target_amount ceiling collapses to 0.
+        // protected floor covers the whole stockpile and nothing can be taken.
         $this->dominion->military_spies = 100000;
         $this->target->military_spies = 0;
         $this->target->resource_platinum = 1000;       // tiny stockpile
@@ -311,7 +312,7 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->assertLessThan($spiesBefore, $this->dominion->military_spies);
     }
 
-    public function testStealLumber_PartialProtection_SubtractsRawProductionFromCeiling()
+    public function testStealLumber_LargeStockpile_ProtectionDoesNotReducePercentage()
     {
         global $mockRandomChance;
         $mockRandomChance = true;
@@ -320,7 +321,7 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         // attacker plenty of lumber production (so maxDominion is huge) and
         // setting the target stockpile high enough that 5% << everything else.
         $this->dominion->military_spies = 100000;
-        $this->dominion->building_lumberyard = 20000; // huge maxDominion (>> maxTarget)
+        $this->dominion->building_lumberyard = 20000;
         $this->target->military_spies = 0;
         $this->target->building_lumberyard = 0;
         $this->target->building_forest_haven = 0;
@@ -331,9 +332,9 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->espionageActionService->performOperation($this->dominion, 'steal_lumber', $this->target);
         $unprotectedStolen = $this->dominion->resource_lumber - $unprotectedBefore;
 
-        // Protected: 100 target lumberyards -> 5000 raw production
-        // maxTarget = (10,000,000 - 5,000) * 5% = 499,750
-        // Difference = 250 lumber (× same multipliers/size penalty).
+        // Protected: 100 target lumberyards -> 5,000 raw production. The
+        // percentage still applies to the full stockpile, and the floor
+        // (5,000 left behind) is nowhere near binding.
         $this->dominion->spy_strength = 100;
         $this->target->resource_lumber = 10000000;
         $this->target->building_lumberyard = 100;
@@ -342,11 +343,31 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->espionageActionService->performOperation($this->dominion, 'steal_lumber', $this->target);
         $protectedStolen = $this->dominion->resource_lumber - $protectedBefore;
 
-        // Protection reduces theft by 50/lumberyard × 5% = 2.5 lumber per
-        // building. Allow tiny rounding slack on the 250-lumber gap.
-        $diff = $unprotectedStolen - $protectedStolen;
-        $this->assertGreaterThan(240, $diff);
-        $this->assertLessThan(260, $diff);
+        $this->assertGreaterThan(0, $unprotectedStolen);
+        $this->assertEquals($unprotectedStolen, $protectedStolen);
+    }
+
+    public function testStealLumber_PartialProtection_LeavesRawProductionAsFloor()
+    {
+        global $mockRandomChance;
+        $mockRandomChance = true;
+
+        // Target has 100,000 lumber and 1,950 lumberyards -> 97,500 raw
+        // production. 5% of the full stockpile is 5,000, but the target must
+        // keep at least 97,500, so only 2,500 can be taken.
+        $this->dominion->military_spies = 100000;
+        $this->dominion->building_lumberyard = 20000;
+        $this->target->military_spies = 0;
+        $this->target->building_lumberyard = 1950;
+        $this->target->building_forest_haven = 0;
+        $this->target->resource_lumber = 100000;
+
+        $lumberBefore = $this->dominion->resource_lumber;
+        $this->espionageActionService->performOperation($this->dominion, 'steal_lumber', $this->target);
+        $stolen = $this->dominion->resource_lumber - $lumberBefore;
+
+        $this->assertEquals(2500, $stolen);
+        $this->assertEquals(97500, $this->target->resource_lumber);
     }
 
     public function testStealOre_AttackerProductionExceedsFloor_UsesProductionCap()
@@ -491,6 +512,8 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
 
     public function testLocateValuables_Repelled_NoProgressAndSpiesLost()
     {
+        $this->markTestSkipped('Locate Valuables is disabled');
+
         // mockRandomChance defaults to false in setUp -> the new ratio check fails.
         $this->dominion->military_spies = 5000;
         $this->target->military_spies = 50000; // huge SPA disadvantage forces failure
@@ -510,6 +533,8 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
 
     public function testLocateValuables_Repelled_StillCostsSpyStrength()
     {
+        $this->markTestSkipped('Locate Valuables is disabled');
+
         $this->dominion->military_spies = 5000;
         $this->target->military_spies = 50000;
         $strengthBefore = $this->dominion->spy_strength;
@@ -524,6 +549,8 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
 
     public function testLocateValuables_Repelled_NotifiesTarget()
     {
+        $this->markTestSkipped('Locate Valuables is disabled');
+
         $this->dominion->military_spies = 5000;
         $this->target->military_spies = 50000;
 
@@ -552,6 +579,8 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
 
     public function testLocateValuables_Successful_CreatesValuable()
     {
+        $this->markTestSkipped('Locate Valuables is disabled');
+
         global $mockRandomChance;
         $mockRandomChance = true;
 
@@ -572,6 +601,8 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
 
     public function testLocateValuables_ZeroSpyRatio_ThrowsAndCostsNothing()
     {
+        $this->markTestSkipped('Locate Valuables is disabled');
+
         $this->dominion->military_spies = 0;
         $this->dominion->military_assassins = 0;
         $this->dominion->save();
@@ -587,17 +618,13 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->assertEquals($strengthBefore, $this->dominion->fresh()->spy_strength);
     }
 
-    public function testLocateValuables_OffensiveActionsDisabled_Throws()
+    public function testLocateValuables_Disabled_Throws()
     {
-        $this->round->offensive_actions_prohibited_at = now()->subHour();
-        $this->round->save();
-        $this->dominion->setRelation('round', $this->round->fresh());
-
         $this->dominion->military_spies = 5000;
         $this->target->military_spies = 5000;
 
-        $this->expectException(GameException::class);
-        $this->expectExceptionMessage('Black ops have been disabled');
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Cannot perform unknown operation 'locate_valuables'");
 
         $this->espionageActionService->performOperation($this->dominion, 'locate_valuables', $this->target);
     }

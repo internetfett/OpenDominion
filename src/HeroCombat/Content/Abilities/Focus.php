@@ -36,6 +36,11 @@ class Focus extends AbstractAbility
         return 1;
     }
 
+    public function blockedByTags(): array
+    {
+        return [CombatTag::Stunned, CombatTag::Silenced];
+    }
+
     public function canUse(CombatantState $actor, Battle $battle): bool
     {
         if (!$battle->hasTag($actor, CombatTag::Focused)) {

@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 class EspionageHelper
 {
-    public function getOperationInfo(string $operationKey): array
+    public function getOperationInfo(string $operationKey): ?array
     {
         return $this->getOperations()->filter(function ($operation) use ($operationKey) {
             return ($operation['key'] === $operationKey);
@@ -66,6 +66,8 @@ class EspionageHelper
 
     public function getValuablesOperations(): Collection
     {
+        return collect();
+        /*
         return collect([
             [
                 'name' => 'Locate Valuables',
@@ -73,6 +75,7 @@ class EspionageHelper
                 'key' => 'locate_valuables',
             ],
         ]);
+        */
     }
 
     public function getInfoGatheringOperations(): Collection

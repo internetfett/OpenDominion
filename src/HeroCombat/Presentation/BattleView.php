@@ -40,7 +40,7 @@ class BattleView
     /**
      * The viewer's team first, then everyone else grouped by team.
      *
-     * @return array<int, array{label: string, combatants: CombatantState[]}>
+     * @return array<int, array{team: int, label: string, combatants: CombatantState[]}>
      */
     public function sides(): array
     {
@@ -55,12 +55,32 @@ class BattleView
         $sides = [];
         foreach ($teams as $team => $combatants) {
             $sides[] = [
+                'team' => $team,
                 'label' => $team === $viewerTeam ? 'Your side' : (count($teams) > 2 ? "Team {$team}" : 'Opponents'),
                 'combatants' => $combatants,
             ];
         }
 
         return $sides;
+    }
+
+    /**
+     * Whether the viewer can queue actions ahead. A turn resolves as soon as every living human
+     * is ready, so queued actions only wait while a living human the viewer does not pilot has yet to act.
+     */
+    public function canQueueAhead(): bool
+    {
+        if ($this->viewer === null) {
+            return false;
+        }
+
+        foreach ($this->battle->living() as $combatant) {
+            if ($combatant->isHuman() && !$this->isControlled($combatant)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isControlled(CombatantState $combatant): bool

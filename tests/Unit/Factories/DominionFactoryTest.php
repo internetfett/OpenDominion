@@ -179,4 +179,67 @@ class DominionFactoryTest extends AbstractBrowserKitTestCase
             $this->assertEquals($dominion->{$key}, $value);
         }
     }
+
+    /**
+     * @return array<string, array{0: int, 1: int, 2: bool|null}>
+     */
+    public static function nonPlayerIncomingDefenseProvider(): array
+    {
+        return [
+            'mixed units, random batch types' => [900, 400, null],
+            'mixed units, elite batches first' => [900, 400, true],
+            'specs only' => [1500, 0, null],
+            'elites only' => [0, 700, true],
+        ];
+    }
+
+    #[\PHPUnit\Framework\Attributes\DataProvider('nonPlayerIncomingDefenseProvider')]
+    public function testNonPlayerIncomingDefenseScheduleSplitsRoughlyEvenlyAroundHourTen(int $incSpecs, int $incElites, ?bool $randomChance): void
+    {
+        global $mockRandomChance;
+        $mockRandomChance = $randomChance;
+
+        try {
+            for ($i = 0; $i < 200; $i++) {
+                $schedule = $this->dominionFactory->getNonPlayerIncomingDefenseSchedule($incSpecs, $incElites);
+
+                $hours = array_keys($schedule);
+                $this->assertGreaterThanOrEqual(2, count($hours));
+                $this->assertLessThanOrEqual(5, count($hours));
+                $this->assertGreaterThanOrEqual(5, min($hours));
+                $this->assertLessThanOrEqual(10, min($hours));
+                $this->assertGreaterThanOrEqual(11, max($hours));
+                $this->assertLessThanOrEqual(13, max($hours));
+
+                $totals = ['military_unit2' => 0, 'military_unit3' => 0];
+                $lateTotals = ['military_unit2' => 0, 'military_unit3' => 0];
+                foreach ($schedule as $hour => $resources) {
+                    foreach ($resources as $unitType => $amount) {
+                        $this->assertGreaterThanOrEqual(0, $amount);
+                        $totals[$unitType] += $amount;
+                        if ($hour > 10) {
+                            $lateTotals[$unitType] += $amount;
+                        }
+                    }
+                }
+
+                $this->assertEquals($incSpecs, $totals['military_unit2']);
+                $this->assertEquals($incElites, $totals['military_unit3']);
+                $this->assertGreaterThanOrEqual(floor($incSpecs * 0.4), $lateTotals['military_unit2']);
+                $this->assertLessThanOrEqual(ceil($incSpecs * 0.6), $lateTotals['military_unit2']);
+                $this->assertGreaterThanOrEqual(floor($incElites * 0.4), $lateTotals['military_unit3']);
+                $this->assertLessThanOrEqual(ceil($incElites * 0.6), $lateTotals['military_unit3']);
+
+                if ($incSpecs > 0 && $incElites > 0) {
+                    $this->assertEqualsWithDelta(
+                        $lateTotals['military_unit2'] / $incSpecs,
+                        $lateTotals['military_unit3'] / $incElites,
+                        0.01
+                    );
+                }
+            }
+        } finally {
+            $mockRandomChance = false;
+        }
+    }
 }
