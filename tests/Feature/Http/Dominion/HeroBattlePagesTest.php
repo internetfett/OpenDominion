@@ -61,10 +61,10 @@ class HeroBattlePagesTest extends AbstractTestCase
             ->assertDontSee('Actions in queue');
     }
 
-    public function testBattlePageShowsTheHerosCombosFromTheFirstTurn(): void
+    public function testBattlePageShowsTheHerosTechniques(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->update(['experience' => 3500]);
+        $dominion->hero->update(['experience' => 2300]);
         \OpenDominion\Models\HeroHeroUpgrade::create([
             'hero_id' => $dominion->hero->id,
             'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'shield_bash')->firstOrFail()->id,
@@ -73,30 +73,25 @@ class HeroBattlePagesTest extends AbstractTestCase
 
         $this->get(route('dominion.heroes.battles'))
             ->assertOk()
-            ->assertSee('title="After using Defend: +5 attack for the next turn."', false)
+            ->assertSee('title="Being attacked while Defending Staggers the attacker (cannot Counter) until the end of the next turn."', false)
             ->assertSee('Shield Bash');
     }
 
-    public function testComboBadgeTurnsIntoItsStatusOnceTriggered(): void
+    public function testClassAbilityUpgradesJoinTheHerosActions(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->update(['experience' => 3500]);
+        $dominion->hero->update(['experience' => 4250]);
         \OpenDominion\Models\HeroHeroUpgrade::create([
             'hero_id' => $dominion->hero->id,
-            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'shield_bash')->firstOrFail()->id,
+            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'shadow_strike')->firstOrFail()->id,
         ]);
         $battle = app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion->fresh()], 'practice');
         $player = $battle->combatants()->where('dominion_id', $dominion->id)->firstOrFail();
 
-        $this->get(route('dominion.heroes.battles.action', [
-            'combatant' => $player->id,
-            'action' => 'defend',
-        ]))->assertRedirect(route('dominion.heroes.battles'));
-
-        $content = $this->get(route('dominion.heroes.battles'))->assertOk()->getContent();
-        $tooltip = 'title="After using Defend: +5 attack for the next turn."';
-        $this->assertEquals(1, substr_count($content, $tooltip));
-        $this->assertMatchesRegularExpression('/<span class="badge bg-success mb-1" data-bs-toggle="tooltip" ' . preg_quote($tooltip, '/') . '>\s*Shield Bash/', $content);
+        $this->assertContains('shadow_strike', $player->abilities);
+        $this->get(route('dominion.heroes.battles'))
+            ->assertOk()
+            ->assertSee('Shadow Strike');
     }
 
     public function testCoopQueueIsShownBesideASingleOpponent(): void
@@ -196,16 +191,16 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertStringContainsString('Choose upgrade', $sections['dominion']);
         $this->assertStringContainsString('<a href="#hero-upgrades" class="hero-tile hero-tile-open" data-upgrade-level="2">', $sections['dominion']);
         $this->assertStringContainsString('Reach level 4', $sections['dominion']);
-        $this->assertStringNotContainsString('Discipline', $sections['dominion']);
+        $this->assertStringNotContainsString('Technique', $sections['dominion']);
 
-        $this->assertStringContainsString('Lv 3 · Discipline', $sections['heroBattle']);
+        $this->assertStringContainsString('Lv 3 · Technique', $sections['heroBattle']);
         $this->assertStringContainsString('Backstab', $sections['heroBattle']);
         $this->assertStringContainsString('against a target that was Focused at the start of the turn', $sections['heroBattle']);
-        $this->assertStringContainsString('Lv 5 · Gear', $sections['heroBattle']);
-        $this->assertStringContainsString('Lv 7 · Combo', $sections['heroBattle']);
-        $this->assertStringContainsString('Reach level 7', $sections['heroBattle']);
+        $this->assertStringContainsString('Lv 5 · Technique', $sections['heroBattle']);
+        $this->assertStringContainsString('Lv 7 · Ability', $sections['heroBattle']);
+        $this->assertStringContainsString('Lv 9 · Gear', $sections['heroBattle']);
+        $this->assertStringContainsString('Reach level 9', $sections['heroBattle']);
         $this->assertStringNotContainsString('Choose upgrade', $sections['heroBattle']);
-        $this->assertStringNotContainsString('Lv 9', $sections['heroBattle']);
     }
 
     public function testHeroesPageShowsRatingAndGearStatChanges(): void
@@ -298,7 +293,8 @@ class HeroBattlePagesTest extends AbstractTestCase
 
         $this->assertMatchesRegularExpression('/Your attacks deal \+5 damage against a target that was Focused/', $heroBattle);
         $this->assertMatchesRegularExpression('/\+2 Attack, -10 Evasion/', $heroBattle);
-        $this->assertMatchesRegularExpression('/After using Defend: \+5 attack for the next turn\./', $heroBattle);
+        $this->assertMatchesRegularExpression('/Being attacked while Defending Staggers the attacker/', $heroBattle);
+        $this->assertMatchesRegularExpression('/Attack that cannot be evaded.*\s*<br\/><small class="text-muted">Requires Infiltrator level 5<\/small>/', $heroBattle);
         $this->assertStringNotContainsString('wizard strength', $heroBattle);
     }
 }

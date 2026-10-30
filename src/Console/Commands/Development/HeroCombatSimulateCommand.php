@@ -15,12 +15,12 @@ class HeroCombatSimulateCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'hero-combat:simulate
-                             {--a= : Build for side A, e.g. "level=9;discipline=backstab;combo=feint;gear=greatsword" (default: level 9, no picks)}
+                             {--a= : Build for side A, e.g. "level=9;technique=backstab,sunder;ability=shadow_strike;gear=greatsword" (default: level 9, no picks)}
                              {--b= : Build for side B (default: level 9, no picks)}
                              {--strategy-a=tactician:balanced : Strategy for side A (tactician:balanced|aggressive|defensive, or balanced, aggressive, defensive, ...)}
                              {--strategy-b=tactician:balanced : Strategy for side B}
                              {--temperature= : Blend Tactician mixes toward uniform play (0-1), applied to every Tactician}
-                             {--grid= : Round-robin every option of one kind: disciplines, combos or gear}
+                             {--grid= : Round-robin every option of one kind: techniques, abilities or gear}
                              {--level=9 : Hero level for --grid builds}
                              {--battles=200 : Battles per matchup}
                              {--seed=1 : First battle seed}';
@@ -103,16 +103,16 @@ class HeroCombatSimulateCommand extends Command implements CommandInterface
     private function grid(BattleSimulator $simulator, BuildFactory $builds, string $kind, int $level, string $strategyA, string $strategyB, int $battles, int $seed): void
     {
         $type = match ($kind) {
-            'disciplines' => 'discipline',
-            'combos' => 'combo',
+            'techniques' => 'technique',
+            'abilities' => 'ability',
             'gear' => 'gear',
-            default => throw new InvalidArgumentException("Unknown grid '{$kind}'; use disciplines, combos or gear"),
+            default => throw new InvalidArgumentException("Unknown grid '{$kind}'; use techniques, abilities or gear"),
         };
 
         $options = $builds->optionsOfType($type, $level);
         $make = fn (string $key) => match ($type) {
-            'discipline' => new Build($level, discipline: $key),
-            'combo' => new Build($level, combos: [$key]),
+            'technique' => new Build($level, techniques: [$key]),
+            'ability' => new Build($level, ability: $key),
             'gear' => new Build($level, gear: [$key]),
         };
 

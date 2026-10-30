@@ -11,7 +11,8 @@ use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Wide open while channeling: -5 defense for the turn.
+ * Wide open: -5 defense. Applied for the turn while channeling, and by Sunder until the end
+ * of the following turn.
  */
 class Exposed extends AbstractEffect
 {
@@ -29,7 +30,7 @@ class Exposed extends AbstractEffect
 
     public function description(EffectInstance $instance): string
     {
-        return 'Defense reduced by ' . self::DEFENSE_PENALTY . ' while casting.';
+        return 'Defense reduced by ' . self::DEFENSE_PENALTY . '.';
     }
 
     public function kind(): EffectKind

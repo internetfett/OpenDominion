@@ -2,10 +2,13 @@
 
 namespace OpenDominion\HeroCombat\Analysis;
 
+use OpenDominion\HeroCombat\Content\Effects\AbstractStatShift;
+use OpenDominion\HeroCombat\Content\Effects\Marked;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\InMemorySpawner;
+use OpenDominion\HeroCombat\Engine\Stats\ModifierType;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 use OpenDominion\HeroCombat\Engine\TurnResolver;
 use OpenDominion\HeroCombat\Persistence\StateSnapshot;
@@ -19,6 +22,12 @@ final class TurnPreview
 {
     /** Evasion rolls use int(0, 100) < evasion: 101 equally likely values. */
     private const ROLL_RANGE = 101;
+
+    /** Share of a combatant's counter damage counted as threat (Counter is about a fifth of play). */
+    public const COUNTER_WEIGHT = 0.25;
+
+    /** Extra turns a battle-long stat shift is expected to matter. */
+    public const LASTING_TURNS = 4;
 
     /** @var array<string, TurnOutcome> outcomes for the current battle turn only */
     private array $cache = [];
@@ -149,7 +158,11 @@ final class TurnPreview
     }
 
     /**
-     * Damage potential of a combatant's next attack, used to value setup (Focus, attack buffs).
+     * A combatant's damage edge against its opponent after the turn, used to value setup:
+     * the damage its next plain attack would deal (attack and Focus against their defense,
+     * plus Marked), COUNTER_WEIGHT of the counter it threatens (none while Staggered), and
+     * battle-long stat shifts counted over LASTING_TURNS more turns. Terms that hold every
+     * turn cancel out, because the Tactician values the change from before the turn.
      */
     public static function offense(Battle $battle, CombatantState $combatant): float
     {
@@ -157,11 +170,47 @@ final class TurnPreview
             return 0.0;
         }
 
-        $offense = $battle->stat($combatant, Stat::Attack);
+        $opponent = $battle->enemiesOf($combatant, false)[0] ?? null;
+        $attack = $battle->stat($combatant, Stat::Attack);
+        $defense = $opponent !== null ? $battle->stat($opponent, Stat::Defense) : 0;
+
+        $power = $attack;
         if ($battle->hasTag($combatant, CombatTag::Focused)) {
-            $offense += $battle->stat($combatant, Stat::Focus) * max(1, $battle->effects->stacks($combatant, 'focused'));
+            $power += $battle->stat($combatant, Stat::Focus) * max(1, $battle->effects->stacks($combatant, 'focused'));
         }
 
-        return (float) $offense;
+        $edge = max(0, $power - $defense);
+        if ($opponent !== null && $battle->effects->has($opponent, 'marked')) {
+            $edge += Marked::BONUS_DAMAGE;
+        }
+        if (!$battle->hasTag($combatant, CombatTag::Staggered)) {
+            $edge += self::COUNTER_WEIGHT * max(0, $attack + $battle->stat($combatant, Stat::Counter) - $defense);
+        }
+
+        $lasting = self::statShift($battle, $combatant, Stat::Attack)
+            + self::COUNTER_WEIGHT * self::statShift($battle, $combatant, Stat::Counter)
+            - ($opponent !== null ? self::statShift($battle, $opponent, Stat::Defense) : 0);
+
+        return (float) $edge + self::LASTING_TURNS * $lasting;
+    }
+
+    /**
+     * Total battle-long shift (Forged, Analyzed, Outmaneuvered, ...) to one stat.
+     */
+    private static function statShift(Battle $battle, CombatantState $combatant, Stat $stat): float
+    {
+        $shift = 0.0;
+        foreach ($battle->effects->applicableTo($combatant) as [$effect, $instance]) {
+            if (!$effect instanceof AbstractStatShift) {
+                continue;
+            }
+            foreach ($effect->modifiers($instance, $combatant, $battle) as $modifier) {
+                if ($modifier->stat === $stat && $modifier->type === ModifierType::Flat) {
+                    $shift += $modifier->value;
+                }
+            }
+        }
+
+        return $shift;
     }
 }

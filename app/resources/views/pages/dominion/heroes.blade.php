@@ -260,6 +260,9 @@
                                             <td>
                                                 <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
                                                     {!! $heroHelper->getCombatUpgradeDescription($upgrade) ?: $heroHelper->getUpgradeDescription($upgrade, '<br/>') !!}
+                                                    @if ($requirement = $heroHelper->getClassAbilityRequirement($upgrade))
+                                                        <br/><small class="text-muted">{{ $requirement }}</small>
+                                                    @endif
                                                 </label>
                                             </td>
                                         </tr>

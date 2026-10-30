@@ -2,10 +2,16 @@
 
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
-use OpenDominion\HeroCombat\Engine\Stats\Modifier;
-use OpenDominion\HeroCombat\Engine\Stats\Stat;
+use OpenDominion\HeroCombat\Content\AbstractPassive;
+use OpenDominion\HeroCombat\Engine\ActionContext;
+use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
-class SecondWind extends AbstractCombo
+/**
+ * Technique: Recover Invigorates you until the end of the next turn, and the ally you
+ * healed as well.
+ */
+class SecondWind extends AbstractPassive
 {
     public function key(): string
     {
@@ -17,13 +23,22 @@ class SecondWind extends AbstractCombo
         return 'Second Wind';
     }
 
-    public function opener(): string
+    public function description(EffectInstance $instance): string
     {
-        return 'recover';
+        return 'Recover Invigorates you (+5 attack) until the end of the next turn, and the ally you healed.';
     }
 
-    public function statusModifiers(): array
+    public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void
     {
-        return [Modifier::flat(Stat::Attack, 5)];
+        if ($context->actor->id !== $instance->ownerId || $context->ability->key() !== 'recover') {
+            return;
+        }
+
+        $battle->effects->apply($context->actor, 'invigorated', null, 1, [], $context->actor);
+
+        $target = $context->target();
+        if ($target !== null && $target->id !== $context->actor->id && $target->isAlive()) {
+            $battle->effects->apply($target, 'invigorated', null, 1, [], $context->actor);
+        }
     }
 }

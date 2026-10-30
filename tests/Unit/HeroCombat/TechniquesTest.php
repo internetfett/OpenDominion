@@ -2,14 +2,18 @@
 
 namespace OpenDominion\Tests\Unit\HeroCombat;
 
+use OpenDominion\HeroCombat\Content\Effects\Exposed;
+use OpenDominion\HeroCombat\Content\Effects\Invigorated;
+use OpenDominion\HeroCombat\Content\Effects\Marked;
 use OpenDominion\HeroCombat\Content\Effects\Techniques\Backstab;
 use OpenDominion\HeroCombat\Content\Effects\Techniques\BattleFury;
+use OpenDominion\HeroCombat\Content\Effects\Techniques\Feint;
 use OpenDominion\HeroCombat\Content\Effects\Techniques\ManaShield;
+use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 use OpenDominion\Tests\Unit\HeroCombat\Support\BattleBuilder;
 use OpenDominion\Tests\Unit\HeroCombat\Support\BuildsBattles;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class TechniquesTest extends TestCase
@@ -44,19 +48,8 @@ class TechniquesTest extends TestCase
     }
 
     // ------------------------------------------------------------------
-    // Disciplines
+    // Technique I
     // ------------------------------------------------------------------
-
-    public function testOverpowerIgnoresFiveDefenseOnlyAgainstDefenders(): void
-    {
-        $battle = $this->duel('overpower', 'idle', heroStats: ['attack' => 60]);
-        $this->declare($battle, 'Foe', 'defend');
-
-        $this->assertEquals(60 - 40 + 5, $this->damageTo($battle, 'Foe', fn () => $this->perform($battle, 'Hero', 'attack', 'Foe')));
-
-        $battle->effects->removeByKey($this->named($battle, 'Foe'), 'defending');
-        $this->assertEquals(40, $this->damageTo($battle, 'Foe', fn () => $this->perform($battle, 'Hero', 'attack', 'Foe')));
-    }
 
     public function testBattleFuryRampsWithConsecutiveAttacksAndResets(): void
     {
@@ -197,92 +190,204 @@ class TechniquesTest extends TestCase
         $this->assertEquals(20 + Backstab::BONUS_DAMAGE, $damage);
     }
 
-    // ------------------------------------------------------------------
-    // Combos
-    // ------------------------------------------------------------------
-
-    public function testComboStatusAppliesForExactlyTheNextTurn(): void
+    public function testFeintAddsEvasionOnlyOnATurnYouAttack(): void
     {
-        $battle = $this->duel('shield_bash', 'idle');
-        $hero = $this->named($battle, 'Hero');
+        $battle = $this->pvp('feint');
+        $seen = [];
+        $battle->evasionRoll = function ($target, $evasion) use (&$seen) {
+            $seen[] = [$target->name, $evasion];
 
-        $this->queue($battle, 'Hero', 'defend');
-        $this->resolveTurn($battle);
-        $this->assertTrue($battle->effects->has($hero, 'shield_bash_status'));
-        $this->assertEquals('Shield Bash', $battle->registry->effect('shield_bash_status')->name());
+            return false;
+        };
 
         $this->queue($battle, 'Hero', 'attack', 'Foe');
-        $this->assertEquals(25, $this->damageTo($battle, 'Foe', fn () => $this->resolveTurn($battle)), '+5 attack the turn after Defend');
-        $this->assertFalse($battle->effects->has($hero, 'shield_bash_status'));
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+        $this->resolveTurn($battle);
+        $this->assertContains(['Hero', Feint::EVASION_BONUS], $seen, 'Attacks landing the same turn face the bonus');
 
-        $this->queue($battle, 'Hero', 'attack', 'Foe');
-        $this->assertEquals(20, $this->damageTo($battle, 'Foe', fn () => $this->resolveTurn($battle)));
+        $seen = [];
+        $this->queue($battle, 'Hero', 'counter');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+        $this->resolveTurn($battle);
+        $this->assertContains(['Hero', 0], $seen);
+        $this->assertFalse($battle->effects->has($this->named($battle, 'Hero'), 'feint_status'), 'No status left behind');
     }
 
-    public function testComboStatusDoesNotHelpDuringTheOpenerTurn(): void
+    // ------------------------------------------------------------------
+    // Technique II
+    // ------------------------------------------------------------------
+
+    /**
+     * Hero vs Foe, both human so each turn's actions are queued.
+     */
+    private function pvp(string $technique, array $foeStats = []): Battle
     {
-        $battle = $this->duel('feint', 'idle');
-        $hero = $this->named($battle, 'Hero');
+        $battle = BattleBuilder::make()
+            ->hero('Hero')
+            ->hero('Foe', team: 2, stats: array_merge(['health' => 500], $foeStats))
+            ->build();
+        $battle->effects->apply($this->named($battle, 'Hero'), $technique);
+        $battle->evasionRoll = fn () => false;
 
-        $this->perform($battle, 'Hero', 'attack', 'Foe');
-        $battle->dispatcher->run(\OpenDominion\HeroCombat\Engine\Effects\Hook::AbilityUsed, [$hero], new \OpenDominion\HeroCombat\Engine\ActionContext($battle, $hero, $battle->registry->ability('attack'), new \OpenDominion\HeroCombat\Engine\Intent($hero->id, 'attack')), $battle);
-
-        $this->assertTrue($battle->effects->has($hero, 'feint_status'));
-        $this->assertEquals(0, $battle->stat($hero, Stat::Evasion));
-
-        $battle->effects->tickTurnEnd();
-        $battle->state->turn++;
-        $this->assertEquals(10, $battle->stat($hero, Stat::Evasion));
-    }
-
-    public function testCombosOnlyTriggerOnTheirOpener(): void
-    {
-        $battle = $this->duel('spellweave', 'idle');
-        $hero = $this->named($battle, 'Hero');
-
-        $this->queue($battle, 'Hero', 'focus');
-        $this->resolveTurn($battle);
-        $this->assertFalse($battle->effects->has($hero, 'spellweave_status'));
-
-        $this->queue($battle, 'Hero', 'defend');
-        $this->resolveTurn($battle);
-        $this->assertTrue($battle->effects->has($hero, 'spellweave_status'));
+        return $battle;
     }
 
     /**
-     * @return array<string, array{string, string, Stat, int}>
+     * Queues both sides and resolves the turn.
      */
-    public static function combos(): array
+    private function turn(Battle $battle, array $hero, array $foe): void
     {
-        return [
-            'feint' => ['feint', 'attack', Stat::Evasion, 0 + 10],
-            'shield bash' => ['shield_bash', 'defend', Stat::Attack, 40 + 5],
-            'spellweave' => ['spellweave', 'defend', Stat::Focus, 10 + 10],
-            'riposte' => ['riposte', 'counter', Stat::Attack, 40 + 5],
-            'second wind' => ['second_wind', 'recover', Stat::Attack, 40 + 5],
-            'wellspring' => ['wellspring', 'focus', Stat::Recover, 20 + 5],
-        ];
-    }
-
-    #[DataProvider('combos')]
-    public function testEachComboBoostsItsStatTheTurnAfterItsOpener(string $combo, string $opener, Stat $stat, int $expected): void
-    {
-        $battle = $this->duel($combo, 'idle');
-        $hero = $this->named($battle, 'Hero');
-
-        $this->queue($battle, 'Hero', $opener, $opener === 'attack' ? 'Foe' : null);
+        $this->queue($battle, 'Hero', ...$hero);
+        $this->queue($battle, 'Foe', ...$foe);
         $this->resolveTurn($battle);
-
-        $this->assertEquals($expected, $battle->stat($hero, $stat));
     }
 
-    public function testCombosAndTheirStatusesAreVisible(): void
+    public function testSunderExposesADefendingTargetUntilTheEndOfTheNextTurn(): void
+    {
+        $battle = $this->pvp('sunder');
+        $foe = $this->named($battle, 'Foe');
+
+        $this->turn($battle, ['attack', 'Foe'], ['defend']);
+        $this->assertEquals(500, $foe->currentHealth, 'The sundering attack itself gets no bonus');
+        $this->assertTrue($battle->effects->has($foe, 'exposed'));
+        $this->assertEquals(20 - Exposed::DEFENSE_PENALTY, $battle->stat($foe, Stat::Defense));
+
+        $this->turn($battle, ['attack', 'Foe'], ['counter']);
+        $this->assertEquals(500 - (40 - 15), $foe->currentHealth);
+        $this->assertFalse($battle->effects->has($foe, 'exposed'));
+    }
+
+    public function testSunderNeedsADefendingTarget(): void
+    {
+        $battle = $this->pvp('sunder');
+
+        $this->turn($battle, ['attack', 'Foe'], ['focus']);
+
+        $this->assertFalse($battle->effects->has($this->named($battle, 'Foe'), 'exposed'));
+    }
+
+    public function testShieldBashStaggersAnAttackerEvenWhenTheHitIsBlocked(): void
+    {
+        $battle = $this->pvp('shield_bash');
+        $hero = $this->named($battle, 'Hero');
+        $foe = $this->named($battle, 'Foe');
+
+        $this->turn($battle, ['defend'], ['attack', 'Hero']);
+        $this->assertEquals(100, $hero->currentHealth, 'Defend blocked the hit');
+        $this->assertTrue($battle->effects->has($foe, 'staggered'));
+        $this->assertFalse((new ActionValidator($battle))->canPerform($foe, 'counter'));
+
+        $this->turn($battle, ['attack', 'Foe'], ['defend']);
+        $this->assertFalse($battle->effects->has($foe, 'staggered'));
+        $this->assertTrue((new ActionValidator($battle))->canPerform($foe, 'counter'));
+    }
+
+    public function testShieldBashNeedsDefend(): void
+    {
+        $battle = $this->pvp('shield_bash');
+
+        $this->turn($battle, ['focus'], ['attack', 'Hero']);
+
+        $this->assertFalse($battle->effects->has($this->named($battle, 'Foe'), 'staggered'));
+    }
+
+    public function testRiposteMarksTheAttackerItCounters(): void
+    {
+        $battle = $this->pvp('riposte');
+        $foe = $this->named($battle, 'Foe');
+
+        $this->turn($battle, ['counter'], ['attack', 'Hero']);
+        $this->assertTrue($battle->effects->has($foe, 'marked'));
+
+        $health = $foe->currentHealth;
+        $this->turn($battle, ['attack', 'Foe'], ['focus']);
+        $this->assertEquals(20 + Marked::BONUS_DAMAGE, $health - $foe->currentHealth);
+        $this->assertFalse($battle->effects->has($foe, 'marked'));
+    }
+
+    public function testSpellbrandMarksOnlyOnAFocusedHit(): void
+    {
+        $battle = $this->pvp('spellbrand');
+        $foe = $this->named($battle, 'Foe');
+
+        $this->turn($battle, ['attack', 'Foe'], ['focus']);
+        $this->assertFalse($battle->effects->has($foe, 'marked'), 'Unfocused');
+
+        $this->turn($battle, ['focus'], ['focus']);
+        $battle->evasionRoll = fn ($target) => $target->id === $foe->id;
+        $this->turn($battle, ['attack', 'Foe'], ['recover']);
+        $this->assertFalse($battle->effects->has($foe, 'marked'), 'Evaded');
+
+        $battle->evasionRoll = fn () => false;
+        $this->turn($battle, ['focus'], ['defend']);
+        $this->turn($battle, ['attack', 'Foe'], ['attack', 'Hero']);
+        $this->assertTrue($battle->effects->has($foe, 'marked'));
+    }
+
+    public function testSecondWindInvigoratesTheHealerAndTheHealedAlly(): void
+    {
+        $battle = BattleBuilder::make()
+            ->hero('Hero')
+            ->hero('Ally')
+            ->hero('Foe', team: 2, stats: ['health' => 500])
+            ->build();
+        $hero = $this->named($battle, 'Hero');
+        $ally = $this->named($battle, 'Ally');
+        $battle->effects->apply($hero, 'second_wind');
+        $battle->evasionRoll = fn () => false;
+
+        $this->queue($battle, 'Hero', 'recover');
+        $this->queue($battle, 'Ally', 'defend');
+        $this->queue($battle, 'Foe', 'focus');
+        $this->resolveTurn($battle);
+        $this->assertEquals(40 + Invigorated::ATTACK_BONUS, $battle->stat($hero, Stat::Attack));
+        $this->assertFalse($battle->effects->has($ally, 'invigorated'), 'Only the ally you heal');
+
+        $this->queue($battle, 'Hero', 'attack', 'Foe');
+        $this->queue($battle, 'Ally', 'defend');
+        $this->queue($battle, 'Foe', 'defend');
+        $this->resolveTurn($battle);
+        $this->assertFalse($battle->effects->has($hero, 'invigorated'));
+
+        $this->queue($battle, 'Hero', 'recover', 'Ally');
+        $this->queue($battle, 'Ally', 'defend');
+        $this->queue($battle, 'Foe', 'focus');
+        $this->resolveTurn($battle);
+        $this->assertTrue($battle->effects->has($hero, 'invigorated'));
+        $this->assertTrue($battle->effects->has($ally, 'invigorated'));
+    }
+
+    // ------------------------------------------------------------------
+    // Shared statuses
+    // ------------------------------------------------------------------
+
+    public function testMarkedPaysOffForAnyAttackerButNotBlockedHitsOrCounters(): void
+    {
+        $battle = BattleBuilder::make()
+            ->hero('Hero')
+            ->hero('Ally')
+            ->hero('Foe', team: 2, stats: ['health' => 500])
+            ->build();
+        $foe = $this->named($battle, 'Foe');
+        $battle->evasionRoll = fn () => false;
+        $battle->effects->apply($foe, 'marked');
+
+        $this->assertEquals(20 + Marked::BONUS_DAMAGE, $this->damageTo($battle, 'Foe', fn () => $this->perform($battle, 'Ally', 'attack', 'Foe')));
+
+        $this->declare($battle, 'Foe', 'defend');
+        $this->assertEquals(0, $this->damageTo($battle, 'Foe', fn () => $this->perform($battle, 'Hero', 'attack', 'Foe')), 'A fully blocked hit stays blocked');
+
+        $battle->effects->removeByKey($foe, 'defending');
+        $counter = $battle->damage->counterAttack($this->named($battle, 'Hero'), $foe);
+        $this->assertEquals(40 + 10 - 20, $counter->amount, 'Counters get no bonus');
+    }
+
+    public function testTechniquesAndStatusesAreVisible(): void
     {
         $registry = \OpenDominion\Providers\HeroCombatServiceProvider::buildRegistry();
 
-        foreach (array_column(self::combos(), 0) as $combo) {
-            $this->assertTrue($registry->effect($combo)->visible());
-            $this->assertTrue($registry->effect("{$combo}_status")->visible());
+        foreach (['feint', 'sunder', 'shield_bash', 'riposte', 'spellbrand', 'second_wind', 'exposed', 'marked', 'staggered', 'invigorated'] as $key) {
+            $this->assertTrue($registry->effect($key)->visible(), $key);
         }
     }
 }

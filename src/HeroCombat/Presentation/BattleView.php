@@ -2,8 +2,6 @@
 
 namespace OpenDominion\HeroCombat\Presentation;
 
-use OpenDominion\HeroCombat\Content\Effects\Techniques\AbstractCombo;
-use OpenDominion\HeroCombat\Content\Effects\Techniques\ComboStatus;
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
@@ -157,8 +155,6 @@ class BattleView
     /**
      * Visible effects applying to the combatant, from every scope.
      *
-     * A Combo and its status share one badge: the status replaces the Combo while it is up.
-     *
      * @return array<int, array{sortsWithInnate: bool, key: string, name: string, description: string, kind: string, turns: int|null, stacks: int}>
      */
     public function effects(CombatantState $combatant): array
@@ -168,11 +164,8 @@ class BattleView
             if (!$effect->visible()) {
                 continue;
             }
-            if ($effect instanceof AbstractCombo && $this->battle->effects->has($combatant, $effect->statusKey())) {
-                continue;
-            }
             $effects[] = [
-                'sortsWithInnate' => $effect->kind() === EffectKind::Innate || $effect instanceof ComboStatus,
+                'sortsWithInnate' => $effect->kind() === EffectKind::Innate,
                 'key' => $effect->key(),
                 'name' => $effect->name(),
                 'description' => $effect->description($instance),

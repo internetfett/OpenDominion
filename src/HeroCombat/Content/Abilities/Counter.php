@@ -41,6 +41,11 @@ class Counter extends AbstractAbility
         return [CombatTag::Stance];
     }
 
+    public function blockedByTags(): array
+    {
+        return [CombatTag::Stunned, CombatTag::Staggered];
+    }
+
     public function onDeclare(ActionContext $context): void
     {
         $context->applyEffect($context->actor, 'countering', 1);

@@ -8,6 +8,7 @@ use OpenDominion\HeroCombat\Analysis\BuildFactory;
 use OpenDominion\HeroCombat\Analysis\TacticianProfile;
 use OpenDominion\HeroCombat\Analysis\TacticianStrategy;
 use OpenDominion\HeroCombat\Analysis\TurnPreview;
+use OpenDominion\HeroCombat\Content\Effects\Marked;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\BattleState;
 use OpenDominion\HeroCombat\Engine\InMemorySpawner;
@@ -44,6 +45,38 @@ class TacticianTest extends AbstractTestCase
         $chance = 50 / 101;
         $expectedHealth = $battle->combatant(2)->currentHealth - ($hit * (1 - $chance) + ($hit / 2) * $chance);
         $this->assertEqualsWithDelta($expectedHealth, $outcome->health[2], 1e-9);
+    }
+
+    public function testOffenseIsTheDamageEdgeAgainstTheOpponent(): void
+    {
+        $battle = $this->duel();
+        $a = $battle->combatant(1);
+        $b = $battle->combatant(2);
+        $counterThreat = TurnPreview::COUNTER_WEIGHT * (40 + 10 - 20);
+
+        $this->assertEquals((40 - 20) + $counterThreat, TurnPreview::offense($battle, $a));
+
+        $battle->effects->apply($b, 'marked');
+        $battle->effects->apply($b, 'exposed', 2);
+        $this->assertEquals((40 - 15) + Marked::BONUS_DAMAGE + TurnPreview::COUNTER_WEIGHT * (40 + 10 - 15), TurnPreview::offense($battle, $a), 'Marked and Exposed raise the edge');
+
+        $battle->effects->apply($a, 'staggered');
+        $this->assertEquals((40 - 15) + Marked::BONUS_DAMAGE, TurnPreview::offense($battle, $a), 'Staggered removes the counter threat');
+    }
+
+    public function testOffenseCountsBattleLongShiftsOverSeveralTurns(): void
+    {
+        $battle = $this->duel();
+        $a = $battle->combatant(1);
+        $b = $battle->combatant(2);
+        $before = TurnPreview::offense($battle, $a);
+        $theirsBefore = TurnPreview::offense($battle, $b);
+
+        $battle->effects->apply($b, 'analyzed');
+        $this->assertEquals((1 + TurnPreview::COUNTER_WEIGHT) * 1 + TurnPreview::LASTING_TURNS, TurnPreview::offense($battle, $a) - $before, '-1 defense now and for the turns ahead');
+
+        $battle->effects->apply($b, 'outmaneuvered');
+        $this->assertEquals(-(TurnPreview::COUNTER_WEIGHT * 2) * (1 + TurnPreview::LASTING_TURNS), TurnPreview::offense($battle, $b) - $theirsBefore, '-2 counter lowers their threat now and later');
     }
 
     public function testPreviewDoesNotChangeTheRealBattle(): void
@@ -117,8 +150,8 @@ class TacticianTest extends AbstractTestCase
     {
         $simulator = new BattleSimulator($this->app->make(BuildFactory::class));
 
-        $first = $simulator->run(new Build(9), new Build(9, discipline: 'backstab'), 'tactician:aggressive', 'tactician:defensive', 6, 3);
-        $second = $simulator->run(new Build(9), new Build(9, discipline: 'backstab'), 'tactician:aggressive', 'tactician:defensive', 6, 3);
+        $first = $simulator->run(new Build(9), new Build(9, techniques: ['backstab']), 'tactician:aggressive', 'tactician:defensive', 6, 3);
+        $second = $simulator->run(new Build(9), new Build(9, techniques: ['backstab']), 'tactician:aggressive', 'tactician:defensive', 6, 3);
 
         $this->assertEquals([$first->winsA, $first->winsB, $first->draws, $first->totalTurns], [$second->winsA, $second->winsB, $second->draws, $second->totalTurns]);
     }

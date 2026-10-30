@@ -392,7 +392,7 @@ class HeroCalculatorTest extends AbstractBrowserKitTestCase
     {
         $hero = $this->heroAtExperience(10000); // Level 12
 
-        $this->assertEquals([1, 2, 3, 4, 5, 6, 7], array_keys($this->heroCalculator->getUpgradeSlots($hero)));
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 9], array_keys($this->heroCalculator->getUpgradeSlots($hero)));
     }
 
     public function testScionHasALevelZeroSlot()
@@ -416,26 +416,57 @@ class HeroCalculatorTest extends AbstractBrowserKitTestCase
         $this->assertEquals(1, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(200)), 'Level 1: doctrine');
         $this->assertEquals(3, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(1200)), 'Level 3: doctrine, 2, 3');
         $this->assertEquals(7, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(4250)), 'Level 8: 1 through 7');
-        $this->assertEquals(7, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(5000)), 'Level 9: no picks beyond level 7');
+        $this->assertEquals(8, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(5000)), 'Level 9: gear');
     }
 
     public function testOnePickPerOddLevel()
     {
         $hero = $this->heroAtExperience(2300); // Level 5
-        $overpower = HeroUpgrade::where('key', 'overpower')->firstOrFail();
         $backstab = HeroUpgrade::where('key', 'backstab')->firstOrFail();
+        $feint = HeroUpgrade::where('key', 'feint')->firstOrFail();
+        $sunder = HeroUpgrade::where('key', 'sunder')->firstOrFail();
+        $fortify = HeroUpgrade::where('key', 'fortify')->firstOrFail();
         $greatsword = HeroUpgrade::where('key', 'greatsword')->firstOrFail();
-        $shieldBash = HeroUpgrade::where('key', 'shield_bash')->firstOrFail();
 
-        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $overpower));
-        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $greatsword));
-        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $shieldBash), 'Combos need level 7');
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $backstab));
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $sunder));
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $fortify), 'Abilities need level 7');
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $greatsword), 'Gear needs level 9');
 
-        $this->unlock($hero, 'overpower');
+        $this->unlock($hero, 'backstab');
 
-        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $backstab), 'Only one discipline');
-        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $greatsword));
-        $this->assertSame('overpower', $this->heroCalculator->getUpgradeSlots($hero)[3]->key);
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $feint), 'Only one Technique I');
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $sunder));
+        $this->assertSame('backstab', $this->heroCalculator->getUpgradeSlots($hero)[3]->key);
+    }
+
+    public function testClassAbilitiesNeedThatClassAtLevelFive()
+    {
+        $hero = $this->heroAtExperience(4250, 'infiltrator'); // Level 8
+        $shadowStrike = HeroUpgrade::where('key', 'shadow_strike')->firstOrFail();
+        $hardiness = HeroUpgrade::where('key', 'hardiness')->firstOrFail();
+        $forge = HeroUpgrade::where('key', 'forge')->firstOrFail();
+
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $shadowStrike), 'Active class');
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $hardiness), 'Farmer never played');
+
+        $hero->class_data = [
+            'farmer' => ['key' => 'farmer', 'experience' => 2300], // Level 5
+            'blacksmith' => ['key' => 'blacksmith', 'experience' => 1200], // Level 3
+        ];
+        $hero->save();
+
+        $this->assertEquals(5, $this->heroCalculator->getClassLevel($hero, 'farmer'));
+        $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $hardiness), 'Inactive class at level 5');
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $forge), 'Inactive class below level 5');
+    }
+
+    public function testClassAbilityRequirementIsDescribed()
+    {
+        $heroHelper = app(\OpenDominion\Helpers\HeroHelper::class);
+
+        $this->assertEquals('Requires Infiltrator level 5', $heroHelper->getClassAbilityRequirement(HeroUpgrade::where('key', 'shadow_strike')->firstOrFail()));
+        $this->assertNull($heroHelper->getClassAbilityRequirement(HeroUpgrade::where('key', 'backstab')->firstOrFail()));
     }
 
     public function testUpgradesNoLongerGrantCombatStatsExceptGear()

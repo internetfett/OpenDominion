@@ -2,7 +2,6 @@
 
 namespace OpenDominion\HeroCombat\Analysis;
 
-use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
 use OpenDominion\HeroCombat\Contracts\AiStrategy;
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
@@ -81,14 +80,14 @@ final class TacticianStrategy implements AiStrategy
     }
 
     /**
-     * @return string[] basic abilities the combatant can use right now
+     * @return string[] abilities the combatant can use right now
      */
     public function legalActions(CombatantState $combatant, Battle $battle): array
     {
         $validator = new ActionValidator($battle);
 
         return array_values(array_filter(
-            HeroClassLoadouts::BASIC_ABILITIES,
+            $combatant->abilities,
             fn (string $ability) => $validator->canPerform($combatant, $ability),
         ));
     }

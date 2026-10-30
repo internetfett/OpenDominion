@@ -157,39 +157,120 @@ lead_from_the_shadows:
   icon: ra-cloak-and-dagger
   perks:
     xp_from_ops_bonus: 100
-overpower:
-  name: Overpower
-  level: 3
-  type: discipline
-  icon: ra-muscle-up
 battle_fury:
   name: Battle Fury
   level: 3
-  type: discipline
+  type: technique
   icon: ra-axe
 restoration:
   name: Restoration
   level: 3
-  type: discipline
+  type: technique
   icon: ra-heart-bottle
 mana_shield:
   name: Mana Shield
   level: 3
-  type: discipline
+  type: technique
   icon: ra-bolt-shield
 shadow_dance:
   name: Shadow Dance
   level: 3
-  type: discipline
+  type: technique
   icon: ra-player-dodge
 backstab:
   name: Backstab
   level: 3
-  type: discipline
+  type: technique
   icon: ra-dripping-knife
+feint:
+  name: Feint
+  level: 3
+  type: technique
+  icon: ra-spinning-sword
+sunder:
+  name: Sunder
+  level: 5
+  type: technique
+  icon: ra-muscle-up
+shield_bash:
+  name: Shield Bash
+  level: 5
+  type: technique
+  icon: ra-round-shield
+riposte:
+  name: Riposte
+  level: 5
+  type: technique
+  icon: ra-crossed-swords
+spellbrand:
+  name: Spellbrand
+  level: 5
+  type: technique
+  icon: ra-focused-lightning
+second_wind:
+  name: Second Wind
+  level: 5
+  type: technique
+  icon: ra-feather-wing
+volatile_mixture:
+  name: Volatile Mixture
+  level: 7
+  type: ability
+  icon: ra-gold-bar
+fortify:
+  name: Fortify
+  level: 7
+  type: ability
+  icon: ra-quill-ink
+forge:
+  name: Forge
+  level: 7
+  type: ability
+  icon: ra-anvil
+tactical_awareness:
+  name: Tactical Awareness
+  level: 7
+  type: ability
+  icon: ra-hammer
+hardiness:
+  name: Hardiness
+  level: 7
+  type: ability
+  icon: ra-sprout
+mending:
+  name: Mending
+  level: 7
+  type: ability
+  icon: ra-apothecary
+shadow_strike:
+  name: Shadow Strike
+  level: 7
+  type: ability
+  icon: ra-hood
+channeling:
+  name: Channeling
+  level: 7
+  type: ability
+  icon: ra-pointy-hat
+combat_analysis:
+  name: Combat Analysis
+  level: 7
+  type: ability
+  icon: ra-graduate-cap
+last_stand:
+  name: Last Stand
+  level: 7
+  type: ability
+  icon: ra-ankh
+blade_flurry:
+  name: Blade Flurry
+  level: 7
+  type: ability
+  icon: ra-crossed-axes
+  active: false
 greatsword:
   name: Greatsword
-  level: 5
+  level: 9
   type: gear
   icon: ra-sword
   perks:
@@ -197,7 +278,7 @@ greatsword:
     combat_evasion: -10
 plate_armor:
   name: Plate Armor
-  level: 5
+  level: 9
   type: gear
   icon: ra-knight-helmet
   perks:
@@ -205,60 +286,48 @@ plate_armor:
     combat_evasion: -5
 swordbreaker:
   name: Swordbreaker Dagger
-  level: 5
+  level: 9
   type: gear
   icon: ra-bowie-knife
   perks:
     combat_counter: 6
 hooded_cloak:
   name: Hooded Cloak
-  level: 5
+  level: 9
   type: gear
   icon: ra-hood
   perks:
     combat_evasion: 8
 crystal_wand:
   name: Crystal Wand
-  level: 5
+  level: 9
   type: gear
   icon: ra-crystal-wand
   perks:
     combat_focus: 6
 vestments_of_renewal:
   name: Vestments of Renewal
-  level: 5
+  level: 9
   type: gear
   icon: ra-robe
   perks:
     combat_recover: 4
     combat_health: 5
-shield_bash:
-  name: Shield Bash
-  level: 7
-  type: combo
-  icon: ra-round-shield
-second_wind:
-  name: Second Wind
-  level: 7
-  type: combo
-  icon: ra-feather-wing
+overpower:
+  name: Overpower
+  level: 3
+  type: technique
+  icon: ra-muscle-up
+  active: false
 spellweave:
   name: Spellweave
-  level: 7
-  type: combo
+  level: 5
+  type: technique
   icon: ra-focused-lightning
+  active: false
 wellspring:
   name: Wellspring
-  level: 7
-  type: combo
+  level: 5
+  type: technique
   icon: ra-droplet-splash
-riposte:
-  name: Riposte
-  level: 7
-  type: combo
-  icon: ra-crossed-swords
-feint:
-  name: Feint
-  level: 7
-  type: combo
-  icon: ra-spinning-sword
+  active: false

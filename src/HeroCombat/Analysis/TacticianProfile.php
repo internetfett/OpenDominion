@@ -11,7 +11,7 @@ final readonly class TacticianProfile
      * @param float $damageDealt value per point of health the opponent loses
      * @param float $damageTaken cost per point of health you lose
      * @param float $healing value per point of health you regain
-     * @param float $setup value per point of change in next-attack potential (yours minus theirs)
+     * @param float $setup value per point of change in damage edge (yours minus theirs, see TurnPreview::offense)
      * @param float $victory value of winning (minus the same for losing), scaled by probability
      * @param float $temperature share of the final mix spread evenly over legal actions (0 = pure equilibrium)
      */

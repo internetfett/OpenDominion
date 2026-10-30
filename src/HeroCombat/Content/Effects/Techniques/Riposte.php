@@ -2,10 +2,15 @@
 
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
-use OpenDominion\HeroCombat\Engine\Stats\Modifier;
-use OpenDominion\HeroCombat\Engine\Stats\Stat;
+use OpenDominion\HeroCombat\Content\AbstractPassive;
+use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
+use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
-class Riposte extends AbstractCombo
+/**
+ * Technique: a Counter that deals damage Marks the attacker until the end of the next turn.
+ */
+class Riposte extends AbstractPassive
 {
     public function key(): string
     {
@@ -17,13 +22,17 @@ class Riposte extends AbstractCombo
         return 'Riposte';
     }
 
-    public function opener(): string
+    public function description(EffectInstance $instance): string
     {
-        return 'counter';
+        return 'Landing a Counter Marks the attacker (attacks that hit deal +5 damage) until the end of the next turn.';
     }
 
-    public function statusModifiers(): array
+    public function afterDamageDealt(EffectInstance $instance, DamageContext $damage, Battle $battle): void
     {
-        return [Modifier::flat(Stat::Attack, 5)];
+        if ($damage->request->attacker?->id !== $instance->ownerId || !$damage->request->isCounter || !$damage->target->isAlive()) {
+            return;
+        }
+
+        $battle->effects->apply($damage->target, 'marked', null, 1, [], $damage->request->attacker);
     }
 }

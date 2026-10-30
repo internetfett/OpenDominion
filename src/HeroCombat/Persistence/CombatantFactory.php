@@ -16,8 +16,11 @@ class CombatantFactory
     public const DEFAULT_TIME_BANK = 2 * 60 * 60;
     public const DEFAULT_STRATEGY = 'balanced';
 
-    /** Upgrade types whose key names an innate combat effect. */
-    public const TECHNIQUE_TYPES = ['discipline', 'combo'];
+    /** Upgrade type whose key names an innate combat effect. */
+    public const TECHNIQUE_TYPE = 'technique';
+
+    /** Upgrade type whose key names an ability, or an innate effect for passive signatures. */
+    public const ABILITY_TYPE = 'ability';
 
     public function __construct(
         protected HeroCalculator $heroCalculator,
@@ -32,6 +35,8 @@ class CombatantFactory
     public function addHero(Battle $battle, Hero $hero, int $team, array $grantedAbilities = [], ?int $controllerDominionId = null): CombatantState
     {
         $stats = $this->heroCalculator->getHeroCombatStats($hero);
+        $upgradeKeys = $this->upgradeKeys($hero);
+        $upgradeAbilities = array_filter($upgradeKeys, fn (string $key) => $battle->registry->hasAbility($key));
 
         $combatant = new CombatantState(
             id: 0,
@@ -39,7 +44,7 @@ class CombatantFactory
             team: $team,
             baseStats: $stats,
             currentHealth: $stats['health'],
-            abilities: $this->loadouts->withGrants($this->loadouts->abilitiesFor($hero->class), $grantedAbilities),
+            abilities: $this->loadouts->withGrants(HeroClassLoadouts::BASIC_ABILITIES, array_merge($upgradeAbilities, $grantedAbilities)),
             ai: self::DEFAULT_STRATEGY,
             heroId: $hero->id,
             dominionId: $hero->dominion_id,
@@ -50,13 +55,9 @@ class CombatantFactory
         $combatant->id = $battle->spawner->spawn($battle->state, $combatant);
         $battle->state->addCombatant($combatant);
 
-        foreach ($this->loadouts->passivesFor($hero->class) as $passive) {
-            $battle->effects->apply($combatant, $passive);
-        }
-
-        foreach ($this->techniqueKeys($hero) as $technique) {
-            if ($battle->registry->hasEffect($technique)) {
-                $battle->effects->apply($combatant, $technique);
+        foreach ($upgradeKeys as $key) {
+            if ($battle->registry->hasEffect($key)) {
+                $battle->effects->apply($combatant, $key);
             }
         }
 
@@ -64,14 +65,15 @@ class CombatantFactory
     }
 
     /**
-     * Disciplines and Combos the hero has unlocked; each is an innate effect with the same key.
+     * Techniques and class abilities the hero has unlocked. Each key names an ability or an
+     * innate effect.
      *
      * @return string[]
      */
-    public function techniqueKeys(Hero $hero): array
+    public function upgradeKeys(Hero $hero): array
     {
         return $hero->upgrades
-            ->whereIn('type', self::TECHNIQUE_TYPES)
+            ->whereIn('type', [self::TECHNIQUE_TYPE, self::ABILITY_TYPE])
             ->pluck('key')
             ->values()
             ->all();

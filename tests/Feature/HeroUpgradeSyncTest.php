@@ -83,20 +83,38 @@ class HeroUpgradeSyncTest extends AbstractTestCase
         }
     }
 
-    public function testEveryTechniqueHasACombatEffect(): void
+    public function testEveryTechniqueAndAbilityIsImplemented(): void
     {
         $registry = $this->app->make(CombatRegistry::class);
 
         foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
-            if (in_array($upgradeData['type'], CombatantFactory::TECHNIQUE_TYPES, true)) {
+            if (!($upgradeData['active'] ?? true)) {
+                continue;
+            }
+            if ($upgradeData['type'] === CombatantFactory::TECHNIQUE_TYPE) {
                 $this->assertTrue($registry->hasEffect($upgradeKey), "Technique {$upgradeKey} has no effect class");
             }
+            if ($upgradeData['type'] === CombatantFactory::ABILITY_TYPE) {
+                $this->assertTrue($registry->hasAbility($upgradeKey) || $registry->hasEffect($upgradeKey), "Ability {$upgradeKey} has no ability or effect class");
+            }
+        }
+    }
+
+    public function testEveryClassSignatureIsAnAbilityUpgradeWithTheClassIcon(): void
+    {
+        $upgrades = $this->getHeroUpgradeData();
+        $classes = $this->app->make(\OpenDominion\Helpers\HeroHelper::class)->getClasses();
+
+        foreach (\OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts::SIGNATURES as $class => $key) {
+            $this->assertArrayHasKey($key, $upgrades, "{$class} signature {$key} has no upgrade");
+            $this->assertSame(CombatantFactory::ABILITY_TYPE, $upgrades[$key]['type']);
+            $this->assertSame($classes[$class]['icon'], $upgrades[$key]['icon'], "{$key} should use the {$class} icon");
         }
     }
 
     public function testCombatPicksSitOnOddLevels(): void
     {
-        $expected = ['discipline' => [3], 'gear' => [5], 'combo' => [7]];
+        $expected = ['technique' => [3, 5], 'ability' => [7], 'gear' => [9]];
 
         foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
             if (isset($expected[$upgradeData['type']])) {

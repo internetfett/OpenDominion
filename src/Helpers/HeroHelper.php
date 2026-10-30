@@ -4,6 +4,7 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Persistence\CombatantFactory;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
@@ -15,7 +16,7 @@ class HeroHelper
     /**
      * Upgrade types whose effects only apply in hero battles.
      */
-    public const HERO_BATTLE_UPGRADE_TYPES = ['discipline', 'gear', 'combo'];
+    public const HERO_BATTLE_UPGRADE_TYPES = ['technique', 'ability', 'gear'];
 
     public function getClasses()
     {
@@ -270,8 +271,12 @@ class HeroHelper
 
     public function getCombatUpgradeDescription(HeroUpgrade $heroUpgrade, string $separator = ', '): string
     {
-        if (in_array($heroUpgrade->type, CombatantFactory::TECHNIQUE_TYPES, true)) {
+        if (in_array($heroUpgrade->type, [CombatantFactory::TECHNIQUE_TYPE, CombatantFactory::ABILITY_TYPE], true)) {
             $registry = app(CombatRegistry::class);
+
+            if ($registry->hasAbility($heroUpgrade->key)) {
+                return $registry->ability($heroUpgrade->key)->description();
+            }
 
             return $registry->hasEffect($heroUpgrade->key)
                 ? $registry->effect($heroUpgrade->key)->description(new EffectInstance($heroUpgrade->key))
@@ -288,6 +293,24 @@ class HeroHelper
         }
 
         return implode($separator, $perkStrings);
+    }
+
+    /**
+     * The class level a class ability needs, e.g. "Requires Infiltrator level 5", or null if
+     * the upgrade has no class requirement.
+     */
+    public function getClassAbilityRequirement(HeroUpgrade $heroUpgrade): ?string
+    {
+        if ($heroUpgrade->type !== CombatantFactory::ABILITY_TYPE) {
+            return null;
+        }
+
+        $class = app(HeroClassLoadouts::class)->classFor($heroUpgrade->key);
+        if ($class === null) {
+            return null;
+        }
+
+        return sprintf('Requires %s level %d', $this->getClassDisplayName($class), HeroClassLoadouts::UNLOCK_CLASS_LEVEL);
     }
 
     public function getCombatStatTooltip(string $stat): string

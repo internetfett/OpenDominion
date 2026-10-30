@@ -3,16 +3,17 @@
 namespace OpenDominion\HeroCombat\Content\Loadouts;
 
 /**
- * Combat abilities and passives each hero class brings to battle.
+ * The basic actions every hero brings to battle, and each class's signature: the ability
+ * or passive a hero can pick at level 7 once that class reaches UNLOCK_CLASS_LEVEL.
  */
 class HeroClassLoadouts
 {
-    /**
-     * Class abilities are not granted in battle yet; flip this to enable them.
-     */
-    public const ENABLED = false;
-
     public const BASIC_ABILITIES = ['attack', 'defend', 'focus', 'counter', 'recover'];
+
+    /**
+     * Class level (active or not) needed before its signature can be picked.
+     */
+    public const UNLOCK_CLASS_LEVEL = 5;
 
     /**
      * Abilities that replace a basic ability when granted.
@@ -24,52 +25,31 @@ class HeroClassLoadouts
     ];
 
     /**
-     * @return array<string, array{abilities: string[], passives: string[]}>
+     * Each class's signature ability or passive.
+     *
+     * @var array<string, string>
      */
-    public function all(): array
-    {
-        return [
-            'alchemist' => ['abilities' => ['volatile_mixture'], 'passives' => []],
-            'architect' => ['abilities' => ['fortify'], 'passives' => []],
-            'blacksmith' => ['abilities' => ['forge'], 'passives' => []],
-            'engineer' => ['abilities' => ['tactical_awareness'], 'passives' => []],
-            'farmer' => ['abilities' => [], 'passives' => ['hardiness']],
-            'healer' => ['abilities' => [], 'passives' => ['mending']],
-            'infiltrator' => ['abilities' => ['shadow_strike'], 'passives' => []],
-            'sorcerer' => ['abilities' => [], 'passives' => ['channeling']],
-            'scholar' => ['abilities' => ['combat_analysis'], 'passives' => []],
-            'scion' => ['abilities' => [], 'passives' => ['last_stand']],
-        ];
-    }
+    public const SIGNATURES = [
+        'alchemist' => 'volatile_mixture',
+        'architect' => 'fortify',
+        'blacksmith' => 'forge',
+        'engineer' => 'tactical_awareness',
+        'farmer' => 'hardiness',
+        'healer' => 'mending',
+        'infiltrator' => 'shadow_strike',
+        'sorcerer' => 'channeling',
+        'scholar' => 'combat_analysis',
+        'scion' => 'last_stand',
+    ];
 
     /**
-     * Active abilities for a hero with the given class.
-     *
-     * @return string[]
+     * The class whose signature this is, or null if any hero may pick it.
      */
-    public function abilitiesFor(?string $class, bool $enabled = self::ENABLED): array
+    public function classFor(string $key): ?string
     {
-        $abilities = self::BASIC_ABILITIES;
+        $class = array_search($key, self::SIGNATURES, true);
 
-        if ($enabled && $class !== null) {
-            $abilities = $this->withGrants($abilities, $this->all()[$class]['abilities'] ?? []);
-        }
-
-        return $abilities;
-    }
-
-    /**
-     * Innate passives for a hero with the given class.
-     *
-     * @return string[]
-     */
-    public function passivesFor(?string $class, bool $enabled = self::ENABLED): array
-    {
-        if (!$enabled || $class === null) {
-            return [];
-        }
-
-        return $this->all()[$class]['passives'] ?? [];
+        return $class === false ? null : $class;
     }
 
     /**

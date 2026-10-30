@@ -4,6 +4,8 @@ namespace OpenDominion\Calculators\Dominion;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Helpers\HeroHelper;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
+use OpenDominion\HeroCombat\Persistence\CombatantFactory;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroUpgrade;
@@ -240,6 +242,25 @@ class HeroCalculator
     }
 
     /**
+     * Returns the hero's level in a class: the hero level for the active class, otherwise the
+     * level of the experience stored for that class (0 if never played).
+     *
+     * @param Hero $hero
+     * @param string $class
+     * @return int
+     */
+    public function getClassLevel(Hero $hero, string $class): int
+    {
+        if ($hero->class === $class) {
+            return (int) $this->getHeroLevel($hero);
+        }
+
+        $classEntry = collect($hero->class_data ?? [])->firstWhere('key', $class);
+
+        return (int) $this->getExperienceLevel($classEntry['experience'] ?? 0);
+    }
+
+    /**
      * Returns true if the hero currently has or has previously reached level 1+ in the given class.
      *
      * @param Hero $hero
@@ -459,6 +480,13 @@ class HeroCalculator
     {
         if (count($upgrade->classes) && !in_array($hero->class, $upgrade->classes)) {
             return false;
+        }
+
+        if ($upgrade->type === CombatantFactory::ABILITY_TYPE) {
+            $requiredClass = app(HeroClassLoadouts::class)->classFor($upgrade->key);
+            if ($requiredClass !== null && $this->getClassLevel($hero, $requiredClass) < HeroClassLoadouts::UNLOCK_CLASS_LEVEL) {
+                return false;
+            }
         }
 
         $heroLevel = $this->getHeroLevel($hero);

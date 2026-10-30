@@ -35,7 +35,7 @@ src/HeroCombat/
     Ai/WeightedStrategy presets (balanced, aggressive, defensive, pirate, …)
     Enemies/            EnemyTemplate classes
     Encounters/         Encounter classes (rosters, grants, scaling, victory rules)
-    Loadouts/HeroClassLoadouts  class → abilities/passives (disabled by default: ENABLED = false)
+    Loadouts/HeroClassLoadouts  basic abilities, class → signature, grants that replace a basic
   Registry/CombatRegistry  explicit key → definition maps
   Persistence/      BattleRepository (models ⇄ state, row lock), CombatantFactory, EloquentCombatantSpawner,
                     StateSnapshot, BattleReplayer
@@ -112,14 +112,14 @@ state lives on the `EffectInstance` (stacks, remaining turns, `data`).
 | `onApply` / `onExpire` / `onRemove` | the instance | setup; hand-offs (Freezing→Frozen); `onRemove` covers dispels too |
 | `onTurnStart` / `onTurnEnd` | every instance in the battle | telegraph rolls, phase changes, regen/DoT, start-of-turn snapshots (Backstab) |
 | `forcedIntent` | the acting combatant's effects | telegraphed moves, charged attacks |
-| `beforeDamageDealt` | attacker's effects | add bonus damage / defend modifier (Crushing Blow, Overpower, Backstab) |
+| `beforeDamageDealt` | attacker's effects | add bonus damage / defend modifier (Crushing Blow, Backstab) |
 | `redirectDamage` | target's effects | Cover |
 | `onEvaded` | target's effects | Elusive sets `evadeMultiplier = 0`; Shadow Dance grants Focus |
 | `beforeDamageTaken` | target's effects | Shield absorbs (priority 10) |
 | `onLethalDamage` → bool | target's effects | Hardiness (priority -10, after shields) |
 | `afterDamageTaken` / `afterDamageDealt` | target / attacker | Lifesteal, Frostbite stacks |
 | `onAbilityDeclared` | actor's own effects, right after `Ability::onDeclare` | swap or adjust stances (no current content uses it) |
-| `onAbilityUsed` | actor's effects | consume Focused after an Attack-tagged ability; Combo openers; Battle Fury streaks |
+| `onAbilityUsed` | actor's effects | consume Focused after an Attack-tagged ability; Sunder, Second Wind; Battle Fury streaks |
 | `adjustCooldown` → int | holder's effects, when a cooldown starts | change an ability's cooldown (no current content uses it) |
 | `onDeath` | the dead combatant's own effects | PowerSource, PhaseCycle cleanup |
 | `onAnyDeath` | every other effect | soul tribute / harvest style mechanics |
@@ -148,7 +148,7 @@ damage that ignores defense, evasion and counters (boss moves).
 - **Queue validation** (`ActionValidator::canQueue`) projects cooldowns and charges forward through the actions already queued. At resolution, an invalid queued action falls back to AI.
 - **Target rules**: Self, SingleEnemy, SingleAlly, SingleAny, AllEnemies, AllAllies, AllOthers, RandomEnemy. A dead single-enemy target is replaced with a random living enemy; dead ally targets fizzle. `Provoked` forces single-enemy targeting onto the provoker. `SingleAlly` with no target chosen means yourself (`TargetRule::defaultsToSelf()`).
 - **Defend and Recover take an ally target.** Defend on an ally is a guard: the defender takes the `defending` stance and puts `covered` on the ally, so hits aimed at the ally strike the defender. Redirects happen once per hit, so mutual guards can't loop. Recover heals the target with the caster's recover stat; the `recovering` −5 defense stays on the caster. In 1v1 the only ally is yourself, so PvP plays exactly as before.
-- **Cooldowns can be adjusted by effects** (`Effect::adjustCooldown`, applied by `ActionValidator::cooldownFor`). No technique uses this now; Disciplines that removed cooldowns were cut for changing the basic actions too much.
+- **Cooldowns can be adjusted by effects** (`Effect::adjustCooldown`, applied by `ActionValidator::cooldownFor`). No technique uses this now; techniques that removed cooldowns were cut for changing the basic actions too much.
 - **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. For ally-targeted abilities, healing goes to the most wounded ally; Defend stays on yourself unless a partner is at ≤40 HP. Player-selectable strategies are flagged `playerSelectable`.
 - **Pass** is chosen when nothing is usable (e.g. while stunned).
 
@@ -161,33 +161,52 @@ Hero upgrades follow a level schedule (`HeroCalculator::getUpgradeSlots()`, data
 | 0 | Scion directives/effects | class-gated |
 | 1 | Doctrine | |
 | 2, 4, 6 (8) | Dominion upgrades (spellbooks, items) | **no combat stats** |
-| 3 | Discipline (`type: discipline`) | one per hero |
-| 5 | Gear (`type: gear`) | the only upgrades with `combat_*` perks |
-| 7 | Combo (`type: combo`) | |
+| 3 | Technique I (`type: technique`) | self rules |
+| 5 | Technique II (`type: technique`) | setup/payoff rules built on shared statuses |
+| 7 | Class Ability (`type: ability`) | a class signature |
+| 9 | Gear (`type: gear`) | the only upgrades with `combat_*` perks; last so it can become its own mechanic |
 
-**Disciplines** and **Combos** have no perks. Their upgrade key is the key of an innate effect in `Content/Effects/Techniques/`, which `CombatantFactory::addHero()` applies to the hero's combatant (`CombatantFactory::TECHNIQUE_TYPES`). They work in every mode, PvP included, because they change how basic actions behave rather than adding buttons.
+Techniques and abilities have no perks. Their upgrade key is the key of an ability or an innate effect. `CombatantFactory::addHero()` reads the hero's `technique` and `ability` upgrades (`TECHNIQUE_TYPE`, `ABILITY_TYPE`): ability keys join the action bar through `HeroClassLoadouts::withGrants()` (Fortify replaces Defend), effect keys are applied as innate effects. Retired upgrades stay in `heroes.yml` with `active: false` so data sync keeps them out of the pickers.
 
-| Discipline | Rule (constants on the class) |
+**Technique I** (level 3, `Content/Effects/Techniques/`):
+
+| Technique | Rule (constants on the class) |
 |---|---|
-| `overpower` | attacks against a Defending target ignore 5 defense |
 | `battle_fury` | each consecutive Attack: +4 attack, −2 defense (max 3 stacks); any other action resets it |
 | `restoration` | Recover heals 80% now and 10% at the start of each of the next 3 turns (`restoring`); keeps the −5 defense penalty; recasting forfeits the remaining ticks |
 | `mana_shield` | +3 defense while Focused (kept through Defend, Recover and Counter; ends when an attack spends the Focus) |
 | `shadow_dance` | evading an attack grants Focus (only if not already Focused) |
 | `backstab` | attacks deal +5 damage against an opponent that was Focused at the start of the turn (snapshot in `onTurnStart`) |
+| `feint` | +10 evasion on a turn you Attack (reads `Battle::intentOf()`; no status) |
 
 Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling).
 
-**Combos** extend `AbstractCombo`: an innate trigger with an `opener()` ability, shown to both sides from the first turn. On the battle page the status takes over the Combo's badge while it is up (`BattleView::effects()`), with the same tooltip. When the opener resolves, it applies a visible status named after the Combo (`<key>_status`, a `ComboStatus` built by the provider for each Combo) that grants `statusModifiers()` for exactly the following turn (applied with duration 2; inactive on the turn it was applied).
+**Technique II** (level 5) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each is applied mid-turn with duration 2 and is active immediately, so it lasts until the end of the following turn.
 
-| Combo | After | Next turn |
+| Technique | Trigger → status |
+|---|---|
+| `sunder` | after your attack resolves against a Defending enemy → `exposed` on it (−5 defense) |
+| `shield_bash` | an enemy attacks you while you're Defending (even a fully blocked hit; works when guarding) → `staggered` on the attacker (Counter blocked via `CombatTag::Staggered`) |
+| `riposte` | your Counter deals damage → `marked` on the attacker |
+| `spellbrand` | your Focused attack hits without being evaded → `marked` on the target |
+| `second_wind` | Recover → `invigorated` (+5 attack) on you, and on the ally you healed |
+
+`marked`: attacks (not counters) that get through deal +5 damage; runs before shields (`handlerPriority` 20) and does nothing to a fully blocked hit.
+
+**Class Abilities** (level 7): `HeroClassLoadouts::SIGNATURES` maps each class to its signature. `HeroCalculator::canUnlockUpgrade()` requires `getClassLevel()` ≥ `HeroClassLoadouts::UNLOCK_CLASS_LEVEL` (5) in that class, active or not (inactive levels come from `class_data` experience). Each signature upgrade uses its class's icon; the picker shows the requirement (`HeroHelper::getClassAbilityRequirement()`).
+
+| Class | Signature | Kind |
 |---|---|---|
-| `feint` | Attack | +10 evasion |
-| `shield_bash` | Defend | +5 attack |
-| `spellweave` | Defend | +5 focus (pays off on a focused attack, i.e. Focus → Defend → Attack) |
-| `riposte` | Counter | +5 attack |
-| `second_wind` | Recover | +5 attack |
-| `wellspring` | Focus | +5 recover |
+| Alchemist | `volatile_mixture` | action |
+| Architect | `fortify` (replaces Defend) | action |
+| Blacksmith | `forge` | action |
+| Engineer | `tactical_awareness` | action |
+| Scholar | `combat_analysis` | action |
+| Infiltrator | `shadow_strike` | action |
+| Farmer | `hardiness` | passive |
+| Healer | `mending` | passive |
+| Sorcerer | `channeling` | passive |
+| Scion | `last_stand` | passive |
 
 **Gear** is plain `combat_*` perks summed by `HeroCalculator::getHeroCombatStats()`.
 
@@ -212,9 +231,9 @@ The heroes page header splits slots into a Dominion Bonuses section and a Hero B
 
 - `TurnPreview` copies a battle through `StateSnapshot` (no queues or intents, so nothing private leaks), resolves one turn with forced actions, and enumerates every evasion outcome via `Battle::$evasionRoll`, weighting each by probability. It returns a `TurnOutcome` (expected health, attack potential, death chance per combatant), cached for the current turn.
 - `MatrixGameSolver` solves a zero-sum matrix game exactly (simplex on the column player's LP; the row mix comes from the duals).
-- `TacticianStrategy` (`tactician:balanced|aggressive|defensive`, from `TacticianProfile`) previews every pairing of both sides' legal basic actions, scores outcomes (damage dealt/taken, healing, change in attack potential, win/loss chance), solves for a mixed strategy and samples it. `temperature` blends toward uniform play to make it weaker.
-- `BuildFactory` parses specs like `level=9;discipline=backstab;combo=feint;gear=greatsword` straight from `heroes.yml`. `BattleSimulator::run()` plays seeded battles (alternating combatant ids); `balancedScore()` also plays the swapped matchup on the same seeds to cancel seed luck.
-- Command: `php artisan hero-combat:simulate --a=<spec> --b=<spec> [--strategy-a=tactician:balanced] [--strategy-b=balanced] [--temperature=0.2] [--battles=200] [--seed=1]`, or `--grid=disciplines|combos|gear [--level=9]` for a round-robin score matrix. Expect about 0.1s per Tactician battle.
+- `TacticianStrategy` (`tactician:balanced|aggressive|defensive`, from `TacticianProfile`) previews every pairing of both sides' legal actions (including granted abilities), scores outcomes (damage dealt/taken, healing, change in damage edge, win/loss chance), solves for a mixed strategy and samples it. It looks one turn ahead; the damage edge (`TurnPreview::offense`) carries setup value: next attack's damage against the opponent's defense (Focus, Exposed, Marked), a quarter of the counter threat (none while Staggered), and battle-long stat shifts (`AbstractStatShift`: Forge, Combat Analysis, Tactical Awareness) counted over 4 more turns. `temperature` blends toward uniform play to make it weaker.
+- `BuildFactory` parses specs like `level=9;technique=backstab,sunder;ability=shadow_strike;gear=greatsword` straight from `heroes.yml` (one pick per level; class requirements ignored). `BattleSimulator::run()` plays seeded battles (alternating combatant ids); `balancedScore()` also plays the swapped matchup on the same seeds to cancel seed luck.
+- Command: `php artisan hero-combat:simulate --a=<spec> --b=<spec> [--strategy-a=tactician:balanced] [--strategy-b=balanced] [--temperature=0.2] [--battles=200] [--seed=1]`, or `--grid=techniques|abilities|gear [--level=9]` for a round-robin score matrix. Expect about 0.1s per Tactician battle.
 
 ## Encounters and enemies
 
@@ -256,7 +275,7 @@ not ported.
 
 **Add a buff or debuff**: extend `AbstractEffect`. Set `kind()`, `stacking()`, `defaultDuration()` and `tags()`, and return modifiers or override hooks. Register it in `EFFECTS` and apply it with `$context->applyEffect($target, 'key', $turns, $stacks, $data)`.
 
-**Add a passive**: extend `AbstractPassive` (or `AbstractStatPassive` for flat stat bonuses, optionally gated to low health). Give it to an enemy through `EnemyTemplate::effects()`, or to a class through `HeroClassLoadouts`.
+**Add a passive**: extend `AbstractPassive` (or `AbstractStatPassive` for flat stat bonuses, optionally gated to low health). Give it to an enemy through `EnemyTemplate::effects()`, or to heroes as a technique or class signature (an upgrade in `heroes.yml`, plus `HeroClassLoadouts::SIGNATURES` for a class).
 
 **Add a telegraphed boss move set**: extend `Effects/Boss/AbstractTelegraph`, list `moves()` and `tells()` (tells must not name the counter-play), and add the move abilities extending `Abilities/Boss/AbstractBossMove`. Put the telegraph in the boss template's `effects()`.
 

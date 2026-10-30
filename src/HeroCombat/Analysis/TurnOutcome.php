@@ -10,7 +10,7 @@ final readonly class TurnOutcome
 {
     /**
      * @param array<int, float> $health expected health after the turn
-     * @param array<int, float> $offense expected attack potential after the turn
+     * @param array<int, float> $offense expected damage edge after the turn (TurnPreview::offense)
      * @param array<int, float> $deathChance probability each combatant is down after the turn
      */
     public function __construct(

@@ -166,34 +166,30 @@ class ClassAbilitiesTest extends TestCase
         $this->assertEquals($healthAfterFirstTurn + 30 - (40 - (20 - 5)), $hero->currentHealth);
     }
 
-    public function testLoadoutsAreOffByDefault(): void
+    public function testEachSignatureBelongsToOneClass(): void
     {
         $loadouts = new HeroClassLoadouts();
 
-        $this->assertEquals(HeroClassLoadouts::BASIC_ABILITIES, $loadouts->abilitiesFor('architect'));
-        $this->assertSame([], $loadouts->passivesFor('farmer'));
+        $this->assertEquals('infiltrator', $loadouts->classFor('shadow_strike'));
+        $this->assertEquals('farmer', $loadouts->classFor('hardiness'));
+        $this->assertNull($loadouts->classFor('blade_flurry'), 'Not a class signature');
+        $this->assertCount(count(HeroClassLoadouts::SIGNATURES), array_unique(HeroClassLoadouts::SIGNATURES));
     }
 
-    public function testEnabledLoadoutsGrantClassAbilities(): void
+    public function testGrantsReplaceTheBasicAbilityTheyStandIn(): void
     {
         $loadouts = new HeroClassLoadouts();
 
-        $this->assertEquals(['attack', 'focus', 'counter', 'recover', 'fortify'], $loadouts->abilitiesFor('architect', true));
-        $this->assertContains('shadow_strike', $loadouts->abilitiesFor('infiltrator', true));
-        $this->assertEquals(['hardiness'], $loadouts->passivesFor('farmer', true));
+        $this->assertEquals(['attack', 'focus', 'counter', 'recover', 'fortify'], $loadouts->withGrants(HeroClassLoadouts::BASIC_ABILITIES, ['fortify']));
+        $this->assertEquals([...HeroClassLoadouts::BASIC_ABILITIES, 'shadow_strike'], $loadouts->withGrants(HeroClassLoadouts::BASIC_ABILITIES, ['shadow_strike', 'shadow_strike']));
     }
 
-    public function testEveryLoadoutKeyIsRegistered(): void
+    public function testEverySignatureIsRegistered(): void
     {
         $registry = \OpenDominion\Providers\HeroCombatServiceProvider::buildRegistry();
 
-        foreach ((new HeroClassLoadouts())->all() as $class => $loadout) {
-            foreach ($loadout['abilities'] as $key) {
-                $this->assertTrue($registry->hasAbility($key), "{$class} ability {$key}");
-            }
-            foreach ($loadout['passives'] as $key) {
-                $this->assertTrue($registry->hasEffect($key), "{$class} passive {$key}");
-            }
+        foreach (HeroClassLoadouts::SIGNATURES as $class => $key) {
+            $this->assertTrue($registry->hasAbility($key) || $registry->hasEffect($key), "{$class} signature {$key}");
         }
     }
 }
