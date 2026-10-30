@@ -15,12 +15,12 @@ class BuildFactoryTest extends AbstractTestCase
 
     public function testParsesAFullSpec(): void
     {
-        $build = $this->factory()->parse('level=9;discipline=riposte;form=feint;gear=greatsword,tower_shield');
+        $build = $this->factory()->parse('level=9;discipline=backstab;combo=feint;gear=greatsword');
 
         $this->assertEquals(9, $build->level);
-        $this->assertEquals('riposte', $build->discipline);
-        $this->assertEquals(['feint'], $build->forms);
-        $this->assertEquals(['greatsword', 'tower_shield'], $build->gear);
+        $this->assertEquals('backstab', $build->discipline);
+        $this->assertEquals(['feint'], $build->combos);
+        $this->assertEquals(['greatsword'], $build->gear);
     }
 
     public function testGearAddsToBaseStats(): void
@@ -28,10 +28,10 @@ class BuildFactoryTest extends AbstractTestCase
         $factory = $this->factory();
 
         $basic = $factory->stats($factory->parse('level=9'));
-        $geared = $factory->stats($factory->parse('level=9;gear=greatsword,tower_shield'));
+        $geared = $factory->stats($factory->parse('level=9;gear=greatsword'));
 
         $this->assertEquals($basic['attack'] + 2, $geared['attack']);
-        $this->assertEquals($basic['defense'] + 2, $geared['defense']);
+        $this->assertEquals($basic['defense'], $geared['defense']);
         $this->assertEquals($basic['evasion'] - 10, $geared['evasion']);
     }
 
@@ -44,13 +44,13 @@ class BuildFactoryTest extends AbstractTestCase
     public function testRejectsPicksAboveTheHerosLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('level=5;form=feint');
+        $this->factory()->parse('level=5;combo=feint');
     }
 
     public function testRejectsTwoGearPicksOnOneLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('gear=greatsword,leathers');
+        $this->factory()->parse('gear=greatsword,plate_armor');
     }
 
     public function testRejectsUnknownOptions(): void
@@ -63,16 +63,16 @@ class BuildFactoryTest extends AbstractTestCase
     {
         $this->assertCount(6, $this->factory()->optionsOfType('discipline'));
         $this->assertCount(6, $this->factory()->optionsOfType('gear', 5));
-        $this->assertCount(12, $this->factory()->optionsOfType('gear', 9));
+        $this->assertCount(6, $this->factory()->optionsOfType('gear', 9));
     }
 
     public function testSimulateCommandReportsAMatchup(): void
     {
-        \Illuminate\Support\Facades\Artisan::call('hero-combat:simulate', ['--battles' => 2, '--b' => 'level=9;discipline=riposte']);
+        \Illuminate\Support\Facades\Artisan::call('hero-combat:simulate', ['--battles' => 2, '--b' => 'level=9;discipline=backstab']);
         $output = \Illuminate\Support\Facades\Artisan::output();
 
         $this->assertStringContainsString('A score', $output);
-        $this->assertStringContainsString('riposte', $output);
+        $this->assertStringContainsString('backstab', $output);
     }
 
     public function testSimulateCommandRunsAGrid(): void

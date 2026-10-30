@@ -3,7 +3,6 @@
 namespace OpenDominion\HeroCombat\Content\Effects;
 
 use OpenDominion\HeroCombat\Content\AbstractEffect;
-use OpenDominion\HeroCombat\Content\Effects\Techniques\Attunement;
 use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
@@ -49,10 +48,6 @@ class Focused extends AbstractEffect
     {
         if ($owner !== null && $battle->effects->has($owner, 'channeling')) {
             return null;
-        }
-
-        if ($owner !== null && $battle->effects->has($owner, 'attunement')) {
-            return Attunement::MAX_FOCUS_STACKS;
         }
 
         return 1;

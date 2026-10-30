@@ -12,6 +12,11 @@ use OpenDominion\Models\HeroUpgrade;
 
 class HeroHelper
 {
+    /**
+     * Upgrade types whose effects only apply in hero battles.
+     */
+    public const HERO_BATTLE_UPGRADE_TYPES = ['discipline', 'gear', 'combo'];
+
     public function getClasses()
     {
         return collect([
@@ -171,6 +176,31 @@ class HeroHelper
         return $this->getHeroUpgrades()->filter(function ($upgrade) use ($class) {
             return $upgrade->classes === [] || in_array($class, $upgrade->classes);
         })->sortBy(['level', 'name']);
+    }
+
+    /**
+     * Returns true if upgrades of this type only affect hero battles.
+     */
+    public function isHeroBattleUpgradeType(string $type): bool
+    {
+        return in_array($type, self::HERO_BATTLE_UPGRADE_TYPES, true);
+    }
+
+    /**
+     * Returns the upgrade types offered at each slot level for a class. Directives are free
+     * picks and never take a slot.
+     *
+     * @return array<int, string[]>
+     */
+    public function getUpgradeTypesByLevel(string $class): array
+    {
+        return $this->getHeroUpgradesByClass($class)
+            ->where('active', true)
+            ->where('type', '!=', 'directive')
+            ->groupBy('level')
+            ->map(fn (Collection $upgrades) => $upgrades->pluck('type')->unique()->sort()->values()->all())
+            ->sortKeys()
+            ->all();
     }
 
     public function getHeroUpgradePerkStrings()
@@ -347,25 +377,6 @@ class HeroHelper
             $outcomes->get($index),
             $winner,
             $loser
-        );
-    }
-
-    public function getUpgradeIcon(HeroUpgrade $upgrade)
-    {
-        return sprintf(
-            '<i class="hero-icon ra ra-fw %s" title="Level %s: %s<br>(%s)" data-bs-toggle="tooltip"></i>',
-            $upgrade->icon,
-            $upgrade->level,
-            $upgrade->name,
-            ucwords($upgrade->type)
-        );
-    }
-
-    public function getLockIcon(int $level)
-    {
-        return sprintf(
-            '<i class="hero-icon ra ra-rw ra-padlock" title="Level %s: Locked" data-bs-toggle="tooltip"></i>',
-            $level
         );
     }
 

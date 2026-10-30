@@ -2,6 +2,8 @@
 
 namespace OpenDominion\HeroCombat\Presentation;
 
+use OpenDominion\HeroCombat\Content\Effects\Techniques\AbstractCombo;
+use OpenDominion\HeroCombat\Content\Effects\Techniques\ComboStatus;
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
@@ -155,7 +157,9 @@ class BattleView
     /**
      * Visible effects applying to the combatant, from every scope.
      *
-     * @return array<int, array{key: string, name: string, description: string, kind: string, turns: int|null, stacks: int}>
+     * A Combo and its status share one badge: the status replaces the Combo while it is up.
+     *
+     * @return array<int, array{sortsWithInnate: bool, key: string, name: string, description: string, kind: string, turns: int|null, stacks: int}>
      */
     public function effects(CombatantState $combatant): array
     {
@@ -164,7 +168,11 @@ class BattleView
             if (!$effect->visible()) {
                 continue;
             }
+            if ($effect instanceof AbstractCombo && $this->battle->effects->has($combatant, $effect->statusKey())) {
+                continue;
+            }
             $effects[] = [
+                'sortsWithInnate' => $effect->kind() === EffectKind::Innate || $effect instanceof ComboStatus,
                 'key' => $effect->key(),
                 'name' => $effect->name(),
                 'description' => $effect->description($instance),
@@ -174,7 +182,7 @@ class BattleView
             ];
         }
 
-        usort($effects, fn ($a, $b) => [$a['kind'] === EffectKind::Innate->value, $a['name']] <=> [$b['kind'] === EffectKind::Innate->value, $b['name']]);
+        usort($effects, fn ($a, $b) => [$a['sortsWithInnate'], $a['name']] <=> [$b['sortsWithInnate'], $b['name']]);
 
         return $effects;
     }

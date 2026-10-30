@@ -15,12 +15,12 @@ class HeroCombatSimulateCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'hero-combat:simulate
-                             {--a= : Build for side A, e.g. "level=9;discipline=riposte;form=feint;gear=greatsword,tower_shield" (default: level 9, no picks)}
+                             {--a= : Build for side A, e.g. "level=9;discipline=backstab;combo=feint;gear=greatsword" (default: level 9, no picks)}
                              {--b= : Build for side B (default: level 9, no picks)}
                              {--strategy-a=tactician:balanced : Strategy for side A (tactician:balanced|aggressive|defensive, or balanced, aggressive, defensive, ...)}
                              {--strategy-b=tactician:balanced : Strategy for side B}
                              {--temperature= : Blend Tactician mixes toward uniform play (0-1), applied to every Tactician}
-                             {--grid= : Round-robin every option of one kind: disciplines, forms or gear}
+                             {--grid= : Round-robin every option of one kind: disciplines, combos or gear}
                              {--level=9 : Hero level for --grid builds}
                              {--battles=200 : Battles per matchup}
                              {--seed=1 : First battle seed}';
@@ -104,15 +104,15 @@ class HeroCombatSimulateCommand extends Command implements CommandInterface
     {
         $type = match ($kind) {
             'disciplines' => 'discipline',
-            'forms' => 'form',
+            'combos' => 'combo',
             'gear' => 'gear',
-            default => throw new InvalidArgumentException("Unknown grid '{$kind}'; use disciplines, forms or gear"),
+            default => throw new InvalidArgumentException("Unknown grid '{$kind}'; use disciplines, combos or gear"),
         };
 
         $options = $builds->optionsOfType($type, $level);
         $make = fn (string $key) => match ($type) {
             'discipline' => new Build($level, discipline: $key),
-            'form' => new Build($level, forms: [$key]),
+            'combo' => new Build($level, combos: [$key]),
             'gear' => new Build($level, gear: [$key]),
         };
 

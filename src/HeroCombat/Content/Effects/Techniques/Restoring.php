@@ -14,16 +14,16 @@ use OpenDominion\HeroCombat\Engine\Effects\StackingRule;
  * mid-turn with duration 4, the turn-end countdown removes it after the third tick.
  * A new application replaces it, dropping any ticks left.
  */
-class Rejuvenating extends AbstractEffect
+class Restoring extends AbstractEffect
 {
     public function key(): string
     {
-        return 'rejuvenating';
+        return 'restoring';
     }
 
     public function name(): string
     {
-        return 'Rejuvenating';
+        return 'Restoring';
     }
 
     public function description(EffectInstance $instance): string
@@ -43,7 +43,7 @@ class Rejuvenating extends AbstractEffect
 
     public function defaultDuration(): ?int
     {
-        return Rejuvenation::TICKS + 1;
+        return Restoration::TICKS + 1;
     }
 
     public function tags(): array

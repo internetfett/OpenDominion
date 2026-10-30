@@ -238,7 +238,7 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
     public function testUnlockedTechniquesAreGrantedInBattle(): void
     {
         $dominion = $this->dominionWithHero('Solo');
-        foreach (['riposte', 'shield_bash'] as $key) {
+        foreach (['backstab', 'shield_bash'] as $key) {
             \OpenDominion\Models\HeroHeroUpgrade::create([
                 'hero_id' => $dominion->hero->id,
                 'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', $key)->firstOrFail()->id,
@@ -249,7 +249,7 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $battle = $this->heroBattleService->createPracticeBattle($dominion->fresh());
         $player = $this->combatantFor($battle, $dominion);
 
-        $this->assertEqualsCanonicalizing(['riposte', 'shield_bash'], collect($player->effects)->pluck('key')->all());
+        $this->assertEqualsCanonicalizing(['backstab', 'shield_bash'], collect($player->effects)->pluck('key')->all());
     }
 
     protected function finishAutomatedPvpBattle(Dominion $a, Dominion $b, array $timeBanks = []): HeroBattle

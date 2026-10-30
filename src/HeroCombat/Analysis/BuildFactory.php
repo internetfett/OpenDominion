@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
  * Parses build specs and turns builds into in-memory combatants, reading upgrade data
  * straight from app/data/heroes.yml (no database needed).
  *
- * Spec format: "level=9;discipline=riposte;form=feint;gear=greatsword,plate_armor"
+ * Spec format: "level=9;discipline=backstab;combo=feint;gear=greatsword"
  */
 class BuildFactory
 {
@@ -26,7 +26,7 @@ class BuildFactory
 
     public function parse(string $spec): Build
     {
-        $values = ['level' => '9', 'discipline' => null, 'form' => '', 'gear' => ''];
+        $values = ['level' => '9', 'discipline' => null, 'combo' => '', 'gear' => ''];
 
         foreach (array_filter(explode(';', $spec)) as $pair) {
             [$key, $value] = array_pad(explode('=', $pair, 2), 2, '');
@@ -40,7 +40,7 @@ class BuildFactory
         $build = new Build(
             level: (int) $values['level'],
             discipline: $values['discipline'] ?: null,
-            forms: array_values(array_filter(explode(',', (string) $values['form']))),
+            combos: array_values(array_filter(explode(',', (string) $values['combo']))),
             gear: array_values(array_filter(explode(',', (string) $values['gear']))),
         );
 
@@ -101,7 +101,7 @@ class BuildFactory
         $combatant->automated = true;
         $battle->state->addCombatant($combatant);
 
-        foreach (array_filter(array_merge([$build->discipline], $build->forms)) as $technique) {
+        foreach (array_filter(array_merge([$build->discipline], $build->combos)) as $technique) {
             $battle->effects->apply($combatant, $technique);
         }
 
@@ -112,7 +112,7 @@ class BuildFactory
     {
         $picks = array_filter(array_merge(
             ['discipline' => $build->discipline],
-            array_combine(array_map(fn ($i) => "form {$i}", array_keys($build->forms)), $build->forms),
+            array_combine(array_map(fn ($i) => "combo {$i}", array_keys($build->combos)), $build->combos),
             array_combine(array_map(fn ($i) => "gear {$i}", array_keys($build->gear)), $build->gear),
         ));
 
@@ -128,7 +128,7 @@ class BuildFactory
             }
         }
 
-        $levels = array_map(fn ($key) => $this->upgrades()[$key]['level'], array_merge($build->forms, $build->gear));
+        $levels = array_map(fn ($key) => $this->upgrades()[$key]['level'], array_merge($build->combos, $build->gear));
         if (count($levels) !== count(array_unique($levels))) {
             throw new InvalidArgumentException('A build can only take one upgrade per level');
         }

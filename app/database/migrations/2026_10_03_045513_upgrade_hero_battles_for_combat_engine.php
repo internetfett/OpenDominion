@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Schema;
 
 /**
  * Moves hero battles onto the team-based combat engine (src/HeroCombat):
- * teams, effect instances, cooldowns, charges, structured log events, the seed plus
- * initial state needed to replay a battle, combatant controllers (borrowed heroes) and the
- * daily PvP experience reward.
+ * teams, effect instances, cooldowns, charges, structured log events, and the seed plus
+ * initial state needed to replay a battle.
  */
 class UpgradeHeroBattlesForCombatEngine extends Migration
 {
@@ -25,18 +24,11 @@ class UpgradeHeroBattlesForCombatEngine extends Migration
         });
 
         Schema::table('hero_combatants', function (Blueprint $table) {
-            $table->unsignedInteger('controller_dominion_id')->nullable()->after('dominion_id');
-            $table->unsignedTinyInteger('team')->default(1)->after('controller_dominion_id');
+            $table->unsignedTinyInteger('team')->default(1)->after('dominion_id');
             $table->string('template_key')->nullable()->after('team');
             $table->text('effects')->nullable()->after('abilities');
             $table->text('cooldowns')->nullable()->after('effects');
             $table->text('charges')->nullable()->after('cooldowns');
-
-            $table->foreign('controller_dominion_id')->references('id')->on('dominions');
-        });
-
-        Schema::table('heroes', function (Blueprint $table) {
-            $table->timestamp('last_pvp_reward_at')->nullable()->after('experience');
         });
 
         Schema::table('hero_battle_actions', function (Blueprint $table) {
@@ -44,10 +36,6 @@ class UpgradeHeroBattlesForCombatEngine extends Migration
             $table->text('description')->change();
             $table->text('events')->nullable()->after('description');
         });
-
-        DB::table('hero_combatants')
-            ->whereNotNull('hero_id')
-            ->update(['controller_dominion_id' => DB::raw('dominion_id')]);
 
         DB::table('hero_battles')->whereNotNull('raid_tactic_id')->update(['mode' => 'raid']);
         DB::table('hero_battles')->whereNull('raid_tactic_id')->where('pvp', false)->update(['mode' => 'practice']);
@@ -86,12 +74,7 @@ class UpgradeHeroBattlesForCombatEngine extends Migration
             $table->boolean('has_focus')->default(false)->after('current_health');
             $table->unsignedInteger('shield')->default(0)->after('recover');
             $table->text('status')->nullable()->after('abilities');
-            $table->dropForeign(['controller_dominion_id']);
-            $table->dropColumn(['controller_dominion_id', 'team', 'template_key', 'effects', 'cooldowns', 'charges']);
-        });
-
-        Schema::table('heroes', function (Blueprint $table) {
-            $table->dropColumn('last_pvp_reward_at');
+            $table->dropColumn(['team', 'template_key', 'effects', 'cooldowns', 'charges']);
         });
 
         Schema::table('hero_battle_actions', function (Blueprint $table) {

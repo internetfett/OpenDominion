@@ -17,7 +17,7 @@ class CombatantFactory
     public const DEFAULT_STRATEGY = 'balanced';
 
     /** Upgrade types whose key names an innate combat effect. */
-    public const TECHNIQUE_TYPES = ['discipline', 'form'];
+    public const TECHNIQUE_TYPES = ['discipline', 'combo'];
 
     public function __construct(
         protected HeroCalculator $heroCalculator,
@@ -64,7 +64,7 @@ class CombatantFactory
     }
 
     /**
-     * Disciplines and Forms the hero has unlocked; each is an innate effect with the same key.
+     * Disciplines and Combos the hero has unlocked; each is an innate effect with the same key.
      *
      * @return string[]
      */

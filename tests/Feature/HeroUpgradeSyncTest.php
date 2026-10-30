@@ -96,7 +96,7 @@ class HeroUpgradeSyncTest extends AbstractTestCase
 
     public function testCombatPicksSitOnOddLevels(): void
     {
-        $expected = ['discipline' => [3], 'gear' => [5, 9], 'form' => [7]];
+        $expected = ['discipline' => [3], 'gear' => [5], 'combo' => [7]];
 
         foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
             if (isset($expected[$upgradeData['type']])) {

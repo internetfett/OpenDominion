@@ -5,7 +5,7 @@
     $shield = $view->shield($combatant);
 @endphp
 <div class="col-12">
-    <table class="table table-sm {{ $combatant->isAlive() ? null : 'text-muted' }}">
+    <table @class(['table', 'table-sm', 'text-muted' => !$combatant->isAlive(), 'mb-2' => $effects])>
         <thead>
             <tr>
                 <th colspan=2 class="text-center">
@@ -43,28 +43,6 @@
                     </td>
                 </tr>
             @endforeach
-            @if ($effects)
-                <tr>
-                    <td colspan=2>
-                        @foreach ($effects as $effect)
-                            @php
-                                $badge = match ($effect['kind']) {
-                                    'buff' => 'bg-success',
-                                    'debuff' => 'bg-danger',
-                                    'innate' => 'bg-secondary',
-                                    default => 'bg-info',
-                                };
-                            @endphp
-                            <span class="badge {{ $badge }} mb-1" data-bs-toggle="tooltip" title="{{ $effect['description'] }}">
-                                {{ $effect['name'] }}@if ($effect['stacks'] > 1) x{{ $effect['stacks'] }}@endif
-                                @if ($effect['turns'] !== null)
-                                    ({{ $effect['turns'] }})
-                                @endif
-                            </span>
-                        @endforeach
-                    </td>
-                </tr>
-            @endif
             @if ($combatant->isHuman() && $combatantModel)
                 <tr>
                     <td><span data-bs-toggle="tooltip" title="Time remaining to set manual actions">Time</span></td>
@@ -73,4 +51,24 @@
             @endif
         </tbody>
     </table>
+    @if ($effects)
+        <div class="mb-3">
+            @foreach ($effects as $effect)
+                @php
+                    $badge = match ($effect['kind']) {
+                        'buff' => 'bg-success',
+                        'debuff' => 'bg-danger',
+                        'innate' => 'bg-secondary',
+                        default => 'bg-info',
+                    };
+                @endphp
+                <span class="badge {{ $badge }} mb-1" data-bs-toggle="tooltip" title="{{ $effect['description'] }}">
+                    {{ $effect['name'] }}@if ($effect['stacks'] > 1) x{{ $effect['stacks'] }}@endif
+                    @if ($effect['turns'] !== null)
+                        ({{ $effect['turns'] }})
+                    @endif
+                </span>
+            @endforeach
+        </div>
+    @endif
 </div>

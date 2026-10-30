@@ -15,7 +15,7 @@ use OpenDominion\HeroCombat\Engine\Stats\Stat;
  * turns. Recasting replaces the remaining ticks, so recovering as soon as the cooldown
  * allows wastes the last one.
  */
-class Rejuvenation extends AbstractPassive
+class Restoration extends AbstractPassive
 {
     public const IMMEDIATE_SHARE = 0.8;
     public const TICK_SHARE = 0.1;
@@ -23,12 +23,12 @@ class Rejuvenation extends AbstractPassive
 
     public function key(): string
     {
-        return 'rejuvenation';
+        return 'restoration';
     }
 
     public function name(): string
     {
-        return 'Rejuvenation';
+        return 'Restoration';
     }
 
     public function description(EffectInstance $instance): string
@@ -54,6 +54,6 @@ class Rejuvenation extends AbstractPassive
         }
 
         $fullHeal = $battle->stat($context->actor, Stat::Recover) / self::IMMEDIATE_SHARE;
-        $battle->effects->apply($target, 'rejuvenating', null, 1, ['amount' => (int) round($fullHeal * self::TICK_SHARE)], $context->actor);
+        $battle->effects->apply($target, 'restoring', null, 1, ['amount' => (int) round($fullHeal * self::TICK_SHARE)], $context->actor);
     }
 }

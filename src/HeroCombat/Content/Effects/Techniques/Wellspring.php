@@ -5,16 +5,16 @@ namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
-class ArcaneWard extends AbstractForm
+class Wellspring extends AbstractCombo
 {
     public function key(): string
     {
-        return 'arcane_ward';
+        return 'wellspring';
     }
 
     public function name(): string
     {
-        return 'Arcane Ward';
+        return 'Wellspring';
     }
 
     public function opener(): string
@@ -24,6 +24,6 @@ class ArcaneWard extends AbstractForm
 
     public function statusModifiers(): array
     {
-        return [Modifier::flat(Stat::Defense, 5)];
+        return [Modifier::flat(Stat::Recover, 5)];
     }
 }

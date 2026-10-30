@@ -10,46 +10,46 @@
                 <form action="{{ route('dominion.heroes.create') }}" method="post" role="form">
                     @csrf
                     <div class="card card-primary">
-                        <div class="card-header">
-                            <span class="card-title"><i class="ra ra-knight-helmet"></i> Heroes</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row mb-3">
-                                        <label class="col-sm-3 col-form-label">Name</label>
-                                        <div class="col-sm-9">
-                                            <div class="input-group">
-                                                <input name="name" id="name" class="form-control" />
-                                                <button id="randomize" class="btn btn-secondary" type="button">Randomize</button>
-                                            </div>
+                    <div class="card-header">
+                        <span class="card-title"><i class="ra ra-knight-helmet"></i> Heroes</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input name="name" id="name" class="form-control" />
+                                            <button id="randomize" class="btn btn-secondary" type="button">Randomize</button>
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
-                                        <label class="col-sm-3 col-form-label">Class</label>
-                                        <div class="col-sm-9">
-                                            <select name="class" class="form-select">
-                                                @foreach ($heroHelper->getBasicClasses() as $class)
-                                                    <option value="{{ $class['key'] }}">
-                                                        {{ $class['name'] }} - {{ str_replace('_', ' ', $class['perk_type']) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-3 col-form-label">Class</label>
+                                    <div class="col-sm-9">
+                                        <select name="class" class="form-select">
+                                            @foreach ($heroHelper->getBasicClasses() as $class)
+                                                <option value="{{ $class['key'] }}">
+                                                    {{ $class['name'] }} - {{ str_replace('_', ' ', $class['perk_type']) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Create Hero</button>
-                        </div>
                     </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Create Hero</button>
+                    </div>
+                </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">Level Bonuses</span>
-                        </div>
-                        <div class="card-body table-responsive">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Level Bonuses</span>
+                    </div>
+                    <div class="card-body table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -74,247 +74,203 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
                     </div>
+                </div>
                 </form>
             @else
-                <form action="{{ route('dominion.heroes') }}" method="post" role="form" class="disable-after-click">
-                    @csrf
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <span class="card-title"><i class="ra ra-knight-helmet"></i> Heroes</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                @php
-                                    $heroClass = $heroHelper->getClasses()[$hero->class];
-                                    $perkType = $heroClass['perk_type'];
-                                    $unlockedUpgrades = $hero->upgrades->pluck('key')->all();
-                                    $heroLevel = $heroCalculator->getHeroLevel($hero);
-                                    $baseCombatStats = $heroCalculator->getBaseCombatStats($heroLevel);
-                                @endphp
-                                <div class="col-sm-12 col-lg-6">
-                                    <div class="text-center" style="font-size: 24px;">
-                                        {{ $hero->name }}
-                                    </div>
-                                    <div class="text-center">
-                                        Level {{ $heroCalculator->getHeroLevel($hero) }} {{ $heroHelper->getClassDisplayName($hero->class) }}
-                                    </div>
-                                    <div class="text-center">
-                                        {{ rfloor($hero->experience) }} / {{ $heroCalculator->getNextLevelXP($hero) }} XP
-                                    </div>
-                                    <div class="text-center">
-                                        {{ $heroCalculator->getPassiveDescription($hero) }}
-                                    </div>
-                                    <div class="row" style="margin-top: 10px;">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="text-center fw-bold" style="margin: 7px 0 -8px 0;">
-                                                Upgrades
-                                            </div>
-                                            <div class="row" style="font-size: 64px; margin-top: 20px;">
-                                                <div class="col-6 text-center">
-                                                    <i class="hero-icon ra ra-fw {{ $heroHelper->getClassIcon($hero->class) }}" title="Current Class: {{ $heroHelper->getClassDisplayName($hero->class) }}" data-bs-toggle="tooltip"></i>
-                                                </div>
-                                                @foreach ($hero->upgrades->where('type', 'directive') as $upgrade)
-                                                    <div class="col-6 text-center">
-                                                        {!! $heroHelper->getUpgradeIcon($upgrade) !!}
-                                                    </div>
-                                                @endforeach
-                                                @foreach ($heroCalculator->getUpgradeSlots($hero) as $level => $upgrade)
-                                                    <div class="col-6 text-center">
-                                                        {!! $upgrade ? $heroHelper->getUpgradeIcon($upgrade) : $heroHelper->getLockIcon($level) !!}
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <table class="table table-sm">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan=2 class="text-center">Combat Stats</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            <span title="PvP Rating" data-bs-toggle="tooltip">Rating</span>
-                                                        </td>
-                                                        <td>
-                                                            {{ $hero->combat_rating }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span title="Win - Loss - Draw" data-bs-toggle="tooltip">Record</span>
-                                                        </td>
-                                                        <td>
-                                                            {{ sprintf('%s-%s-%s', $hero->stat_combat_wins, $hero->stat_combat_losses, $hero->stat_combat_draws) }}
-                                                        </td>
-                                                    </tr>
-                                                    @foreach ($heroCalculator->getHeroCombatStats($hero) as $stat => $value)
-                                                        <tr>
-                                                            <td>
-                                                                <span data-bs-toggle="tooltip" title="{{ $heroHelper->getCombatStatTooltip($stat) }}">
-                                                                    {{ ucwords($stat) }}
-                                                                </span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="{{ $baseCombatStats[$stat] != $value ? 'text-green' : null }}">
-                                                                    {{ $value }}
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-lg-6">
-                                    <div class="table-responsive" style="margin-top: 15px;">
-                                        <table class="table table-sm table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Level</th>
-                                                    <th>XP</th>
-                                                    <th>{{ $heroHelper->getClassDisplayName($hero->class) }} Bonus</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($heroCalculator->getExperienceLevels() as $level)
-                                                    @if ($level['level'] !== 0)
-                                                        <tr class="{{ $heroCalculator->getHeroLevel($hero) == $level['level'] ? 'active' : null }}">
-                                                            <td>{{ $level['level'] }}</td>
-                                                            <td>{{ $level['xp'] }}</td>
-                                                            <td>{{ number_format($heroCalculator->calculatePassiveBonus($perkType, $level['level']), 2) }}%</td>
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <span class="card-title"><i class="ra ra-knight-helmet"></i> Heroes</span>
+                    </div>
+                    <div class="card-body">
+                        @php
+                            $heroLevel = $heroCalculator->getHeroLevel($hero);
+                            $unlockedUpgrades = $hero->upgrades->pluck('key')->all();
+                            $upgradeTypesByLevel = $heroHelper->getUpgradeTypesByLevel($hero->class);
+                            $currentLevelXp = $heroCalculator->getCurrentLevelXP($hero);
+                            $nextLevelXp = $heroCalculator->getNextLevelXP($hero);
+                            $isMaxLevel = $heroLevel >= $heroCalculator->getExperienceLevels()->max('level');
+                            $levelProgress = $isMaxLevel ? 100 : min(100, max(0, ($hero->experience - $currentLevelXp) / ($nextLevelXp - $currentLevelXp) * 100));
+                            $dominionSlots = [];
+                            $heroBattleSlots = [];
+                            foreach ($heroCalculator->getUpgradeSlots($hero) as $level => $upgrade) {
+                                $types = $upgradeTypesByLevel[$level] ?? [];
+                                if ($upgrade !== null ? $heroHelper->isHeroBattleUpgradeType($upgrade->type) : array_filter($types, [$heroHelper, 'isHeroBattleUpgradeType'])) {
+                                    $heroBattleSlots[$level] = ['upgrade' => $upgrade, 'types' => $types];
+                                } else {
+                                    $dominionSlots[$level] = ['upgrade' => $upgrade, 'types' => $types];
+                                }
+                            }
+                            [$dominionUpgrades, $heroBattleUpgrades] = $heroHelper->getHeroUpgradesByClass($hero->class)
+                                ->where('active', true)
+                                ->partition(fn ($upgrade) => !$heroHelper->isHeroBattleUpgradeType($upgrade->type));
+                            $upgradeGroups = [
+                                ['title' => 'Dominion Upgrades', 'icon' => 'ra-tower', 'upgrades' => $dominionUpgrades],
+                                ['title' => 'Combat Upgrades', 'icon' => 'ra-axe', 'upgrades' => $heroBattleUpgrades],
+                            ];
+                            $passiveBonusMultiplier = $heroCalculator->getPassiveBonusMultiplier($selectedDominion);
+                            $playedClasses = [];
+                            $unplayedClasses = [];
+                            foreach ($heroHelper->getClasses() as $class) {
+                                $isActiveClass = $hero->class == $class['key'];
+                                $data = array_get($heroClassData, $class['key'], []);
+                                $experience = $isActiveClass ? $hero->experience : array_get($data, 'experience', 0);
+                                $row = [
+                                    'class' => $class,
+                                    'active' => $isActiveClass,
+                                    'level' => $isActiveClass ? $heroLevel : (array_get($data, 'level') ?? $heroCalculator->getExperienceLevel($experience)),
+                                    'description' => $heroCalculator->getPassiveDescription($hero, $class['perk_type']),
+                                    'baseBonus' => $passiveBonusMultiplier > 1 ? $heroCalculator->getPassiveBonus($hero, $class['perk_type']) : 0,
+                                ];
+                                if ($isActiveClass || $experience > 0) {
+                                    $playedClasses[] = $row;
+                                } else {
+                                    $unplayedClasses[] = $row;
+                                }
+                            }
+                        @endphp
+                        <div class="hero-banner">
+                            <div class="hero-medallion" title="Class: {{ $heroHelper->getClassDisplayName($hero->class) }}" data-bs-toggle="tooltip">
+                                <i class="ra {{ $heroHelper->getClassIcon($hero->class) }}"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4>Hero Bonuses</h4>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Class Name</th>
-                                                    <th>Level</th>
-                                                    <th>XP</th>
-                                                    <th>Current Bonus</th>
-                                                    <th>Switch Class</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($heroHelper->getClasses() as $class)
-                                                    @if ($hero->class == $class['key'])
-                                                        <tr class="table-active">
-                                                            <td>{{ $heroHelper->getClassDisplayName($hero->class) }}</td>
-                                                            <td>{{ $heroCalculator->getHeroLevel($hero) }}</td>
-                                                            <td>{{ $hero->experience }}</td>
-                                                            <td>{{ $heroCalculator->getPassiveDescription($hero) }}</td>
-                                                            <td>
-                                                                <span class="btn btn-primary btn-sm" disabled>
-                                                                    Select
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    @else
-                                                        @php
-                                                            $data = array_get($heroClassData, $class['key'], []);
-                                                            $key = array_get($data, 'key', $class['key']);
-                                                            $level = array_get($data, 'level', null);
-                                                            $experience = array_get($data, 'experience', 0);
-                                                        @endphp
-                                                        <tr>
-                                                            <td>{{ $heroHelper->getClassDisplayName($key) }}</td>
-                                                            <td>{{ $level ?? $heroCalculator->getExperienceLevel($experience) }}</td>
-                                                            <td>{{ $experience }}</td>
-                                                            <td>{{ $heroCalculator->getPassiveDescription($hero, $class['perk_type']) }}</td>
-                                                            <td>
-                                                                <a href="{{ route('dominion.heroes.change-class', $class['key']) }}" class="btn btn-primary btn-sm" {{ !$heroCalculator->canChangeClass($hero) ? 'disabled' : null }}>
-                                                                    Select
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                                @if ($heroCalculator->getPassiveBonusMultiplier($selectedDominion) > 1)
-                                                    <tr>
-                                                        <td colspan=5>
-                                                            Your hero bonuses are being increased by {{ number_format($heroCalculator->getPassiveBonusMultiplier($selectedDominion) - 1, 4) * 100 }}%
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            </tbody>
-                                        </table>
-                                    </div>
+                            <div class="hero-identity">
+                                <div class="hero-title">
+                                    <span class="hero-name">{{ $hero->name }}</span>
+                                    <span class="hero-subtitle">Level {{ $heroLevel }} {{ $heroHelper->getClassDisplayName($hero->class) }}</span>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 table-responsive">
-                                    <h4>Hero Upgrades</h4>
-                                    <table class="table">
-                                        <colgroup>
-                                            <col width="25">
-                                            <col width="25">
-                                            <col width="125">
-                                            <col width="25">
-                                            <col width="175">
-                                            <col>
-                                        </colgroup>
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th>Name</th>
-                                                <th>Level</th>
-                                                <th>Combat</th>
-                                                <th>Description</th>
-                                            </tr>
-                                        </thead>
-                                        @foreach ($heroHelper->getHeroUpgradesByClass($hero->class)->where('active', true) as $upgrade)
-                                            <tr class="hero-upgrade {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? 'text-default' : 'text-muted' }}" data-level="{{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}">
-                                                <td class="text-center{{ in_array($upgrade->key, $unlockedUpgrades) ? ' text-green' : null }}">
-                                                    @if (in_array($upgrade->key, $unlockedUpgrades))
-                                                        <i class="fa fa-check"></i>
-                                                    @else
-                                                        <input type="radio" name="key" id="upgrade_{{ $upgrade->key }}" value="{{ $upgrade->key }}" {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? null : 'disabled' }}>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <i class="ra ra-fw {{ $upgrade->icon }}" style="font-size: 24px";></i>
-                                                </td>
-                                                <td>
-                                                    <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
-                                                        {{ $upgrade->name }}
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    {{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}
-                                                </td>
-                                                <td>
-                                                    {!! $heroHelper->getCombatUpgradeDescription($upgrade) !!}
-                                                </td>
-                                                <td>
-                                                    <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
-                                                        {!! $heroHelper->getUpgradeDescription($upgrade, '<br/>') !!}
-                                                    </label>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </table>
+                                <div class="hero-xp-bar"><div style="width: {{ round($levelProgress, 1) }}%"></div></div>
+                                <div class="hero-xp-text">
+                                    @if ($isMaxLevel)
+                                        {{ number_format(rfloor($hero->experience)) }} XP · Max level
+                                    @else
+                                        {{ number_format(rfloor($hero->experience)) }} / {{ number_format($nextLevelXp) }} XP · {{ number_format(ceil($nextLevelXp - $hero->experience)) }} to level {{ $heroLevel + 1 }}
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary" {{ (!$heroCalculator->getUnlockableUpgradeCount($hero) || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button>
+
+                        <div class="row g-4 mt-0">
+                            <div class="col-xl-6">
+                                <div class="hero-section-head"><i class="ra ra-tower"></i> Dominion Bonuses</div>
+                                <div class="hero-tiles">
+                                    @foreach ($hero->upgrades->where('type', 'directive') as $upgrade)
+                                        @include('partials.dominion.hero-upgrade-tile', ['upgrade' => $upgrade, 'level' => $upgrade->level, 'types' => [$upgrade->type]])
+                                    @endforeach
+                                    @foreach ($dominionSlots as $level => $slot)
+                                        @include('partials.dominion.hero-upgrade-tile', ['upgrade' => $slot['upgrade'], 'level' => $level, 'types' => $slot['types']])
+                                    @endforeach
+                                </div>
+
+                                <div class="hero-sub-label">Class bonuses</div>
+                                <div class="hero-classes">
+                                    @foreach ($playedClasses as $row)
+                                        @include('partials.dominion.hero-class-row', ['row' => $row])
+                                    @endforeach
+                                    @if ($unplayedClasses)
+                                        <div class="collapse" id="hero-unplayed-classes">
+                                            @foreach ($unplayedClasses as $row)
+                                                @include('partials.dominion.hero-class-row', ['row' => $row])
+                                            @endforeach
+                                        </div>
+                                        <button type="button" class="hero-classes-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#hero-unplayed-classes" aria-expanded="false" aria-controls="hero-unplayed-classes">
+                                            <span class="when-collapsed">Show {{ count($unplayedClasses) }} more classes</span>
+                                            <span class="when-expanded">Show fewer classes</span>
+                                        </button>
+                                    @endif
+                                </div>
+                                @if ($passiveBonusMultiplier > 1)
+                                    <div class="hero-classes-note">
+                                        Your hero bonuses are being increased by {{ number_format(($passiveBonusMultiplier - 1) * 100, 2) }}%
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="col-xl-6">
+                                <div class="hero-section-head"><i class="ra ra-axe"></i> Hero Battles</div>
+                                <div class="hero-stats">
+                                    <div class="hero-stat hero-stat-rating" title="PvP rating, with your Win - Loss - Draw record" data-bs-toggle="tooltip">
+                                        <div class="hero-stat-label">Rating</div>
+                                        <div class="hero-stat-value">{{ $hero->combat_rating }}</div>
+                                        <div class="hero-stat-change">{{ sprintf('%s-%s-%s', $hero->stat_combat_wins, $hero->stat_combat_losses, $hero->stat_combat_draws) }}</div>
+                                    </div>
+                                    @foreach ($heroCalculator->getHeroCombatStats($hero) as $stat => $value)
+                                        @php($statBonus = $hero->getPerkValue("combat_{$stat}"))
+                                        <div class="hero-stat" title="{{ $heroHelper->getCombatStatTooltip($stat) }}" data-bs-toggle="tooltip">
+                                            <div class="hero-stat-label">{{ ucwords($stat) }}</div>
+                                            <div class="hero-stat-value">{{ $value }}</div>
+                                            <div @class(['hero-stat-change', 'text-green' => $statBonus > 0, 'text-red' => $statBonus < 0])>{{ $statBonus ? sprintf('%+g', $statBonus) : '' }}</div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="hero-tiles hero-tiles-battle">
+                                    @foreach ($heroBattleSlots as $level => $slot)
+                                        @include('partials.dominion.hero-upgrade-tile', ['upgrade' => $slot['upgrade'], 'level' => $level, 'types' => $slot['types']])
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+
+                <form action="{{ route('dominion.heroes') }}" method="post" role="form" class="disable-after-click" id="hero-upgrades">
+                    @csrf
+                    @foreach ($upgradeGroups as $upgradeGroup)
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title"><i class="ra {{ $upgradeGroup['icon'] }} me-1"></i> {{ $upgradeGroup['title'] }}</span>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table hero-upgrades-table">
+                                    <colgroup>
+                                        <col width="40">
+                                        <col width="45">
+                                        <col width="200">
+                                        <col width="60">
+                                        <col>
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Name</th>
+                                            <th>Level</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    @foreach ($upgradeGroup['upgrades'] as $upgrade)
+                                        <tr class="hero-upgrade {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? 'text-default' : 'text-muted' }}" data-level="{{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}">
+                                            <td class="text-center{{ in_array($upgrade->key, $unlockedUpgrades) ? ' text-green' : null }}">
+                                                @if (in_array($upgrade->key, $unlockedUpgrades))
+                                                    <i class="fa fa-check"></i>
+                                                @else
+                                                    <input type="radio" class="form-check-input" name="key" id="upgrade_{{ $upgrade->key }}" value="{{ $upgrade->key }}" {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? null : 'disabled' }}>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <i class="ra ra-fw {{ $upgrade->icon }}" style="font-size: 24px;" title="{{ ucwords($upgrade->type) }}" data-bs-toggle="tooltip"></i>
+                                            </td>
+                                            <td>
+                                                <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
+                                                    {{ $upgrade->name }}
+                                                </label>
+                                            </td>
+                                            <td>
+                                                {{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}
+                                            </td>
+                                            <td>
+                                                <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
+                                                    {!! $heroHelper->getCombatUpgradeDescription($upgrade) ?: $heroHelper->getUpgradeDescription($upgrade, '<br/>') !!}
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary" {{ (!$heroCalculator->getUnlockableUpgradeCount($hero) || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button>
+                            </div>
+                        </div>
+                    @endforeach
                 </form>
             @endif
         </div>
@@ -336,6 +292,36 @@
                     @endif
                 </div>
             </div>
+
+            @if ($hero)
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Level Bonuses</span>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>XP</th>
+                                    <th>{{ $heroHelper->getClassDisplayName($hero->class) }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($heroCalculator->getExperienceLevels() as $level)
+                                    @if ($level['level'] !== 0)
+                                        <tr class="{{ $heroCalculator->getHeroLevel($hero) == $level['level'] ? 'table-active' : null }}">
+                                            <td>{{ $level['level'] }}</td>
+                                            <td>{{ number_format($level['xp']) }}</td>
+                                            <td>{{ number_format($heroCalculator->calculatePassiveBonus($heroHelper->getPassivePerkType($hero->class), $level['level']), 2) }}%</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
         </div>
 
     </div>
@@ -364,6 +350,19 @@
                 var level = $(this).parent().parent().data('level');
                 $('.hero-upgrade[data-level='+level+']').addClass('danger');
                 $(this).parent().parent().removeClass('danger');
+            });
+
+            $('.hero-tile-open[data-upgrade-level]').click(function (event) {
+                var rows = $('.hero-upgrade[data-level=' + $(this).data('upgrade-level') + ']');
+                if (!rows.length) {
+                    return;
+                }
+                event.preventDefault();
+                rows[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                rows.removeClass('hero-upgrade-highlight');
+                setTimeout(function () {
+                    rows.addClass('hero-upgrade-highlight');
+                });
             });
 
             randomizeName();

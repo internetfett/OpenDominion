@@ -5,7 +5,7 @@ namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
-class SecondWind extends AbstractForm
+class SecondWind extends AbstractCombo
 {
     public function key(): string
     {
@@ -24,6 +24,6 @@ class SecondWind extends AbstractForm
 
     public function statusModifiers(): array
     {
-        return [Modifier::flat(Stat::Defense, 5)];
+        return [Modifier::flat(Stat::Attack, 5)];
     }
 }

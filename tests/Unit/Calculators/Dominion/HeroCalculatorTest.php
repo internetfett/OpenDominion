@@ -392,7 +392,7 @@ class HeroCalculatorTest extends AbstractBrowserKitTestCase
     {
         $hero = $this->heroAtExperience(10000); // Level 12
 
-        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 9], array_keys($this->heroCalculator->getUpgradeSlots($hero)));
+        $this->assertEquals([1, 2, 3, 4, 5, 6, 7], array_keys($this->heroCalculator->getUpgradeSlots($hero)));
     }
 
     public function testScionHasALevelZeroSlot()
@@ -416,24 +416,24 @@ class HeroCalculatorTest extends AbstractBrowserKitTestCase
         $this->assertEquals(1, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(200)), 'Level 1: doctrine');
         $this->assertEquals(3, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(1200)), 'Level 3: doctrine, 2, 3');
         $this->assertEquals(7, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(4250)), 'Level 8: 1 through 7');
-        $this->assertEquals(8, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(5000)), 'Level 9: adds the second gear pick');
+        $this->assertEquals(7, $this->heroCalculator->getUnlockableUpgradeCount($this->heroAtExperience(5000)), 'Level 9: no picks beyond level 7');
     }
 
     public function testOnePickPerOddLevel()
     {
         $hero = $this->heroAtExperience(2300); // Level 5
         $overpower = HeroUpgrade::where('key', 'overpower')->firstOrFail();
-        $riposte = HeroUpgrade::where('key', 'riposte')->firstOrFail();
+        $backstab = HeroUpgrade::where('key', 'backstab')->firstOrFail();
         $greatsword = HeroUpgrade::where('key', 'greatsword')->firstOrFail();
-        $executionersAxe = HeroUpgrade::where('key', 'executioners_axe')->firstOrFail();
+        $shieldBash = HeroUpgrade::where('key', 'shield_bash')->firstOrFail();
 
         $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $overpower));
         $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $greatsword));
-        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $executionersAxe), 'Level 9 gear needs level 9');
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $shieldBash), 'Combos need level 7');
 
         $this->unlock($hero, 'overpower');
 
-        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $riposte), 'Only one discipline');
+        $this->assertFalse($this->heroCalculator->canUnlockUpgrade($hero, $backstab), 'Only one discipline');
         $this->assertTrue($this->heroCalculator->canUnlockUpgrade($hero, $greatsword));
         $this->assertSame('overpower', $this->heroCalculator->getUpgradeSlots($hero)[3]->key);
     }
@@ -450,6 +450,6 @@ class HeroCalculatorTest extends AbstractBrowserKitTestCase
         $this->unlock($hero, 'greatsword');
         $withGear = $this->heroCalculator->getHeroCombatStats($hero);
         $this->assertEquals($base['attack'] + 2, $withGear['attack']);
-        $this->assertEquals($base['evasion'] - 5, $withGear['evasion']);
+        $this->assertEquals($base['evasion'] - 10, $withGear['evasion']);
     }
 }

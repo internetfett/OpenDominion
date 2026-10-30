@@ -190,7 +190,7 @@ hero, investment, exploration, espionage, magic, invasion
 - Engine details: see [HERO_COMBAT.md](HERO_COMBAT.md)
 
 ### Upgrades
-Hero upgrades follow a level schedule: level 1 doctrine, even levels (2/4/6, and 8) dominion upgrades with no combat stats, and odd levels for combat picks: level 3 Discipline, 5 Gear, 7 Form, 9 Gear. Disciplines and Forms change how basic combat actions behave; Gear is the only source of combat stat bonuses. See [HERO_COMBAT.md](HERO_COMBAT.md).
+Hero upgrades follow a level schedule: level 1 doctrine, even levels (2/4/6, and 8) dominion upgrades with no combat stats, and odd levels for combat picks: level 3 Discipline, 5 Gear, 7 Combo, and no pick at level 9. Disciplines and Combos change how basic combat actions behave; Gear is the only source of combat stat bonuses. See [HERO_COMBAT.md](HERO_COMBAT.md).
 
 ### Daily PvP Experience
 Once per round day, finishing a PvP hero battle with time bank remaining grants a flat 25 experience (no multipliers), win or lose.

@@ -3,12 +3,14 @@
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
 use OpenDominion\HeroCombat\Content\AbstractPassive;
-use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\CombatTag;
+use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
 /**
- * Discipline: Defend becomes a dodge instead of a block.
+ * Discipline: evading an attack grants Focus. Focus does not stack, so more evasion means
+ * regaining Focus sooner rather than holding more of it.
  */
 class ShadowDance extends AbstractPassive
 {
@@ -24,15 +26,17 @@ class ShadowDance extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Defend also grants +' . ShadowDanceStance::EVASION . ' evasion. Evaded unfocused attacks deal no damage, and evading grants Focus.';
+        return 'Evading an attack grants Focus.';
     }
 
-    public function onAbilityDeclared(EffectInstance $instance, ActionContext $context, Battle $battle): void
+    public function onEvaded(EffectInstance $instance, DamageContext $damage, Battle $battle): void
     {
-        if ($context->ability->key() !== 'defend') {
+        $dancer = $this->owner($instance, $battle);
+        if ($dancer === null || $damage->target->id !== $dancer->id || $battle->hasTag($dancer, CombatTag::Focused)) {
             return;
         }
 
-        $battle->effects->apply($context->actor, 'shadow_dance_stance', 1, 1, [], $context->actor);
+        $battle->effects->apply($dancer, 'focused', null, 1, [], $dancer);
+        $battle->say($dancer, "{$dancer->name} slips the blow and finds an opening.");
     }
 }

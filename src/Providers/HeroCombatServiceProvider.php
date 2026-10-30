@@ -102,18 +102,17 @@ class HeroCombatServiceProvider extends ServiceProvider
         Effects\Boss\HungeringMoonCurse::class,
         Effects\Techniques\Overpower::class,
         Effects\Techniques\BattleFury::class,
-        Effects\Techniques\Attunement::class,
-        Effects\Techniques\Rejuvenation::class,
-        Effects\Techniques\Rejuvenating::class,
-        Effects\Techniques\Riposte::class,
+        Effects\Techniques\Restoration::class,
+        Effects\Techniques\Restoring::class,
+        Effects\Techniques\ManaShield::class,
         Effects\Techniques\ShadowDance::class,
-        Effects\Techniques\ShadowDanceStance::class,
-        Effects\Techniques\ShieldBash::class,
-        Effects\Techniques\SecondWind::class,
-        Effects\Techniques\Spellweave::class,
-        Effects\Techniques\ArcaneWard::class,
-        Effects\Techniques\Ambush::class,
+        Effects\Techniques\Backstab::class,
         Effects\Techniques\Feint::class,
+        Effects\Techniques\ShieldBash::class,
+        Effects\Techniques\Spellweave::class,
+        Effects\Techniques\Riposte::class,
+        Effects\Techniques\SecondWind::class,
+        Effects\Techniques\Wellspring::class,
         Effects\MagicWard::class,
         Effects\Backlash::class,
         Effects\Silenced::class,
@@ -191,7 +190,7 @@ class HeroCombatServiceProvider extends ServiceProvider
         foreach (self::EFFECTS as $class) {
             $effect = new $class();
             $registry->registerEffect($effect);
-            if ($effect instanceof Effects\Techniques\AbstractForm) {
+            if ($effect instanceof Effects\Techniques\AbstractCombo) {
                 $registry->registerEffect($effect->statusEffect());
             }
         }

@@ -5,7 +5,7 @@ namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
-class Spellweave extends AbstractForm
+class Spellweave extends AbstractCombo
 {
     public function key(): string
     {
@@ -19,11 +19,11 @@ class Spellweave extends AbstractForm
 
     public function opener(): string
     {
-        return 'focus';
+        return 'defend';
     }
 
     public function statusModifiers(): array
     {
-        return [Modifier::flat(Stat::Counter, 5)];
+        return [Modifier::flat(Stat::Focus, 10)];
     }
 }

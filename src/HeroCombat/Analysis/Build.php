@@ -8,13 +8,13 @@ namespace OpenDominion\HeroCombat\Analysis;
 final readonly class Build
 {
     /**
-     * @param string[] $forms
+     * @param string[] $combos
      * @param string[] $gear
      */
     public function __construct(
         public int $level = 9,
         public ?string $discipline = null,
-        public array $forms = [],
+        public array $combos = [],
         public array $gear = [],
     ) {
     }
@@ -23,7 +23,7 @@ final readonly class Build
     {
         $parts = array_filter([
             $this->discipline,
-            implode('+', $this->forms),
+            implode('+', $this->combos),
             implode('+', $this->gear),
         ]);
 

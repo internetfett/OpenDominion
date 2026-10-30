@@ -167,26 +167,26 @@ battle_fury:
   level: 3
   type: discipline
   icon: ra-axe
-attunement:
-  name: Attunement
-  level: 3
-  type: discipline
-  icon: ra-sun-symbol
-rejuvenation:
-  name: Rejuvenation
+restoration:
+  name: Restoration
   level: 3
   type: discipline
   icon: ra-heart-bottle
-riposte:
-  name: Riposte
+mana_shield:
+  name: Mana Shield
   level: 3
   type: discipline
-  icon: ra-crossed-swords
+  icon: ra-bolt-shield
 shadow_dance:
   name: Shadow Dance
   level: 3
   type: discipline
   icon: ra-player-dodge
+backstab:
+  name: Backstab
+  level: 3
+  type: discipline
+  icon: ra-dripping-knife
 greatsword:
   name: Greatsword
   level: 5
@@ -194,22 +194,7 @@ greatsword:
   icon: ra-sword
   perks:
     combat_attack: 2
-    combat_evasion: -5
-dueling_blade:
-  name: Dueling Blade
-  level: 5
-  type: gear
-  icon: ra-dervish-swords
-  perks:
-    combat_counter: 3
-    combat_evasion: 5
-spellfocus_staff:
-  name: Spellfocus Staff
-  level: 5
-  type: gear
-  icon: ra-crystal-wand
-  perks:
-    combat_focus: 4
+    combat_evasion: -10
 plate_armor:
   name: Plate Armor
   level: 5
@@ -218,94 +203,62 @@ plate_armor:
   perks:
     combat_defense: 1
     combat_evasion: -5
-leathers:
-  name: Leathers
+swordbreaker:
+  name: Swordbreaker Dagger
+  level: 5
+  type: gear
+  icon: ra-bowie-knife
+  perks:
+    combat_counter: 6
+hooded_cloak:
+  name: Hooded Cloak
   level: 5
   type: gear
   icon: ra-hood
   perks:
     combat_evasion: 8
-warded_robes:
-  name: Warded Robes
+crystal_wand:
+  name: Crystal Wand
+  level: 5
+  type: gear
+  icon: ra-crystal-wand
+  perks:
+    combat_focus: 6
+vestments_of_renewal:
+  name: Vestments of Renewal
   level: 5
   type: gear
   icon: ra-robe
   perks:
-    combat_recover: 5
-    combat_focus: 2
+    combat_recover: 4
+    combat_health: 5
 shield_bash:
   name: Shield Bash
   level: 7
-  type: form
+  type: combo
   icon: ra-round-shield
 second_wind:
   name: Second Wind
   level: 7
-  type: form
+  type: combo
   icon: ra-feather-wing
 spellweave:
   name: Spellweave
   level: 7
-  type: form
-  icon: ra-spiral-shell
-arcane_ward:
-  name: Arcane Ward
+  type: combo
+  icon: ra-focused-lightning
+wellspring:
+  name: Wellspring
   level: 7
-  type: form
-  icon: ra-bolt-shield
-ambush:
-  name: Ambush
+  type: combo
+  icon: ra-droplet-splash
+riposte:
+  name: Riposte
   level: 7
-  type: form
-  icon: ra-bowie-knife
+  type: combo
+  icon: ra-crossed-swords
 feint:
   name: Feint
   level: 7
-  type: form
+  type: combo
   icon: ra-spinning-sword
-executioners_axe:
-  name: Executioner's Axe
-  level: 9
-  type: gear
-  icon: ra-battered-axe
-  perks:
-    combat_attack: 3
-    combat_evasion: -5
-shadowfang_daggers:
-  name: Shadowfang Daggers
-  level: 9
-  type: gear
-  icon: ra-daggers
-  perks:
-    combat_counter: 4
-    combat_evasion: 8
-archmages_wand:
-  name: Archmage's Wand
-  level: 9
-  type: gear
-  icon: ra-fireball-sword
-  perks:
-    combat_focus: 6
-tower_shield:
-  name: Tower Shield
-  level: 9
-  type: gear
-  icon: ra-heavy-shield
-  perks:
-    combat_defense: 2
-    combat_evasion: -5
-shadowweave_cloak:
-  name: Shadowweave Cloak
-  level: 9
-  type: gear
-  icon: ra-arcane-mask
-  perks:
-    combat_evasion: 12
-vestments_of_renewal:
-  name: Vestments of Renewal
-  level: 9
-  type: gear
-  icon: ra-aura
-  perks:
-    combat_recover: 4
-    combat_health: 5

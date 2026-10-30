@@ -10,28 +10,28 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 
 /**
- * The visible status a Form grants. Applied while the opener resolves with duration 2, so
+ * The visible status a Combo grants. Applied while the opener resolves with duration 2, so
  * the turn-end countdown leaves it active for exactly the following turn.
  */
-class FormStatus extends AbstractEffect
+class ComboStatus extends AbstractEffect
 {
-    public function __construct(private AbstractForm $form)
+    public function __construct(private AbstractCombo $combo)
     {
     }
 
     public function key(): string
     {
-        return $this->form->statusKey();
+        return $this->combo->statusKey();
     }
 
     public function name(): string
     {
-        return $this->form->name();
+        return $this->combo->name();
     }
 
     public function description(EffectInstance $instance): string
     {
-        return self::describe($this->form->statusModifiers()) . ' this turn.';
+        return $this->combo->description($instance);
     }
 
     public function kind(): EffectKind
@@ -50,7 +50,7 @@ class FormStatus extends AbstractEffect
             return [];
         }
 
-        return $this->form->statusModifiers();
+        return $this->combo->statusModifiers();
     }
 
     /**
