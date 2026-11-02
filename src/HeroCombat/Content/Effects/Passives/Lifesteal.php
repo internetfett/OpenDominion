@@ -7,6 +7,7 @@ use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 class Lifesteal extends AbstractPassive
 {
@@ -32,9 +33,9 @@ class Lifesteal extends AbstractPassive
             return;
         }
 
-        $healed = $battle->heal($attacker, (int) round($damage->amount / 2), $attacker);
+        $healed = $battle->heal($attacker, (int) round($damage->amount / 2), $attacker, $this->key());
         if ($healed > 0) {
-            $battle->say($attacker, "{$attacker->name} heals for {$healed} health.");
+            $battle->say($attacker, "{$attacker->name} heals for {$healed} health.", MessageKind::Detail);
         }
     }
 }

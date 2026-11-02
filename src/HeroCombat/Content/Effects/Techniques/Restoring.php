@@ -8,6 +8,7 @@ use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
 use OpenDominion\HeroCombat\Engine\Effects\StackingRule;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 /**
  * Heals data.amount at the start of each of the three turns after it was applied. Applied
@@ -58,9 +59,9 @@ class Restoring extends AbstractEffect
             return;
         }
 
-        $healed = $battle->heal($owner, (int) ($instance->data['amount'] ?? 0), $battle->combatant($instance->sourceId));
+        $healed = $battle->heal($owner, (int) ($instance->data['amount'] ?? 0), $battle->combatant($instance->sourceId), $this->key());
         if ($healed > 0) {
-            $battle->say($owner, "{$owner->name} recovers {$healed} more health.");
+            $battle->say($owner, "{$owner->name} recovers {$healed} more health.", MessageKind::Detail);
         }
     }
 }

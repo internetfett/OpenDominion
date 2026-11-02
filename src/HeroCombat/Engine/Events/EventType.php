@@ -13,4 +13,6 @@ enum EventType: string
     case Died = 'died';
     case Revived = 'revived';
     case Fizzled = 'fizzled';
+    case Message = 'message';
+    case Reward = 'reward';
 }

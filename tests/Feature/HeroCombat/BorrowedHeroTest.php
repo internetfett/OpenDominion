@@ -191,7 +191,9 @@ class BorrowedHeroTest extends AbstractBrowserKitTestCase
 
         $this->visitRoute('dominion.heroes.battles')
             ->see('Lender')
-            ->see('(borrowed)')
+            ->see('Borrowed')
+            ->see('Turn 1 orders')
+            ->see('0 of 2 chosen')
             ->see("Automate all of Lender's turns")
             ->see('Automate all of my turns');
     }
@@ -207,5 +209,146 @@ class BorrowedHeroTest extends AbstractBrowserKitTestCase
             ->see("Bring a realmmate's hero")
             ->see('Party of 2')
             ->see('Lender');
+    }
+
+    /**
+     * @return array{0: Dominion, 1: Dominion, 2: HeroBattle, 3: HeroCombatant, 4: HeroCombatant, 5: HeroCombatant}
+     */
+    protected function party(): array
+    {
+        $pilot = $this->dominionWithHero('Pilot');
+        $owner = $this->dominionWithHero('Lender');
+        $battle = $this->heroBattleService->createPracticeBattle($pilot, 'test_party', [$owner->hero]);
+
+        return [
+            $pilot,
+            $owner,
+            $battle,
+            $this->combatantOfHero($battle, $pilot->hero),
+            $this->combatantOfHero($battle, $owner->hero),
+            $battle->combatants()->whereNull('hero_id')->firstOrFail(),
+        ];
+    }
+
+    /**
+     * @return array<int, array<string, mixed>> the turn's selected events
+     */
+    protected function selections(HeroBattle $battle, int $turn): array
+    {
+        $row = $battle->turns()->where('turn', $turn)->firstOrFail();
+
+        return array_values(array_filter($row->events, fn (array $event) => $event['type'] === 'selected'));
+    }
+
+    public function testLockingInOrdersForEveryPilotedHeroResolvesTheTurnOnce(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
+
+        $this->heroActionService->queueOrders($pilot, $battle, [
+            $hero->id => ['action' => 'attack', 'target' => $warden->id],
+            $borrowed->id => ['action' => 'defend', 'target' => $hero->id],
+        ]);
+        $this->assertTrue($this->heroBattleService->processTurn($battle->fresh()));
+
+        $this->assertEquals(2, $battle->fresh()->current_turn);
+        $chosen = collect($this->selections($battle, 1))->keyBy('actor');
+        $this->assertEquals(['attack', $warden->id], [$chosen[$hero->id]['ability'], $chosen[$hero->id]['target']]);
+        $this->assertEquals(['defend', $hero->id], [$chosen[$borrowed->id]['ability'], $chosen[$borrowed->id]['target']]);
+    }
+
+    public function testLockInNeedsAnOrderForEveryPilotedHero(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
+
+        try {
+            $this->heroActionService->queueOrders($pilot, $battle, [$hero->id => ['action' => 'attack', 'target' => $warden->id]]);
+            $this->fail('Expected the missing order to be rejected');
+        } catch (GameException $e) {
+            $this->assertEquals('Choose an action for Lender before locking in.', $e->getMessage());
+        }
+
+        $this->assertSame([], $hero->fresh()->actions ?? []);
+        $this->assertSame([], $borrowed->fresh()->actions ?? []);
+    }
+
+    public function testLockInIsAllOrNothing(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
+
+        try {
+            $this->heroActionService->queueOrders($pilot, $battle, [
+                $hero->id => ['action' => 'attack', 'target' => $warden->id],
+                $borrowed->id => ['action' => 'attack', 'target' => $hero->id],
+            ]);
+            $this->fail('Expected attacking an ally to be rejected');
+        } catch (GameException $e) {
+            $this->assertEquals('Invalid target.', $e->getMessage());
+        }
+
+        $this->assertSame([], $hero->fresh()->actions ?? [], 'The valid order is rolled back too');
+        $this->assertEquals(1, $battle->fresh()->current_turn);
+    }
+
+    public function testLockInSkipsHeroesOnAutopilot(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
+        $borrowed->update(['automated' => true]);
+
+        $this->heroActionService->queueOrders($pilot, $battle, [$hero->id => ['action' => 'attack', 'target' => $warden->id]]);
+        $this->assertTrue($this->heroBattleService->processTurn($battle->fresh()));
+
+        $auto = collect($this->selections($battle, 1))->firstWhere('actor', $borrowed->id);
+        $this->assertEquals('ai', $auto['source']);
+    }
+
+    public function testLockInRejectsHeroesTheDominionDoesNotPilot(): void
+    {
+        [, $owner, $battle, $hero, $borrowed] = $this->party();
+
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('You cannot queue actions for another hero.');
+
+        $this->heroActionService->queueOrders($owner, $battle, [$borrowed->id => ['action' => 'defend']]);
+    }
+
+    public function testLockInRejectsFinishedBattles(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed] = $this->party();
+        $battle->update(['finished' => true]);
+
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('You cannot queue actions for a battle that has ended.');
+
+        $this->heroActionService->queueOrders($pilot, $battle->fresh(), [$hero->id => ['action' => 'defend'], $borrowed->id => ['action' => 'defend']]);
+    }
+
+    public function testLockInRouteQueuesAndResolves(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
+        $this->actingAs($pilot->user);
+        $this->selectDominion($pilot);
+
+        $this->post(route('dominion.heroes.battles.orders'), [
+            'battle' => $battle->id,
+            'orders' => [
+                $hero->id => ['action' => 'attack', 'target' => $warden->id],
+                $borrowed->id => ['action' => 'recover', 'target' => ''],
+            ],
+        ])->assertRedirectedToRoute('dominion.heroes.battles');
+
+        $this->assertEquals(2, $battle->fresh()->current_turn);
+        $this->assertEquals('Turn 1 resolved.', session('alert-success'));
+    }
+
+    public function testLockInRouteNeedsOrders(): void
+    {
+        [$pilot, , $battle] = $this->party();
+        $this->actingAs($pilot->user);
+        $this->selectDominion($pilot);
+
+        $this->post(route('dominion.heroes.battles.orders'), ['battle' => $battle->id]);
+
+        $this->assertSessionHasErrors(['orders']);
+        $this->assertEquals(1, $battle->fresh()->current_turn);
     }
 }

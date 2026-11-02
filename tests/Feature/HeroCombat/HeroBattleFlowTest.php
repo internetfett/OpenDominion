@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroBattle;
-use OpenDominion\Models\HeroBattleAction;
+use OpenDominion\Models\HeroBattleTurn;
 use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Round;
@@ -92,12 +92,26 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertEquals(3, $player->cooldowns['focus']);
         $this->assertSame([], $player->actions);
 
-        $rows = HeroBattleAction::where('hero_battle_id', $battle->id)->get();
-        $this->assertTrue($rows->contains('action', 'focus'));
-        $this->assertStringContainsString('focuses their energy', $rows->pluck('description')->implode(' '));
+        $turn = HeroBattleTurn::where('hero_battle_id', $battle->id)->where('turn', 1)->firstOrFail();
+        $events = collect($turn->events);
+        $this->assertTrue($events->contains(fn ($event) => $event['type'] === 'selected' && $event['actor'] === $player->id && $event['ability'] === 'focus'));
+        $this->assertStringContainsString('focuses their energy', $events->where('type', 'message')->pluck('text')->implode(' '));
 
         $view = $this->heroBattleService->loadBattle($battle);
         $this->assertTrue($view->effects->has($view->combatant($player->id), 'focused'));
+    }
+
+    public function testLockingInASingleHeroResolvesTheTurn(): void
+    {
+        $dominion = $this->dominionWithHero('Solo');
+        $battle = $this->heroBattleService->createPracticeBattle($dominion);
+        $player = $this->combatantFor($battle, $dominion);
+
+        $this->heroActionService->queueOrders($dominion, $battle, [$player->id => ['action' => 'focus']]);
+
+        $this->assertTrue($this->heroBattleService->processTurn($battle->fresh()));
+        $this->assertEquals(2, $battle->fresh()->current_turn);
+        $this->assertEquals('focus', $player->fresh()->last_action);
     }
 
     public function testQueueRejectsActionOnCooldown(): void
@@ -277,7 +291,9 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertEquals($aliceXp + 25, $alice->hero->fresh()->experience, 'Flat, no experience multipliers');
         $this->assertEquals($bobXp + 25, $bob->hero->fresh()->experience, 'Win or lose');
         $this->assertNotNull($alice->hero->fresh()->last_pvp_reward_at);
-        $this->assertStringContainsString("earns 25 experience for today's battle", $battle->actions->pluck('description')->implode(' '));
+        $rewards = $battle->turns->flatMap(fn ($turn) => $turn->events)->where('type', 'reward');
+        $this->assertEquals([25, 25], $rewards->pluck('experience')->all());
+        $this->assertEqualsCanonicalizing($battle->combatants()->whereNotNull('hero_id')->pluck('id')->all(), $rewards->pluck('target')->all());
     }
 
     public function testDailyExperienceOnlyOncePerDay(): void

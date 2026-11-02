@@ -6,6 +6,7 @@ use OpenDominion\HeroCombat\Content\AbstractAbility;
 use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Damage\DamageResult;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 /**
  * A weapon attack against each target, narrated with hit/evaded/countered messages.
@@ -57,11 +58,11 @@ abstract class AbstractAttack extends AbstractAbility
         $context->say($key, $variables);
 
         if ($result->absorbed > 0) {
-            $context->battle->say($context->actor, "{$result->target->name}'s defenses absorb {$result->absorbed} damage.");
+            $context->battle->say($context->actor, "{$result->target->name}'s defenses absorb {$result->absorbed} damage.", MessageKind::Detail);
         }
 
         if ($result->wasCountered()) {
-            $context->battle->say($context->actor, "{$result->target->name} counters for {$result->counterDamage()} damage.");
+            $context->battle->say($context->actor, "{$result->target->name} counters for {$result->counterDamage()} damage.", MessageKind::Detail);
         }
     }
 }

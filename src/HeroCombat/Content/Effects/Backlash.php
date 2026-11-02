@@ -8,6 +8,7 @@ use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Damage\DamageRequest;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 /**
  * Attackers take a share of the damage they deal. It does not reduce the damage the owner takes.
@@ -69,6 +70,6 @@ class Backlash extends AbstractEffect
             tags: [],
         ));
 
-        $battle->say($owner, "Backlash rebounds on {$attacker->name} for {$result->amount} damage.");
+        $battle->say($owner, "Backlash rebounds on {$attacker->name} for {$result->amount} damage.", MessageKind::Detail);
     }
 }

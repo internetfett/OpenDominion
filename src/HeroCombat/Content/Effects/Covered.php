@@ -7,6 +7,7 @@ use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 /**
  * Hits aimed at the holder are taken by the guardian who applied this effect instead.
@@ -45,7 +46,7 @@ class Covered extends AbstractEffect
             return;
         }
 
-        $battle->say($guardian, "{$guardian->name} steps in front of {$damage->target->name}.");
+        $battle->say($guardian, "{$guardian->name} steps in front of {$damage->target->name}.", MessageKind::Detail);
         $damage->target = $guardian;
     }
 }

@@ -26,7 +26,7 @@ src/HeroCombat/
     Effects/            EffectInstance, EffectManager (apply/stack/tick/remove), EffectDispatcher (ordered hooks)
     Stats/              Stat enum, Modifier, StatCalculator
     Targeting/          TargetRule enum, TargetResolver
-    Events/             BattleLog, LogEntry, BattleEvent (structured), EventType
+    Events/             BattleLog, LogEntry, BattleEvent (structured), EventType, MessageKind
     Random/             RandomSource, SeededRandomSource
     Victory/            VictoryCondition, LastTeamStanding
   Content/          Everything game-specific. Add new content here.
@@ -39,7 +39,7 @@ src/HeroCombat/
   Registry/CombatRegistry  explicit key → definition maps
   Persistence/      BattleRepository (models ⇄ state, row lock), CombatantFactory, EloquentCombatantSpawner,
                     StateSnapshot, BattleReplayer
-  Presentation/     BattlePresenter / BattleView (view model for Blade)
+  Presentation/     BattlePresenter / BattleView (view model for Blade), TurnSummary (phased turn results)
 src/Providers/HeroCombatServiceProvider.php   registers all content (explicit lists)
 src/Services/Dominion/HeroBattleService.php   app entry point: create battles, matchmaking, processTurn
 src/Services/Dominion/HeroBattleOutcomeService.php   records, Elo, tournaments, raid contributions
@@ -71,6 +71,7 @@ processTurn(HeroBattle)
 
 - **Simultaneous semantics.** A combatant downed earlier in the turn still acts. Anyone summoned mid-turn acts from the next turn.
 - **Readiness.** NPCs are always ready. A human is ready when they have a queued action or are automated. `checkTime()` drains time banks and switches anyone at zero to automated.
+- **Orders.** `HeroActionService::queueAction()` queues one action for one combatant. `queueOrders()` (`POST heroes/battles/orders`, `orders[combatantId][action|target]`) locks in one action for every living hero the dominion pilots in a transaction, all or none; every hero not on autopilot needs an order. The controller then calls `processTurn()` once.
 - **Death processing** repeats until stable: `onDeath` runs on the dying combatant's own effects, then `onAnyDeath` on every other effect. A death trigger can kill, summon or revive.
 
 ## State and persistence
@@ -88,7 +89,7 @@ processTurn(HeroBattle)
 | `hero_combatants.effects / cooldowns / charges` | effect instances; ability → turn it's usable again; ability → charges left |
 | `hero_combatants.actions` | queued intents `[{ability, target}]` (max 6) |
 | `hero_combatants.strategy` | AI strategy key (`CombatantState::$ai`) |
-| `hero_battle_actions` | one row per resolved action or status line: `description` (rendered text) + `events` (structured) |
+| `hero_battle_turns` | one row per resolved turn: `events`, the turn's structured events in order. Turn 0 holds setup events (already in the initial snapshot) |
 
 An effect instance is serialized as `{key, src, turns, stacks, data, turn, seq}`. `seq` is the
 global apply order, which the dispatcher uses to break ties.
@@ -219,7 +220,7 @@ The heroes page header splits slots into a Dominion Bonuses section and a Hero B
 - `HeroBattleService::createEncounterBattle(..., $companions)` / `createPracticeBattle(..., $companions)` validate party size, same realm and round, and no duplicates. `availableCompanions()` lists every other hero in the realm. Any number of realmmates can borrow the same hero at once (each battle has its own combatant row).
 - Everything player-facing goes through the controller: queueing and strategy changes (`HeroCombatant::isControlledBy()`), "battle in progress" checks (`hasBattleInProgress()`), the battle list (`HeroBattle::scopeControlledBy()`), raid objective completion (`HeroBattle::hasWinningController()`). Battles where your hero was borrowed don't block you or appear as yours.
 - Raid wins credit one contribution per controller dominion. Owners of borrowed heroes get nothing for now.
-- UI: the raid hero tactic form and the practice page show a "Bring a realmmate's hero" select only when the encounter's `maxPartySize() > 1`. The battle page renders one control panel per living combatant you pilot (`BattleView::commandable()`), marked "(borrowed)". Each panel's actions sit under its side. The queue table only shows when `BattleView::canQueueAhead()` holds, meaning a living human you don't pilot can still hold up the turn. With one piloted combatant against a single opponent, the queue renders beneath the opponent instead.
+- UI: the raid hero tactic form and the practice page show a "Bring a realmmate's hero" select only when the encounter's `maxPartySize() > 1`. The battle page (`partials/dominion/hero-battle`, also used by the report) has a battle bar (mode, title, turn, time left, who the turn waits on), hero cards per side (compact grid for three or more), the turn summary and, for heroes you pilot, the orders panel (`hero-battle-orders`): one always-visible panel per hero (`BattleView::commandable()`), target pickers from `BattleView::targetOptions()` ("Yourself", "Guard X", "Heal X", enemies), and a Lock in button that posts every hero's order to `heroes/battles/orders`. Heroes on autopilot show a Cancel autopilot button instead. Queued turns (only when `BattleView::canQueueAhead()`) show on the panel with remove links and as a Plan line on the hero card.
 
 ## Daily PvP experience
 
@@ -295,12 +296,35 @@ not ported.
 - DB flow tests: `tests/Feature/HeroCombat/HeroBattleFlowTest.php`. Pages: `tests/Feature/Http/Dominion/HeroBattlePagesTest.php`. Varos: `tests/Unit/Services/Dominion/HeroBattleServiceTest.php`.
 - `php artisan test --compact tests/Unit/HeroCombat`
 
+## Turn log and summaries
+
+Everything that happens is a `BattleEvent`: `selected`, `damage`, `heal`, `effect_applied`,
+`effect_removed`, `summoned`, `died`, `revived`, `fizzled`, `message` and `reward`.
+`BattleRepository` stores each turn's events, in order, as one `hero_battle_turns` row.
+
+- `damage` carries its breakdown: `attack`, `focus`, `counter_bonus`, `bonus`, `defense`,
+  `defending`, `flat`, `multiplier`, `hits`, plus `raw` (after defense), `evaded`, `absorbed`,
+  `counter` and `redirected_from` (a guard took the hit). `heal` carries `via`, the ability or
+  effect key that healed.
+- `Battle::say()` records a `message` event alongside the text line. Its `MessageKind` is
+  `narration` (stances, telegraphs, flavour), `detail` (only restates a damage or heal event:
+  `ActionContext::DETAIL_MESSAGES` templates and a few effect lines) or `outcome` (victory text).
+  Pass `MessageKind::Detail` for any new line that only repeats a number already in an event.
+- `TurnSummary` groups a turn into Actions, Status, Damage, Healing, Defeats and Result. Lines are
+  segment lists (name with side, damage, heal, math, effect, tag, text); `TurnSummary::html()`
+  escapes and renders them. It adds greyed lines for a Defend nobody tested and a Counter never
+  triggered, an `auto` tag for automated player choices and a one-line gist for collapsed turns.
+  Within a phase the order is the resolution order.
+- `BattleView::turns()` builds the summaries from the viewer's side (allies blue, opponents red),
+  rendered by `partials/dominion/hero-turn-summary` on the battle and report pages.
+
 ## Replays
 
-Every battle stores a seed and an initial snapshot, and each action row records its intent's
-source (`events[0]`: `selected`, with `source` = queue|ai|forced). `BattleReplayer` restores the
-snapshot, replays queued intents (AI and forced intents are deterministic per seed and turn),
-gives summons their original ids, and diffs the log turn by turn:
+Every battle stores a seed and an initial snapshot, and each `selected` event records its intent's
+source (queue|ai|forced). `BattleReplayer` restores the snapshot, replays queued intents (AI and
+forced intents are deterministic per seed and turn), gives summons their original ids, and
+compares each turn's events with the stored ones (`reward` events are added after the battle and
+are skipped):
 
 ```
 php artisan hero-combat:replay {battle}

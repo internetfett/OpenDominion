@@ -161,8 +161,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('heroes/class/{class}')->uses('Dominion\HeroController@postChangeClass');
             $router->get('heroes/battles')->uses('Dominion\HeroController@getBattles')->name('heroes.battles');
             $router->post('heroes/battles')->uses('Dominion\HeroController@postBattles');
-            $router->get('heroes/battles/action')->uses('Dominion\HeroController@getAddCombatAction')->name('heroes.battles.action');
             $router->get('heroes/battles/action/delete')->uses('Dominion\HeroController@getDeleteCombatAction')->name('heroes.battles.action.delete');
+            $router->post('heroes/battles/orders')->uses('Dominion\HeroController@postBattleOrders')->name('heroes.battles.orders');
             $router->get('heroes/battles/practice')->uses('Dominion\HeroController@getPracticeBattle')->name('heroes.battles.practice');
             $router->post('heroes/battles/practice')->uses('Dominion\HeroController@postPracticeBattle');
             $router->get('heroes/battles/queue')->uses('Dominion\HeroController@getJoinQueue')->name('heroes.battles.queue');

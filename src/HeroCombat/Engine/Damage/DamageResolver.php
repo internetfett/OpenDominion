@@ -111,31 +111,47 @@ final class DamageResolver
         $request = $context->request;
         $target = $context->target;
 
+        $breakdown = [
+            'flat' => $request->flatDamage,
+            'attack' => 0,
+            'focus' => 0,
+            'counter_bonus' => 0,
+            'bonus' => $request->bonusDamage,
+            'defense' => 0,
+            'defending' => false,
+            'multiplier' => $request->multiplier,
+            'hits' => $request->hits,
+        ];
+
         if ($request->flatDamage !== null) {
+            $context->breakdown = $breakdown;
+
             return (int) round($request->flatDamage * $request->multiplier * $request->hits);
         }
 
         $attacker = $request->attacker;
-        $power = $attacker !== null ? $this->battle->stat($attacker, Stat::Attack) : 0;
-
-        if ($attacker !== null && $request->isCounter) {
-            $power += $this->battle->stat($attacker, Stat::Counter);
-        } elseif ($attacker !== null && $context->attackerFocused) {
-            $stacks = max(1, $this->battle->effects->stacks($attacker, 'focused'));
-            $power += $this->battle->stat($attacker, Stat::Focus) * $stacks;
-        }
-
-        $power += $request->bonusDamage;
-
-        $defense = 0;
-        if (!$request->ignoreDefense) {
-            $defense = $this->battle->stat($target, Stat::Defense);
-            if ($this->battle->hasTag($target, CombatTag::Defending)) {
-                $defense += $request->defendModifier;
+        if ($attacker !== null) {
+            $breakdown['attack'] = $this->battle->stat($attacker, Stat::Attack);
+            if ($request->isCounter) {
+                $breakdown['counter_bonus'] = $this->battle->stat($attacker, Stat::Counter);
+            } elseif ($context->attackerFocused) {
+                $stacks = max(1, $this->battle->effects->stacks($attacker, 'focused'));
+                $breakdown['focus'] = $this->battle->stat($attacker, Stat::Focus) * $stacks;
             }
         }
 
-        return (int) round(max(0, $power - $defense) * $request->multiplier * $request->hits);
+        if (!$request->ignoreDefense) {
+            $breakdown['defense'] = $this->battle->stat($target, Stat::Defense);
+            if ($this->battle->hasTag($target, CombatTag::Defending)) {
+                $breakdown['defending'] = true;
+                $breakdown['defense'] += $request->defendModifier;
+            }
+        }
+
+        $context->breakdown = $breakdown;
+        $power = $breakdown['attack'] + $breakdown['counter_bonus'] + $breakdown['focus'] + $breakdown['bonus'];
+
+        return (int) round(max(0, $power - $breakdown['defense']) * $request->multiplier * $request->hits);
     }
 
     private function rollEvade(CombatantState $target): bool
@@ -172,6 +188,7 @@ final class DamageResolver
             'evaded' => $context->evaded,
             'absorbed' => $context->absorbed,
             'counter' => $request->isCounter,
-        ]));
+            'redirected_from' => $context->target !== $request->target ? $request->target->id : null,
+        ] + $context->breakdown));
     }
 }

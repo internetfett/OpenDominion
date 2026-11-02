@@ -4,10 +4,11 @@ namespace OpenDominion\Services\Dominion;
 
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Calculators\RaidCalculator;
-use OpenDominion\HeroCombat\Engine\Events\LogEntry;
+use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
+use OpenDominion\HeroCombat\Engine\Events\EventType;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\HeroBattle;
-use OpenDominion\Models\HeroBattleAction;
+use OpenDominion\Models\HeroBattleTurn;
 use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Models\RaidContribution;
 use OpenDominion\Services\NotificationService;
@@ -129,14 +130,12 @@ class HeroBattleOutcomeService
             $hero->last_pvp_reward_at = now();
             $hero->save();
 
-            HeroBattleAction::create([
-                'hero_battle_id' => $heroBattle->id,
-                'combatant_id' => $combatant->id,
-                'turn' => $heroBattle->current_turn,
-                'action' => LogEntry::STATUS,
-                'damage' => 0,
-                'health' => 0,
-                'description' => "{$hero->name} earns " . self::DAILY_PVP_EXPERIENCE . ' experience for today\'s battle.',
+            HeroBattleTurn::record($heroBattle, $heroBattle->current_turn, [
+                (new BattleEvent(EventType::Reward, [
+                    'target' => $combatant->id,
+                    'experience' => self::DAILY_PVP_EXPERIENCE,
+                    'reason' => 'daily_pvp',
+                ]))->toArray(),
             ]);
         }
     }

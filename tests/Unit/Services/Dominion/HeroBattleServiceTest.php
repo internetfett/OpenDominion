@@ -11,7 +11,7 @@ use OpenDominion\HeroCombat\Engine\Random\SeededRandomSource;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
-use OpenDominion\Models\HeroBattleAction;
+use OpenDominion\Models\HeroBattleTurn;
 use OpenDominion\Models\Race;
 use OpenDominion\Services\Dominion\HeroBattleService;
 use OpenDominion\Tests\AbstractBrowserKitTestCase;
@@ -320,15 +320,15 @@ class HeroBattleServiceTest extends AbstractBrowserKitTestCase
         $heroBattleService->processTurn($heroBattle->fresh());
 
         // An order fired through the live loop
-        $rows = HeroBattleAction::where('hero_battle_id', $heroBattle->id)->get();
+        $events = HeroBattleTurn::where('hero_battle_id', $heroBattle->id)->get()->flatMap(fn ($turn) => $turn->events);
         $orders = ['broadside', 'rally_the_defenders', 'admirals_challenge'];
         $this->assertNotEmpty(
-            array_intersect($rows->pluck('action')->all(), $orders),
+            array_intersect($events->where('type', 'selected')->pluck('ability')->all(), $orders),
             'Expected a telegraphed order to fire on an even turn'
         );
 
         // The player was warned first, in flavour text only
-        $log = $rows->pluck('description')->implode(' ');
+        $log = $events->where('type', 'message')->pluck('text')->implode(' ');
         $tells = ['Gunports slide open', 'turns toward his ship', 'crew begins to jeer'];
         $this->assertTrue(
             collect($tells)->contains(fn ($tell) => str_contains($log, $tell)),

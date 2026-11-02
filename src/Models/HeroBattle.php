@@ -25,7 +25,7 @@ use \Illuminate\Database\Eloquent\Builder;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \OpenDominion\Models\Round $round
  * @property-read \OpenDominion\Models\HeroCombatant $winner
- * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\HeroBattleAction[] $actions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\HeroBattleTurn[] $turns
  * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\HeroCombatant[] $combatants
  * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\HeroTournament[] $tournaments
  * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\HeroBattle newModelQuery()
@@ -59,9 +59,9 @@ class HeroBattle extends AbstractModel
         return $this->belongsTo(HeroCombatant::class, 'winner_combatant_id');
     }
 
-    public function actions()
+    public function turns()
     {
-        return $this->hasMany(HeroBattleAction::class);
+        return $this->hasMany(HeroBattleTurn::class)->orderBy('turn');
     }
 
     public function combatants()

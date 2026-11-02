@@ -6,6 +6,7 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectScope;
 use OpenDominion\HeroCombat\Engine\Effects\Hook;
 use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
 use OpenDominion\HeroCombat\Engine\Events\EventType;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
 /**
@@ -135,7 +136,7 @@ final class TurnResolver
 
         foreach ($battle->living() as $combatant) {
             if ($combatant->team === $battle->state->winningTeam && $combatant->isHuman()) {
-                $battle->say($combatant, $message);
+                $battle->say($combatant, $message, MessageKind::Outcome);
                 return;
             }
         }

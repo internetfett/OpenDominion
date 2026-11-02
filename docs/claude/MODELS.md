@@ -128,8 +128,9 @@ Round-wide perks configured by admins (no perk-type table; `key` is a plain stri
 - **Key methods**: `isControlledBy(Dominion)`, `isHuman()`
 - Mapped to `CombatantState` by `BattleRepository`; see [HERO_COMBAT.md](HERO_COMBAT.md)
 
-### HeroBattleAction (`hero_battle_actions`)
-- One row per resolved action or status line: `description` (text) and `events` (structured, first event records the intent source)
+### HeroBattleTurn (`hero_battle_turns`)
+- One row per resolved turn (unique on battle + turn): `events`, the turn's structured `BattleEvent` payloads in the order they happened. Turn 0 holds setup events. Kept after the battle ends
+- `HeroBattleTurn::record($battle, $turn, $events)` appends to a turn's row (also used for the daily PvP `reward` event)
 
 ### HeroTournament (`hero_tournaments`)
 - **Relations**: round, winner (Dominion), battles (btm with round_number), participants

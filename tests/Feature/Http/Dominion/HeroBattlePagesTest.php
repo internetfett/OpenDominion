@@ -5,6 +5,8 @@ namespace OpenDominion\Tests\Feature\Http\Dominion;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
+use OpenDominion\Models\HeroBattle;
+use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Models\Race;
 use OpenDominion\Services\Dominion\HeroBattleService;
 use OpenDominion\Tests\AbstractTestCase;
@@ -28,6 +30,17 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->selectDominion($dominion->fresh());
 
         return $dominion->fresh();
+    }
+
+    /**
+     * Locks in one hero's order through the route.
+     */
+    protected function lockIn(HeroBattle $battle, HeroCombatant $combatant, string $action, ?int $target = null): void
+    {
+        $this->post(route('dominion.heroes.battles.orders'), [
+            'battle' => $battle->id,
+            'orders' => [$combatant->id => ['action' => $action, 'target' => $target]],
+        ])->assertRedirect(route('dominion.heroes.battles'));
     }
 
     public function testPracticePageListsRegisteredEncounters(): void
@@ -55,10 +68,10 @@ class HeroBattlePagesTest extends AbstractTestCase
             ->assertSee('Tome of Power')
             ->assertSee('Enrage')
             ->assertSee('Power Source')
-            ->assertSee('Attack')
-            ->assertSee('Recover')
-            ->assertSeeInOrder(['Your side', 'Perform an action', 'Opponents'])
-            ->assertDontSee('Actions in queue');
+            ->assertSee('data-action="attack"', false)
+            ->assertSee('data-action="recover"', false)
+            ->assertSeeInOrder(['Your side', 'Opponents', 'Turn 1 orders', 'Lock in turn 1'])
+            ->assertDontSee('Queued:');
     }
 
     public function testBattlePageShowsTheHerosTechniques(): void
@@ -91,10 +104,11 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertContains('shadow_strike', $player->abilities);
         $this->get(route('dominion.heroes.battles'))
             ->assertOk()
-            ->assertSee('Shadow Strike');
+            ->assertSee('Shadow Strike')
+            ->assertSee('data-action="shadow_strike"', false);
     }
 
-    public function testCoopQueueIsShownBesideASingleOpponent(): void
+    public function testCoopBattleQueuesAheadAndOffersToGuardTheAlly(): void
     {
         $dominion = $this->heroDominion();
         $ally = $this->createDominionWithLegacyStats($this->createUser(), $dominion->round, Race::where('name', 'Human')->firstOrFail());
@@ -107,10 +121,36 @@ class HeroBattlePagesTest extends AbstractTestCase
         ]);
         $battle = app(HeroBattleService::class)->createEncounterBattle('grand_magister', [$dominion, $ally->refresh()], 'practice');
         $battle->combatants()->whereNotNull('hero_id')->update(['automated' => false]);
+        $player = $battle->combatants()->where('dominion_id', $dominion->id)->firstOrFail();
 
         $this->get(route('dominion.heroes.battles'))
             ->assertOk()
-            ->assertSeeInOrder(['Your side', 'Perform/Queue an action', 'Opponents', 'Grand Magister', 'Actions in queue']);
+            ->assertSee('Queue turn 1')
+            ->assertSee('Waiting for Ally Hero')
+            ->assertSee('Guard Ally Hero')
+            ->assertSee('Heal Ally Hero');
+
+        $this->lockIn($battle, $player, 'defend');
+        $this->assertEquals(1, $battle->fresh()->current_turn, 'The turn waits for the other player');
+
+        $this->get(route('dominion.heroes.battles'))
+            ->assertOk()
+            ->assertSee('Queue turn 2')
+            ->assertSee('Queued:')
+            ->assertSeeInOrder(['Plan', 'T1', 'Defend']);
+    }
+
+    public function testHeroOnAutopilotOffersToCancelIt(): void
+    {
+        $dominion = $this->heroDominion();
+        $battle = app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion], 'practice');
+        $battle->combatants()->where('dominion_id', $dominion->id)->update(['automated' => true]);
+
+        $this->get(route('dominion.heroes.battles'))
+            ->assertOk()
+            ->assertSee('Page Hero is on autopilot')
+            ->assertSee('Cancel autopilot')
+            ->assertDontSee('data-action="attack"', false);
     }
 
     public function testQueueingAnActionThroughTheRouteResolvesTheTurn(): void
@@ -119,10 +159,7 @@ class HeroBattlePagesTest extends AbstractTestCase
         $battle = app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion], 'practice');
         $player = $battle->combatants()->where('dominion_id', $dominion->id)->firstOrFail();
 
-        $this->get(route('dominion.heroes.battles.action', [
-            'combatant' => $player->id,
-            'action' => 'defend',
-        ]))->assertRedirect(route('dominion.heroes.battles'));
+        $this->lockIn($battle, $player, 'defend');
 
         $this->assertEquals(2, $battle->fresh()->current_turn);
 
@@ -141,7 +178,25 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->get(route('dominion.heroes.battles.report', ['battle' => $battle->id]))
             ->assertOk()
             ->assertSee('Admiral Varos')
-            ->assertSee('Combat Log');
+            ->assertSee("Turn {$battle->fresh()->current_turn} results")
+            ->assertSee('Earlier turns');
+    }
+
+    public function testBattlePageSummarisesTheLastTurnFromTheViewersSide(): void
+    {
+        $dominion = $this->heroDominion();
+        $battle = app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion], 'practice');
+        $player = $battle->combatants()->where('dominion_id', $dominion->id)->firstOrFail();
+
+        $this->lockIn($battle, $player, 'defend');
+
+        $content = $this->get(route('dominion.heroes.battles'))->assertOk()->getContent();
+
+        $this->assertStringContainsString('Turn 1 results', $content);
+        $this->assertStringContainsString('<span class="turn-name-ally">Page Hero</span>: Defend', $content);
+        $this->assertMatchesRegularExpression('/<span class="turn-name-enemy">[^<]+<\/span>: /', $content);
+        $this->assertStringContainsString('<span class="turn-name-ally">Page Hero</span> takes a defensive stance.', $content);
+        $this->assertStringContainsString('<div class="turn-phase-name">Defeats</div>', $content);
     }
 
     /**

@@ -4,9 +4,12 @@ namespace OpenDominion\HeroCombat\Presentation;
 
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\BattleState;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
+use OpenDominion\HeroCombat\Engine\Events\EventType;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
+use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
 
@@ -257,6 +260,190 @@ class BattleView
         }
 
         return $queue;
+    }
+
+    /** Icons for the basic abilities; anything else uses a generic one. */
+    public const ABILITY_ICONS = [
+        'attack' => 'ra-sword',
+        'defend' => 'ra-shield',
+        'focus' => 'ra-on-target',
+        'counter' => 'ra-reverse',
+        'recover' => 'ra-health',
+    ];
+
+    /** How an ability used on an ally reads in the target picker. */
+    public const ALLY_VERBS = [
+        'defend' => 'Guard',
+        'recover' => 'Heal',
+    ];
+
+    /**
+     * The battle's mode and a short title: the encounter, else the teams' names.
+     *
+     * @return array{mode: string, title: string}
+     */
+    public function headline(): array
+    {
+        $mode = match ($this->battle->state->mode) {
+            BattleState::MODE_PVP => 'PvP',
+            BattleState::MODE_RAID => 'Raid',
+            default => 'Practice',
+        };
+
+        if ($this->battle->encounter !== null) {
+            return ['mode' => $mode, 'title' => 'vs ' . $this->battle->encounter->name()];
+        }
+
+        $teams = array_map(
+            fn (array $side) => implode(' & ', array_map(fn (CombatantState $c) => $c->name, $side['combatants'])),
+            $this->sides(),
+        );
+
+        return ['mode' => $mode, 'title' => implode(' vs ', $teams)];
+    }
+
+    /**
+     * Seconds the viewer has left to act, from the first hero they pilot.
+     */
+    public function timeLeft(): ?int
+    {
+        foreach ($this->controlled as $combatant) {
+            $model = $this->model($combatant);
+            if ($model !== null) {
+                return $model->timeLeft();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Living humans the viewer does not pilot who have yet to choose this turn.
+     *
+     * @return string[]
+     */
+    public function waitingOn(): array
+    {
+        return array_values(array_map(
+            fn (CombatantState $c) => $c->name,
+            array_filter($this->battle->living(), fn (CombatantState $c) => $c->isHuman() && !$this->isControlled($c) && !$c->isReady()),
+        ));
+    }
+
+    /**
+     * Net health change per combatant over the last resolved turn.
+     *
+     * @return array<int, int>
+     */
+    public function healthChanges(): array
+    {
+        $latest = $this->model->turns->where('turn', '>', 0)->sortByDesc('turn')->first();
+        $changes = [];
+        foreach ($latest?->events ?? [] as $event) {
+            if ($event['type'] === EventType::Damage->value) {
+                $changes[$event['target']] = ($changes[$event['target']] ?? 0) - $event['amount'];
+            } elseif ($event['type'] === EventType::Heal->value) {
+                $changes[$event['target']] = ($changes[$event['target']] ?? 0) + $event['amount'];
+            }
+        }
+
+        return array_filter($changes);
+    }
+
+    /**
+     * Targets to pick between, or none when the ability takes no chosen target or has at most
+     * one valid target. Yourself comes first for abilities used on allies.
+     *
+     * @return array<int, array{id: int, label: string, health: string, side: string}>
+     */
+    public function targetOptions(CombatantState $actor, string $abilityKey): array
+    {
+        $targets = $this->chosenTargets($actor, $abilityKey);
+        if (count($targets) < 2) {
+            return [];
+        }
+
+        usort($targets, fn (CombatantState $a, CombatantState $b) => [$a->id !== $actor->id, $a->id] <=> [$b->id !== $actor->id, $b->id]);
+
+        return array_map(fn (CombatantState $target) => [
+            'id' => $target->id,
+            'label' => match (true) {
+                $target->id === $actor->id => 'Yourself',
+                $target->team === $actor->team && isset(self::ALLY_VERBS[$abilityKey]) => self::ALLY_VERBS[$abilityKey] . ' ' . $target->name,
+                default => $target->name,
+            },
+            'health' => $target->currentHealth . '/' . $this->battle->maxHealth($target),
+            'side' => $target->team === $actor->team ? 'ally' : 'enemy',
+        ], $targets);
+    }
+
+    /**
+     * The target sent when there is nothing to pick: the only enemy for hostile abilities,
+     * else none (abilities used on allies then apply to their user).
+     */
+    public function defaultTarget(CombatantState $actor, string $abilityKey): ?int
+    {
+        $targets = $this->chosenTargets($actor, $abilityKey);
+
+        return count($targets) === 1 && $targets[0]->id !== $actor->id ? $targets[0]->id : null;
+    }
+
+    /**
+     * Valid targets for abilities where the player picks one; none for abilities that choose
+     * their own targets (self, everyone, random).
+     *
+     * @return CombatantState[]
+     */
+    protected function chosenTargets(CombatantState $actor, string $abilityKey): array
+    {
+        if (!$this->battle->registry->ability($abilityKey)->targetRule()->needsChosenTarget()) {
+            return [];
+        }
+
+        return $this->targetsFor($actor, $abilityKey);
+    }
+
+    /**
+     * A hero's class icon, else a generic one for enemies.
+     */
+    public function icon(CombatantState $combatant): string
+    {
+        $class = $this->model($combatant)?->hero?->class;
+
+        return $class !== null ? app(HeroHelper::class)->getClassIcon($class) : 'ra-monster-skull';
+    }
+
+    public function abilityIcon(string $key): string
+    {
+        return self::ABILITY_ICONS[$key] ?? 'ra-burst-blob';
+    }
+
+    /**
+     * Summaries of every resolved turn, newest first, with the viewer's side as allies.
+     * Turn 0 holds setup events and is not shown.
+     *
+     * @return array<int, array{turn: int, phases: array, gist: array}>
+     */
+    public function turns(): array
+    {
+        $allyTeam = $this->viewer?->team ?? 1;
+        $combatants = [];
+        foreach ($this->battle->combatants() as $combatant) {
+            $combatants[$combatant->id] = [
+                'name' => $combatant->name,
+                'side' => $combatant->team === $allyTeam ? 'ally' : 'enemy',
+                'human' => $combatant->isHuman(),
+            ];
+        }
+
+        $summary = new TurnSummary($this->battle->registry, $combatants);
+
+        return $this->model->turns
+            ->where('turn', '>', 0)
+            ->sortByDesc('turn')
+            ->map(fn ($row) => $summary->build($row->turn, $row->events))
+            ->values()
+            ->all();
     }
 
     public function abilityName(string $key): string

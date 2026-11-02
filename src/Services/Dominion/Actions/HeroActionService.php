@@ -14,6 +14,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\DominionTech;
 use OpenDominion\Models\Hero;
+use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Models\HeroHeroUpgrade;
 use OpenDominion\Models\HeroUpgrade;
@@ -352,6 +353,52 @@ class HeroActionService
         $combatant->actions = $actions;
         $combatant->automated = false;
         $combatant->save();
+    }
+
+    /**
+     * Queues one action for each hero the dominion controls in a battle, all or none. Every
+     * living hero it controls must have an order unless that hero is on autopilot; an order
+     * for a hero on autopilot takes it off autopilot, as queueing a single action does.
+     *
+     * @param array<int, array{action: string, target?: int|null}> $orders combatant id => order
+     */
+    public function queueOrders(Dominion $dominion, HeroBattle $battle, array $orders): void
+    {
+        $this->guardLockedDominion($dominion);
+
+        if ($battle->finished) {
+            throw new GameException('You cannot queue actions for a battle that has ended.');
+        }
+
+        $controlled = $battle->combatants()
+            ->where('controller_dominion_id', $dominion->id)
+            ->where('current_health', '>', 0)
+            ->get()
+            ->keyBy('id');
+
+        foreach (array_keys($orders) as $combatantId) {
+            if (!$controlled->has($combatantId)) {
+                throw new GameException('You cannot queue actions for another hero.');
+            }
+        }
+
+        $missing = $controlled
+            ->reject(fn (HeroCombatant $combatant) => $combatant->automated || $combatant->time_bank <= 0 || isset($orders[$combatant->id]))
+            ->pluck('name');
+        if ($missing->isNotEmpty()) {
+            throw new GameException('Choose an action for ' . $missing->implode(' and ') . ' before locking in.');
+        }
+
+        DB::transaction(function () use ($dominion, $battle, $orders, $controlled) {
+            foreach ($orders as $combatantId => $order) {
+                $target = isset($order['target']) ? $battle->combatants()->find($order['target']) : null;
+                if (isset($order['target']) && $target === null) {
+                    throw new GameException('Invalid target.');
+                }
+
+                $this->queueAction($dominion, $controlled->get($combatantId), $target, $order['action']);
+            }
+        });
     }
 
     public function dequeueAction(Dominion $dominion, HeroCombatant $combatant, int $index)

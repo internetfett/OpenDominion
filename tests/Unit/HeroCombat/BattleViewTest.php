@@ -74,4 +74,33 @@ class BattleViewTest extends TestCase
 
         $this->assertFalse((new BattleView(new HeroBattle(), $battle))->canQueueAhead());
     }
+
+    public function testTargetOptionsPutYourselfFirstAndNameTheAllyVerb(): void
+    {
+        $battle = BattleBuilder::make()->hero('Tank', 1)->hero('Mage', 1)->npc('Boss', 2)->build();
+        $tank = $this->named($battle, 'Tank');
+        $view = new BattleView(new HeroBattle(), $battle, [$tank]);
+
+        $this->assertEquals(['Yourself', 'Guard Mage'], array_column($view->targetOptions($tank, 'defend'), 'label'));
+        $this->assertEquals(['Yourself', 'Heal Mage'], array_column($view->targetOptions($tank, 'recover'), 'label'));
+        $this->assertEquals(['ally', 'ally'], array_column($view->targetOptions($tank, 'recover'), 'side'));
+        $this->assertSame([], $view->targetOptions($tank, 'attack'), 'One enemy needs no choice');
+        $this->assertEquals($this->named($battle, 'Boss')->id, $view->defaultTarget($tank, 'attack'));
+        $this->assertSame([], $view->targetOptions($tank, 'focus'), 'Focus only affects its user');
+        $this->assertSame([], $view->targetOptions($tank, 'counter'));
+        $this->assertNull($view->defaultTarget($tank, 'focus'));
+        $this->assertNull($view->defaultTarget($tank, 'counter'));
+    }
+
+    public function testSoloHeroHasNoAllyToPick(): void
+    {
+        $battle = BattleBuilder::make()->hero('Player', 1)->npc('Grunt', 2)->npc('Archer', 2)->build();
+        $player = $this->named($battle, 'Player');
+        $view = new BattleView(new HeroBattle(), $battle, [$player]);
+
+        $this->assertSame([], $view->targetOptions($player, 'defend'));
+        $this->assertNull($view->defaultTarget($player, 'defend'));
+        $this->assertEquals(['Grunt', 'Archer'], array_column($view->targetOptions($player, 'attack'), 'label'));
+        $this->assertNull($view->defaultTarget($player, 'attack'), 'Two enemies need a choice');
+    }
 }

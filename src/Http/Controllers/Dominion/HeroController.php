@@ -8,6 +8,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\HeroCombat\Presentation\BattlePresenter;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
+use OpenDominion\Http\Requests\Dominion\Actions\HeroBattleOrdersActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\HeroCreateActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\HeroUpgradeActionRequest;
 use OpenDominion\Models\Hero;
@@ -148,7 +149,7 @@ class HeroController extends AbstractDominionController
 
         $activeBattles = HeroBattle::query()
             ->controlledBy($dominion)
-            ->with('combatants', 'actions.combatant')
+            ->with('combatants.hero', 'turns')
             ->active()
             ->orderByDesc('created_at')
             ->get();
@@ -160,7 +161,7 @@ class HeroController extends AbstractDominionController
             ->get();
 
         if ($activeBattles->isEmpty() && $inactiveBattles->isNotEmpty()) {
-            $activeBattles = collect([$inactiveBattles->first()->load('actions.combatant')]);
+            $activeBattles = collect([$inactiveBattles->first()->load('combatants.hero', 'turns')]);
         }
 
         $battlePresenter = app(BattlePresenter::class);
@@ -224,37 +225,38 @@ class HeroController extends AbstractDominionController
         return redirect()->route('dominion.heroes.battles');
     }
 
-    public function getAddCombatAction(Request $request)
+    public function postBattleOrders(HeroBattleOrdersActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
         $heroActionService = app(HeroActionService::class);
         $heroBattleService = app(HeroBattleService::class);
-        $heroHelper = app(HeroHelper::class);
+
+        $orders = [];
+        foreach ($request->input('orders') as $combatantId => $order) {
+            $orders[(int) $combatantId] = [
+                'action' => $order['action'],
+                'target' => isset($order['target']) && $order['target'] !== '' ? (int) $order['target'] : null,
+            ];
+        }
 
         try {
-            $action = $request->get('action');
-            $combatant = HeroCombatant::findOrFail($request->get('combatant'));
-            $target = HeroCombatant::find($request->get('target'));
-            $heroBattleService->checkTime($combatant->battle);
-            $result = $heroActionService->queueAction(
-                $dominion,
-                $combatant->refresh(),
-                $target,
-                $action
-            );
-            $turnProcessed = $heroBattleService->processTurn($combatant->battle->refresh());
+            $battle = HeroBattle::findOrFail($request->input('battle'));
+            $turn = $battle->current_turn;
+            $heroBattleService->checkTime($battle);
+            $heroActionService->queueOrders($dominion, $battle->refresh(), $orders);
+            $turnProcessed = $heroBattleService->processTurn($battle->refresh());
         } catch (GameException $e) {
             return redirect()->back()
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
 
-        $actionDisplay = app(CombatRegistry::class)->ability($action)->name();
         if ($turnProcessed) {
-            $request->session()->flash('alert-success', "{$combatant->name} performed {$actionDisplay}!");
+            $request->session()->flash('alert-success', "Turn {$turn} resolved.");
         } else {
-            $request->session()->flash('alert-success', "Queued action for {$combatant->name}: {$actionDisplay}.");
+            $request->session()->flash('alert-success', "Orders locked in. The turn resolves once every hero has acted.");
         }
+
         return redirect()->route('dominion.heroes.battles');
     }
 

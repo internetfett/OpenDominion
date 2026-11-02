@@ -6,12 +6,16 @@ use OpenDominion\HeroCombat\Contracts\Ability;
 use OpenDominion\HeroCombat\Engine\Damage\DamageRequest;
 use OpenDominion\HeroCombat\Engine\Damage\DamageResult;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 /**
  * Everything an ability needs while declaring or resolving.
  */
 final class ActionContext
 {
+    /** Message templates that only restate a damage or heal event. */
+    public const DETAIL_MESSAGES = ['hit', 'evaded', 'recover', 'mend'];
+
     /**
      * @param CombatantState[] $targets
      */
@@ -65,7 +69,7 @@ final class ActionContext
 
     public function heal(CombatantState $target, int $amount): int
     {
-        return $this->battle->heal($target, $amount, $this->actor);
+        return $this->battle->heal($target, $amount, $this->actor, $this->ability->key());
     }
 
     /**
@@ -100,7 +104,8 @@ final class ActionContext
     }
 
     /**
-     * Logs one of the ability's message templates.
+     * Logs one of the ability's message templates. The generic hit and heal templates only restate
+     * the damage or heal event, so they are logged as details.
      *
      * @param array<string, string|int> $variables
      */
@@ -110,7 +115,7 @@ final class ActionContext
         $this->battle->say($this->actor, self::format($template, $variables + [
             'actor' => $this->actor->name,
             'target' => $this->target()?->name ?? '',
-        ]));
+        ]), in_array($messageKey, self::DETAIL_MESSAGES, true) ? MessageKind::Detail : MessageKind::Narration);
     }
 
     /**

@@ -7,17 +7,19 @@ use OpenDominion\HeroCombat\Contracts\CombatantSpawner;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\BattleState;
 use OpenDominion\HeroCombat\Engine\CombatantState;
+use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
 use OpenDominion\HeroCombat\Engine\Events\EventType;
+use OpenDominion\HeroCombat\Engine\Events\LogEntry;
 use OpenDominion\HeroCombat\Engine\Intent;
 use OpenDominion\HeroCombat\Engine\Random\SeededRandomSource;
 use OpenDominion\HeroCombat\Engine\TurnResolver;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\HeroBattle;
-use OpenDominion\Models\HeroBattleAction;
+use OpenDominion\Models\HeroBattleTurn;
 
 /**
  * Re-simulates a stored battle from its initial snapshot, seed and the actions players
- * queued, and compares the result with the stored combat log. Useful for debugging
+ * queued, and compares each turn's events with the stored ones. Useful for debugging
  * reports and for checking that refactors do not change outcomes.
  */
 class BattleReplayer
@@ -40,9 +42,9 @@ class BattleReplayer
         $state = $this->snapshot->restore(json_decode($heroBattle->initial_state, true), $heroBattle->id);
         $battle = new Battle($state, $this->registry, new SeededRandomSource($state->seed), $this->spawner($heroBattle, $state));
 
-        $rows = HeroBattleAction::query()->where('hero_battle_id', $heroBattle->id)->orderBy('id')->get();
+        $rows = HeroBattleTurn::query()->where('hero_battle_id', $heroBattle->id)->orderBy('turn')->get();
         $queued = $this->queuedIntents($rows);
-        $expected = $rows->groupBy('turn')->map(fn ($turnRows) => $this->text($turnRows->pluck('description')->all()));
+        $expected = $rows->mapWithKeys(fn (HeroBattleTurn $row) => [$row->turn => $this->encode($row->events)]);
 
         $resolver = new TurnResolver();
         $mismatches = [];
@@ -58,7 +60,10 @@ class BattleReplayer
             $resolver->resolve($battle);
             $turns++;
 
-            $actual = $this->text(array_map(fn ($entry) => $entry->description(), $battle->log->flush()));
+            $actual = $this->encode(array_merge(...array_map(
+                fn (LogEntry $entry) => array_map(fn (BattleEvent $event) => $event->toArray(), $entry->events),
+                $battle->log->flush(),
+            )));
             if ($actual !== $expected[$turn]) {
                 $mismatches[] = ['turn' => $turn, 'expected' => $expected[$turn], 'actual' => $actual];
             }
@@ -88,11 +93,12 @@ class BattleReplayer
     {
         $intents = [];
         foreach ($rows as $row) {
-            $selected = collect($row->events ?? [])->firstWhere('type', EventType::Selected->value);
-            if ($selected === null || ($selected['source'] ?? null) !== Intent::SOURCE_QUEUE) {
-                continue;
+            foreach ($row->events as $event) {
+                if ($event['type'] !== EventType::Selected->value || ($event['source'] ?? null) !== Intent::SOURCE_QUEUE) {
+                    continue;
+                }
+                $intents[$row->turn][$event['actor']] = new Intent($event['actor'], $event['ability'], $event['target'], Intent::SOURCE_QUEUE);
             }
-            $intents[$row->turn][$selected['actor']] = new Intent($selected['actor'], $selected['ability'], $selected['target'], Intent::SOURCE_QUEUE);
         }
 
         return $intents;
@@ -121,10 +127,13 @@ class BattleReplayer
     }
 
     /**
-     * @param string[] $descriptions
+     * The engine's events for comparison. Rewards are recorded after the battle ends, so they
+     * are not part of the replay.
+     *
+     * @param array<int, array<string, mixed>> $events
      */
-    protected function text(array $descriptions): string
+    protected function encode(array $events): string
     {
-        return trim(implode(' ', array_filter($descriptions, fn ($d) => $d !== '')));
+        return json_encode(array_values(array_filter($events, fn (array $event) => $event['type'] !== EventType::Reward->value)));
     }
 }

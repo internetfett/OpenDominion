@@ -28,6 +28,13 @@ final class DamageContext
 
     public bool $savedFromLethal = false;
 
+    /**
+     * How the raw damage was reached, for the turn summary.
+     *
+     * @var array{flat: int|null, attack: int, focus: int, counter_bonus: int, bonus: int, defense: int, defending: bool, multiplier: float, hits: int}|array{}
+     */
+    public array $breakdown = [];
+
     public function __construct(public DamageRequest $request)
     {
         $this->target = $request->target;

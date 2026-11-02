@@ -7,13 +7,12 @@ use OpenDominion\HeroCombat\Engine\BattleState;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Effects\EffectScope;
-use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
 use OpenDominion\HeroCombat\Engine\Events\LogEntry;
 use OpenDominion\HeroCombat\Engine\Random\SeededRandomSource;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\HeroBattle;
-use OpenDominion\Models\HeroBattleAction;
+use OpenDominion\Models\HeroBattleTurn;
 use OpenDominion\Models\HeroCombatant;
 
 /**
@@ -86,7 +85,8 @@ class BattleRepository
         }
         $fieldEffects = array_map(fn (EffectInstance $i) => $i->toArray(), $state->fieldEffects);
 
-        if ($heroBattle->initial_state === null) {
+        $creating = $heroBattle->initial_state === null;
+        if ($creating) {
             $heroBattle->initial_state = json_encode($this->snapshot->capture($state));
         }
 
@@ -107,12 +107,10 @@ class BattleRepository
             $model->save();
         }
 
-        foreach ($battle->log->flush() as $entry) {
-            $this->writeLogEntry($heroBattle, $entry);
-        }
+        $this->writeTurns($heroBattle, $battle->log->flush(), $creating);
 
         $heroBattle->unsetRelation('combatants');
-        $heroBattle->unsetRelation('actions');
+        $heroBattle->unsetRelation('turns');
     }
 
     protected function combatant(HeroCombatant $model): CombatantState
@@ -181,23 +179,24 @@ class BattleRepository
         ]);
     }
 
-    protected function writeLogEntry(HeroBattle $heroBattle, LogEntry $entry): void
+    /**
+     * Stores each turn's events in the order they happened, one row per turn. Events from
+     * setting the battle up are stored as turn 0, since the initial snapshot already includes them.
+     *
+     * @param LogEntry[] $entries
+     */
+    protected function writeTurns(HeroBattle $heroBattle, array $entries, bool $setup = false): void
     {
-        if ($entry->action === LogEntry::STATUS && $entry->lines === []) {
-            return;
+        $turns = [];
+        foreach ($entries as $entry) {
+            foreach ($entry->events as $event) {
+                $turns[$setup ? 0 : $entry->turn][] = $event->toArray();
+            }
         }
 
-        HeroBattleAction::create([
-            'hero_battle_id' => $heroBattle->id,
-            'combatant_id' => $entry->actorId,
-            'target_combatant_id' => $entry->targetId,
-            'turn' => $entry->turn,
-            'action' => $entry->action,
-            'damage' => $entry->damage,
-            'health' => $entry->health,
-            'description' => $entry->description(),
-            'events' => array_map(fn (BattleEvent $event) => $event->toArray(), $entry->events) ?: null,
-        ]);
+        foreach ($turns as $turn => $events) {
+            HeroBattleTurn::record($heroBattle, $turn, $events);
+        }
     }
 
     /**

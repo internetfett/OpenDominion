@@ -7,6 +7,7 @@ use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Damage\DamageRequest;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 class VolatileMixture extends AbstractAttack
 {
@@ -56,7 +57,7 @@ class VolatileMixture extends AbstractAttack
 
         if ($context->battle->hasTag($target, CombatTag::Countering)) {
             $counter = $context->battle->damage->counterAttack($target, $context->actor);
-            $context->battle->say($context->actor, "{$target->name} counters the distracted alchemist for {$counter->amount} damage.");
+            $context->battle->say($context->actor, "{$target->name} counters the distracted alchemist for {$counter->amount} damage.", MessageKind::Detail);
         }
     }
 

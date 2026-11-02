@@ -28,22 +28,25 @@ final class BattleLog
     }
 
     /**
-     * Adds a line to the current entry, or to a standalone status entry when no action is resolving.
+     * Adds a line, and the event recording it, to the current entry, or to a standalone status
+     * entry when no action is resolving.
      */
-    public function line(int $turn, ?int $actorId, string $text): void
+    public function line(int $turn, ?int $actorId, string $text, ?BattleEvent $event = null): void
     {
         if ($text === '') {
             return;
         }
 
-        if ($this->current !== null) {
-            $this->current->lines[] = $text;
-            return;
+        $entry = $this->current;
+        if ($entry === null) {
+            $entry = new LogEntry($turn, $actorId, LogEntry::STATUS);
+            $this->entries[] = $entry;
         }
 
-        $entry = new LogEntry($turn, $actorId, LogEntry::STATUS);
         $entry->lines[] = $text;
-        $this->entries[] = $entry;
+        if ($event !== null) {
+            $entry->events[] = $event;
+        }
     }
 
     public function event(int $turn, BattleEvent $event): void

@@ -11,6 +11,7 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectManager;
 use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
 use OpenDominion\HeroCombat\Engine\Events\BattleLog;
 use OpenDominion\HeroCombat\Engine\Events\EventType;
+use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 use OpenDominion\HeroCombat\Engine\Random\RandomSource;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 use OpenDominion\HeroCombat\Engine\Stats\StatCalculator;
@@ -145,8 +146,9 @@ final class Battle
 
     /**
      * Heals a living combatant up to its maximum health. Returns the amount healed.
+     * `$via` is the ability or effect key doing the healing, for the turn summary.
      */
-    public function heal(CombatantState $target, int $amount, ?CombatantState $source = null): int
+    public function heal(CombatantState $target, int $amount, ?CombatantState $source = null, ?string $via = null): int
     {
         if (!$target->isAlive() || $amount <= 0) {
             return 0;
@@ -164,6 +166,7 @@ final class Battle
             'source' => $source?->id,
             'target' => $target->id,
             'amount' => $healed,
+            'via' => $via,
         ]));
 
         return $healed;
@@ -195,9 +198,13 @@ final class Battle
         ]));
     }
 
-    public function say(?CombatantState $actor, string $text): void
+    public function say(?CombatantState $actor, string $text, MessageKind $kind = MessageKind::Narration): void
     {
-        $this->log->line($this->state->turn, $actor?->id, $text);
+        $this->log->line($this->state->turn, $actor?->id, $text, new BattleEvent(EventType::Message, [
+            'actor' => $actor?->id,
+            'text' => $text,
+            'kind' => $kind->value,
+        ]));
     }
 
     public function event(BattleEvent $event): void
