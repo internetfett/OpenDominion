@@ -13,16 +13,45 @@ Balance numbers come from `php artisan hero-combat:simulate`: Tactician vs Tacti
 | Combat engine | Modular `src/HeroCombat`: simultaneous turns, N-vs-N teams, effects with duration/stacks/tags, ordered event hooks, team and field effects, a single damage pipeline, cooldowns and charges, seeded replays (`hero-combat:replay`) | `feature/hero-combat-v2` |
 | Content port | 5 basic actions, class abilities and passives, all 18 original encounters (the unused wolf/bandit/imp/cultist "story" encounters were skipped) | `feature/hero-combat-v2` |
 | Daily PvP XP | Flat 25 XP once per round day, win or lose, if your time bank never ran out | `feature/hero-combat-v2` |
-| Techniques | Passive rules: Technique I (level 3) and Technique II (level 5), replacing Disciplines and Combos | `feature/hero-progression` |
+| Techniques | Passive rules: Technique I (level 3) and Technique II (level 7), replacing Disciplines and Combos | `feature/hero-progression` |
 | Shared statuses | Exposed, Marked, Staggered (plus Invigorated from Second Wind), cashed in by any attacker | `feature/hero-progression` |
-| Class Abilities | Level 7: any class signature unlocked at class level 5 (active or not); uses the class icon | `feature/hero-progression` |
-| Gear | The only source of combat stats (one pick at level 9) | `feature/hero-progression` |
-| Upgrade schedule | Even levels: dominion upgrades with combat stats removed. Odd levels: 3 Technique I / 5 Technique II / 7 Class Ability / 9 Gear. Data-driven slots. | `feature/hero-progression` |
+| Class Abilities | Any class signature, available at class level 5 (active or not); uses the class icon | `feature/hero-progression` |
+| Gear | The only source of combat stats, available at level 9 | `feature/hero-progression` |
+| Combat loadout | Techniques, abilities and gear left the upgrade system. Access is automatic; the hero brings 1 technique, 1 ability and 2 different pieces of gear, changeable at any time | `feature/hero-progression` |
+| Upgrade schedule | Dominion upgrades only: level 1 doctrine, then levels 2, 4 and 6. Data-driven slots. | `feature/hero-progression` |
 | Ally actions | Defend on an ally is a guard (hits aimed at them strike you); Recover can heal an ally | `feature/hero-progression` |
 | Borrowed heroes | Pilot a realmmate's hero in party-enabled encounters, live or practice; no owner reward | `feature/hero-progression` |
 | Tactician + simulator | Game-theory AI and `hero-combat:simulate` for PvP balance. Analysis only, not in the game. | `feature/hero-progression` |
 
-Class abilities and passives reach heroes only as level-7 upgrades; `HeroClassLoadouts` no longer grants them by active class. Some are also used by PvE enemies (Hardiness, Shadow Strike).
+Class abilities and passives reach heroes only through the loadout; `HeroClassLoadouts` no longer grants them by active class. Some are also used by PvE enemies (Hardiness, Shadow Strike).
+
+---
+
+## Redesign: Combat Loadouts (built)
+
+Techniques, class abilities and gear were permanent one-time picks taking up the odd upgrade levels. They are now loadout options: unlocked automatically and swapped freely on the heroes page.
+
+| Slot | Capacity | Access |
+|---|---|---|
+| Technique | 1 | Level 3 (Technique I), level 7 (Technique II) |
+| Ability | 1 | Class level 5 in that class, active or not; no hero level requirement |
+| Gear | 2 different pieces | Level 9 |
+
+Definitions moved from `heroes.yml` to the combat registry (`HeroLoadoutOptions`): the behavior, names and descriptions were already there, the simulator needs the data without a database, and gear from other sources can join through `HeroCalculator::getAvailableLoadoutOptions()`.
+
+The sections below were written for the upgrade version. Their rule descriptions and measurements still apply, but the pick schedule and "one pick per tier" have been replaced by the loadout rules above.
+
+### Two gear pieces (vs basic, 400 battles, seeds 101 / 5001)
+
+| Gear | Score | Average turns |
+|---|---|---|
+| Greatsword + Plate Armor | 71.8% / 70.1% | 17.2 / 17.8 |
+| Greatsword + Vestments of Renewal | 74.6% / 71.2% | 16.0 / 16.9 |
+| Plate Armor + Vestments of Renewal | 67.5% / 69.9% | 24.2 / 25.9 |
+| Swordbreaker Dagger + Hooded Cloak | 65.2% / 66.5% | 21.0 / 21.0 |
+| Crystal Wand + Hooded Cloak | 62.4% / 68.2% | 17.5 / 16.8 |
+
+A single piece scored 57-61%, so two pieces are well above the 55-60% target. Gear values stay as they are until the whole build (technique, ability and gear) is measured.
 
 ---
 
@@ -294,11 +323,12 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Content definitions | PHP classes, registered explicitly in `HeroCombatServiceProvider` |
 | Turn model | Simultaneous turns with per-player time banks |
 | Upgrade names | Warrior/mage/rogue flavor, no stored or shown "path". Names must not reuse spell names (`app/data/spells.yml`) |
-| Upgrade categories | Techniques (passive rules, two tiers) and Class Abilities; Disciplines and Combos are retired |
+| Combat categories | Techniques (passive rules, two tiers sharing one slot), Class Abilities and Gear; Disciplines and Combos are retired |
 | Techniques | Bend a rule without removing a basic action's cooldown; useful in 1v1, better in 2v2 |
 | Synergy | Shared one-turn statuses (Exposed, Marked, Staggered) that any attacker can cash in |
-| Class Abilities | Unlocked at class level 5 in any class played this round, not only the active one |
-| Gear | Last slot (level 9), so it can become a separate mechanic later |
+| Class Abilities | Available at class level 5 in any class played this round, not only the active one; no hero level requirement |
+| Gear | Level 9, two different pieces; separate from upgrades so other sources can add more later |
+| Combat loadout | Definitions live in the combat registry, not `HeroHelper` or `heroes.yml`. Access uses the highest level in any class, so changing class never removes it. The loadout stays hidden from info ops. Changes apply to the next battle |
 | Upgrade kinds in UI | Tooltips only |
 | Party encounters | Only new encounters designed for two; no automatic scaling |
 | Borrowing | Any realmmate, any number at once; pilot keeps full credit |
@@ -310,12 +340,14 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 
 | Item | Notes |
 |---|---|
-| Existing heroes' picks | Heroes holding Overpower, Spellweave or Wellspring (now inactive) keep a dead pick; a hero that took gear at level 5 now has it as a level-9 pick, leaving level 5 open. Needs a migration or reset |
-| Stale upgrade rows | Data sync never deactivates keys removed from `heroes.yml`; keep retired upgrades in the file with `active: false` |
+| Stale upgrade rows | Data sync never deactivates keys removed from `heroes.yml`; remove rows in a migration or keep retired upgrades in the file with `active: false` |
 | Stack caps | Forge, Tactical Awareness, Combat Analysis |
 | Riposte, Second Wind values | As Combos they ran 58–62% at +5 attack; the Marked/ally versions need fresh numbers |
 | Vestments of Renewal about 61% | Slightly above target; battles run longest (about 22 turns) |
-| Combination testing | See the simulator checks above, plus a fresh `--grid` run |
+| Technique II vs Technique I | They now compete for one slot, and Technique II picks scored lower in 1v1, so level 7 may not feel like an upgrade |
+| Strong abilities at level 5 | Hardiness, Last Stand and Fortify arrive at class level 5, earlier than the old level 7 |
+| Combination testing | Technique + ability + gear builds, plus a fresh `--grid` run |
+| Battles page Information | Remove what tooltips now cover; could become a full-width, in-depth explanation of how battles work, below the battle history |
 | 2v2 in the simulator | Needed to measure team value |
 | First co-op encounter | Needed before borrowing is usable in game |
-| magic-system merge | Take this branch's unlock logic and slot UI; update their level-8 tests |
+| magic-system merge | Take this branch's slot UI and loadout; update their level-8 tests |

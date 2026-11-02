@@ -913,6 +913,7 @@
                             <tbody>
                                 @php $allUpgrades = $heroHelper->getHeroUpgrades(); @endphp
                                 @foreach(array_get($hero, 'upgrades', []) as $key => $name)
+                                    @continue(!isset($allUpgrades[$key]))
                                     @php $upgrade = $allUpgrades[$key]; @endphp
                                     <tr>
                                         <td>{{ $upgrade->name }}</td>

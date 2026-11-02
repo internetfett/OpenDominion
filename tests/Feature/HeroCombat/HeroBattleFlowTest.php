@@ -249,21 +249,46 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertStringContainsString('matches the stored combat log', \Illuminate\Support\Facades\Artisan::output());
     }
 
-    public function testUnlockedTechniquesAreGrantedInBattle(): void
+    public function testBattlesSpawnWithTheHerosLoadout(): void
     {
         $dominion = $this->dominionWithHero('Solo');
-        foreach (['backstab', 'shield_bash'] as $key) {
-            \OpenDominion\Models\HeroHeroUpgrade::create([
-                'hero_id' => $dominion->hero->id,
-                'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', $key)->firstOrFail()->id,
-            ]);
-        }
-        $dominion->hero->load('upgrades');
+        $dominion->hero->update([
+            'experience' => 5000,
+            'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword', 'plate_armor']],
+        ]);
 
         $battle = $this->heroBattleService->createPracticeBattle($dominion->fresh());
         $player = $this->combatantFor($battle, $dominion);
 
-        $this->assertEqualsCanonicalizing(['backstab', 'shield_bash'], collect($player->effects)->pluck('key')->all());
+        $this->assertEquals(['backstab'], collect($player->effects)->pluck('key')->all());
+        $this->assertContains('forge', $player->abilities);
+        $this->assertEquals(42, $player->attack);
+        $this->assertEquals(21, $player->defense);
+        $this->assertEquals(-5, $player->evasion);
+    }
+
+    public function testChangingTheLoadoutLeavesARunningBattleAndItsReplayAlone(): void
+    {
+        $alice = $this->dominionWithHero('Alice');
+        $bob = $this->dominionWithHero('Bob');
+        $alice->hero->update(['experience' => 5000, 'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword']]]);
+        $bob->hero->update(['experience' => 5000]);
+
+        $battle = $this->heroBattleService->createBattle($alice->fresh(), $bob->fresh());
+        $before = $this->combatantFor($battle, $alice);
+
+        $this->heroActionService->updateLoadout($alice->fresh(), 'feint', null, ['hooded_cloak', 'crystal_wand']);
+
+        $after = $this->combatantFor($battle->fresh(), $alice);
+        $this->assertEquals($before->abilities, $after->abilities);
+        $this->assertEquals($before->effects, $after->effects);
+        $this->assertEquals($before->attack, $after->attack);
+
+        $battle->combatants()->update(['automated' => true]);
+        $this->heroBattleService->processTurn($battle->fresh());
+
+        $result = app(\OpenDominion\HeroCombat\Persistence\BattleReplayer::class)->replay($battle->fresh());
+        $this->assertSame([], $result['mismatches']);
     }
 
     protected function finishAutomatedPvpBattle(Dominion $a, Dominion $b, array $timeBanks = []): HeroBattle

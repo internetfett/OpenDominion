@@ -1,0 +1,350 @@
+<?php
+
+namespace OpenDominion\Tests\Feature\HeroCombat;
+
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification;
+use OpenDominion\Calculators\Dominion\HeroCalculator;
+use OpenDominion\Exceptions\GameException;
+use OpenDominion\Helpers\NotificationHelper;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
+use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Hero;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\Round;
+use OpenDominion\Notifications\WebNotification;
+use OpenDominion\Services\Dominion\Actions\HeroActionService;
+use OpenDominion\Tests\AbstractBrowserKitTestCase;
+
+class HeroLoadoutTest extends AbstractBrowserKitTestCase
+{
+    use DatabaseTransactions;
+
+    protected Round $round;
+
+    protected HeroActionService $heroActionService;
+
+    protected HeroCalculator $heroCalculator;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->round = $this->createRound('-3 days midnight');
+        $this->heroActionService = $this->app->make(HeroActionService::class);
+        $this->heroCalculator = $this->app->make(HeroCalculator::class);
+    }
+
+    /**
+     * @param array<string, array<string, mixed>> $classData
+     */
+    protected function dominionWithHero(float $experience, string $class = 'blacksmith', array $classData = []): Dominion
+    {
+        $dominion = $this->createDominionWithLegacyStats($this->createUser(), $this->round, Race::where('name', 'Human')->firstOrFail());
+
+        Hero::create([
+            'dominion_id' => $dominion->id,
+            'name' => 'Loadout Hero',
+            'class' => $class,
+            'experience' => $experience,
+            'class_data' => $classData,
+        ]);
+
+        return $dominion->refresh();
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function availableKeys(Hero $hero, LoadoutSlot $slot): array
+    {
+        return array_keys($this->heroCalculator->getAvailableLoadoutOptions($hero, $slot));
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function equippedKeys(Hero $hero, LoadoutSlot $slot): array
+    {
+        return array_map(fn (LoadoutOption $option) => $option->key, $this->heroCalculator->getLoadout($hero)[$slot->value]);
+    }
+
+    public function testTechniquesOpenAtLevelsThreeAndSeven(): void
+    {
+        $this->assertSame([], $this->availableKeys($this->dominionWithHero(700)->hero, LoadoutSlot::Technique), 'Level 2');
+
+        $levelThree = $this->availableKeys($this->dominionWithHero(1200)->hero, LoadoutSlot::Technique);
+        $this->assertCount(6, $levelThree);
+        $this->assertContains('backstab', $levelThree);
+        $this->assertNotContains('sunder', $levelThree);
+
+        $this->assertCount(6, $this->availableKeys($this->dominionWithHero(2900)->hero, LoadoutSlot::Technique), 'Level 6');
+
+        $levelSeven = $this->availableKeys($this->dominionWithHero(3500)->hero, LoadoutSlot::Technique);
+        $this->assertCount(11, $levelSeven);
+        $this->assertContains('sunder', $levelSeven);
+    }
+
+    public function testGearOpensAtLevelNine(): void
+    {
+        $this->assertSame([], $this->availableKeys($this->dominionWithHero(4250)->hero, LoadoutSlot::Gear), 'Level 8');
+        $this->assertCount(6, $this->availableKeys($this->dominionWithHero(5000)->hero, LoadoutSlot::Gear));
+    }
+
+    public function testClassAbilitiesOpenAtClassLevelFiveWithoutAHeroLevelRequirement(): void
+    {
+        $this->assertSame([], $this->availableKeys($this->dominionWithHero(1750)->hero, LoadoutSlot::Ability), 'Level 4');
+        $this->assertSame(['forge'], $this->availableKeys($this->dominionWithHero(2300)->hero, LoadoutSlot::Ability), 'Only the class played');
+    }
+
+    public function testClassAbilitiesIncludeInactiveClassesAtLevelFive(): void
+    {
+        $hero = $this->dominionWithHero(2300, 'blacksmith', [
+            'farmer' => ['key' => 'farmer', 'level' => 5, 'experience' => 2300],
+            'alchemist' => ['key' => 'alchemist', 'level' => 4, 'experience' => 1750],
+        ])->hero;
+
+        $this->assertEqualsCanonicalizing(['forge', 'hardiness'], $this->availableKeys($hero, LoadoutSlot::Ability));
+    }
+
+    public function testChangingClassKeepsAccessAndTheLoadout(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+        $this->heroActionService->updateLoadout($dominion, 'sunder', 'forge', ['greatsword', 'plate_armor']);
+
+        $this->heroActionService->changeClass($dominion->refresh(), 'farmer');
+
+        $hero = $dominion->refresh()->hero;
+        $this->assertEquals(0, $this->heroCalculator->getHeroLevel($hero));
+        $this->assertEquals(['sunder'], $this->equippedKeys($hero, LoadoutSlot::Technique));
+        $this->assertEquals(['forge'], $this->equippedKeys($hero, LoadoutSlot::Ability));
+        $this->assertEquals(['greatsword', 'plate_armor'], $this->equippedKeys($hero, LoadoutSlot::Gear));
+    }
+
+    public function testUpdatingTheLoadoutStoresEverySlot(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+
+        $result = $this->heroActionService->updateLoadout($dominion, 'backstab', 'forge', ['greatsword', 'hooded_cloak']);
+
+        $this->assertEquals('Your combat loadout has been updated.', $result['message']);
+        $this->assertEquals(
+            ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword', 'hooded_cloak']],
+            $dominion->hero->fresh()->loadout
+        );
+    }
+
+    public function testSlotsCanBeClearedAndSwappedFreely(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+        $this->heroActionService->updateLoadout($dominion, 'backstab', 'forge', ['greatsword', 'hooded_cloak']);
+
+        $this->heroActionService->updateLoadout($dominion->refresh(), 'feint', '', []);
+        $this->heroActionService->updateLoadout($dominion->refresh(), 'sunder', null, ['crystal_wand']);
+
+        $this->assertEquals(
+            ['technique' => 'sunder', 'ability' => null, 'gear' => ['crystal_wand']],
+            $dominion->hero->fresh()->loadout
+        );
+    }
+
+    public function testCannotEquipOptionsAboveTheHerosLevel(): void
+    {
+        $dominion = $this->dominionWithHero(2900); // Level 6
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion, 'sunder', null, []);
+    }
+
+    public function testCannotEquipAnotherClassesAbility(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion, null, 'hardiness', []);
+    }
+
+    public function testCannotEquipAnOptionInTheWrongSlot(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion, 'greatsword', null, []);
+    }
+
+    public function testCannotEquipUnknownOptions(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion, 'overpower', null, []);
+    }
+
+    public function testCannotEquipTwoOfTheSamePieceOfGear(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('one of each piece of gear');
+        $this->heroActionService->updateLoadout($dominion, null, null, ['greatsword', 'greatsword']);
+    }
+
+    public function testCannotBringThreePiecesOfGear(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+
+        $this->expectException(GameException::class);
+        $this->expectExceptionMessage('2 pieces of gear');
+        $this->heroActionService->updateLoadout($dominion, null, null, ['greatsword', 'plate_armor', 'hooded_cloak']);
+    }
+
+    public function testRejectedChangesLeaveTheLoadoutAlone(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+        $this->heroActionService->updateLoadout($dominion, 'backstab', null, []);
+
+        try {
+            $this->heroActionService->updateLoadout($dominion->refresh(), 'feint', null, ['greatsword', 'greatsword']);
+            $this->fail('Duplicate gear should be rejected');
+        } catch (GameException) {
+            $this->assertEquals('backstab', $dominion->hero->fresh()->loadout['technique']);
+        }
+    }
+
+    public function testLockedDominionsCannotChangeTheLoadout(): void
+    {
+        $dominion = $this->dominionWithHero(5000);
+        $dominion->locked_at = now();
+        $dominion->save();
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion->refresh(), 'backstab', null, []);
+    }
+
+    public function testDominionsWithoutAHeroCannotSetALoadout(): void
+    {
+        $dominion = $this->createDominionWithLegacyStats($this->createUser(), $this->round, Race::where('name', 'Human')->firstOrFail());
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion, 'backstab', null, []);
+    }
+
+    public function testStoredOptionsTheHeroCannotUseAreIgnored(): void
+    {
+        $hero = $this->dominionWithHero(1200)->hero;
+        $hero->loadout = ['technique' => 'overpower', 'ability' => 'hardiness', 'gear' => ['greatsword']];
+
+        $this->assertSame([], $this->equippedKeys($hero, LoadoutSlot::Technique));
+        $this->assertSame([], $this->equippedKeys($hero, LoadoutSlot::Ability));
+        $this->assertSame([], $this->equippedKeys($hero, LoadoutSlot::Gear));
+        $this->assertEquals($this->heroCalculator->getBaseCombatStats(3), $this->heroCalculator->getHeroCombatStats($hero));
+    }
+
+    public function testBothPiecesOfGearChangeCombatStats(): void
+    {
+        $hero = $this->dominionWithHero(5000)->hero;
+        $base = $this->heroCalculator->getBaseCombatStats(9);
+
+        $hero->loadout = ['gear' => ['greatsword', 'plate_armor']];
+        $stats = $this->heroCalculator->getHeroCombatStats($hero);
+
+        $this->assertEquals($base['attack'] + 2, $stats['attack']);
+        $this->assertEquals($base['defense'] + 1, $stats['defense']);
+        $this->assertEquals($base['evasion'] - 15, $stats['evasion']);
+        $this->assertEquals(['attack' => 2, 'evasion' => -15, 'defense' => 1], $this->heroCalculator->getLoadoutStatBonuses($hero));
+    }
+
+    public function testEmptySlotCountOnlyIncludesSlotsTheHeroCanFill(): void
+    {
+        $this->assertEquals(0, $this->heroCalculator->getEmptyLoadoutSlotCount(null));
+        $this->assertEquals(0, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(700)->hero), 'Level 2');
+        $this->assertEquals(1, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(1200)->hero), 'Level 3: technique');
+        $this->assertEquals(2, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(2300)->hero), 'Level 5: technique, ability');
+        $this->assertEquals(4, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(5000)->hero), 'Level 9: everything');
+    }
+
+    public function testFillingSlotsReducesTheEmptySlotCount(): void
+    {
+        $hero = $this->dominionWithHero(5000)->hero;
+
+        $hero->loadout = ['technique' => 'backstab', 'gear' => ['greatsword']];
+        $this->assertEquals(2, $this->heroCalculator->getEmptyLoadoutSlotCount($hero));
+
+        $hero->loadout = ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword', 'plate_armor']];
+        $this->assertEquals(0, $this->heroCalculator->getEmptyLoadoutSlotCount($hero));
+    }
+
+    public function testNewLoadoutSlotsFollowEachRequirement(): void
+    {
+        $hero = $this->dominionWithHero(5000)->hero;
+
+        $hero->experience = 1200;
+        $this->assertEquals(['technique'], $this->heroCalculator->getNewLoadoutSlots($hero, 700));
+
+        $hero->experience = 2300;
+        $this->assertEquals(['ability'], $this->heroCalculator->getNewLoadoutSlots($hero, 1750));
+
+        $hero->experience = 3500;
+        $this->assertEquals(['technique'], $this->heroCalculator->getNewLoadoutSlots($hero, 2900));
+
+        $hero->experience = 5000;
+        $this->assertEquals(['gear'], $this->heroCalculator->getNewLoadoutSlots($hero, 4250));
+
+        $hero->experience = 1750;
+        $this->assertSame([], $this->heroCalculator->getNewLoadoutSlots($hero, 1200));
+    }
+
+    public function testReachingClassLevelFiveOnAHighLevelHeroCountsAsNew(): void
+    {
+        $hero = $this->dominionWithHero(2300, 'alchemist', [
+            'blacksmith' => ['key' => 'blacksmith', 'level' => 9, 'experience' => 5000],
+        ])->hero;
+
+        $this->assertEquals(['ability'], $this->heroCalculator->getNewLoadoutSlots($hero, 1750));
+    }
+
+    public function testLevelUpNotificationMentionsNewCombatOptions(): void
+    {
+        $dominion = $this->dominionWithHero(700);
+        $hero = $dominion->hero;
+
+        $hero->experience = 1200;
+        $hero->save();
+
+        Notification::assertSentTo($dominion, WebNotification::class, function (WebNotification $notification) use ($dominion) {
+            $data = $notification->toArray($dominion);
+
+            return $data['data']['unlocks'] === ['technique']
+                && $data['message'] === 'Your hero reached level 3. New techniques available for your combat loadout.';
+        });
+    }
+
+    public function testLevelUpNotificationStaysPlainWithoutNewOptions(): void
+    {
+        $dominion = $this->dominionWithHero(1200);
+        $hero = $dominion->hero;
+
+        $hero->experience = 1750;
+        $hero->save();
+
+        Notification::assertSentTo($dominion, WebNotification::class, function (WebNotification $notification) use ($dominion) {
+            return $notification->toArray($dominion)['message'] === 'Your hero reached level 4.';
+        });
+    }
+
+    public function testNotificationMessagesHandleOldAndCombinedData(): void
+    {
+        $helper = $this->app->make(NotificationHelper::class);
+
+        $this->assertEquals(
+            'Your hero reached level 4.',
+            $helper->getNotificationMessage('irregular_dominion', 'hero_level', ['level' => 4]),
+            'Notifications stored before loadouts have no unlocks'
+        );
+        $this->assertEquals(
+            'Your hero reached level 9. New techniques, class abilities and gear available for your combat loadout.',
+            $helper->getNotificationMessage('irregular_dominion', 'hero_level', ['level' => 9, 'unlocks' => ['technique', 'ability', 'gear']])
+        );
+    }
+}

@@ -3,21 +3,18 @@
 namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
-use OpenDominion\HeroCombat\Persistence\CombatantFactory;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
+use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroUpgrade;
 
 class HeroHelper
 {
-    /**
-     * Upgrade types whose effects only apply in hero battles.
-     */
-    public const HERO_BATTLE_UPGRADE_TYPES = ['technique', 'ability', 'gear'];
-
     public function getClasses()
     {
         return collect([
@@ -180,14 +177,6 @@ class HeroHelper
     }
 
     /**
-     * Returns true if upgrades of this type only affect hero battles.
-     */
-    public function isHeroBattleUpgradeType(string $type): bool
-    {
-        return in_array($type, self::HERO_BATTLE_UPGRADE_TYPES, true);
-    }
-
-    /**
      * Returns the upgrade types offered at each slot level for a class. Directives are free
      * picks and never take a slot.
      *
@@ -269,48 +258,112 @@ class HeroHelper
         return implode($separator, $perkStrings);
     }
 
-    public function getCombatUpgradeDescription(HeroUpgrade $heroUpgrade, string $separator = ', '): string
+    /**
+     * Every option for a loadout slot, whether or not a given hero can equip it.
+     *
+     * @return array<string, LoadoutOption>
+     */
+    public function getLoadoutOptions(LoadoutSlot $slot): array
     {
-        if (in_array($heroUpgrade->type, [CombatantFactory::TECHNIQUE_TYPE, CombatantFactory::ABILITY_TYPE], true)) {
-            $registry = app(CombatRegistry::class);
-
-            if ($registry->hasAbility($heroUpgrade->key)) {
-                return $registry->ability($heroUpgrade->key)->description();
-            }
-
-            return $registry->hasEffect($heroUpgrade->key)
-                ? $registry->effect($heroUpgrade->key)->description(new EffectInstance($heroUpgrade->key))
-                : '';
-        }
-
-        $perkStrings = [];
-        foreach ($heroUpgrade->perks as $perk) {
-            if (Str::startsWith($perk->key, 'combat_')) {
-                $perkValue = (float)$perk->value;
-                $stat = Str::replaceFirst('combat_', '', $perk->key);
-                $perkStrings[] = sprintf('%+g %s', $perkValue, ucwords($stat));
-            }
-        }
-
-        return implode($separator, $perkStrings);
+        return app(CombatRegistry::class)->loadoutOptions($slot);
     }
 
     /**
-     * The class level a class ability needs, e.g. "Requires Infiltrator level 5", or null if
-     * the upgrade has no class requirement.
+     * The names of a hero's equipped technique and ability, e.g. "Backstab, Forge". Gear is
+     * left out, and so are empty slots.
      */
-    public function getClassAbilityRequirement(HeroUpgrade $heroUpgrade): ?string
+    public function getLoadoutSummary(Hero $hero): string
     {
-        if ($heroUpgrade->type !== CombatantFactory::ABILITY_TYPE) {
-            return null;
+        $loadout = app(HeroCalculator::class)->getLoadout($hero);
+
+        return collect([LoadoutSlot::Technique, LoadoutSlot::Ability])
+            ->flatMap(fn (LoadoutSlot $slot) => $loadout[$slot->value])
+            ->map(fn (LoadoutOption $option) => $this->getLoadoutOptionName($option))
+            ->implode(', ');
+    }
+
+    /**
+     * What opens a loadout slot, e.g. "Reach level 9".
+     */
+    public function getLoadoutSlotRequirement(LoadoutSlot $slot): string
+    {
+        $level = min(array_map(fn (LoadoutOption $option) => $option->level, $this->getLoadoutOptions($slot)));
+
+        return $slot === LoadoutSlot::Ability
+            ? sprintf('Reach level %d in a class', $level)
+            : sprintf('Reach level %d', $level);
+    }
+
+    /**
+     * The display name of a loadout option. Gear names itself; techniques and abilities take
+     * their name from the ability or effect they share a key with.
+     */
+    public function getLoadoutOptionName(LoadoutOption $option): string
+    {
+        if ($option->name !== null) {
+            return $option->name;
         }
 
-        $class = app(HeroClassLoadouts::class)->classFor($heroUpgrade->key);
+        $registry = app(CombatRegistry::class);
+
+        return $registry->hasAbility($option->key)
+            ? $registry->ability($option->key)->name()
+            : $registry->effect($option->key)->name();
+    }
+
+    /**
+     * What a loadout option does: its ability or effect description, or its gear stats.
+     */
+    public function getLoadoutOptionDescription(LoadoutOption $option, string $separator = ', '): string
+    {
+        $registry = app(CombatRegistry::class);
+
+        if ($registry->hasAbility($option->key)) {
+            return $registry->ability($option->key)->description();
+        }
+
+        if ($registry->hasEffect($option->key)) {
+            return $registry->effect($option->key)->description(new EffectInstance($option->key));
+        }
+
+        $statStrings = [];
+        foreach ($option->stats as $stat => $value) {
+            $statStrings[] = sprintf('%+d %s', $value, ucwords($stat));
+        }
+
+        return implode($separator, $statStrings);
+    }
+
+    /**
+     * What the hero needs to equip an option, e.g. "Requires Infiltrator level 5".
+     */
+    public function getLoadoutOptionRequirement(LoadoutOption $option): string
+    {
+        $class = app(HeroClassLoadouts::class)->classFor($option->key);
+
         if ($class === null) {
-            return null;
+            return sprintf('Requires level %d', $option->level);
         }
 
-        return sprintf('Requires %s level %d', $this->getClassDisplayName($class), HeroClassLoadouts::UNLOCK_CLASS_LEVEL);
+        return sprintf('Requires %s level %d', $this->getClassDisplayName($class), $option->level);
+    }
+
+    /**
+     * Joins slot values into a phrase for messages, e.g. "techniques and gear".
+     *
+     * @param string[] $slots
+     */
+    public function getLoadoutSlotPhrase(array $slots): string
+    {
+        $labels = [
+            LoadoutSlot::Technique->value => 'techniques',
+            LoadoutSlot::Ability->value => 'class abilities',
+            LoadoutSlot::Gear->value => 'gear',
+        ];
+
+        return collect($slots)
+            ->map(fn (string $slot) => $labels[$slot])
+            ->join(', ', ' and ');
     }
 
     public function getCombatStatTooltip(string $stat): string

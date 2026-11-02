@@ -92,22 +92,25 @@
                             $isMaxLevel = $heroLevel >= $heroCalculator->getExperienceLevels()->max('level');
                             $levelProgress = $isMaxLevel ? 100 : min(100, max(0, ($hero->experience - $currentLevelXp) / ($nextLevelXp - $currentLevelXp) * 100));
                             $dominionSlots = [];
-                            $heroBattleSlots = [];
                             foreach ($heroCalculator->getUpgradeSlots($hero) as $level => $upgrade) {
-                                $types = $upgradeTypesByLevel[$level] ?? [];
-                                if ($upgrade !== null ? $heroHelper->isHeroBattleUpgradeType($upgrade->type) : array_filter($types, [$heroHelper, 'isHeroBattleUpgradeType'])) {
-                                    $heroBattleSlots[$level] = ['upgrade' => $upgrade, 'types' => $types];
-                                } else {
-                                    $dominionSlots[$level] = ['upgrade' => $upgrade, 'types' => $types];
+                                $dominionSlots[$level] = ['upgrade' => $upgrade, 'types' => $upgradeTypesByLevel[$level] ?? []];
+                            }
+                            $dominionUpgrades = $heroHelper->getHeroUpgradesByClass($hero->class)->where('active', true);
+                            $loadoutSlotTypes = \OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot::cases();
+                            $loadout = $heroCalculator->getLoadout($hero);
+                            $loadoutStatBonuses = $heroCalculator->getLoadoutStatBonuses($hero);
+                            $availableLoadoutOptions = $heroCalculator->getAvailableLoadoutOptions($hero);
+                            $equippedLoadoutKeys = collect($loadout)->flatten()->pluck('key')->all();
+                            $loadoutTiles = [];
+                            foreach ($loadoutSlotTypes as $loadoutSlot) {
+                                for ($index = 0; $index < $loadoutSlot->capacity(); $index++) {
+                                    $loadoutTiles[] = [
+                                        'slot' => $loadoutSlot,
+                                        'option' => $loadout[$loadoutSlot->value][$index] ?? null,
+                                        'available' => $heroCalculator->getAvailableLoadoutOptions($hero, $loadoutSlot) !== [],
+                                    ];
                                 }
                             }
-                            [$dominionUpgrades, $heroBattleUpgrades] = $heroHelper->getHeroUpgradesByClass($hero->class)
-                                ->where('active', true)
-                                ->partition(fn ($upgrade) => !$heroHelper->isHeroBattleUpgradeType($upgrade->type));
-                            $upgradeGroups = [
-                                ['title' => 'Dominion Upgrades', 'icon' => 'ra-tower', 'upgrades' => $dominionUpgrades],
-                                ['title' => 'Combat Upgrades', 'icon' => 'ra-axe', 'upgrades' => $heroBattleUpgrades],
-                            ];
                             $passiveBonusMultiplier = $heroCalculator->getPassiveBonusMultiplier($selectedDominion);
                             $playedClasses = [];
                             $unplayedClasses = [];
@@ -187,6 +190,11 @@
 
                             <div class="col-xl-6">
                                 <div class="hero-section-head"><i class="ra ra-axe"></i> Hero Battles</div>
+                                <div class="hero-tiles">
+                                    @foreach ($loadoutTiles as $tile)
+                                        @include('partials.dominion.hero-loadout-tile', $tile)
+                                    @endforeach
+                                </div>
                                 <div class="hero-stats">
                                     <div class="hero-stat hero-stat-rating" title="PvP rating, with your Win - Loss - Draw record" data-bs-toggle="tooltip">
                                         <div class="hero-stat-label">Rating</div>
@@ -194,17 +202,12 @@
                                         <div class="hero-stat-change">{{ sprintf('%s-%s-%s', $hero->stat_combat_wins, $hero->stat_combat_losses, $hero->stat_combat_draws) }}</div>
                                     </div>
                                     @foreach ($heroCalculator->getHeroCombatStats($hero) as $stat => $value)
-                                        @php($statBonus = $hero->getPerkValue("combat_{$stat}"))
+                                        @php($statBonus = $loadoutStatBonuses[$stat] ?? 0)
                                         <div class="hero-stat" title="{{ $heroHelper->getCombatStatTooltip($stat) }}" data-bs-toggle="tooltip">
                                             <div class="hero-stat-label">{{ ucwords($stat) }}</div>
                                             <div class="hero-stat-value">{{ $value }}</div>
                                             <div @class(['hero-stat-change', 'text-green' => $statBonus > 0, 'text-red' => $statBonus < 0])>{{ $statBonus ? sprintf('%+g', $statBonus) : '' }}</div>
                                         </div>
-                                    @endforeach
-                                </div>
-                                <div class="hero-tiles hero-tiles-battle">
-                                    @foreach ($heroBattleSlots as $level => $slot)
-                                        @include('partials.dominion.hero-upgrade-tile', ['upgrade' => $slot['upgrade'], 'level' => $level, 'types' => $slot['types']])
                                     @endforeach
                                 </div>
                             </div>
@@ -214,18 +217,79 @@
 
                 <form action="{{ route('dominion.heroes') }}" method="post" role="form" class="disable-after-click" id="hero-upgrades">
                     @csrf
-                    @foreach ($upgradeGroups as $upgradeGroup)
-                        <div class="card">
-                            <div class="card-header">
-                                <span class="card-title"><i class="ra {{ $upgradeGroup['icon'] }} me-1"></i> {{ $upgradeGroup['title'] }}</span>
-                            </div>
-                            <div class="card-body table-responsive">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="ra ra-tower me-1"></i> Hero Upgrades</span>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table hero-upgrades-table">
+                                <colgroup>
+                                    <col width="40">
+                                    <col width="45">
+                                    <col width="200">
+                                    <col width="60">
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Level</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                @foreach ($dominionUpgrades as $upgrade)
+                                    <tr class="hero-upgrade {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? 'text-default' : 'text-muted' }}" data-level="{{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}">
+                                        <td class="text-center{{ in_array($upgrade->key, $unlockedUpgrades) ? ' text-green' : null }}">
+                                            @if (in_array($upgrade->key, $unlockedUpgrades))
+                                                <i class="fa fa-check"></i>
+                                            @else
+                                                <input type="radio" class="form-check-input" name="key" id="upgrade_{{ $upgrade->key }}" value="{{ $upgrade->key }}" {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? null : 'disabled' }}>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <i class="ra ra-fw {{ $upgrade->icon }}" style="font-size: 24px;" title="{{ ucwords($upgrade->type) }}" data-bs-toggle="tooltip"></i>
+                                        </td>
+                                        <td>
+                                            <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
+                                                {{ $upgrade->name }}
+                                            </label>
+                                        </td>
+                                        <td>
+                                            {{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}
+                                        </td>
+                                        <td>
+                                            <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
+                                                {!! $heroHelper->getUpgradeDescription($upgrade, '<br/>') !!}
+                                            </label>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" {{ (!$heroCalculator->getUnlockableUpgradeCount($hero) || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form action="{{ route('dominion.heroes.loadout') }}" method="post" role="form" class="disable-after-click" id="hero-loadout">
+                    @csrf
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title"><i class="ra ra-axe me-1"></i> Combat Loadout</span>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <p>Your hero brings this loadout into every battle, including when a realmmate borrows your hero. You can change it at any time; battles already underway are not affected.</p>
+                            @foreach ($loadoutSlotTypes as $loadoutSlot)
+                                @php($isMultiple = $loadoutSlot->capacity() > 1)
+                                <div class="hero-sub-label">{{ $loadoutSlot->label() }} ({{ $isMultiple ? 'choose up to ' . $loadoutSlot->capacity() : 'choose 1' }})</div>
                                 <table class="table hero-upgrades-table">
                                     <colgroup>
                                         <col width="40">
                                         <col width="45">
                                         <col width="200">
-                                        <col width="60">
                                         <col>
                                     </colgroup>
                                     <thead>
@@ -233,47 +297,59 @@
                                             <th></th>
                                             <th></th>
                                             <th>Name</th>
-                                            <th>Level</th>
                                             <th>Description</th>
                                         </tr>
                                     </thead>
-                                    @foreach ($upgradeGroup['upgrades'] as $upgrade)
-                                        <tr class="hero-upgrade {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? 'text-default' : 'text-muted' }}" data-level="{{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}">
-                                            <td class="text-center{{ in_array($upgrade->key, $unlockedUpgrades) ? ' text-green' : null }}">
-                                                @if (in_array($upgrade->key, $unlockedUpgrades))
-                                                    <i class="fa fa-check"></i>
-                                                @else
-                                                    <input type="radio" class="form-check-input" name="key" id="upgrade_{{ $upgrade->key }}" value="{{ $upgrade->key }}" {{ $heroCalculator->canUnlockUpgrade($hero, $upgrade) ? null : 'disabled' }}>
-                                                @endif
+                                    @if (!$isMultiple)
+                                        <tr class="hero-loadout-option" data-slot="{{ $loadoutSlot->value }}">
+                                            <td class="text-center">
+                                                <input type="radio" class="form-check-input" name="{{ $loadoutSlot->value }}" id="loadout_{{ $loadoutSlot->value }}_none" value="" {{ $loadout[$loadoutSlot->value] === [] ? 'checked' : null }}>
+                                            </td>
+                                            <td></td>
+                                            <td colspan="2">
+                                                <label for="loadout_{{ $loadoutSlot->value }}_none" style="font-weight: normal;">None</label>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @foreach ($heroHelper->getLoadoutOptions($loadoutSlot) as $option)
+                                        @php($isAvailable = isset($availableLoadoutOptions[$option->key]))
+                                        <tr class="hero-loadout-option {{ $isAvailable ? 'text-default' : 'text-muted' }}" data-slot="{{ $loadoutSlot->value }}" {{ $isAvailable ? 'data-available' : null }}>
+                                            <td class="text-center">
+                                                <input
+                                                    type="{{ $isMultiple ? 'checkbox' : 'radio' }}"
+                                                    class="form-check-input"
+                                                    name="{{ $loadoutSlot->value }}{{ $isMultiple ? '[]' : null }}"
+                                                    id="loadout_{{ $option->key }}"
+                                                    value="{{ $option->key }}"
+                                                    {{ in_array($option->key, $equippedLoadoutKeys) ? 'checked' : null }}
+                                                    {{ $isAvailable ? null : 'disabled data-locked' }}
+                                                >
                                             </td>
                                             <td>
-                                                <i class="ra ra-fw {{ $upgrade->icon }}" style="font-size: 24px;" title="{{ ucwords($upgrade->type) }}" data-bs-toggle="tooltip"></i>
+                                                <i class="ra ra-fw {{ $option->icon }}" style="font-size: 24px;" title="{{ $loadoutSlot->label() }}" data-bs-toggle="tooltip"></i>
                                             </td>
                                             <td>
-                                                <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
-                                                    {{ $upgrade->name }}
+                                                <label for="loadout_{{ $option->key }}" style="font-weight: normal;">
+                                                    {{ $heroHelper->getLoadoutOptionName($option) }}
                                                 </label>
                                             </td>
                                             <td>
-                                                {{ $upgrade->type === 'directive' ? '--' : $upgrade->level }}
-                                            </td>
-                                            <td>
-                                                <label for="upgrade_{{ $upgrade->key }}" style="font-weight: normal;">
-                                                    {!! $heroHelper->getCombatUpgradeDescription($upgrade) ?: $heroHelper->getUpgradeDescription($upgrade, '<br/>') !!}
-                                                    @if ($requirement = $heroHelper->getClassAbilityRequirement($upgrade))
-                                                        <br/><small class="text-muted">{{ $requirement }}</small>
+                                                <label for="loadout_{{ $option->key }}" style="font-weight: normal;">
+                                                    {{ $heroHelper->getLoadoutOptionDescription($option) }}
+                                                    @if (!$isAvailable)
+                                                        <br/><small class="text-muted">{{ $heroHelper->getLoadoutOptionRequirement($option) }}</small>
                                                     @endif
                                                 </label>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </table>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" {{ (!$heroCalculator->getUnlockableUpgradeCount($hero) || $selectedDominion->isLocked()) ? 'disabled' : null }}>Unlock</button>
-                            </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Save Loadout</button>
+                        </div>
+                    </div>
                 </form>
             @endif
         </div>
@@ -288,7 +364,7 @@
                     <p>Your hero gains 1 XP per acre gained from invasion (against dominions at least 75% of your size), 0.8 XP per acre explored, 0.5 XP per spy strength spent on successful espionage operations (excluding theft), and 1 XP per wizard strength spent on successful magic operations.</p>
                     <p>Your hero loses 1 XP per acre lost from invasion, however this loss cannot exceed the XP required to maintain its current level.</p>
                     <p>You can change your hero class at any time, but you'll pay a penalty of {{ \OpenDominion\Calculators\Dominion\HeroCalculator::CLASS_CHANGE_XP_PENALTY }} XP. Any bonuses you've acquired from other classes will be halved while inactive.</p>
-                    <p>Advanced hero classes have special requirements to select and unlock additional upgrades on first use. All hero upgrades are <b>permanent</b>.</p>
+                    <p>Advanced hero classes have special requirements to select and unlock additional upgrades on first use. All hero upgrades are <b>permanent</b>, but your combat loadout can be changed at any time.</p>
                     <p>There is a {{ \OpenDominion\Calculators\Dominion\HeroCalculator::CLASS_CHANGE_COOLDOWN_HOURS }} hour cooldown between class changes.</p>
                     @if ($hero && !$heroCalculator->canChangeClass($hero))
                         <p>You cannot change your hero class for another {{ $heroCalculator->hoursUntilClassChange($hero) }} hours.</p>
@@ -367,6 +443,30 @@
                     rows.addClass('hero-upgrade-highlight');
                 });
             });
+
+            $('.hero-tile-open[data-loadout-slot]').click(function (event) {
+                var rows = $('.hero-loadout-option[data-available][data-slot=' + $(this).data('loadout-slot') + ']');
+                if (!rows.length) {
+                    return;
+                }
+                event.preventDefault();
+                rows[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                rows.removeClass('hero-upgrade-highlight');
+                setTimeout(function () {
+                    rows.addClass('hero-upgrade-highlight');
+                });
+            });
+
+            var gearCheckboxes = $('input[type=checkbox][name="gear[]"]');
+            var maximumGear = {{ \OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot::Gear->capacity() }};
+
+            function limitGear() {
+                var atLimit = gearCheckboxes.filter(':checked').length >= maximumGear;
+                gearCheckboxes.not('[data-locked]').not(':checked').prop('disabled', atLimit);
+            }
+
+            gearCheckboxes.change(limitGear);
+            limitGear();
 
             randomizeName();
         })(jQuery);

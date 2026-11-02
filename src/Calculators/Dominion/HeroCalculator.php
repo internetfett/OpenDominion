@@ -5,7 +5,9 @@ namespace OpenDominion\Calculators\Dominion;
 use Illuminate\Support\Collection;
 use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
-use OpenDominion\HeroCombat\Persistence\CombatantFactory;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
+use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroUpgrade;
@@ -482,13 +484,6 @@ class HeroCalculator
             return false;
         }
 
-        if ($upgrade->type === CombatantFactory::ABILITY_TYPE) {
-            $requiredClass = app(HeroClassLoadouts::class)->classFor($upgrade->key);
-            if ($requiredClass !== null && $this->getClassLevel($hero, $requiredClass) < HeroClassLoadouts::UNLOCK_CLASS_LEVEL) {
-                return false;
-            }
-        }
-
         $heroLevel = $this->getHeroLevel($hero);
         $levelsUnlocked = $hero->upgrades->where('type', '!=', 'directive')->pluck('level')->all();
 
@@ -510,18 +505,126 @@ class HeroCalculator
 
     public function getHeroCombatStats(Hero $hero): array
     {
-        $level = $this->getHeroLevel($hero);
-        if ($hero->class_data !== null) {
-            // Combat stats based on highest level class
-            $level = max($level, collect($hero->class_data)->max('level'));
-        }
-        $combatStats = $this->getBaseCombatStats($level);
+        $combatStats = $this->getBaseCombatStats($this->getCombatLevel($hero));
 
-        foreach ($combatStats as $stat => $value) {
-            $combatStats[$stat] += $hero->getPerkValue("combat_{$stat}");
+        foreach ($this->getLoadoutStatBonuses($hero) as $stat => $bonus) {
+            $combatStats[$stat] += $bonus;
         }
 
         return $combatStats;
+    }
+
+    /**
+     * The hero's level for combat purposes: its highest level in any class, so changing class
+     * costs neither combat stats nor loadout options.
+     */
+    public function getCombatLevel(Hero $hero): int
+    {
+        return (int) max($this->getHeroLevel($hero), collect($hero->class_data ?? [])->max('level') ?? 0);
+    }
+
+    /**
+     * Everything the hero can currently equip. This is the only place that decides access,
+     * so sources other than levels belong here.
+     *
+     * @return array<string, LoadoutOption> keyed by option key
+     */
+    public function getAvailableLoadoutOptions(Hero $hero, ?LoadoutSlot $slot = null): array
+    {
+        $combatLevel = $this->getCombatLevel($hero);
+        $loadouts = app(HeroClassLoadouts::class);
+
+        return array_filter(
+            app(CombatRegistry::class)->loadoutOptions($slot),
+            function (LoadoutOption $option) use ($hero, $combatLevel, $loadouts) {
+                $requiredClass = $loadouts->classFor($option->key);
+                $level = $requiredClass === null ? $combatLevel : $this->getClassLevel($hero, $requiredClass);
+
+                return $level >= $option->level;
+            }
+        );
+    }
+
+    /**
+     * The options the hero has equipped, by slot value. Anything stored that the hero can no
+     * longer equip is left out, as is anything beyond a slot's capacity.
+     *
+     * @return array<string, LoadoutOption[]>
+     */
+    public function getLoadout(Hero $hero): array
+    {
+        $loadout = [];
+
+        foreach (LoadoutSlot::cases() as $slot) {
+            $keys = array_unique(array_filter((array) ($hero->loadout[$slot->value] ?? [])));
+            $available = $this->getAvailableLoadoutOptions($hero, $slot);
+            $equipped = array_values(array_intersect_key($available, array_flip($keys)));
+
+            $loadout[$slot->value] = array_slice($equipped, 0, $slot->capacity());
+        }
+
+        return $loadout;
+    }
+
+    /**
+     * Combat stat changes from the hero's equipped gear.
+     *
+     * @return array<string, int> keyed by Stat value
+     */
+    public function getLoadoutStatBonuses(Hero $hero): array
+    {
+        $bonuses = [];
+
+        foreach ($this->getLoadout($hero) as $options) {
+            foreach ($options as $option) {
+                foreach ($option->stats as $stat => $value) {
+                    $bonuses[$stat] = ($bonuses[$stat] ?? 0) + $value;
+                }
+            }
+        }
+
+        return $bonuses;
+    }
+
+    /**
+     * Loadout slots sitting empty that the hero could fill right now.
+     */
+    public function getEmptyLoadoutSlotCount(Hero|null $hero): int
+    {
+        if ($hero === null) {
+            return 0;
+        }
+
+        $loadout = $this->getLoadout($hero);
+        $count = 0;
+
+        foreach (LoadoutSlot::cases() as $slot) {
+            $equipped = count($loadout[$slot->value]);
+            $unequipped = count($this->getAvailableLoadoutOptions($hero, $slot)) - $equipped;
+
+            $count += min($slot->capacity() - $equipped, $unequipped);
+        }
+
+        return $count;
+    }
+
+    /**
+     * Slot values with options the hero can equip now but couldn't at the given experience.
+     * Compares options rather than levels because class abilities depend on class level.
+     *
+     * @return string[]
+     */
+    public function getNewLoadoutSlots(Hero $hero, float $previousExperience): array
+    {
+        $previousHero = clone $hero;
+        $previousHero->experience = $previousExperience;
+
+        $newOptions = array_diff_key(
+            $this->getAvailableLoadoutOptions($hero),
+            $this->getAvailableLoadoutOptions($previousHero)
+        );
+
+        return array_values(array_unique(array_map(fn (LoadoutOption $option) => $option->slot->value, $newOptions)));
     }
 
     public function calculateRatingChange(float $currentRating, float $opponentRating, float $result): int

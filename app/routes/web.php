@@ -157,6 +157,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('heroes')->uses('Dominion\HeroController@getHeroes')->name('heroes');
             $router->post('heroes')->uses('Dominion\HeroController@postHeroes');
             $router->post('heroes/create')->uses('Dominion\HeroController@postCreateHero')->name('heroes.create');
+            $router->post('heroes/loadout')->uses('Dominion\HeroController@postLoadout')->name('heroes.loadout');
             $router->get('heroes/class/{class}')->uses('Dominion\HeroController@getChangeClass')->name('heroes.change-class');
             $router->post('heroes/class/{class}')->uses('Dominion\HeroController@postChangeClass');
             $router->get('heroes/battles')->uses('Dominion\HeroController@getBattles')->name('heroes.battles');

@@ -15,7 +15,7 @@ class HeroCombatSimulateCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'hero-combat:simulate
-                             {--a= : Build for side A, e.g. "level=9;technique=backstab,sunder;ability=shadow_strike;gear=greatsword" (default: level 9, no picks)}
+                             {--a= : Build for side A, e.g. "level=9;technique=backstab;ability=shadow_strike;gear=greatsword,plate_armor" (default: level 9, no picks)}
                              {--b= : Build for side B (default: level 9, no picks)}
                              {--strategy-a=tactician:balanced : Strategy for side A (tactician:balanced|aggressive|defensive, or balanced, aggressive, defensive, ...)}
                              {--strategy-b=tactician:balanced : Strategy for side B}
@@ -111,7 +111,7 @@ class HeroCombatSimulateCommand extends Command implements CommandInterface
 
         $options = $builds->optionsOfType($type, $level);
         $make = fn (string $key) => match ($type) {
-            'technique' => new Build($level, techniques: [$key]),
+            'technique' => new Build($level, technique: $key),
             'ability' => new Build($level, ability: $key),
             'gear' => new Build($level, gear: [$key]),
         };

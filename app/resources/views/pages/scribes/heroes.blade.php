@@ -15,7 +15,7 @@
                         Heroes lose 1 XP per acre lost from invasion, however this loss cannot exceed the XP required to maintain its current level.
                     </p>
                     <p>You can change your hero class at any time, but you'll pay a penalty of {{ \OpenDominion\Calculators\Dominion\HeroCalculator::CLASS_CHANGE_XP_PENALTY }} XP. Any bonuses you've acquired from other classes will be halved while inactive.</p>
-                    <p>Advanced hero classes have special requirements to select and unlock additional upgrades on first use. All hero upgrades are <b>permanent</b>.</p>
+                    <p>Advanced hero classes have special requirements to select and unlock additional upgrades on first use. All hero upgrades are <b>permanent</b>, but a hero's combat loadout can be changed at any time.</p>
                     <p>There is a {{ \OpenDominion\Calculators\Dominion\HeroCalculator::CLASS_CHANGE_COOLDOWN_HOURS }} hour cooldown between class changes.</p>
                 </div>
                 <div class="col-md-4">
@@ -107,6 +107,42 @@
                                     <td>{{ count($upgrade->classes) ? ucwords(implode(', ', $upgrade->classes)) : '--' }}</td>
                                     <td>{{ $heroHelper->getUpgradeDescription($upgrade) }}</td>
                                 </tr>
+                            @endforeach
+                        </table>
+                    </div>
+
+                    <h4>Combat Loadout</h4>
+                    <p>Heroes bring 1 technique, 1 ability and 2 different pieces of gear into battle.</p>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <colgroup>
+                                <col>
+                                <col width="150">
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Requirement</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            @foreach (\OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot::cases() as $loadoutSlot)
+                                @foreach ($heroHelper->getLoadoutOptions($loadoutSlot) as $option)
+                                    <tr>
+                                        <td style="font-size: 24px;">
+                                            <i class="ra ra-fw {{ $option->icon }}" title="{{ $loadoutSlot->label() }}" data-bs-toggle="tooltip"></i>
+                                        </td>
+                                        <td>{{ $heroHelper->getLoadoutOptionName($option) }}</td>
+                                        <td>{{ $loadoutSlot->label() }}</td>
+                                        <td>{{ str_replace('Requires ', '', $heroHelper->getLoadoutOptionRequirement($option)) }}</td>
+                                        <td>{{ $heroHelper->getLoadoutOptionDescription($option) }}</td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         </table>
                     </div>

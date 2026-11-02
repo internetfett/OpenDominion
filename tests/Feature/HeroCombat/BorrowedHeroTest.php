@@ -126,6 +126,54 @@ class BorrowedHeroTest extends AbstractBrowserKitTestCase
         $this->heroBattleService->createPracticeBattle($pilot, 'test_party', [$pilot->hero]);
     }
 
+    public function testABorrowedHeroBringsItsOwnersLoadout(): void
+    {
+        $pilot = $this->dominionWithHero('Pilot');
+        $owner = $this->dominionWithHero('Lender');
+        $pilot->hero->update(['experience' => 5000, 'loadout' => ['technique' => 'feint']]);
+        $owner->hero->update(['experience' => 5000, 'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword']]]);
+
+        $battle = $this->heroBattleService->createPracticeBattle($pilot->fresh(), 'test_party', [$owner->hero->fresh()]);
+        $borrowed = $this->combatantOfHero($battle, $owner->hero);
+
+        $this->assertEquals($pilot->id, $borrowed->controller_dominion_id);
+        $this->assertEquals(['backstab'], collect($borrowed->effects)->pluck('key')->all());
+        $this->assertContains('forge', $borrowed->abilities);
+        $this->assertEquals(42, $borrowed->attack);
+    }
+
+    public function testPracticePageHidesTheCompanionPickerUntilAPartyEncounterIsChosen(): void
+    {
+        $pilot = $this->dominionWithHero('Pilot');
+        $this->dominionWithHero('Lender');
+        $this->actingAs($pilot->user);
+        $this->selectDominion($pilot);
+
+        $content = $this->visitRoute('dominion.heroes.battles.practice')->response->getContent();
+
+        $this->assertStringContainsString('<div id="practice-companion" class="d-none">', $content);
+        $this->assertStringContainsString('value="test_party" data-party-size="2"', $content);
+        $this->assertStringContainsString('value="heart_of_ice" data-party-size="1"', $content);
+        $this->assertStringNotContainsString('(party encounters only)', $content);
+    }
+
+    public function testPracticePageListsCompanionsWithTheirTechniqueAndAbility(): void
+    {
+        $pilot = $this->dominionWithHero('Pilot');
+        $equipped = $this->dominionWithHero('Lender');
+        $unequipped = $this->dominionWithHero('Idle');
+        $equipped->hero->update(['experience' => 5000, 'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword']]]);
+        $this->actingAs($pilot->user);
+        $this->selectDominion($pilot);
+
+        $content = $this->visitRoute('dominion.heroes.battles.practice')->response->getContent();
+
+        $this->assertMatchesRegularExpression('/>Lender \([^<]*\) - Backstab, Forge<\/option>/', $content);
+        $this->assertMatchesRegularExpression('/>Idle \([^<)]*\)<\/option>/', $content);
+        $this->assertStringNotContainsString('Greatsword', $content);
+        $this->assertStringNotContainsString('Blacksmith', $content);
+    }
+
     public function testPilotControlsTheBorrowedHeroAndTheOwnerDoesNot(): void
     {
         $pilot = $this->dominionWithHero('Pilot');

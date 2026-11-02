@@ -74,14 +74,50 @@ class HeroBattlePagesTest extends AbstractTestCase
             ->assertDontSee('Queued:');
     }
 
+    public function testActiveBattlesSpanThePageAboveHistoryAndInformation(): void
+    {
+        $this->heroDominion();
+
+        $content = $this->get(route('dominion.heroes.battles'))->assertOk()->getContent();
+
+        $active = strpos($content, 'Active Battles</span>');
+        $previous = strpos($content, 'Previous Battles</span>');
+        $information = strpos($content, '<span class="card-title">Information</span>');
+
+        $this->assertNotFalse($active);
+        $this->assertLessThan($previous, $active);
+        $this->assertLessThan($information, $previous);
+        $this->assertLessThan($active, strpos($content, '<div class="col-12">'), 'Active Battles has the whole row');
+    }
+
+    public function testBattleButtonsStayInTheActiveBattlesHeader(): void
+    {
+        $this->heroDominion();
+
+        $content = $this->get(route('dominion.heroes.battles'))->assertOk()->getContent();
+
+        $header = substr($content, strpos($content, 'Active Battles</span>'));
+        $header = substr($header, 0, strpos($header, 'class="card-body"'));
+
+        $this->assertStringContainsString(route('dominion.heroes.battles.practice'), $header);
+        $this->assertStringContainsString(route('dominion.heroes.battles.queue'), $header);
+    }
+
+    public function testBattleButtonsAreHiddenDuringABattle(): void
+    {
+        $dominion = $this->heroDominion();
+        app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion], 'practice');
+
+        $this->get(route('dominion.heroes.battles'))
+            ->assertOk()
+            ->assertDontSee(route('dominion.heroes.battles.practice'), false)
+            ->assertDontSee(route('dominion.heroes.battles.queue'), false);
+    }
+
     public function testBattlePageShowsTheHerosTechniques(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->update(['experience' => 2300]);
-        \OpenDominion\Models\HeroHeroUpgrade::create([
-            'hero_id' => $dominion->hero->id,
-            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'shield_bash')->firstOrFail()->id,
-        ]);
+        $dominion->hero->update(['experience' => 3500, 'loadout' => ['technique' => 'shield_bash']]);
         app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion->fresh()], 'practice');
 
         $this->get(route('dominion.heroes.battles'))
@@ -90,13 +126,12 @@ class HeroBattlePagesTest extends AbstractTestCase
             ->assertSee('Shield Bash');
     }
 
-    public function testClassAbilityUpgradesJoinTheHerosActions(): void
+    public function testEquippedClassAbilitiesJoinTheHerosActions(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->update(['experience' => 4250]);
-        \OpenDominion\Models\HeroHeroUpgrade::create([
-            'hero_id' => $dominion->hero->id,
-            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'shadow_strike')->firstOrFail()->id,
+        $dominion->hero->update([
+            'class_data' => ['infiltrator' => ['key' => 'infiltrator', 'experience' => 2300]],
+            'loadout' => ['ability' => 'shadow_strike'],
         ]);
         $battle = app(HeroBattleService::class)->createEncounterBattle('heart_of_ice', [$dominion->fresh()], 'practice');
         $player = $battle->combatants()->where('dominion_id', $dominion->id)->firstOrFail();
@@ -230,14 +265,10 @@ class HeroBattlePagesTest extends AbstractTestCase
             ->assertSee('2,000 / 2,300 XP · 300 to level 5');
     }
 
-    public function testHeroesPageSplitsUpgradeSlotsByWhatTheyAffect(): void
+    public function testHeroesPageSplitsUpgradesFromTheLoadout(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->update(['experience' => 1200]);
-        \OpenDominion\Models\HeroHeroUpgrade::create([
-            'hero_id' => $dominion->hero->id,
-            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'backstab')->firstOrFail()->id,
-        ]);
+        $dominion->hero->update(['experience' => 2300, 'loadout' => ['technique' => 'backstab']]);
 
         $sections = $this->heroSections($this->get(route('dominion.heroes'))->assertOk()->getContent());
 
@@ -245,27 +276,20 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertStringContainsString('Lv 2 · Item or Magic', $sections['dominion']);
         $this->assertStringContainsString('Choose upgrade', $sections['dominion']);
         $this->assertStringContainsString('<a href="#hero-upgrades" class="hero-tile hero-tile-open" data-upgrade-level="2">', $sections['dominion']);
-        $this->assertStringContainsString('Reach level 4', $sections['dominion']);
+        $this->assertStringContainsString('Reach level 6', $sections['dominion']);
         $this->assertStringNotContainsString('Technique', $sections['dominion']);
 
-        $this->assertStringContainsString('Lv 3 · Technique', $sections['heroBattle']);
         $this->assertStringContainsString('Backstab', $sections['heroBattle']);
         $this->assertStringContainsString('against a target that was Focused at the start of the turn', $sections['heroBattle']);
-        $this->assertStringContainsString('Lv 5 · Technique', $sections['heroBattle']);
-        $this->assertStringContainsString('Lv 7 · Ability', $sections['heroBattle']);
-        $this->assertStringContainsString('Lv 9 · Gear', $sections['heroBattle']);
-        $this->assertStringContainsString('Reach level 9', $sections['heroBattle']);
+        $this->assertStringContainsString('<a href="#hero-loadout" class="hero-tile hero-tile-open" data-loadout-slot="ability">', $sections['heroBattle']);
+        $this->assertSame(2, substr_count($sections['heroBattle'], 'Reach level 9'), 'Both gear slots are locked');
         $this->assertStringNotContainsString('Choose upgrade', $sections['heroBattle']);
     }
 
     public function testHeroesPageShowsRatingAndGearStatChanges(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->forceFill(['experience' => 2300, 'combat_rating' => 1043, 'stat_combat_wins' => 7, 'stat_combat_losses' => 4, 'stat_combat_draws' => 1])->save();
-        \OpenDominion\Models\HeroHeroUpgrade::create([
-            'hero_id' => $dominion->hero->id,
-            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'greatsword')->firstOrFail()->id,
-        ]);
+        $dominion->hero->forceFill(['experience' => 5000, 'loadout' => ['gear' => ['greatsword']], 'combat_rating' => 1043, 'stat_combat_wins' => 7, 'stat_combat_losses' => 4, 'stat_combat_draws' => 1])->save();
 
         $heroBattle = $this->heroSections($this->get(route('dominion.heroes'))->assertOk()->getContent())['heroBattle'];
 
@@ -324,32 +348,147 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertMatchesRegularExpression('/-\d+\.\d{2}% military training cost<\/span>\s*<span class="hero-class-note"[^>]*>\(-0\.80%\)<\/span>/', $dominionSection);
     }
 
-    public function testUpgradeTablesAreSplitByWhatTheyAffect(): void
+    public function testUpgradeAndLoadoutFormsAreSeparate(): void
     {
         $this->heroDominion();
 
         $content = $this->get(route('dominion.heroes'))
             ->assertOk()
             ->assertDontSee('<th>Effect</th>', false)
+            ->assertDontSee('Combat Upgrades')
             ->getContent();
 
         $upgradesStart = strpos($content, 'id="hero-upgrades"');
         $upgrades = substr($content, $upgradesStart, strpos($content, '</form>', $upgradesStart) - $upgradesStart);
-        $heroBattleStart = strpos($upgrades, 'ra-axe me-1"></i> Combat Upgrades');
-        $this->assertNotFalse($heroBattleStart);
-        $dominion = substr($upgrades, 0, $heroBattleStart);
-        $heroBattle = substr($upgrades, $heroBattleStart);
+        $loadoutStart = strpos($content, 'id="hero-loadout"');
+        $loadout = substr($content, $loadoutStart, strpos($content, '</form>', $loadoutStart) - $loadoutStart);
 
-        $this->assertStringContainsString('ra-tower me-1"></i> Dominion Upgrades', $dominion);
-        $this->assertStringContainsString('Experience gains from invasion and exploration are doubled', $dominion);
-        $this->assertStringContainsString('-1 wizard strength cost of self spells', $dominion);
-        $this->assertStringNotContainsString('Backstab', $dominion);
-        $this->assertStringNotContainsString('Greatsword', $dominion);
+        $this->assertLessThan($loadoutStart, $upgradesStart, 'Combat Loadout sits beneath Hero Upgrades');
+        $this->assertStringContainsString('ra-tower me-1"></i> Hero Upgrades', $upgrades);
+        $this->assertStringContainsString('Experience gains from invasion and exploration are doubled', $upgrades);
+        $this->assertStringContainsString('-1 wizard strength cost of self spells', $upgrades);
+        $this->assertStringNotContainsString('Backstab', $upgrades);
+        $this->assertStringNotContainsString('Greatsword', $upgrades);
 
-        $this->assertMatchesRegularExpression('/Your attacks deal \+5 damage against a target that was Focused/', $heroBattle);
-        $this->assertMatchesRegularExpression('/\+2 Attack, -10 Evasion/', $heroBattle);
-        $this->assertMatchesRegularExpression('/Being attacked while Defending Staggers the attacker/', $heroBattle);
-        $this->assertMatchesRegularExpression('/Attack that cannot be evaded.*\s*<br\/><small class="text-muted">Requires Infiltrator level 5<\/small>/', $heroBattle);
-        $this->assertStringNotContainsString('wizard strength', $heroBattle);
+        $this->assertStringContainsString('ra-axe me-1"></i> Combat Loadout', $loadout);
+        $this->assertStringContainsString('Your attacks deal +5 damage against a target that was Focused', $loadout);
+        $this->assertStringContainsString('+2 Attack, -10 Evasion', $loadout);
+        $this->assertStringContainsString('Being attacked while Defending Staggers the attacker', $loadout);
+        $this->assertMatchesRegularExpression('/cannot be evaded.*\s*<br\/><small class="text-muted">Requires Infiltrator level 5<\/small>/', $loadout);
+        $this->assertStringNotContainsString('wizard strength', $loadout);
+    }
+
+    public function testChosenTilesKeepTheFullDescriptionInATooltip(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 2900, 'loadout' => ['technique' => 'backstab']]);
+        \OpenDominion\Models\HeroHeroUpgrade::create([
+            'hero_id' => $dominion->hero->id,
+            'hero_upgrade_id' => \OpenDominion\Models\HeroUpgrade::where('key', 'evocation')->firstOrFail()->id,
+        ]);
+
+        $sections = $this->heroSections($this->get(route('dominion.heroes'))->assertOk()->getContent());
+
+        $this->assertStringContainsString('<div class="hero-tile" title="+10% fireball damage" data-bs-toggle="tooltip" tabindex="0">', $sections['dominion']);
+        $this->assertStringContainsString('<div class="hero-tile" title="Your attacks deal +5 damage against a target that was Focused at the start of the turn." data-bs-toggle="tooltip" tabindex="0">', $sections['heroBattle']);
+    }
+
+    public function testHeroStatsSitBeneathTheLoadoutTiles(): void
+    {
+        $this->heroDominion();
+
+        $heroBattle = $this->heroSections($this->get(route('dominion.heroes'))->assertOk()->getContent())['heroBattle'];
+
+        $this->assertLessThan(strpos($heroBattle, 'class="hero-stats"'), strpos($heroBattle, 'class="hero-tiles"'));
+    }
+
+    public function testLoadoutFormShowsWhatIsEquippedAndWhatIsLocked(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 1200, 'loadout' => ['technique' => 'backstab']]);
+
+        $content = $this->get(route('dominion.heroes'))->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression('/id="loadout_backstab"\s+value="backstab"\s+checked/', $content);
+        $this->assertMatchesRegularExpression('/id="loadout_sunder"\s+value="sunder"\s+disabled data-locked/', $content);
+        $this->assertMatchesRegularExpression('/name="gear\[\]"\s+id="loadout_greatsword"\s+value="greatsword"\s+disabled data-locked/', $content);
+        $this->assertStringContainsString('<small class="text-muted">Requires level 7</small>', $content);
+        $this->assertStringContainsString('<small class="text-muted">Requires level 9</small>', $content);
+    }
+
+    public function testEmptySlotTilesOnlyHighlightOptionsTheHeroCanEquip(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 2300]);
+
+        $content = $this->get(route('dominion.heroes'))->assertOk()->getContent();
+
+        $this->assertSame(1, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="ability" data-available>/', $content), 'Only the Blacksmith signature');
+        $this->assertSame(6, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="technique" data-available>/', $content), 'Technique I only');
+        $this->assertSame(0, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="gear" data-available>/', $content));
+        $this->assertStringContainsString(".hero-loadout-option[data-available][data-slot=", $content);
+    }
+
+    public function testSavingTheLoadoutThroughTheRoute(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 5000]);
+
+        $this->post(route('dominion.heroes.loadout'), [
+            'technique' => 'sunder',
+            'ability' => '',
+            'gear' => ['greatsword', 'hooded_cloak'],
+        ])->assertRedirect(route('dominion.heroes'));
+
+        $this->assertEquals(
+            ['technique' => 'sunder', 'ability' => null, 'gear' => ['greatsword', 'hooded_cloak']],
+            $dominion->hero->fresh()->loadout
+        );
+    }
+
+    public function testSavingAnInvalidLoadoutShowsAnError(): void
+    {
+        $dominion = $this->heroDominion();
+
+        $this->from(route('dominion.heroes'))
+            ->post(route('dominion.heroes.loadout'), ['technique' => 'sunder'])
+            ->assertRedirect(route('dominion.heroes'))
+            ->assertSessionHasErrors();
+
+        $this->assertNull($dominion->hero->fresh()->loadout);
+    }
+
+    public function testSidebarBadgeCountsUpgradesAndEmptyLoadoutSlots(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 1200]);
+
+        $this->assertMatchesRegularExpression(
+            '/Heroes\s*<span class="badge text-bg-primary">3<\/span>/',
+            $this->get(route('dominion.heroes'))->assertOk()->getContent(),
+            'Doctrine, level 2 upgrade and the technique slot'
+        );
+    }
+
+    public function testSidebarBadgeSkipsFilledLoadoutSlots(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 1200, 'loadout' => ['technique' => 'backstab']]);
+
+        $this->assertMatchesRegularExpression(
+            '/Heroes\s*<span class="badge text-bg-primary">2<\/span>/',
+            $this->get(route('dominion.heroes'))->assertOk()->getContent()
+        );
+    }
+
+    public function testScribesListCombatLoadoutOptions(): void
+    {
+        $this->createAndImpersonateUser();
+
+        $this->get(route('scribes.heroes'))
+            ->assertOk()
+            ->assertSee('Combat Loadout')
+            ->assertSee('Vestments of Renewal')
+            ->assertSee('Infiltrator level 5');
     }
 }

@@ -4,11 +4,12 @@
         : implode(' or ', array_map('ucwords', $types));
 @endphp
 @if ($upgrade !== null)
-    <div class="hero-tile">
+    @php($description = $heroHelper->getUpgradeDescription($upgrade))
+    <div class="hero-tile" title="{{ $description }}" data-bs-toggle="tooltip" tabindex="0">
         <i class="ra {{ $upgrade->icon }}"></i>
         <div class="hero-tile-label">{{ $upgrade->type === 'directive' ? 'Directive' : "Lv {$level} · {$typeLabel}" }}</div>
         <div class="hero-tile-name">{{ $upgrade->name }}</div>
-        <div class="hero-tile-description">{!! $heroHelper->getCombatUpgradeDescription($upgrade) ?: $heroHelper->getUpgradeDescription($upgrade) !!}</div>
+        <div class="hero-tile-description">{{ $description }}</div>
     </div>
 @elseif ($heroLevel >= $level)
     <a href="#hero-upgrades" class="hero-tile hero-tile-open" data-upgrade-level="{{ $level }}">

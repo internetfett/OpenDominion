@@ -14,6 +14,7 @@ use OpenDominion\Services\NotificationService;
  * @property string $class
  * @property int $experience
  * @property array $class_data
+ * @property array{technique?: string|null, ability?: string|null, gear?: string[]}|null $loadout equipped combat option keys by slot
  * @property \Illuminate\Support\Carbon|null $last_class_change_at
  * @property \Illuminate\Support\Carbon|null $last_pvp_reward_at when the hero last earned its daily PvP battle experience
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -33,11 +34,13 @@ class Hero extends AbstractModel
         'class',
         'experience',
         'class_data',
+        'loadout',
         'last_class_change_at',
     ];
 
     protected $casts = [
         'class_data' => 'array',
+        'loadout' => 'array',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'last_class_change_at' => 'datetime',
@@ -141,6 +144,7 @@ class Hero extends AbstractModel
                 $notificationService = app(NotificationService::class);
                 $notificationService->queueNotification('hero_level', [
                     'level' => $currentLevel,
+                    'unlocks' => $heroCalculator->getNewLoadoutSlots($this, $original['experience']),
                 ])->sendNotifications($this->dominion, 'irregular_dominion');
             }
         }

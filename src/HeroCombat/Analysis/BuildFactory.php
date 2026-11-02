@@ -5,31 +5,32 @@ namespace OpenDominion\HeroCombat\Analysis;
 use InvalidArgumentException;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
-use Symfony\Component\Yaml\Yaml;
+use OpenDominion\HeroCombat\Registry\CombatRegistry;
 
 /**
- * Parses build specs and turns builds into in-memory combatants, reading upgrade data
- * straight from app/data/heroes.yml (no database needed).
+ * Parses build specs and turns builds into in-memory combatants, reading options from the
+ * combat registry (no database needed).
  *
- * Spec format: "level=9;technique=backstab,sunder;ability=shadow_strike;gear=greatsword"
+ * Spec format: "level=9;technique=backstab;ability=shadow_strike;gear=greatsword,plate_armor"
  *
- * Class signatures ignore their class-level requirement here.
+ * A build's level stands in for every class level, so any class signature is open at level 5.
  */
 class BuildFactory
 {
-    /** @var array<string, array<string, mixed>>|null */
-    private ?array $upgrades = null;
-
-    public function __construct(private HeroCalculator $heroCalculator)
-    {
+    public function __construct(
+        private HeroCalculator $heroCalculator,
+        private CombatRegistry $registry,
+    ) {
     }
 
     public function parse(string $spec): Build
     {
-        $values = ['level' => '9', 'technique' => '', 'ability' => null, 'gear' => ''];
+        $values = ['level' => '9', 'technique' => '', 'ability' => '', 'gear' => ''];
 
         foreach (array_filter(explode(';', $spec)) as $pair) {
             [$key, $value] = array_pad(explode('=', $pair, 2), 2, '');
@@ -40,29 +41,33 @@ class BuildFactory
             $values[$key] = trim($value);
         }
 
-        $build = new Build(
-            level: (int) $values['level'],
-            techniques: array_values(array_filter(explode(',', (string) $values['technique']))),
-            ability: $values['ability'] ?: null,
-            gear: array_values(array_filter(explode(',', (string) $values['gear']))),
+        $techniques = $this->keys($values['technique']);
+        $abilities = $this->keys($values['ability']);
+        $gear = $this->keys($values['gear']);
+        $level = (int) $values['level'];
+
+        $this->validate(LoadoutSlot::Technique, $techniques, $level);
+        $this->validate(LoadoutSlot::Ability, $abilities, $level);
+        $this->validate(LoadoutSlot::Gear, $gear, $level);
+
+        return new Build(
+            level: $level,
+            technique: $techniques[0] ?? null,
+            ability: $abilities[0] ?? null,
+            gear: $gear,
         );
-
-        $this->validate($build);
-
-        return $build;
     }
 
     /**
-     * Active upgrade keys of a type available at or below a level, or only at exactly $level.
+     * Option keys for a slot available at or below a level, or only at exactly $level.
      *
      * @return string[]
      */
     public function optionsOfType(string $type, int $maxLevel = 99, ?int $level = null): array
     {
         return array_keys(array_filter(
-            $this->upgrades(),
-            fn (array $upgrade) => $upgrade['type'] === $type && $upgrade['level'] <= $maxLevel
-                && ($level === null || $upgrade['level'] === $level) && ($upgrade['active'] ?? true),
+            $this->registry->loadoutOptions(LoadoutSlot::from($type)),
+            fn (LoadoutOption $option) => $option->level <= $maxLevel && ($level === null || $option->level === $level),
         ));
     }
 
@@ -74,11 +79,8 @@ class BuildFactory
         $stats = $this->heroCalculator->getBaseCombatStats($build->level);
 
         foreach ($build->gear as $gearKey) {
-            foreach ($this->upgrades()[$gearKey]['perks'] ?? [] as $perk => $value) {
-                $stat = substr($perk, strlen('combat_'));
-                if (str_starts_with($perk, 'combat_') && isset($stats[$stat])) {
-                    $stats[$stat] += $value;
-                }
+            foreach ($this->registry->loadoutOption($gearKey)->stats as $stat => $value) {
+                $stats[$stat] += $value;
             }
         }
 
@@ -91,7 +93,7 @@ class BuildFactory
     public function addTo(Battle $battle, Build $build, int $id, int $team, string $name, string $strategy): CombatantState
     {
         $stats = $this->stats($build);
-        $picks = array_filter(array_merge($build->techniques, [$build->ability]));
+        $picks = array_filter([$build->technique, $build->ability]);
         $grants = array_filter($picks, fn (string $key) => $battle->registry->hasAbility($key));
         $combatant = new CombatantState(
             id: $id,
@@ -116,37 +118,36 @@ class BuildFactory
         return $combatant;
     }
 
-    private function validate(Build $build): void
+    /**
+     * @return string[]
+     */
+    private function keys(string $value): array
     {
-        $picks = array_filter(array_merge(
-            array_combine(array_map(fn ($i) => "technique {$i}", array_keys($build->techniques)), $build->techniques),
-            ['ability' => $build->ability],
-            array_combine(array_map(fn ($i) => "gear {$i}", array_keys($build->gear)), $build->gear),
-        ));
-
-        foreach ($picks as $slot => $key) {
-            $type = explode(' ', $slot)[0];
-            $upgrade = $this->upgrades()[$key] ?? null;
-
-            if ($upgrade === null || $upgrade['type'] !== $type || !($upgrade['active'] ?? true)) {
-                throw new InvalidArgumentException("'{$key}' is not a {$type}");
-            }
-            if ($upgrade['level'] > $build->level) {
-                throw new InvalidArgumentException("'{$key}' requires level {$upgrade['level']}");
-            }
-        }
-
-        $levels = array_map(fn ($key) => $this->upgrades()[$key]['level'], array_values($picks));
-        if (count($levels) !== count(array_unique($levels))) {
-            throw new InvalidArgumentException('A build can only take one upgrade per level');
-        }
+        return array_values(array_filter(array_map('trim', explode(',', $value))));
     }
 
     /**
-     * @return array<string, array<string, mixed>>
+     * @param string[] $keys
      */
-    private function upgrades(): array
+    private function validate(LoadoutSlot $slot, array $keys, int $level): void
     {
-        return $this->upgrades ??= Yaml::parseFile(base_path('app/data/heroes.yml'));
+        if (count($keys) > $slot->capacity()) {
+            throw new InvalidArgumentException("A build can only bring {$slot->capacity()} {$slot->value}");
+        }
+
+        if (count($keys) !== count(array_unique($keys))) {
+            throw new InvalidArgumentException("A build can only bring one of each {$slot->value}");
+        }
+
+        foreach ($keys as $key) {
+            if (!$this->registry->hasLoadoutOption($key) || $this->registry->loadoutOption($key)->slot !== $slot) {
+                throw new InvalidArgumentException("'{$key}' is not a {$slot->value}");
+            }
+
+            $requiredLevel = $this->registry->loadoutOption($key)->level;
+            if ($requiredLevel > $level) {
+                throw new InvalidArgumentException("'{$key}' requires level {$requiredLevel}");
+            }
+        }
     }
 }

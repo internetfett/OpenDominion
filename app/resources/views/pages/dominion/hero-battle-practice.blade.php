@@ -34,7 +34,7 @@
                                 </tr>
                                 @foreach ($encounters as $key => $encounter)
                                     <tr>
-                                        <td><input type="radio" id="encounter-{{ $key }}" name="encounter" value="{{ $key }}" /></td>
+                                        <td><input type="radio" id="encounter-{{ $key }}" name="encounter" value="{{ $key }}" data-party-size="{{ $encounter->maxPartySize() }}" /></td>
                                         <td>
                                             <label for="encounter-{{ $key }}" style="font-weight: normal;">{{ $encounter->name() }}</label>
                                             @if ($encounter->maxPartySize() > 1)
@@ -47,13 +47,16 @@
                             </tbody>
                         </table>
                         @if ($companions->isNotEmpty())
-                            <label for="companion_hero_id" class="form-label">Bring a realmmate's hero <small class="text-muted">(party encounters only)</small></label>
-                            <select name="companion_hero_id" id="companion_hero_id" class="form-select">
-                                <option value="">Go alone</option>
-                                @foreach ($companions as $companion)
-                                    <option value="{{ $companion->id }}">{{ $companion->name }} ({{ $heroHelper->getClassDisplayName($companion->class) }}, {{ $companion->dominion->name }})</option>
-                                @endforeach
-                            </select>
+                            <div id="practice-companion" class="d-none">
+                                <label for="companion_hero_id" class="form-label">Bring a realmmate's hero</label>
+                                <select name="companion_hero_id" id="companion_hero_id" class="form-select">
+                                    <option value="">Go alone</option>
+                                    @foreach ($companions as $companion)
+                                        @php($loadoutSummary = $heroHelper->getLoadoutSummary($companion))
+                                        <option value="{{ $companion->id }}">{{ $companion->name }} ({{ $companion->dominion->name }}){{ $loadoutSummary !== '' ? " - {$loadoutSummary}" : null }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         @endif
                     </div>
                     <div class="card-footer">
@@ -77,3 +80,24 @@
 
     </div>
 @endsection
+
+@push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            var encounters = $('input[type=radio][name=encounter]');
+            var companionSection = $('#practice-companion');
+            var companionSelect = $('#companion_hero_id');
+
+            function toggleCompanion() {
+                var isParty = encounters.filter(':checked').data('party-size') > 1;
+                companionSection.toggleClass('d-none', !isParty);
+                if (!isParty) {
+                    companionSelect.val('');
+                }
+            }
+
+            encounters.change(toggleCompanion);
+            toggleCompanion();
+        })(jQuery);
+    </script>
+@endpush

@@ -8,6 +8,7 @@ use OpenDominion\HeroCombat\Content\Ai\WeightedStrategy;
 use OpenDominion\HeroCombat\Content\Effects;
 use OpenDominion\HeroCombat\Content\Encounters;
 use OpenDominion\HeroCombat\Content\Enemies;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroLoadoutOptions;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 
 /**
@@ -200,6 +201,9 @@ class HeroCombatServiceProvider extends ServiceProvider
         }
         foreach (self::ENCOUNTERS as $class) {
             $registry->registerEncounter(new $class());
+        }
+        foreach (HeroLoadoutOptions::all() as $option) {
+            $registry->registerLoadoutOption($option);
         }
 
         return $registry;

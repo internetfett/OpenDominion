@@ -4,14 +4,14 @@ namespace OpenDominion\HeroCombat\Content\Loadouts;
 
 /**
  * The basic actions every hero brings to battle, and each class's signature: the ability
- * or passive a hero can pick at level 7 once that class reaches UNLOCK_CLASS_LEVEL.
+ * or passive a hero can equip once that class reaches UNLOCK_CLASS_LEVEL.
  */
 class HeroClassLoadouts
 {
     public const BASIC_ABILITIES = ['attack', 'defend', 'focus', 'counter', 'recover'];
 
     /**
-     * Class level (active or not) needed before its signature can be picked.
+     * Class level (active or not) needed before its signature can be equipped.
      */
     public const UNLOCK_CLASS_LEVEL = 5;
 
@@ -43,7 +43,7 @@ class HeroClassLoadouts
     ];
 
     /**
-     * The class whose signature this is, or null if any hero may pick it.
+     * The class whose signature this is, or null if it isn't tied to a class.
      */
     public function classFor(string $key): ?string
     {

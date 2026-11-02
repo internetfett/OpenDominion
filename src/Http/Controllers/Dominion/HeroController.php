@@ -10,6 +10,7 @@ use OpenDominion\HeroCombat\Presentation\BattlePresenter;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Http\Requests\Dominion\Actions\HeroBattleOrdersActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\HeroCreateActionRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\HeroLoadoutActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\HeroUpgradeActionRequest;
 use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroBattle;
@@ -49,6 +50,28 @@ class HeroController extends AbstractDominionController
             $result = $heroActionService->unlock(
                 $dominion,
                 $request->get('key')
+            );
+        } catch (GameException $e) {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash('alert-success', $result['message']);
+        return redirect()->route('dominion.heroes');
+    }
+
+    public function postLoadout(HeroLoadoutActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $heroActionService = app(HeroActionService::class);
+
+        try {
+            $result = $heroActionService->updateLoadout(
+                $dominion,
+                $request->input('technique'),
+                $request->input('ability'),
+                $request->input('gear', [])
             );
         } catch (GameException $e) {
             return redirect()->back()

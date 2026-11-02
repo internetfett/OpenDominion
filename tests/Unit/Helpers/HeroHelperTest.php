@@ -3,6 +3,9 @@
 namespace OpenDominion\Tests\Unit\Helpers;
 
 use OpenDominion\Helpers\HeroHelper;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
+use OpenDominion\HeroCombat\Registry\CombatRegistry;
+use OpenDominion\Models\Hero;
 use OpenDominion\Tests\AbstractBrowserKitTestCase;
 
 class HeroHelperTest extends AbstractBrowserKitTestCase
@@ -17,30 +20,13 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
         $this->heroHelper = $this->app->make(HeroHelper::class);
     }
 
-    public function testOnlyTechniquesAbilitiesAndGearAreHeroBattleUpgrades(): void
-    {
-        $this->assertTrue($this->heroHelper->isHeroBattleUpgradeType('technique'));
-        $this->assertTrue($this->heroHelper->isHeroBattleUpgradeType('ability'));
-        $this->assertTrue($this->heroHelper->isHeroBattleUpgradeType('gear'));
-        $this->assertFalse($this->heroHelper->isHeroBattleUpgradeType('discipline'));
-        $this->assertFalse($this->heroHelper->isHeroBattleUpgradeType('combo'));
-        $this->assertFalse($this->heroHelper->isHeroBattleUpgradeType('doctrine'));
-        $this->assertFalse($this->heroHelper->isHeroBattleUpgradeType('item'));
-        $this->assertFalse($this->heroHelper->isHeroBattleUpgradeType('magic'));
-        $this->assertFalse($this->heroHelper->isHeroBattleUpgradeType('directive'));
-    }
-
     public function testUpgradeTypesAreGroupedBySlotLevel(): void
     {
         $types = $this->heroHelper->getUpgradeTypesByLevel('blacksmith');
 
-        $this->assertEquals([1, 2, 3, 4, 5, 6, 7, 9], array_keys($types));
+        $this->assertEquals([1, 2, 4, 6], array_keys($types));
         $this->assertEquals(['doctrine'], $types[1]);
         $this->assertEquals(['item', 'magic'], $types[2]);
-        $this->assertEquals(['technique'], $types[3]);
-        $this->assertEquals(['technique'], $types[5]);
-        $this->assertEquals(['ability'], $types[7]);
-        $this->assertEquals(['gear'], $types[9]);
     }
 
     public function testDirectivesDoNotAppearAsSlotTypes(): void
@@ -50,5 +36,58 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
         foreach ($types as $levelTypes) {
             $this->assertNotContains('directive', $levelTypes);
         }
+    }
+
+    public function testLoadoutOptionNamesComeFromTheirDefinition(): void
+    {
+        $registry = $this->app->make(CombatRegistry::class);
+
+        $this->assertEquals('Backstab', $this->heroHelper->getLoadoutOptionName($registry->loadoutOption('backstab')));
+        $this->assertEquals('Shadow Strike', $this->heroHelper->getLoadoutOptionName($registry->loadoutOption('shadow_strike')));
+        $this->assertEquals('Swordbreaker Dagger', $this->heroHelper->getLoadoutOptionName($registry->loadoutOption('swordbreaker')));
+    }
+
+    public function testLoadoutOptionDescriptionsCoverEffectsAbilitiesAndGear(): void
+    {
+        $registry = $this->app->make(CombatRegistry::class);
+
+        $this->assertStringContainsString('against a target that was Focused', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('backstab')));
+        $this->assertStringContainsString('cannot be evaded', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('shadow_strike')));
+        $this->assertEquals('+2 Attack, -10 Evasion', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('greatsword')));
+    }
+
+    public function testLoadoutSummaryNamesTheTechniqueAndAbilityButNotGear(): void
+    {
+        $hero = new Hero([
+            'class' => 'blacksmith',
+            'experience' => 5000,
+            'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword']],
+        ]);
+
+        $this->assertEquals('Backstab, Forge', $this->heroHelper->getLoadoutSummary($hero));
+    }
+
+    public function testLoadoutSummaryLeavesOutEmptySlotsAndUnusableOptions(): void
+    {
+        $hero = new Hero(['class' => 'blacksmith', 'experience' => 5000]);
+        $this->assertSame('', $this->heroHelper->getLoadoutSummary($hero));
+
+        $hero->loadout = ['technique' => 'backstab', 'ability' => 'hardiness'];
+        $this->assertEquals('Backstab', $this->heroHelper->getLoadoutSummary($hero));
+    }
+
+    public function testLoadoutRequirementsNameTheClassForSignatures(): void
+    {
+        $registry = $this->app->make(CombatRegistry::class);
+
+        $this->assertEquals('Requires Infiltrator level 5', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('shadow_strike')));
+        $this->assertEquals('Requires level 7', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('sunder')));
+    }
+
+    public function testLoadoutSlotRequirementsUseTheLowestOptionLevel(): void
+    {
+        $this->assertEquals('Reach level 3', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Technique));
+        $this->assertEquals('Reach level 5 in a class', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Ability));
+        $this->assertEquals('Reach level 9', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Gear));
     }
 }

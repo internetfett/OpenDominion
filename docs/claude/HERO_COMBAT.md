@@ -153,21 +153,30 @@ damage that ignores defense, evasion and counters (boss moves).
 - **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. For ally-targeted abilities, healing goes to the most wounded ally; Defend stays on yourself unless a partner is at ≤40 HP. Player-selectable strategies are flagged `playerSelectable`.
 - **Pass** is chosen when nothing is usable (e.g. while stunned).
 
-## Techniques and gear (hero upgrades)
+## Combat loadouts
 
-Hero upgrades follow a level schedule (`HeroCalculator::getUpgradeSlots()`, data-driven from `heroes.yml`). A slot exists for every level that has at least one active, slot-consuming upgrade available to the hero's class; directives are free picks. One pick per level.
+Techniques, class abilities and gear are not hero upgrades. They're `LoadoutOption`s: small data records in `Content/Loadouts/HeroLoadoutOptions.php`, registered in `CombatRegistry` by `HeroCombatServiceProvider::buildRegistry()`. No database is involved, so the simulator and `BuildFactory` use the same data as the game. Hero upgrades (`heroes.yml`) only cover dominion bonuses: doctrine at level 1, dominion upgrades on levels 2, 4 and 6, and Scion and Scholar directives. None of them grant combat stats.
 
-| Level | Pick | Notes |
-|---|---|---|
-| 0 | Scion directives/effects | class-gated |
-| 1 | Doctrine | |
-| 2, 4, 6 (8) | Dominion upgrades (spellbooks, items) | **no combat stats** |
-| 3 | Technique I (`type: technique`) | self rules |
-| 5 | Technique II (`type: technique`) | setup/payoff rules built on shared statuses |
-| 7 | Class Ability (`type: ability`) | a class signature |
-| 9 | Gear (`type: gear`) | the only upgrades with `combat_*` perks; last so it can become its own mechanic |
+A hero gains access automatically and picks a loadout on the heroes page at any time:
 
-Techniques and abilities have no perks. Their upgrade key is the key of an ability or an innate effect. `CombatantFactory::addHero()` reads the hero's `technique` and `ability` upgrades (`TECHNIQUE_TYPE`, `ABILITY_TYPE`): ability keys join the action bar through `HeroClassLoadouts::withGrants()` (Fortify replaces Defend), effect keys are applied as innate effects. Retired upgrades stay in `heroes.yml` with `active: false` so data sync keeps them out of the pickers.
+| Slot (`LoadoutSlot`) | Capacity | Access | Notes |
+|---|---|---|---|
+| Technique | 1 | Level 3 (Technique I), level 7 (Technique II) | Both tiers share the one slot |
+| Ability | 1 | Class level 5 in that class, active or not | No hero level requirement |
+| Gear | 2 | Level 9 | Two different pieces; only gear changes stats |
+
+Rules live in `HeroCalculator`:
+
+- `getAvailableLoadoutOptions()` is the only place that decides access; new gear sources belong here. Hero-level requirements use `getCombatLevel()`, the highest level in any class, so changing class never removes access. Class signatures use `getClassLevel()`.
+- `getLoadout()` resolves the stored keys in `heroes.loadout` (JSON: `{"technique": "backstab", "ability": null, "gear": ["greatsword"]}`) to options by slot, dropping anything the hero can't use or that exceeds capacity. Spawning, stats, the page and the badge all read through it.
+- `getEmptyLoadoutSlotCount()` feeds the sidebar badge (added to the unlockable upgrade count in `ComposerServiceProvider`).
+- `getNewLoadoutSlots()` compares available options before and after an experience change, and fills `unlocks` on the `hero_level` notification. It compares options rather than levels because a high-level hero can reach class level 5 in a new class.
+
+`HeroActionService::updateLoadout()` replaces the whole loadout (POST `heroes.loadout`), rejecting unavailable keys, options in the wrong slot, too much gear and duplicate gear.
+
+`CombatantFactory::addHero()` reads `getLoadout()`: ability keys join the action bar through `HeroClassLoadouts::withGrants()` (Fortify replaces Defend), effect keys are applied as innate effects, and gear reaches the stats through `HeroCalculator::getHeroCombatStats()`. A borrowed hero uses its owner's loadout because the owner's `Hero` is passed in. Battles in progress are unaffected by loadout changes, since abilities and effects are stored on the combatant; `BattleReplayer` never reads the hero.
+
+A hero's loadout isn't shown in info ops (`InfoMapper` only maps upgrades).
 
 **Technique I** (level 3, `Content/Effects/Techniques/`):
 
@@ -182,7 +191,7 @@ Techniques and abilities have no perks. Their upgrade key is the key of an abili
 
 Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling).
 
-**Technique II** (level 5) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each is applied mid-turn with duration 2 and is active immediately, so it lasts until the end of the following turn.
+**Technique II** (level 7) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each is applied mid-turn with duration 2 and is active immediately, so it lasts until the end of the following turn.
 
 | Technique | Trigger → status |
 |---|---|
@@ -194,7 +203,7 @@ Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling
 
 `marked`: attacks (not counters) that get through deal +5 damage; runs before shields (`handlerPriority` 20) and does nothing to a fully blocked hit.
 
-**Class Abilities** (level 7): `HeroClassLoadouts::SIGNATURES` maps each class to its signature. `HeroCalculator::canUnlockUpgrade()` requires `getClassLevel()` ≥ `HeroClassLoadouts::UNLOCK_CLASS_LEVEL` (5) in that class, active or not (inactive levels come from `class_data` experience). Each signature upgrade uses its class's icon; the picker shows the requirement (`HeroHelper::getClassAbilityRequirement()`).
+**Class Abilities**: `HeroClassLoadouts::SIGNATURES` maps each class to its signature. A hero can equip a signature once `getClassLevel()` reaches `HeroClassLoadouts::UNLOCK_CLASS_LEVEL` (5) in that class, active or not (inactive levels come from `class_data` experience). Each signature uses its class's icon; the loadout form shows the requirement (`HeroHelper::getLoadoutOptionRequirement()`).
 
 | Class | Signature | Kind |
 |---|---|---|
@@ -209,9 +218,9 @@ Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling
 | Sorcerer | `channeling` | passive |
 | Scion | `last_stand` | passive |
 
-**Gear** is plain `combat_*` perks summed by `HeroCalculator::getHeroCombatStats()`.
+**Gear** is plain data: each option's `stats` are summed by `HeroCalculator::getHeroCombatStats()`.
 
-The heroes page header splits slots into a Dominion Bonuses section and a Hero Battles section (`HeroHelper::HERO_BATTLE_UPGRADE_TYPES`; empty slots are placed by `HeroHelper::getUpgradeTypesByLevel()`), each slot a tile (`partials/dominion/hero-upgrade-tile`) with its description; an open slot scrolls to and highlights that level's rows in the upgrades table. Combat descriptions come from `HeroHelper::getCombatUpgradeDescription()`; the upgrades are listed in two cards with the same split, Dominion Upgrades and Combat Upgrades.
+The heroes page header has a Dominion Bonuses column (upgrade tiles, `partials/dominion/hero-upgrade-tile`, then class bonuses) beside a Hero Battles column (four loadout tiles, `partials/dominion/hero-loadout-tile`, then rating and stats). Tile text stays on one line so chosen and empty tiles match in height, and chosen tiles show the full description in a tooltip. An empty loadout tile scrolls to and highlights the rows the hero can equip. Below the header, the Hero Upgrades form is followed by the Combat Loadout form (`#hero-loadout`). Display text comes from `HeroHelper`: `getLoadoutOptionName()`, `getLoadoutOptionDescription()`, `getLoadoutOptionRequirement()` and `getLoadoutSlotRequirement()`.
 
 ## Parties and borrowed heroes
 
@@ -220,7 +229,7 @@ The heroes page header splits slots into a Dominion Bonuses section and a Hero B
 - `HeroBattleService::createEncounterBattle(..., $companions)` / `createPracticeBattle(..., $companions)` validate party size, same realm and round, and no duplicates. `availableCompanions()` lists every other hero in the realm. Any number of realmmates can borrow the same hero at once (each battle has its own combatant row).
 - Everything player-facing goes through the controller: queueing and strategy changes (`HeroCombatant::isControlledBy()`), "battle in progress" checks (`hasBattleInProgress()`), the battle list (`HeroBattle::scopeControlledBy()`), raid objective completion (`HeroBattle::hasWinningController()`). Battles where your hero was borrowed don't block you or appear as yours.
 - Raid wins credit one contribution per controller dominion. Owners of borrowed heroes get nothing for now.
-- UI: the raid hero tactic form and the practice page show a "Bring a realmmate's hero" select only when the encounter's `maxPartySize() > 1`. The battle page (`partials/dominion/hero-battle`, also used by the report) has a battle bar (mode, title, turn, time left, who the turn waits on), hero cards per side (compact grid for three or more), the turn summary and, for heroes you pilot, the orders panel (`hero-battle-orders`): one always-visible panel per hero (`BattleView::commandable()`), target pickers from `BattleView::targetOptions()` ("Yourself", "Guard X", "Heal X", enemies), and a Lock in button that posts every hero's order to `heroes/battles/orders`. Heroes on autopilot show a Cancel autopilot button instead. Queued turns (only when `BattleView::canQueueAhead()`) show on the panel with remove links and as a Plan line on the hero card.
+- UI: the raid hero tactic form and the practice page show a "Bring a realmmate's hero" select only when the encounter's `maxPartySize() > 1`. On the practice page, script follows the selected encounter and clears the choice when it hides the select; its options include `HeroHelper::getLoadoutSummary()` (technique and ability names, no gear). The battle page (`partials/dominion/hero-battle`, also used by the report) has a battle bar (mode, title, turn, time left, who the turn waits on), hero cards per side (compact grid for three or more), the turn summary and, for heroes you pilot, the orders panel (`hero-battle-orders`): one always-visible panel per hero (`BattleView::commandable()`), target pickers from `BattleView::targetOptions()` ("Yourself", "Guard X", "Heal X", enemies), and a Lock in button that posts every hero's order to `heroes/battles/orders`. Heroes on autopilot show a Cancel autopilot button instead. Queued turns (only when `BattleView::canQueueAhead()`) show on the panel with remove links and as a Plan line on the hero card.
 
 ## Daily PvP experience
 
@@ -233,7 +242,7 @@ The heroes page header splits slots into a Dominion Bonuses section and a Hero B
 - `TurnPreview` copies a battle through `StateSnapshot` (no queues or intents, so nothing private leaks), resolves one turn with forced actions, and enumerates every evasion outcome via `Battle::$evasionRoll`, weighting each by probability. It returns a `TurnOutcome` (expected health, attack potential, death chance per combatant), cached for the current turn.
 - `MatrixGameSolver` solves a zero-sum matrix game exactly (simplex on the column player's LP; the row mix comes from the duals).
 - `TacticianStrategy` (`tactician:balanced|aggressive|defensive`, from `TacticianProfile`) previews every pairing of both sides' legal actions (including granted abilities), scores outcomes (damage dealt/taken, healing, change in damage edge, win/loss chance), solves for a mixed strategy and samples it. It looks one turn ahead; the damage edge (`TurnPreview::offense`) carries setup value: next attack's damage against the opponent's defense (Focus, Exposed, Marked), a quarter of the counter threat (none while Staggered), and battle-long stat shifts (`AbstractStatShift`: Forge, Combat Analysis, Tactical Awareness) counted over 4 more turns. `temperature` blends toward uniform play to make it weaker.
-- `BuildFactory` parses specs like `level=9;technique=backstab,sunder;ability=shadow_strike;gear=greatsword` straight from `heroes.yml` (one pick per level; class requirements ignored). `BattleSimulator::run()` plays seeded battles (alternating combatant ids); `balancedScore()` also plays the swapped matchup on the same seeds to cancel seed luck.
+- `BuildFactory` parses specs like `level=9;technique=backstab;ability=shadow_strike;gear=greatsword,plate_armor` from the registry, enforcing slot capacity, levels and distinct gear. A build's level stands in for every class level, so any signature is open at level 5. `BattleSimulator::run()` plays seeded battles (alternating combatant ids); `balancedScore()` also plays the swapped matchup on the same seeds to cancel seed luck.
 - Command: `php artisan hero-combat:simulate --a=<spec> --b=<spec> [--strategy-a=tactician:balanced] [--strategy-b=balanced] [--temperature=0.2] [--battles=200] [--seed=1]`, or `--grid=techniques|abilities|gear [--level=9]` for a round-robin score matrix. Expect about 0.1s per Tactician battle.
 
 ## Encounters and enemies
@@ -276,7 +285,7 @@ not ported.
 
 **Add a buff or debuff**: extend `AbstractEffect`. Set `kind()`, `stacking()`, `defaultDuration()` and `tags()`, and return modifiers or override hooks. Register it in `EFFECTS` and apply it with `$context->applyEffect($target, 'key', $turns, $stacks, $data)`.
 
-**Add a passive**: extend `AbstractPassive` (or `AbstractStatPassive` for flat stat bonuses, optionally gated to low health). Give it to an enemy through `EnemyTemplate::effects()`, or to heroes as a technique or class signature (an upgrade in `heroes.yml`, plus `HeroClassLoadouts::SIGNATURES` for a class).
+**Add a passive**: extend `AbstractPassive` (or `AbstractStatPassive` for flat stat bonuses, optionally gated to low health). Give it to an enemy through `EnemyTemplate::effects()`, or to heroes as a technique or class signature (a `LoadoutOption` in `HeroLoadoutOptions`, plus `HeroClassLoadouts::SIGNATURES` for a class).
 
 **Add a telegraphed boss move set**: extend `Effects/Boss/AbstractTelegraph`, list `moves()` and `tells()` (tells must not name the counter-play), and add the move abilities extending `Abilities/Boss/AbstractBossMove`. Put the telegraph in the boss template's `effects()`.
 

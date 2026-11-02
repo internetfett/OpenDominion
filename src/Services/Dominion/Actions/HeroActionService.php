@@ -8,6 +8,7 @@ use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\HeroHelper;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\Dominion;
@@ -120,6 +121,65 @@ class HeroActionService
                 'You have unlocked %s.',
                 $upgrade->name
             )
+        ];
+    }
+
+    /**
+     * Replaces the combat loadout of a Dominion's hero. The next battle the hero enters uses
+     * it, whoever is piloting; battles already underway are unaffected.
+     *
+     * @param Dominion $dominion
+     * @param string|null $technique
+     * @param string|null $ability
+     * @param string[] $gear
+     * @return array
+     * @throws GameException
+     */
+    public function updateLoadout(Dominion $dominion, ?string $technique, ?string $ability, array $gear): array
+    {
+        $this->guardLockedDominion($dominion);
+
+        if ($dominion->hero === null) {
+            throw new GameException('You have not selected a hero.');
+        }
+
+        $gearCapacity = LoadoutSlot::Gear->capacity();
+        if (count($gear) > $gearCapacity) {
+            throw new GameException("You can only bring {$gearCapacity} pieces of gear.");
+        }
+
+        if (count($gear) !== count(array_unique($gear))) {
+            throw new GameException('You can only bring one of each piece of gear.');
+        }
+
+        $loadout = [
+            LoadoutSlot::Technique->value => $technique ?: null,
+            LoadoutSlot::Ability->value => $ability ?: null,
+            LoadoutSlot::Gear->value => array_values($gear),
+        ];
+
+        foreach ($loadout as $slotValue => $keys) {
+            $available = $this->heroCalculator->getAvailableLoadoutOptions($dominion->hero, LoadoutSlot::from($slotValue));
+
+            foreach (array_filter((array) $keys) as $key) {
+                if (!isset($available[$key])) {
+                    throw new GameException('You do not meet the requirements to equip that combat upgrade.');
+                }
+            }
+        }
+
+        DB::transaction(function () use ($dominion, $loadout) {
+            $dominion->hero->loadout = $loadout;
+            $dominion->hero->save();
+
+            $dominion->save([
+                'event' => HistoryService::EVENT_ACTION_HERO,
+                'action' => 'loadout'
+            ]);
+        });
+
+        return [
+            'message' => 'Your combat loadout has been updated.'
         ];
     }
 

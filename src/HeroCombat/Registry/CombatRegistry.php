@@ -3,6 +3,8 @@
 namespace OpenDominion\HeroCombat\Registry;
 
 use OpenDominion\Exceptions\GameException;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
+use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\HeroCombat\Contracts\Ability;
 use OpenDominion\HeroCombat\Contracts\AiStrategy;
 use OpenDominion\HeroCombat\Contracts\Effect;
@@ -29,6 +31,9 @@ class CombatRegistry
 
     /** @var array<string, Encounter> */
     protected array $encounters = [];
+
+    /** @var array<string, LoadoutOption> */
+    protected array $loadoutOptions = [];
 
     public function registerAbility(Ability $ability): static
     {
@@ -65,6 +70,13 @@ class CombatRegistry
         return $this;
     }
 
+    public function registerLoadoutOption(LoadoutOption $option): static
+    {
+        $this->loadoutOptions[$option->key] = $option;
+
+        return $this;
+    }
+
     public function ability(string $key): Ability
     {
         return $this->abilities[$key] ?? throw new GameException("Unknown combat ability: {$key}");
@@ -90,6 +102,11 @@ class CombatRegistry
         return $this->encounters[$key] ?? throw new GameException("Unknown encounter: {$key}");
     }
 
+    public function loadoutOption(string $key): LoadoutOption
+    {
+        return $this->loadoutOptions[$key] ?? throw new GameException("Unknown loadout option: {$key}");
+    }
+
     public function hasAbility(string $key): bool
     {
         return isset($this->abilities[$key]);
@@ -108,6 +125,11 @@ class CombatRegistry
     public function hasEncounter(string $key): bool
     {
         return isset($this->encounters[$key]);
+    }
+
+    public function hasLoadoutOption(string $key): bool
+    {
+        return isset($this->loadoutOptions[$key]);
     }
 
     /** @return array<string, Ability> */
@@ -132,5 +154,15 @@ class CombatRegistry
     public function encounters(): array
     {
         return $this->encounters;
+    }
+
+    /** @return array<string, LoadoutOption> */
+    public function loadoutOptions(?LoadoutSlot $slot = null): array
+    {
+        if ($slot === null) {
+            return $this->loadoutOptions;
+        }
+
+        return array_filter($this->loadoutOptions, fn (LoadoutOption $option) => $option->slot === $slot);
     }
 }

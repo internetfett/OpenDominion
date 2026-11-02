@@ -5,10 +5,26 @@
 @section('content')
     <div class="row">
 
-        <div class="col-sm-12 col-md-9">
+        <div class="col-12">
             <div class="card card-primary">
                 <div class="card-header">
                     <span class="card-title"><i class="ra ra-axe"></i> Active Battles</span>
+                    @if ($activeBattles->where('finished', false)->count() == 0)
+                        <div class="float-end">
+                            <a class="btn btn-primary btn-sm" href="{{ route('dominion.heroes.battles.practice') }}">
+                                Practice Battles
+                            </a>
+                            @if ($hero->isInQueue())
+                                <a class="btn btn-danger btn-sm" href="{{ route('dominion.heroes.battles.dequeue') }}">
+                                    Leave Queue
+                                </a>
+                            @else
+                                <a class="btn btn-primary btn-sm" href="{{ route('dominion.heroes.battles.queue') }}">
+                                    Queue for Battle
+                                </a>
+                            @endif
+                        </div>
+                    @endif
                 </div>
                 <div class="card-body">
                     @foreach ($activeBattles as $battle)
@@ -16,7 +32,9 @@
                     @endforeach
                 </div>
             </div>
+        </div>
 
+        <div class="col-sm-12 col-md-9">
             <div class="card card-primary">
                 <div class="card-header">
                     <span class="card-title"><i class="ra ra-axe"></i> Previous Battles</span>
@@ -70,20 +88,6 @@
                 </div>
                 <div class="card-body">
                     @include('partials.dominion.hero-combat')
-                    @if ($activeBattles->where('finished', false)->count() == 0)
-                        <a class="btn btn-primary btn-block mb-2" href="{{ route('dominion.heroes.battles.practice') }}">
-                            Practice Battles
-                        </a>
-                        @if ($hero->isInQueue())
-                            <a class="btn btn-danger btn-block" href="{{ route('dominion.heroes.battles.dequeue') }}">
-                                Leave Queue
-                            </a>
-                        @else
-                            <a class="btn btn-primary btn-block" href="{{ route('dominion.heroes.battles.queue') }}">
-                                Queue for Battle
-                            </a>
-                        @endif
-                    @endif
                 </div>
             </div>
 

@@ -15,12 +15,12 @@ class BuildFactoryTest extends AbstractTestCase
 
     public function testParsesAFullSpec(): void
     {
-        $build = $this->factory()->parse('level=9;technique=backstab,sunder;ability=shadow_strike;gear=greatsword');
+        $build = $this->factory()->parse('level=9;technique=backstab;ability=shadow_strike;gear=greatsword,plate_armor');
 
         $this->assertEquals(9, $build->level);
-        $this->assertEquals(['backstab', 'sunder'], $build->techniques);
+        $this->assertEquals('backstab', $build->technique);
         $this->assertEquals('shadow_strike', $build->ability);
-        $this->assertEquals(['greatsword'], $build->gear);
+        $this->assertEquals(['greatsword', 'plate_armor'], $build->gear);
     }
 
     public function testAbilitiesJoinTheActionBarAndPassivesApply(): void
@@ -54,6 +54,18 @@ class BuildFactoryTest extends AbstractTestCase
         $this->assertEquals($basic['evasion'] - 10, $geared['evasion']);
     }
 
+    public function testTwoPiecesOfGearStack(): void
+    {
+        $factory = $this->factory();
+
+        $basic = $factory->stats($factory->parse('level=9'));
+        $geared = $factory->stats($factory->parse('level=9;gear=greatsword,plate_armor'));
+
+        $this->assertEquals($basic['attack'] + 2, $geared['attack']);
+        $this->assertEquals($basic['defense'] + 1, $geared['defense']);
+        $this->assertEquals($basic['evasion'] - 15, $geared['evasion']);
+    }
+
     public function testRejectsTheWrongTypeForASlot(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -72,22 +84,34 @@ class BuildFactoryTest extends AbstractTestCase
         $this->factory()->parse('ability=blade_flurry');
     }
 
-    public function testRejectsTwoTechniquesFromOneTier(): void
+    public function testRejectsASecondTechnique(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('technique=backstab,feint');
+        $this->factory()->parse('technique=backstab,sunder');
     }
 
     public function testRejectsPicksAboveTheHerosLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('level=5;ability=fortify');
+        $this->factory()->parse('level=6;technique=sunder');
     }
 
-    public function testRejectsTwoGearPicksOnOneLevel(): void
+    public function testRejectsAbilitiesBelowTheClassLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('gear=greatsword,plate_armor');
+        $this->factory()->parse('level=4;ability=fortify');
+    }
+
+    public function testRejectsThreePiecesOfGear(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->factory()->parse('gear=greatsword,plate_armor,hooded_cloak');
+    }
+
+    public function testRejectsDuplicateGear(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->factory()->parse('gear=greatsword,greatsword');
     }
 
     public function testRejectsUnknownOptions(): void
@@ -100,7 +124,7 @@ class BuildFactoryTest extends AbstractTestCase
     {
         $this->assertCount(11, $this->factory()->optionsOfType('technique'));
         $this->assertCount(6, $this->factory()->optionsOfType('technique', level: 3));
-        $this->assertCount(5, $this->factory()->optionsOfType('technique', level: 5));
+        $this->assertCount(5, $this->factory()->optionsOfType('technique', level: 7));
         $this->assertCount(10, $this->factory()->optionsOfType('ability'));
         $this->assertCount(0, $this->factory()->optionsOfType('gear', 7));
         $this->assertCount(6, $this->factory()->optionsOfType('gear', 9));

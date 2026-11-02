@@ -398,10 +398,19 @@ class NotificationHelper
                 );
 
             case 'irregular_dominion.hero_level':
-                return sprintf(
+                $message = sprintf(
                     'Your hero reached level %s.',
                     $data['level']
                 );
+
+                if (!empty($data['unlocks'])) {
+                    $message .= sprintf(
+                        ' New %s available for your combat loadout.',
+                        app(HeroHelper::class)->getLoadoutSlotPhrase($data['unlocks'])
+                    );
+                }
+
+                return $message;
 
             case 'irregular_dominion.hero_battle':
                 return sprintf(

@@ -2,8 +2,6 @@
 
 namespace OpenDominion\Tests\Feature;
 
-use OpenDominion\HeroCombat\Persistence\CombatantFactory;
-use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\HeroUpgrade;
 use OpenDominion\Tests\AbstractTestCase;
 use Symfony\Component\Yaml\Yaml;
@@ -70,56 +68,19 @@ class HeroUpgradeSyncTest extends AbstractTestCase
         }
     }
 
-    public function testOnlyGearGrantsCombatStats(): void
+    public function testNoUpgradeGrantsCombatStats(): void
     {
         foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
-            if ($upgradeData['type'] === 'gear') {
-                continue;
-            }
-
             foreach (array_keys($upgradeData['perks'] ?? []) as $perk) {
-                $this->assertStringStartsNotWith('combat_', $perk, "{$upgradeKey} grants {$perk}; only gear may grant combat stats");
+                $this->assertStringStartsNotWith('combat_', $perk, "{$upgradeKey} grants {$perk}; combat stats come from gear");
             }
         }
     }
 
-    public function testEveryTechniqueAndAbilityIsImplemented(): void
+    public function testCombatOptionsAreNotUpgrades(): void
     {
-        $registry = $this->app->make(CombatRegistry::class);
-
         foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
-            if (!($upgradeData['active'] ?? true)) {
-                continue;
-            }
-            if ($upgradeData['type'] === CombatantFactory::TECHNIQUE_TYPE) {
-                $this->assertTrue($registry->hasEffect($upgradeKey), "Technique {$upgradeKey} has no effect class");
-            }
-            if ($upgradeData['type'] === CombatantFactory::ABILITY_TYPE) {
-                $this->assertTrue($registry->hasAbility($upgradeKey) || $registry->hasEffect($upgradeKey), "Ability {$upgradeKey} has no ability or effect class");
-            }
-        }
-    }
-
-    public function testEveryClassSignatureIsAnAbilityUpgradeWithTheClassIcon(): void
-    {
-        $upgrades = $this->getHeroUpgradeData();
-        $classes = $this->app->make(\OpenDominion\Helpers\HeroHelper::class)->getClasses();
-
-        foreach (\OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts::SIGNATURES as $class => $key) {
-            $this->assertArrayHasKey($key, $upgrades, "{$class} signature {$key} has no upgrade");
-            $this->assertSame(CombatantFactory::ABILITY_TYPE, $upgrades[$key]['type']);
-            $this->assertSame($classes[$class]['icon'], $upgrades[$key]['icon'], "{$key} should use the {$class} icon");
-        }
-    }
-
-    public function testCombatPicksSitOnOddLevels(): void
-    {
-        $expected = ['technique' => [3, 5], 'ability' => [7], 'gear' => [9]];
-
-        foreach ($this->getHeroUpgradeData() as $upgradeKey => $upgradeData) {
-            if (isset($expected[$upgradeData['type']])) {
-                $this->assertContains($upgradeData['level'], $expected[$upgradeData['type']], "{$upgradeKey} is on the wrong level");
-            }
+            $this->assertNotContains($upgradeData['type'], ['technique', 'ability', 'gear'], "{$upgradeKey} belongs in HeroLoadoutOptions");
         }
     }
 }

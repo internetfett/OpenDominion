@@ -451,16 +451,8 @@ body:not(.layout-top-nav) .app-header {
 
 .hero-tiles {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-
-  &.hero-tiles-battle {
-    margin-top: 8px;
-
-    > .hero-tile:first-child:nth-last-child(odd) {
-      grid-column: span 2;
-    }
-  }
 }
 
 .hero-tile {
@@ -515,6 +507,13 @@ body:not(.layout-top-nav) .app-header {
   color: var(--bs-secondary-color);
 }
 
+.hero-tile-name,
+.hero-tile-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .hero-tile-name {
   font-size: 14px;
   font-weight: 600;
@@ -532,6 +531,7 @@ body:not(.layout-top-nav) .app-header {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 6px;
+  margin-top: 8px;
 }
 
 .hero-stat {
@@ -672,7 +672,8 @@ body:not(.layout-top-nav) .app-header {
   }
 }
 
-.hero-upgrade .form-check-input {
+.hero-upgrade .form-check-input,
+.hero-loadout-option .form-check-input {
   margin-top: 0;
 
   &:not(:disabled):not(:checked) {
@@ -1190,7 +1191,7 @@ body:not(.layout-top-nav) .app-header {
 
 .battle-orders-heroes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 504px), 1fr));
   gap: 1px;
   background: var(--bs-border-color-translucent);
 }
@@ -1240,11 +1241,21 @@ body:not(.layout-top-nav) .app-header {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 6px;
+
+  &:has(> :nth-child(6)) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @container (max-width: 400px) {
   .battle-actions {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 480px) {
+  .battle-actions:has(> :nth-child(6)) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 

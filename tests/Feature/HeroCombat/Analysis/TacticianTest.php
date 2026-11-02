@@ -150,8 +150,8 @@ class TacticianTest extends AbstractTestCase
     {
         $simulator = new BattleSimulator($this->app->make(BuildFactory::class));
 
-        $first = $simulator->run(new Build(9), new Build(9, techniques: ['backstab']), 'tactician:aggressive', 'tactician:defensive', 6, 3);
-        $second = $simulator->run(new Build(9), new Build(9, techniques: ['backstab']), 'tactician:aggressive', 'tactician:defensive', 6, 3);
+        $first = $simulator->run(new Build(9), new Build(9, technique: 'backstab'), 'tactician:aggressive', 'tactician:defensive', 6, 3);
+        $second = $simulator->run(new Build(9), new Build(9, technique: 'backstab'), 'tactician:aggressive', 'tactician:defensive', 6, 3);
 
         $this->assertEquals([$first->winsA, $first->winsB, $first->draws, $first->totalTurns], [$second->winsA, $second->winsB, $second->draws, $second->totalTurns]);
     }

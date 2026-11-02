@@ -190,7 +190,10 @@ hero, investment, exploration, espionage, magic, invasion
 - Engine details: see [HERO_COMBAT.md](HERO_COMBAT.md)
 
 ### Upgrades
-Hero upgrades follow a level schedule: level 1 doctrine, even levels (2/4/6, and 8) dominion upgrades with no combat stats, and odd levels for combat picks: level 3 Technique I, 5 Technique II, 7 Class Ability (unlocked by reaching level 5 in that class), 9 Gear. Techniques change how basic combat actions behave; class abilities add an action or passive; Gear is the only source of combat stat bonuses. See [HERO_COMBAT.md](HERO_COMBAT.md).
+Hero upgrades are permanent dominion bonuses: level 1 doctrine and dominion upgrades on levels 2, 4 and 6, none of which grant combat stats.
+
+### Combat Loadout
+Techniques, class abilities and gear are separate from upgrades. Access is automatic: Technique I at level 3, Technique II at level 7, a class's ability at level 5 in that class (active or not), and Gear at level 9. A hero brings 1 technique, 1 ability and 2 different pieces of gear, chosen on the heroes page and changeable at any time. The loadout applies to the next battle, including when a realmmate borrows the hero. See [HERO_COMBAT.md](HERO_COMBAT.md).
 
 ### Daily PvP Experience
 Once per round day, finishing a PvP hero battle with time bank remaining grants a flat 25 experience (no multipliers), win or lose.
