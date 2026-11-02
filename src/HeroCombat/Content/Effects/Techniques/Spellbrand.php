@@ -2,7 +2,6 @@
 
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
-use OpenDominion\HeroCombat\Content\AbstractPassive;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
@@ -12,7 +11,7 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
  * Technique: a Focused attack that hits without being evaded Marks the target until the end
  * of the next turn.
  */
-class Spellbrand extends AbstractPassive
+class Spellbrand extends AbstractMarkingPassive
 {
     public function key(): string
     {
@@ -37,6 +36,6 @@ class Spellbrand extends AbstractPassive
             return;
         }
 
-        $battle->effects->apply($damage->target, 'marked', null, 1, [], $request->attacker);
+        $this->markAfterActions($damage, $battle);
     }
 }

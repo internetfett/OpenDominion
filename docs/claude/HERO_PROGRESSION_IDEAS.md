@@ -19,11 +19,72 @@ Balance numbers come from `php artisan hero-combat:simulate`: Tactician vs Tacti
 | Gear | The only source of combat stats, available at level 9 | `feature/hero-progression` |
 | Combat loadout | Techniques, abilities and gear left the upgrade system. Access is automatic; the hero brings 1 technique, 1 ability and 2 different pieces of gear, changeable at any time | `feature/hero-progression` |
 | Upgrade schedule | Dominion upgrades only: level 1 doctrine, then levels 2, 4 and 6. Data-driven slots. | `feature/hero-progression` |
-| Ally actions | Defend on an ally is a guard (hits aimed at them strike you); Recover can heal an ally | `feature/hero-progression` |
+| Ally actions | Guard (Defend on an ally), Rally (Focus on an ally), healing an ally | `feature/hero-progression` |
+| Simultaneous resolution | Damage and healing land together before anyone falls; the order of combatant ids decides nothing | `feature/hero-progression` |
 | Borrowed heroes | Pilot a realmmate's hero in party-enabled encounters, live or practice; no owner reward | `feature/hero-progression` |
 | Tactician + simulator | Game-theory AI and `hero-combat:simulate` for PvP balance. Analysis only, not in the game. | `feature/hero-progression` |
 
 Class abilities and passives reach heroes only through the loadout; `HeroClassLoadouts` no longer grants them by active class. Some are also used by PvE enemies (Hardiness, Shadow Strike).
+
+---
+
+## Redesign: 2v2 Rules (built)
+
+Measured with `scripts/hero-combat-sim` before anything was built: base actions only, level 9 (105 HP), near-optimal play, 2 seeds per ruleset. See HERO_COMBAT.md for how the simulator works. 1v1 numbers are exact solutions.
+
+| Rule | Decision | Why |
+|---|---|---|
+| Resolution | Fully simultaneous | Required: a kill isn't a kill if you're healed on the same turn. Sequential resolution also gave the lower-id team about 53.5% |
+| Recover | 3 charges per battle, shared with healing an ally, in all battles | Breaks the stalemate. Bosses that need more healing get redesigned |
+| Guard | +50% defense instead of doubled, no streak penalty | At 40 defense it blocks every unfocused hit; charges alone left 70–78 turn battles |
+| Repeat Defend | Exposed: (20 − 5) × 2 = 30 | About 5 turns shorter and no stalls. 35 played the same; 30 is what the existing effect gives. A Defend-only cooldown tied in 2v2 (5.12 viable) and held up in 1v1 (3.06 viable, 12.8 turns) but raised 1v1 draws to 38.5%. Sharing it with Guard cost options (4.90) |
+| Rally | Focus on an ally: +focus to their attack this turn, sharing Focus's cooldown | The only change that adds real options |
+| Counter | Fires through a guard | Small gain (5.10 vs 5.03 viable), and it's what players expect |
+| Mutual Guard | Hits swap; both keep +50% | A real choice when one hero is hurt, with no measurable cost (5.09 vs 5.10 viable) |
+
+### 2v2 (simultaneous)
+
+| Ruleset | Turns | Draws | Stalls | Viable / legal |
+|---|---|---|---|---|
+| Both limits (Guard 30, 3 charges) | 22–26 | 11–12% | 1.4–2.8% | 4.47–4.69 / 6.08 |
+| + Rally | 21.7 | 9.9% | 1.7% | 5.00 / 6.92 |
+| + Exposed 30 | 16.2 | 8.6% | 0% | 5.03 / 7.04 |
+| + Counter through guards | 16.4 | 8.9% | 0% | 5.10 / 7.04 |
+
+The two seeds of "both limits" split into an attack-heavy and a Defend-heavy style (Defend 8% vs 31%), hence the ranges. With Exposed they agree closely.
+
+Sequential runs, kept for the single-limit results: Guard 30 alone stalled 96% of battles; charges alone ran 70–78 turns with Guard at 41% of play. A guard streak penalty cost 0.25 viable options and wasn't needed.
+
+### Ability balance (final rules)
+
+| Ability | 2v2 chosen | 2v2 viable | 1v1 chosen |
+|---|---|---|---|
+| Attack | 43.1% | 99.5% | 41.5% |
+| Counter | 17.3% | 95% | 22.3% |
+| Heal ally | 9.2% | 56.5% | n/a |
+| Guard | 8.5% | 82.5% | n/a |
+| Recover | 7.5% | 52.5% | 11.6% |
+| Focus | 6.6% | 57.5% | 10.5% |
+| Defend | 5.0% | 65.5% | 14.1% |
+| Rally | 3.1% | 62% | n/a |
+
+Focus and Rally running low is accepted: they're specializations for techniques and gear to promote. Defend isn't weak either: Defend plus Guard is 13.5% of 2v2 play against Defend's 14.1% in 1v1, so it's the same job split across two buttons. Healing's viability is understated because it counts turns near full health. Removing Exposed would take Defend to 9.1%, at the cost of 5 more turns and some stalls.
+
+### 1v1 (exact)
+
+| | Before | 3 charges | Charges + Exposed, simultaneous |
+|---|---|---|---|
+| Turns | 22.8 | 16.2 | 13.4 |
+| Defend | 44.2% | 16.9% | 14.1% |
+| Moves played 5%+ | 1.99 | 2.64 | 2.57 |
+| Viable options | 3.10 | 3.19 | 3.10 |
+| Draws | 33.9% | 34.2% | 34.9% |
+
+The earlier 1v1 scores in this document predate these rules and need fresh numbers.
+
+### Snowballing (parked)
+
+The first kill wins about 99.5% of decided battles under near-optimal play. Survivor buffs tested on the proposal: +10 or +20 attack mostly created draws; +10 defense brought back stalls and 35-turn battles; a 30 heal only delayed the loss; +5/+5 gave 95% at 4.90 viable; +10/+10 gave 80% (one seed) but 24% draws, 4.51 viable, and made losing an ally less of a punishment. Set aside in favor of ability balance.
 
 ---
 
@@ -283,7 +344,7 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Idea | Summary | Status |
 |---|---|---|
 | Tactician as the in-game player AI | One strategy with balanced/aggressive/defensive as weight profiles, plus a temperature setting to make it beatable | **Parked.** Concern: it could play better than real players, making manual play pointless. Fix the information leak first (strategies can see the full `Battle`). |
-| Team (2v2) PvP | Needs ally Defend/Recover; raises focus fire and snowballing, Counter's changed role, heal stalling, partner visibility, pace with four players | Discussion only |
+| Team (2v2) PvP | Rules are built and measured (see Redesign: 2v2 Rules); partner visibility, pace with four players, matchmaking and ratings remain | Discussion only |
 | Stances | Switchable modes, e.g. Bodyguard (always guard an ally, −attack, a turn to switch) | Rejected; only worth it if mechanically interesting |
 | Insight meter | Fills on correct reads (Counter landing, Defend absorbing) and unlocks a signature move | Not chosen |
 | Earned traits | The hero develops traits from how it fights over the round | Not chosen |
@@ -295,9 +356,9 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 
 | Issue | Notes / options |
 |---|---|
-| Focus fire and snowballing | Both enemies hit one target; then it's 2v1. Counterweights: Guard, Riposte for allies, a downed state with revive |
-| Counter's role | Wasted if nobody targets you, doubled under focus fire; option to let Counter trigger when your ally is hit |
-| Heal stalling | Alternating heals on one target; options: weaker ally heals, a "recently healed" debuff, a turn cap with sudden death |
+| Focus fire and snowballing | Both enemies hit one target; then it's 2v1. Measured and parked (see Snowballing above). Counterweights left to try: Riposte for allies, a downed state with revive |
+| Counter's role | Wasted if nobody targets you, doubled under focus fire; fires through a guard |
+| Heal stalling | Solved by 3 Recover charges per battle |
 | Coordination | Teammates must see each other's queues; opponents must not |
 | Pace | Four players' time banks; maybe a per-turn deadline |
 | Automated partners | Need basic ally logic (heal the wounded ally, guard when hurt) |
@@ -321,7 +382,8 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Topic | Decision |
 |---|---|
 | Content definitions | PHP classes, registered explicitly in `HeroCombatServiceProvider` |
-| Turn model | Simultaneous turns with per-player time banks |
+| Turn model | Fully simultaneous: secret choices with per-player time banks, and damage and healing land together before anyone falls |
+| Battle-wide rules | Combat rules apply to every kind of battle, PvE included. Bosses that need more healing than 3 charges get redesigned |
 | Upgrade names | Warrior/mage/rogue flavor, no stored or shown "path". Names must not reuse spell names (`app/data/spells.yml`) |
 | Combat categories | Techniques (passive rules, two tiers sharing one slot), Class Abilities and Gear; Disciplines and Combos are retired |
 | Techniques | Bend a rule without removing a basic action's cooldown; useful in 1v1, better in 2v2 |
@@ -348,6 +410,10 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Strong abilities at level 5 | Hardiness, Last Stand and Fortify arrive at class level 5, earlier than the old level 7 |
 | Combination testing | Technique + ability + gear builds, plus a fresh `--grid` run |
 | Battles page Information | Remove what tooltips now cover; could become a full-width, in-depth explanation of how battles work, below the battle history |
-| 2v2 in the simulator | Needed to measure team value |
+| PvE pass after the 2v2 rules | Audit encounters for 3 charges, Exposed on repeat Defend, wasted overkill and enemy Defend or Recover loops; redesign any that need it |
+| Boss spell timing | Magic Ward, Backlash and Silence still apply when they resolve, so id order can matter in PvE |
+| Battle log wording | Turn summaries still say "Defend → Mage" and "Focus → Mage"; "(defending)" also covers Guard |
+| Old replays | `hero-combat:replay` can't reproduce battles fought before simultaneous resolution, and battles in progress switched rules mid-fight |
+| Loadouts in the simulator | Techniques, abilities and gear aren't modeled, so team value and the 2v2 rules with loadouts are unmeasured |
 | First co-op encounter | Needed before borrowing is usable in game |
 | magic-system merge | Take this branch's slot UI and loadout; update their level-8 tests |

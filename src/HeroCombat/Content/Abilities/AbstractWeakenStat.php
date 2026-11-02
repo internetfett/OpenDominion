@@ -33,7 +33,7 @@ abstract class AbstractWeakenStat extends AbstractAbility
             return;
         }
 
-        $context->applyEffect($target, $this->effectKey());
+        $context->battle->afterActions(fn () => $context->applyEffect($target, $this->effectKey()));
         $context->say('weaken');
     }
 

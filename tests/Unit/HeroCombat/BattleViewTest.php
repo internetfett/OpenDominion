@@ -86,10 +86,38 @@ class BattleViewTest extends TestCase
         $this->assertEquals(['ally', 'ally'], array_column($view->targetOptions($tank, 'recover'), 'side'));
         $this->assertSame([], $view->targetOptions($tank, 'attack'), 'One enemy needs no choice');
         $this->assertEquals($this->named($battle, 'Boss')->id, $view->defaultTarget($tank, 'attack'));
-        $this->assertSame([], $view->targetOptions($tank, 'focus'), 'Focus only affects its user');
+        $this->assertEquals(['Yourself', 'Rally Mage'], array_column($view->targetOptions($tank, 'focus'), 'label'));
         $this->assertSame([], $view->targetOptions($tank, 'counter'));
         $this->assertNull($view->defaultTarget($tank, 'focus'));
         $this->assertNull($view->defaultTarget($tank, 'counter'));
+    }
+
+    public function testDefendWarnsOnlyWhenRepeatingIt(): void
+    {
+        $battle = BattleBuilder::make()->hero('Tank', 1)->hero('Mage', 1)->npc('Boss', 2)->build();
+        $tank = $this->named($battle, 'Tank');
+        $view = new BattleView(new HeroBattle(), $battle, [$tank]);
+        $warning = fn () => $battle->registry->ability('defend')->warning($tank);
+
+        $this->assertNull($warning());
+
+        $tank->lastAction = 'guard';
+        $this->assertNull($warning());
+        $this->assertEquals('Guard', $view->abilityName('guard'));
+
+        $tank->lastAction = 'defend';
+        $this->assertEquals('Exposed', $warning());
+    }
+
+    public function testFocusedHeroCanOnlyRallyTheirAlly(): void
+    {
+        $battle = BattleBuilder::make()->hero('Tank', 1)->hero('Mage', 1)->npc('Boss', 2)->build();
+        $tank = $this->named($battle, 'Tank');
+        $battle->effects->apply($tank, 'focused');
+        $view = new BattleView(new HeroBattle(), $battle, [$tank]);
+
+        $this->assertSame([], $view->targetOptions($tank, 'focus'), 'One choice needs no picker');
+        $this->assertEquals($this->named($battle, 'Mage')->id, $view->defaultTarget($tank, 'focus'));
     }
 
     public function testSoloHeroHasNoAllyToPick(): void

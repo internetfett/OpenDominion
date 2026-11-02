@@ -10,7 +10,9 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
 use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 
 /**
- * Hits aimed at the holder are taken by the guardian who applied this effect instead.
+ * Hits aimed at the holder are taken by the guardian who applied this effect instead, once
+ * per hit, so two heroes guarding each other swap the hits aimed at them. A Counter's
+ * retaliation is never taken.
  */
 class Covered extends AbstractEffect
 {
@@ -43,6 +45,10 @@ class Covered extends AbstractEffect
     {
         $guardian = $battle->combatant($instance->sourceId);
         if ($guardian === null || !$guardian->isAlive() || $damage->target !== $this->owner($instance, $battle)) {
+            return;
+        }
+
+        if ($damage->request->isCounter) {
             return;
         }
 

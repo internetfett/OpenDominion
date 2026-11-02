@@ -45,6 +45,11 @@ final class Battle
      */
     public ?\Closure $evasionRoll = null;
 
+    /**
+     * Collects damage and healing while a turn's actions resolve; null the rest of the time.
+     */
+    public ?TurnLedger $ledger = null;
+
     public function __construct(
         public readonly BattleState $state,
         public readonly CombatRegistry $registry,
@@ -154,8 +159,14 @@ final class Battle
             return 0;
         }
 
-        $healed = min($amount, max(0, $this->maxHealth($target) - $target->currentHealth));
-        $target->currentHealth += $healed;
+        $health = $this->ledger?->projectedHealth($target) ?? $target->currentHealth;
+        $healed = min($amount, max(0, $this->maxHealth($target) - $health));
+
+        if ($this->ledger !== null) {
+            $this->ledger->addHealing($target, $healed);
+        } else {
+            $target->currentHealth += $healed;
+        }
 
         $entry = $this->log->current();
         if ($entry !== null && $entry->actorId === $target->id) {
@@ -170,6 +181,19 @@ final class Battle
         ]));
 
         return $healed;
+    }
+
+    /**
+     * Holds a change back until the turn's actions have all resolved, so that nobody's stats
+     * shift partway through a turn. Outside a turn's actions it happens at once.
+     */
+    public function afterActions(\Closure $callback): void
+    {
+        if ($this->ledger !== null) {
+            $this->ledger->afterSettle($callback);
+        } else {
+            $callback();
+        }
     }
 
     /**

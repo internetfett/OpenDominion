@@ -12,6 +12,8 @@ use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
 class Recover extends AbstractAbility
 {
+    public const MAX_CHARGES = 3;
+
     public function key(): string
     {
         return 'recover';
@@ -24,7 +26,7 @@ class Recover extends AbstractAbility
 
     public function description(): string
     {
-        return 'Heals you or an ally for your recover value, but reduces your defense by 5 this turn.';
+        return 'Heals you or an ally for your recover value, but reduces your defense by 5 this turn. ' . self::MAX_CHARGES . ' uses per battle.';
     }
 
     public function targetRule(): TargetRule
@@ -35,6 +37,11 @@ class Recover extends AbstractAbility
     public function cooldown(CombatantState $actor, Battle $battle): int
     {
         return 1;
+    }
+
+    public function maxCharges(CombatantState $actor, Battle $battle): ?int
+    {
+        return self::MAX_CHARGES;
     }
 
     public function tags(): array

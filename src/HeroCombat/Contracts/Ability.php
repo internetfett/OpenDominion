@@ -42,6 +42,15 @@ interface Ability
     /** Ability-specific usability rules (beyond cooldowns, charges and tags). */
     public function canUse(CombatantState $actor, Battle $battle): bool;
 
+    /** What this action counts as next turn; Defend on an ally counts as a Guard. */
+    public function recordedAction(ActionContext $context): string;
+
+    /** A short warning to show on the action button, such as a penalty for using it now. */
+    public function warning(CombatantState $actor): ?string;
+
+    /** Whether this ability may be used on this particular target. */
+    public function canTarget(CombatantState $actor, CombatantState $target, Battle $battle): bool;
+
     /** Whether players can pick this ability from their action menu. */
     public function selectable(): bool;
 

@@ -14,6 +14,7 @@ final readonly class DamageResult
         public int $absorbed,
         public bool $savedFromLethal,
         public ?DamageResult $counter = null,
+        public ?CombatantState $counterer = null,
     ) {
     }
 

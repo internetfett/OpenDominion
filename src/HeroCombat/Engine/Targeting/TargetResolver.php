@@ -47,10 +47,14 @@ final class TargetResolver
         }
 
         if ($target === null) {
-            return $rule->defaultsToSelf();
+            return $rule->defaultsToSelf() && $ability->canTarget($actor, $actor, $this->battle);
         }
 
         if (!$target->isAlive()) {
+            return false;
+        }
+
+        if (!$ability->canTarget($actor, $target, $this->battle)) {
             return false;
         }
 

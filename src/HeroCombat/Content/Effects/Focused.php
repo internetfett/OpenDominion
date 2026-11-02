@@ -66,7 +66,7 @@ class Focused extends AbstractEffect
     public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void
     {
         if ($context->actor->id === $instance->ownerId && in_array(CombatTag::Attack, $context->ability->tags(), true)) {
-            $battle->effects->remove($instance);
+            $battle->afterActions(fn () => $battle->effects->remove($instance));
         }
     }
 }

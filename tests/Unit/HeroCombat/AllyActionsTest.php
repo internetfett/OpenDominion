@@ -44,7 +44,7 @@ class AllyActionsTest extends TestCase
             ->build();
     }
 
-    public function testGuardRedirectsHitsToTheGuardianWithDoubledDefense(): void
+    public function testGuardRedirectsHitsToTheGuardianWithFiftyPercentMoreDefense(): void
     {
         $battle = $this->partyWithControlledBoss();
         $this->queue($battle, 'Tank', 'defend', 'Mage');
@@ -54,7 +54,7 @@ class AllyActionsTest extends TestCase
         $this->resolveTurn($battle);
 
         $this->assertEquals(100, $this->named($battle, 'Mage')->currentHealth);
-        $this->assertEquals(100 - (60 - 40), $this->named($battle, 'Tank')->currentHealth);
+        $this->assertEquals(100 - (60 - 30), $this->named($battle, 'Tank')->currentHealth);
         $this->assertStringContainsString('stands guard over Mage', $battle->log->text());
         $this->assertStringContainsString('Tank steps in front of Mage', $battle->log->text());
     }

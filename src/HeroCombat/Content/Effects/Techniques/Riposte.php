@@ -2,7 +2,6 @@
 
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
-use OpenDominion\HeroCombat\Content\AbstractPassive;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
@@ -10,7 +9,7 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 /**
  * Technique: a Counter that deals damage Marks the attacker until the end of the next turn.
  */
-class Riposte extends AbstractPassive
+class Riposte extends AbstractMarkingPassive
 {
     public function key(): string
     {
@@ -33,6 +32,6 @@ class Riposte extends AbstractPassive
             return;
         }
 
-        $battle->effects->apply($damage->target, 'marked', null, 1, [], $damage->request->attacker);
+        $this->markAfterActions($damage, $battle);
     }
 }

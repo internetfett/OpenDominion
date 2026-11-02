@@ -34,6 +34,35 @@ abstract class AbstractAbility implements Ability
         return null;
     }
 
+    public function canTarget(CombatantState $actor, CombatantState $target, Battle $battle): bool
+    {
+        return true;
+    }
+
+    public function recordedAction(ActionContext $context): string
+    {
+        return $this->key();
+    }
+
+    public function warning(CombatantState $actor): ?string
+    {
+        return null;
+    }
+
+    /**
+     * The living ally chosen for this action, if the actor chose someone other than themselves.
+     */
+    protected function chosenAlly(ActionContext $context): ?CombatantState
+    {
+        $ally = $context->battle->combatant($context->intent->targetId);
+
+        if ($ally === null || $ally->id === $context->actor->id || !$ally->isAlive() || $ally->team !== $context->actor->team) {
+            return null;
+        }
+
+        return $ally;
+    }
+
     public function tags(): array
     {
         return [];

@@ -304,6 +304,59 @@ class BorrowedHeroTest extends AbstractBrowserKitTestCase
         $this->assertEquals(['defend', $hero->id], [$chosen[$borrowed->id]['ability'], $chosen[$borrowed->id]['target']]);
     }
 
+    public function testRallyOrderReachesTheAllyAndDamage(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
+        $health = $warden->current_health;
+
+        $this->heroActionService->queueOrders($pilot, $battle, [
+            $hero->id => ['action' => 'attack', 'target' => $warden->id],
+            $borrowed->id => ['action' => 'focus', 'target' => $hero->id],
+        ]);
+        $this->assertTrue($this->heroBattleService->processTurn($battle->fresh()));
+
+        $chosen = collect($this->selections($battle, 1))->keyBy('actor');
+        $this->assertEquals(['focus', $hero->id], [$chosen[$borrowed->id]['ability'], $chosen[$borrowed->id]['target']]);
+
+        $hit = collect($battle->turns()->where('turn', 1)->firstOrFail()->events)
+            ->first(fn (array $event) => $event['type'] === 'damage' && $event['source'] === $hero->id);
+        $this->assertEquals($borrowed->focus, $hit['bonus']);
+        $this->assertLessThan($health, $warden->fresh()->current_health);
+    }
+
+    public function testFocusedHeroCanRallyButCannotFocusThemselvesAgain(): void
+    {
+        [$pilot, , $battle, $hero, $borrowed] = $this->party();
+
+        $this->heroActionService->queueOrders($pilot, $battle, [
+            $hero->id => ['action' => 'focus', 'target' => null],
+            $borrowed->id => ['action' => 'defend', 'target' => null],
+        ]);
+        $this->assertTrue($this->heroBattleService->processTurn($battle->fresh()));
+
+        $this->heroActionService->queueOrders($pilot, $battle->fresh(), [
+            $hero->id => ['action' => 'counter', 'target' => null],
+            $borrowed->id => ['action' => 'defend', 'target' => null],
+        ]);
+        $this->assertTrue($this->heroBattleService->processTurn($battle->fresh()));
+
+        try {
+            $this->heroActionService->queueOrders($pilot, $battle->fresh(), [
+                $hero->id => ['action' => 'focus', 'target' => null],
+                $borrowed->id => ['action' => 'defend', 'target' => null],
+            ]);
+            $this->fail('Expected a Focused hero focusing themselves to be rejected');
+        } catch (GameException) {
+            $this->assertSame([], $hero->fresh()->actions ?? []);
+        }
+
+        $this->heroActionService->queueOrders($pilot, $battle->fresh(), [
+            $hero->id => ['action' => 'focus', 'target' => $borrowed->id],
+            $borrowed->id => ['action' => 'defend', 'target' => null],
+        ]);
+        $this->assertEquals('focus', $hero->fresh()->actions[0]['ability']);
+    }
+
     public function testLockInNeedsAnOrderForEveryPilotedHero(): void
     {
         [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();

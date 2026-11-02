@@ -58,9 +58,11 @@ class BattleFury extends AbstractPassive
             return;
         }
 
-        $instance->data['streak'] = $context->ability->key() === 'attack'
-            ? min(self::MAX_STACKS, $this->streak($instance) + 1)
-            : 0;
+        $attacked = $context->ability->key() === 'attack';
+
+        $battle->afterActions(function () use ($instance, $attacked) {
+            $instance->data['streak'] = $attacked ? min(self::MAX_STACKS, $this->streak($instance) + 1) : 0;
+        });
     }
 
     private function streak(EffectInstance $instance): int

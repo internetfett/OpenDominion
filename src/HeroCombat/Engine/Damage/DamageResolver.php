@@ -13,7 +13,8 @@ use OpenDominion\HeroCombat\Engine\Stats\Stat;
 /**
  * The single place where a hit becomes health loss:
  * outgoing hooks → redirect → attack vs defense → evasion → incoming hooks (shields)
- * → lethal saves → apply → after hooks → counter-attack.
+ * → into the turn ledger → after hooks → counter-attack. Outside a turn's actions, such as
+ * effects ticking at the end of a turn, the hit applies at once with its own lethal save.
  */
 final class DamageResolver
 {
@@ -49,16 +50,11 @@ final class DamageResolver
         $this->battle->dispatcher->run(Hook::BeforeDamageTaken, [$target], $context, $this->battle);
         $context->amount = max(0, $context->amount);
 
-        if ($target->isAlive() && $context->amount >= $target->currentHealth && !$request->bypassLethalSave) {
-            $context->savedFromLethal = $this->battle->dispatcher->runUntilTrue(
-                Hook::LethalDamage,
-                [$target],
-                $context,
-                $this->battle,
-            );
+        if ($this->battle->ledger !== null) {
+            $this->battle->ledger->addDamage($target, $context->amount, $request->bypassLethalSave);
+        } else {
+            $this->applyNow($context);
         }
-
-        $target->currentHealth = max(0, $target->currentHealth - $context->amount);
         $this->record($context);
 
         if ($context->amount > 0) {
@@ -70,9 +66,9 @@ final class DamageResolver
         }
 
         $counter = null;
-        if ($attacker !== null && $request->canBeCountered && !$request->isCounter && $attacker !== $target
-            && $this->battle->hasTag($target, CombatTag::Countering)) {
-            $counter = $this->counterAttack($target, $attacker, $request->hits);
+        $counterer = $this->counterer($context);
+        if ($counterer !== null) {
+            $counter = $this->counterAttack($counterer, $attacker, $request->hits);
         }
 
         return new DamageResult(
@@ -83,7 +79,44 @@ final class DamageResolver
             absorbed: $context->absorbed,
             savedFromLethal: $context->savedFromLethal,
             counter: $counter,
+            counterer: $counterer,
         );
+    }
+
+    /**
+     * Who strikes back at this hit: the one it struck, or the one it was aimed at if a guard
+     * stepped in front of them.
+     */
+    private function counterer(DamageContext $context): ?CombatantState
+    {
+        $request = $context->request;
+        if ($request->attacker === null || !$request->canBeCountered || $request->isCounter) {
+            return null;
+        }
+
+        foreach ([$context->target, $request->target] as $candidate) {
+            if ($candidate !== $request->attacker && $this->battle->hasTag($candidate, CombatTag::Countering)) {
+                return $candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private function applyNow(DamageContext $context): void
+    {
+        $target = $context->target;
+
+        if ($target->isAlive() && $context->amount >= $target->currentHealth && !$context->request->bypassLethalSave) {
+            $context->savedFromLethal = $this->battle->dispatcher->runUntilTrue(
+                Hook::LethalDamage,
+                [$target],
+                $context,
+                $this->battle,
+            );
+        }
+
+        $target->currentHealth = max(0, $target->currentHealth - $context->amount);
     }
 
     /**

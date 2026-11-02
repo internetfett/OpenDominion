@@ -7,8 +7,13 @@ use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\CombatTag;
+use OpenDominion\HeroCombat\Engine\Stats\Stat;
 use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
+/**
+ * Your next attack adds your focus value. Used on an ally, it Rallies them instead: their
+ * attack this turn adds your focus value, and only this turn.
+ */
 class Focus extends AbstractAbility
 {
     public function key(): string
@@ -23,12 +28,12 @@ class Focus extends AbstractAbility
 
     public function description(): string
     {
-        return 'Your next attack adds your focus value to its damage.';
+        return 'Your next attack adds your focus value to its damage. Used on an ally, adds it to their attack this turn instead.';
     }
 
     public function targetRule(): TargetRule
     {
-        return TargetRule::Self;
+        return TargetRule::SingleAlly;
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int
@@ -43,6 +48,36 @@ class Focus extends AbstractAbility
 
     public function canUse(CombatantState $actor, Battle $battle): bool
     {
+        return $this->canHoldMoreFocus($actor, $battle) || $battle->alliesOf($actor, includeSelf: false) !== [];
+    }
+
+    public function canTarget(CombatantState $actor, CombatantState $target, Battle $battle): bool
+    {
+        return $target->id !== $actor->id || $this->canHoldMoreFocus($actor, $battle);
+    }
+
+    public function onDeclare(ActionContext $context): void
+    {
+        $ally = $this->chosenAlly($context);
+        if ($ally !== null) {
+            $context->applyEffect($ally, 'rallied', 1, 1, ['bonus' => $context->battle->stat($context->actor, Stat::Focus)]);
+        }
+    }
+
+    public function resolve(ActionContext $context): void
+    {
+        $target = $context->target();
+        if ($target !== null && $target->id !== $context->actor->id) {
+            $context->say('rally');
+            return;
+        }
+
+        $context->battle->afterActions(fn () => $context->applyEffect($context->actor, 'focused'));
+        $context->say('focus');
+    }
+
+    private function canHoldMoreFocus(CombatantState $actor, Battle $battle): bool
+    {
         if (!$battle->hasTag($actor, CombatTag::Focused)) {
             return true;
         }
@@ -52,14 +87,11 @@ class Focus extends AbstractAbility
         return $maxStacks === null || $battle->effects->stacks($actor, 'focused') < $maxStacks;
     }
 
-    public function resolve(ActionContext $context): void
-    {
-        $context->applyEffect($context->actor, 'focused');
-        $context->say('focus');
-    }
-
     public function messages(): array
     {
-        return ['focus' => '{actor} focuses their energy for the next attack.'];
+        return [
+            'focus' => '{actor} focuses their energy for the next attack.',
+            'rally' => '{actor} rallies {target}.',
+        ];
     }
 }

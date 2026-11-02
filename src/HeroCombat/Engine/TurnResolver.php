@@ -2,6 +2,8 @@
 
 namespace OpenDominion\HeroCombat\Engine;
 
+use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
+use OpenDominion\HeroCombat\Engine\Damage\DamageRequest;
 use OpenDominion\HeroCombat\Engine\Effects\EffectScope;
 use OpenDominion\HeroCombat\Engine\Effects\Hook;
 use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
@@ -11,8 +13,10 @@ use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
 /**
  * Resolves one simultaneous turn:
- * turn start → intents → declare → order by priority → resolve each → deaths
- * → turn end hooks → durations → encounter script → victory check.
+ * turn start → intents → declare → resolve each action into the turn ledger (damage, then
+ * healing) → settle health → deaths → turn end hooks → durations → encounter script
+ * → victory check. Nobody's health changes until every action has resolved, so the order of
+ * actions never decides who lives.
  */
 final class TurnResolver
 {
@@ -42,11 +46,13 @@ final class TurnResolver
             $contexts[] = $context;
         }
 
-        usort($contexts, fn (ActionContext $a, ActionContext $b) => [$b->ability->priority(), $a->actor->id] <=> [$a->ability->priority(), $b->actor->id]);
+        usort($contexts, fn (ActionContext $a, ActionContext $b) => $this->resolutionOrder($a) <=> $this->resolutionOrder($b));
 
+        $battle->ledger = new TurnLedger();
         foreach ($contexts as $context) {
             $this->resolveAction($battle, $validator, $context);
         }
+        $this->settle($battle);
 
         $battle->dispatcher->runEverywhere(Hook::TurnEnd, $battle);
         $battle->effects->tickTurnEnd();
@@ -62,6 +68,60 @@ final class TurnResolver
         }
 
         $state->turn++;
+    }
+
+    /**
+     * Healing resolves after damage so it can report what it really restores.
+     *
+     * @return array{0: int, 1: bool, 2: int}
+     */
+    private function resolutionOrder(ActionContext $context): array
+    {
+        return [
+            -$context->ability->priority(),
+            in_array(CombatTag::Heal, $context->ability->tags(), true),
+            $context->actor->id,
+        ];
+    }
+
+    /**
+     * Applies the turn's damage and healing together, then processes deaths.
+     */
+    private function settle(Battle $battle): void
+    {
+        $ledger = $battle->ledger;
+        $battle->ledger = null;
+
+        foreach ($battle->living() as $combatant) {
+            $health = $ledger->projectedHealth($combatant);
+            if ($health <= 0 && $ledger->canBeSaved($combatant)) {
+                $health = $this->healthAfterLethalSave($battle, $combatant, $health);
+            }
+
+            $combatant->currentHealth = max(0, min($health, $battle->maxHealth($combatant)));
+
+            if (!$combatant->isAlive()) {
+                foreach ($ledger->fallCallbacks($combatant) as $callback) {
+                    $callback();
+                }
+            }
+        }
+
+        $this->processDeaths($battle);
+
+        foreach ($ledger->settleCallbacks() as $callback) {
+            $callback();
+        }
+    }
+
+    private function healthAfterLethalSave(Battle $battle, CombatantState $combatant, int $health): int
+    {
+        $damage = new DamageContext(new DamageRequest(null, $combatant));
+        $damage->amount = $combatant->currentHealth - $health;
+
+        $saved = $battle->dispatcher->runUntilTrue(Hook::LethalDamage, [$combatant], $damage, $battle);
+
+        return $saved ? $combatant->currentHealth - $damage->amount : $health;
     }
 
     private function resolveAction(Battle $battle, ActionValidator $validator, ActionContext $context): void
@@ -86,10 +146,9 @@ final class TurnResolver
         }
 
         $validator->recordUse($actor, $ability);
-        $actor->lastAction = $ability->key();
+        $actor->lastAction = $ability->recordedAction($context);
         $battle->dispatcher->run(Hook::AbilityUsed, [$actor], $context, $battle);
         $battle->effects->tickOwnerActionEnd($actor);
-        $this->processDeaths($battle);
 
         $battle->log->end();
     }

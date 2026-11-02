@@ -92,8 +92,8 @@ class WeightedStrategy implements AiStrategy
 
     /**
      * Hostile single-target abilities leave the target open (a random enemy is chosen at
-     * resolution). Healing goes to the most wounded ally; other ally abilities (Defend)
-     * stay on the actor unless a partner is badly hurt.
+     * resolution). Healing goes to the most wounded ally; Defend stays on the actor unless a
+     * partner is badly hurt; anything else stays on the actor when it can.
      */
     protected function chooseTarget(CombatantState $actor, Ability $ability, Battle $battle): ?CombatantState
     {
@@ -110,7 +110,13 @@ class WeightedStrategy implements AiStrategy
             return $allies[0] ?? $actor;
         }
 
-        foreach ($battle->alliesOf($actor, includeSelf: false) as $ally) {
+        $partners = $battle->alliesOf($actor, includeSelf: false);
+
+        if (!in_array(CombatTag::Stance, $ability->tags(), true)) {
+            return $ability->canTarget($actor, $actor, $battle) ? $actor : ($partners[0] ?? $actor);
+        }
+
+        foreach ($partners as $ally) {
             if ($ally->currentHealth <= self::LOW_HEALTH_THRESHOLD) {
                 return $ally;
             }

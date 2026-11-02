@@ -119,6 +119,20 @@ final class ActionContext
     }
 
     /**
+     * Logs a message only if the target falls, once this turn's healing has been counted.
+     *
+     * @param array<string, string|int> $variables
+     */
+    public function sayIfFalls(CombatantState $target, string $messageKey, array $variables = []): void
+    {
+        if ($this->battle->ledger !== null) {
+            $this->battle->ledger->whenFalls($target, fn () => $this->say($messageKey, $variables));
+        } elseif (!$target->isAlive()) {
+            $this->say($messageKey, $variables);
+        }
+    }
+
+    /**
      * @param array<string, string|int> $variables
      */
     public static function format(string $template, array $variables): string

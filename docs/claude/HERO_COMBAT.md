@@ -18,6 +18,7 @@ src/HeroCombat/
     BattleState.php     turn, seed, combatants, team/field effects, intents
     CombatantState.php  one combatant: base stats, health, abilities, effects, cooldowns, charges, queue
     TurnResolver.php    resolves one turn (see pipeline)
+    TurnLedger.php      a turn's pending damage and healing, settled together
     BattleEngine.php    advance() loops turns while everyone is ready
     IntentDecider.php   forced → queued → AI
     ActionValidator.php cooldowns, charges, tag gating, canUse; queue projection
@@ -61,15 +62,20 @@ processTurn(HeroBattle)
            1. TurnStart hooks (every effect instance)
            2. Intents     each living combatant: forcedIntent hook → queued action → AI strategy
            3. Declare     Ability::onDeclare for every intent (stances are applied here)
-           4. Order       priority desc, then combatant id
+           4. Order       priority desc, then healing after damage, then combatant id
            5. Resolve     per intent: resolve targets → Ability::resolve → start cooldown, spend charge
-                          → AbilityUsed hooks → OwnerActionEnd expiry → process deaths
-           6. TurnEnd hooks → tick TurnEnd durations → Encounter::onTurnEnd → process deaths
-           7. VictoryCondition → finished / winning team, else turn++
+                          → AbilityUsed hooks → OwnerActionEnd expiry. Damage and healing go into
+                          the turn ledger; health does not change yet
+           6. Settle      apply each combatant's damage and healing together → lethal saves
+                          → process deaths → run afterActions callbacks
+           7. TurnEnd hooks → tick TurnEnd durations → Encounter::onTurnEnd → process deaths
+           8. VictoryCondition → finished / winning team, else turn++
      └─ persist state + log rows → if finished: HeroBattleOutcomeService::finalize
 ```
 
-- **Simultaneous semantics.** A combatant downed earlier in the turn still acts. Anyone summoned mid-turn acts from the next turn.
+- **Simultaneous semantics.** Turns are fully simultaneous: the order of combatant ids never decides who lives. Nobody's health changes and nobody falls until every action has resolved, so healing can save someone from a killing blow, a falling hero still acts and Counters, and an attack on a falling target stays on them (overkill is wasted). Anyone summoned mid-turn acts from the next turn.
+- **Stats hold still during a turn.** Anything that would change a stat because of an action goes through `Battle::afterActions()` and lands at the settle step: gaining and spending Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand and Shadow Dance. Stances apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) still apply when they resolve, which can matter in PvE only.
+- **Outside a turn's actions** (turn start, turn end, direct `perform()` calls in tests) there is no ledger: damage and healing apply at once and `afterActions()` runs its callback immediately.
 - **Readiness.** NPCs are always ready. A human is ready when they have a queued action or are automated. `checkTime()` drains time banks and switches anyone at zero to automated.
 - **Orders.** `HeroActionService::queueAction()` queues one action for one combatant. `queueOrders()` (`POST heroes/battles/orders`, `orders[combatantId][action|target]`) locks in one action for every living hero the dominion pilots in a transaction, all or none; every hero not on autopilot needs an order. The controller then calls `processTurn()` once.
 - **Death processing** repeats until stable: `onDeath` runs on the dying combatant's own effects, then `onAnyDeath` on every other effect. A death trigger can kill, summon or revive.
@@ -136,9 +142,11 @@ by apply sequence. "Runs for X's effects" includes the team and field instances 
    - defense = effective Defense (Defending doubles it via a +100% modifier) + `defendModifier` if Defending, or 0 with `ignoreDefense`
 3. Evasion (if `canEvade`): roll `int(0,100) < Evasion` → ×0.5, then `onEvaded` hooks
 4. `beforeDamageTaken` (shields; skipped by `ignoreShield`)
-5. Lethal save via `onLethalDamage` unless `bypassLethalSave`
-6. Apply → `OnDamageTaken` expiry → `afterDamageTaken` / `afterDamageDealt`
-7. Counter-attack if the target holds `Countering` and the hit is counterable: attack + counter vs defense, no evasion, not shielded, not itself counterable, × hits
+5. Add to the turn ledger (or, outside a turn's actions, lethal save and apply at once)
+6. `OnDamageTaken` expiry → `afterDamageTaken` / `afterDamageDealt`
+7. Counter-attack if the hit is counterable and whoever it struck or was aimed at holds `Countering` (so a Counter fires through a guard): attack + counter vs defense, no evasion, not shielded, not itself counterable, not redirected by a guard, × hits
+
+Lethal saves (`onLethalDamage`, unless a hit set `bypassLethalSave`) run at the settle step against the whole turn's damage and healing, so Hardiness is only spent if the hero would really fall. `DamageResult::$counterer` names who struck back. Use `ActionContext::sayIfFalls()` for a line that should only appear if the target actually falls, once healing is counted.
 
 `ActionContext::attack()` builds a standard request. `ActionContext::flatDamage()` builds fixed
 damage that ignores defense, evasion and counters (boss moves).
@@ -148,7 +156,11 @@ damage that ignores defense, evasion and counters (boss moves).
 - **Abilities** implement `key/name/description/resolve`. `AbstractAbility` supplies defaults: SingleEnemy, priority 0, no cooldown, unlimited charges. `cooldown()` returns the turns to wait after use; 1 means "not twice in a row" (Focus, Counter, Recover, class abilities). Both `cooldown()` and `maxCharges()` receive the actor, so they can vary.
 - **Queue validation** (`ActionValidator::canQueue`) projects cooldowns and charges forward through the actions already queued. At resolution, an invalid queued action falls back to AI.
 - **Target rules**: Self, SingleEnemy, SingleAlly, SingleAny, AllEnemies, AllAllies, AllOthers, RandomEnemy. A dead single-enemy target is replaced with a random living enemy; dead ally targets fizzle. `Provoked` forces single-enemy targeting onto the provoker. `SingleAlly` with no target chosen means yourself (`TargetRule::defaultsToSelf()`).
-- **Defend and Recover take an ally target.** Defend on an ally is a guard: the defender takes the `defending` stance and puts `covered` on the ally, so hits aimed at the ally strike the defender. Redirects happen once per hit, so mutual guards can't loop. Recover heals the target with the caster's recover stat; the `recovering` −5 defense stays on the caster. In 1v1 the only ally is yourself, so PvP plays exactly as before.
+- **Defend, Focus and Recover take an ally target.** In 1v1 the only ally is yourself.
+  - **Defend** on yourself is `defending` (defense ×2). Defending again right after adds `exposed`, so the turn's defense is (20 − 5) × 2 = 30. Defend and Guard share the `defend` key, so `Ability::recordedAction()` stores a Guard as `guard` in `lastAction` to keep it out of the streak, and `Ability::warning()` labels the button.
+  - **Guard** is Defend on an ally: `guarding` (a `Defending`-tagged stance, defense +50%, so 30 at base) plus `covered` on the ally, and hits aimed at the ally strike the guard. It has no streak penalty and doesn't count toward Defend's, so Defend and Guard can alternate. Two heroes guarding each other swap the hits aimed at them and both keep the bonus; redirects happen once per hit, so they can't loop. A Counter's retaliation is never redirected.
+  - **Rally** is Focus on an ally: `rallied` at declare adds the caster's focus stat to that ally's attacks this turn only (not Counters), and stacks with their own Focus. It shares Focus's cooldown and can be used while Focused; `Ability::canTarget()` is what stops a Focused hero focusing themselves. The AI never rallies by choice.
+  - **Recover** heals the target with the caster's recover stat, with the `recovering` −5 defense on the caster. Each combatant has 3 charges per battle in every kind of battle, shared between self and ally, enemies included.
 - **Cooldowns can be adjusted by effects** (`Effect::adjustCooldown`, applied by `ActionValidator::cooldownFor`). No technique uses this now; techniques that removed cooldowns were cut for changing the basic actions too much.
 - **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. For ally-targeted abilities, healing goes to the most wounded ally; Defend stays on yourself unless a partner is at ≤40 HP. Player-selectable strategies are flagged `playerSelectable`.
 - **Pass** is chosen when nothing is usable (e.g. while stunned).
@@ -191,7 +203,7 @@ A hero's loadout isn't shown in info ops (`InfoMapper` only maps upgrades).
 
 Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling).
 
-**Technique II** (level 7) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each is applied mid-turn with duration 2 and is active immediately, so it lasts until the end of the following turn.
+**Technique II** (level 7) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each lands at the settle step with duration 2, so it covers exactly the following turn.
 
 | Technique | Trigger → status |
 |---|---|
@@ -244,6 +256,15 @@ The heroes page header has a Dominion Bonuses column (upgrade tiles, `partials/d
 - `TacticianStrategy` (`tactician:balanced|aggressive|defensive`, from `TacticianProfile`) previews every pairing of both sides' legal actions (including granted abilities), scores outcomes (damage dealt/taken, healing, change in damage edge, win/loss chance), solves for a mixed strategy and samples it. It looks one turn ahead; the damage edge (`TurnPreview::offense`) carries setup value: next attack's damage against the opponent's defense (Focus, Exposed, Marked), a quarter of the counter threat (none while Staggered), and battle-long stat shifts (`AbstractStatShift`: Forge, Combat Analysis, Tactical Awareness) counted over 4 more turns. `temperature` blends toward uniform play to make it weaker.
 - `BuildFactory` parses specs like `level=9;technique=backstab;ability=shadow_strike;gear=greatsword,plate_armor` from the registry, enforcing slot capacity, levels and distinct gear. A build's level stands in for every class level, so any signature is open at level 5. `BattleSimulator::run()` plays seeded battles (alternating combatant ids); `balancedScore()` also plays the swapped matchup on the same seeds to cancel seed luck.
 - Command: `php artisan hero-combat:simulate --a=<spec> --b=<spec> [--strategy-a=tactician:balanced] [--strategy-b=balanced] [--temperature=0.2] [--battles=200] [--seed=1]`, or `--grid=techniques|abilities|gear [--level=9]` for a round-robin score matrix. Expect about 0.1s per Tactician battle.
+
+## Balance simulator (`scripts/hero-combat-sim`)
+
+A standalone Rust crate with no dependencies, for rule questions the PHP Tactician is too slow for (2v2 has up to 6,561 action pairings a turn). Nothing in it reaches the game. It models base actions only, without loadouts.
+
+- `src/game.rs` is the rules, with a flag per rule; `Rules::candidate()` is what the engine implements. `src/train.rs` and `src/value.rs` learn a win-probability table per ruleset from self-play, `src/play.rs` and `src/solver.rs` solve each turn as a simultaneous game between both teams' joint actions, `src/exact.rs` solves 1v1 exactly, and `src/eval.rs` measures viability.
+- **Viable** means an option gives up at most 3 points of win chance against the opponent's solved mix, on turns where each team has a 10–90% chance to win.
+- **Fidelity:** `php scripts/hero-combat-sim/engine_fixtures.php 30000 41 > scripts/hero-combat-sim/fixtures/engine.txt`, then `hero-combat-sim diff-engine scripts/hero-combat-sim/fixtures/engine.txt`, replays real engine turns and compares every evasion outcome, health and legal action. Re-run it after any rule change. The fixtures set remaining charges directly and can't see a charge being spent, so `CombatRulesTest` covers that.
+- `cargo build --release`, then `hero-combat-sim run <label> "guard=30;charges=3;rally=1;repeat=30;ctg=1;sim=1" --seed 1 --gens 30 --games 2000 --battles 2000`. Each ruleset trains from scratch in about a minute. Use two seeds and treat a split between them as a warning. `exact "<rules>" --compare` solves 1v1 and checks the learned player against it.
 
 ## Encounters and enemies
 

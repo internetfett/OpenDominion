@@ -9,11 +9,14 @@ use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
 /**
- * Doubles your defense this turn. Used on an ally, you also stand guard: hits aimed at
- * them strike you instead.
+ * Doubles your defense this turn; Defending again right after leaves you Exposed. Used on an
+ * ally you Guard them instead: 50% more defense, hits aimed at them strike you, and it has
+ * no streak penalty.
  */
 class Defend extends AbstractAbility
 {
+    public const GUARD_ACTION = 'guard';
+
     public function key(): string
     {
         return 'defend';
@@ -26,7 +29,7 @@ class Defend extends AbstractAbility
 
     public function description(): string
     {
-        return 'Doubles your defense this turn. Used on an ally, attacks aimed at them hit you instead.';
+        return 'Doubles your defense this turn, but Defending twice in a row leaves you Exposed. Used on an ally, you Guard them: +50% defense, and attacks aimed at them hit you instead.';
     }
 
     public function targetRule(): TargetRule
@@ -41,12 +44,30 @@ class Defend extends AbstractAbility
 
     public function onDeclare(ActionContext $context): void
     {
-        $context->applyEffect($context->actor, 'defending', 1);
+        $actor = $context->actor;
+        $ward = $this->chosenAlly($context);
 
-        $ward = $this->ward($context);
         if ($ward !== null) {
+            $context->applyEffect($actor, 'guarding', 1);
             $context->applyEffect($ward, 'covered', 1);
+            return;
         }
+
+        if ($actor->lastAction === $this->key()) {
+            $context->applyEffect($actor, 'exposed', 1);
+        }
+
+        $context->applyEffect($actor, 'defending', 1);
+    }
+
+    public function recordedAction(ActionContext $context): string
+    {
+        return $this->chosenAlly($context) !== null ? self::GUARD_ACTION : $this->key();
+    }
+
+    public function warning(CombatantState $actor): ?string
+    {
+        return $actor->lastAction === $this->key() ? 'Exposed' : null;
     }
 
     public function resolve(ActionContext $context): void
@@ -66,19 +87,5 @@ class Defend extends AbstractAbility
             'defend' => '{actor} takes a defensive stance.',
             'guard' => '{actor} stands guard over {target}.',
         ];
-    }
-
-    /**
-     * The living ally being guarded, if the defender chose someone other than themselves.
-     */
-    private function ward(ActionContext $context): ?CombatantState
-    {
-        $ally = $context->battle->combatant($context->intent->targetId);
-
-        if ($ally === null || $ally->id === $context->actor->id || !$ally->isAlive() || $ally->team !== $context->actor->team) {
-            return null;
-        }
-
-        return $ally;
     }
 }

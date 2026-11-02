@@ -76,6 +76,7 @@
                                     if ($ability['charges'] !== null) {
                                         $status = "{$ability['charges']} left";
                                     }
+                                    $status = $ability['warning'] ?? $status;
                                 @endphp
                                 <button type="button" class="battle-action" title="{{ $ability['description'] }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                     data-action="{{ $ability['key'] }}" data-target="{{ $defaultTarget }}"

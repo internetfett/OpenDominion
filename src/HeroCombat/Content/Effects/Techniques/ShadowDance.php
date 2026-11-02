@@ -32,11 +32,15 @@ class ShadowDance extends AbstractPassive
     public function onEvaded(EffectInstance $instance, DamageContext $damage, Battle $battle): void
     {
         $dancer = $this->owner($instance, $battle);
-        if ($dancer === null || $damage->target->id !== $dancer->id || $battle->hasTag($dancer, CombatTag::Focused)) {
+        if ($dancer === null || $damage->target->id !== $dancer->id) {
             return;
         }
 
-        $battle->effects->apply($dancer, 'focused', null, 1, [], $dancer);
-        $battle->say($dancer, "{$dancer->name} slips the blow and finds an opening.");
+        $battle->afterActions(function () use ($battle, $dancer) {
+            if ($dancer->isAlive() && !$battle->hasTag($dancer, CombatTag::Focused)) {
+                $battle->effects->apply($dancer, 'focused', null, 1, [], $dancer);
+                $battle->say($dancer, "{$dancer->name} slips the blow and finds an opening.");
+            }
+        });
     }
 }

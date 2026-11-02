@@ -85,8 +85,20 @@ class TurnSummaryTest extends TestCase
     {
         $battle = $this->duel();
         $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+        $this->summarise($battle);
+
+        $this->queue($battle, 'Hero', 'counter');
         $this->queue($battle, 'Foe', 'defend');
         $first = $this->summarise($battle);
+
+        $this->queue($battle, 'Hero', 'attack', 'Foe');
+        $this->queue($battle, 'Foe', 'counter');
+        $this->summarise($battle);
+
+        $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+        $this->summarise($battle);
 
         $this->queue($battle, 'Hero', 'attack', 'Foe');
         $this->queue($battle, 'Foe', 'defend');
@@ -134,7 +146,7 @@ class TurnSummaryTest extends TestCase
 
         $this->assertContains('Tank: Defend → Mage', $this->phase($summary, 'actions'));
         $this->assertContains('Tank stands guard over Mage.', $this->phase($summary, 'status'));
-        $this->assertEquals(['Boss attacks Mage, Tank takes it: 60 − 40 defense (defending) = 20'], $this->phase($summary, 'damage'));
+        $this->assertEquals(['Boss attacks Mage, Tank takes it: 60 − 30 defense (defending) = 30'], $this->phase($summary, 'damage'));
         $this->assertEquals(['Mage heals Tank +20'], $this->phase($summary, 'healing'));
         foreach ($this->phase($summary, 'status') as $line) {
             $this->assertStringNotContainsString('steps in front', $line);

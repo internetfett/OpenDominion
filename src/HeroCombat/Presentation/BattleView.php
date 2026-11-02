@@ -201,7 +201,7 @@ class BattleView
     /**
      * A piloted combatant's action menu.
      *
-     * @return array<int, array{key: string, name: string, description: string, usable: bool, needsTarget: bool, hostile: bool, cooldown: int, charges: int|null}>
+     * @return array<int, array{key: string, name: string, description: string, usable: bool, needsTarget: bool, hostile: bool, cooldown: int, charges: int|null, warning: string|null}>
      */
     public function abilities(CombatantState $combatant): array
     {
@@ -224,6 +224,7 @@ class BattleView
                 'hostile' => $ability->targetRule()->isHostile(),
                 'cooldown' => $this->validator->turnsUntilReady($combatant, $key),
                 'charges' => $this->validator->chargesRemaining($combatant, $key),
+                'warning' => $ability->warning($combatant),
             ];
         }
 
@@ -273,6 +274,7 @@ class BattleView
 
     /** How an ability used on an ally reads in the target picker. */
     public const ALLY_VERBS = [
+        'focus' => 'Rally',
         'defend' => 'Guard',
         'recover' => 'Heal',
     ];

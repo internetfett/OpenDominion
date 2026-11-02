@@ -62,7 +62,7 @@ abstract class AbstractAttack extends AbstractAbility
         }
 
         if ($result->wasCountered()) {
-            $context->battle->say($context->actor, "{$result->target->name} counters for {$result->counterDamage()} damage.", MessageKind::Detail);
+            $context->battle->say($context->actor, "{$result->counterer->name} counters for {$result->counterDamage()} damage.", MessageKind::Detail);
         }
     }
 }

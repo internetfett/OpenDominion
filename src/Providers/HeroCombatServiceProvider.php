@@ -55,6 +55,7 @@ class HeroCombatServiceProvider extends ServiceProvider
     /** @var array<int, class-string> */
     public const EFFECTS = [
         Effects\Stances\Defending::class,
+        Effects\Stances\Guarding::class,
         Effects\Stances\Countering::class,
         Effects\Stances\Recovering::class,
         Effects\Focused::class,
@@ -65,6 +66,7 @@ class HeroCombatServiceProvider extends ServiceProvider
         Effects\FrostbiteStack::class,
         Effects\Provoked::class,
         Effects\Covered::class,
+        Effects\Rallied::class,
         Effects\Passives\Enrage::class,
         Effects\Passives\Rally::class,
         Effects\Passives\LastStand::class,
