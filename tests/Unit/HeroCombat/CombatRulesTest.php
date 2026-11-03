@@ -118,7 +118,7 @@ class CombatRulesTest extends TestCase
         $this->assertEquals('defend', $this->named($battle, 'Ally')->lastAction);
     }
 
-    public function testRepeatDefendDropsToThirtyDefense(): void
+    public function testRepeatDefendDropsToThirtyFiveDefense(): void
     {
         $battle = $this->duel();
 
@@ -126,10 +126,10 @@ class CombatRulesTest extends TestCase
         $this->assertEquals(100, $this->health($battle, 'Hero'), 'First Defend blocks an attack entirely');
 
         $this->turn($battle, ['Hero' => ['defend'], 'Foe' => ['attack', 'Hero']]);
-        $this->assertEquals(90, $this->health($battle, 'Hero'), 'Exposed: (20 - 5) x 2 = 30 defense');
+        $this->assertEquals(95, $this->health($battle, 'Hero'), 'Exposed: 20 x (2 - 0.25) = 35 defense');
 
         $this->turn($battle, ['Hero' => ['defend'], 'Foe' => ['attack', 'Hero']]);
-        $this->assertEquals(80, $this->health($battle, 'Hero'), 'The streak keeps it Exposed');
+        $this->assertEquals(90, $this->health($battle, 'Hero'), 'The streak keeps it Exposed');
     }
 
     public function testAnotherActionClearsTheDefendStreak(): void

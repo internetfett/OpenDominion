@@ -270,6 +270,7 @@ class BattleView
         'focus' => 'ra-on-target',
         'counter' => 'ra-reverse',
         'recover' => 'ra-health',
+        'caltrops' => 'ra-bear-trap',
     ];
 
     /** How an ability used on an ally reads in the target picker. */
@@ -277,6 +278,8 @@ class BattleView
         'focus' => 'Rally',
         'defend' => 'Guard',
         'recover' => 'Heal',
+        'fortify' => 'Fortify',
+        'caltrops' => 'Caltrops around',
     ];
 
     /**

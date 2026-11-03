@@ -13,13 +13,13 @@ class ClassAbilitiesTest extends TestCase
 {
     use BuildsBattles;
 
-    public function testFortifyShieldsTheCasterUpToTwenty(): void
+    public function testStoneShieldShieldsTheCasterUpToTwenty(): void
     {
         $battle = BattleBuilder::make()->hero('Hero')->npc('Foe')->build();
         $hero = $this->named($battle, 'Hero');
         $battle->effects->apply($hero, 'shield', null, 1, ['pool' => 5]);
 
-        $this->declare($battle, 'Hero', 'fortify');
+        $this->declare($battle, 'Hero', 'stone_shield');
 
         $this->assertEquals(20, $battle->effects->find($hero, 'shield')->data['pool']);
     }
@@ -34,19 +34,6 @@ class ClassAbilitiesTest extends TestCase
         $this->assertEquals(42, $battle->stat($this->named($battle, 'Hero'), Stat::Attack));
     }
 
-    public function testTacticalAwarenessHasNoEffectAtTheFloor(): void
-    {
-        $battle = BattleBuilder::make()->hero('Hero')->npc('Foe', stats: ['counter' => 7])->build();
-        $foe = $this->named($battle, 'Foe');
-
-        $this->perform($battle, 'Hero', 'tactical_awareness', 'Foe');
-        $this->assertEquals(5, $battle->stat($foe, Stat::Counter));
-
-        $text = $this->perform($battle, 'Hero', 'tactical_awareness', 'Foe');
-        $this->assertEquals(5, $battle->stat($foe, Stat::Counter));
-        $this->assertStringContainsString('has no effect', $text);
-    }
-
     public function testCombatAnalysisLowersDefense(): void
     {
         $battle = BattleBuilder::make()->hero('Hero')->npc('Foe')->build();
@@ -56,16 +43,17 @@ class ClassAbilitiesTest extends TestCase
         $this->assertEquals(19, $battle->stat($this->named($battle, 'Foe'), Stat::Defense));
     }
 
-    public function testShadowStrikeCannotBeEvadedAndPunishesDefending(): void
+    public function testShadowStrikeCannotBeEvadedOrCounteredButHitsForLess(): void
     {
         $random = new ScriptedRandomSource();
         $random->defaultInt = 0;
         $battle = BattleBuilder::make()->hero('Hero', stats: ['attack' => 60])->npc('Foe', stats: ['evasion' => 100])->build($random);
-        $this->declare($battle, 'Foe', 'defend');
+        $this->declare($battle, 'Foe', 'counter');
 
         $this->perform($battle, 'Hero', 'shadow_strike', 'Foe');
 
-        $this->assertEquals(100 - (60 - 40 + 2), $this->named($battle, 'Foe')->currentHealth);
+        $this->assertEquals(100 - (60 - 5 - 20), $this->named($battle, 'Foe')->currentHealth);
+        $this->assertEquals(100, $this->named($battle, 'Hero')->currentHealth, 'The Counter never fires');
     }
 
     public function testVolatileMixtureHitsForOneAndAHalf(): void
@@ -176,11 +164,11 @@ class ClassAbilitiesTest extends TestCase
         $this->assertCount(count(HeroClassLoadouts::SIGNATURES), array_unique(HeroClassLoadouts::SIGNATURES));
     }
 
-    public function testGrantsReplaceTheBasicAbilityTheyStandIn(): void
+    public function testGrantsAddToTheBasicAbilities(): void
     {
         $loadouts = new HeroClassLoadouts();
 
-        $this->assertEquals(['attack', 'focus', 'counter', 'recover', 'fortify'], $loadouts->withGrants(HeroClassLoadouts::BASIC_ABILITIES, ['fortify']));
+        $this->assertEquals([...HeroClassLoadouts::BASIC_ABILITIES, 'fortify'], $loadouts->withGrants(HeroClassLoadouts::BASIC_ABILITIES, ['fortify']), 'Signatures are a sixth action now');
         $this->assertEquals([...HeroClassLoadouts::BASIC_ABILITIES, 'shadow_strike'], $loadouts->withGrants(HeroClassLoadouts::BASIC_ABILITIES, ['shadow_strike', 'shadow_strike']));
     }
 

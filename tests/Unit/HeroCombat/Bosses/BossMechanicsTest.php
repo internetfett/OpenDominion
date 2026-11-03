@@ -340,7 +340,7 @@ class BossMechanicsTest extends TestCase
 
         $this->declare($battle, 'Rex Lunae', 'hungering_moon');
 
-        $this->assertEquals(20, $battle->stat($rex, Stat::Defense));
+        $this->assertEquals(19, $battle->stat($rex, Stat::Defense), '25 defense, Exposed for 25% less');
     }
 
     public function testCurseLeavesAGapUnlessFrenzied(): void

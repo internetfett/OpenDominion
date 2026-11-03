@@ -29,7 +29,7 @@ class Defend extends AbstractAbility
 
     public function description(): string
     {
-        return 'Doubles your defense this turn, but Defending twice in a row leaves you Exposed. Used on an ally, you Guard them: +50% defense, and attacks aimed at them hit you instead.';
+        return 'Doubles your defense this turn, but Defending twice in a row leaves you Exposed (-25% defense). Used on an ally, you Guard them: +50% defense, and attacks aimed at them hit you instead.';
     }
 
     public function targetRule(): TargetRule

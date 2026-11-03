@@ -21,7 +21,6 @@ class HeroClassLoadouts
      * @var array<string, string>
      */
     public const REPLACES = [
-        'fortify' => 'defend',
     ];
 
     /**
@@ -33,7 +32,7 @@ class HeroClassLoadouts
         'alchemist' => 'volatile_mixture',
         'architect' => 'fortify',
         'blacksmith' => 'forge',
-        'engineer' => 'tactical_awareness',
+        'engineer' => 'caltrops',
         'farmer' => 'hardiness',
         'healer' => 'mending',
         'infiltrator' => 'shadow_strike',

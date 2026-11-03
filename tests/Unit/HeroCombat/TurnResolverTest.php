@@ -48,13 +48,13 @@ class TurnResolverTest extends TestCase
         $this->assertEquals(100, $this->named($battle, 'Hero')->currentHealth);
     }
 
-    public function testFortifyShieldIsUpBeforeAnyAttackLands(): void
+    public function testStoneShieldIsUpBeforeAnyAttackLands(): void
     {
         $battle = BattleBuilder::make()
             ->npc('Foe', team: 2)
-            ->hero('Hero', team: 1, abilities: ['attack', 'fortify'])
+            ->hero('Hero', team: 1, abilities: ['attack', 'stone_shield'])
             ->build();
-        $this->queue($battle, 'Hero', 'fortify');
+        $this->queue($battle, 'Hero', 'stone_shield');
 
         $this->resolveTurn($battle);
 

@@ -31,6 +31,7 @@ final class DamageRequest
         public int $defendModifier = 0,
         public bool $isCounter = false,
         public array $tags = [CombatTag::Attack],
+        public bool $canBeRedirected = true,
     ) {
     }
 

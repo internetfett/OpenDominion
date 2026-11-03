@@ -79,7 +79,7 @@ class TechniquesTest extends TestCase
         $hero->currentHealth = 40;
 
         $this->declare($battle, 'Hero', 'recover');
-        $this->assertTrue($battle->effects->has($hero, 'recovering'), 'The defense penalty still applies');
+        $this->assertTrue($battle->effects->has($hero, 'exposed'), 'Recovering still leaves the healer Exposed');
         $battle->state->intents = [];
 
         $this->queue($battle, 'Hero', 'recover');
@@ -250,7 +250,7 @@ class TechniquesTest extends TestCase
         $this->turn($battle, ['attack', 'Foe'], ['defend']);
         $this->assertEquals(500, $foe->currentHealth, 'The sundering attack itself gets no bonus');
         $this->assertTrue($battle->effects->has($foe, 'exposed'));
-        $this->assertEquals(20 - Exposed::DEFENSE_PENALTY, $battle->stat($foe, Stat::Defense));
+        $this->assertEquals(15, $battle->stat($foe, Stat::Defense), '20, Exposed for 25% less');
 
         $this->turn($battle, ['attack', 'Foe'], ['counter']);
         $this->assertEquals(500 - (40 - 15), $foe->currentHealth);

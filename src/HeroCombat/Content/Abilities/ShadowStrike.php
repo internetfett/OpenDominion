@@ -6,8 +6,14 @@ use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 
+/**
+ * An attack that can't be evaded or Countered, for 5 less damage: the safe hit when a Counter
+ * is likely, and the answer to evasive bosses.
+ */
 class ShadowStrike extends AbstractAttack
 {
+    public const DAMAGE_PENALTY = 5;
+
     public function key(): string
     {
         return 'shadow_strike';
@@ -20,7 +26,7 @@ class ShadowStrike extends AbstractAttack
 
     public function description(): string
     {
-        return 'Attack that cannot be evaded and deals +2 damage if the target is defending.';
+        return 'An attack that cannot be evaded or Countered, but deals ' . self::DAMAGE_PENALTY . ' less damage.';
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int
@@ -30,7 +36,7 @@ class ShadowStrike extends AbstractAttack
 
     protected function damageOptions(ActionContext $context): array
     {
-        return ['canEvade' => false, 'defendModifier' => -2];
+        return ['canEvade' => false, 'canBeCountered' => false, 'bonusDamage' => -self::DAMAGE_PENALTY];
     }
 
     public function messages(): array

@@ -16,7 +16,6 @@ enum CombatTag: string
     case Summon = 'summon';
     case Defending = 'defending';
     case Countering = 'countering';
-    case Recovering = 'recovering';
     case Focused = 'focused';
     case Shielded = 'shielded';
     case Curse = 'curse';

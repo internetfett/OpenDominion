@@ -61,7 +61,7 @@ processTurn(HeroBattle)
          TurnResolver::resolve
            1. TurnStart hooks (every effect instance)
            2. Intents     each living combatant: forcedIntent hook → queued action → AI strategy
-           3. Declare     Ability::onDeclare for every intent (stances and Fortify's shield go up here)
+           3. Declare     Ability::onDeclare for every intent (stances, Fortify, Caltrops and Stone Shield go up here)
            4. Damage      every action not tagged Heal, by combatant id: resolve targets
                           → Ability::resolve → start cooldown, spend charge → AbilityUsed hooks
                           → OwnerActionEnd expiry. Damage goes into the turn ledger; health does
@@ -78,7 +78,7 @@ processTurn(HeroBattle)
 
 - **Simultaneous semantics.** Turns are fully simultaneous: the order of combatant ids never decides who lives. Nobody's health changes and nobody is defeated until every action has resolved, so healing can save someone who would otherwise be defeated, a hero being defeated still acts and Counters, and an attack on a target being defeated stays on them (overkill is wasted). Anyone summoned mid-turn acts from the next turn.
 - **Healing is its own step.** Every heal lands after all of the turn's damage, so what it restores (and reports) is capped against the turn's real damage, never against whichever hits happened to resolve first. Healing done while dealing damage must go through `Battle::duringHealing()`, which also records it under the action that queued it; calling `Battle::heal()` directly from the damage step caps against partial damage.
-- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus, Mending's Recover spending it. `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient was defeated: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances and Fortify's shield apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
+- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus, Mending's Recover spending it. `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient was defeated: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances, Fortify, Caltrops and Stone Shield apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
 - **Outside a turn's actions** (turn start, turn end, direct `perform()` calls in tests) there is no ledger: damage and healing apply at once, and the three callbacks run immediately (`afterActions()` only if the recipient is alive).
 - **Guarded by** `TurnOrderIndependenceTest`, which plays seeded battles with every loadout option, then again with every combatant id reversed, and requires identical results each turn.
 - **Readiness.** NPCs are always ready. A human is ready when they have a queued action or are automated. `checkTime()` drains time banks and switches anyone at zero to automated.
@@ -151,7 +151,7 @@ by apply sequence. "Runs for X's effects" includes the team and field instances 
 6. `OnDamageTaken` expiry → `afterDamageTaken` / `afterDamageDealt`
 7. Counter-attack if the hit is counterable and whoever it struck or was aimed at holds `Countering` (so a Counter fires through a guard): attack + counter vs defense, no evasion, not shielded, not itself counterable, not redirected by a guard, × hits
 
-Lethal saves (`onLethalDamage`, unless a hit set `bypassLethalSave`) run at the settle step against the whole turn's damage and healing, so Hardiness is only spent if the hero would really be defeated. `DamageResult::$counterer` names who struck back. Use `ActionContext::sayIfDefeated()` for a line that should only appear if the target is actually defeated, once healing is counted.
+Lethal saves (`onLethalDamage`, unless a hit set `bypassLethalSave`) run at the settle step against the whole turn's damage and healing, so Hardiness is only spent if the hero would really be defeated. `DamageResult::$counterer` names who struck back. Caltrops answer a hit through `Battle::afterHits()`, which holds the damage until every action's hit has landed (it shares the queue that runs before the healing step), so every attacker that turn is caught whatever the order. Damage built with `canBeRedirected: false` (Caltrops, and every Counter) is never taken by a guard. Use `ActionContext::sayIfDefeated()` for a line that should only appear if the target is actually defeated, once healing is counted.
 
 `ActionContext::attack()` builds a standard request. `ActionContext::flatDamage()` builds fixed
 damage that ignores defense, evasion and counters (boss moves).
@@ -162,12 +162,12 @@ damage that ignores defense, evasion and counters (boss moves).
 - **Queue validation** (`ActionValidator::canQueue`) projects cooldowns and charges forward through the actions already queued. At resolution, an invalid queued action falls back to AI.
 - **Target rules**: Self, SingleEnemy, SingleAlly, SingleAny, AllEnemies, AllAllies, AllOthers, RandomEnemy. A dead single-enemy target is replaced with a random living enemy; dead ally targets fizzle. `Provoked` forces single-enemy targeting onto the provoker. `SingleAlly` with no target chosen means yourself (`TargetRule::defaultsToSelf()`).
 - **Defend, Focus and Recover take an ally target.** In 1v1 the only ally is yourself.
-  - **Defend** on yourself is `defending` (defense ×2). Defending again right after adds `exposed`, so the turn's defense is (20 − 5) × 2 = 30. Defend and Guard share the `defend` key, so `Ability::recordedAction()` stores a Guard as `guard` in `lastAction` to keep it out of the streak, and `Ability::warning()` labels the button.
+  - **Defend** on yourself is `defending` (defense ×2). Defending again right after adds `exposed`, so the turn's defense is 20 × (2 − 0.25) = 35. Defend and Guard share the `defend` key, so `Ability::recordedAction()` stores a Guard as `guard` in `lastAction` to keep it out of the streak, and `Ability::warning()` labels the button.
   - **Guard** is Defend on an ally: `guarding` (a `Defending`-tagged stance, defense +50%, so 30 at base) plus `covered` on the ally, and hits aimed at the ally strike the guard. It has no streak penalty and doesn't count toward Defend's, so Defend and Guard can alternate. Two heroes guarding each other swap the hits aimed at them and both keep the bonus; redirects happen once per hit, so they can't loop. A Counter's retaliation is never redirected.
   - **Rally** is Focus on an ally: `rallied` at declare adds the caster's focus stat to that ally's attacks this turn only (not Counters), and stacks with their own Focus. It shares Focus's cooldown and can be used while Focused; `Ability::canTarget()` is what stops a Focused hero focusing themselves. The AI never rallies by choice.
-  - **Recover** heals the target with the caster's recover stat, with the `recovering` −5 defense on the caster. Each combatant has 3 charges per battle in every kind of battle, shared between self and ally, enemies included.
+  - **Recover** heals the target with the caster's recover stat, and leaves the caster `exposed` for the turn (−25% defense). Each combatant has 3 charges per battle in every kind of battle, shared between self and ally, enemies included.
 - **Cooldowns can be adjusted by effects** (`Effect::adjustCooldown`, applied by `ActionValidator::cooldownFor`). No technique uses this now; techniques that removed cooldowns were cut for changing the basic actions too much.
-- **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Fortify while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. For ally-targeted abilities, healing goes to the most wounded ally; Defend stays on yourself unless a partner is at ≤40 HP. Player-selectable strategies are flagged `playerSelectable`.
+- **AI**: `WeightedStrategy` picks a usable ability by weight. It drops Stone Shield while shielded, drops Recover when it would overheal, and doubles Recover at ≤40 HP. For ally-targeted abilities, healing goes to the most wounded ally; Defend stays on yourself unless a partner is at ≤40 HP. Player-selectable strategies are flagged `playerSelectable`.
 - **Pass** is chosen when nothing is usable (e.g. while stunned).
 
 ## Combat loadouts
@@ -191,7 +191,7 @@ Rules live in `HeroCalculator`:
 
 `HeroActionService::updateLoadout()` replaces the whole loadout (POST `heroes.loadout`), rejecting unavailable keys, options in the wrong slot, too much gear and duplicate gear.
 
-`CombatantFactory::addHero()` reads `getLoadout()`: ability keys join the action bar through `HeroClassLoadouts::withGrants()` (Fortify replaces Defend), effect keys are applied as innate effects, and gear reaches the stats through `HeroCalculator::getHeroCombatStats()`. A borrowed hero uses its owner's loadout because the owner's `Hero` is passed in. Battles in progress are unaffected by loadout changes, since abilities and effects are stored on the combatant; `BattleReplayer` never reads the hero.
+`CombatantFactory::addHero()` reads `getLoadout()`: ability keys join the action bar through `HeroClassLoadouts::withGrants()` (no signature replaces a basic action now, so every hero has six), effect keys are applied as innate effects (so a loadout ability's key must never also be an effect key: `SignatureAbilitiesTest` checks this), and gear reaches the stats through `HeroCalculator::getHeroCombatStats()`. A borrowed hero uses its owner's loadout because the owner's `Hero` is passed in. Battles in progress are unaffected by loadout changes, since abilities and effects are stored on the combatant; `BattleReplayer` never reads the hero.
 
 A hero's loadout isn't shown in info ops (`InfoMapper` only maps upgrades).
 
@@ -200,7 +200,7 @@ A hero's loadout isn't shown in info ops (`InfoMapper` only maps upgrades).
 | Technique | Rule (constants on the class) |
 |---|---|
 | `battle_fury` | each consecutive Attack: +4 attack, −2 defense (max 3 stacks); any other action resets it |
-| `restoration` | Recover heals 80% now and 10% at the start of each of the next 3 turns (`restoring`); keeps the −5 defense penalty; recasting forfeits the remaining ticks; two restorations on one ally in the same turn keep the larger tick |
+| `restoration` | Recover heals 80% now and 10% at the start of each of the next 3 turns (`restoring`); still leaves the healer Exposed; recasting forfeits the remaining ticks; two restorations on one ally in the same turn keep the larger tick |
 | `mana_shield` | +3 defense while Focused (kept through Defend, Recover and Counter; ends when an attack spends the Focus) |
 | `shadow_dance` | evading an attack grants Focus, after the turn's spending (so a Focused attacker who evades stays Focused); never a second stack, so not while Focused or on a turn you Focus yourself |
 | `backstab` | attacks deal +5 damage against an opponent that was Focused at the start of the turn (snapshot in `onTurnStart`) |
@@ -212,7 +212,7 @@ Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling
 
 | Technique | Trigger → status |
 |---|---|
-| `sunder` | after your attack resolves against a Defending enemy → `exposed` on it (−5 defense) |
+| `sunder` | after your attack resolves against a Defending enemy → `exposed` on it (−25% defense). One Sunder Exposed at a time (`data.sunder`), on top of any Exposed the target gave itself |
 | `shield_bash` | an enemy attacks you while you're Defending (even a fully blocked hit; works when guarding) → `staggered` on the attacker (Counter blocked via `CombatTag::Staggered`) |
 | `riposte` | your Counter deals damage → `marked` on the attacker |
 | `spellbrand` | your Focused attack hits without being evaded → `marked` on the target |
@@ -225,15 +225,17 @@ Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling
 | Class | Signature | Kind |
 |---|---|---|
 | Alchemist | `volatile_mixture` | action |
-| Architect | `fortify` (replaces Defend) | action |
+| Architect | `fortify`: +10 defense on you or an ally for 3 turns (`fortified`), not while Defending or Guarding; a recast starts the turns over; not twice in a row | action |
 | Blacksmith | `forge` | action |
-| Engineer | `tactical_awareness` | action |
+| Engineer | `caltrops`: laid on you or an ally (`caltrops_laid`) until an enemy attack strikes them; each enemy that does that turn takes 15 flat damage (ignores defense, evasion and shields, can't be Countered or taken by a guard), then they're gone; not twice in a row | action |
 | Scholar | `combat_analysis` | action |
-| Infiltrator | `shadow_strike` | action |
+| Infiltrator | `shadow_strike`: an attack that can't be evaded or Countered, for 5 less damage | action |
 | Farmer | `hardiness` | passive |
 | Healer | `mending` | passive |
 | Sorcerer | `channeling` | passive |
 | Scion | `last_stand` | passive |
+
+The old Fortify (a 20-point shield that replaced Defend) lives on as `stone_shield`, used only by the Planewalker's void golems and Thessadrash's Maw. Tactical Awareness was removed when Caltrops took Engineer's slot; its `outmaneuvered` effect stays registered, unused, so battles in progress that carry it still load.
 
 **Gear** is plain data: each option's `stats` are summed by `HeroCalculator::getHeroCombatStats()`.
 
@@ -266,10 +268,10 @@ The heroes page header has a Dominion Bonuses column (upgrade tiles, `partials/d
 
 A standalone Rust crate with no dependencies, for rule questions the PHP Tactician is too slow for (2v2 has up to 6,561 action pairings a turn). Nothing in it reaches the game. It models base actions only, without loadouts.
 
-- `src/game.rs` is the rules, with a flag per rule; `Rules::candidate()` is what the engine implements. `src/train.rs` and `src/value.rs` learn a win-probability table per ruleset from self-play, `src/play.rs` and `src/solver.rs` solve each turn as a simultaneous game between both teams' joint actions, `src/exact.rs` solves 1v1 exactly, and `src/eval.rs` measures viability.
+- `src/game.rs` is the rules, with a flag per rule; `Rules::candidate()` is what the engine implements, class abilities included (the simulator's Snare is the engine's Caltrops). `src/train.rs` and `src/value.rs` learn a win-probability table per ruleset from self-play, `src/play.rs` and `src/solver.rs` solve each turn as a simultaneous game between both teams' joint actions, `src/exact.rs` solves 1v1 exactly, and `src/eval.rs` measures viability.
 - **Viable** means an option gives up at most 3 points of win chance against the opponent's solved mix, on turns where each team has a 10–90% chance to win.
 - **Fidelity:** `php scripts/hero-combat-sim/engine_fixtures.php 30000 41 > scripts/hero-combat-sim/fixtures/engine.txt`, then `hero-combat-sim diff-engine scripts/hero-combat-sim/fixtures/engine.txt`, replays real engine turns and compares every evasion outcome, health and legal action. Re-run it after any rule change. The fixtures set remaining charges directly and can't see a charge being spent, so `CombatRulesTest` covers that.
-- `cargo build --release`, then `hero-combat-sim run <label> "guard=30;charges=3;rally=1;repeat=30;ctg=1;sim=1" --seed 1 --gens 30 --games 2000 --battles 2000`. Each ruleset trains from scratch in about a minute. Use two seeds and treat a split between them as a warning. `exact "<rules>" --compare` solves 1v1 and checks the learned player against it.
+- `cargo build --release` (inside `scripts/hero-combat-sim`), then `./target/release/hero-combat-sim run "<label>" "<rules>" --size 1|2 --seed N`. `base=game` is the engine's current rules (`Rules::candidate()`); add `variant=<build>` for team 0's first hero and `opponent=<build>` for team 1's, where a build is `base`, `hpN`, `greatsword`, `shadow`, `fortify`, `caltrops` (or `snare`), `foundations` or `masonry`. Anything else is a rule flag, e.g. `snare=10;fcd=3`. `score=` is team 0's result (wins plus half of draws). 1v1 takes about a second, 2v2 about a minute. Use two seeds and treat a split between them as a warning. `exact "<rules>" --compare` solves 1v1 and checks the learned player against it. Only base actions, Shadow Strike, Fortify, Caltrops, Greatsword and extra health are modeled.
 
 ## Encounters and enemies
 
@@ -290,7 +292,7 @@ All 18 original encounters are ported, plus `grand_magister`:
 | `eternal_guardian` | `undying_legion` (999 defense while minions live), `necromancy` cadence → `summon_skeleton` |
 | `nightbringer` | `nightfall` cadence → `darkness` (stacking `shrouded` evasion); cultists' `dying_light` strips it |
 | `lich_king` | `tome_of_power` phase cycle, `power_source` → `severed` |
-| `planewalker_golems`, `planewalker` | golems: Fortify + Hardiness; `void_rift` cadence (interval scales with realm wins), `wounded_retreat`, class grants (Shadow Strike / Great Flood / Demolish), victory line |
+| `planewalker_golems`, `planewalker` | golems: Stone Shield + Hardiness; `void_rift` cadence (interval scales with realm wins), `wounded_retreat`, class grants (Shadow Strike / Great Flood / Demolish), victory line |
 | `wraith` | `soul_rend_charge` → forced `soul_rend` (+85 damage, +70 defense if defending) |
 | `dreadsoul_skullkeeper` | orcs' `soul_tribute` → `empowered`; health scales with realm wins |
 | `dream_of_thessadrash` | `aspect_shift` chain: Veil → Shadow → Maw |
@@ -370,8 +372,8 @@ php artisan hero-combat:replay {battle}
 | Old (HeroBattleService / HeroCalculator) | New |
 |---|---|
 | `has_focus`, channeling `focus +=` | `focused` effect (stacks with Channeling), consumed by Attack-tagged abilities |
-| `shield` column, Fortify top-up | `shield` effect with `data.pool` (Replace) |
-| `current_action == defend/counter/recover` | `defending`/`countering`/`recovering` stances applied at declare; bosses check `chose()` |
+| `shield` column, Fortify top-up | `shield` effect with `data.pool` (Replace), now from the enemies' Stone Shield |
+| `current_action == defend/counter/recover` | `defending`/`countering` stances and Recover's `exposed`, applied at declare; bosses check `chose()` |
 | `status.frostbite` | `frostbitten` stacking debuff |
 | `frozen_pending` → `frozen` | `freezing` → (`onExpire`) → `frozen` |
 | `increment('attack', 1)` etc. | `forged` / `analyzed` / `outmaneuvered` stacking stat shifts |
@@ -381,7 +383,7 @@ php artisan hero-combat:replay {battle}
 | `hero_id === null` means enemy | `team` |
 | `winner_combatant_id` | `winning_team` (+ representative id) |
 | `limited` actions | `cooldown() = 1` |
-| sortBy('fortify') | Fortify's shield applies in `onDeclare()`, before any attack lands |
+| sortBy('fortify') | Stone Shield (the old Fortify) applies in `onDeclare()`, before any attack lands |
 
 Deliberate rebalances: destroying the Tome also removes its active chapter aura from the Lich
 King. Counter-attacks no longer inherit the triggering ability's bonus damage. Mending adds base

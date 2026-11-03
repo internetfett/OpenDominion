@@ -75,8 +75,6 @@ class TacticianTest extends AbstractTestCase
         $battle->effects->apply($b, 'analyzed');
         $this->assertEquals((1 + TurnPreview::COUNTER_WEIGHT) * 1 + TurnPreview::LASTING_TURNS, TurnPreview::offense($battle, $a) - $before, '-1 defense now and for the turns ahead');
 
-        $battle->effects->apply($b, 'outmaneuvered');
-        $this->assertEquals(-(TurnPreview::COUNTER_WEIGHT * 2) * (1 + TurnPreview::LASTING_TURNS), TurnPreview::offense($battle, $b) - $theirsBefore, '-2 counter lowers their threat now and later');
     }
 
     public function testPreviewDoesNotChangeTheRealBattle(): void

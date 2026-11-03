@@ -37,9 +37,10 @@ Measured with `scripts/hero-combat-sim` before anything was built: base actions 
 | Resolution | Fully simultaneous | Required: a kill isn't a kill if you're healed on the same turn. Sequential resolution also gave the lower-id team about 53.5% |
 | Recover | 3 charges per battle, shared with healing an ally, in all battles | Breaks the stalemate. Bosses that need more healing get redesigned |
 | Guard | +50% defense instead of doubled, no streak penalty | At 40 defense it blocks every unfocused hit; charges alone left 70–78 turn battles |
-| Repeat Defend | Exposed: (20 − 5) × 2 = 30 | About 5 turns shorter and no stalls. 35 played the same; 30 is what the existing effect gives. A Defend-only cooldown tied in 2v2 (5.12 viable) and held up in 1v1 (3.06 viable, 12.8 turns) but raised 1v1 draws to 38.5%. Sharing it with Guard cost options (4.90) |
+| Repeat Defend | Exposed, now −25% defense: 20 × (2 − 0.25) = 35 | About 5 turns shorter and no stalls. Exposed was first a flat −5 (30); switching to −25% (35) changed nothing measurable (1v1 14.0 vs 13.4 turns, 2v2 16.9 vs 16.5, same options and Defend use). A Defend-only cooldown tied in 2v2 (5.12 viable) and held up in 1v1 (3.06 viable, 12.8 turns) but raised 1v1 draws to 38.5%. Sharing it with Guard cost options (4.90) |
 | Rally | Focus on an ally: +focus to their attack this turn, sharing Focus's cooldown | The only change that adds real options |
 | Counter | Fires through a guard | Small gain (5.10 vs 5.03 viable), and it's what players expect |
+| Recover | Leaves the healer Exposed (−25%), replacing its own −5 penalty | One status and one rule for every defensive penalty |
 | Mutual Guard | Hits swap; both keep +50% | A real choice when one hero is hurt, with no measurable cost (5.09 vs 5.10 viable) |
 
 ### 2v2 (simultaneous)
@@ -85,6 +86,45 @@ The earlier 1v1 scores in this document predate these rules and need fresh numbe
 ### Snowballing (parked)
 
 The first kill wins about 99.5% of decided battles under near-optimal play. Survivor buffs tested on the proposal: +10 or +20 attack mostly created draws; +10 defense brought back stalls and 35-turn battles; a 30 heal only delayed the loss; +5/+5 gave 95% at 4.90 viable; +10/+10 gave 80% (one seed) but 24% draws, 4.51 viable, and made losing an ally less of a punishment. Set aside in favor of ability balance.
+
+---
+
+## Redesign: Class Abilities, first pass (built)
+
+Measured with `scripts/hero-combat-sim` under the 2v2 rules above. One hero has the ability; everyone else is a base hero. Scores are 2 seeds, given as points above a hero with one Greatsword (+2 attack, −10 evasion) in the same format, because health equivalents mislead in 2v2 (the 2v2 health curve is flat and lumpy: +5/+10/+15/+20 scored 54.2/57.5/59.1/66.2%). One Greatsword is worth about +7 health in 1v1 (58.0%) and about +8 in 2v2 (56.2%).
+
+| Decision | Detail |
+|---|---|
+| Abilities never replace a basic action | Six usable buttons for everyone. Replacing Defend or Recover measured badly: Fortify replacing Defend was worth nothing in 2v2 (it costs Guard), and replacing Recover was worth nothing in 2v2 (it costs healing an ally) |
+| Target power | Clearly above one gear piece, about 5 points, in both formats |
+| Variety over one-shots | A recurring choice beats a single charge used once per battle |
+| No defense that walls a Focused attack | Defense buffs get multiplied by Defend (×2) and Guard (+50%), so any sizeable buff that stacks with a stance blocks Focus and slows battles |
+
+| Ability | Final design | 1v1 | 2v2 | Notes |
+|---|---|---|---|---|
+| Fortify (Architect) | +10 defense on you or an ally for 3 turns, not while Defending or Guarding; not twice in a row; a recast starts the turns over | +5.9 | +7.6 | Adds options; battles run longer (about 18 turns in both) |
+| Caltrops (Engineer) | On you or an ally until struck; each attacker that turn takes 15 flat | +4.9 | +5.3 | Adds options; weakens Defend-heavy play |
+| Shadow Strike (Infiltrator) | Can't be evaded or Countered; 5 less damage | +5.0 | +0.6 | Battles slightly shorter; its PvE job is evasive bosses |
+
+Tried and rejected, 1v1 / 2v2 against Greatsword unless noted:
+
+| Idea | Result |
+|---|---|
+| Fortify as today (20 shield, replaces Defend, unlimited) | Worth over +20 health in 1v1, fewer options |
+| Shield with charges (shared with Recover, own 1, own 2) | +2 to +10; one charge is a single decision per battle; a shield that shares Recover's charges loses to the heal |
+| Shield that starts the battle (passive) | Gear that can't be healed; not tested |
+| Permanent defense (+3 or +2 per cast) | +3: +6.4 / +16.8 and long 2v2 battles; +2: −1.3 in 1v1 |
+| Timed +5 buff | −6 to −8 in 1v1: a turn is worth about 20 damage, +5 defense saves less |
+| Timed +10 buff stacking with stances | +2.6 / +13.1; blocks Focus under Defend |
+| 10-point shields | Not tested: can't pay back a turn |
+| Caltrops (Snare) at 10 / 20 | 10: −4 / −4, the most options; 20: +15 / +20 |
+| Caltrops split (15 alone, 10 each for several) / one at a time | −1.6 points / no change in 2v2 |
+| Foundations (no Exposed from repeat Defend) | −8.4 / −6.1, longer battles, a few stalls |
+| Masonry (half the Focus and Rally bonus against you) | +1.3 / −2.9: enemies just focus the partner |
+| Shadow Strike as it was | −3.3 / −3.5 |
+| Shadow Strike un-Counterable at full damage / at −10 | +14.3 / −3.7 in 1v1 |
+
+Snare was renamed Caltrops because Magic Snare is an espionage black op. The old Fortify shield is kept for enemies as Stone Shield.
 
 ---
 
@@ -150,7 +190,7 @@ Each lasts one turn and applies to attacks from anyone.
 
 | Status | Effect | Notes |
 |---|---|---|
-| Exposed | −5 defense | Also used for one turn while channeling (Hungering Moon) |
+| Exposed | −25% defense; each application counts separately, one from Sunder at a time | Also from Defending twice in a row, Recover, and Hungering Moon while channeling |
 | Marked | Takes +5 damage from attacks | New |
 | Staggered | Can't Counter | New |
 
@@ -184,17 +224,17 @@ Unlocked by reaching **class level 5** in that class this round. The class doesn
 | Class | Signature | Kind |
 |---|---|---|
 | Alchemist | Volatile Mixture: 150% attack, 20% chance to hit yourself | Action |
-| Architect | Fortify: shield of 20, replaces Defend | Action |
+| Architect | Fortify: +10 defense on you or an ally for 3 turns, not while Defending or Guarding | Action |
 | Blacksmith | Forge: +1 attack for the rest of the battle | Action |
-| Engineer | Tactical Awareness: target −2 counter for the rest of the battle | Action |
+| Engineer | Caltrops: on you or an ally until struck; each attacker that turn takes 15 | Action |
 | Scholar | Combat Analysis: target −1 defense for the rest of the battle | Action |
-| Infiltrator | Shadow Strike: can't be evaded, +2 damage against a Defending target | Action |
+| Infiltrator | Shadow Strike: can't be evaded or Countered, 5 less damage | Action |
 | Farmer | Hardiness: survive the first lethal hit on 1 health | Passive |
 | Healer | Mending: Focus increases Recover's healing | Passive |
 | Sorcerer | Channeling: Focus stacks | Passive |
 | Scion | Last Stand: +10% all combat stats at 40 health or less | Passive |
 
-Forge, Tactical Awareness and Combat Analysis last the whole battle and stack. Two heroes debuffing one boss in 2v1 PvE is the intended synergy, but they likely need a stack cap to avoid stalls.
+Forge and Combat Analysis last the whole battle and stack (Tactical Awareness, the old Engineer pick, did too). Two heroes debuffing one boss in 2v1 PvE is the intended synergy, but they likely need a stack cap to avoid stalls.
 
 ### Parked for 2v2
 
@@ -202,7 +242,7 @@ Forge, Tactical Awareness and Combat Analysis last the whole battle and stack. T
 |---|---|
 | Attunement | Focus can target an ally |
 | Taunt | Enemies must attack you (the Provoked effect exists) |
-| Fortify an ally | Shield an ally instead of yourself |
+| Fortify an ally | Built: Fortify targets you or an ally |
 
 ### First measurements (vs basic, 400 battles, seeds 101 / 5001)
 
@@ -403,11 +443,11 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Item | Notes |
 |---|---|
 | Stale upgrade rows | Data sync never deactivates keys removed from `heroes.yml`; remove rows in a migration or keep retired upgrades in the file with `active: false` |
-| Stack caps | Forge, Tactical Awareness, Combat Analysis |
+| Stack caps | Forge, Combat Analysis |
 | Riposte, Second Wind values | As Combos they ran 58–62% at +5 attack; the Marked/ally versions need fresh numbers |
 | Vestments of Renewal about 61% | Slightly above target; battles run longest (about 22 turns) |
 | Technique II vs Technique I | They now compete for one slot, and Technique II picks scored lower in 1v1, so level 7 may not feel like an upgrade |
-| Strong abilities at level 5 | Hardiness, Last Stand and Fortify arrive at class level 5, earlier than the old level 7 |
+| Strong abilities at level 5 | Hardiness and Last Stand arrive at class level 5, earlier than the old level 7 (Fortify was reworked) |
 | Combination testing | Technique + ability + gear builds, plus a fresh `--grid` run |
 | Battles page Information | Remove what tooltips now cover; could become a full-width, in-depth explanation of how battles work, below the battle history |
 | PvE pass after the 2v2 rules | Audit encounters for 3 charges, Exposed on repeat Defend, wasted overkill and enemy Defend or Recover loops; redesign any that need it |

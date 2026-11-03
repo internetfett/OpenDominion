@@ -31,7 +31,7 @@ class ThessadrashMaw extends AbstractEnemy
 
     protected function extraAbilities(): array
     {
-        return ['fortify'];
+        return ['stone_shield'];
     }
 
     public function effects(): array

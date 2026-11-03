@@ -7,16 +7,18 @@ use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
+use OpenDominion\HeroCombat\Engine\Effects\StackingRule;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Wide open: -5 defense. Applied for the turn while channeling, and by Sunder until the end
- * of the following turn.
+ * Wide open: -25% defense. Each application counts separately, so a self-inflicted Exposed
+ * (Defending twice in a row, Recovering) and Sunder's add up. Applied for one turn by Defend,
+ * Recover and Hungering Moon, and by Sunder until the end of the following turn.
  */
 class Exposed extends AbstractEffect
 {
-    public const DEFENSE_PENALTY = 5;
+    public const DEFENSE_PERCENT = 0.25;
 
     public function key(): string
     {
@@ -30,12 +32,17 @@ class Exposed extends AbstractEffect
 
     public function description(EffectInstance $instance): string
     {
-        return 'Defense reduced by ' . self::DEFENSE_PENALTY . '.';
+        return 'Defense reduced by ' . (int) round(self::DEFENSE_PERCENT * 100) . '%.';
     }
 
     public function kind(): EffectKind
     {
         return EffectKind::Debuff;
+    }
+
+    public function stacking(): StackingRule
+    {
+        return StackingRule::Independent;
     }
 
     public function defaultDuration(): ?int
@@ -45,6 +52,6 @@ class Exposed extends AbstractEffect
 
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
     {
-        return [Modifier::flat(Stat::Defense, -self::DEFENSE_PENALTY)];
+        return [Modifier::percent(Stat::Defense, -self::DEFENSE_PERCENT)];
     }
 }

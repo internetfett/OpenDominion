@@ -195,7 +195,7 @@ final class TurnPreview
     }
 
     /**
-     * Total battle-long shift (Forged, Analyzed, Outmaneuvered, ...) to one stat.
+     * Total battle-long shift (Forged, Analyzed, ...) to one stat.
      */
     private static function statShift(Battle $battle, CombatantState $combatant, Stat $stat): float
     {

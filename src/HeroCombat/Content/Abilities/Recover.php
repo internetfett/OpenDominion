@@ -26,7 +26,7 @@ class Recover extends AbstractAbility
 
     public function description(): string
     {
-        return 'Heals you or an ally for your recover value, but reduces your defense by 5 this turn. ' . self::MAX_CHARGES . ' uses per battle.';
+        return 'Heals you or an ally for your recover value, but leaves you Exposed (-25% defense) this turn. ' . self::MAX_CHARGES . ' uses per battle.';
     }
 
     public function targetRule(): TargetRule
@@ -56,7 +56,7 @@ class Recover extends AbstractAbility
 
     public function onDeclare(ActionContext $context): void
     {
-        $context->applyEffect($context->actor, 'recovering', 1);
+        $context->applyEffect($context->actor, 'exposed', 1);
     }
 
     public function resolve(ActionContext $context): void

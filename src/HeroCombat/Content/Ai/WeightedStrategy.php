@@ -65,7 +65,7 @@ class WeightedStrategy implements AiStrategy
         }
 
         if ($battle->hasTag($actor, CombatTag::Shielded)) {
-            unset($options['fortify']);
+            unset($options['stone_shield']);
         }
 
         if ($battle->maxHealth($actor) < $actor->currentHealth + $battle->stat($actor, Stat::Recover)) {
@@ -138,7 +138,7 @@ class WeightedStrategy implements AiStrategy
             new static('counter', 'Counter-Heavy', ['attack' => 3, 'defend' => 1, 'counter' => 3, 'recover' => 1]),
             new static('pirate', 'Pirate', ['attack' => 2, 'blade_flurry' => 3, 'focus' => 1, 'counter' => 1, 'recover' => 1]),
             new static('summoner', 'Summoner', ['attack' => 0, 'defend' => 4, 'recover' => 1]),
-            new static('fortify', 'Fortify', ['attack' => 3, 'fortify' => 3, 'counter' => 2]),
+            new static('fortify', 'Stone Shield', ['attack' => 3, 'stone_shield' => 3, 'counter' => 2]),
             new static('wraith', 'Wraith', ['attack' => 3, 'counter' => 3, 'recover' => 1, 'focus' => 1]),
             new static('warchief', 'Warchief', ['attack' => 3, 'counter' => 4, 'focus' => 2, 'recover' => 1]),
             new static('noctis', 'Noctis', ['attack' => 3, 'counter' => 2, 'focus' => 1]),

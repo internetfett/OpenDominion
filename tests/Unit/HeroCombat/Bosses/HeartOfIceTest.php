@@ -91,7 +91,7 @@ class HeartOfIceTest extends TestCase
         $this->perform($this->battle, 'Eliza, the Heart of Ice', 'frost_grip', 'Player');
 
         $this->assertEquals(5, $this->battle->effects->stacks($this->player(), 'frostbitten'));
-        $this->assertEquals(20 - 5 - 5, $this->battle->stat($this->player(), Stat::Defense), 'Frostbite stacks plus the recovering penalty');
+        $this->assertEquals(11, $this->battle->stat($this->player(), Stat::Defense), 'Frostbite stacks (20 - 5), then Exposed while recovering (-25%)');
     }
 
     public function testWintersBreathIsInterruptedByAttacking(): void

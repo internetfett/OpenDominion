@@ -201,6 +201,17 @@ final class Battle
     }
 
     /**
+     * Holds damage that answers a hit (Caltrops) until every action's hit has landed, so it
+     * never depends on the order actions resolve in. It shares the queue that runs before the
+     * healing step, and is recorded under the action that triggered it. Outside a turn's
+     * actions it happens at once.
+     */
+    public function afterHits(\Closure $callback): void
+    {
+        $this->duringHealing($callback);
+    }
+
+    /**
      * Takes away something this turn's actions spent, such as the Focus an attack used, once
      * the turn has settled and before anything is gained. Outside a turn's actions it happens
      * at once.

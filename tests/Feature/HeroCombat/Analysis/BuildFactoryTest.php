@@ -36,7 +36,7 @@ class BuildFactoryTest extends AbstractTestCase
         $fortified = $factory->addTo($battle, $factory->parse('technique=sunder;ability=fortify'), 1, 1, 'A', 'balanced');
         $hardy = $factory->addTo($battle, $factory->parse('ability=hardiness'), 2, 2, 'B', 'balanced');
 
-        $this->assertEquals(['attack', 'focus', 'counter', 'recover', 'fortify'], $fortified->abilities);
+        $this->assertEquals(['attack', 'defend', 'focus', 'counter', 'recover', 'fortify'], $fortified->abilities);
         $this->assertTrue($battle->effects->has($fortified, 'sunder'));
         $this->assertEquals(['attack', 'defend', 'focus', 'counter', 'recover'], $hardy->abilities);
         $this->assertTrue($battle->effects->has($hardy, 'hardiness'));

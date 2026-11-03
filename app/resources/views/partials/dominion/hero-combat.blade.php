@@ -1,7 +1,6 @@
 @php
     $recoverCharges = \OpenDominion\HeroCombat\Content\Abilities\Recover::MAX_CHARGES;
-    $exposedPenalty = \OpenDominion\HeroCombat\Content\Effects\Exposed::DEFENSE_PENALTY;
-    $recoverPenalty = \OpenDominion\HeroCombat\Content\Effects\Stances\Recovering::DEFENSE_PENALTY;
+    $exposedPercent = (int) round(\OpenDominion\HeroCombat\Content\Effects\Exposed::DEFENSE_PERCENT * 100);
     $guardBonus = (int) round(\OpenDominion\HeroCombat\Content\Effects\Stances\Guarding::DEFENSE_BONUS * 100);
 @endphp
 <div class="row g-4">
@@ -10,7 +9,7 @@
         <p class="mb-1">Turns play out in the same order as the battle log:</p>
         <ol class="mb-2 ps-3">
             <li><b>Actions</b>: every hero chooses an action in secret, and they're revealed once everyone has locked in.</li>
-            <li><b>Status</b>: Defend, Guard, Counter, Rally and Recover's defense penalty take effect first, so they apply to every attack that turn.</li>
+            <li><b>Status</b>: Defend, Guard, Counter, Rally, Exposed, Fortify and Caltrops take effect first, so they apply to every attack that turn.</li>
             <li><b>Damage</b>: attacks and counters deal their damage.</li>
             <li><b>Healing</b>: Recover and Heal restore health.</li>
             <li><b>Defeats</b>: anyone at 0 health is defeated. Healing comes first, so it can save an ally from that turn's damage.</li>
@@ -31,7 +30,7 @@
             <li>Attack, Defend and Guard can be used every turn.</li>
             <li>Counter, Focus and Recover can't be used two turns in a row. Rally shares Focus's cooldown, and Heal shares Recover's.</li>
             <li>Each hero can use Recover or Heal {{ $recoverCharges }} times per battle.</li>
-            <li>Defending two turns in a row leaves you Exposed: your defense value drops by {{ $exposedPenalty }} before it doubles.</li>
+            <li>Exposed means {{ $exposedPercent }}% less defense that turn. Defending two turns in a row leaves you Exposed, and so does using Recover or Heal.</li>
         </ul>
     </div>
 </div>
@@ -69,8 +68,8 @@
             </tr>
             <tr>
                 <td class="fw-bold">Recover</td>
-                <td>Heals you by your recover value, but lowers your defense value by {{ $recoverPenalty }} this turn.</td>
-                <td><b>Heal</b>: heals your ally by your recover value. The defense penalty still applies to you.</td>
+                <td>Heals you by your recover value, but leaves you Exposed this turn.</td>
+                <td><b>Heal</b>: heals your ally by your recover value. You are still Exposed.</td>
             </tr>
         </tbody>
     </table>

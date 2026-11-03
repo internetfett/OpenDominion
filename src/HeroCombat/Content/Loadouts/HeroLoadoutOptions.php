@@ -35,7 +35,7 @@ class HeroLoadoutOptions
             new LoadoutOption('volatile_mixture', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-gold-bar'),
             new LoadoutOption('fortify', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-quill-ink'),
             new LoadoutOption('forge', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-anvil'),
-            new LoadoutOption('tactical_awareness', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hammer'),
+            new LoadoutOption('caltrops', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hammer'),
             new LoadoutOption('hardiness', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-sprout'),
             new LoadoutOption('mending', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-apothecary'),
             new LoadoutOption('shadow_strike', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hood'),

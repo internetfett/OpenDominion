@@ -12,7 +12,7 @@ use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 /**
  * Hits aimed at the holder are taken by the guardian who applied this effect instead, once
  * per hit, so two heroes guarding each other swap the hits aimed at them. A Counter's
- * retaliation is never taken.
+ * retaliation, and any damage that can't be redirected (Caltrops), is never taken.
  */
 class Covered extends AbstractEffect
 {
@@ -48,7 +48,7 @@ class Covered extends AbstractEffect
             return;
         }
 
-        if ($damage->request->isCounter) {
+        if ($damage->request->isCounter || !$damage->request->canBeRedirected) {
             return;
         }
 
