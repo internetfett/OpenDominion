@@ -20,7 +20,7 @@ Balance numbers come from `php artisan hero-combat:simulate`: Tactician vs Tacti
 | Combat loadout | Techniques, abilities and gear left the upgrade system. Access is automatic; the hero brings 1 technique, 1 ability and 2 different pieces of gear, changeable at any time | `feature/hero-progression` |
 | Upgrade schedule | Dominion upgrades only: level 1 doctrine, then levels 2, 4 and 6. Data-driven slots. | `feature/hero-progression` |
 | Ally actions | Guard (Defend on an ally), Rally (Focus on an ally), healing an ally | `feature/hero-progression` |
-| Simultaneous resolution | Damage and healing land together before anyone falls; the order of combatant ids decides nothing | `feature/hero-progression` |
+| Simultaneous resolution | Damage and healing land together before anyone is defeated; the order of combatant ids decides nothing | `feature/hero-progression` |
 | Borrowed heroes | Pilot a realmmate's hero in party-enabled encounters, live or practice; no owner reward | `feature/hero-progression` |
 | Tactician + simulator | Game-theory AI and `hero-combat:simulate` for PvP balance. Analysis only, not in the game. | `feature/hero-progression` |
 
@@ -382,7 +382,7 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Topic | Decision |
 |---|---|
 | Content definitions | PHP classes, registered explicitly in `HeroCombatServiceProvider` |
-| Turn model | Fully simultaneous: secret choices with per-player time banks, and damage and healing land together before anyone falls |
+| Turn model | Fully simultaneous: secret choices with per-player time banks, and damage and healing land together before anyone is defeated |
 | Battle-wide rules | Combat rules apply to every kind of battle, PvE included. Bosses that need more healing than 3 charges get redesigned |
 | Upgrade names | Warrior/mage/rogue flavor, no stored or shown "path". Names must not reuse spell names (`app/data/spells.yml`) |
 | Combat categories | Techniques (passive rules, two tiers sharing one slot), Class Abilities and Gear; Disciplines and Combos are retired |

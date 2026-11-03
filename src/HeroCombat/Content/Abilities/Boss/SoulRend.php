@@ -39,7 +39,7 @@ class SoulRend extends AbstractAttack
             $result = $context->attack($target, $this->damageOptions($context));
             static::narrate($context, $result);
 
-            $context->sayIfFalls($result->target, 'kill', ['target' => $result->target->name]);
+            $context->sayIfDefeated($result->target, 'kill', ['target' => $result->target->name]);
         }
     }
 

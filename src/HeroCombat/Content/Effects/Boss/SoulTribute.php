@@ -40,7 +40,7 @@ class SoulTribute extends AbstractPassive
 
         foreach ($battle->withTemplate($instance->data['target'] ?? '') as $target) {
             $battle->effects->apply($target, 'empowered', null, 1, ['bonuses' => $bonuses], $dead);
-            $battle->say($dead, "As {$dead->name} falls, dark tendrils stream from the body into {$target->name} ({$changes}). He grows stronger.");
+            $battle->say($dead, "As {$dead->name} is defeated, dark tendrils stream from the body into {$target->name} ({$changes}). He grows stronger.");
         }
     }
 }

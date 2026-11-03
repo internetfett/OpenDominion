@@ -6,6 +6,7 @@
     $changes = $view->healthChanges();
     $timeLeft = $view->timeLeft();
     $waitingOn = $battle->finished ? [] : $view->waitingOn();
+    $turns = $view->turns();
 @endphp
 <div class="hero-battle">
     <div class="battle-bar">
@@ -55,7 +56,7 @@
         @endif
 
         <aside class="battle-log">
-            @include('partials.dominion.hero-turn-summary', ['view' => $view])
+            @include('partials.dominion.hero-turn-summary', ['view' => $view, 'turns' => $turns])
         </aside>
     </div>
 </div>

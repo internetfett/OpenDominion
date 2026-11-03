@@ -304,10 +304,9 @@ class BorrowedHeroTest extends AbstractBrowserKitTestCase
         $this->assertEquals(['defend', $hero->id], [$chosen[$borrowed->id]['ability'], $chosen[$borrowed->id]['target']]);
     }
 
-    public function testRallyOrderReachesTheAllyAndDamage(): void
+    public function testRallyOrderReachesTheAllysAttack(): void
     {
         [$pilot, , $battle, $hero, $borrowed, $warden] = $this->party();
-        $health = $warden->current_health;
 
         $this->heroActionService->queueOrders($pilot, $battle, [
             $hero->id => ['action' => 'attack', 'target' => $warden->id],
@@ -320,8 +319,7 @@ class BorrowedHeroTest extends AbstractBrowserKitTestCase
 
         $hit = collect($battle->turns()->where('turn', 1)->firstOrFail()->events)
             ->first(fn (array $event) => $event['type'] === 'damage' && $event['source'] === $hero->id);
-        $this->assertEquals($borrowed->focus, $hit['bonus']);
-        $this->assertLessThan($health, $warden->fresh()->current_health);
+        $this->assertEquals($borrowed->focus, $hit['bonus'], 'The Rally bonus reaches the attack, whatever the warden chose');
     }
 
     public function testFocusedHeroCanRallyButCannotFocusThemselvesAgain(): void

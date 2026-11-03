@@ -106,7 +106,7 @@
                                                 @endif
                                                 <br/>
                                                 <small class="text-muted">
-                                                    Dreadsoul's guards will throw themselves at you. Beware — when they fall, their strength flows into him.
+                                                    Dreadsoul's guards will throw themselves at you. Beware — when they are defeated, their strength flows into him.
                                                 </small>
                                             </div>
                                         </td>

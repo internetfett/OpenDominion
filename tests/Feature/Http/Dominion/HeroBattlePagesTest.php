@@ -82,7 +82,7 @@ class HeroBattlePagesTest extends AbstractTestCase
 
         $active = strpos($content, 'Active Battles</span>');
         $previous = strpos($content, 'Previous Battles</span>');
-        $information = strpos($content, '<span class="card-title">Information</span>');
+        $information = strpos($content, '<span class="card-title">How Hero Battles Work</span>');
 
         $this->assertNotFalse($active);
         $this->assertLessThan($previous, $active);

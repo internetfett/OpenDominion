@@ -8,7 +8,7 @@ use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
 /**
- * When the master falls, its summoned constructs collapse with it.
+ * When the master is defeated, its summoned constructs collapse with it.
  */
 class WoundedRetreat extends AbstractPassive
 {

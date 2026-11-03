@@ -6,7 +6,7 @@ use Closure;
 
 /**
  * Holds a turn's damage and healing so they land together: health does not change until every
- * action has resolved, and healing counts before anyone falls. It also holds the changes that
+ * action has resolved, and healing counts before anyone is defeated. It also holds the changes that
  * wait for the turn to settle: what actions spent, then what they earned.
  */
 final class TurnLedger
@@ -20,8 +20,8 @@ final class TurnLedger
     /** @var array<int, bool> combatant ids hit by something lethal saves can't stop */
     private array $unsavable = [];
 
-    /** @var array<int, Closure[]> combatant id => callbacks to run if they fall this turn */
-    private array $fallCallbacks = [];
+    /** @var array<int, Closure[]> combatant id => callbacks to run if they are defeated this turn */
+    private array $defeatCallbacks = [];
 
     /** @var Closure[] healing held back from the damage step */
     private array $healingCallbacks = [];
@@ -62,19 +62,19 @@ final class TurnLedger
     }
 
     /**
-     * Runs a callback when the turn settles, only if the combatant actually fell.
+     * Runs a callback when the turn settles, only if the combatant was actually defeated.
      */
-    public function whenFalls(CombatantState $combatant, Closure $callback): void
+    public function whenDefeated(CombatantState $combatant, Closure $callback): void
     {
-        $this->fallCallbacks[$combatant->id][] = $callback;
+        $this->defeatCallbacks[$combatant->id][] = $callback;
     }
 
     /**
      * @return Closure[]
      */
-    public function fallCallbacks(CombatantState $combatant): array
+    public function defeatCallbacks(CombatantState $combatant): array
     {
-        return $this->fallCallbacks[$combatant->id] ?? [];
+        return $this->defeatCallbacks[$combatant->id] ?? [];
     }
 
     /**

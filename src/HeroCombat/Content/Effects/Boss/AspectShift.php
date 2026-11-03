@@ -8,7 +8,7 @@ use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
 /**
- * On death, a new form takes the fallen combatant's place on its team.
+ * On death, a new form takes the defeated combatant's place on its team.
  *
  * Instance data: next (template key), name (display name, optional).
  */

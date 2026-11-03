@@ -50,7 +50,7 @@ class BattleViewTest extends TestCase
         $this->assertTrue($view->canQueueAhead());
 
         $this->named($battle, 'Ally')->currentHealth = 0;
-        $this->assertFalse($view->canQueueAhead(), 'A fallen ally can no longer hold up the turn');
+        $this->assertFalse($view->canQueueAhead(), 'A defeated ally can no longer hold up the turn');
     }
 
     public function testPilotingEveryLivingHumanCannotQueueAhead(): void

@@ -726,12 +726,12 @@ body:not(.layout-top-nav) .app-header {
   }
 }
 
-// Hero battle page
+// Hero battle page. The battle always gets the full content width, and its layout changes
+// only at Bootstrap breakpoints, so it changes once and in one direction while resizing.
 .hero-battle {
   --battle-ally: color-mix(in srgb, var(--bs-info) 55%, var(--bs-emphasis-color));
   --battle-enemy: color-mix(in srgb, var(--bs-danger) 70%, var(--bs-emphasis-color));
 
-  container-type: inline-size;
   margin-bottom: 1rem;
 }
 
@@ -790,7 +790,7 @@ body:not(.layout-top-nav) .app-header {
   display: grid;
   gap: 14px;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "log" "arena" "orders";
+  grid-template-areas: "arena" "orders" "log";
 }
 
 .battle-arena {
@@ -812,7 +812,7 @@ body:not(.layout-top-nav) .app-header {
   }
 }
 
-@container (min-width: 760px) {
+@include media-breakpoint-up(xl) {
   .battle-layout {
     grid-template-columns: minmax(0, 1fr) 320px;
     grid-template-areas: "arena log" "orders log";
@@ -861,7 +861,7 @@ body:not(.layout-top-nav) .app-header {
   display: none;
 }
 
-@container (min-width: 480px) {
+@include media-breakpoint-up(sm) {
   .battle-sides:not(:has(.battle-side-compact)) {
     flex-direction: row;
     align-items: stretch;
@@ -887,7 +887,7 @@ body:not(.layout-top-nav) .app-header {
   }
 }
 
-@container (min-width: 600px) {
+@include media-breakpoint-up(xxl) {
   .battle-side-compact .battle-side-cards {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

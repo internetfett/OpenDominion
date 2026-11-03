@@ -76,9 +76,9 @@ processTurn(HeroBattle)
      └─ persist state + log rows → if finished: HeroBattleOutcomeService::finalize
 ```
 
-- **Simultaneous semantics.** Turns are fully simultaneous: the order of combatant ids never decides who lives. Nobody's health changes and nobody falls until every action has resolved, so healing can save someone from a killing blow, a falling hero still acts and Counters, and an attack on a falling target stays on them (overkill is wasted). Anyone summoned mid-turn acts from the next turn.
+- **Simultaneous semantics.** Turns are fully simultaneous: the order of combatant ids never decides who lives. Nobody's health changes and nobody is defeated until every action has resolved, so healing can save someone who would otherwise be defeated, a hero being defeated still acts and Counters, and an attack on a target being defeated stays on them (overkill is wasted). Anyone summoned mid-turn acts from the next turn.
 - **Healing is its own step.** Every heal lands after all of the turn's damage, so what it restores (and reports) is capped against the turn's real damage, never against whichever hits happened to resolve first. Healing done while dealing damage must go through `Battle::duringHealing()`, which also records it under the action that queued it; calling `Battle::heal()` directly from the damage step caps against partial damage.
-- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus, Mending's Recover spending it. `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient fell: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances and Fortify's shield apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
+- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus, Mending's Recover spending it. `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient was defeated: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances and Fortify's shield apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
 - **Outside a turn's actions** (turn start, turn end, direct `perform()` calls in tests) there is no ledger: damage and healing apply at once, and the three callbacks run immediately (`afterActions()` only if the recipient is alive).
 - **Guarded by** `TurnOrderIndependenceTest`, which plays seeded battles with every loadout option, then again with every combatant id reversed, and requires identical results each turn.
 - **Readiness.** NPCs are always ready. A human is ready when they have a queued action or are automated. `checkTime()` drains time banks and switches anyone at zero to automated.
@@ -151,7 +151,7 @@ by apply sequence. "Runs for X's effects" includes the team and field instances 
 6. `OnDamageTaken` expiry → `afterDamageTaken` / `afterDamageDealt`
 7. Counter-attack if the hit is counterable and whoever it struck or was aimed at holds `Countering` (so a Counter fires through a guard): attack + counter vs defense, no evasion, not shielded, not itself counterable, not redirected by a guard, × hits
 
-Lethal saves (`onLethalDamage`, unless a hit set `bypassLethalSave`) run at the settle step against the whole turn's damage and healing, so Hardiness is only spent if the hero would really fall. `DamageResult::$counterer` names who struck back. Use `ActionContext::sayIfFalls()` for a line that should only appear if the target actually falls, once healing is counted.
+Lethal saves (`onLethalDamage`, unless a hit set `bypassLethalSave`) run at the settle step against the whole turn's damage and healing, so Hardiness is only spent if the hero would really be defeated. `DamageResult::$counterer` names who struck back. Use `ActionContext::sayIfDefeated()` for a line that should only appear if the target is actually defeated, once healing is counted.
 
 `ActionContext::attack()` builds a standard request. `ActionContext::flatDamage()` builds fixed
 damage that ignores defense, evasion and counters (boss moves).
@@ -286,7 +286,7 @@ All 18 original encounters are ported, plus `grand_magister`:
 |---|---|
 | `default` (Evil Twin) | copies the leader's stats |
 | `rabid_bunny`, `dragonkin`, `gate_warden`, `rebel_corsair`, `rebel_admiral` | stat blocks; Blade Flurry, Enrage |
-| `fallen_kings` | `undying`: revive at half health 5 turns after falling |
+| `fallen_kings` | `undying`: revive at half health 5 turns after being defeated |
 | `eternal_guardian` | `undying_legion` (999 defense while minions live), `necromancy` cadence → `summon_skeleton` |
 | `nightbringer` | `nightfall` cadence → `darkness` (stacking `shrouded` evasion); cultists' `dying_light` strips it |
 | `lich_king` | `tome_of_power` phase cycle, `power_source` → `severed` |

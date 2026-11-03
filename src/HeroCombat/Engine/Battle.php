@@ -216,7 +216,7 @@ final class Battle
 
     /**
      * Holds a change to a combatant back until the turn has settled and spending is done, so
-     * nobody's stats shift partway through a turn. Skipped if the recipient fell. Outside a
+     * nobody's stats shift partway through a turn. Skipped if the recipient was defeated. Outside a
      * turn's actions it happens at once.
      */
     public function afterActions(CombatantState $recipient, \Closure $callback): void

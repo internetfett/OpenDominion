@@ -109,7 +109,7 @@ final class TurnResolver
             $combatant->currentHealth = max(0, min($health, $battle->maxHealth($combatant)));
 
             if (!$combatant->isAlive()) {
-                foreach ($ledger->fallCallbacks($combatant) as $callback) {
+                foreach ($ledger->defeatCallbacks($combatant) as $callback) {
                     $callback();
                 }
             }

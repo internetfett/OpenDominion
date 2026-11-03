@@ -8,9 +8,9 @@ use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
 /**
- * Returns from the dead with half its maximum health a few turns after falling.
+ * Returns from the dead with half its maximum health a few turns after being defeated.
  *
- * Instance data: countdown (int) turns left while dead; died_on (int) the turn it fell.
+ * Instance data: countdown (int) turns left while dead; died_on (int) the turn it was defeated.
  */
 class Undying extends AbstractPassive
 {

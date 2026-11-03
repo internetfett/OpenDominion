@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
 
-        <div class="col-sm-12 col-md-9">
+        <div class="col-12">
             <form action="{{ route('dominion.heroes.battles.practice') }}" method="post" role="form">
                 @csrf
                 <div class="card card-primary">
@@ -67,10 +67,10 @@
 
         </div>
 
-        <div class="col-sm-12 col-md-3">
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <span class="card-title">Information</span>
+                    <span class="card-title">How Hero Battles Work</span>
                 </div>
                 <div class="card-body">
                     @include('partials.dominion.hero-combat')

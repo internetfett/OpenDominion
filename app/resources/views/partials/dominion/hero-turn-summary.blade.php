@@ -1,5 +1,5 @@
 @php
-    $turns = $view->turns();
+    $turns ??= $view->turns();
     $latest = array_shift($turns);
 @endphp
 <div class="turn-summary">

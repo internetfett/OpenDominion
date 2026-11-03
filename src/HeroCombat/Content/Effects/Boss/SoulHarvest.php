@@ -22,6 +22,6 @@ class SoulHarvest extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Absorbs the strength of fallen allies, growing more powerful with each death.';
+        return 'Absorbs the strength of defeated allies, growing more powerful with each one.';
     }
 }

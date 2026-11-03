@@ -12,7 +12,7 @@ use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Battle-long stat gains absorbed from a fallen ally. Data: bonuses (stat => amount).
+ * Battle-long stat gains absorbed from a defeated ally. Data: bonuses (stat => amount).
  */
 class Empowered extends AbstractEffect
 {
@@ -33,7 +33,7 @@ class Empowered extends AbstractEffect
             $parts[] = ucfirst($stat) . " +{$amount}";
         }
 
-        return 'Strengthened by a fallen ally: ' . implode(', ', $parts) . '.';
+        return 'Strengthened by a defeated ally: ' . implode(', ', $parts) . '.';
     }
 
     public function kind(): EffectKind

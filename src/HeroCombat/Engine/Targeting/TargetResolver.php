@@ -84,7 +84,7 @@ final class TargetResolver
 
     /**
      * The chosen living ally, or the actor when nothing was chosen. A chosen ally who has
-     * fallen makes the ability fizzle.
+     * been defeated makes the ability fizzle.
      *
      * @return CombatantState[]
      */
