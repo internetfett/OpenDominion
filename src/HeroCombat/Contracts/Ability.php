@@ -21,9 +21,6 @@ interface Ability
 
     public function targetRule(): TargetRule;
 
-    /** Higher priorities resolve earlier within a turn. */
-    public function priority(): int;
-
     /** Turns after use before the ability can be chosen again (0 = no cooldown, 1 = not twice in a row). */
     public function cooldown(CombatantState $actor, Battle $battle): int;
 

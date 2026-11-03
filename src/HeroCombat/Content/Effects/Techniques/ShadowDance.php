@@ -4,13 +4,15 @@ namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
 use OpenDominion\HeroCombat\Content\AbstractPassive;
 use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 
 /**
- * Discipline: evading an attack grants Focus. Focus does not stack, so more evasion means
- * regaining Focus sooner rather than holding more of it.
+ * Discipline: evading an attack grants Focus. It lands after the turn's spending, so a
+ * Focused attacker who evades is Focused again. It never adds a second stack: not while
+ * already Focused, and not on a turn you Focus yourself (which matters under Channeling).
  */
 class ShadowDance extends AbstractPassive
 {
@@ -36,11 +38,18 @@ class ShadowDance extends AbstractPassive
             return;
         }
 
-        $battle->afterActions(function () use ($battle, $dancer) {
-            if ($dancer->isAlive() && !$battle->hasTag($dancer, CombatTag::Focused)) {
+        $battle->afterActions($dancer, function () use ($battle, $dancer) {
+            if (!$battle->hasTag($dancer, CombatTag::Focused) && !$this->focusesThemselves($dancer, $battle)) {
                 $battle->effects->apply($dancer, 'focused', null, 1, [], $dancer);
                 $battle->say($dancer, "{$dancer->name} slips the blow and finds an opening.");
             }
         });
+    }
+
+    private function focusesThemselves(CombatantState $dancer, Battle $battle): bool
+    {
+        $intent = $battle->intentOf($dancer);
+
+        return $intent !== null && $intent->abilityKey === 'focus' && in_array($intent->targetId, [null, $dancer->id], true);
     }
 }

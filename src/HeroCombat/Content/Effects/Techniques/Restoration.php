@@ -13,7 +13,8 @@ use OpenDominion\HeroCombat\Engine\Stats\Stat;
 /**
  * Discipline: Recover heals most of its value immediately and the rest over the next three
  * turns. Recasting replaces the remaining ticks, so recovering as soon as the cooldown
- * allows wastes the last one.
+ * allows wastes the last one. Two healers restoring the same ally in one turn leave the
+ * larger tick, whichever resolves last.
  */
 class Restoration extends AbstractPassive
 {
@@ -54,6 +55,13 @@ class Restoration extends AbstractPassive
         }
 
         $fullHeal = $battle->stat($context->actor, Stat::Recover) / self::IMMEDIATE_SHARE;
-        $battle->effects->apply($target, 'restoring', null, 1, ['amount' => (int) round($fullHeal * self::TICK_SHARE)], $context->actor);
+        $amount = (int) round($fullHeal * self::TICK_SHARE);
+
+        $restoring = $battle->effects->find($target, 'restoring');
+        if ($restoring !== null && $restoring->appliedTurn === $battle->turn() && ($restoring->data['amount'] ?? 0) >= $amount) {
+            return;
+        }
+
+        $battle->effects->apply($target, 'restoring', null, 1, ['amount' => $amount], $context->actor);
     }
 }

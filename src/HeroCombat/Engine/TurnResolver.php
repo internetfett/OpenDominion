@@ -13,10 +13,11 @@ use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
 /**
  * Resolves one simultaneous turn:
- * turn start → intents → declare → resolve each action into the turn ledger (damage, then
- * healing) → settle health → deaths → turn end hooks → durations → encounter script
- * → victory check. Nobody's health changes until every action has resolved, so the order of
- * actions never decides who lives.
+ * turn start → intents → declare (stances, shields) → damage step → healing step → settle
+ * health and deaths → spend, then gain → turn end hooks → durations → encounter script
+ * → victory check. Damage and healing go into the turn ledger and land together, and changes
+ * to stats wait until the turn has settled, so the order actions resolve in (combatant id
+ * within each step) never decides the outcome.
  */
 final class TurnResolver
 {
@@ -46,12 +47,22 @@ final class TurnResolver
             $contexts[] = $context;
         }
 
-        usort($contexts, fn (ActionContext $a, ActionContext $b) => $this->resolutionOrder($a) <=> $this->resolutionOrder($b));
+        usort($contexts, fn (ActionContext $a, ActionContext $b) => $a->actor->id <=> $b->actor->id);
+        $heals = array_filter($contexts, fn (ActionContext $context) => $this->heals($context));
+        $others = array_filter($contexts, fn (ActionContext $context) => !$this->heals($context));
 
         $battle->ledger = new TurnLedger();
-        foreach ($contexts as $context) {
+        foreach ($others as $context) {
             $this->resolveAction($battle, $validator, $context);
         }
+
+        foreach ($battle->ledger->startHealing() as $heal) {
+            $heal();
+        }
+        foreach ($heals as $context) {
+            $this->resolveAction($battle, $validator, $context);
+        }
+
         $this->settle($battle);
 
         $battle->dispatcher->runEverywhere(Hook::TurnEnd, $battle);
@@ -71,21 +82,18 @@ final class TurnResolver
     }
 
     /**
-     * Healing resolves after damage so it can report what it really restores.
-     *
-     * @return array{0: int, 1: bool, 2: int}
+     * Healing actions resolve in their own step, once every action's damage has landed, so
+     * what they restore counts against the turn's real damage.
      */
-    private function resolutionOrder(ActionContext $context): array
+    private function heals(ActionContext $context): bool
     {
-        return [
-            -$context->ability->priority(),
-            in_array(CombatTag::Heal, $context->ability->tags(), true),
-            $context->actor->id,
-        ];
+        return in_array(CombatTag::Heal, $context->ability->tags(), true);
     }
 
     /**
-     * Applies the turn's damage and healing together, then processes deaths.
+     * Applies the turn's damage and healing together and processes deaths. Then what the
+     * turn's actions spent is taken away before what they earned is given, and only those
+     * still standing gain anything.
      */
     private function settle(Battle $battle): void
     {
@@ -109,8 +117,14 @@ final class TurnResolver
 
         $this->processDeaths($battle);
 
-        foreach ($ledger->settleCallbacks() as $callback) {
+        foreach ($ledger->spendCallbacks() as $callback) {
             $callback();
+        }
+
+        foreach ($ledger->gainCallbacks() as [$recipient, $callback]) {
+            if ($recipient->isAlive()) {
+                $callback();
+            }
         }
     }
 

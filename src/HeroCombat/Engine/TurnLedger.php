@@ -5,8 +5,9 @@ namespace OpenDominion\HeroCombat\Engine;
 use Closure;
 
 /**
- * Holds the damage and healing of a turn's actions so they land together: health does not
- * change until every action has resolved, and healing counts before anyone falls.
+ * Holds a turn's damage and healing so they land together: health does not change until every
+ * action has resolved, and healing counts before anyone falls. It also holds the changes that
+ * wait for the turn to settle: what actions spent, then what they earned.
  */
 final class TurnLedger
 {
@@ -22,8 +23,16 @@ final class TurnLedger
     /** @var array<int, Closure[]> combatant id => callbacks to run if they fall this turn */
     private array $fallCallbacks = [];
 
-    /** @var Closure[] run once the turn has settled */
-    private array $settleCallbacks = [];
+    /** @var Closure[] healing held back from the damage step */
+    private array $healingCallbacks = [];
+
+    private bool $healingStarted = false;
+
+    /** @var Closure[] run once the turn has settled, before anything is gained */
+    private array $spendCallbacks = [];
+
+    /** @var array<int, array{0: CombatantState, 1: Closure}> run after spending, for recipients still standing */
+    private array $gainCallbacks = [];
 
     public function addDamage(CombatantState $target, int $amount, bool $bypassLethalSave = false): void
     {
@@ -61,26 +70,63 @@ final class TurnLedger
     }
 
     /**
-     * Runs a callback after health has settled and deaths are processed.
-     */
-    public function afterSettle(Closure $callback): void
-    {
-        $this->settleCallbacks[] = $callback;
-    }
-
-    /**
-     * @return Closure[]
-     */
-    public function settleCallbacks(): array
-    {
-        return $this->settleCallbacks;
-    }
-
-    /**
      * @return Closure[]
      */
     public function fallCallbacks(CombatantState $combatant): array
     {
         return $this->fallCallbacks[$combatant->id] ?? [];
+    }
+
+    /**
+     * Holds healing back until the healing step.
+     */
+    public function duringHealing(Closure $callback): void
+    {
+        $this->healingCallbacks[] = $callback;
+    }
+
+    public function healingStarted(): bool
+    {
+        return $this->healingStarted;
+    }
+
+    /**
+     * Begins the healing step: every action's damage has landed.
+     *
+     * @return Closure[] the healing held back until now, in the order it was queued
+     */
+    public function startHealing(): array
+    {
+        $this->healingStarted = true;
+        $callbacks = $this->healingCallbacks;
+        $this->healingCallbacks = [];
+
+        return $callbacks;
+    }
+
+    public function spendAfterActions(Closure $callback): void
+    {
+        $this->spendCallbacks[] = $callback;
+    }
+
+    public function afterActions(CombatantState $recipient, Closure $callback): void
+    {
+        $this->gainCallbacks[] = [$recipient, $callback];
+    }
+
+    /**
+     * @return Closure[]
+     */
+    public function spendCallbacks(): array
+    {
+        return $this->spendCallbacks;
+    }
+
+    /**
+     * @return array<int, array{0: CombatantState, 1: Closure}>
+     */
+    public function gainCallbacks(): array
+    {
+        return $this->gainCallbacks;
     }
 }

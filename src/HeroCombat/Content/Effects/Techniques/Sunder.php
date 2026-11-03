@@ -37,7 +37,7 @@ class Sunder extends AbstractPassive
 
         foreach ($context->targets as $target) {
             if ($target->isAlive() && $target->team !== $context->actor->team && $battle->hasTag($target, CombatTag::Defending)) {
-                $battle->afterActions(fn () => $target->isAlive() ? $battle->effects->apply($target, 'exposed', 2, 1, [], $context->actor) : null);
+                $battle->afterActions($target, fn () => $battle->effects->apply($target, 'exposed', 2, 1, [], $context->actor));
                 $battle->say($context->actor, "{$context->actor->name} batters through {$target->name}'s guard.");
             }
         }

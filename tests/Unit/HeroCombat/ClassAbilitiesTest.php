@@ -19,7 +19,7 @@ class ClassAbilitiesTest extends TestCase
         $hero = $this->named($battle, 'Hero');
         $battle->effects->apply($hero, 'shield', null, 1, ['pool' => 5]);
 
-        $this->perform($battle, 'Hero', 'fortify');
+        $this->declare($battle, 'Hero', 'fortify');
 
         $this->assertEquals(20, $battle->effects->find($hero, 'shield')->data['pool']);
     }

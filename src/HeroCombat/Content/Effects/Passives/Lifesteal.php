@@ -33,9 +33,12 @@ class Lifesteal extends AbstractPassive
             return;
         }
 
-        $healed = $battle->heal($attacker, (int) round($damage->amount / 2), $attacker, $this->key());
-        if ($healed > 0) {
-            $battle->say($attacker, "{$attacker->name} heals for {$healed} health.", MessageKind::Detail);
-        }
+        $amount = (int) round($damage->amount / 2);
+        $battle->duringHealing(function () use ($battle, $attacker, $amount) {
+            $healed = $battle->heal($attacker, $amount, $attacker, $this->key());
+            if ($healed > 0) {
+                $battle->say($attacker, "{$attacker->name} heals for {$healed} health.", MessageKind::Detail);
+            }
+        });
     }
 }

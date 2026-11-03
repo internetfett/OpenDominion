@@ -72,7 +72,7 @@ class Focus extends AbstractAbility
             return;
         }
 
-        $context->battle->afterActions(fn () => $context->applyEffect($context->actor, 'focused'));
+        $context->battle->afterActions($context->actor, fn () => $context->applyEffect($context->actor, 'focused'));
         $context->say('focus');
     }
 

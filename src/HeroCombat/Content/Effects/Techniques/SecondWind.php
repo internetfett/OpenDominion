@@ -34,11 +34,12 @@ class SecondWind extends AbstractPassive
             return;
         }
 
-        $battle->effects->apply($context->actor, 'invigorated', null, 1, [], $context->actor);
+        $healer = $context->actor;
+        $battle->afterActions($healer, fn () => $battle->effects->apply($healer, 'invigorated', null, 1, [], $healer));
 
         $target = $context->target();
-        if ($target !== null && $target->id !== $context->actor->id && $target->isAlive()) {
-            $battle->effects->apply($target, 'invigorated', null, 1, [], $context->actor);
+        if ($target !== null && $target->id !== $healer->id) {
+            $battle->afterActions($target, fn () => $battle->effects->apply($target, 'invigorated', null, 1, [], $healer));
         }
     }
 }

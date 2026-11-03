@@ -19,11 +19,6 @@ abstract class AbstractAbility implements Ability
         return TargetRule::SingleEnemy;
     }
 
-    public function priority(): int
-    {
-        return 0;
-    }
-
     public function cooldown(CombatantState $actor, Battle $battle): int
     {
         return 0;

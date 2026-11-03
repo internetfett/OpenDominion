@@ -37,7 +37,7 @@ class Forge extends AbstractAbility
 
     public function resolve(ActionContext $context): void
     {
-        $context->battle->afterActions(fn () => $context->applyEffect($context->actor, 'forged'));
+        $context->battle->afterActions($context->actor, fn () => $context->applyEffect($context->actor, 'forged'));
         $context->say('forge');
     }
 

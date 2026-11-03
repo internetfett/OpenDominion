@@ -24,7 +24,7 @@ class Fortify extends AbstractAbility
 
     public function description(): string
     {
-        return 'Prevent the next ' . self::SHIELD . ' non-counter damage dealt to you. Resolves before other actions.';
+        return 'Prevent the next ' . self::SHIELD . ' non-counter damage dealt to you, starting with this turn\'s attacks.';
     }
 
     public function targetRule(): TargetRule
@@ -32,9 +32,12 @@ class Fortify extends AbstractAbility
         return TargetRule::Self;
     }
 
-    public function priority(): int
+    /**
+     * The shield goes up at declare, before any attack lands.
+     */
+    public function onDeclare(ActionContext $context): void
     {
-        return 10;
+        $context->applyEffect($context->actor, 'shield', null, 1, ['pool' => self::SHIELD]);
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int
@@ -44,7 +47,6 @@ class Fortify extends AbstractAbility
 
     public function resolve(ActionContext $context): void
     {
-        $context->applyEffect($context->actor, 'shield', null, 1, ['pool' => self::SHIELD]);
         $context->say('fortify', ['amount' => self::SHIELD]);
     }
 

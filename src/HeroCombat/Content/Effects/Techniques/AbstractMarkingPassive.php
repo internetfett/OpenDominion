@@ -17,10 +17,6 @@ abstract class AbstractMarkingPassive extends AbstractPassive
         $target = $damage->target;
         $source = $damage->request->attacker;
 
-        $battle->afterActions(function () use ($battle, $target, $source) {
-            if ($target->isAlive()) {
-                $battle->effects->apply($target, 'marked', null, 1, [], $source);
-            }
-        });
+        $battle->afterActions($target, fn () => $battle->effects->apply($target, 'marked', null, 1, [], $source));
     }
 }

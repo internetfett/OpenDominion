@@ -48,7 +48,7 @@ class TurnResolverTest extends TestCase
         $this->assertEquals(100, $this->named($battle, 'Hero')->currentHealth);
     }
 
-    public function testHigherPriorityResolvesFirst(): void
+    public function testFortifyShieldIsUpBeforeAnyAttackLands(): void
     {
         $battle = BattleBuilder::make()
             ->npc('Foe', team: 2)

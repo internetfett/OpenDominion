@@ -60,7 +60,7 @@ class BattleFury extends AbstractPassive
 
         $attacked = $context->ability->key() === 'attack';
 
-        $battle->afterActions(function () use ($instance, $attacked) {
+        $battle->afterActions($context->actor, function () use ($instance, $attacked) {
             $instance->data['streak'] = $attacked ? min(self::MAX_STACKS, $this->streak($instance) + 1) : 0;
         });
     }

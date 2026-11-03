@@ -34,8 +34,10 @@ class Bloodrend extends AbstractBossMove
         };
 
         $result = $context->flatDamage($target, $damage);
-        $healed = $context->heal($context->actor, $healing);
-        $context->say($messageKey, ['damage' => $result->amount + $result->absorbed, 'healing' => $healed]);
+        $context->battle->duringHealing(function () use ($context, $result, $messageKey, $healing) {
+            $healed = $context->heal($context->actor, $healing);
+            $context->say($messageKey, ['damage' => $result->amount + $result->absorbed, 'healing' => $healed]);
+        });
     }
 
     public function messages(): array

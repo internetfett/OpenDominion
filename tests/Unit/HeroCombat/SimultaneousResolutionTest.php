@@ -2,6 +2,8 @@
 
 namespace OpenDominion\Tests\Unit\HeroCombat;
 
+use OpenDominion\HeroCombat\Content\Abilities\Boss\Bloodrend;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Events\BattleEvent;
 use OpenDominion\HeroCombat\Engine\Events\EventType;
@@ -200,6 +202,135 @@ class SimultaneousResolutionTest extends TestCase
         $this->resolveTurn($battle);
 
         $this->assertStringNotContainsString('devours their soul', $this->text($battle));
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testLifestealHealsOnceTheTurnsDamageHasLanded(bool $firstTeamFirst): void
+    {
+        $battle = $this->teams($firstTeamFirst);
+        $hero = $this->named($battle, 'Hero');
+        $battle->effects->apply($hero, 'lifesteal');
+        $this->queue($battle, 'Hero', 'attack', 'Foe');
+        $this->queue($battle, 'Ally', 'defend');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+        $this->queue($battle, 'Other', 'defend');
+
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(100 - 20 + 10, $hero->currentHealth, 'Healing at full health still offsets the hit taken');
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testBloodrendHealsOnceTheTurnsDamageHasLanded(bool $firstTeamFirst): void
+    {
+        $battle = $this->ordered($firstTeamFirst, [
+            'Hero' => ['team' => 1],
+            'Boss' => ['team' => 2, 'stats' => ['health' => 200], 'abilities' => array_merge(HeroClassLoadouts::BASIC_ABILITIES, ['bloodrend'])],
+        ]);
+        $this->queue($battle, 'Hero', 'attack', 'Boss');
+        $this->queue($battle, 'Boss', 'bloodrend', 'Hero');
+
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(200, $this->named($battle, 'Boss')->currentHealth);
+        $this->assertEquals(100 - Bloodrend::ATTACK_DAMAGE, $this->named($battle, 'Hero')->currentHealth);
+        $this->assertStringContainsString('She feasts, healing 20 health', $this->text($battle), 'She reports what she really restored after the hit');
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testShadowDanceRefocusesAnAttackerWhoEvades(bool $firstTeamFirst): void
+    {
+        $battle = $this->ordered($firstTeamFirst, ['Hero' => ['team' => 1], 'Foe' => ['team' => 2]]);
+        $hero = $this->named($battle, 'Hero');
+        $battle->effects->apply($hero, 'shadow_dance');
+        $battle->effects->apply($hero, 'focused');
+        $battle->evasionRoll = fn ($target) => $target->id === $hero->id;
+        $this->queue($battle, 'Hero', 'attack', 'Foe');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(100 - 30, $this->named($battle, 'Foe')->currentHealth, 'The attack spent the Focus');
+        $this->assertTrue($battle->effects->has($hero, 'focused'), 'The evade earned it back');
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testShadowDanceNeverAddsASecondFocus(bool $firstTeamFirst): void
+    {
+        $battle = $this->ordered($firstTeamFirst, ['Hero' => ['team' => 1], 'Foe' => ['team' => 2]]);
+        $hero = $this->named($battle, 'Hero');
+        $battle->effects->apply($hero, 'shadow_dance');
+        $battle->effects->apply($hero, 'channeling');
+        $battle->evasionRoll = fn ($target) => $target->id === $hero->id;
+        $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(1, $battle->effects->stacks($hero, 'focused'));
+    }
+
+    public function testAFallingHeroGainsNothingFromTheirAction(): void
+    {
+        $battle = $this->teams(true);
+        $hero = $this->named($battle, 'Hero');
+        $hero->currentHealth = 5;
+        $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Ally', 'defend');
+        $this->queue($battle, 'Foe', 'attack', 'Hero');
+        $this->queue($battle, 'Other', 'defend');
+
+        $this->resolveTurn($battle);
+
+        $this->assertFalse($hero->isAlive());
+        $this->assertFalse($battle->effects->has($hero, 'focused'));
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testSameTurnRestorationsKeepTheLargerTick(bool $firstTeamFirst): void
+    {
+        $battle = $this->ordered($firstTeamFirst, [
+            'Hero' => ['team' => 1],
+            'Ally' => ['team' => 1, 'stats' => ['recover' => 40]],
+            'Foe' => ['team' => 2],
+        ]);
+        $hero = $this->named($battle, 'Hero');
+        $battle->effects->apply($hero, 'restoration');
+        $battle->effects->apply($this->named($battle, 'Ally'), 'restoration');
+        $hero->currentHealth = 20;
+        $this->queue($battle, 'Hero', 'recover');
+        $this->queue($battle, 'Ally', 'recover', 'Hero');
+        $this->queue($battle, 'Foe', 'defend');
+
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(4, $battle->effects->find($hero, 'restoring')->data['amount'], "10% of the Ally's 40");
+    }
+
+    /**
+     * Builds the combatants in the order given, by team, or with every id reversed.
+     *
+     * @param array<string, array{team: int, stats?: array<string, int>, abilities?: string[]}> $combatants
+     */
+    private function ordered(bool $firstTeamFirst, array $combatants): Battle
+    {
+        $names = array_keys($combatants);
+        usort($names, fn ($a, $b) => $combatants[$a]['team'] <=> $combatants[$b]['team']);
+        if (!$firstTeamFirst) {
+            $names = array_reverse($names);
+        }
+
+        $builder = BattleBuilder::make();
+        foreach ($names as $name) {
+            $builder->hero(
+                $name,
+                team: $combatants[$name]['team'],
+                stats: $combatants[$name]['stats'] ?? [],
+                abilities: $combatants[$name]['abilities'] ?? HeroClassLoadouts::BASIC_ABILITIES,
+            );
+        }
+
+        return $builder->build();
     }
 
     /**

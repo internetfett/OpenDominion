@@ -184,14 +184,46 @@ final class Battle
     }
 
     /**
-     * Holds a change back until the turn's actions have all resolved, so that nobody's stats
-     * shift partway through a turn. Outside a turn's actions it happens at once.
+     * Holds healing done during the damage step (lifesteal, a boss draining as it strikes)
+     * until every action's damage has landed, so what it restores never depends on the order
+     * actions resolve in. It is recorded under the action that queued it. During the healing
+     * step, and outside a turn's actions, it happens at once.
      */
-    public function afterActions(\Closure $callback): void
+    public function duringHealing(\Closure $callback): void
+    {
+        if ($this->ledger === null || $this->ledger->healingStarted()) {
+            $callback();
+            return;
+        }
+
+        $entry = $this->log->current();
+        $this->ledger->duringHealing(fn () => $this->log->within($entry, $callback));
+    }
+
+    /**
+     * Takes away something this turn's actions spent, such as the Focus an attack used, once
+     * the turn has settled and before anything is gained. Outside a turn's actions it happens
+     * at once.
+     */
+    public function spendAfterActions(\Closure $callback): void
     {
         if ($this->ledger !== null) {
-            $this->ledger->afterSettle($callback);
+            $this->ledger->spendAfterActions($callback);
         } else {
+            $callback();
+        }
+    }
+
+    /**
+     * Holds a change to a combatant back until the turn has settled and spending is done, so
+     * nobody's stats shift partway through a turn. Skipped if the recipient fell. Outside a
+     * turn's actions it happens at once.
+     */
+    public function afterActions(CombatantState $recipient, \Closure $callback): void
+    {
+        if ($this->ledger !== null) {
+            $this->ledger->afterActions($recipient, $callback);
+        } elseif ($recipient->isAlive()) {
             $callback();
         }
     }

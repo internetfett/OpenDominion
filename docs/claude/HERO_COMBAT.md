@@ -4,7 +4,7 @@ Hero battles run on a self-contained, class-based engine in `src/HeroCombat/`. I
 simultaneous turns, N-vs-N teams (co-op PvE, team PvP, NPC allies), duration and stack based
 effects, ally targeting and AoE, cooldowns and charges, and deterministic replays.
 
-The design borrows from Pokémon Showdown (simultaneous choice, priority ordering, ordered
+The design borrows from Pokémon Showdown (simultaneous choice, ordered
 event handlers, side/field effects, seeded replays), Unreal's Gameplay Ability System
 (abilities + effects + modifiers, tag gating), and RPG Maker (state expiry timing).
 
@@ -61,21 +61,26 @@ processTurn(HeroBattle)
          TurnResolver::resolve
            1. TurnStart hooks (every effect instance)
            2. Intents     each living combatant: forcedIntent hook → queued action → AI strategy
-           3. Declare     Ability::onDeclare for every intent (stances are applied here)
-           4. Order       priority desc, then healing after damage, then combatant id
-           5. Resolve     per intent: resolve targets → Ability::resolve → start cooldown, spend charge
-                          → AbilityUsed hooks → OwnerActionEnd expiry. Damage and healing go into
-                          the turn ledger; health does not change yet
+           3. Declare     Ability::onDeclare for every intent (stances and Fortify's shield go up here)
+           4. Damage      every action not tagged Heal, by combatant id: resolve targets
+                          → Ability::resolve → start cooldown, spend charge → AbilityUsed hooks
+                          → OwnerActionEnd expiry. Damage goes into the turn ledger; health does
+                          not change yet
+           5. Healing     healing held back from the damage step (Battle::duringHealing:
+                          Lifesteal, Bloodrend), then every Heal-tagged action, by combatant id
            6. Settle      apply each combatant's damage and healing together → lethal saves
-                          → process deaths → run afterActions callbacks
+                          → process deaths → spend callbacks → gain callbacks (afterActions,
+                          only for recipients still standing)
            7. TurnEnd hooks → tick TurnEnd durations → Encounter::onTurnEnd → process deaths
            8. VictoryCondition → finished / winning team, else turn++
      └─ persist state + log rows → if finished: HeroBattleOutcomeService::finalize
 ```
 
 - **Simultaneous semantics.** Turns are fully simultaneous: the order of combatant ids never decides who lives. Nobody's health changes and nobody falls until every action has resolved, so healing can save someone from a killing blow, a falling hero still acts and Counters, and an attack on a falling target stays on them (overkill is wasted). Anyone summoned mid-turn acts from the next turn.
-- **Stats hold still during a turn.** Anything that would change a stat because of an action goes through `Battle::afterActions()` and lands at the settle step: gaining and spending Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand and Shadow Dance. Stances apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) still apply when they resolve, which can matter in PvE only.
-- **Outside a turn's actions** (turn start, turn end, direct `perform()` calls in tests) there is no ledger: damage and healing apply at once and `afterActions()` runs its callback immediately.
+- **Healing is its own step.** Every heal lands after all of the turn's damage, so what it restores (and reports) is capped against the turn's real damage, never against whichever hits happened to resolve first. Healing done while dealing damage must go through `Battle::duringHealing()`, which also records it under the action that queued it; calling `Battle::heal()` directly from the damage step caps against partial damage.
+- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus, Mending's Recover spending it. `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient fell: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances and Fortify's shield apply at declare, so they cover the whole turn. Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
+- **Outside a turn's actions** (turn start, turn end, direct `perform()` calls in tests) there is no ledger: damage and healing apply at once, and the three callbacks run immediately (`afterActions()` only if the recipient is alive).
+- **Guarded by** `TurnOrderIndependenceTest`, which plays seeded battles with every loadout option, then again with every combatant id reversed, and requires identical results each turn.
 - **Readiness.** NPCs are always ready. A human is ready when they have a queued action or are automated. `checkTime()` drains time banks and switches anyone at zero to automated.
 - **Orders.** `HeroActionService::queueAction()` queues one action for one combatant. `queueOrders()` (`POST heroes/battles/orders`, `orders[combatantId][action|target]`) locks in one action for every living hero the dominion pilots in a transaction, all or none; every hero not on autopilot needs an order. The controller then calls `processTurn()` once.
 - **Death processing** repeats until stable: `onDeath` runs on the dying combatant's own effects, then `onAnyDeath` on every other effect. A death trigger can kill, summon or revive.
@@ -153,7 +158,7 @@ damage that ignores defense, evasion and counters (boss moves).
 
 ## Abilities, AI, targeting
 
-- **Abilities** implement `key/name/description/resolve`. `AbstractAbility` supplies defaults: SingleEnemy, priority 0, no cooldown, unlimited charges. `cooldown()` returns the turns to wait after use; 1 means "not twice in a row" (Focus, Counter, Recover, class abilities). Both `cooldown()` and `maxCharges()` receive the actor, so they can vary.
+- **Abilities** implement `key/name/description/resolve`. `AbstractAbility` supplies defaults: SingleEnemy, no cooldown, unlimited charges. There is no priority: anything that must be in place before attacks land belongs in `onDeclare()` (stances, Fortify's shield). `cooldown()` returns the turns to wait after use; 1 means "not twice in a row" (Focus, Counter, Recover, class abilities). Both `cooldown()` and `maxCharges()` receive the actor, so they can vary.
 - **Queue validation** (`ActionValidator::canQueue`) projects cooldowns and charges forward through the actions already queued. At resolution, an invalid queued action falls back to AI.
 - **Target rules**: Self, SingleEnemy, SingleAlly, SingleAny, AllEnemies, AllAllies, AllOthers, RandomEnemy. A dead single-enemy target is replaced with a random living enemy; dead ally targets fizzle. `Provoked` forces single-enemy targeting onto the provoker. `SingleAlly` with no target chosen means yourself (`TargetRule::defaultsToSelf()`).
 - **Defend, Focus and Recover take an ally target.** In 1v1 the only ally is yourself.
@@ -195,15 +200,15 @@ A hero's loadout isn't shown in info ops (`InfoMapper` only maps upgrades).
 | Technique | Rule (constants on the class) |
 |---|---|
 | `battle_fury` | each consecutive Attack: +4 attack, −2 defense (max 3 stacks); any other action resets it |
-| `restoration` | Recover heals 80% now and 10% at the start of each of the next 3 turns (`restoring`); keeps the −5 defense penalty; recasting forfeits the remaining ticks |
+| `restoration` | Recover heals 80% now and 10% at the start of each of the next 3 turns (`restoring`); keeps the −5 defense penalty; recasting forfeits the remaining ticks; two restorations on one ally in the same turn keep the larger tick |
 | `mana_shield` | +3 defense while Focused (kept through Defend, Recover and Counter; ends when an attack spends the Focus) |
-| `shadow_dance` | evading an attack grants Focus (only if not already Focused) |
+| `shadow_dance` | evading an attack grants Focus, after the turn's spending (so a Focused attacker who evades stays Focused); never a second stack, so not while Focused or on a turn you Focus yourself |
 | `backstab` | attacks deal +5 damage against an opponent that was Focused at the start of the turn (snapshot in `onTurnStart`) |
 | `feint` | +10 evasion on a turn you Attack (reads `Battle::intentOf()`; no status) |
 
 Focus never stacks for heroes now (`Focused::maxStacks()` is 1 unless Channeling).
 
-**Technique II** (level 7) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each lands at the settle step with duration 2, so it covers exactly the following turn.
+**Technique II** (level 7) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each lasts duration 2, so it covers exactly the following turn. All but Shield Bash's Stagger land at the settle step; Stagger applies when the hit resolves, which is harmless because it only blocks choosing Counter.
 
 | Technique | Trigger → status |
 |---|---|
@@ -376,7 +381,7 @@ php artisan hero-combat:replay {battle}
 | `hero_id === null` means enemy | `team` |
 | `winner_combatant_id` | `winning_team` (+ representative id) |
 | `limited` actions | `cooldown() = 1` |
-| sortBy('fortify') | `priority()` (Fortify = 10) |
+| sortBy('fortify') | Fortify's shield applies in `onDeclare()`, before any attack lands |
 
 Deliberate rebalances: destroying the Tome also removes its active chapter aura from the Lich
 King. Counter-attacks no longer inherit the triggering ability's bonus damage. Mending adds base

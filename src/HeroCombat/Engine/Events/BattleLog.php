@@ -2,6 +2,8 @@
 
 namespace OpenDominion\HeroCombat\Engine\Events;
 
+use Closure;
+
 final class BattleLog
 {
     /** @var LogEntry[] */
@@ -25,6 +27,22 @@ final class BattleLog
     public function current(): ?LogEntry
     {
         return $this->current;
+    }
+
+    /**
+     * Runs a callback with an earlier entry current again, so work held back from an action
+     * (such as its healing) is still recorded under that action.
+     */
+    public function within(?LogEntry $entry, Closure $callback): void
+    {
+        $previous = $this->current;
+        $this->current = $entry;
+
+        try {
+            $callback();
+        } finally {
+            $this->current = $previous;
+        }
     }
 
     /**

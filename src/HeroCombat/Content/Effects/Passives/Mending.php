@@ -42,7 +42,7 @@ class Mending extends AbstractPassive
         if ($context->actor->id === $instance->ownerId && in_array(CombatTag::Heal, $context->ability->tags(), true)) {
             $focused = $battle->effects->find($context->actor, 'focused');
             if ($focused !== null) {
-                $battle->effects->remove($focused);
+                $battle->spendAfterActions(fn () => $battle->effects->remove($focused));
             }
         }
     }
