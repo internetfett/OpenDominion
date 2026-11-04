@@ -81,7 +81,7 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
         $registry = $this->app->make(CombatRegistry::class);
 
         $this->assertEquals('Requires Infiltrator level 5', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('shadow_strike')));
-        $this->assertEquals('Requires level 7', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('sunder')));
+        $this->assertEquals('Requires level 7', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('riposte')));
         $this->assertEquals('Requires level 5', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('whirlwind')), 'Open to every class');
     }
 
@@ -89,12 +89,10 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
     {
         $registry = $this->app->make(CombatRegistry::class);
 
-        foreach (['fortify', 'caltrops', 'shadow_strike', 'blade_flurry', 'whirlwind', 'volatile_mixture', 'forge', 'combat_analysis', 'mending', 'channeling', 'hardiness'] as $key) {
+        foreach (['fortify', 'caltrops', 'shadow_strike', 'blade_flurry', 'whirlwind', 'volatile_mixture', 'forge', 'combat_analysis', 'mending', 'channeling', 'hardiness', 'backstab', 'feint', 'second_wind', 'restoration', 'shield_bash', 'riposte', 'spellbrand', 'battle_fury'] as $key) {
             $this->assertNotNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption($key)), "{$key} has been reviewed");
         }
 
-        $this->assertNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption('last_stand')), 'Not reviewed yet');
-        $this->assertNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption('sunder')), 'Techniques not yet reviewed have no notes');
         $this->assertNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption('greatsword')), 'Gear has no notes');
     }
 

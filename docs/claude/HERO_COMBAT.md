@@ -78,7 +78,7 @@ processTurn(HeroBattle)
 
 - **Simultaneous semantics.** Turns are fully simultaneous: the order of combatant ids never decides who lives. Nobody's health changes and nobody is defeated until every action has resolved, so healing can save someone who would otherwise be defeated, a hero being defeated still acts and Counters, and an attack on a target being defeated stays on them (overkill is wasted). Anyone summoned mid-turn acts from the next turn.
 - **Healing is its own step.** Every heal lands after all of the turn's damage, so what it restores (and reports) is capped against the turn's real damage, never against whichever hits happened to resolve first. Healing done while dealing damage must go through `Battle::duringHealing()`, which also records it under the action that queued it; calling `Battle::heal()` directly from the damage step caps against partial damage.
-- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus (Mending's Recover keeps it). `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient was defeated: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Sunder, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances, Fortify, Caltrops, Stone Shield and Channeling's Exposed apply at declare, so they cover the whole turn. Effects that act at declare use the `onAbilityDeclared` hook; targets aren't resolved until the action lands, so they resolve their own (Channeling calls `TargetResolver::resolve()`; it only channels the basic Attack). Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
+- **Stats hold still during a turn.** Anything that would change a stat because of an action lands at the settle step, in two stages. `Battle::spendAfterActions()` runs first: an attack spending Focus (Mending's Recover keeps it). `Battle::afterActions($recipient, …)` runs second and is skipped if the recipient was defeated: gaining Focus, Battle Fury streaks, Forge, Combat Analysis, Tactical Awareness, Riposte, Spellbrand, Shadow Dance and Second Wind. Spending before gaining means a Focused attacker who evades with Shadow Dance ends the turn Focused, whatever the order. Gains must not depend on each other; Shadow Dance never adds a second Focus stack for that reason. Stances, Fortify, Caltrops, Stone Shield and Channeling's Exposed apply at declare, so they cover the whole turn. Effects that act at declare use the `onAbilityDeclared` hook; targets aren't resolved until the action lands, so they resolve their own (Channeling calls `TargetResolver::resolve()`; it only channels the basic Attack). Boss spells (Magic Ward, Backlash, Silence) and Shield Bash's Stagger still apply when they resolve; none of them change a stat that the rest of the turn reads.
 - **Outside a turn's actions** (turn start, turn end, direct `perform()` calls in tests) there is no ledger: damage and healing apply at once, and the three callbacks run immediately (`afterActions()` only if the recipient is alive).
 - **Guarded by** `TurnOrderIndependenceTest`, which plays seeded battles with every loadout option, then again with every combatant id reversed, and requires identical results each turn.
 - **Readiness.** NPCs are always ready. A human is ready when they have a queued action or are automated. `checkTime()` drains time banks and switches anyone at zero to automated.
@@ -131,7 +131,7 @@ state lives on the `EffectInstance` (stacks, remaining turns, `data`).
 | `onLethalDamage` → bool | target's effects | Cling to Life (priority -10, after shields) |
 | `afterDamageTaken` / `afterDamageDealt` | target / attacker | Lifesteal, Frostbite stacks |
 | `onAbilityDeclared` | actor's own effects, right after `Ability::onDeclare` | swap or adjust stances (no current content uses it) |
-| `onAbilityUsed` | actor's effects | consume Focused after an Attack-tagged ability; Sunder, Second Wind; Battle Fury streaks |
+| `onAbilityUsed` | actor's effects | consume Focused after an Attack-tagged ability; Second Wind; Battle Fury's Fury |
 | `adjustCooldown` → int | holder's effects, when a cooldown starts | change an ability's cooldown (no current content uses it) |
 | `onDeath` | the dead combatant's own effects | PowerSource, PhaseCycle cleanup |
 | `onAnyDeath` | every other effect | soul tribute / harvest style mechanics |
@@ -199,26 +199,24 @@ A hero's loadout isn't shown in info ops (`InfoMapper` only maps upgrades).
 
 | Technique | Rule (constants on the class) |
 |---|---|
-| `battle_fury` | each consecutive Attack: +4 attack, −2 defense (max 3 stacks); any other action resets it |
+| `battle_fury` | a basic Attack makes you Furious for the next turn (`data.furious`): a Furious basic Attack deals +5 damage (`bonusDamage`, not attack value, so no Counters or abilities), and −3 defense on any action; one stack; any other action ends it |
 | `restoration` | Recover heals 80% now and 10% at the start of each of the next 3 turns (`restoring`); still leaves the healer Exposed; recasting forfeits the remaining ticks; two restorations on one ally in the same turn keep the larger tick |
-| `mana_shield` | +3 defense while Focused (kept through Defend, Recover and Counter; ends when an attack spends the Focus) |
 | `shadow_dance` | evading an attack grants Focus, after the turn's spending (so a Focused attacker who evades stays Focused); never a second stack, so not while Focused or on a turn you Focus yourself |
-| `backstab` | attacks deal +5 damage against an opponent that was Focused at the start of the turn (snapshot in `onTurnStart`) |
-| `feint` | +10 evasion on a turn you Attack (reads `Battle::intentOf()`; no status) |
+| `backstab` | attacks deal +10 damage against an opponent that was Focused at the start of the turn (snapshot in `onTurnStart`) |
+| `feint` | +25 evasion on a turn you use any attack (reads `Battle::intentOf()`; no status) |
 
 Focus never stacks for heroes (`Focused::maxStacks()` is 1). Channeling, the Sorcerer's technique, makes a Focused basic Attack leave its target Exposed for the turn instead; Blade Flurry, Whirlwind and class abilities aren't channeled, so Whirlwind can't Expose a whole team.
 
-**Technique II** (level 7) apply a shared one-turn status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. Each lasts duration 2, so it covers exactly the following turn. All but Shield Bash's Stagger land at the settle step; Stagger applies when the hit resolves, which is harmless because it only blocks choosing Counter.
+**Technique II** (level 7) apply a shared status. The statuses check the holder, not who applied them, so in 1v1 you set up and cash in yourself and in 2v2 an ally can too. All land at the settle step. Exposed and Invigorated last duration 2 (exactly the following turn); Marked and Staggered last `TURNS + 1` (the following two turns).
 
 | Technique | Trigger → status |
 |---|---|
-| `sunder` | after your attack resolves against a Defending enemy → `exposed` on it (−25% defense). One Sunder Exposed at a time (`data.sunder`), on top of any Exposed the target gave itself |
-| `shield_bash` | an enemy attacks you while you're Defending (even a fully blocked hit; works when guarding) → `staggered` on the attacker (Counter blocked via `CombatTag::Staggered`) |
+| `shield_bash` | an enemy attacks you while you're Defending (even a fully blocked hit; works when guarding) → `staggered` on the attacker (−5 attack, Counters included, for 2 turns; it no longer blocks Counter) |
 | `riposte` | your Counter deals damage → `marked` on the attacker |
 | `spellbrand` | your Focused attack hits without being evaded → `marked` on the target |
 | `second_wind` | Recover → `invigorated` (+5 attack) on you, and on the ally you healed |
 
-`marked`: attacks (not counters) that get through deal +5 damage; runs before shields (`handlerPriority` 20) and does nothing to a fully blocked hit.
+`marked`: attacks (not counters) that get through deal +10 damage for 2 turns; runs before shields (`handlerPriority` 20) and does nothing to a fully blocked hit.
 
 **Class Abilities**: `HeroClassLoadouts::SIGNATURES` maps each class to its signature, which is an ability or a technique (Healer's Mending, Sorcerer's Channeling and Farmer's Hardiness are techniques; a hero who equips one gives up a general technique). A hero can equip a signature once `getClassLevel()` reaches `HeroClassLoadouts::UNLOCK_CLASS_LEVEL` (5) in that class, active or not (inactive levels come from `class_data` experience). Each signature uses its class's icon; the loadout form shows the requirement (`HeroHelper::getLoadoutOptionRequirement()`). Abilities that aren't in `SIGNATURES` are open to every class at combat level `HeroLoadoutOptions::UNIVERSAL_ABILITY_LEVEL` (5): Blade Flurry (2 hits, each at 85% of the attack value before defense; one evasion roll; a Counter answers both hits) and Whirlwind (every enemy, 70% of normal damage after defense; each hit rolls evasion, can be Guarded and can be Countered). Both are not twice in a row. Blade Flurry is also used by the pirate enemies.
 
@@ -233,9 +231,8 @@ Focus never stacks for heroes (`Focused::maxStacks()` is 1). Channeling, the Sor
 | Farmer | `hardiness` | technique: +5 defense at 40 health or less, not while Defending or Guarding |
 | Healer | `mending` | passive |
 | Sorcerer | `channeling` | passive |
-| Scion | `last_stand` | passive |
 
-The old Fortify (a 20-point shield that replaced Defend) lives on as `stone_shield`, used only by the Planewalker's void golems and Thessadrash's Maw. The old Hardiness (survive the first lethal hit on 1 health) lives on as `cling_to_life` for the same two enemies. Tactical Awareness was removed when Caltrops took Engineer's slot; its `outmaneuvered` effect stays registered, unused, so battles in progress that carry it still load.
+The old Fortify (a 20-point shield that replaced Defend) lives on as `stone_shield`, used only by the Planewalker's void golems and Thessadrash's Maw. The old Hardiness (survive the first lethal hit on 1 health) lives on as `cling_to_life` for the same two enemies. Tactical Awareness was removed when Caltrops took Engineer's slot; its `outmaneuvered` effect stays registered, unused, so battles in progress that carry it still load. Last Stand, Mana Shield and Sunder were removed outright: `BattleRepository` drops saved effect rows whose key is no longer registered, so battles in progress still load. The Scion has no signature until a replacement is designed.
 
 **Gear** is plain data: each option's `stats` are summed by `HeroCalculator::getHeroCombatStats()`.
 

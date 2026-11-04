@@ -3,6 +3,7 @@
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
 use OpenDominion\HeroCombat\Content\AbstractPassive;
+use OpenDominion\HeroCombat\Content\Effects\Invigorated;
 use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
@@ -25,7 +26,15 @@ class SecondWind extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Recover Invigorates you (+5 attack) until the end of the next turn, and the ally you healed.';
+        return 'Recover gives you +' . Invigorated::ATTACK_BONUS . ' attack next turn, and the ally you heal too.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'The bonus lasts for the turn after your Recover.',
+            'Also adds to Counters.',
+        ];
     }
 
     public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void

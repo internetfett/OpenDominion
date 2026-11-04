@@ -12,11 +12,12 @@ use OpenDominion\HeroCombat\Engine\Effects\Hook;
 
 /**
  * Attacks that get through deal extra damage to the holder, whoever makes them. Applied
- * mid-turn with duration 2, so it lasts until the end of the following turn.
+ * after the turn's actions, so it lasts for the next TURNS turns.
  */
 class Marked extends AbstractEffect
 {
-    public const BONUS_DAMAGE = 5;
+    public const BONUS_DAMAGE = 10;
+    public const TURNS = 2;
 
     public function key(): string
     {
@@ -40,7 +41,7 @@ class Marked extends AbstractEffect
 
     public function defaultDuration(): ?int
     {
-        return 2;
+        return self::TURNS + 1;
     }
 
     /**

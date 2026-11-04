@@ -19,8 +19,8 @@ use OpenDominion\HeroCombat\Engine\Stats\Stat;
 class Restoration extends AbstractPassive
 {
     public const IMMEDIATE_SHARE = 0.8;
-    public const TICK_SHARE = 0.1;
-    public const TICKS = 3;
+    public const TICK_SHARE = 0.2;
+    public const TICKS = 2;
 
     public function key(): string
     {
@@ -40,6 +40,15 @@ class Restoration extends AbstractPassive
             self::TICK_SHARE * 100,
             self::TICKS,
         );
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Works when you Recover an ally too; the healing over time goes to them.',
+            'Recovering again replaces any healing over time still to come.',
+            'Healing over time comes before anyone acts that turn.',
+        ];
     }
 
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array

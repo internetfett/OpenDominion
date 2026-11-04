@@ -183,9 +183,7 @@ final class TurnPreview
         if ($opponent !== null && $battle->effects->has($opponent, 'marked')) {
             $edge += Marked::BONUS_DAMAGE;
         }
-        if (!$battle->hasTag($combatant, CombatTag::Staggered)) {
-            $edge += self::COUNTER_WEIGHT * max(0, $attack + $battle->stat($combatant, Stat::Counter) - $defense);
-        }
+        $edge += self::COUNTER_WEIGHT * max(0, $attack + $battle->stat($combatant, Stat::Counter) - $defense);
 
         $lasting = self::statShift($battle, $combatant, Stat::Attack)
             + self::COUNTER_WEIGHT * self::statShift($battle, $combatant, Stat::Counter)

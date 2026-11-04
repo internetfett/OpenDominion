@@ -349,6 +349,14 @@ class HeroHelper
     }
 
     /**
+     * Whether an option belongs to one class, as that class's signature.
+     */
+    public function isClassLoadoutOption(LoadoutOption $option): bool
+    {
+        return app(HeroClassLoadouts::class)->classFor($option->key) !== null;
+    }
+
+    /**
      * What the hero needs to equip an option, e.g. "Requires Infiltrator level 5".
      */
     public function getLoadoutOptionRequirement(LoadoutOption $option): string

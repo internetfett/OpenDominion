@@ -5,10 +5,11 @@ namespace OpenDominion\Tests\Unit\HeroCombat;
 use OpenDominion\HeroCombat\Content\Effects\Exposed;
 use OpenDominion\HeroCombat\Content\Effects\Invigorated;
 use OpenDominion\HeroCombat\Content\Effects\Marked;
+use OpenDominion\HeroCombat\Content\Effects\Staggered;
 use OpenDominion\HeroCombat\Content\Effects\Techniques\Backstab;
 use OpenDominion\HeroCombat\Content\Effects\Techniques\BattleFury;
 use OpenDominion\HeroCombat\Content\Effects\Techniques\Feint;
-use OpenDominion\HeroCombat\Content\Effects\Techniques\ManaShield;
+use OpenDominion\HeroCombat\Content\Effects\Techniques\Restoration;
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
@@ -51,28 +52,40 @@ class TechniquesTest extends TestCase
     // Technique I
     // ------------------------------------------------------------------
 
-    public function testBattleFuryRampsWithConsecutiveAttacksAndResets(): void
+    public function testBattleFuryBoostsTheNextAttackWithoutStackingAndResets(): void
     {
         $battle = $this->duel('battle_fury', 'idle');
         $hero = $this->named($battle, 'Hero');
 
         $damages = [];
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $this->queue($battle, 'Hero', 'attack', 'Foe');
             $damages[] = $this->damageTo($battle, 'Foe', fn () => $this->resolveTurn($battle));
         }
 
-        $step = BattleFury::ATTACK_PER_STACK;
-        $this->assertEquals([20, 20 + $step, 20 + 2 * $step, 20 + 3 * $step], $damages, 'Capped at three stacks');
-        $this->assertEquals(20 - 3 * BattleFury::DEFENSE_PER_STACK, $battle->stat($hero, Stat::Defense), 'Defense drops half as fast as attack rises');
+        $bonus = BattleFury::BONUS_DAMAGE;
+        $this->assertEquals([20, 20 + $bonus, 20 + $bonus], $damages, 'One stack');
+        $this->assertEquals(40, $battle->stat($hero, Stat::Attack), 'Attack value is unchanged');
+        $this->assertEquals(20 - BattleFury::DEFENSE_PENALTY, $battle->stat($hero, Stat::Defense));
 
         $this->queue($battle, 'Hero', 'defend');
         $this->resolveTurn($battle);
-        $this->assertEquals(40, $battle->stat($hero, Stat::Attack));
         $this->assertEquals(20, $battle->stat($hero, Stat::Defense));
     }
 
-    public function testRestorationHealsMostNowAndTheRestOverThreeTurns(): void
+    public function testBattleFuryDoesNotBoostCounters(): void
+    {
+        $battle = $this->pvp('battle_fury');
+        $foe = $this->named($battle, 'Foe');
+
+        $this->turn($battle, ['attack', 'Foe'], ['defend']);
+        $health = $foe->currentHealth;
+        $this->turn($battle, ['counter'], ['attack', 'Hero']);
+
+        $this->assertEquals(40 + 10 - 20, $health - $foe->currentHealth, 'A plain Counter while Furious');
+    }
+
+    public function testRestorationHealsMostNowAndTheRestOverTwoTurns(): void
     {
         $battle = $this->duel('restoration', 'idle');
         $hero = $this->named($battle, 'Hero');
@@ -87,17 +100,17 @@ class TechniquesTest extends TestCase
         $this->assertEquals(40 + 16, $hero->currentHealth, '80% of 20 immediately');
 
         $health = [];
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $this->queue($battle, 'Hero', 'defend');
             $this->resolveTurn($battle);
             $health[] = $hero->currentHealth;
         }
 
-        $this->assertEquals([58, 60, 62, 62], $health, '10% at the start of each of the next three turns');
+        $this->assertEquals([60, 64, 64], $health, '20% at the start of each of the next two turns');
         $this->assertFalse($battle->effects->has($hero, 'restoring'));
     }
 
-    public function testRecastingRestorationForfeitsTheRemainingTick(): void
+    public function testRecastingRestorationStartsAFreshSetOfTicks(): void
     {
         $battle = $this->duel('restoration', 'idle');
         $hero = $this->named($battle, 'Hero');
@@ -108,29 +121,10 @@ class TechniquesTest extends TestCase
             $this->resolveTurn($battle);
         }
 
-        $this->assertEquals(20 + 16 + 2 + 2 + 16, $hero->currentHealth, 'Two ticks of the first heal, then the recast');
-        $this->assertEquals(3, $battle->effects->find($hero, 'restoring')->remainingTurns, 'The recast starts a fresh set of ticks');
+        $this->assertEquals(20 + 16 + 4 + 4 + 16, $hero->currentHealth, 'Both ticks of the first heal, then the recast');
+        $this->assertEquals(Restoration::TICKS, $battle->effects->find($hero, 'restoring')->remainingTurns, 'The recast starts a fresh set of ticks');
     }
 
-    public function testManaShieldAddsDefenseOnlyWhileFocused(): void
-    {
-        $battle = $this->duel('mana_shield', 'idle');
-        $hero = $this->named($battle, 'Hero');
-
-        $this->assertEquals(20, $battle->stat($hero, Stat::Defense));
-
-        $this->queue($battle, 'Hero', 'focus');
-        $this->resolveTurn($battle);
-        $this->assertEquals(20 + ManaShield::DEFENSE, $battle->stat($hero, Stat::Defense));
-
-        $this->queue($battle, 'Hero', 'counter');
-        $this->resolveTurn($battle);
-        $this->assertEquals(20 + ManaShield::DEFENSE, $battle->stat($hero, Stat::Defense), 'Countering keeps the Focus and the bonus');
-
-        $this->queue($battle, 'Hero', 'attack', 'Foe');
-        $this->resolveTurn($battle);
-        $this->assertEquals(20, $battle->stat($hero, Stat::Defense), 'Attacking spends the Focus');
-    }
 
     public function testShadowDanceGrantsFocusOnEvade(): void
     {
@@ -242,44 +236,26 @@ class TechniquesTest extends TestCase
         $this->resolveTurn($battle);
     }
 
-    public function testSunderExposesADefendingTargetUntilTheEndOfTheNextTurn(): void
-    {
-        $battle = $this->pvp('sunder');
-        $foe = $this->named($battle, 'Foe');
 
-        $this->turn($battle, ['attack', 'Foe'], ['defend']);
-        $this->assertEquals(500, $foe->currentHealth, 'The sundering attack itself gets no bonus');
-        $this->assertTrue($battle->effects->has($foe, 'exposed'));
-        $this->assertEquals(15, $battle->stat($foe, Stat::Defense), '20, Exposed for 25% less');
 
-        $this->turn($battle, ['attack', 'Foe'], ['counter']);
-        $this->assertEquals(500 - (40 - 15), $foe->currentHealth);
-        $this->assertFalse($battle->effects->has($foe, 'exposed'));
-    }
-
-    public function testSunderNeedsADefendingTarget(): void
-    {
-        $battle = $this->pvp('sunder');
-
-        $this->turn($battle, ['attack', 'Foe'], ['focus']);
-
-        $this->assertFalse($battle->effects->has($this->named($battle, 'Foe'), 'exposed'));
-    }
-
-    public function testShieldBashStaggersAnAttackerEvenWhenTheHitIsBlocked(): void
+    public function testShieldBashStaggersAnAttackerForTwoTurnsEvenWhenTheHitIsBlocked(): void
     {
         $battle = $this->pvp('shield_bash');
         $hero = $this->named($battle, 'Hero');
         $foe = $this->named($battle, 'Foe');
+        $attack = $battle->stat($foe, Stat::Attack);
 
         $this->turn($battle, ['defend'], ['attack', 'Hero']);
         $this->assertEquals(100, $hero->currentHealth, 'Defend blocked the hit');
-        $this->assertTrue($battle->effects->has($foe, 'staggered'));
-        $this->assertFalse((new ActionValidator($battle))->canPerform($foe, 'counter'));
+        $this->assertEquals($attack - Staggered::ATTACK, $battle->stat($foe, Stat::Attack));
+        $this->assertTrue((new ActionValidator($battle))->canPerform($foe, 'counter'), 'Staggered no longer blocks Counter');
 
-        $this->turn($battle, ['attack', 'Foe'], ['defend']);
+        $this->turn($battle, ['focus'], ['focus']);
+        $this->assertEquals($attack - Staggered::ATTACK, $battle->stat($foe, Stat::Attack), 'Still Staggered on the second turn');
+
+        $this->turn($battle, ['defend'], ['defend']);
         $this->assertFalse($battle->effects->has($foe, 'staggered'));
-        $this->assertTrue((new ActionValidator($battle))->canPerform($foe, 'counter'));
+        $this->assertEquals($attack, $battle->stat($foe, Stat::Attack));
     }
 
     public function testShieldBashNeedsDefend(): void
@@ -302,6 +278,9 @@ class TechniquesTest extends TestCase
         $health = $foe->currentHealth;
         $this->turn($battle, ['attack', 'Foe'], ['focus']);
         $this->assertEquals(20 + Marked::BONUS_DAMAGE, $health - $foe->currentHealth);
+        $this->assertTrue($battle->effects->has($foe, 'marked'), 'Marked lasts two turns');
+
+        $this->turn($battle, ['defend'], ['defend']);
         $this->assertFalse($battle->effects->has($foe, 'marked'));
     }
 
@@ -386,7 +365,7 @@ class TechniquesTest extends TestCase
     {
         $registry = \OpenDominion\Providers\HeroCombatServiceProvider::buildRegistry();
 
-        foreach (['feint', 'sunder', 'shield_bash', 'riposte', 'spellbrand', 'second_wind', 'exposed', 'marked', 'staggered', 'invigorated'] as $key) {
+        foreach (['feint', 'shield_bash', 'riposte', 'spellbrand', 'second_wind', 'exposed', 'marked', 'staggered', 'invigorated'] as $key) {
             $this->assertTrue($registry->effect($key)->visible(), $key);
         }
     }

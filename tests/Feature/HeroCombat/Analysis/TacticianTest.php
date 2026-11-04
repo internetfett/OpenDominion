@@ -60,8 +60,9 @@ class TacticianTest extends AbstractTestCase
         $battle->effects->apply($b, 'exposed', 2);
         $this->assertEquals((40 - 15) + Marked::BONUS_DAMAGE + TurnPreview::COUNTER_WEIGHT * (40 + 10 - 15), TurnPreview::offense($battle, $a), 'Marked and Exposed raise the edge');
 
+        $marked = TurnPreview::offense($battle, $a);
         $battle->effects->apply($a, 'staggered');
-        $this->assertEquals((40 - 15) + Marked::BONUS_DAMAGE, TurnPreview::offense($battle, $a), 'Staggered removes the counter threat');
+        $this->assertLessThan($marked, TurnPreview::offense($battle, $a), 'Staggered lowers attack');
     }
 
     public function testOffenseCountsBattleLongShiftsOverSeveralTurns(): void

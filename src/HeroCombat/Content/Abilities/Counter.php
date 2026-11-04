@@ -43,7 +43,7 @@ class Counter extends AbstractAbility
 
     public function blockedByTags(): array
     {
-        return [CombatTag::Stunned, CombatTag::Staggered];
+        return [CombatTag::Stunned];
     }
 
     public function onDeclare(ActionContext $context): void

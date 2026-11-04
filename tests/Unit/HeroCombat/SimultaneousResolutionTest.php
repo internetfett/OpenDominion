@@ -303,7 +303,7 @@ class SimultaneousResolutionTest extends TestCase
 
         $this->resolveTurn($battle);
 
-        $this->assertEquals(4, $battle->effects->find($hero, 'restoring')->data['amount'], "10% of the Ally's 40");
+        $this->assertEquals(8, $battle->effects->find($hero, 'restoring')->data['amount'], "20% of the Ally's 40");
     }
 
     /**

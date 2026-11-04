@@ -12,9 +12,8 @@ use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Wide open: -25% defense. Each application counts separately, so a self-inflicted Exposed
- * (Defending twice in a row, Recovering) and Sunder's add up. Applied for one turn by Defend,
- * Recover and Hungering Moon, and by Sunder until the end of the following turn.
+ * Wide open: -25% defense. Each application counts separately, so they add up. Applied for
+ * one turn by Defend, Recover, Channeling and Hungering Moon.
  */
 class Exposed extends AbstractEffect
 {

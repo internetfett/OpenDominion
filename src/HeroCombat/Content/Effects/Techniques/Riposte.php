@@ -2,6 +2,7 @@
 
 namespace OpenDominion\HeroCombat\Content\Effects\Techniques;
 
+use OpenDominion\HeroCombat\Content\Effects\Marked;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
@@ -23,7 +24,16 @@ class Riposte extends AbstractMarkingPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Landing a Counter Marks the attacker (attacks that hit deal +5 damage) until the end of the next turn.';
+        return 'Landing a Counter Marks the attacker: attacks that hit them deal +' . Marked::BONUS_DAMAGE . ' damage for ' . Marked::TURNS . ' turns.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Marked starts the turn after and lasts ' . Marked::TURNS . ' turns. Being Marked again starts the turns over; it doesn\'t stack.',
+            'The bonus is added to attacks that do damage after defense, from you or your ally.',
+            'Counters don\'t get the bonus.',
+        ];
     }
 
     public function afterDamageDealt(EffectInstance $instance, DamageContext $damage, Battle $battle): void

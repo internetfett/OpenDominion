@@ -29,7 +29,7 @@ class LoadoutOptionsTest extends AbstractTestCase
     {
         $techniques = $this->registry()->loadoutOptions(LoadoutSlot::Technique);
 
-        $this->assertCount(14, $techniques);
+        $this->assertCount(12, $techniques);
         foreach ($techniques as $key => $option) {
             $this->assertTrue($this->registry()->hasEffect($key), "Technique {$key} has no effect class");
         }
@@ -40,7 +40,7 @@ class LoadoutOptionsTest extends AbstractTestCase
         $loadouts = new HeroClassLoadouts();
         $abilities = $this->registry()->loadoutOptions(LoadoutSlot::Ability);
 
-        $this->assertCount(9, $abilities);
+        $this->assertCount(8, $abilities);
         foreach ($abilities as $key => $option) {
             $this->assertTrue($this->registry()->hasAbility($key) || $this->registry()->hasEffect($key), "Ability {$key} has no ability or effect class");
             $expectedLevel = $loadouts->classFor($key) === null ? HeroLoadoutOptions::UNIVERSAL_ABILITY_LEVEL : HeroClassLoadouts::UNLOCK_CLASS_LEVEL;

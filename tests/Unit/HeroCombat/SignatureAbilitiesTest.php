@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Fortify, Caltrops, and Exposed as Recover's penalty and alongside Sunder.
+ * Fortify, Caltrops, and Exposed as Recover's penalty and alongside Channeling.
  */
 class SignatureAbilitiesTest extends TestCase
 {
@@ -279,11 +279,11 @@ class SignatureAbilitiesTest extends TestCase
         $this->assertEquals(15, $battle->stat($hero, Stat::Defense));
     }
 
-    public function testSunderStacksWithASelfInflictedExposed(): void
+    public function testAnotherExposedStacksWithASelfInflictedOne(): void
     {
         $battle = BattleBuilder::make()->hero('Hero')->npc('Foe')->build();
         $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'exposed', 2, 1, ['sunder' => true]);
+        $battle->effects->apply($hero, 'exposed', 2);
         $hero->lastAction = 'defend';
 
         $this->declare($battle, 'Hero', 'defend');

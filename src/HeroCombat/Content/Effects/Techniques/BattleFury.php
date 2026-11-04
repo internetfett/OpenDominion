@@ -6,20 +6,22 @@ use OpenDominion\HeroCombat\Content\AbstractPassive;
 use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
+use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Discipline: each consecutive Attack hits harder and leaves you more exposed.
+ * Technique: a basic Attack leaves you Furious for the next turn. A Furious basic Attack deals
+ * bonus damage, and you have less defense whatever you do. Attack value is unchanged, so
+ * Counters and attack abilities get nothing.
  *
- * Instance data: streak (int) consecutive Attacks so far.
+ * Instance data: furious (bool) set after a turn you used the basic Attack.
  */
 class BattleFury extends AbstractPassive
 {
-    public const ATTACK_PER_STACK = 4;
-    public const DEFENSE_PER_STACK = 2;
-    public const MAX_STACKS = 3;
+    public const BONUS_DAMAGE = 5;
+    public const DEFENSE_PENALTY = 3;
 
     public function key(): string
     {
@@ -33,23 +35,40 @@ class BattleFury extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        $streak = $this->streak($instance);
-        $base = 'Each consecutive Attack grants +' . self::ATTACK_PER_STACK . ' attack and -' . self::DEFENSE_PER_STACK . ' defense (up to ' . self::MAX_STACKS . ' times).';
+        $base = 'After an Attack, your next Attack deals +' . self::BONUS_DAMAGE . ' damage, but you have -' . self::DEFENSE_PENALTY . ' defense until you stop attacking.';
 
-        return $streak > 0 ? $base . " Currently {$streak}." : $base;
+        return $this->furious($instance) ? $base . ' Currently Furious.' : $base;
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Only the basic Attack builds and uses Fury. Counters and attack abilities don\'t get the bonus.',
+            'Fury doesn\'t stack: Attacking every turn keeps the bonus at +' . self::BONUS_DAMAGE . '.',
+            'The defense loss applies on any turn after an Attack, even if you Defend.',
+            'Any action other than Attack ends it.',
+        ];
     }
 
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
     {
-        $streak = $this->streak($instance);
-        if ($streak === 0) {
+        if (!$this->furious($instance)) {
             return [];
         }
 
-        return [
-            Modifier::flat(Stat::Attack, self::ATTACK_PER_STACK * $streak),
-            Modifier::flat(Stat::Defense, -self::DEFENSE_PER_STACK * $streak),
-        ];
+        return [Modifier::flat(Stat::Defense, -self::DEFENSE_PENALTY)];
+    }
+
+    public function beforeDamageDealt(EffectInstance $instance, DamageContext $damage, Battle $battle): void
+    {
+        $request = $damage->request;
+        if ($request->attacker?->id !== $instance->ownerId || $request->isCounter || $request->abilityKey !== 'attack') {
+            return;
+        }
+
+        if ($this->furious($instance)) {
+            $request->bonusDamage += self::BONUS_DAMAGE;
+        }
     }
 
     public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void
@@ -59,14 +78,13 @@ class BattleFury extends AbstractPassive
         }
 
         $attacked = $context->ability->key() === 'attack';
-
         $battle->afterActions($context->actor, function () use ($instance, $attacked) {
-            $instance->data['streak'] = $attacked ? min(self::MAX_STACKS, $this->streak($instance) + 1) : 0;
+            $instance->data['furious'] = $attacked;
         });
     }
 
-    private function streak(EffectInstance $instance): int
+    private function furious(EffectInstance $instance): bool
     {
-        return (int) ($instance->data['streak'] ?? 0);
+        return (bool) ($instance->data['furious'] ?? false);
     }
 }

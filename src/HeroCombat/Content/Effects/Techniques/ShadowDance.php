@@ -31,6 +31,16 @@ class ShadowDance extends AbstractPassive
         return 'Evading an attack grants Focus.';
     }
 
+    public function rulesNotes(): array
+    {
+        return [
+            'You gain Focus after the turn\'s actions, so it\'s ready next turn.',
+            'Evading while you attack still leaves you Focused afterwards.',
+            'Does nothing if you\'re already Focused or Focusing that turn. Focus never stacks.',
+            'Shadow Strike can\'t be evaded, so it never triggers this.',
+        ];
+    }
+
     public function onEvaded(EffectInstance $instance, DamageContext $damage, Battle $battle): void
     {
         $dancer = $this->owner($instance, $battle);

@@ -50,12 +50,12 @@ class BattleRepository
         foreach ($effects['team'] ?? [] as $team => $rows) {
             $state->teamEffects[(int) $team] = array_map(
                 fn (array $row) => $this->instance($row, EffectScope::Team, null, (int) $team),
-                $rows,
+                $this->knownEffects($rows),
             );
         }
         $state->fieldEffects = array_map(
             fn (array $row) => $this->instance($row, EffectScope::Field, null, null),
-            $effects['field'] ?? [],
+            $this->knownEffects($effects['field'] ?? []),
         );
 
         foreach ($heroBattle->combatants as $model) {
@@ -138,7 +138,7 @@ class BattleRepository
 
         $combatant->effects = array_map(
             fn (array $row) => $this->instance($row, EffectScope::Combatant, $model->id, null),
-            $model->effects ?? [],
+            $this->knownEffects($model->effects ?? []),
         );
         $combatant->cooldowns = $model->cooldowns ?? [];
         $combatant->charges = $model->charges ?? [];
@@ -215,6 +215,18 @@ class BattleRepository
         $representative = reset($humans) ?: reset($winners);
 
         return $representative ? $representative->id : null;
+    }
+
+    /**
+     * Saved effect rows whose effect still exists. Removed content (such as Last Stand, Mana
+     * Shield and Sunder) is dropped, so battles saved before its removal still load.
+     *
+     * @param array<int, array<string, mixed>> $rows
+     * @return array<int, array<string, mixed>>
+     */
+    protected function knownEffects(array $rows): array
+    {
+        return array_values(array_filter($rows, fn (array $row) => $this->registry->hasEffect($row['key'])));
     }
 
     /**

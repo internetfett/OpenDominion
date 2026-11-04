@@ -16,7 +16,7 @@ use OpenDominion\HeroCombat\Engine\Stats\Stat;
  */
 class Feint extends AbstractPassive
 {
-    public const EVASION_BONUS = 10;
+    public const EVASION_BONUS = 25;
 
     public function key(): string
     {
@@ -30,7 +30,16 @@ class Feint extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return '+' . self::EVASION_BONUS . ' evasion on a turn you Attack.';
+        return '+' . self::EVASION_BONUS . ' evasion on a turn you attack.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Any attack counts, including attack abilities like Blade Flurry, Whirlwind and Shadow Strike.',
+            'Applies against every attack that turn, since actions resolve at the same time.',
+            'Counters don\'t count as attacking.',
+        ];
     }
 
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array

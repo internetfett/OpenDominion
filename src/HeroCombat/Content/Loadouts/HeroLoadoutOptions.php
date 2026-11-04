@@ -23,7 +23,6 @@ class HeroLoadoutOptions
         return [
             new LoadoutOption('battle_fury', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-axe'),
             new LoadoutOption('restoration', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-heart-bottle'),
-            new LoadoutOption('mana_shield', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-bolt-shield'),
             new LoadoutOption('shadow_dance', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-player-dodge'),
             new LoadoutOption('backstab', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-dripping-knife'),
             new LoadoutOption('feint', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-spinning-sword'),
@@ -31,7 +30,6 @@ class HeroLoadoutOptions
             new LoadoutOption('channeling', LoadoutSlot::Technique, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-pointy-hat'),
             new LoadoutOption('hardiness', LoadoutSlot::Technique, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-sprout'),
 
-            new LoadoutOption('sunder', LoadoutSlot::Technique, self::TECHNIQUE_II_LEVEL, 'ra-muscle-up'),
             new LoadoutOption('shield_bash', LoadoutSlot::Technique, self::TECHNIQUE_II_LEVEL, 'ra-round-shield'),
             new LoadoutOption('riposte', LoadoutSlot::Technique, self::TECHNIQUE_II_LEVEL, 'ra-crossed-swords'),
             new LoadoutOption('spellbrand', LoadoutSlot::Technique, self::TECHNIQUE_II_LEVEL, 'ra-focused-lightning'),
@@ -43,7 +41,6 @@ class HeroLoadoutOptions
             new LoadoutOption('caltrops', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hammer'),
             new LoadoutOption('shadow_strike', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hood'),
             new LoadoutOption('combat_analysis', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-graduate-cap'),
-            new LoadoutOption('last_stand', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-ankh'),
             new LoadoutOption('blade_flurry', LoadoutSlot::Ability, self::UNIVERSAL_ABILITY_LEVEL, 'ra-daggers'),
             new LoadoutOption('whirlwind', LoadoutSlot::Ability, self::UNIVERSAL_ABILITY_LEVEL, 'ra-dervish-swords'),
 
@@ -53,20 +50,19 @@ class HeroLoadoutOptions
             ]),
             new LoadoutOption('plate_armor', LoadoutSlot::Gear, self::GEAR_LEVEL, 'ra-knight-helmet', 'Plate Armor', [
                 Stat::Defense->value => 1,
-                Stat::Evasion->value => -5,
+                Stat::Evasion->value => -3,
             ]),
             new LoadoutOption('swordbreaker', LoadoutSlot::Gear, self::GEAR_LEVEL, 'ra-bowie-knife', 'Swordbreaker Dagger', [
                 Stat::Counter->value => 6,
             ]),
             new LoadoutOption('hooded_cloak', LoadoutSlot::Gear, self::GEAR_LEVEL, 'ra-hood', 'Hooded Cloak', [
-                Stat::Evasion->value => 8,
+                Stat::Evasion->value => 10,
             ]),
             new LoadoutOption('crystal_wand', LoadoutSlot::Gear, self::GEAR_LEVEL, 'ra-crystal-wand', 'Crystal Wand', [
-                Stat::Focus->value => 6,
+                Stat::Focus->value => 5,
             ]),
             new LoadoutOption('vestments_of_renewal', LoadoutSlot::Gear, self::GEAR_LEVEL, 'ra-robe', 'Vestments of Renewal', [
-                Stat::Recover->value => 4,
-                Stat::Health->value => 5,
+                Stat::Recover->value => 3,
             ]),
         ];
     }

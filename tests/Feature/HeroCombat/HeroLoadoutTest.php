@@ -76,15 +76,15 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $this->assertSame([], $this->availableKeys($this->dominionWithHero(700)->hero, LoadoutSlot::Technique), 'Level 2');
 
         $levelThree = $this->availableKeys($this->dominionWithHero(1200)->hero, LoadoutSlot::Technique);
-        $this->assertCount(6, $levelThree);
+        $this->assertCount(5, $levelThree);
         $this->assertContains('backstab', $levelThree);
-        $this->assertNotContains('sunder', $levelThree);
+        $this->assertNotContains('riposte', $levelThree);
 
-        $this->assertCount(6, $this->availableKeys($this->dominionWithHero(2900)->hero, LoadoutSlot::Technique), 'Level 6');
+        $this->assertCount(5, $this->availableKeys($this->dominionWithHero(2900)->hero, LoadoutSlot::Technique), 'Level 6');
 
         $levelSeven = $this->availableKeys($this->dominionWithHero(3500)->hero, LoadoutSlot::Technique);
-        $this->assertCount(11, $levelSeven);
-        $this->assertContains('sunder', $levelSeven);
+        $this->assertCount(9, $levelSeven);
+        $this->assertContains('riposte', $levelSeven);
     }
 
     public function testGearOpensAtLevelNine(): void
@@ -136,13 +136,13 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
     public function testChangingClassKeepsAccessAndTheLoadout(): void
     {
         $dominion = $this->dominionWithHero(5000);
-        $this->heroActionService->updateLoadout($dominion, 'sunder', 'forge', ['greatsword', 'plate_armor']);
+        $this->heroActionService->updateLoadout($dominion, 'riposte', 'forge', ['greatsword', 'plate_armor']);
 
         $this->heroActionService->changeClass($dominion->refresh(), 'farmer');
 
         $hero = $dominion->refresh()->hero;
         $this->assertEquals(0, $this->heroCalculator->getHeroLevel($hero));
-        $this->assertEquals(['sunder'], $this->equippedKeys($hero, LoadoutSlot::Technique));
+        $this->assertEquals(['riposte'], $this->equippedKeys($hero, LoadoutSlot::Technique));
         $this->assertEquals(['forge'], $this->equippedKeys($hero, LoadoutSlot::Ability));
         $this->assertEquals(['greatsword', 'plate_armor'], $this->equippedKeys($hero, LoadoutSlot::Gear));
     }
@@ -166,10 +166,10 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $this->heroActionService->updateLoadout($dominion, 'backstab', 'forge', ['greatsword', 'hooded_cloak']);
 
         $this->heroActionService->updateLoadout($dominion->refresh(), 'feint', '', []);
-        $this->heroActionService->updateLoadout($dominion->refresh(), 'sunder', null, ['crystal_wand']);
+        $this->heroActionService->updateLoadout($dominion->refresh(), 'riposte', null, ['crystal_wand']);
 
         $this->assertEquals(
-            ['technique' => 'sunder', 'ability' => null, 'gear' => ['crystal_wand']],
+            ['technique' => 'riposte', 'ability' => null, 'gear' => ['crystal_wand']],
             $dominion->hero->fresh()->loadout
         );
     }
@@ -179,7 +179,7 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $dominion = $this->dominionWithHero(2900); // Level 6
 
         $this->expectException(GameException::class);
-        $this->heroActionService->updateLoadout($dominion, 'sunder', null, []);
+        $this->heroActionService->updateLoadout($dominion, 'riposte', null, []);
     }
 
     public function testCannotEquipAnotherClassesAbility(): void
@@ -276,8 +276,8 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
 
         $this->assertEquals($base['attack'] + 2, $stats['attack']);
         $this->assertEquals($base['defense'] + 1, $stats['defense']);
-        $this->assertEquals($base['evasion'] - 15, $stats['evasion']);
-        $this->assertEquals(['attack' => 2, 'evasion' => -15, 'defense' => 1], $this->heroCalculator->getLoadoutStatBonuses($hero));
+        $this->assertEquals($base['evasion'] - 13, $stats['evasion']);
+        $this->assertEquals(['attack' => 2, 'evasion' => -13, 'defense' => 1], $this->heroCalculator->getLoadoutStatBonuses($hero));
     }
 
     public function testEmptySlotCountOnlyIncludesSlotsTheHeroCanFill(): void

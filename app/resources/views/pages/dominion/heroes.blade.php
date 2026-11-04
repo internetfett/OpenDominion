@@ -337,7 +337,7 @@
                                                 <label for="loadout_{{ $option->key }}" style="font-weight: normal;">
                                                     {{ $heroHelper->getLoadoutOptionDescription($option) }}
                                                     @include('partials.dominion.hero-rules-tooltip', ['option' => $option])
-                                                    @if (!$isAvailable)
+                                                    @if (!$isAvailable || $heroHelper->isClassLoadoutOption($option))
                                                         <br/><small class="text-muted">{{ $heroHelper->getLoadoutOptionRequirement($option) }}</small>
                                                     @endif
                                                 </label>

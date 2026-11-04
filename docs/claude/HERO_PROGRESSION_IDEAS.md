@@ -163,7 +163,7 @@ Under the game's current rules (Greatsword 57.5% in both formats). A turn spent 
 | Forge +4 x3 / +5 x2 / +6 x2 / +8 x1 | +1.7 / +7.1 / +9.6 / +15.0 | | A third use barely matters |
 | Combat Analysis −2 x2 / −3 x2 / −3 x3 / −5 x2 | −4.4 / −1.6 / −0.7 / +7.8 | | |
 
-Scion's Last Stand is being removed for a new idea.
+Scion's Last Stand has been removed; the Scion has no signature until a new idea is chosen.
 
 ### Abilities for every class (built)
 
@@ -244,26 +244,26 @@ Each lasts one turn and applies to attacks from anyone.
 
 | Status | Effect | Notes |
 |---|---|---|
-| Exposed | −25% defense; each application counts separately, one from Sunder at a time | Also from Defending twice in a row, Recover, and Hungering Moon while channeling |
-| Marked | Takes +5 damage from attacks | New |
-| Staggered | Can't Counter | New |
+| Exposed | −25% defense; each application counts separately | Also from Defending twice in a row, Recover, and Hungering Moon while channeling |
+| Marked | Takes +10 damage from attacks, for 2 turns | Was +5 for 1 turn |
+| Staggered | −5 attack, for 2 turns | Was "can't Counter" for 1 turn; it took a choice away |
 
 ### Technique I (level 3)
 
 | Technique | Rule | Source |
 |---|---|---|
-| Battle Fury | +4 attack / −2 defense per consecutive Attack, up to 3 stacks; any other action resets it | Discipline, kept |
-| Mana Shield | +3 defense while Focused | Discipline, kept |
-| Restoration | Recover heals 80% now + 10% at the start of each of the next 3 turns; works on an ally | Discipline, kept |
+| Battle Fury | After a basic Attack, the next basic Attack deals +5 damage (not attack value); −3 defense while Furious; one stack | Discipline (was +4 attack / −2 defense per consecutive Attack, up to 3 stacks) |
+| ~~Mana Shield~~ | Removed: +3 defense while Focused stalled 7–25% of 1v1 battles | Discipline |
+| Restoration | Recover heals 80% now + 20% at the start of each of the next 2 turns; works on an ally | Discipline, kept (was 10% × 3) |
 | Shadow Dance | Evading an attack grants Focus (only if not already Focused) | Discipline, kept |
-| Backstab | +5 damage against a target that was Focused at the start of the turn | Discipline, kept |
-| Feint | +10 evasion on a turn you Attack. No status; it applies to attacks resolving that same turn | Was a Combo (+10 evasion the turn after) |
+| Backstab | +10 damage against a target that was Focused at the start of the turn | Discipline, kept (was +5) |
+| Feint | +25 evasion on a turn you use any attack. No status; it applies to attacks resolving that same turn | Was a Combo (+10 evasion the turn after); +10 until the balance pass |
 
 ### Technique II (level 5)
 
 | Technique | Setup → status | 1v1 line | 2v2 bonus |
 |---|---|---|---|
-| Sunder | Hitting a Defending target → **Exposed** | Hit through their Defend, then hit harder | Ally hits the Exposed target |
+| ~~Sunder~~ (removed) | Hitting a Defending target → **Exposed** | Hit through their Defend, then hit harder | Ally hits the Exposed target |
 | Shield Bash | Being hit while Defending → attacker **Staggered** | Defend → Attack with no Counter risk | Ally attacks safely too |
 | Riposte | Landing a Counter → attacker **Marked** | Counter → Attack | Both hit the Marked target |
 | Spellbrand | Landing a Focused attack → target **Marked** | Focus → Attack → Attack | Ally follows up on the big hit |
@@ -286,7 +286,7 @@ Unlocked by reaching **class level 5** in that class this round. The class doesn
 | Farmer | Hardiness: +5 defense at 40 health or less, not while Defending or Guarding (a class technique since the class technique pass; the old survive-at-1 is Cling to Life, enemies only) | Passive |
 | Healer | Mending: while Focused, Recover and Heal add the focus value and keep the Focus (a class technique since the class technique pass) | Passive |
 | Sorcerer | Channeling: a Focused basic Attack leaves its target Exposed (a class technique since the class technique pass) | Passive |
-| Scion | Last Stand: +10% all combat stats at 40 health or less | Passive |
+| Scion | None for now (Last Stand, +10% all combat stats at 40 health or less, was removed) | — |
 
 Forge and Combat Analysis last the whole battle and stack. They now have 2 uses each, which caps what a turtling hero can build up (see Class abilities, second pass).
 
@@ -343,6 +343,27 @@ Seeing the statuses didn't lift the Technique II picks: they are weak in 1v1 on 
 | 2v2 / 2v1 support | The simulator only runs 1v1; team value doesn't show up yet |
 
 ---
+
+### Technique balance pass (built)
+
+Measured in the Rust simulator (game rules, self-play, two seeds), in points above Greatsword in the same format (57.5% in both). Target: about gear level; useful in 1v1, can be better in 2v2.
+
+| Technique | Change | 1v1 | 2v2 |
+|---|---|---|---|
+| Backstab | +5 → +10 | +2.6 (+9: +0.4) | +9: −5.6. Weak in 2v2: a Focused enemy is usually focus-fired anyway |
+| Feint | +10 → +25 evasion, any attack | +0.8 | −0.8 |
+| Second Wind | unchanged | 0.0 | +1.6 |
+| Restoration | 10% × 3 → 20% × 2 | +1.5 | −1.3 |
+| Shield Bash | Staggered: can't Counter → −5 attack for 2 turns | +2.1 | 0.0 (battles ~2.5 turns longer) |
+| Battle Fury | 3 stacks of +4 attack / −2 defense → 1 stack of +5 basic-Attack damage / −3 defense | −1.5 (one seed; was +2.8) | +2.1 |
+| Riposte / Spellbrand | Marked +5 for 1 turn → +10 for 2 turns | +2.1 / +2.0 | −1.9 / not run |
+
+Other techniques:
+- **Mana Shield**: removed. It stalled 7–25% of 1v1 battles (Focus then Defend).
+- **Sunder**: removed. 1–3 turns of Exposed all measured −3 to −4, because opponents just stop Defending.
+- **Shadow Dance**: −3.9 in 1v1. Reviewed and kept as is (rules tooltip added); it should improve as evasion gear spreads.
+
+Simulator support is in `scripts/hero-combat-sim` (variants `fury`, `feint`, `backstab`, `secondwind`, `sunder`, `manashield`, `restoration`, `shadowdance`, `shieldbash`, `riposte`, `spellbrand`). None of these techniques are in `engine_fixtures.php` yet, so engine fidelity for them is unchecked.
 
 ## History: Disciplines (level 3)
 
@@ -410,11 +431,11 @@ Two picks per archetype, with generic names; unique items are planned elsewhere.
 | Gear | Archetype | Stats | Score |
 |---|---|---|---|
 | Greatsword | Warrior | +2 atk, −10 eva | 59.4% |
-| Plate Armor | Warrior | +1 def, −5 eva | 60.6% |
+| Plate Armor | Warrior | +1 def, −3 eva (was −5) | 60.6% |
 | Swordbreaker Dagger | Rogue | +6 counter | 59.2% |
-| Hooded Cloak | Rogue | +8 eva | 57.5% |
-| Crystal Wand | Mage | +6 focus | 58.7% |
-| Vestments of Renewal | Mage | +4 recover, +5 hp | 61.3% |
+| Hooded Cloak | Rogue | +10 eva (was +8) | 57.5% |
+| Crystal Wand | Mage | +5 focus (was +6) | 58.7% |
+| Vestments of Renewal | Mage | +3 recover (was +4 recover, +5 hp) | 61.3% |
 
 Attack and defense are worth about 5% per point, because the base damage margin is only 40 attack vs 20 defense, so Greatsword pays for its attack with −10 evasion. Health is also strong: +5 hp alone moves Vestments about 6%, and +10 hp alone scored 68%.
 
@@ -428,6 +449,8 @@ Attack and defense are worth about 5% per point, because the base damage margin 
 | Crystal Wand +4 / +8 focus | 52% / 61% |
 | Vestments +4 recover only | 55% |
 | Vestments +8 recover / +4 recover, +10 hp | 78% / 68% |
+
+Re-measured in the Rust simulator under the current rules (1v1, two seeds, Greatsword 57.3 against a 57.5 baseline): Plate Armor +1 def / −5 eva 56.7; Swordbreaker 57.7; Hooded Cloak +8 eva 56.8, **+10 eva 57.6 (built)**; Crystal Wand +6 focus 59.0, **+5 focus 58.4 (built)**; Vestments +4 recover / +5 hp 63.2. Also tried: Plate +2 def / −10 eva 63.8; Plate +1 def, no penalty 59.6; Vestments +5 recover / −1 def 49.0; Vestments +4 recover only 59.0; **Plate +1 def / −3 eva 58.0 (built)**; **Vestments +3 recover only 58.5 (built)**. The scores in the table above are from the older in-game AI measurement. Defense is worth far more than attack per point, because Defend doubles it and battles run longer.
 
 Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, Leathers, Spellfocus Staff, Warded Robes. Shadowfang Daggers, Shadowweave Cloak and Archmage's Wand were renamed to the generic Swordbreaker Dagger, Hooded Cloak and Crystal Wand (Swordbreaker became counter only).
 
@@ -476,6 +499,7 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Topic | Decision |
 |---|---|
 | Content definitions | PHP classes, registered explicitly in `HeroCombatServiceProvider` |
+| Health per level | 80 + 2 per level (level 10 = 100, the simulator's baseline). Was 60 + 5: one level's +5 health measured +5.9 points in 1v1, nearly a whole technique, so level gaps outweighed loadout choices |
 | Turn model | Fully simultaneous: secret choices with per-player time banks, and damage and healing land together before anyone is defeated |
 | Battle-wide rules | Combat rules apply to every kind of battle, PvE included. Bosses that need more healing than 3 charges get redesigned |
 | Upgrade names | Warrior/mage/rogue flavor, no stored or shown "path". Names must not reuse spell names (`app/data/spells.yml`) |

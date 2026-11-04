@@ -17,7 +17,7 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
  */
 class Backstab extends AbstractPassive
 {
-    public const BONUS_DAMAGE = 5;
+    public const BONUS_DAMAGE = 10;
 
     public function key(): string
     {
@@ -32,6 +32,15 @@ class Backstab extends AbstractPassive
     public function description(EffectInstance $instance): string
     {
         return 'Your attacks deal +' . self::BONUS_DAMAGE . ' damage against a target that was Focused at the start of the turn.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Still works on the turn the target spends their Focus.',
+            'Works with every attack ability, but not with Counters.',
+            'If a Guard takes the hit, the Guard must have been Focused.',
+        ];
     }
 
     public function onTurnStart(EffectInstance $instance, Battle $battle): void

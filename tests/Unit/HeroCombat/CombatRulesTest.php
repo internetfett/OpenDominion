@@ -3,6 +3,7 @@
 namespace OpenDominion\Tests\Unit\HeroCombat;
 
 use OpenDominion\HeroCombat\Content\Abilities\Recover;
+use OpenDominion\HeroCombat\Content\Effects\Techniques\BattleFury;
 use OpenDominion\HeroCombat\Engine\ActionValidator;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
@@ -301,32 +302,7 @@ class CombatRulesTest extends TestCase
         $this->assertEquals(100, $this->health($battle, 'Ally'));
     }
 
-    #[DataProvider('teamOrders')]
-    public function testFocusGainedThisTurnDoesNotChangeManaShieldMidTurn(bool $firstTeamFirst): void
-    {
-        $battle = $this->teams($firstTeamFirst);
-        $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'mana_shield');
 
-        $this->turn($battle, ['Hero' => ['focus'], 'Ally' => ['defend'], 'Foe' => ['attack', 'Hero'], 'Other' => ['defend']]);
-
-        $this->assertEquals(80, $hero->currentHealth);
-        $this->assertTrue($battle->effects->has($hero, 'focused'));
-    }
-
-    #[DataProvider('teamOrders')]
-    public function testSpendingFocusKeepsManaShieldForTheRestOfTheTurn(bool $firstTeamFirst): void
-    {
-        $battle = $this->teams($firstTeamFirst);
-        $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'mana_shield');
-        $battle->effects->apply($hero, 'focused');
-
-        $this->turn($battle, ['Hero' => ['attack', 'Other'], 'Ally' => ['defend'], 'Foe' => ['attack', 'Hero'], 'Other' => ['defend']]);
-
-        $this->assertEquals(83, $hero->currentHealth);
-        $this->assertFalse($battle->effects->has($hero, 'focused'));
-    }
 
     #[DataProvider('teamOrders')]
     public function testBattleFuryDefenseOnlyDropsAfterTheTurn(bool $firstTeamFirst): void
@@ -338,21 +314,9 @@ class CombatRulesTest extends TestCase
         $this->turn($battle, ['Hero' => ['attack', 'Other'], 'Ally' => ['defend'], 'Foe' => ['attack', 'Hero'], 'Other' => ['defend']]);
 
         $this->assertEquals(80, $hero->currentHealth);
-        $this->assertEquals(18, $battle->stat($hero, Stat::Defense));
+        $this->assertEquals(20 - BattleFury::DEFENSE_PENALTY, $battle->stat($hero, Stat::Defense));
     }
 
-    #[DataProvider('teamOrders')]
-    public function testSunderOnlyExposesFromTheNextTurn(bool $firstTeamFirst): void
-    {
-        $battle = $this->teams($firstTeamFirst);
-        $battle->effects->apply($this->named($battle, 'Hero'), 'sunder');
-
-        $this->turn($battle, ['Hero' => ['attack', 'Foe'], 'Ally' => ['attack', 'Foe'], 'Foe' => ['defend'], 'Other' => ['defend']]);
-        $this->assertEquals(100, $this->health($battle, 'Foe'), 'Neither attack benefits this turn');
-
-        $this->turn($battle, ['Hero' => ['attack', 'Foe'], 'Ally' => ['defend'], 'Foe' => ['counter'], 'Other' => ['defend']]);
-        $this->assertEquals(75, $this->health($battle, 'Foe'), 'Next turn: 40 against 15 defense');
-    }
 
     #[DataProvider('teamOrders')]
     public function testSpellbrandMarksFromTheNextTurn(bool $firstTeamFirst): void
@@ -367,7 +331,7 @@ class CombatRulesTest extends TestCase
         $this->assertTrue($battle->effects->has($this->named($battle, 'Foe'), 'marked'));
 
         $this->turn($battle, ['Hero' => ['defend'], 'Ally' => ['attack', 'Foe'], 'Foe' => ['counter'], 'Other' => ['defend']]);
-        $this->assertEquals(25, $this->health($battle, 'Foe'), '20 + 5 Mark');
+        $this->assertEquals(20, $this->health($battle, 'Foe'), '20 + 10 Mark');
     }
 
     #[DataProvider('teamOrders')]

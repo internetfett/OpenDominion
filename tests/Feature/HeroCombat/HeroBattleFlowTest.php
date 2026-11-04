@@ -264,7 +264,20 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertContains('forge', $player->abilities);
         $this->assertEquals(42, $player->attack);
         $this->assertEquals(21, $player->defense);
-        $this->assertEquals(-5, $player->evasion);
+        $this->assertEquals(-3, $player->evasion);
+    }
+
+    public function testRunningBattlesDropEffectsThatNoLongerExist(): void
+    {
+        $dominion = $this->dominionWithHero('Solo');
+        $dominion->hero->update(['experience' => 5000, 'loadout' => ['technique' => 'backstab']]);
+        $battle = $this->heroBattleService->createPracticeBattle($dominion->fresh());
+        $player = $this->combatantFor($battle, $dominion);
+        $player->update(['effects' => array_merge($player->effects, [['key' => 'removed_technique']])]);
+
+        $loaded = app(\OpenDominion\HeroCombat\Persistence\BattleRepository::class)->load($battle->fresh());
+
+        $this->assertEquals(['backstab'], array_map(fn ($instance) => $instance->key, $loaded->combatant($player->id)->effects));
     }
 
     public function testChangingTheLoadoutLeavesARunningBattleAndItsReplayAlone(): void

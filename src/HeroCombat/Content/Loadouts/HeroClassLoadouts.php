@@ -24,7 +24,8 @@ class HeroClassLoadouts
     ];
 
     /**
-     * Each class's signature ability or technique.
+     * Each class's signature ability or technique. The Scion has none until its replacement
+     * for Last Stand is designed.
      *
      * @var array<string, string>
      */
@@ -38,7 +39,6 @@ class HeroClassLoadouts
         'infiltrator' => 'shadow_strike',
         'sorcerer' => 'channeling',
         'scholar' => 'combat_analysis',
-        'scion' => 'last_stand',
     ];
 
     /**

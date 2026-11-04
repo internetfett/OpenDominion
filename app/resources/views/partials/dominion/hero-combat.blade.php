@@ -78,6 +78,6 @@
 
 <h5 class="h6 fw-bold mt-4">Your hero</h5>
 <ul class="mb-0 ps-3">
-    <li>Heroes have 60 health plus 5 per level, before gear, and bring their combat loadout into every battle.</li>
+    <li>Heroes have 80 health plus 2 per level, before gear, and bring their combat loadout into every battle.</li>
     <li>When you run out of match time, your hero acts automatically using the selected strategy.</li>
 </ul>

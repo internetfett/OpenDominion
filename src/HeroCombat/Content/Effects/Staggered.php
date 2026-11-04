@@ -3,16 +3,22 @@
 namespace OpenDominion\HeroCombat\Content\Effects;
 
 use OpenDominion\HeroCombat\Content\AbstractEffect;
-use OpenDominion\HeroCombat\Engine\CombatTag;
+use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
+use OpenDominion\HeroCombat\Engine\Stats\Modifier;
+use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Off balance: Counter is blocked. Applied mid-turn with duration 2, so it lasts until the
- * end of the following turn.
+ * Off balance: less attack, Counters included. Applied after the turn's actions, so it
+ * lasts for the next TURNS turns.
  */
 class Staggered extends AbstractEffect
 {
+    public const ATTACK = 5;
+    public const TURNS = 2;
+
     public function key(): string
     {
         return 'staggered';
@@ -25,7 +31,7 @@ class Staggered extends AbstractEffect
 
     public function description(EffectInstance $instance): string
     {
-        return 'Cannot Counter.';
+        return '-' . self::ATTACK . ' attack.';
     }
 
     public function kind(): EffectKind
@@ -35,11 +41,11 @@ class Staggered extends AbstractEffect
 
     public function defaultDuration(): ?int
     {
-        return 2;
+        return self::TURNS + 1;
     }
 
-    public function tags(): array
+    public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
     {
-        return [CombatTag::Staggered];
+        return [Modifier::flat(Stat::Attack, -self::ATTACK)];
     }
 }

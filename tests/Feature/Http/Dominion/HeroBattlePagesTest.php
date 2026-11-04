@@ -3,6 +3,7 @@
 namespace OpenDominion\Tests\Feature\Http\Dominion;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use OpenDominion\HeroCombat\Content\Effects\Techniques\Backstab;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
 use OpenDominion\Models\HeroBattle;
@@ -122,7 +123,6 @@ class HeroBattlePagesTest extends AbstractTestCase
 
         $this->get(route('dominion.heroes.battles'))
             ->assertOk()
-            ->assertSee('title="Being attacked while Defending Staggers the attacker (cannot Counter) until the end of the next turn."', false)
             ->assertSee('Shield Bash');
     }
 
@@ -382,11 +382,10 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertStringNotContainsString('Greatsword', $upgrades);
 
         $this->assertStringContainsString('ra-axe me-1"></i> Combat Loadout', $loadout);
-        $this->assertStringContainsString('Your attacks deal +5 damage against a target that was Focused', $loadout);
+        $this->assertStringContainsString('fa-info-circle', $this->loadoutRow($loadout, 'backstab'));
         $this->assertStringContainsString('+2 Attack, -10 Evasion', $loadout);
         $this->assertStringContainsString('Being attacked while Defending Staggers the attacker', $loadout);
         $this->assertStringContainsString('fa-info-circle', $this->loadoutRow($loadout, 'shadow_strike'), 'Reviewed abilities keep their rules in a tooltip');
-        $this->assertStringNotContainsString('fa-info-circle', $this->loadoutRow($loadout, 'last_stand'), 'Abilities not yet reviewed have no tooltip');
         $this->assertStringNotContainsString('wizard strength', $loadout);
     }
 
@@ -402,7 +401,7 @@ class HeroBattlePagesTest extends AbstractTestCase
         $sections = $this->heroSections($this->get(route('dominion.heroes'))->assertOk()->getContent());
 
         $this->assertStringContainsString('<div class="hero-tile" title="+10% fireball damage" data-bs-toggle="tooltip" tabindex="0">', $sections['dominion']);
-        $this->assertStringContainsString('<div class="hero-tile" title="Your attacks deal +5 damage against a target that was Focused at the start of the turn." data-bs-toggle="tooltip" tabindex="0">', $sections['heroBattle']);
+        $this->assertStringContainsString('<div class="hero-tile" title="Your attacks deal +' . Backstab::BONUS_DAMAGE . ' damage', $sections['heroBattle']);
     }
 
     public function testHeroStatsSitBeneathTheLoadoutTiles(): void
@@ -422,10 +421,24 @@ class HeroBattlePagesTest extends AbstractTestCase
         $content = $this->get(route('dominion.heroes'))->assertOk()->getContent();
 
         $this->assertMatchesRegularExpression('/id="loadout_backstab"\s+value="backstab"\s+checked/', $content);
-        $this->assertMatchesRegularExpression('/id="loadout_sunder"\s+value="sunder"\s+disabled data-locked/', $content);
+        $this->assertMatchesRegularExpression('/id="loadout_riposte"\s+value="riposte"\s+disabled data-locked/', $content);
         $this->assertMatchesRegularExpression('/name="gear\[\]"\s+id="loadout_greatsword"\s+value="greatsword"\s+disabled data-locked/', $content);
         $this->assertStringContainsString('<small class="text-muted">Requires level 7</small>', $content);
         $this->assertStringContainsString('<small class="text-muted">Requires level 9</small>', $content);
+    }
+
+    public function testClassOptionsKeepTheirRequirementOnceMet(): void
+    {
+        $dominion = $this->heroDominion();
+        $dominion->hero->update(['experience' => 2300]);
+        $heroHelper = app(\OpenDominion\Helpers\HeroHelper::class);
+        $registry = app(\OpenDominion\HeroCombat\Registry\CombatRegistry::class);
+
+        $content = $this->get(route('dominion.heroes'))->assertOk()->getContent();
+
+        $this->assertMatchesRegularExpression('/id="loadout_forge"\s+value="forge"\s*>/', $content, 'Forge is available');
+        $this->assertStringContainsString($heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('forge')), $this->loadoutRow($content, 'forge'));
+        $this->assertStringNotContainsString('text-muted', $this->loadoutRow($content, 'backstab'), 'A met level requirement is hidden');
     }
 
     public function testEmptySlotTilesOnlyHighlightOptionsTheHeroCanEquip(): void
@@ -436,7 +449,7 @@ class HeroBattlePagesTest extends AbstractTestCase
         $content = $this->get(route('dominion.heroes'))->assertOk()->getContent();
 
         $this->assertSame(3, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="ability" data-available>/', $content), 'The Blacksmith signature, Blade Flurry and Whirlwind');
-        $this->assertSame(6, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="technique" data-available>/', $content), 'Technique I only');
+        $this->assertSame(5, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="technique" data-available>/', $content), 'Technique I only');
         $this->assertSame(0, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="gear" data-available>/', $content));
         $this->assertStringContainsString(".hero-loadout-option[data-available][data-slot=", $content);
     }
@@ -447,13 +460,13 @@ class HeroBattlePagesTest extends AbstractTestCase
         $dominion->hero->update(['experience' => 5000]);
 
         $this->post(route('dominion.heroes.loadout'), [
-            'technique' => 'sunder',
+            'technique' => 'riposte',
             'ability' => '',
             'gear' => ['greatsword', 'hooded_cloak'],
         ])->assertRedirect(route('dominion.heroes'));
 
         $this->assertEquals(
-            ['technique' => 'sunder', 'ability' => null, 'gear' => ['greatsword', 'hooded_cloak']],
+            ['technique' => 'riposte', 'ability' => null, 'gear' => ['greatsword', 'hooded_cloak']],
             $dominion->hero->fresh()->loadout
         );
     }
@@ -463,7 +476,7 @@ class HeroBattlePagesTest extends AbstractTestCase
         $dominion = $this->heroDominion();
 
         $this->from(route('dominion.heroes'))
-            ->post(route('dominion.heroes.loadout'), ['technique' => 'sunder'])
+            ->post(route('dominion.heroes.loadout'), ['technique' => 'riposte'])
             ->assertRedirect(route('dominion.heroes'))
             ->assertSessionHasErrors();
 

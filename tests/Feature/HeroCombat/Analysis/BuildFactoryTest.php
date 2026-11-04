@@ -33,11 +33,11 @@ class BuildFactoryTest extends AbstractTestCase
             new \OpenDominion\HeroCombat\Engine\InMemorySpawner(),
         );
 
-        $fortified = $factory->addTo($battle, $factory->parse('technique=sunder;ability=fortify'), 1, 1, 'A', 'balanced');
+        $fortified = $factory->addTo($battle, $factory->parse('technique=riposte;ability=fortify'), 1, 1, 'A', 'balanced');
         $hardy = $factory->addTo($battle, $factory->parse('technique=hardiness'), 2, 2, 'B', 'balanced');
 
         $this->assertEquals(['attack', 'defend', 'focus', 'counter', 'recover', 'fortify'], $fortified->abilities);
-        $this->assertTrue($battle->effects->has($fortified, 'sunder'));
+        $this->assertTrue($battle->effects->has($fortified, 'riposte'));
         $this->assertEquals(['attack', 'defend', 'focus', 'counter', 'recover'], $hardy->abilities);
         $this->assertTrue($battle->effects->has($hardy, 'hardiness'));
     }
@@ -63,7 +63,7 @@ class BuildFactoryTest extends AbstractTestCase
 
         $this->assertEquals($basic['attack'] + 2, $geared['attack']);
         $this->assertEquals($basic['defense'] + 1, $geared['defense']);
-        $this->assertEquals($basic['evasion'] - 15, $geared['evasion']);
+        $this->assertEquals($basic['evasion'] - 13, $geared['evasion']);
     }
 
     public function testRejectsTheWrongTypeForASlot(): void
@@ -93,13 +93,13 @@ class BuildFactoryTest extends AbstractTestCase
     public function testRejectsASecondTechnique(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('technique=backstab,sunder');
+        $this->factory()->parse('technique=backstab,riposte');
     }
 
     public function testRejectsPicksAboveTheHerosLevel(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('level=6;technique=sunder');
+        $this->factory()->parse('level=6;technique=riposte');
     }
 
     public function testRejectsAbilitiesBelowTheClassLevel(): void
@@ -128,10 +128,10 @@ class BuildFactoryTest extends AbstractTestCase
 
     public function testListsOptionsByTypeAndLevel(): void
     {
-        $this->assertCount(14, $this->factory()->optionsOfType('technique'));
-        $this->assertCount(6, $this->factory()->optionsOfType('technique', level: 3));
-        $this->assertCount(5, $this->factory()->optionsOfType('technique', level: 7));
-        $this->assertCount(9, $this->factory()->optionsOfType('ability'));
+        $this->assertCount(12, $this->factory()->optionsOfType('technique'));
+        $this->assertCount(5, $this->factory()->optionsOfType('technique', level: 3));
+        $this->assertCount(4, $this->factory()->optionsOfType('technique', level: 7));
+        $this->assertCount(8, $this->factory()->optionsOfType('ability'));
         $this->assertCount(0, $this->factory()->optionsOfType('gear', 7));
         $this->assertCount(6, $this->factory()->optionsOfType('gear', 9));
     }
