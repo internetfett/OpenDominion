@@ -29,6 +29,11 @@ abstract class AbstractEffect implements Effect
         return [];
     }
 
+    public function isActive(EffectInstance $instance, CombatantState $subject, Battle $battle): bool
+    {
+        return false;
+    }
+
     public function kind(): EffectKind
     {
         return EffectKind::Status;

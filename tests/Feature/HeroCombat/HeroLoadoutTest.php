@@ -135,8 +135,8 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
 
     public function testChangingClassKeepsAccessAndTheLoadout(): void
     {
-        $dominion = $this->dominionWithHero(5000);
-        $this->heroActionService->updateLoadout($dominion, 'riposte', 'forge', ['greatsword', 'plate_armor']);
+        $dominion = $this->dominionWithHero(10000);
+        $this->heroActionService->updateLoadout($dominion, 'riposte', 'forge', ['greatsword', 'hooded_cloak']);
 
         $this->heroActionService->changeClass($dominion->refresh(), 'farmer');
 
@@ -144,12 +144,12 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $this->assertEquals(0, $this->heroCalculator->getHeroLevel($hero));
         $this->assertEquals(['riposte'], $this->equippedKeys($hero, LoadoutSlot::Technique));
         $this->assertEquals(['forge'], $this->equippedKeys($hero, LoadoutSlot::Ability));
-        $this->assertEquals(['greatsword', 'plate_armor'], $this->equippedKeys($hero, LoadoutSlot::Gear));
+        $this->assertEquals(['greatsword', 'hooded_cloak'], $this->equippedKeys($hero, LoadoutSlot::Gear));
     }
 
     public function testUpdatingTheLoadoutStoresEverySlot(): void
     {
-        $dominion = $this->dominionWithHero(5000);
+        $dominion = $this->dominionWithHero(10000);
 
         $result = $this->heroActionService->updateLoadout($dominion, 'backstab', 'forge', ['greatsword', 'hooded_cloak']);
 
@@ -162,7 +162,7 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
 
     public function testSlotsCanBeClearedAndSwappedFreely(): void
     {
-        $dominion = $this->dominionWithHero(5000);
+        $dominion = $this->dominionWithHero(10000);
         $this->heroActionService->updateLoadout($dominion, 'backstab', 'forge', ['greatsword', 'hooded_cloak']);
 
         $this->heroActionService->updateLoadout($dominion->refresh(), 'feint', '', []);
@@ -208,7 +208,7 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
 
     public function testCannotEquipTwoOfTheSamePieceOfGear(): void
     {
-        $dominion = $this->dominionWithHero(5000);
+        $dominion = $this->dominionWithHero(10000);
 
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('one of each piece of gear');
@@ -217,11 +217,43 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
 
     public function testCannotBringThreePiecesOfGear(): void
     {
-        $dominion = $this->dominionWithHero(5000);
+        $dominion = $this->dominionWithHero(10000);
 
         $this->expectException(GameException::class);
         $this->expectExceptionMessage('2 pieces of gear');
-        $this->heroActionService->updateLoadout($dominion, null, null, ['greatsword', 'plate_armor', 'hooded_cloak']);
+        $this->heroActionService->updateLoadout($dominion, null, null, ['greatsword', 'swordbreaker', 'hooded_cloak']);
+    }
+
+    public function testTheSecondPieceOfGearOpensAtLevelTwelve(): void
+    {
+        $dominion = $this->dominionWithHero(7500); // Level 11
+
+        try {
+            $this->heroActionService->updateLoadout($dominion, null, null, ['greatsword', 'hooded_cloak']);
+            $this->fail('A level 11 hero brings one piece of gear');
+        } catch (GameException) {
+            $this->assertNull($dominion->hero->fresh()->loadout);
+        }
+
+        $dominion->hero->update(['experience' => 10000]);
+        $this->heroActionService->updateLoadout($dominion->refresh(), null, null, ['greatsword', 'hooded_cloak']);
+        $this->assertEquals(['greatsword', 'hooded_cloak'], $this->equippedKeys($dominion->hero->fresh(), LoadoutSlot::Gear));
+    }
+
+    public function testGearCannotTakeEvasionBelowZero(): void
+    {
+        $dominion = $this->dominionWithHero(10000);
+
+        $this->expectException(GameException::class);
+        $this->heroActionService->updateLoadout($dominion, null, null, ['greatsword', 'plate_armor']);
+    }
+
+    public function testAStoredLoadoutThatTakesEvasionBelowZeroKeepsOnlyTheFirstPiece(): void
+    {
+        $hero = $this->dominionWithHero(10000)->hero;
+        $hero->loadout = ['gear' => ['greatsword', 'plate_armor']];
+
+        $this->assertEquals(['greatsword'], $this->equippedKeys($hero, LoadoutSlot::Gear));
     }
 
     public function testRejectedChangesLeaveTheLoadoutAlone(): void
@@ -268,16 +300,16 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
 
     public function testBothPiecesOfGearChangeCombatStats(): void
     {
-        $hero = $this->dominionWithHero(5000)->hero;
-        $base = $this->heroCalculator->getBaseCombatStats(9);
+        $hero = $this->dominionWithHero(10000)->hero;
+        $base = $this->heroCalculator->getBaseCombatStats(12);
 
-        $hero->loadout = ['gear' => ['greatsword', 'plate_armor']];
+        $hero->loadout = ['gear' => ['greatsword', 'swordbreaker']];
         $stats = $this->heroCalculator->getHeroCombatStats($hero);
 
         $this->assertEquals($base['attack'] + 2, $stats['attack']);
-        $this->assertEquals($base['defense'] + 1, $stats['defense']);
-        $this->assertEquals($base['evasion'] - 13, $stats['evasion']);
-        $this->assertEquals(['attack' => 2, 'evasion' => -13, 'defense' => 1], $this->heroCalculator->getLoadoutStatBonuses($hero));
+        $this->assertEquals($base['evasion'] - 10, $stats['evasion']);
+        $this->assertEquals($base['counter'] + 6, $stats['counter']);
+        $this->assertEquals(['attack' => 2, 'evasion' => -10, 'counter' => 6], $this->heroCalculator->getLoadoutStatBonuses($hero));
     }
 
     public function testEmptySlotCountOnlyIncludesSlotsTheHeroCanFill(): void
@@ -286,7 +318,8 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $this->assertEquals(0, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(700)->hero), 'Level 2');
         $this->assertEquals(1, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(1200)->hero), 'Level 3: technique');
         $this->assertEquals(2, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(2300)->hero), 'Level 5: technique, ability');
-        $this->assertEquals(4, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(5000)->hero), 'Level 9: everything');
+        $this->assertEquals(3, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(5000)->hero), 'Level 9: technique, ability, one gear');
+        $this->assertEquals(4, $this->heroCalculator->getEmptyLoadoutSlotCount($this->dominionWithHero(10000)->hero), 'Level 12: everything');
     }
 
     public function testFillingSlotsReducesTheEmptySlotCount(): void
@@ -294,10 +327,10 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $hero = $this->dominionWithHero(5000)->hero;
 
         $hero->loadout = ['technique' => 'backstab', 'gear' => ['greatsword']];
-        $this->assertEquals(2, $this->heroCalculator->getEmptyLoadoutSlotCount($hero));
+        $this->assertEquals(1, $this->heroCalculator->getEmptyLoadoutSlotCount($hero));
 
-        $hero->loadout = ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword', 'plate_armor']];
-        $this->assertEquals(0, $this->heroCalculator->getEmptyLoadoutSlotCount($hero));
+        $hero->loadout = ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword']];
+        $this->assertEquals(0, $this->heroCalculator->getEmptyLoadoutSlotCount($hero), 'One gear slot at level 9');
     }
 
     public function testNewLoadoutSlotsFollowEachRequirement(): void

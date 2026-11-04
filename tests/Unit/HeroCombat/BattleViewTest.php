@@ -109,6 +109,18 @@ class BattleViewTest extends TestCase
         $this->assertEquals('Exposed', $warning());
     }
 
+    public function testOpponentsShowWhatRepeatingAnActionWouldCost(): void
+    {
+        $battle = BattleBuilder::make()->hero('Player', 1)->hero('Rival', 2)->build();
+        $rival = $this->named($battle, 'Rival');
+        $view = new BattleView(new HeroBattle(), $battle, [$this->named($battle, 'Player')]);
+
+        $this->assertSame([], $view->warnings($rival));
+
+        $rival->lastAction = 'defend';
+        $this->assertCount(1, $view->warnings($rival));
+    }
+
     public function testFocusedHeroCanOnlyRallyTheirAlly(): void
     {
         $battle = BattleBuilder::make()->hero('Tank', 1)->hero('Mage', 1)->npc('Boss', 2)->build();

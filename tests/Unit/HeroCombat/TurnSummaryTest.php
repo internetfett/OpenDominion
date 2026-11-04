@@ -67,6 +67,23 @@ class TurnSummaryTest extends TestCase
         return BattleBuilder::make()->hero('Hero')->hero('Foe', team: 2, stats: $foeStats)->build();
     }
 
+    public function testDebuffsThatLandShowAsStatusLines(): void
+    {
+        $battle = $this->duel();
+        $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Foe', 'defend');
+        $exposed = $battle->registry->effect('exposed')->name();
+        $exposedLines = fn (array $summary) => array_values(array_filter($this->phase($summary, 'status'), fn (string $line) => str_contains($line, $exposed)));
+        $this->assertSame([], $exposedLines($this->summarise($battle)), 'A first Defend leaves nothing behind');
+
+        $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Foe', 'defend');
+        $lines = $exposedLines($this->summarise($battle));
+
+        $this->assertCount(1, $lines, 'Listed once');
+        $this->assertStringStartsWith('Foe', $lines[0]);
+    }
+
     public function testPhasesFollowTheReadingOrder(): void
     {
         $battle = $this->duel();
@@ -76,7 +93,7 @@ class TurnSummaryTest extends TestCase
         $summary = $this->summarise($battle);
 
         $this->assertEquals(1, $summary['turn']);
-        $this->assertEquals(['actions', 'damage', 'healing', 'defeats'], array_column($summary['phases'], 'key'));
+        $this->assertEquals(['actions', 'status', 'damage', 'healing', 'defeats'], array_column($summary['phases'], 'key'), 'Recovering leaves Foe Exposed');
         $this->assertEquals(['Hero: Attack → Foe', 'Foe: Recover'], $this->phase($summary, 'actions'));
         $this->assertEquals(['Nobody is defeated'], $this->phase($summary, 'defeats'));
     }

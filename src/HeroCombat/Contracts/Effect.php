@@ -35,6 +35,12 @@ interface Effect
      */
     public function rulesNotes(): array;
 
+    /**
+     * Whether a conditional effect is switched on for its holder right now, such as Battle
+     * Fury after an Attack. The battle page highlights its badge while it is.
+     */
+    public function isActive(EffectInstance $instance, CombatantState $subject, Battle $battle): bool;
+
     public function kind(): EffectKind;
 
     public function stacking(): StackingRule;

@@ -73,6 +73,23 @@ class TechniquesTest extends TestCase
         $this->assertEquals(20, $battle->stat($hero, Stat::Defense));
     }
 
+    public function testBattleFuryShowsAsActiveOnlyWhileFurious(): void
+    {
+        $battle = $this->duel('battle_fury', 'idle');
+        $hero = $this->named($battle, 'Hero');
+        $active = fn () => $battle->registry->effect('battle_fury')->isActive($battle->effects->find($hero, 'battle_fury'), $hero, $battle);
+
+        $this->assertFalse($active());
+
+        $this->queue($battle, 'Hero', 'attack', 'Foe');
+        $this->resolveTurn($battle);
+        $this->assertTrue($active());
+
+        $this->queue($battle, 'Hero', 'defend');
+        $this->resolveTurn($battle);
+        $this->assertFalse($active());
+    }
+
     public function testBattleFuryDoesNotBoostCounters(): void
     {
         $battle = $this->pvp('battle_fury');

@@ -58,7 +58,7 @@
         <div class="battle-effects">
             @foreach ($effects as $effect)
                 @php
-                    $badge = match ($effect['kind']) {
+                    $badge = $effect['active'] ? 'bg-success' : match ($effect['kind']) {
                         'buff' => 'bg-success',
                         'debuff' => 'bg-danger',
                         'innate' => 'bg-secondary',
@@ -78,6 +78,6 @@
             @endforeach
         </div>
     @elseif (!$controlled && $combatant->lastAction !== null && $combatant->isAlive())
-        <div class="battle-card-foot">Last turn: {{ $view->abilityName($combatant->lastAction) }}</div>
+        <div class="battle-card-foot">Last turn: {{ $view->abilityName($combatant->lastAction) }}@foreach ($view->warnings($combatant) as $warning) · <span class="text-warning">{{ $warning }}</span>@endforeach</div>
     @endif
 </div>

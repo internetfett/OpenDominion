@@ -283,11 +283,12 @@ class HeroHelper
     }
 
     /**
-     * What opens a loadout slot, e.g. "Reach level 9".
+     * What opens a loadout slot, e.g. "Reach level 9". $index picks a later slot of the same
+     * kind, such as the second piece of gear.
      */
-    public function getLoadoutSlotRequirement(LoadoutSlot $slot): string
+    public function getLoadoutSlotRequirement(LoadoutSlot $slot, int $index = 0): string
     {
-        $level = min(array_map(fn (LoadoutOption $option) => $option->level, $this->getLoadoutOptions($slot)));
+        $level = $slot->slotLevel($index) ?? min(array_map(fn (LoadoutOption $option) => $option->level, $this->getLoadoutOptions($slot)));
 
         return sprintf('Reach level %d', $level);
     }

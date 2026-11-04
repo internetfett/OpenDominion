@@ -293,7 +293,8 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertStringContainsString('Backstab', $sections['heroBattle']);
         $this->assertStringContainsString('against a target that was Focused at the start of the turn', $sections['heroBattle']);
         $this->assertStringContainsString('<a href="#hero-loadout" class="hero-tile hero-tile-open" data-loadout-slot="ability">', $sections['heroBattle']);
-        $this->assertSame(2, substr_count($sections['heroBattle'], 'Reach level 9'), 'Both gear slots are locked');
+        $this->assertSame(1, substr_count($sections['heroBattle'], 'Reach level 9'), 'The first gear slot is locked');
+        $this->assertSame(1, substr_count($sections['heroBattle'], 'Reach level 12'), 'The second gear slot opens later');
         $this->assertStringNotContainsString('Choose upgrade', $sections['heroBattle']);
     }
 
@@ -457,7 +458,7 @@ class HeroBattlePagesTest extends AbstractTestCase
     public function testSavingTheLoadoutThroughTheRoute(): void
     {
         $dominion = $this->heroDominion();
-        $dominion->hero->update(['experience' => 5000]);
+        $dominion->hero->update(['experience' => 10000]);
 
         $this->post(route('dominion.heroes.loadout'), [
             'technique' => 'riposte',

@@ -19,6 +19,6 @@
         <i class="ra ra-padlock"></i>
         <div class="hero-tile-label">{{ $slot->label() }}</div>
         <div class="hero-tile-name">Locked</div>
-        <div class="hero-tile-description">{{ $heroHelper->getLoadoutSlotRequirement($slot) }}</div>
+        <div class="hero-tile-description">{{ $heroHelper->getLoadoutSlotRequirement($slot, $index ?? 0) }}</div>
     </div>
 @endif

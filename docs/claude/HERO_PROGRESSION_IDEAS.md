@@ -16,7 +16,7 @@ Balance numbers come from `php artisan hero-combat:simulate`: Tactician vs Tacti
 | Techniques | Passive rules: Technique I (level 3) and Technique II (level 7), replacing Disciplines and Combos | `feature/hero-progression` |
 | Shared statuses | Exposed, Marked, Staggered (plus Invigorated from Second Wind), cashed in by any attacker | `feature/hero-progression` |
 | Class Abilities | Any class signature, available at class level 5 (active or not); uses the class icon | `feature/hero-progression` |
-| Gear | The only source of combat stats, available at level 9 | `feature/hero-progression` |
+| Gear | The only source of combat stats: one piece at level 9, a second at level 12; gear can't take evasion below 0 | `feature/hero-progression` |
 | Combat loadout | Techniques, abilities and gear left the upgrade system. Access is automatic; the hero brings 1 technique, 1 ability and 2 different pieces of gear, changeable at any time | `feature/hero-progression` |
 | Upgrade schedule | Dominion upgrades only: level 1 doctrine, then levels 2, 4 and 6. Data-driven slots. | `feature/hero-progression` |
 | Ally actions | Guard (Defend on an ally), Rally (Focus on an ally), healing an ally | `feature/hero-progression` |

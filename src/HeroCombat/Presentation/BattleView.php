@@ -158,7 +158,7 @@ class BattleView
     /**
      * Visible effects applying to the combatant, from every scope.
      *
-     * @return array<int, array{sortsWithInnate: bool, key: string, name: string, description: string, kind: string, turns: int|null, stacks: int}>
+     * @return array<int, array{sortsWithInnate: bool, key: string, name: string, description: string, kind: string, active: bool, turns: int|null, stacks: int}>
      */
     public function effects(CombatantState $combatant): array
     {
@@ -173,6 +173,7 @@ class BattleView
                 'name' => $effect->name(),
                 'description' => $effect->description($instance),
                 'kind' => $effect->kind()->value,
+                'active' => $effect->isActive($instance, $combatant, $this->battle),
                 'turns' => $instance->remainingTurns,
                 'stacks' => $instance->stacks,
             ];
@@ -230,6 +231,29 @@ class BattleView
         }
 
         return $abilities;
+    }
+
+    /**
+     * What would happen to a combatant if they used an ability this turn, from what they did
+     * last turn, e.g. "Exposed if they Defend again". Lets players read an opponent's risks.
+     *
+     * @return string[]
+     */
+    public function warnings(CombatantState $combatant): array
+    {
+        $warnings = [];
+        foreach ($combatant->abilities as $key) {
+            if (!$this->battle->registry->hasAbility($key)) {
+                continue;
+            }
+            $ability = $this->battle->registry->ability($key);
+            $warning = $ability->warning($combatant);
+            if ($warning !== null) {
+                $warnings[] = "{$warning} if they {$ability->name()} again";
+            }
+        }
+
+        return $warnings;
     }
 
     /**

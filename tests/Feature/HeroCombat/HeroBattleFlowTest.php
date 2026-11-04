@@ -253,8 +253,8 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
     {
         $dominion = $this->dominionWithHero('Solo');
         $dominion->hero->update([
-            'experience' => 5000,
-            'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword', 'plate_armor']],
+            'experience' => 10000,
+            'loadout' => ['technique' => 'backstab', 'ability' => 'forge', 'gear' => ['greatsword', 'swordbreaker']],
         ]);
 
         $battle = $this->heroBattleService->createPracticeBattle($dominion->fresh());
@@ -263,8 +263,8 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $this->assertEquals(['backstab'], collect($player->effects)->pluck('key')->all());
         $this->assertContains('forge', $player->abilities);
         $this->assertEquals(42, $player->attack);
-        $this->assertEquals(21, $player->defense);
-        $this->assertEquals(-3, $player->evasion);
+        $this->assertEquals(20, $player->defense);
+        $this->assertEquals(0, $player->evasion);
     }
 
     public function testRunningBattlesDropEffectsThatNoLongerExist(): void
@@ -290,7 +290,7 @@ class HeroBattleFlowTest extends AbstractBrowserKitTestCase
         $battle = $this->heroBattleService->createBattle($alice->fresh(), $bob->fresh());
         $before = $this->combatantFor($battle, $alice);
 
-        $this->heroActionService->updateLoadout($alice->fresh(), 'feint', null, ['hooded_cloak', 'crystal_wand']);
+        $this->heroActionService->updateLoadout($alice->fresh(), 'feint', null, ['hooded_cloak']);
 
         $after = $this->combatantFor($battle->fresh(), $alice);
         $this->assertEquals($before->abilities, $after->abilities);

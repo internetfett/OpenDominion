@@ -42,6 +42,11 @@ class Hardiness extends AbstractPassive
         ];
     }
 
+    public function isActive(EffectInstance $instance, CombatantState $subject, Battle $battle): bool
+    {
+        return $subject->currentHealth <= self::HEALTH;
+    }
+
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
     {
         if ($subject->currentHealth > self::HEALTH || $battle->hasTag($subject, CombatTag::Defending)) {

@@ -143,9 +143,9 @@ class HeroActionService
             throw new GameException('You have not selected a hero.');
         }
 
-        $gearCapacity = LoadoutSlot::Gear->capacity();
+        $gearCapacity = $this->heroCalculator->getLoadoutSlotCapacity($dominion->hero, LoadoutSlot::Gear);
         if (count($gear) > $gearCapacity) {
-            throw new GameException("You can only bring {$gearCapacity} pieces of gear.");
+            throw new GameException($gearCapacity === 1 ? 'You can only bring one piece of gear.' : "You can only bring {$gearCapacity} pieces of gear.");
         }
 
         if (count($gear) !== count(array_unique($gear))) {
@@ -166,6 +166,11 @@ class HeroActionService
                     throw new GameException('You do not meet the requirements to equip that combat upgrade.');
                 }
             }
+        }
+
+        $gearOptions = array_map(fn (string $key) => app(CombatRegistry::class)->loadoutOption($key), $loadout[LoadoutSlot::Gear->value]);
+        if (!$this->heroCalculator->gearKeepsEvasion($gearOptions)) {
+            throw new GameException('That gear would take your evasion below 0.');
         }
 
         DB::transaction(function () use ($dominion, $loadout) {

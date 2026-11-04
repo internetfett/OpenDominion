@@ -50,6 +50,10 @@ class BuildFactory
         $this->validate(LoadoutSlot::Ability, $abilities, $level);
         $this->validate(LoadoutSlot::Gear, $gear, $level);
 
+        if (!$this->heroCalculator->gearKeepsEvasion(array_map(fn (string $key) => $this->registry->loadoutOption($key), $gear))) {
+            throw new InvalidArgumentException('That gear would take evasion below 0');
+        }
+
         return new Build(
             level: $level,
             technique: $techniques[0] ?? null,
@@ -131,8 +135,8 @@ class BuildFactory
      */
     private function validate(LoadoutSlot $slot, array $keys, int $level): void
     {
-        if (count($keys) > $slot->capacity()) {
-            throw new InvalidArgumentException("A build can only bring {$slot->capacity()} {$slot->value}");
+        if (count($keys) > $slot->capacityAt($level)) {
+            throw new InvalidArgumentException("A level {$level} build can only bring {$slot->capacityAt($level)} {$slot->value}");
         }
 
         if (count($keys) !== count(array_unique($keys))) {

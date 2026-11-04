@@ -3,6 +3,7 @@
 namespace OpenDominion\HeroCombat\Presentation;
 
 use Illuminate\Support\Str;
+use OpenDominion\HeroCombat\Engine\Effects\EffectKind;
 use OpenDominion\HeroCombat\Engine\Events\EventType;
 use OpenDominion\HeroCombat\Engine\Events\MessageKind;
 use OpenDominion\HeroCombat\Engine\Intent;
@@ -57,6 +58,7 @@ class TurnSummary
     {
         $lines = array_fill_keys(array_keys(self::PHASES), []);
         $selected = [];
+        $debuffed = [];
 
         foreach ($events as $event) {
             match ($event['type']) {
@@ -68,6 +70,7 @@ class TurnSummary
                 EventType::Summoned->value => $lines['status'][] = $this->summonedLine($event),
                 EventType::Reward->value => $lines['outcome'][] = $this->line([$this->name($event['target']), $this->text(" earns {$event['experience']} experience")]),
                 EventType::Message->value => $this->addMessage($lines, $event),
+                EventType::EffectApplied->value => $this->addDebuff($lines, $debuffed, $event),
                 default => null,
             };
 
@@ -256,6 +259,38 @@ class TurnSummary
         }
 
         return $this->line([$this->name($event['source']), $this->text(' summons '), $this->name($event['target'])]);
+    }
+
+    /**
+     * A status line for a debuff landing on a combatant, e.g. "Rival is Exposed" or "Foe is
+     * Marked by Hero". Each debuff is listed once per combatant per turn.
+     *
+     * @param array<string, array> $lines
+     * @param array<string, bool> $debuffed
+     * @param array<string, mixed> $event
+     */
+    protected function addDebuff(array &$lines, array &$debuffed, array $event): void
+    {
+        $owner = $event['owner'] ?? null;
+        if ($owner === null || !$this->registry->hasEffect($event['effect'])) {
+            return;
+        }
+
+        $effect = $this->registry->effect($event['effect']);
+        $seen = "{$owner}:{$event['effect']}";
+        if ($effect->kind() !== EffectKind::Debuff || !$effect->visible() || isset($debuffed[$seen])) {
+            return;
+        }
+        $debuffed[$seen] = true;
+
+        $segments = [$this->name($owner), $this->text(' is '), $this->effect($effect->name())];
+        $source = $event['source'] ?? null;
+        if ($source !== null && $source !== $owner) {
+            $segments[] = $this->text(' by ');
+            $segments[] = $this->name($source);
+        }
+
+        $lines['status'][] = $this->line($segments);
     }
 
     /**

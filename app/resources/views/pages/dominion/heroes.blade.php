@@ -107,7 +107,8 @@
                                     $loadoutTiles[] = [
                                         'slot' => $loadoutSlot,
                                         'option' => $loadout[$loadoutSlot->value][$index] ?? null,
-                                        'available' => $heroCalculator->getAvailableLoadoutOptions($hero, $loadoutSlot) !== [],
+                                        'available' => $index < $heroCalculator->getLoadoutSlotCapacity($hero, $loadoutSlot) && $heroCalculator->getAvailableLoadoutOptions($hero, $loadoutSlot) !== [],
+                                        'index' => $index,
                                     ];
                                 }
                             }
@@ -284,7 +285,8 @@
                             <p>Your hero brings this loadout into every battle, including when a realmmate borrows your hero. You can change it at any time; battles already underway are not affected.</p>
                             @foreach ($loadoutSlotTypes as $loadoutSlot)
                                 @php($isMultiple = $loadoutSlot->capacity() > 1)
-                                <div class="hero-sub-label">{{ $loadoutSlot->label() }} ({{ $isMultiple ? 'choose up to ' . $loadoutSlot->capacity() : 'choose 1' }})</div>
+                                @php($slotCapacity = $heroCalculator->getLoadoutSlotCapacity($hero, $loadoutSlot))
+                                <div class="hero-sub-label">{{ $loadoutSlot->label() }} ({{ $slotCapacity > 1 ? 'choose up to ' . $slotCapacity : 'choose 1' }}{{ $slotCapacity < $loadoutSlot->capacity() ? '; ' . strtolower($heroHelper->getLoadoutSlotRequirement($loadoutSlot, $slotCapacity)) . ' for another' : '' }})</div>
                                 <table class="table hero-upgrades-table">
                                     <colgroup>
                                         <col width="40">
@@ -459,7 +461,7 @@
             });
 
             var gearCheckboxes = $('input[type=checkbox][name="gear[]"]');
-            var maximumGear = {{ \OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot::Gear->capacity() }};
+            var maximumGear = {{ isset($hero) ? $heroCalculator->getLoadoutSlotCapacity($hero, \OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot::Gear) : 0 }};
 
             function limitGear() {
                 var atLimit = gearCheckboxes.filter(':checked').length >= maximumGear;

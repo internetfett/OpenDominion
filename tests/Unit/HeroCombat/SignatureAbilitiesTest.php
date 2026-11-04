@@ -140,6 +140,16 @@ class SignatureAbilitiesTest extends TestCase
         $this->assertEquals(41 - (40 - 20), $this->health($battle, 'Hero'), 'Above 40 health');
     }
 
+    public function testHardinessShowsAsActiveAtFortyHealthOrLess(): void
+    {
+        foreach ([40 => true, 41 => false] as $health => $expected) {
+            $battle = $this->hardy($health);
+            $hero = $this->named($battle, 'Hero');
+
+            $this->assertSame($expected, $battle->registry->effect('hardiness')->isActive($battle->effects->find($hero, 'hardiness'), $hero, $battle), "{$health} health");
+        }
+    }
+
     public function testHardinessDoesNothingWhileDefendingOrGuarding(): void
     {
         $battle = $this->hardy(40);

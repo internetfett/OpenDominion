@@ -7,6 +7,7 @@ use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
+use OpenDominion\HeroCombat\Engine\Stats\Stat;
 use OpenDominion\HeroCombat\Registry\CombatRegistry;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Hero;
@@ -546,8 +547,34 @@ class HeroCalculator
     }
 
     /**
+     * How many options of a kind the hero can bring at their combat level.
+     */
+    public function getLoadoutSlotCapacity(Hero $hero, LoadoutSlot $slot): int
+    {
+        return $slot->capacityAt($this->getCombatLevel($hero));
+    }
+
+    /**
+     * Whether gear leaves a hero's evasion at 0 or more. Evasion can't go negative, so gear
+     * that each costs evasion (Greatsword and Plate Armor) can't be worn together.
+     *
+     * @param LoadoutOption[] $gear
+     */
+    public function gearKeepsEvasion(array $gear): bool
+    {
+        $evasion = $this->getBaseCombatStats()['evasion'];
+
+        foreach ($gear as $option) {
+            $evasion += $option->stats[Stat::Evasion->value] ?? 0;
+        }
+
+        return $evasion >= 0;
+    }
+
+    /**
      * The options the hero has equipped, by slot value. Anything stored that the hero can no
-     * longer equip is left out, as is anything beyond a slot's capacity.
+     * longer equip is left out, as is anything beyond a slot's capacity, and gear that would
+     * take evasion below 0.
      *
      * @return array<string, LoadoutOption[]>
      */
@@ -560,7 +587,13 @@ class HeroCalculator
             $available = $this->getAvailableLoadoutOptions($hero, $slot);
             $equipped = array_values(array_intersect_key($available, array_flip($keys)));
 
-            $loadout[$slot->value] = array_slice($equipped, 0, $slot->capacity());
+            $equipped = array_slice($equipped, 0, $this->getLoadoutSlotCapacity($hero, $slot));
+
+            if ($slot === LoadoutSlot::Gear) {
+                $equipped = array_reduce($equipped, fn (array $kept, LoadoutOption $option) => $this->gearKeepsEvasion([...$kept, $option]) ? [...$kept, $option] : $kept, []);
+            }
+
+            $loadout[$slot->value] = $equipped;
         }
 
         return $loadout;
@@ -602,7 +635,7 @@ class HeroCalculator
             $equipped = count($loadout[$slot->value]);
             $unequipped = count($this->getAvailableLoadoutOptions($hero, $slot)) - $equipped;
 
-            $count += min($slot->capacity() - $equipped, $unequipped);
+            $count += min($this->getLoadoutSlotCapacity($hero, $slot) - $equipped, $unequipped);
         }
 
         return $count;

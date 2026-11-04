@@ -50,6 +50,11 @@ class BattleFury extends AbstractPassive
         ];
     }
 
+    public function isActive(EffectInstance $instance, CombatantState $subject, Battle $battle): bool
+    {
+        return $this->furious($instance);
+    }
+
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
     {
         if (!$this->furious($instance)) {

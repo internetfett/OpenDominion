@@ -15,12 +15,12 @@ class BuildFactoryTest extends AbstractTestCase
 
     public function testParsesAFullSpec(): void
     {
-        $build = $this->factory()->parse('level=9;technique=backstab;ability=shadow_strike;gear=greatsword,plate_armor');
+        $build = $this->factory()->parse('level=12;technique=backstab;ability=shadow_strike;gear=greatsword,hooded_cloak');
 
-        $this->assertEquals(9, $build->level);
+        $this->assertEquals(12, $build->level);
         $this->assertEquals('backstab', $build->technique);
         $this->assertEquals('shadow_strike', $build->ability);
-        $this->assertEquals(['greatsword', 'plate_armor'], $build->gear);
+        $this->assertEquals(['greatsword', 'hooded_cloak'], $build->gear);
     }
 
     public function testAbilitiesJoinTheActionBarAndPassivesApply(): void
@@ -58,12 +58,23 @@ class BuildFactoryTest extends AbstractTestCase
     {
         $factory = $this->factory();
 
-        $basic = $factory->stats($factory->parse('level=9'));
-        $geared = $factory->stats($factory->parse('level=9;gear=greatsword,plate_armor'));
+        $basic = $factory->stats($factory->parse('level=12'));
+        $geared = $factory->stats($factory->parse('level=12;gear=greatsword,hooded_cloak'));
 
         $this->assertEquals($basic['attack'] + 2, $geared['attack']);
-        $this->assertEquals($basic['defense'] + 1, $geared['defense']);
-        $this->assertEquals($basic['evasion'] - 13, $geared['evasion']);
+        $this->assertEquals($basic['evasion'], $geared['evasion'], '-10 and +10');
+    }
+
+    public function testRejectsASecondPieceOfGearBeforeLevelTwelve(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->factory()->parse('level=11;gear=greatsword,hooded_cloak');
+    }
+
+    public function testRejectsGearThatTakesEvasionBelowZero(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->factory()->parse('level=12;gear=greatsword,plate_armor');
     }
 
     public function testRejectsTheWrongTypeForASlot(): void
@@ -111,7 +122,7 @@ class BuildFactoryTest extends AbstractTestCase
     public function testRejectsThreePiecesOfGear(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('gear=greatsword,plate_armor,hooded_cloak');
+        $this->factory()->parse('level=12;gear=greatsword,swordbreaker,hooded_cloak');
     }
 
     public function testRejectsDuplicateGear(): void
