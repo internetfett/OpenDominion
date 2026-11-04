@@ -219,6 +219,7 @@ class BattleView
                 'key' => $key,
                 'name' => $ability->name(),
                 'description' => $ability->description(),
+                'rulesNotes' => $ability->rulesNotes(),
                 'usable' => $this->canAct($combatant) && $this->validator->canQueue($combatant, $key),
                 'needsTarget' => $ability->targetRule()->needsChosenTarget(),
                 'hostile' => $ability->targetRule()->isHostile(),
@@ -271,6 +272,8 @@ class BattleView
         'counter' => 'ra-reverse',
         'recover' => 'ra-health',
         'caltrops' => 'ra-bear-trap',
+        'blade_flurry' => 'ra-daggers',
+        'whirlwind' => 'ra-dervish-swords',
     ];
 
     /** How an ability used on an ally reads in the target picker. */

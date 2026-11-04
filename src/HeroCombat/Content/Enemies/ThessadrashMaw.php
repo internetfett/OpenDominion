@@ -36,7 +36,7 @@ class ThessadrashMaw extends AbstractEnemy
 
     public function effects(): array
     {
-        return ['hardiness' => []];
+        return ['cling_to_life' => []];
     }
 
     public function ai(): string

@@ -78,7 +78,7 @@
                                     }
                                     $status = $ability['warning'] ?? $status;
                                 @endphp
-                                <button type="button" class="battle-action" title="{{ $ability['description'] }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
+                                <button type="button" class="battle-action" title="{{ implode('<br>', array_map('e', [$ability['description'], ...$ability['rulesNotes']])) }}" data-bs-toggle="tooltip" data-bs-trigger="hover"
                                     data-action="{{ $ability['key'] }}" data-target="{{ $defaultTarget }}"
                                     data-label="{{ $ability['name'] }}{{ $defaultTarget !== null ? ' → ' . $view->battle->combatant($defaultTarget)->name : '' }}"
                                     @if ($options) data-picks @endif

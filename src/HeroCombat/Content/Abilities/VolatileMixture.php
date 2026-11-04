@@ -26,7 +26,18 @@ class VolatileMixture extends AbstractAttack
 
     public function description(): string
     {
-        return 'Attack for 150% damage, but 20% chance to hit yourself.';
+        return 'Attack for ' . round(self::DAMAGE_MULTIPLIER * 100) . '% damage, with a ' . round((1 - self::SUCCESS_CHANCE) * 100) . '% chance to hit yourself instead.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'A backfire hits you with your own attack against your own defense, Focus included, and the enemy takes nothing.',
+            'A backfire can\'t be evaded, and a Guard doesn\'t take it for you.',
+            'A Countering target still strikes back after a backfire.',
+            'Your Focus is spent either way.',
+            'Can\'t be used two turns in a row.',
+        ];
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int
@@ -52,6 +63,7 @@ class VolatileMixture extends AbstractAttack
             canBeCountered: false,
             ignoreShield: true,
             tags: [],
+            canBeRedirected: false,
         ));
         $context->say('backfire', ['damage' => $backfire->amount]);
 

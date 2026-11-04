@@ -27,7 +27,17 @@ class Caltrops extends AbstractAbility
 
     public function description(): string
     {
-        return 'Scatter caltrops around you or an ally. They last until an enemy attacks them; each enemy that does that turn takes ' . CaltropsLaid::DAMAGE . ' damage.';
+        return 'Trap yourself or an ally: enemies who attack them take ' . CaltropsLaid::DAMAGE . ' damage.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'The caltrops stay until an enemy attacks the trapped hero, then hit every enemy who attacks them that turn.',
+            'If a Guard takes the attack instead, the caltrops don\'t spring.',
+            'The damage ignores defense and can\'t be taken by a Guard.',
+            'Can\'t be used two turns in a row.',
+        ];
     }
 
     public function targetRule(): TargetRule

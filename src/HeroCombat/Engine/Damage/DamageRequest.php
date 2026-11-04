@@ -12,6 +12,8 @@ final class DamageRequest
 {
     /**
      * @param int|null $flatDamage fixed damage instead of the attack-vs-defense formula
+     * @param float $multiplier scales the damage left after defense
+     * @param float $powerMultiplier scales the attacker's power (attack, focus and bonuses) before defense
      * @param int $defendModifier extra defense the target gains while Defending
      * @param CombatTag[] $tags
      */
@@ -22,6 +24,7 @@ final class DamageRequest
         public ?int $flatDamage = null,
         public int $bonusDamage = 0,
         public float $multiplier = 1.0,
+        public float $powerMultiplier = 1.0,
         public int $hits = 1,
         public bool $canEvade = true,
         public bool $canBeCountered = true,

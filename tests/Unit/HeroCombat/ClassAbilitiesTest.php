@@ -31,7 +31,23 @@ class ClassAbilitiesTest extends TestCase
         $this->perform($battle, 'Hero', 'forge');
         $this->perform($battle, 'Hero', 'forge');
 
-        $this->assertEquals(42, $battle->stat($this->named($battle, 'Hero'), Stat::Attack));
+        $this->assertEquals(40 + 2 * 4, $battle->stat($this->named($battle, 'Hero'), Stat::Attack));
+    }
+
+    public function testForgeAndCombatAnalysisHaveTwoUsesPerBattle(): void
+    {
+        $battle = BattleBuilder::make()->hero('Hero', abilities: ['attack', 'defend', 'focus', 'counter', 'recover', 'forge', 'combat_analysis'])->npc('Foe')->build();
+        $hero = $this->named($battle, 'Hero');
+        $validator = new \OpenDominion\HeroCombat\Engine\ActionValidator($battle);
+
+        foreach (['forge', 'combat_analysis'] as $ability) {
+            $this->assertEquals(2, $validator->chargesRemaining($hero, $ability));
+            $validator->recordUse($hero, $battle->registry->ability($ability));
+            $validator->recordUse($hero, $battle->registry->ability($ability));
+            $this->assertEquals(0, $validator->chargesRemaining($hero, $ability));
+            $hero->lastAction = null;
+            $this->assertFalse($validator->canPerform($hero, $ability), "{$ability} is out of uses");
+        }
     }
 
     public function testCombatAnalysisLowersDefense(): void
@@ -40,7 +56,7 @@ class ClassAbilitiesTest extends TestCase
 
         $this->perform($battle, 'Hero', 'combat_analysis', 'Foe');
 
-        $this->assertEquals(19, $battle->stat($this->named($battle, 'Foe'), Stat::Defense));
+        $this->assertEquals(20 - 4, $battle->stat($this->named($battle, 'Foe'), Stat::Defense));
     }
 
     public function testShadowStrikeCannotBeEvadedOrCounteredButHitsForLess(): void
@@ -80,6 +96,25 @@ class ClassAbilitiesTest extends TestCase
         $this->assertStringContainsString('distracted alchemist', $text);
     }
 
+    public function testAGuardingAllyDoesNotTakeTheBackfire(): void
+    {
+        $random = new ScriptedRandomSource();
+        $random->chances = [false];
+        $battle = BattleBuilder::make()
+            ->hero('Hero', abilities: ['attack', 'defend', 'focus', 'counter', 'recover', 'volatile_mixture'])
+            ->hero('Ally')
+            ->hero('Foe', team: 2)
+            ->build($random);
+        $this->queue($battle, 'Hero', 'volatile_mixture', 'Foe');
+        $this->queue($battle, 'Ally', 'defend', 'Hero');
+        $this->queue($battle, 'Foe', 'focus');
+
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(100 - 20, $this->named($battle, 'Hero')->currentHealth);
+        $this->assertEquals(100, $this->named($battle, 'Ally')->currentHealth);
+    }
+
     public function testDetonationsHitEveryEnemyThroughDefensesAndShields(): void
     {
         $battle = BattleBuilder::make()
@@ -88,7 +123,7 @@ class ClassAbilitiesTest extends TestCase
             ->npc('Golem B')
             ->build();
         $battle->effects->apply($this->named($battle, 'Golem A'), 'shield', null, 1, ['pool' => 20]);
-        $battle->effects->apply($this->named($battle, 'Golem B'), 'hardiness');
+        $battle->effects->apply($this->named($battle, 'Golem B'), 'cling_to_life');
         $this->named($battle, 'Golem B')->currentHealth = 10;
 
         $text = $this->perform($battle, 'Hero', 'demolish');
@@ -104,7 +139,7 @@ class ClassAbilitiesTest extends TestCase
 
         $this->perform($battle, 'Hero', 'blade_flurry', 'Foe');
 
-        $this->assertEquals(70, $this->named($battle, 'Foe')->currentHealth);
+        $this->assertEquals(72, $this->named($battle, 'Foe')->currentHealth, '85% of 40 is 34, minus 20 defense, twice');
     }
 
     public function testCleanseRemovesCurses(): void
@@ -137,21 +172,30 @@ class ClassAbilitiesTest extends TestCase
         $this->assertTrue($battle->effects->has($hero, 'frostbitten'), 'Only curses are cleansed');
     }
 
-    public function testMendingRecoverConsumesFocus(): void
+    public function testMendingBoostsRecoverAndKeepsTheFocusForTheNextAttack(): void
     {
-        $battle = BattleBuilder::make()->hero('Hero')->npc('Foe')->build();
+        $battle = BattleBuilder::make()->hero('Hero')->hero('Foe', team: 2)->build();
         $hero = $this->named($battle, 'Hero');
+        $foe = $this->named($battle, 'Foe');
         $hero->currentHealth = 50;
         $battle->effects->apply($hero, 'mending');
-        $hero->queue[] = ['ability' => 'focus', 'target' => null];
-        $this->resolveTurn($battle);
-        $healthAfterFirstTurn = $hero->currentHealth;
-
-        $hero->queue[] = ['ability' => 'recover', 'target' => null];
+        $this->queue($battle, 'Hero', 'focus');
+        $this->queue($battle, 'Foe', 'focus');
         $this->resolveTurn($battle);
 
+        $this->queue($battle, 'Hero', 'recover');
+        $this->queue($battle, 'Foe', 'counter');
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(50 + 30, $hero->currentHealth, 'Recover 20 + focus 10');
+        $this->assertTrue($battle->effects->has($hero, 'focused'), 'Healing keeps the Focus');
+
+        $this->queue($battle, 'Hero', 'attack', 'Foe');
+        $this->queue($battle, 'Foe', 'defend');
+        $this->resolveTurn($battle);
+
+        $this->assertEquals(100 - (50 - 40), $foe->currentHealth, 'The Focus lands on the next attack');
         $this->assertFalse($battle->effects->has($hero, 'focused'));
-        $this->assertEquals($healthAfterFirstTurn + 30 - (40 - (20 - 5)), $hero->currentHealth);
     }
 
     public function testEachSignatureBelongsToOneClass(): void

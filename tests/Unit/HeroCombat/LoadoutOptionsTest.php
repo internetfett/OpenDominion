@@ -4,6 +4,7 @@ namespace OpenDominion\Tests\Unit\HeroCombat;
 
 use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroLoadoutOptions;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
@@ -28,25 +29,29 @@ class LoadoutOptionsTest extends AbstractTestCase
     {
         $techniques = $this->registry()->loadoutOptions(LoadoutSlot::Technique);
 
-        $this->assertCount(11, $techniques);
+        $this->assertCount(14, $techniques);
         foreach ($techniques as $key => $option) {
             $this->assertTrue($this->registry()->hasEffect($key), "Technique {$key} has no effect class");
         }
     }
 
-    public function testEveryAbilityIsImplementedAndBelongsToAClass(): void
+    public function testEveryAbilityIsImplementedAndIsASignatureOrOpenToEveryClass(): void
     {
         $loadouts = new HeroClassLoadouts();
         $abilities = $this->registry()->loadoutOptions(LoadoutSlot::Ability);
 
-        $this->assertCount(10, $abilities);
+        $this->assertCount(9, $abilities);
         foreach ($abilities as $key => $option) {
             $this->assertTrue($this->registry()->hasAbility($key) || $this->registry()->hasEffect($key), "Ability {$key} has no ability or effect class");
-            $this->assertNotNull($loadouts->classFor($key), "Ability {$key} is not a class signature");
+            $expectedLevel = $loadouts->classFor($key) === null ? HeroLoadoutOptions::UNIVERSAL_ABILITY_LEVEL : HeroClassLoadouts::UNLOCK_CLASS_LEVEL;
+            $this->assertSame($expectedLevel, $option->level, "{$key} is on the wrong level");
         }
+
+        $universal = array_keys(array_filter($abilities, fn (LoadoutOption $option) => $loadouts->classFor($option->key) === null));
+        $this->assertEqualsCanonicalizing(['blade_flurry', 'whirlwind'], $universal);
     }
 
-    public function testEveryClassSignatureIsAnAbilityOptionWithTheClassIcon(): void
+    public function testEveryClassSignatureIsAnAbilityOrTechniqueWithTheClassIcon(): void
     {
         $classes = $this->app->make(HeroHelper::class)->getClasses();
 
@@ -54,7 +59,8 @@ class LoadoutOptionsTest extends AbstractTestCase
             $this->assertTrue($this->registry()->hasLoadoutOption($key), "{$class} signature {$key} has no loadout option");
 
             $option = $this->registry()->loadoutOption($key);
-            $this->assertSame(LoadoutSlot::Ability, $option->slot);
+            $this->assertContains($option->slot, [LoadoutSlot::Ability, LoadoutSlot::Technique]);
+            $this->assertSame(HeroClassLoadouts::UNLOCK_CLASS_LEVEL, $option->level, "{$key} unlocks at class level 5");
             $this->assertSame($classes[$class]['icon'], $option->icon, "{$key} should use the {$class} icon");
         }
     }
@@ -62,8 +68,8 @@ class LoadoutOptionsTest extends AbstractTestCase
     public function testOptionsSitOnTheirRequiredLevels(): void
     {
         $expected = [
-            LoadoutSlot::Technique->value => [3, 7],
-            LoadoutSlot::Ability->value => [HeroClassLoadouts::UNLOCK_CLASS_LEVEL],
+            LoadoutSlot::Technique->value => [3, 7, HeroClassLoadouts::UNLOCK_CLASS_LEVEL],
+            LoadoutSlot::Ability->value => [HeroClassLoadouts::UNLOCK_CLASS_LEVEL, HeroLoadoutOptions::UNIVERSAL_ABILITY_LEVEL],
             LoadoutSlot::Gear->value => [9],
         ];
 

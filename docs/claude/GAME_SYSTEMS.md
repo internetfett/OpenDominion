@@ -193,7 +193,7 @@ hero, investment, exploration, espionage, magic, invasion
 Hero upgrades are permanent dominion bonuses: level 1 doctrine and dominion upgrades on levels 2, 4 and 6, none of which grant combat stats.
 
 ### Combat Loadout
-Techniques, class abilities and gear are separate from upgrades. Access is automatic: Technique I at level 3, Technique II at level 7, a class's ability at level 5 in that class (active or not), and Gear at level 9. A hero brings 1 technique, 1 ability and 2 different pieces of gear, chosen on the heroes page and changeable at any time. The loadout applies to the next battle, including when a realmmate borrows the hero. See [HERO_COMBAT.md](HERO_COMBAT.md).
+Techniques, abilities and gear are separate from upgrades. Access is automatic: Technique I at level 3, Technique II at level 7, a class's signature at level 5 in that class (active or not; an ability, or a technique for Healer, Sorcerer and Farmer), Blade Flurry and Whirlwind for every class at level 5, and Gear at level 9. A hero brings 1 technique, 1 ability and 2 different pieces of gear, chosen on the heroes page and changeable at any time. The loadout applies to the next battle, including when a realmmate borrows the hero. See [HERO_COMBAT.md](HERO_COMBAT.md).
 
 ### Daily PvP Experience
 Once per round day, finishing a PvP hero battle with time bank remaining grants a flat 25 experience (no multipliers), win or lose.

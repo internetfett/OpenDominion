@@ -24,6 +24,11 @@ abstract class AbstractEffect implements Effect
         return $this->name();
     }
 
+    public function rulesNotes(): array
+    {
+        return [];
+    }
+
     public function kind(): EffectKind
     {
         return EffectKind::Status;

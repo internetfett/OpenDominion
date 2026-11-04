@@ -27,7 +27,7 @@ class Sunder extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Attacking a Defending target leaves it Exposed (-5 defense) until the end of the next turn.';
+        return 'Attacking a Defending target leaves it Exposed until the end of the next turn.';
     }
 
     public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void

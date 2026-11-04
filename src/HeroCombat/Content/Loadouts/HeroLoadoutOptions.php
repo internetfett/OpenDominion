@@ -5,11 +5,13 @@ namespace OpenDominion\HeroCombat\Content\Loadouts;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
 /**
- * Every technique, class ability and piece of gear a hero can equip.
+ * Every technique, ability and piece of gear a hero can equip. A class's signature is an
+ * ability or a technique gated by that class's level; everything else is gated by combat level.
  */
 class HeroLoadoutOptions
 {
     public const TECHNIQUE_I_LEVEL = 3;
+    public const UNIVERSAL_ABILITY_LEVEL = 5;
     public const TECHNIQUE_II_LEVEL = 7;
     public const GEAR_LEVEL = 9;
 
@@ -25,6 +27,9 @@ class HeroLoadoutOptions
             new LoadoutOption('shadow_dance', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-player-dodge'),
             new LoadoutOption('backstab', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-dripping-knife'),
             new LoadoutOption('feint', LoadoutSlot::Technique, self::TECHNIQUE_I_LEVEL, 'ra-spinning-sword'),
+            new LoadoutOption('mending', LoadoutSlot::Technique, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-apothecary'),
+            new LoadoutOption('channeling', LoadoutSlot::Technique, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-pointy-hat'),
+            new LoadoutOption('hardiness', LoadoutSlot::Technique, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-sprout'),
 
             new LoadoutOption('sunder', LoadoutSlot::Technique, self::TECHNIQUE_II_LEVEL, 'ra-muscle-up'),
             new LoadoutOption('shield_bash', LoadoutSlot::Technique, self::TECHNIQUE_II_LEVEL, 'ra-round-shield'),
@@ -36,12 +41,11 @@ class HeroLoadoutOptions
             new LoadoutOption('fortify', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-quill-ink'),
             new LoadoutOption('forge', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-anvil'),
             new LoadoutOption('caltrops', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hammer'),
-            new LoadoutOption('hardiness', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-sprout'),
-            new LoadoutOption('mending', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-apothecary'),
             new LoadoutOption('shadow_strike', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-hood'),
-            new LoadoutOption('channeling', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-pointy-hat'),
             new LoadoutOption('combat_analysis', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-graduate-cap'),
             new LoadoutOption('last_stand', LoadoutSlot::Ability, HeroClassLoadouts::UNLOCK_CLASS_LEVEL, 'ra-ankh'),
+            new LoadoutOption('blade_flurry', LoadoutSlot::Ability, self::UNIVERSAL_ABILITY_LEVEL, 'ra-daggers'),
+            new LoadoutOption('whirlwind', LoadoutSlot::Ability, self::UNIVERSAL_ABILITY_LEVEL, 'ra-dervish-swords'),
 
             new LoadoutOption('greatsword', LoadoutSlot::Gear, self::GEAR_LEVEL, 'ra-sword', 'Greatsword', [
                 Stat::Attack->value => 2,

@@ -46,10 +46,6 @@ class Focused extends AbstractEffect
 
     public function maxStacks(Battle $battle, ?CombatantState $owner): ?int
     {
-        if ($owner !== null && $battle->effects->has($owner, 'channeling')) {
-            return null;
-        }
-
         return 1;
     }
 

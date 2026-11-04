@@ -158,7 +158,7 @@ class TurnSummary
     {
         $multiplier = (float) ($event['multiplier'] ?? 1);
         $hits = (int) ($event['hits'] ?? 1);
-        $scaling = ($multiplier != 1 ? ' ×' . rtrim(rtrim(number_format($multiplier, 2), '0'), '.') : '') . ($hits > 1 ? " ×{$hits} hits" : '');
+        $scaling = ($multiplier != 1 ? ' ×' . $this->factor($multiplier) : '') . ($hits > 1 ? " ×{$hits} hits" : '');
 
         if (!isset($event['attack'])) {
             $segments = [];
@@ -170,12 +170,16 @@ class TurnSummary
                 'counter' => $event['counter_bonus'],
                 'bonus' => $event['bonus'],
             ]);
-            $power = $event['attack'] + array_sum($parts);
+            $powerMultiplier = (float) ($event['power_multiplier'] ?? 1);
+            $power = (int) round(($event['attack'] + array_sum($parts)) * $powerMultiplier);
             $segments = [$this->text(($scaling !== '' ? '(' : '') . $power)];
-            if ($parts !== []) {
+            if ($parts !== [] || $powerMultiplier != 1) {
                 $breakdown = $event['attack'];
                 foreach ($parts as $label => $value) {
                     $breakdown .= sprintf(' %+d %s', $value, $label);
+                }
+                if ($powerMultiplier != 1) {
+                    $breakdown = ($parts !== [] ? "({$breakdown})" : $breakdown) . ' ×' . $this->factor($powerMultiplier);
                 }
                 $segments[] = $this->math(" ({$breakdown})");
             }
@@ -210,6 +214,14 @@ class TurnSummary
         }
 
         return $segments;
+    }
+
+    /**
+     * A multiplier without trailing zeros, e.g. 0.85 or 0.7.
+     */
+    protected function factor(float $multiplier): string
+    {
+        return rtrim(rtrim(number_format($multiplier, 2), '0'), '.');
     }
 
     /**

@@ -379,7 +379,7 @@ class CombatRulesTest extends TestCase
 
         $this->turn($battle, ['Hero' => ['forge'], 'Ally' => ['defend'], 'Foe' => ['counter'], 'Other' => ['defend']]);
 
-        $this->assertEquals(41, $battle->stat($hero, Stat::Attack));
+        $this->assertEquals(40 + 4, $battle->stat($hero, Stat::Attack));
     }
 
     #[DataProvider('teamOrders')]
@@ -391,6 +391,6 @@ class CombatRulesTest extends TestCase
         $this->turn($battle, ['Hero' => ['combat_analysis', 'Foe'], 'Ally' => ['attack', 'Foe'], 'Foe' => ['focus'], 'Other' => ['defend']]);
 
         $this->assertEquals(80, $this->health($battle, 'Foe'));
-        $this->assertEquals(19, $battle->stat($this->named($battle, 'Foe'), Stat::Defense));
+        $this->assertEquals(20 - 4, $battle->stat($this->named($battle, 'Foe'), Stat::Defense));
     }
 }

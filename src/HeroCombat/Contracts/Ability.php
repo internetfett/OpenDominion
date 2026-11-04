@@ -19,6 +19,14 @@ interface Ability
 
     public function description(): string;
 
+    /**
+     * Rule clarifications shown in a tooltip beside the short description. Empty until the
+     * ability's balance has been reviewed.
+     *
+     * @return string[]
+     */
+    public function rulesNotes(): array;
+
     public function targetRule(): TargetRule;
 
     /** Turns after use before the ability can be chosen again (0 = no cooldown, 1 = not twice in a row). */

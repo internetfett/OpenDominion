@@ -20,7 +20,7 @@ class AurelisDefender extends AbstractEnemy
     {
         return [
             'health' => 45,
-            'attack' => 25,
+            'attack' => 30,
             'defense' => 15,
             'evasion' => 5,
             'focus' => 5,

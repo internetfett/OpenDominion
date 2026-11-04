@@ -53,6 +53,115 @@ class SignatureAbilitiesTest extends TestCase
         return $this->named($battle, $name)->currentHealth;
     }
 
+    private function channeler(bool $firstTeamFirst = true, string $ability = 'attack'): Battle
+    {
+        $battle = $this->teams($ability, $firstTeamFirst);
+        $hero = $this->named($battle, 'Hero');
+        $battle->effects->apply($hero, 'channeling');
+        $battle->effects->apply($hero, 'focused');
+
+        return $battle;
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testAChanneledAttackExposesTheTargetForTheWholeTurn(bool $firstTeamFirst): void
+    {
+        $battle = $this->channeler($firstTeamFirst);
+
+        $this->turn($battle, ['Hero' => ['attack', 'Foe'], 'Ally' => ['attack', 'Foe'], 'Foe' => ['defend'], 'Other' => ['focus']]);
+
+        $this->assertEquals(100 - (50 - 35) - (40 - 35), $this->health($battle, 'Foe'), 'Defending and Exposed: 20 x (2 - 0.25), for the ally too');
+        $this->assertFalse($battle->effects->has($this->named($battle, 'Hero'), 'focused'));
+    }
+
+    public function testAnUnfocusedAttackExposesNothing(): void
+    {
+        $battle = $this->teams('attack');
+        $battle->effects->apply($this->named($battle, 'Hero'), 'channeling');
+
+        $this->turn($battle, ['Hero' => ['attack', 'Foe'], 'Ally' => ['focus'], 'Foe' => ['defend'], 'Other' => ['focus']]);
+
+        $this->assertEquals(100, $this->health($battle, 'Foe'));
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testAGuardTakingTheChanneledHitIsNotExposed(bool $firstTeamFirst): void
+    {
+        $battle = $this->channeler($firstTeamFirst);
+
+        $this->turn($battle, ['Hero' => ['attack', 'Foe'], 'Ally' => ['attack', 'Foe'], 'Foe' => ['focus'], 'Other' => ['defend', 'Foe']]);
+
+        $this->assertEquals(100 - (50 - 30) - (40 - 30), $this->health($battle, 'Other'), 'The guard keeps its 30 defense');
+        $this->assertEquals(100, $this->health($battle, 'Foe'));
+    }
+
+    /**
+     * Foe Defends (40 defense); unchanneled, the ally's 40 does nothing.
+     *
+     * @return array<string, array{0: string, 1: string|null, 2: int}>
+     */
+    public static function otherAttacks(): array
+    {
+        return [
+            'Blade Flurry' => ['blade_flurry', 'Foe', 100 - 2 * (43 - 40)],
+            'Whirlwind' => ['whirlwind', null, 100 - 7],
+        ];
+    }
+
+    #[DataProvider('otherAttacks')]
+    public function testOnlyTheBasicAttackIsChanneled(string $ability, ?string $target, int $foeHealth): void
+    {
+        $battle = $this->channeler(ability: $ability);
+
+        $this->turn($battle, ['Hero' => [$ability, $target], 'Ally' => ['attack', 'Foe'], 'Foe' => ['defend'], 'Other' => ['focus']]);
+
+        $this->assertEquals($foeHealth, $this->health($battle, 'Foe'), 'Not Exposed');
+        $this->assertFalse($battle->effects->has($this->named($battle, 'Hero'), 'focused'), 'The Focus is still spent');
+    }
+
+    private function hardy(int $health, bool $firstTeamFirst = true): Battle
+    {
+        $battle = $this->teams('attack', $firstTeamFirst);
+        $hero = $this->named($battle, 'Hero');
+        $battle->effects->apply($hero, 'hardiness');
+        $hero->currentHealth = $health;
+
+        return $battle;
+    }
+
+    public function testHardinessAddsFiveDefenseAtFortyHealthOrLess(): void
+    {
+        $battle = $this->hardy(40);
+        $this->turn($battle, ['Hero' => ['focus'], 'Ally' => ['focus'], 'Foe' => ['attack', 'Hero'], 'Other' => ['focus']]);
+        $this->assertEquals(40 - (40 - 25), $this->health($battle, 'Hero'));
+
+        $battle = $this->hardy(41);
+        $this->turn($battle, ['Hero' => ['focus'], 'Ally' => ['focus'], 'Foe' => ['attack', 'Hero'], 'Other' => ['focus']]);
+        $this->assertEquals(41 - (40 - 20), $this->health($battle, 'Hero'), 'Above 40 health');
+    }
+
+    public function testHardinessDoesNothingWhileDefendingOrGuarding(): void
+    {
+        $battle = $this->hardy(40);
+        $this->turn($battle, ['Hero' => ['defend', 'Ally'], 'Ally' => ['focus'], 'Foe' => ['attack', 'Ally'], 'Other' => ['focus']]);
+        $this->assertEquals(40 - (40 - 30), $this->health($battle, 'Hero'), 'Guarding: 30, not 35');
+
+        $battle = $this->hardy(40);
+        $battle->effects->apply($this->named($battle, 'Foe'), 'focused');
+        $this->turn($battle, ['Hero' => ['defend'], 'Ally' => ['focus'], 'Foe' => ['attack', 'Hero'], 'Other' => ['focus']]);
+        $this->assertEquals(40 - (50 - 40), $this->health($battle, 'Hero'), 'Defending: 40, not 45');
+    }
+
+    #[DataProvider('teamOrders')]
+    public function testHardinessUsesHealthFromTheStartOfTheTurn(bool $firstTeamFirst): void
+    {
+        $battle = $this->hardy(45, $firstTeamFirst);
+
+        $this->turn($battle, ['Hero' => ['focus'], 'Ally' => ['focus'], 'Foe' => ['attack', 'Hero'], 'Other' => ['attack', 'Hero']]);
+
+        $this->assertEquals(45 - 20 - 20, $this->health($battle, 'Hero'), 'The first hit doesn\'t switch it on for the second');
+    }
+
     public function testFortifyAddsTenDefenseFromTheTurnItIsCast(): void
     {
         $battle = $this->teams('fortify');

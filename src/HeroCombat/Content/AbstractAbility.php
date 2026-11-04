@@ -44,6 +44,11 @@ abstract class AbstractAbility implements Ability
         return null;
     }
 
+    public function rulesNotes(): array
+    {
+        return [];
+    }
+
     /**
      * The living ally chosen for this action, if the actor chose someone other than themselves.
      */

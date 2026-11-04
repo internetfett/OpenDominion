@@ -24,7 +24,7 @@ Balance numbers come from `php artisan hero-combat:simulate`: Tactician vs Tacti
 | Borrowed heroes | Pilot a realmmate's hero in party-enabled encounters, live or practice; no owner reward | `feature/hero-progression` |
 | Tactician + simulator | Game-theory AI and `hero-combat:simulate` for PvP balance. Analysis only, not in the game. | `feature/hero-progression` |
 
-Class abilities and passives reach heroes only through the loadout; `HeroClassLoadouts` no longer grants them by active class. Some are also used by PvE enemies (Hardiness, Shadow Strike).
+Class abilities and passives reach heroes only through the loadout; `HeroClassLoadouts` no longer grants them by active class. Some are also used by PvE enemies (Shadow Strike; the old Hardiness lives on for enemies as Cling to Life).
 
 ---
 
@@ -126,6 +126,60 @@ Tried and rejected, 1v1 / 2v2 against Greatsword unless noted:
 
 Snare was renamed Caltrops because Magic Snare is an espionage black op. The old Fortify shield is kept for enemies as Stone Shield.
 
+### Class techniques (built)
+
+Mending, Channeling and Hardiness are the Healer's, Sorcerer's and Farmer's class unlocks in the Technique slot (class level 5). Scion keeps Last Stand in the Ability slot, not yet reviewed. Target: about one gear piece, since the old technique measurements put the best Technique I picks at gear level (55–60% against a base hero) and the rest below. Measured under the 2v2 rules above, points against one Greatsword:
+
+| Option | 1v1 | 2v2 | Notes |
+|---|---|---|---|
+| **Mending: +10 healing while Focused, keeps the Focus (built)** | −2.9 | +1.4 | Better in 2v2, where Heal goes to the ally |
+| Mending as it was (+10, spends the Focus) | −7.0 | | Worth nothing: still costs the Focus turn |
+| Mending +13 / +15, keeps the Focus | +2.8 / +5.5 | +10.2 / +9.6 | Cliff in 2v2; battles about 2 turns longer |
+| Mending +20, keeps / spends the Focus | +16.9 / −1.8 | | |
+| Channeling as it was (Focus stacks) | −5.3 | | A stacked Focus is visible, so opponents Defend |
+| Channeling: Focus again the next turn | −4.7 | | Faster stacking doesn't help |
+| Channeling: Focused attacks ignore 5 / 10 / 15 / 20 defense | 0.0 / +6.1 / +17.8 / +26.0 | | The same as more focus value against any normal target |
+| Channeling: Focused attacks ignore a quarter / a third / half of defense | +1.6 / +1.8 / +5.6 | | Grows against Defenders; opponents Defend less |
+| Channeling: can't be blocked by Defend or Guard / can't be Countered | −5.0 / −3.0 | | Opponents already answer Focus with Counter, which also answers normal attacks |
+| Channeling: 2 / 3 stacks ignore all defense | +4.8 / −3.9 | | 2 stacks: fewer viable options (2.75) |
+| Channeling: each stack ignores a quarter, up to 2 | +3.6 | | Adds a release-or-charge decision |
+| **Channeling: a Focused attack Exposes the target (built; game rules, Greatsword 57.5% / 57.5%)** | +0.1 | −0.6 | Exposed adds with Defend (35 against a Defender, not 30), and the ally's attack that turn benefits. In 2v2 the Channeling team Focuses more (7.9% vs 6.0%, viable 63% vs 51%), opponents Defend and Counter a little less, and teammates hit the Exposed target together slightly more |
+| **Volatile Mixture as it is (150%, 20% backfire), kept** | +1.1 | +1.6 | Gear level, kept as the gambler's choice; the backfire no longer lands on a guarding ally |
+| **Hardiness: +5 defense at 40 health or less, not while Defending or Guarding (built)** | +4.1 | +1.0 | Weaker in 2v2: a low hero gets finished or healed |
+| Hardiness: +2 / +3 at 40 health | −1.1 / +1.8 | — / −0.4 | |
+| Hardiness: +5 at 30 / 25 health | −0.2 / −3.9 | | |
+| Hardiness: +10 / +15 at 40 health | +25 / +40 | | Halves every hit when low; +10 stacking with Defend stalls (7%) |
+
+### Class abilities, second pass (built)
+
+Under the game's current rules (Greatsword 57.5% in both formats). A turn spent on Forge or Combat Analysis gives up about 20 damage, so the lasting bonus has to beat that: +1 never did.
+
+| Option | 1v1 | 2v2 | Notes |
+|---|---|---|---|
+| **Forge +4 attack, 2 uses (built)** | +2.2 | +2.7 | Only helps its user; holds steady across formats |
+| **Combat Analysis −4 defense, 2 uses (built)** | +2.5 | +2.4 | Pulls the team onto one target (81% same-target vs 76%), fewer viable options (4.6 vs 4.9) |
+| Forge +1 / +2, unlimited | −6.7 / −5.4 | | Almost never used |
+| Combat Analysis −1, unlimited | −6.6 | | |
+| Forge +4 x3 / +5 x2 / +6 x2 / +8 x1 | +1.7 / +7.1 / +9.6 / +15.0 | | A third use barely matters |
+| Combat Analysis −2 x2 / −3 x2 / −3 x3 / −5 x2 | −4.4 / −1.6 / −0.7 / +7.8 | | |
+
+Scion's Last Stand is being removed for a new idea.
+
+### Abilities for every class (built)
+
+| Ability | Final design | 1v1 | 2v2 | Notes |
+|---|---|---|---|---|
+| Blade Flurry | 2 hits, each at 85% of the attack value (Focus and Rally included) before defense; one evasion roll; a Counter answers each hit; not twice in a row | +5.2 | +8.1 | Rewards setups (Focus, Rally, Exposed); weak against Defend |
+| Whirlwind | Every enemy for 70% of normal damage after defense; each enemy can Counter; not twice in a row | about −8 (≈50%) | +0.3 | Meant for PvE; gear-level in 2v2 by design, since an AoE can't be balanced in 1v1 |
+
+| Idea | Result |
+|---|---|
+| Flurry 2 × 0.75 / 0.7 / 0.65 after defense | 1v1 +10.5 / +5.4 / +3.3; 2v2 0.7 +6.3, 0.65 +4.3. Rejected: after defense it's just a stronger normal hit |
+| Flurry before defense 0.75 / 0.8 / 0.95 | 0.75: −5.5 in 1v1; 0.8: −1.0 in 2v2; 0.95: +20 in 1v1. Each 0.05 is about 4 damage per use, so the steps are coarse |
+| Whirlwind un-Counterable 0.75 | +1.2 in 1v1, +33 in 2v2 (89.4%) |
+| Whirlwind Counterable 0.6 / 0.65 / 0.75 (2v2) | −6.1 / −4.6 / +6.0 |
+| Whirlwind before defense | Not tested: at the same percentage it's far weaker against defense, and spiky with Focus; it fits Flurry's role, not an AoE's |
+
 ---
 
 ## Redesign: Combat Loadouts (built)
@@ -134,8 +188,8 @@ Techniques, class abilities and gear were permanent one-time picks taking up the
 
 | Slot | Capacity | Access |
 |---|---|---|
-| Technique | 1 | Level 3 (Technique I), level 7 (Technique II) |
-| Ability | 1 | Class level 5 in that class, active or not; no hero level requirement |
+| Technique | 1 | Level 3 (Technique I), level 7 (Technique II); Mending (Healer) and Channeling (Sorcerer) at class level 5 in that class |
+| Ability | 1 | Class signature: class level 5 in that class, active or not, no hero level requirement. Blade Flurry and Whirlwind: level 5, any class |
 | Gear | 2 different pieces | Level 9 |
 
 Definitions moved from `heroes.yml` to the combat registry (`HeroLoadoutOptions`): the behavior, names and descriptions were already there, the simulator needs the data without a database, and gear from other sources can join through `HeroCalculator::getAvailableLoadoutOptions()`.
@@ -225,16 +279,16 @@ Unlocked by reaching **class level 5** in that class this round. The class doesn
 |---|---|---|
 | Alchemist | Volatile Mixture: 150% attack, 20% chance to hit yourself | Action |
 | Architect | Fortify: +10 defense on you or an ally for 3 turns, not while Defending or Guarding | Action |
-| Blacksmith | Forge: +1 attack for the rest of the battle | Action |
+| Blacksmith | Forge: +4 attack for the rest of the battle, 2 uses (was +1, unlimited) | Action |
 | Engineer | Caltrops: on you or an ally until struck; each attacker that turn takes 15 | Action |
-| Scholar | Combat Analysis: target −1 defense for the rest of the battle | Action |
+| Scholar | Combat Analysis: target −4 defense for the rest of the battle, 2 uses (was −1, unlimited) | Action |
 | Infiltrator | Shadow Strike: can't be evaded or Countered, 5 less damage | Action |
-| Farmer | Hardiness: survive the first lethal hit on 1 health | Passive |
-| Healer | Mending: Focus increases Recover's healing | Passive |
-| Sorcerer | Channeling: Focus stacks | Passive |
+| Farmer | Hardiness: +5 defense at 40 health or less, not while Defending or Guarding (a class technique since the class technique pass; the old survive-at-1 is Cling to Life, enemies only) | Passive |
+| Healer | Mending: while Focused, Recover and Heal add the focus value and keep the Focus (a class technique since the class technique pass) | Passive |
+| Sorcerer | Channeling: a Focused basic Attack leaves its target Exposed (a class technique since the class technique pass) | Passive |
 | Scion | Last Stand: +10% all combat stats at 40 health or less | Passive |
 
-Forge and Combat Analysis last the whole battle and stack (Tactical Awareness, the old Engineer pick, did too). Two heroes debuffing one boss in 2v1 PvE is the intended synergy, but they likely need a stack cap to avoid stalls.
+Forge and Combat Analysis last the whole battle and stack. They now have 2 uses each, which caps what a turtling hero can build up (see Class abilities, second pass).
 
 ### Parked for 2v2
 
@@ -443,11 +497,10 @@ Cut from the old two-tier list: Executioner's Axe, Tower Shield, Dueling Blade, 
 | Item | Notes |
 |---|---|
 | Stale upgrade rows | Data sync never deactivates keys removed from `heroes.yml`; remove rows in a migration or keep retired upgrades in the file with `active: false` |
-| Stack caps | Forge, Combat Analysis |
 | Riposte, Second Wind values | As Combos they ran 58–62% at +5 attack; the Marked/ally versions need fresh numbers |
 | Vestments of Renewal about 61% | Slightly above target; battles run longest (about 22 turns) |
 | Technique II vs Technique I | They now compete for one slot, and Technique II picks scored lower in 1v1, so level 7 may not feel like an upgrade |
-| Strong abilities at level 5 | Hardiness and Last Stand arrive at class level 5, earlier than the old level 7 (Fortify was reworked) |
+| Strong abilities at level 5 | Last Stand arrives at class level 5, earlier than the old level 7 (Fortify and Hardiness were reworked) |
 | Combination testing | Technique + ability + gear builds, plus a fresh `--grid` run |
 | Battles page Information | Remove what tooltips now cover; could become a full-width, in-depth explanation of how battles work, below the battle history |
 | PvE pass after the 2v2 rules | Audit encounters for 3 charges, Exposed on repeat Defend, wasted overkill and enemy Defend or Recover loops; redesign any that need it |

@@ -3,8 +3,8 @@
 namespace OpenDominion\HeroCombat\Content\Loadouts;
 
 /**
- * The basic actions every hero brings to battle, and each class's signature: the ability
- * or passive a hero can equip once that class reaches UNLOCK_CLASS_LEVEL.
+ * The basic actions every hero brings to battle, and each class's signature: the ability or
+ * technique a hero can equip once that class reaches UNLOCK_CLASS_LEVEL.
  */
 class HeroClassLoadouts
 {
@@ -24,7 +24,7 @@ class HeroClassLoadouts
     ];
 
     /**
-     * Each class's signature ability or passive.
+     * Each class's signature ability or technique.
      *
      * @var array<string, string>
      */

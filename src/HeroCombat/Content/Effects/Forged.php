@@ -23,6 +23,6 @@ class Forged extends AbstractStatShift
 
     protected function valuePerStack(): int
     {
-        return 1;
+        return \OpenDominion\HeroCombat\Content\Abilities\Forge::ATTACK;
     }
 }

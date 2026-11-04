@@ -2,8 +2,13 @@
 
 namespace OpenDominion\Tests\Unit\HeroCombat;
 
+use OpenDominion\HeroCombat\Content\AbstractEffect;
+use OpenDominion\HeroCombat\Engine\Battle;
+use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\CombatTag;
+use OpenDominion\HeroCombat\Engine\Effects\StackingRule;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
+use OpenDominion\Providers\HeroCombatServiceProvider;
 use OpenDominion\Tests\Unit\HeroCombat\Support\BattleBuilder;
 use OpenDominion\Tests\Unit\HeroCombat\Support\BuildsBattles;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +28,7 @@ class EffectManagerTest extends TestCase
 
         $this->assertCount(1, $hero->effects);
         $this->assertEquals(4, $battle->effects->stacks($hero, 'forged'));
-        $this->assertEquals(44, $battle->stat($hero, Stat::Attack));
+        $this->assertEquals(40 + 4 * \OpenDominion\HeroCombat\Content\Abilities\Forge::ATTACK, $battle->stat($hero, Stat::Attack));
     }
 
     public function testStackRuleRespectsMaxStacks(): void
@@ -39,14 +44,39 @@ class EffectManagerTest extends TestCase
 
     public function testMaxStacksCanDependOnOwner(): void
     {
-        $battle = BattleBuilder::make()->hero('Hero')->build();
+        $registry = HeroCombatServiceProvider::buildRegistry();
+        $registry->registerEffect(new class extends AbstractEffect {
+            public function key(): string
+            {
+                return 'charge';
+            }
+
+            public function name(): string
+            {
+                return 'Charge';
+            }
+
+            public function stacking(): StackingRule
+            {
+                return StackingRule::Stack;
+            }
+
+            public function maxStacks(Battle $battle, ?CombatantState $owner): ?int
+            {
+                return $owner !== null && $battle->effects->has($owner, 'mending') ? null : 1;
+            }
+        });
+        $battle = BattleBuilder::make()->withRegistry($registry)->hero('Hero')->hero('Other')->build();
         $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'channeling');
+        $other = $this->named($battle, 'Other');
+        $battle->effects->apply($hero, 'mending');
 
-        $battle->effects->apply($hero, 'focused');
-        $battle->effects->apply($hero, 'focused');
+        foreach ([$hero, $other, $hero, $other] as $combatant) {
+            $battle->effects->apply($combatant, 'charge');
+        }
 
-        $this->assertEquals(2, $battle->effects->stacks($hero, 'focused'));
+        $this->assertEquals(2, $battle->effects->stacks($hero, 'charge'));
+        $this->assertEquals(1, $battle->effects->stacks($other, 'charge'));
     }
 
     public function testReplaceRuleSwapsInstance(): void

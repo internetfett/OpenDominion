@@ -281,7 +281,7 @@ class BossMechanicsTest extends TestCase
         $this->kill($battle, $shadow);
         $maw = $this->named($battle, 'Maw of Thessadrash');
         $this->assertTrue($maw->isAlive());
-        $this->assertTrue($battle->effects->has($maw, 'hardiness'));
+        $this->assertTrue($battle->effects->has($maw, 'cling_to_life'));
         $this->assertNull($battle->victoryCondition()->evaluate($battle), 'The fight goes on while a form remains');
 
         $this->assertStringContainsString('transforming into Maw of Thessadrash', $battle->log->text());

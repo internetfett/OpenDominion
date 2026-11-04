@@ -4,12 +4,21 @@ namespace OpenDominion\HeroCombat\Content\Effects\Passives;
 
 use OpenDominion\HeroCombat\Content\AbstractPassive;
 use OpenDominion\HeroCombat\Engine\Battle;
-use OpenDominion\HeroCombat\Engine\Damage\DamageContext;
+use OpenDominion\HeroCombat\Engine\CombatantState;
+use OpenDominion\HeroCombat\Engine\CombatTag;
 use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
-use OpenDominion\HeroCombat\Engine\Effects\Hook;
+use OpenDominion\HeroCombat\Engine\Stats\Modifier;
+use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
+/**
+ * The Farmer's technique: extra defense at low health, except while Defending or Guarding, so
+ * it never stacks with a stance into a wall a Focused attack can't get through.
+ */
 class Hardiness extends AbstractPassive
 {
+    public const DEFENSE = 5;
+    public const HEALTH = 40;
+
     public function key(): string
     {
         return 'hardiness';
@@ -22,21 +31,23 @@ class Hardiness extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Remain on 1 health the first time your health would be reduced below 1.';
+        return '+' . self::DEFENSE . ' defense at ' . self::HEALTH . ' health or less.';
     }
 
-    public function handlerPriority(Hook $hook): int
+    public function rulesNotes(): array
     {
-        return -10;
+        return [
+            'Does nothing on turns you Defend or Guard.',
+            'Uses your health at the start of the turn, so damage that turn doesn\'t switch it on mid-turn.',
+        ];
     }
 
-    public function onLethalDamage(EffectInstance $instance, DamageContext $damage, Battle $battle): bool
+    public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
     {
-        $target = $damage->target;
-        $damage->amount = max(0, $target->currentHealth - 1);
-        $battle->effects->remove($instance);
-        $battle->say($target, "{$target->name} clings to life with 1 health.");
+        if ($subject->currentHealth > self::HEALTH || $battle->hasTag($subject, CombatTag::Defending)) {
+            return [];
+        }
 
-        return true;
+        return [Modifier::flat(Stat::Defense, self::DEFENSE)];
     }
 }

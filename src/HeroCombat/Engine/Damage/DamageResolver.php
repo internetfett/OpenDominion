@@ -153,6 +153,7 @@ final class DamageResolver
             'defense' => 0,
             'defending' => false,
             'multiplier' => $request->multiplier,
+            'power_multiplier' => $request->powerMultiplier,
             'hits' => $request->hits,
         ];
 
@@ -182,7 +183,7 @@ final class DamageResolver
         }
 
         $context->breakdown = $breakdown;
-        $power = $breakdown['attack'] + $breakdown['counter_bonus'] + $breakdown['focus'] + $breakdown['bonus'];
+        $power = (int) round(($breakdown['attack'] + $breakdown['counter_bonus'] + $breakdown['focus'] + $breakdown['bonus']) * $request->powerMultiplier);
 
         return (int) round(max(0, $power - $breakdown['defense']) * $request->multiplier * $request->hits);
     }

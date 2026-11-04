@@ -28,7 +28,17 @@ class Fortify extends AbstractAbility
 
     public function description(): string
     {
-        return 'Gives you or an ally +' . Fortified::DEFENSE . ' defense for ' . Fortified::TURNS . ' turns, starting now. It does nothing on turns they Defend or Guard.';
+        return 'Gives you or an ally +' . Fortified::DEFENSE . ' defense for ' . Fortified::TURNS . ' turns.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Takes effect the turn it\'s used.',
+            'Does nothing on turns the Fortified hero Defends or Guards.',
+            'Using it again restarts the ' . Fortified::TURNS . ' turns.',
+            'Can\'t be used two turns in a row.',
+        ];
     }
 
     public function targetRule(): TargetRule

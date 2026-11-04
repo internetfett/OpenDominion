@@ -69,7 +69,6 @@ class DamageResolverTest extends TestCase
     {
         $battle = BattleBuilder::make()->hero('Hero')->npc('Foe')->build();
         $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'channeling');
         $battle->effects->apply($hero, 'focused', null, 2);
 
         $result = $battle->damage->resolve(new DamageRequest($hero, $this->named($battle, 'Foe')));
@@ -127,7 +126,7 @@ class DamageResolverTest extends TestCase
         $battle = BattleBuilder::make()->hero('Hero', stats: ['attack' => 200])->npc('Foe')->build();
         $hero = $this->named($battle, 'Hero');
         $foe = $this->named($battle, 'Foe');
-        $battle->effects->apply($foe, 'hardiness');
+        $battle->effects->apply($foe, 'cling_to_life');
 
         $battle->damage->resolve(new DamageRequest($hero, $foe));
         $this->assertEquals(1, $foe->currentHealth);
@@ -140,7 +139,7 @@ class DamageResolverTest extends TestCase
     {
         $battle = BattleBuilder::make()->hero('Hero', stats: ['attack' => 200])->npc('Foe')->build();
         $foe = $this->named($battle, 'Foe');
-        $battle->effects->apply($foe, 'hardiness');
+        $battle->effects->apply($foe, 'cling_to_life');
 
         $battle->damage->resolve(new DamageRequest($this->named($battle, 'Hero'), $foe, bypassLethalSave: true));
 

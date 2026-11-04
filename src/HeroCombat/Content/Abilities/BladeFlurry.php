@@ -6,10 +6,15 @@ use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 
+/**
+ * Two weaker strikes: the whole attack value, Focus and Rally included, is scaled down before
+ * defense comes off each hit. Strong against low defense, weak against Defend. A Counter
+ * strikes back once per hit.
+ */
 class BladeFlurry extends AbstractAttack
 {
     public const HITS = 2;
-    public const MULTIPLIER = 0.75;
+    public const POWER_MULTIPLIER = 0.85;
 
     public function key(): string
     {
@@ -23,7 +28,18 @@ class BladeFlurry extends AbstractAttack
 
     public function description(): string
     {
-        return 'Attack twice for 75% damage each time.';
+        return 'Strike an enemy twice with ' . round(self::POWER_MULTIPLIER * 100) . '% of your attack value.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Focus and Rally are added before the ' . round(self::POWER_MULTIPLIER * 100) . '% is taken.',
+            'Defense is subtracted from each hit, so it\'s weak against Defend.',
+            'One evasion roll covers both hits.',
+            'A Counter strikes back once for each hit.',
+            'Can\'t be used two turns in a row.',
+        ];
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int
@@ -33,7 +49,7 @@ class BladeFlurry extends AbstractAttack
 
     protected function damageOptions(ActionContext $context): array
     {
-        return ['hits' => self::HITS, 'multiplier' => self::MULTIPLIER];
+        return ['hits' => self::HITS, 'powerMultiplier' => self::POWER_MULTIPLIER];
     }
 
     public function messages(): array

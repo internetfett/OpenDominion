@@ -132,7 +132,7 @@ class SimultaneousResolutionTest extends TestCase
     {
         $battle = BattleBuilder::make()->hero('Hero')->hero('Foe', team: 2)->hero('Other', team: 2)->build();
         $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'hardiness');
+        $battle->effects->apply($hero, 'cling_to_life');
         $hero->currentHealth = 30;
         $this->queue($battle, 'Foe', 'attack', 'Hero');
         $this->queue($battle, 'Other', 'attack', 'Hero');
@@ -141,14 +141,14 @@ class SimultaneousResolutionTest extends TestCase
         $this->resolveTurn($battle);
 
         $this->assertEquals(1, $hero->currentHealth);
-        $this->assertFalse($battle->effects->has($hero, 'hardiness'));
+        $this->assertFalse($battle->effects->has($hero, 'cling_to_life'));
     }
 
     public function testHardinessIsKeptWhenHealingPreventsTheDefeat(): void
     {
         $battle = BattleBuilder::make()->hero('Foe', team: 2)->hero('Hero')->hero('Ally')->build();
         $hero = $this->named($battle, 'Hero');
-        $battle->effects->apply($hero, 'hardiness');
+        $battle->effects->apply($hero, 'cling_to_life');
         $hero->currentHealth = 10;
         $this->queue($battle, 'Foe', 'attack', 'Hero');
         $this->queue($battle, 'Hero', 'focus');
@@ -157,7 +157,7 @@ class SimultaneousResolutionTest extends TestCase
         $this->resolveTurn($battle);
 
         $this->assertEquals(10, $hero->currentHealth);
-        $this->assertTrue($battle->effects->has($hero, 'hardiness'));
+        $this->assertTrue($battle->effects->has($hero, 'cling_to_life'));
     }
 
     public function testDeathsHappenAfterEveryActionHasResolved(): void
@@ -260,7 +260,6 @@ class SimultaneousResolutionTest extends TestCase
         $battle = $this->ordered($firstTeamFirst, ['Hero' => ['team' => 1], 'Foe' => ['team' => 2]]);
         $hero = $this->named($battle, 'Hero');
         $battle->effects->apply($hero, 'shadow_dance');
-        $battle->effects->apply($hero, 'channeling');
         $battle->evasionRoll = fn ($target) => $target->id === $hero->id;
         $this->queue($battle, 'Hero', 'focus');
         $this->queue($battle, 'Foe', 'attack', 'Hero');

@@ -79,13 +79,13 @@ class EffectDispatcherTest extends TestCase
     {
         $battle = BattleBuilder::make()->hero('Hero', stats: ['attack' => 125])->npc('Foe')->build();
         $foe = $this->named($battle, 'Foe');
-        $battle->effects->apply($foe, 'hardiness');
+        $battle->effects->apply($foe, 'cling_to_life');
         $battle->effects->apply($foe, 'shield', null, 1, ['pool' => 20]);
 
         $battle->damage->resolve(new DamageRequest($this->named($battle, 'Hero'), $foe));
 
         $this->assertEquals(15, $foe->currentHealth);
-        $this->assertTrue($battle->effects->has($foe, 'hardiness'), 'Hardiness is not spent when the shield prevents the lethal hit');
+        $this->assertTrue($battle->effects->has($foe, 'cling_to_life'), 'Cling to Life is not spent when the shield prevents the lethal hit');
     }
 
     public function testImmunityBlocksTaggedEffects(): void

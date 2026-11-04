@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Notification;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\NotificationHelper;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\Models\Dominion;
@@ -95,7 +96,29 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
     public function testClassAbilitiesOpenAtClassLevelFiveWithoutAHeroLevelRequirement(): void
     {
         $this->assertSame([], $this->availableKeys($this->dominionWithHero(1750)->hero, LoadoutSlot::Ability), 'Level 4');
-        $this->assertSame(['forge'], $this->availableKeys($this->dominionWithHero(2300)->hero, LoadoutSlot::Ability), 'Only the class played');
+        $this->assertEqualsCanonicalizing(['forge', 'blade_flurry', 'whirlwind'], $this->availableKeys($this->dominionWithHero(2300)->hero, LoadoutSlot::Ability), 'Only the class played, plus the abilities open to every class');
+    }
+
+    public function testHealersAndSorcerersUnlockTheirTechniqueAtClassLevelFive(): void
+    {
+        $this->assertNotContains('mending', $this->availableKeys($this->dominionWithHero(1750, 'healer')->hero, LoadoutSlot::Technique), 'Healer level 4');
+        $this->assertContains('mending', $this->availableKeys($this->dominionWithHero(2300, 'healer')->hero, LoadoutSlot::Technique));
+        $this->assertContains('channeling', $this->availableKeys($this->dominionWithHero(2300, 'sorcerer')->hero, LoadoutSlot::Technique));
+
+        $blacksmith = $this->availableKeys($this->dominionWithHero(5000)->hero, LoadoutSlot::Technique);
+        $this->assertNotContains('mending', $blacksmith, 'Only for Healers');
+        $this->assertNotContains('channeling', $blacksmith, 'Only for Sorcerers');
+    }
+
+    public function testEveryClassCanEquipBladeFlurryAndWhirlwindAtLevelFive(): void
+    {
+        foreach (array_keys(HeroClassLoadouts::SIGNATURES) as $class) {
+            $this->assertSame([], $this->availableKeys($this->dominionWithHero(1750, $class)->hero, LoadoutSlot::Ability), "{$class} at level 4");
+
+            $available = $this->availableKeys($this->dominionWithHero(2300, $class)->hero, LoadoutSlot::Ability);
+            $this->assertContains('blade_flurry', $available, $class);
+            $this->assertContains('whirlwind', $available, $class);
+        }
     }
 
     public function testClassAbilitiesIncludeInactiveClassesAtLevelFive(): void
@@ -105,7 +128,9 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
             'alchemist' => ['key' => 'alchemist', 'level' => 4, 'experience' => 1750],
         ])->hero;
 
-        $this->assertEqualsCanonicalizing(['forge', 'hardiness'], $this->availableKeys($hero, LoadoutSlot::Ability));
+        $this->assertEqualsCanonicalizing(['forge', 'blade_flurry', 'whirlwind'], $this->availableKeys($hero, LoadoutSlot::Ability));
+        $this->assertContains('hardiness', $this->availableKeys($hero, LoadoutSlot::Technique), 'Farmer level 5, inactive');
+        $this->assertNotContains('volatile_mixture', $this->availableKeys($hero, LoadoutSlot::Ability), 'Alchemist level 4');
     }
 
     public function testChangingClassKeepsAccessAndTheLoadout(): void
@@ -162,7 +187,7 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
         $dominion = $this->dominionWithHero(5000);
 
         $this->expectException(GameException::class);
-        $this->heroActionService->updateLoadout($dominion, null, 'hardiness', []);
+        $this->heroActionService->updateLoadout($dominion, null, 'shadow_strike', []);
     }
 
     public function testCannotEquipAnOptionInTheWrongSlot(): void
@@ -343,7 +368,7 @@ class HeroLoadoutTest extends AbstractBrowserKitTestCase
             'Notifications stored before loadouts have no unlocks'
         );
         $this->assertEquals(
-            'Your hero reached level 9. New techniques, class abilities and gear available for your combat loadout.',
+            'Your hero reached level 9. New techniques, abilities and gear available for your combat loadout.',
             $helper->getNotificationMessage('irregular_dominion', 'hero_level', ['level' => 9, 'unlocks' => ['technique', 'ability', 'gear']])
         );
     }

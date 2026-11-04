@@ -26,7 +26,15 @@ class ShadowStrike extends AbstractAttack
 
     public function description(): string
     {
-        return 'An attack that cannot be evaded or Countered, but deals ' . self::DAMAGE_PENALTY . ' less damage.';
+        return 'An attack that can\'t be evaded or Countered.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Deals ' . self::DAMAGE_PENALTY . ' less damage than a normal attack.',
+            'Can\'t be used two turns in a row.',
+        ];
     }
 
     public function cooldown(CombatantState $actor, Battle $battle): int

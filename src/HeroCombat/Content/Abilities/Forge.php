@@ -8,8 +8,15 @@ use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\Targeting\TargetRule;
 
+/**
+ * A big, lasting boost with a hard limit: two uses per battle, so a hero who turtles can't
+ * keep stacking it.
+ */
 class Forge extends AbstractAbility
 {
+    public const ATTACK = 4;
+    public const MAX_CHARGES = 2;
+
     public function key(): string
     {
         return 'forge';
@@ -22,7 +29,22 @@ class Forge extends AbstractAbility
 
     public function description(): string
     {
-        return 'Increases attack value by 1 for the remainder of the battle.';
+        return '+' . self::ATTACK . ' attack for the rest of the battle.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'Starts the turn after you use it.',
+            self::MAX_CHARGES . ' uses per battle, and they stack.',
+            'Also adds to your Counters.',
+            'Can\'t be used two turns in a row.',
+        ];
+    }
+
+    public function maxCharges(CombatantState $actor, Battle $battle): ?int
+    {
+        return self::MAX_CHARGES;
     }
 
     public function targetRule(): TargetRule
@@ -43,6 +65,6 @@ class Forge extends AbstractAbility
 
     public function messages(): array
     {
-        return ['forge' => '{actor} increases attack value by 1.'];
+        return ['forge' => '{actor} increases attack value by ' . self::ATTACK . '.'];
     }
 }

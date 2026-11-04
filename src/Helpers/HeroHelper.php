@@ -289,9 +289,7 @@ class HeroHelper
     {
         $level = min(array_map(fn (LoadoutOption $option) => $option->level, $this->getLoadoutOptions($slot)));
 
-        return $slot === LoadoutSlot::Ability
-            ? sprintf('Reach level %d in a class', $level)
-            : sprintf('Reach level %d', $level);
+        return sprintf('Reach level %d', $level);
     }
 
     /**
@@ -335,6 +333,22 @@ class HeroHelper
     }
 
     /**
+     * An ability's or technique's rule clarifications as tooltip HTML, one per line, or null if
+     * it has none (gear, and anything not yet reviewed).
+     */
+    public function getLoadoutOptionRulesTooltip(LoadoutOption $option): ?string
+    {
+        $registry = app(CombatRegistry::class);
+        $notes = match (true) {
+            $registry->hasAbility($option->key) => $registry->ability($option->key)->rulesNotes(),
+            $registry->hasEffect($option->key) => $registry->effect($option->key)->rulesNotes(),
+            default => [],
+        };
+
+        return $notes === [] ? null : implode('<br>', array_map('e', $notes));
+    }
+
+    /**
      * What the hero needs to equip an option, e.g. "Requires Infiltrator level 5".
      */
     public function getLoadoutOptionRequirement(LoadoutOption $option): string
@@ -357,7 +371,7 @@ class HeroHelper
     {
         $labels = [
             LoadoutSlot::Technique->value => 'techniques',
-            LoadoutSlot::Ability->value => 'class abilities',
+            LoadoutSlot::Ability->value => 'abilities',
             LoadoutSlot::Gear->value => 'gear',
         ];
 

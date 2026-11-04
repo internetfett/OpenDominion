@@ -73,7 +73,8 @@ class TacticianTest extends AbstractTestCase
         $theirsBefore = TurnPreview::offense($battle, $b);
 
         $battle->effects->apply($b, 'analyzed');
-        $this->assertEquals((1 + TurnPreview::COUNTER_WEIGHT) * 1 + TurnPreview::LASTING_TURNS, TurnPreview::offense($battle, $a) - $before, '-1 defense now and for the turns ahead');
+        $defense = \OpenDominion\HeroCombat\Content\Abilities\CombatAnalysis::DEFENSE;
+        $this->assertEquals(((1 + TurnPreview::COUNTER_WEIGHT) + TurnPreview::LASTING_TURNS) * $defense, TurnPreview::offense($battle, $a) - $before, 'Less defense now and for the turns ahead');
 
     }
 

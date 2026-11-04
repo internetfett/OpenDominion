@@ -3,7 +3,6 @@
 namespace OpenDominion\HeroCombat\Content\Effects\Passives;
 
 use OpenDominion\HeroCombat\Content\AbstractPassive;
-use OpenDominion\HeroCombat\Engine\ActionContext;
 use OpenDominion\HeroCombat\Engine\Battle;
 use OpenDominion\HeroCombat\Engine\CombatantState;
 use OpenDominion\HeroCombat\Engine\CombatTag;
@@ -11,6 +10,10 @@ use OpenDominion\HeroCombat\Engine\Effects\EffectInstance;
 use OpenDominion\HeroCombat\Engine\Stats\Modifier;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
 
+/**
+ * While Focused, Recover and Heal restore the hero's focus value more. The Focus stays for
+ * the next attack, so a Focus turn can pay off twice.
+ */
 class Mending extends AbstractPassive
 {
     public function key(): string
@@ -25,7 +28,16 @@ class Mending extends AbstractPassive
 
     public function description(EffectInstance $instance): string
     {
-        return 'Focus enhances your Recover ability, increasing healing.';
+        return 'While Focused, Recover and Heal restore your focus value more.';
+    }
+
+    public function rulesNotes(): array
+    {
+        return [
+            'You keep the Focus for your next attack.',
+            'Works on Heal too, so your ally gets the extra healing.',
+            'Recover and Heal still leave you Exposed and use a charge.',
+        ];
     }
 
     public function modifiers(EffectInstance $instance, CombatantState $subject, Battle $battle): array
@@ -35,15 +47,5 @@ class Mending extends AbstractPassive
         }
 
         return [Modifier::flat(Stat::Recover, $subject->baseStat(Stat::Focus))];
-    }
-
-    public function onAbilityUsed(EffectInstance $instance, ActionContext $context, Battle $battle): void
-    {
-        if ($context->actor->id === $instance->ownerId && in_array(CombatTag::Heal, $context->ability->tags(), true)) {
-            $focused = $battle->effects->find($context->actor, 'focused');
-            if ($focused !== null) {
-                $battle->spendAfterActions(fn () => $battle->effects->remove($focused));
-            }
-        }
     }
 }

@@ -140,7 +140,10 @@
                                         <td>{{ $heroHelper->getLoadoutOptionName($option) }}</td>
                                         <td>{{ $loadoutSlot->label() }}</td>
                                         <td>{{ str_replace('Requires ', '', $heroHelper->getLoadoutOptionRequirement($option)) }}</td>
-                                        <td>{{ $heroHelper->getLoadoutOptionDescription($option) }}</td>
+                                        <td>
+                                            {{ $heroHelper->getLoadoutOptionDescription($option) }}
+                                            @include('partials.dominion.hero-rules-tooltip', ['option' => $option])
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endforeach

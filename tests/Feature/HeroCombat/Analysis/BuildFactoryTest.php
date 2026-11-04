@@ -34,7 +34,7 @@ class BuildFactoryTest extends AbstractTestCase
         );
 
         $fortified = $factory->addTo($battle, $factory->parse('technique=sunder;ability=fortify'), 1, 1, 'A', 'balanced');
-        $hardy = $factory->addTo($battle, $factory->parse('ability=hardiness'), 2, 2, 'B', 'balanced');
+        $hardy = $factory->addTo($battle, $factory->parse('technique=hardiness'), 2, 2, 'B', 'balanced');
 
         $this->assertEquals(['attack', 'defend', 'focus', 'counter', 'recover', 'fortify'], $fortified->abilities);
         $this->assertTrue($battle->effects->has($fortified, 'sunder'));
@@ -78,10 +78,16 @@ class BuildFactoryTest extends AbstractTestCase
         $this->factory()->parse('technique=overpower');
     }
 
-    public function testBladeFlurryIsNotAHeroPick(): void
+    public function testBladeFlurryAndWhirlwindAreHeroPicks(): void
+    {
+        $this->assertEquals('blade_flurry', $this->factory()->parse('ability=blade_flurry')->ability);
+        $this->assertEquals('whirlwind', $this->factory()->parse('ability=whirlwind')->ability);
+    }
+
+    public function testNpcAbilitiesAreNotHeroPicks(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->factory()->parse('ability=blade_flurry');
+        $this->factory()->parse('ability=stone_shield');
     }
 
     public function testRejectsASecondTechnique(): void
@@ -122,10 +128,10 @@ class BuildFactoryTest extends AbstractTestCase
 
     public function testListsOptionsByTypeAndLevel(): void
     {
-        $this->assertCount(11, $this->factory()->optionsOfType('technique'));
+        $this->assertCount(14, $this->factory()->optionsOfType('technique'));
         $this->assertCount(6, $this->factory()->optionsOfType('technique', level: 3));
         $this->assertCount(5, $this->factory()->optionsOfType('technique', level: 7));
-        $this->assertCount(10, $this->factory()->optionsOfType('ability'));
+        $this->assertCount(9, $this->factory()->optionsOfType('ability'));
         $this->assertCount(0, $this->factory()->optionsOfType('gear', 7));
         $this->assertCount(6, $this->factory()->optionsOfType('gear', 9));
     }

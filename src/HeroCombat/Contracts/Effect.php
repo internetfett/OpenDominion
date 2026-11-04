@@ -27,6 +27,14 @@ interface Effect
 
     public function description(EffectInstance $instance): string;
 
+    /**
+     * Rule clarifications shown in a tooltip beside a technique's short description. Empty
+     * until the technique's balance has been reviewed.
+     *
+     * @return string[]
+     */
+    public function rulesNotes(): array;
+
     public function kind(): EffectKind;
 
     public function stacking(): StackingRule;

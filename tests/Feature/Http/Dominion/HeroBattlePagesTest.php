@@ -254,6 +254,17 @@ class HeroBattlePagesTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * The loadout form's table row for one option.
+     */
+    protected function loadoutRow(string $loadout, string $key): string
+    {
+        $start = strpos($loadout, "id=\"loadout_{$key}\"");
+        $this->assertNotFalse($start, "{$key} is in the loadout form");
+
+        return substr($loadout, $start, strpos($loadout, '</tr>', $start) - $start);
+    }
+
     public function testHeroesPageShowsTheHeroBannerWithLevelProgress(): void
     {
         $this->heroDominion();
@@ -374,7 +385,8 @@ class HeroBattlePagesTest extends AbstractTestCase
         $this->assertStringContainsString('Your attacks deal +5 damage against a target that was Focused', $loadout);
         $this->assertStringContainsString('+2 Attack, -10 Evasion', $loadout);
         $this->assertStringContainsString('Being attacked while Defending Staggers the attacker', $loadout);
-        $this->assertMatchesRegularExpression('/cannot be evaded.*\s*<br\/><small class="text-muted">Requires Infiltrator level 5<\/small>/', $loadout);
+        $this->assertStringContainsString('fa-info-circle', $this->loadoutRow($loadout, 'shadow_strike'), 'Reviewed abilities keep their rules in a tooltip');
+        $this->assertStringNotContainsString('fa-info-circle', $this->loadoutRow($loadout, 'last_stand'), 'Abilities not yet reviewed have no tooltip');
         $this->assertStringNotContainsString('wizard strength', $loadout);
     }
 
@@ -423,7 +435,7 @@ class HeroBattlePagesTest extends AbstractTestCase
 
         $content = $this->get(route('dominion.heroes'))->assertOk()->getContent();
 
-        $this->assertSame(1, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="ability" data-available>/', $content), 'Only the Blacksmith signature');
+        $this->assertSame(3, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="ability" data-available>/', $content), 'The Blacksmith signature, Blade Flurry and Whirlwind');
         $this->assertSame(6, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="technique" data-available>/', $content), 'Technique I only');
         $this->assertSame(0, preg_match_all('/<tr class="hero-loadout-option[^"]*" data-slot="gear" data-available>/', $content));
         $this->assertStringContainsString(".hero-loadout-option[data-available][data-slot=", $content);

@@ -52,7 +52,7 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
         $registry = $this->app->make(CombatRegistry::class);
 
         $this->assertStringContainsString('against a target that was Focused', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('backstab')));
-        $this->assertStringContainsString('cannot be evaded', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('shadow_strike')));
+        $this->assertStringContainsString('can\'t be evaded', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('shadow_strike')));
         $this->assertEquals('+2 Attack, -10 Evasion', $this->heroHelper->getLoadoutOptionDescription($registry->loadoutOption('greatsword')));
     }
 
@@ -72,7 +72,7 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
         $hero = new Hero(['class' => 'blacksmith', 'experience' => 5000]);
         $this->assertSame('', $this->heroHelper->getLoadoutSummary($hero));
 
-        $hero->loadout = ['technique' => 'backstab', 'ability' => 'hardiness'];
+        $hero->loadout = ['technique' => 'backstab', 'ability' => 'shadow_strike'];
         $this->assertEquals('Backstab', $this->heroHelper->getLoadoutSummary($hero));
     }
 
@@ -82,12 +82,26 @@ class HeroHelperTest extends AbstractBrowserKitTestCase
 
         $this->assertEquals('Requires Infiltrator level 5', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('shadow_strike')));
         $this->assertEquals('Requires level 7', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('sunder')));
+        $this->assertEquals('Requires level 5', $this->heroHelper->getLoadoutOptionRequirement($registry->loadoutOption('whirlwind')), 'Open to every class');
+    }
+
+    public function testReviewedAbilitiesAndTechniquesKeepTheirRulesInATooltip(): void
+    {
+        $registry = $this->app->make(CombatRegistry::class);
+
+        foreach (['fortify', 'caltrops', 'shadow_strike', 'blade_flurry', 'whirlwind', 'volatile_mixture', 'forge', 'combat_analysis', 'mending', 'channeling', 'hardiness'] as $key) {
+            $this->assertNotNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption($key)), "{$key} has been reviewed");
+        }
+
+        $this->assertNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption('last_stand')), 'Not reviewed yet');
+        $this->assertNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption('sunder')), 'Techniques not yet reviewed have no notes');
+        $this->assertNull($this->heroHelper->getLoadoutOptionRulesTooltip($registry->loadoutOption('greatsword')), 'Gear has no notes');
     }
 
     public function testLoadoutSlotRequirementsUseTheLowestOptionLevel(): void
     {
         $this->assertEquals('Reach level 3', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Technique));
-        $this->assertEquals('Reach level 5 in a class', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Ability));
+        $this->assertEquals('Reach level 5', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Ability));
         $this->assertEquals('Reach level 9', $this->heroHelper->getLoadoutSlotRequirement(LoadoutSlot::Gear));
     }
 }

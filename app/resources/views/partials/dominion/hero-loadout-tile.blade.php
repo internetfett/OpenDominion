@@ -1,6 +1,7 @@
 @if ($option !== null)
     @php($description = $heroHelper->getLoadoutOptionDescription($option))
-    <div class="hero-tile" title="{{ $description }}" data-bs-toggle="tooltip" tabindex="0">
+    @php($rulesTooltip = $heroHelper->getLoadoutOptionRulesTooltip($option))
+    <div class="hero-tile" title="{{ e($description) . ($rulesTooltip !== null ? '<br>' . $rulesTooltip : '') }}" data-bs-toggle="tooltip" tabindex="0">
         <i class="ra {{ $option->icon }}"></i>
         <div class="hero-tile-label">{{ $slot->label() }}</div>
         <div class="hero-tile-name">{{ $heroHelper->getLoadoutOptionName($option) }}</div>

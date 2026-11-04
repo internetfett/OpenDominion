@@ -242,6 +242,24 @@ class TurnSummaryTest extends TestCase
         $this->assertEquals(["Admiral Varos's Blade Flurry hits Hero: (30 − 20 defense) ×0.75 ×2 hits = 15"], $this->phase($summary, 'damage'));
     }
 
+    public function testAttackValueScalingShowsBeforeTheSubtraction(): void
+    {
+        $summary = (new TurnSummary(HeroCombatServiceProvider::buildRegistry(), [
+            1 => ['name' => 'Hero', 'side' => 'ally', 'human' => true],
+            2 => ['name' => 'Admiral Varos', 'side' => 'enemy', 'human' => false],
+        ]))->build(3, [
+            ['type' => 'damage', 'source' => 1, 'target' => 2, 'ability' => 'blade_flurry', 'amount' => 46, 'raw' => 46, 'evaded' => false, 'absorbed' => 0, 'counter' => false, 'redirected_from' => null,
+                'flat' => null, 'attack' => 40, 'focus' => 10, 'counter_bonus' => 0, 'bonus' => 0, 'defense' => 20, 'defending' => false, 'multiplier' => 1.0, 'power_multiplier' => 0.85, 'hits' => 2],
+            ['type' => 'damage', 'source' => 2, 'target' => 1, 'ability' => 'blade_flurry', 'amount' => 28, 'raw' => 28, 'evaded' => false, 'absorbed' => 0, 'counter' => false, 'redirected_from' => null,
+                'flat' => null, 'attack' => 40, 'focus' => 0, 'counter_bonus' => 0, 'bonus' => 0, 'defense' => 20, 'defending' => false, 'multiplier' => 1.0, 'power_multiplier' => 0.85, 'hits' => 2],
+        ]);
+
+        $this->assertEquals([
+            "Hero's Blade Flurry hits Admiral Varos: (43 ((40 +10 focus) ×0.85) − 20 defense) ×2 hits = 46",
+            "Admiral Varos's Blade Flurry hits Hero: (34 (40 ×0.85) − 20 defense) ×2 hits = 28",
+        ], $this->phase($summary, 'damage'));
+    }
+
     public function testHtmlEscapesText(): void
     {
         $this->assertEquals(
