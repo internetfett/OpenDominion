@@ -482,7 +482,7 @@ class MiscController extends AbstractDominionController
             $settings['resources_overview'] = $request->get('resources_overview');
             $settings['guard_lock'] = $request->get('guard_lock');
             $settings['hidden_links'] = $request->get('hidden_links');
-            $settings['hide_intel_for_sale_badge'] = $request->get('hide_intel_for_sale_badge');
+            $settings['hide_relics_for_sale_badge'] = $request->get('hide_relics_for_sale_badge');
             $settings['hide_council_badge'] = $request->get('hide_council_badge');
             $settings['hide_forum_badge'] = $request->get('hide_forum_badge');
             $settings['hide_bot_attack_badge'] = $request->get('hide_bot_attack_badge');

@@ -282,6 +282,16 @@
                                         +<b>{{ number_format($event->data['attacker']['xpGain'], 2) }}</b> XP
                                     </p>
                                 @endif
+                                @if (isset($event->data['attacker']['relicFound']))
+                                    @php
+                                        $relicHelper = app(\OpenDominion\Helpers\RelicHelper::class);
+                                        $relicFound = $event->data['attacker']['relicFound'];
+                                    @endphp
+                                    <p class="text-center text-green">
+                                        Your troops carried off {{ $relicHelper->discoveryPhrase($relicFound['rarity'], $relicFound['category']) }}:
+                                        <b class="{{ $relicHelper->getRarityClass($relicFound['rarity']) }}">{{ $relicFound['name'] }}</b>
+                                    </p>
+                                @endif
                             @endif
 
                             {{-- Additional information to show if we are in the defender's realm --}}

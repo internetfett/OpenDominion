@@ -14,6 +14,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\OpsCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\Dominion\RelicCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Helpers\RankingsHelper;
@@ -23,6 +24,7 @@ use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\Relic;
 use OpenDominion\Models\RealmWar;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
@@ -31,7 +33,7 @@ use OpenDominion\Services\Dominion\AutomationService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\HeroBattleService;
 use OpenDominion\Services\Dominion\HeroTournamentService;
-use OpenDominion\Services\Dominion\ValuablesService;
+use OpenDominion\Services\Dominion\RelicService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\RaidService;
 use OpenDominion\Services\ValorService;
@@ -85,8 +87,11 @@ class TickService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
-    /** @var ValuablesService */
-    protected $valuablesService;
+    /** @var RelicCalculator */
+    protected $relicCalculator;
+
+    /** @var RelicService */
+    protected $relicService;
 
     /** @var WonderService */
     protected $wonderService;
@@ -111,7 +116,8 @@ class TickService
         $this->rankingsHelper = app(RankingsHelper::class);
         $this->raidService = app(RaidService::class);
         $this->spellCalculator = app(SpellCalculator::class);
-        $this->valuablesService = app(ValuablesService::class);
+        $this->relicCalculator = app(RelicCalculator::class);
+        $this->relicService = app(RelicService::class);
         $this->wonderService = app(WonderService::class);
     }
 
@@ -148,9 +154,6 @@ class TickService
 
             // Process completed raids and distribute rewards
             $this->raidService->processCompletedRaids($round);
-
-            // Auto-complete and expire valuables investigations
-            $this->valuablesService->processValuables($round);
         }
 
         // Realm Assignment
@@ -239,6 +242,7 @@ class TickService
                     'dominions.resilience' => DB::raw('dominions.resilience + dominion_tick.resilience'),
                     'dominions.fireball_meter' => DB::raw('dominions.fireball_meter + dominion_tick.fireball_meter'),
                     'dominions.lightning_bolt_meter' => DB::raw('dominions.lightning_bolt_meter + dominion_tick.lightning_bolt_meter'),
+                    'dominions.relic_search_meter' => DB::raw('dominions.relic_search_meter + dominion_tick.relic_search_meter'),
                     'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
                     'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
                     'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
@@ -356,8 +360,12 @@ class TickService
         $this->performSpellEffects($dominions->pluck('id')->all());
         $this->performRaceUnitProduction($dominions);
 
+        $relicsAtMaxValue = $tickAll ? $this->getRelicsReachingMaxValue($round) : collect();
+
         foreach ($dominions as $dominion) {
-            DB::transaction(function () use ($dominion) {
+            DB::transaction(function () use ($dominion, $relicsAtMaxValue) {
+                $this->processRelics($dominion, $relicsAtMaxValue->get($dominion->id));
+
                 if (!empty($dominion->tick->starvation_casualties)) {
                     $this->notificationService->queueNotification(
                         'starvation_occurred',
@@ -789,6 +797,53 @@ class TickService
     }
 
     /**
+     * Unbound relics in the round whose market value reached its maximum during the last
+     * hour, grouped by owner.
+     *
+     * @return Collection<int, Collection<int, Relic>>
+     */
+    protected function getRelicsReachingMaxValue(Round $round): Collection
+    {
+        $maxedAt = $this->now->copy()->subHours(config('relics.appreciation_hours'));
+
+        return Relic::query()
+            ->held()
+            ->where('round_id', $round->id)
+            ->where('is_bound', false)
+            ->where('acquired_at', '>', $maxedAt->copy()->subHour())
+            ->where('acquired_at', '<=', $maxedAt)
+            ->get()
+            ->groupBy('dominion_id');
+    }
+
+    /**
+     * Resolves a full Search meter and queues the hourly relic notifications.
+     *
+     * @param Collection<int, Relic>|null $relicsAtMaxValue
+     */
+    protected function processRelics(Dominion $dominion, ?Collection $relicsAtMaxValue): void
+    {
+        if ($dominion->relic_search_meter >= config('relics.search.meter_max')) {
+            $search = $this->relicService->completeSearch($dominion);
+
+            if ($search['relic'] !== null) {
+                $this->notificationService->queueNotification('relic_found', [
+                    'relicName' => $search['relic']->name,
+                    'rarity' => $search['relic']->rarity,
+                    'category' => $search['relic']->category,
+                    'searchStopped' => $search['searchStopped'],
+                ]);
+            }
+        }
+
+        if ($relicsAtMaxValue !== null && $relicsAtMaxValue->isNotEmpty()) {
+            $this->notificationService->queueNotification('relic_max_value', [
+                'relicNames' => $relicsAtMaxValue->pluck('name')->all(),
+            ]);
+        }
+    }
+
+    /**
      * Race-driven hourly unit production. Each unit perk `summons_unit` value
      * `target_slot,units_per_source,cap_per_source` means each source unit at
      * home produces 1 target unit per `units_per_source` per hour, capped at
@@ -1060,11 +1115,15 @@ class TickService
         // Morale
         $tick->morale = $dominion->getMoraleGain();
 
-        // Spy Strength
+        // Spy Strength, less the relic Search drain. Regen is capped before the drain is taken
+        // so Search always costs something, even at full strength.
+        $searchDrain = $this->relicCalculator->getSearchDrain($dominion);
+        $tick->spy_strength = -$searchDrain;
         if ($dominion->spy_strength < 100) {
             $spyStrengthAdded = $this->militaryCalculator->getSpyStrengthRegen($dominion);
-            $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
+            $tick->spy_strength += min($spyStrengthAdded, 100 - $dominion->spy_strength);
         }
+        $tick->relic_search_meter = $searchDrain > 0 ? $this->relicCalculator->getSearchProgress($dominion) : 0;
 
         // Wizard Strength
         if ($dominion->wizard_strength < 100) {

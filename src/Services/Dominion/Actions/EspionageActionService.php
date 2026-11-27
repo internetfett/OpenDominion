@@ -13,23 +13,25 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\OpsCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\RelicCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
-use OpenDominion\Helpers\ValuablesHelper;
+use OpenDominion\Helpers\RelicHelper;
 use OpenDominion\Mappers\Dominion\InfoMapper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\InfoOp;
+use OpenDominion\Models\Relic;
 use OpenDominion\Services\Dominion\BountyService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
-use OpenDominion\Services\Dominion\ValuablesService;
+use OpenDominion\Services\Dominion\RelicService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
@@ -94,8 +96,14 @@ class EspionageActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
-    /** @var ValuablesService */
-    protected $valuablesService;
+    /** @var RelicCalculator */
+    protected $relicCalculator;
+
+    /** @var RelicHelper */
+    protected $relicHelper;
+
+    /** @var RelicService */
+    protected $relicService;
 
     /**
      * EspionageActionService constructor.
@@ -121,7 +129,9 @@ class EspionageActionService
         $this->queueService = app(QueueService::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
-        $this->valuablesService = app(ValuablesService::class);
+        $this->relicCalculator = app(RelicCalculator::class);
+        $this->relicHelper = app(RelicHelper::class);
+        $this->relicService = app(RelicService::class);
     }
 
     public const BLACK_OPS_HOURS_AFTER_ROUND_START = 24 * 3;
@@ -179,15 +189,19 @@ class EspionageActionService
             if ($target->user_id == null) {
                 throw new GameException('You cannot perform black ops on bots');
             }
-        } elseif ($this->espionageHelper->isValuablesOperation($operationKey)) {
-            if ($dominion->round->start_date->diffInHours(now()) < self::BLACK_OPS_HOURS_AFTER_ROUND_START) {
-                throw new GameException('You cannot discover valuables for the first three days of the round');
+        } elseif ($this->espionageHelper->isRelicOperation($operationKey)) {
+            $relicsName = strtolower($this->relicHelper->getName(true));
+            if ($this->relicCalculator->isRoundLocked($dominion->round)) {
+                throw new GameException("You cannot steal {$relicsName} for the first three days of the round");
             }
             if ($target->user_id == null) {
-                throw new GameException('You cannot steal valuables from bots');
+                throw new GameException("You cannot steal {$relicsName} from bots");
             }
-            if ($this->valuablesService->isOnCooldown($dominion, $target)) {
-                throw new GameException('Your spies have already concluded a search of this dominion recently.');
+            if ($this->relicCalculator->isInventoryFull($dominion)) {
+                throw new GameException("Your inventory is full. Sell or salvage some of your {$relicsName} first.");
+            }
+            if ($this->relicCalculator->isOnHighAlert($target)) {
+                throw new GameException("{$target->name} is on high alert after recent thefts.");
             }
         }
 
@@ -237,10 +251,10 @@ class EspionageActionService
                     $xpValue = 0;
                 }
                 $dominion->resetAbandonment();
-            } elseif ($this->espionageHelper->isValuablesOperation($operationKey)) {
-                $spyStrengthLost = (int) ValuablesHelper::SPY_OP_STRENGTH_COST;
+            } elseif ($this->espionageHelper->isRelicOperation($operationKey)) {
+                $spyStrengthLost = (int) config('relics.steal.spy_strength_cost');
                 $xpValue = 0;
-                $result = $this->performValuablesOperation($dominion, $operationKey, $target);
+                $result = $this->performRelicOperation($dominion, $operationKey, $target);
             } else {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
@@ -432,7 +446,7 @@ class EspionageActionService
 
         $discoveryMessage = '';
         if ($latestOp === null || $latestOp->isStale()) {
-            $discoveryMessage = $this->valuablesService->attemptPassiveDiscovery($dominion, $target);
+            $discoveryMessage = $this->relicService->attemptInfoOpFind($dominion, $target);
         }
 
         return [
@@ -932,16 +946,15 @@ class EspionageActionService
     }
 
     /**
-     * @param Dominion $dominion
-     * @param string $operationKey
-     * @param Dominion $target
-     * @return array
-     * @throws Exception
+     * Steal Relic: a theft roll that, on success, takes one random unbound relic from the
+     * target. The thief's checks that cost nothing happen in performOperation().
+     *
+     * @throws GameException
      */
-    protected function performValuablesOperation(Dominion $dominion, string $operationKey, Dominion $target): array
+    protected function performRelicOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
         if ($dominion->round->hasOffensiveActionsDisabled()) {
-            throw new GameException('Black ops have been disabled for the remainder of the round.');
+            throw new GameException('Theft has been disabled for the remainder of the round.');
         }
 
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
@@ -955,44 +968,35 @@ class EspionageActionService
             throw new GameException("Your spy force is too weak to perform {$operationInfo['name']}. Please train some more spies.");
         }
 
-        $successRate = $this->opsCalculator->blackOperationSuccessChance($selfSpa, $targetSpa, $dominion->spy_strength, $target->spy_strength);
+        $successRate = $this->opsCalculator->theftOperationSuccessChance($selfSpa, $targetSpa, $dominion->spy_strength, $target->spy_strength);
 
         // Spells
-        $successRate -= ($target->getSpellPerkValue('enemy_espionage_chance') / 100);
+        $successRate += $dominion->getSpellPerkMultiplier('theft_chance');
 
         // Wonders
         $successRate *= (1 - $target->getWonderPerkMultiplier('enemy_espionage_chance'));
 
         if (!random_chance($successRate)) {
-            list($unitsKilled, $unitsKilledString) = $this->handleLosses($dominion, $target, 'hostile');
+            list($unitsKilled, $unitsKilledString) = $this->handleLosses($dominion, $target, 'theft');
 
-            // Inform target that they repelled a search for their valuables
             $sourceDominionId = $dominion->id;
             if ($dominion->hero !== null && $dominion->hero->getPerkValue('espionage_fails_hide_identity')) {
-                if (!$target->getSpellPerkValue('surreal_perception') && !$target->getWonderPerkValue('surreal_perception')) {
+                if (!$target->hasSurrealPerception()) {
                     $sourceDominionId = null;
                 }
             }
 
             $this->notificationService
-                ->queueNotification('repelled_spy_op', [
+                ->queueNotification('repelled_relic_theft', [
                     'sourceDominionId' => $sourceDominionId,
-                    'operationKey' => $operationKey,
                     'unitsKilled' => $unitsKilledString,
                 ])
                 ->sendNotifications($target, 'irregular_dominion');
 
             if ($unitsKilledString) {
-                $message = sprintf(
-                    'The enemy has prevented our %s attempt and managed to capture %s.',
-                    $operationInfo['name'],
-                    $unitsKilledString
-                );
+                $message = "The enemy has prevented our {$operationInfo['name']} attempt and managed to capture $unitsKilledString.";
             } else {
-                $message = sprintf(
-                    'The enemy has prevented our %s attempt.',
-                    $operationInfo['name']
-                );
+                $message = "The enemy has prevented our {$operationInfo['name']} attempt.";
             }
 
             return [
@@ -1002,7 +1006,47 @@ class EspionageActionService
             ];
         }
 
-        return $this->valuablesService->attemptDiscovery($dominion, $target);
+        $sourceDominionId = $target->hasSurrealPerception() ? $dominion->id : null;
+        $relic = $this->relicService->pickStealable($target);
+
+        if ($relic === null) {
+            $this->notificationService
+                ->queueNotification('relic_break_in', [
+                    'sourceDominionId' => $sourceDominionId,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+
+            return [
+                'success' => true,
+                'message' => 'Your spies infiltrate the target\'s dominion successfully, but find nothing worth taking.',
+                'alert-type' => 'warning',
+            ];
+        }
+
+        $this->relicService->transfer($relic, $dominion, Relic::SOURCE_STOLEN);
+
+        $this->notificationService
+            ->queueNotification('relic_stolen', [
+                'sourceDominionId' => $sourceDominionId,
+                'relicName' => $relic->name,
+                'rarity' => $relic->rarity,
+            ])
+            ->sendNotifications($target, 'irregular_dominion');
+
+        $message = sprintf(
+            'Your spies infiltrate the target\'s dominion successfully and return with %s: %s.',
+            $this->relicHelper->discoveryPhrase($relic->rarity, $relic->category),
+            $relic->name
+        );
+
+        if ($this->relicService->stopSearchIfFull($dominion)) {
+            $message .= ' Your inventory is now full, so Search has been turned off.';
+        }
+
+        return [
+            'success' => true,
+            'message' => $message,
+        ];
     }
 
     /**

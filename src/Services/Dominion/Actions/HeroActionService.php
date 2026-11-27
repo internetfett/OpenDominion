@@ -3,6 +3,7 @@
 namespace OpenDominion\Services\Dominion\Actions;
 
 use DB;
+use Illuminate\Support\Collection;
 use LogicException;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
@@ -21,6 +22,7 @@ use OpenDominion\Models\HeroBattle;
 use OpenDominion\Models\HeroCombatant;
 use OpenDominion\Models\HeroHeroUpgrade;
 use OpenDominion\Models\HeroUpgrade;
+use OpenDominion\Models\Relic;
 use OpenDominion\Models\Spell;
 use OpenDominion\Services\Dominion\HeroBattleService;
 use OpenDominion\Services\Dominion\HistoryService;
@@ -160,6 +162,13 @@ class HeroActionService
             LoadoutSlot::Gear->value => array_values($gear),
         ];
 
+        $relicGear = $this->getRelicGear($dominion, $loadout[LoadoutSlot::Gear->value]);
+        foreach ($relicGear as $relic) {
+            if ($relic->is_listed) {
+                throw new GameException("Unlist {$relic->name} before equipping it.");
+            }
+        }
+
         foreach ($loadout as $slotValue => $keys) {
             $slot = LoadoutSlot::from($slotValue);
             if (array_filter((array) $keys) !== [] && !$this->heroCalculator->isLoadoutSlotEnabled($slot)) {
@@ -175,14 +184,23 @@ class HeroActionService
             }
         }
 
-        $gearOptions = array_map(fn (string $key) => app(CombatRegistry::class)->loadoutOption($key), $loadout[LoadoutSlot::Gear->value]);
+        $availableGear = $this->heroCalculator->getAvailableLoadoutOptions($dominion->hero, LoadoutSlot::Gear);
+        $gearOptions = array_map(fn (string $key) => $availableGear[$key], $loadout[LoadoutSlot::Gear->value]);
         if (!$this->heroCalculator->gearKeepsEvasion($gearOptions)) {
             throw new GameException('That gear would take your evasion below 0.');
         }
 
-        DB::transaction(function () use ($dominion, $loadout) {
+        DB::transaction(function () use ($dominion, $loadout, $relicGear) {
             $dominion->hero->loadout = $loadout;
             $dominion->hero->save();
+
+            // Equipping a relic binds it for good
+            foreach ($relicGear as $relic) {
+                if (!$relic->is_bound) {
+                    $relic->is_bound = true;
+                    $relic->save();
+                }
+            }
 
             $dominion->save([
                 'event' => HistoryService::EVENT_ACTION_HERO,
@@ -512,5 +530,25 @@ class HeroActionService
         array_splice($actions, $index, 1);
         $combatant->actions = $actions;
         $combatant->save();
+    }
+
+    /**
+     * The dominion's held relics named among the chosen gear keys.
+     *
+     * @param string[] $gearKeys
+     * @return Collection<int, Relic>
+     */
+    protected function getRelicGear(Dominion $dominion, array $gearKeys): Collection
+    {
+        $relicIds = collect($gearKeys)
+            ->filter(fn (string $key) => str_starts_with($key, Relic::LOADOUT_KEY_PREFIX))
+            ->map(fn (string $key) => (int) substr($key, strlen(Relic::LOADOUT_KEY_PREFIX)))
+            ->all();
+
+        if ($relicIds === []) {
+            return collect();
+        }
+
+        return $dominion->relics()->held()->whereIn('id', $relicIds)->get();
     }
 }

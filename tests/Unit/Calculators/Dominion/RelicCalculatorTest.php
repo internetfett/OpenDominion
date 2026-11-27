@@ -2,6 +2,7 @@
 
 namespace OpenDominion\Tests\Unit\Calculators\Dominion;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Carbon;
 use Mockery;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -14,6 +15,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class RelicCalculatorTest extends AbstractBrowserKitTestCase
 {
+    use DatabaseTransactions;
+
     protected Round $round;
 
     protected Dominion $dominion;

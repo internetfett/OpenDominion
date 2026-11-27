@@ -470,6 +470,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                @if (isset($hero['relics']))
+                                    @include('partials.dominion.relics-disclosure-table', ['relics' => $hero['relics']])
+                                @endif
                             @endforeach
                         @endif
 

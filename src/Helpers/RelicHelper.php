@@ -130,6 +130,23 @@ class RelicHelper
     }
 
     /**
+     * An equipment relic's stats for display, e.g. "+2 Attack, -10 Evasion", or an empty
+     * string for anything that isn't equipment.
+     */
+    public function describeStats(Relic $relic, string $separator = ', '): string
+    {
+        $item = $relic->isEquipment() ? $this->getEquipmentItem($relic->item_key) : null;
+
+        if ($item === null) {
+            return '';
+        }
+
+        return collect($item['stats'])
+            ->map(fn (int $value, string $stat) => sprintf('%+d %s', $value, ucfirst($stat)))
+            ->implode($separator);
+    }
+
+    /**
      * Categories whose names are generated from word pools.
      *
      * @return string[]

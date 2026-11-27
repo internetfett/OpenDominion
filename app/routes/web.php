@@ -213,16 +213,15 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('espionage')->uses('Dominion\EspionageController@getEspionage')->name('espionage');
             $router->post('espionage')->uses('Dominion\EspionageController@postEspionage');
 
-            // Valuables
-            $router->get('valuables')->uses('Dominion\ValuablesController@getIndex')->name('valuables');
-            $router->get('valuables/history')->uses('Dominion\ValuablesController@getHistory')->name('valuables.history');
-            $router->get('valuables/{valuable}/investigate')->uses('Dominion\ValuablesController@getInvestigate')->name('valuables.investigate');
-            $router->post('valuables/{valuable}/investigate')->uses('Dominion\ValuablesController@postInvestigate');
-            $router->post('valuables/{valuable}/cancel')->uses('Dominion\ValuablesController@postCancel')->name('valuables.cancel');
-            $router->post('valuables/{valuable}/sell')->uses('Dominion\ValuablesController@postSell')->name('valuables.sell');
-            $router->post('valuables/{valuable}/list')->uses('Dominion\ValuablesController@postList')->name('valuables.list');
-            $router->post('valuables/{valuable}/unlist')->uses('Dominion\ValuablesController@postUnlist')->name('valuables.unlist');
-            $router->post('valuables/{valuable}/purchase')->uses('Dominion\ValuablesController@postPurchase')->name('valuables.purchase');
+            // Relics
+            $router->get('relics')->uses('Dominion\RelicsController@getIndex')->name('relics');
+            $router->get('relics/history')->uses('Dominion\RelicsController@getHistory')->name('relics.history');
+            $router->post('relics/search')->uses('Dominion\RelicsController@postSearch')->name('relics.search');
+            $router->post('relics/{relic}/sell')->uses('Dominion\RelicsController@postSell')->name('relics.sell');
+            $router->post('relics/{relic}/salvage')->uses('Dominion\RelicsController@postSalvage')->name('relics.salvage');
+            $router->post('relics/{relic}/list')->uses('Dominion\RelicsController@postList')->name('relics.list');
+            $router->post('relics/{relic}/unlist')->uses('Dominion\RelicsController@postUnlist')->name('relics.unlist');
+            $router->post('relics/{relic}/purchase')->uses('Dominion\RelicsController@postPurchase')->name('relics.purchase');
 
             // Black Guard
             $router->get('black-guard')->uses('Dominion\BlackGuardController@getBlackGuard')->name('black-guard');

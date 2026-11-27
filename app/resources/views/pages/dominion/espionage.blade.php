@@ -81,7 +81,7 @@
                                 </div>
                             </div>
 
-                            @foreach ($espionageHelper->getResourceTheftOperations()->chunk(4) as $operations)
+                            @foreach ($espionageHelper->getResourceTheftOperations()->merge($espionageHelper->getRelicOperations())->chunk(4) as $operations)
                                 <div class="row">
                                     @foreach ($operations as $operation)
                                         <div class="col-6 col-sm-3 col-md-6 col-lg-3 text-center">
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-                            @foreach ($espionageHelper->getBlackOperations()->merge($espionageHelper->getValuablesOperations())->chunk(4) as $operations)
+                            @foreach ($espionageHelper->getBlackOperations()->chunk(4) as $operations)
                                 <div class="row">
                                     @foreach ($operations as $operation)
                                         <div class="col-6 col-sm-3 col-md-6 col-lg-3 text-center">

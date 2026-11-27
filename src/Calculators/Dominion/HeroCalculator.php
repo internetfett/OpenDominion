@@ -4,7 +4,9 @@ namespace OpenDominion\Calculators\Dominion;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Helpers\HeroHelper;
+use OpenDominion\Helpers\RelicHelper;
 use OpenDominion\HeroCombat\Content\Loadouts\HeroClassLoadouts;
+use OpenDominion\HeroCombat\Content\Loadouts\HeroLoadoutOptions;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutOption;
 use OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot;
 use OpenDominion\HeroCombat\Engine\Stats\Stat;
@@ -534,9 +536,14 @@ class HeroCalculator
     {
         $combatLevel = $this->getCombatLevel($hero);
         $loadouts = app(HeroClassLoadouts::class);
+        $options = app(CombatRegistry::class)->loadoutOptions($slot);
+
+        if ($slot === null || $slot === LoadoutSlot::Gear) {
+            $options += $this->getRelicLoadoutOptions($hero);
+        }
 
         return array_filter(
-            app(CombatRegistry::class)->loadoutOptions($slot),
+            $options,
             function (LoadoutOption $option) use ($hero, $combatLevel, $loadouts) {
                 if (!$this->isLoadoutSlotEnabled($option->slot)) {
                     return false;
@@ -548,6 +555,47 @@ class HeroCalculator
                 return $level >= $option->level;
             }
         );
+    }
+
+    /**
+     * Gear made from the dominion's equipment relics: held and not listed for sale. Each is
+     * keyed relic_{id} and opens at the same level as crafted gear.
+     *
+     * @return array<string, LoadoutOption> keyed by option key
+     */
+    public function getRelicLoadoutOptions(Hero $hero): array
+    {
+        $dominion = $hero->dominion;
+
+        if ($dominion === null) {
+            return [];
+        }
+
+        $relicHelper = app(RelicHelper::class);
+        $options = [];
+
+        foreach ($dominion->relics as $relic) {
+            if (!$relic->isEquipment() || !$relic->isHeld() || $relic->is_listed) {
+                continue;
+            }
+
+            $item = $relicHelper->getEquipmentItem($relic->item_key);
+
+            if ($item === null) {
+                continue;
+            }
+
+            $options[$relic->loadoutKey()] = new LoadoutOption(
+                $relic->loadoutKey(),
+                LoadoutSlot::Gear,
+                HeroLoadoutOptions::GEAR_LEVEL,
+                $item['icon'],
+                $relic->name,
+                $item['stats'],
+            );
+        }
+
+        return $options;
     }
 
     /**

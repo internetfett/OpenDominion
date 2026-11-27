@@ -224,19 +224,16 @@
                             <p>Espionage</p>
                         </a>
                     </li>
-                    <li class="nav-item {{ Route::is('dominion.valuables') || Route::is('dominion.valuables.*') ? 'active' : null }}">
-                        <a href="{{ route('dominion.valuables') }}" class="nav-link {{ Route::is('dominion.valuables') || Route::is('dominion.valuables.*') ? 'active' : null }}">
+                    <li class="nav-item {{ Route::is('dominion.relics') || Route::is('dominion.relics.*') ? 'active' : null }}">
+                        <a href="{{ route('dominion.relics') }}" class="nav-link {{ Route::is('dominion.relics') || Route::is('dominion.relics.*') ? 'active' : null }}">
                             <i class="nav-icon ra ra-locked-chest ra-fw"></i>
                             <p>
-                                Valuables
-                                @if (($intelForSaleCount ?? 0) > 0 && ($selectedDominion->settings['hide_intel_for_sale_badge'] ?? null) != 'on')
-                                    <span class="badge text-bg-info">{{ $intelForSaleCount }}</span>
+                                {{ config('relics.name_plural') }}
+                                @if (($relicsForSaleCount ?? 0) > 0 && ($selectedDominion->settings['hide_relics_for_sale_badge'] ?? null) != 'on')
+                                    <span class="badge text-bg-info" title="For sale in your realm" data-bs-toggle="tooltip">{{ $relicsForSaleCount }}</span>
                                 @endif
-                                @if (($valuablesDiscoveredCount ?? 0) > 0)
-                                    <span class="badge text-bg-success">{{ $valuablesDiscoveredCount }}</span>
-                                @endif
-                                @if (($valuablesStolenCount ?? 0) > 0)
-                                    <span class="badge text-bg-primary">{{ $valuablesStolenCount }}</span>
+                                @if (($relicsStealableCount ?? 0) > 0)
+                                    <span class="badge text-bg-warning" title="Unbound and stealable" data-bs-toggle="tooltip">{{ $relicsStealableCount }}</span>
                                 @endif
                             </p>
                         </a>

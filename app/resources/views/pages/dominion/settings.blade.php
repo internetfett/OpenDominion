@@ -116,8 +116,8 @@
                         <div class="mb-3">
                             <label class="form-label">Hide Badges:</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="hide_intel_for_sale_badge" id="hide_intel_for_sale_badge" {{ isset($selectedDominion->settings['hide_intel_for_sale_badge']) && $selectedDominion->settings['hide_intel_for_sale_badge'] == 'on' ? 'checked' : null }} />
-                                <label class="form-check-label" for="hide_intel_for_sale_badge">Intel for sale on Valuables</label>
+                                <input class="form-check-input" type="checkbox" name="hide_relics_for_sale_badge" id="hide_relics_for_sale_badge" {{ isset($selectedDominion->settings['hide_relics_for_sale_badge']) && $selectedDominion->settings['hide_relics_for_sale_badge'] == 'on' ? 'checked' : null }} />
+                                <label class="form-check-label" for="hide_relics_for_sale_badge">{{ config('relics.name_plural') }} for sale in your realm</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="hide_council_badge" id="hide_council_badge" {{ isset($selectedDominion->settings['hide_council_badge']) && $selectedDominion->settings['hide_council_badge'] == 'on' ? 'checked' : null }} />

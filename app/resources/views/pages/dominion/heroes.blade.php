@@ -318,8 +318,11 @@
                                             </td>
                                         </tr>
                                     @endif
-                                    @foreach ($heroHelper->getLoadoutOptions($loadoutSlot) as $option)
+                                    @php($relicOptions = $loadoutSlot === \OpenDominion\HeroCombat\Content\Loadouts\LoadoutSlot::Gear ? $heroCalculator->getRelicLoadoutOptions($hero) : [])
+                                    @php($relicsByKey = $selectedDominion->relics->keyBy(fn ($relic) => $relic->loadoutKey()))
+                                    @foreach ($heroHelper->getLoadoutOptions($loadoutSlot) + $relicOptions as $option)
                                         @php($isAvailable = isset($availableLoadoutOptions[$option->key]))
+                                        @php($relic = $relicsByKey->get($option->key))
                                         <tr class="hero-loadout-option {{ $isAvailable ? 'text-default' : 'text-muted' }}" data-slot="{{ $loadoutSlot->value }}" {{ $isAvailable ? 'data-available' : null }}>
                                             <td class="text-center">
                                                 <input
@@ -336,9 +339,12 @@
                                                 <i class="ra ra-fw {{ $option->icon }}" style="font-size: 24px;" title="{{ $loadoutSlot->label() }}" data-bs-toggle="tooltip"></i>
                                             </td>
                                             <td>
-                                                <label for="loadout_{{ $option->key }}" style="font-weight: normal;">
+                                                <label for="loadout_{{ $option->key }}" style="font-weight: normal;" @if ($relic) class="{{ app(\OpenDominion\Helpers\RelicHelper::class)->getRarityClass($relic->rarity) }}" @endif>
                                                     {{ $heroHelper->getLoadoutOptionName($option) }}
                                                 </label>
+                                                @if ($relic)
+                                                    <br/><small class="text-muted">{{ $relic->is_bound ? 'Bound' : 'Binds when equipped: it can no longer be sold or stolen' }}</small>
+                                                @endif
                                             </td>
                                             <td>
                                                 <label for="loadout_{{ $option->key }}" style="font-weight: normal;">

@@ -20,9 +20,9 @@ class EspionageHelper
         })->isNotEmpty();
     }
 
-    public function isValuablesOperation(string $operationKey): bool
+    public function isRelicOperation(string $operationKey): bool
     {
-        return $this->getValuablesOperations()->filter(function ($operation) use ($operationKey) {
+        return $this->getRelicOperations()->filter(function ($operation) use ($operationKey) {
             return ($operation['key'] === $operationKey);
         })->isNotEmpty();
     }
@@ -58,24 +58,23 @@ class EspionageHelper
     public function getOperations(): Collection
     {
         return $this->getInfoGatheringOperations()
-            ->merge($this->getValuablesOperations())
+            ->merge($this->getRelicOperations())
             ->merge($this->getResourceTheftOperations())
             ->merge($this->getBlackOperations())
             ->merge($this->getWarOperations());
     }
 
-    public function getValuablesOperations(): Collection
+    public function getRelicOperations(): Collection
     {
-        return collect();
-        /*
+        $name = config('relics.name_singular');
+
         return collect([
             [
-                'name' => 'Locate Valuables',
-                'description' => 'Search the target for hidden treasures (~30% chance)',
-                'key' => 'locate_valuables',
+                'name' => "Steal {$name}",
+                'description' => sprintf('Steal a random unequipped %s (costs %d%% spy strength)', strtolower($name), config('relics.steal.spy_strength_cost')),
+                'key' => 'steal_relic',
             ],
         ]);
-        */
     }
 
     public function getInfoGatheringOperations(): Collection

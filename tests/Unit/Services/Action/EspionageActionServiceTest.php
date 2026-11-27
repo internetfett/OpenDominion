@@ -8,16 +8,14 @@ use LogicException;
 use Notification;
 use OpenDominion\Calculators\Dominion\HeroCalculator;
 use OpenDominion\Exceptions\GameException;
-use OpenDominion\Helpers\NotificationHelper;
-use OpenDominion\Helpers\ValuablesHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\Hero;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Relic;
+use OpenDominion\Models\RelicTracking;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
-use OpenDominion\Models\Valuable;
-use OpenDominion\Models\ValuablesTracking;
 use OpenDominion\Notifications\WebNotification;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
 use OpenDominion\Tests\AbstractBrowserKitTestCase;
@@ -596,112 +594,159 @@ class EspionageActionServiceTest extends AbstractBrowserKitTestCase
         $this->assertEqualsWithDelta(1.0, (float) $this->dominion->daily_xp, 0.0001);
     }
 
-    public function testLocateValuables_Repelled_NoProgressAndSpiesLost()
+    public function testStealRelic_Success_TakesUnboundRelicAndNotifiesTarget()
     {
-        $this->markTestSkipped('Locate Valuables is disabled');
-
-        // mockRandomChance defaults to false in setUp -> the new ratio check fails.
-        $this->dominion->military_spies = 5000;
-        $this->target->military_spies = 50000; // huge SPA disadvantage forces failure
-        $spiesBefore = $this->dominion->military_spies;
-
-        $result = $this->espionageActionService->performOperation($this->dominion, 'locate_valuables', $this->target);
-
-        $this->assertFalse($result['success']);
-        $this->assertStringContainsString('prevented our Locate Valuables attempt', $result['message']);
-        $this->assertLessThan($spiesBefore, $this->dominion->military_spies);
-        $this->assertEquals(1, $this->dominion->stat_espionage_failure);
-
-        // Being repelled must not advance discovery progress
-        $this->assertEquals(0, ValuablesTracking::where('source_dominion_id', $this->dominion->id)->count());
-        $this->assertEquals(0, Valuable::where('source_dominion_id', $this->dominion->id)->count());
-    }
-
-    public function testLocateValuables_Repelled_StillCostsSpyStrength()
-    {
-        $this->markTestSkipped('Locate Valuables is disabled');
+        global $mockRandomChance;
+        $mockRandomChance = true;
 
         $this->dominion->military_spies = 5000;
-        $this->target->military_spies = 50000;
+        $this->target->military_spies = 5000;
+        $bound = Relic::factory()->ownedBy($this->target)->bound()->create();
+        $unbound = Relic::factory()->ownedBy($this->target)->listed()->create(['acquired_at' => now()->subHours(40)]);
         $strengthBefore = $this->dominion->spy_strength;
 
-        $this->espionageActionService->performOperation($this->dominion, 'locate_valuables', $this->target);
+        $result = $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
 
-        $this->assertEquals(
-            $strengthBefore - ValuablesHelper::SPY_OP_STRENGTH_COST,
-            $this->dominion->spy_strength
-        );
-    }
+        $this->assertTrue($result['success']);
+        $this->assertEquals($strengthBefore - config('relics.steal.spy_strength_cost'), $this->dominion->spy_strength);
 
-    public function testLocateValuables_Repelled_NotifiesTarget()
-    {
-        $this->markTestSkipped('Locate Valuables is disabled');
-
-        $this->dominion->military_spies = 5000;
-        $this->target->military_spies = 50000;
-
-        $this->espionageActionService->performOperation($this->dominion, 'locate_valuables', $this->target);
+        $unbound->refresh();
+        $this->assertEquals($this->dominion->id, $unbound->dominion_id);
+        $this->assertEquals($this->target->id, $unbound->previous_owner_dominion_id);
+        $this->assertEquals(Relic::SOURCE_STOLEN, $unbound->source);
+        $this->assertFalse($unbound->is_listed);
+        $this->assertTrue($unbound->acquired_at->gt(now()->subMinute()));
+        $this->assertEquals($this->target->id, $bound->refresh()->dominion_id);
 
         Notification::assertSentTo($this->target, WebNotification::class);
     }
 
-    public function testLocateValuables_RepelledNotificationRenders()
+    public function testStealRelic_NothingToTake_CostsStrengthButNoSpies()
     {
-        // Notification::fake() short-circuits WebNotification::toArray(), so the
-        // renderer has to be exercised directly. Without a locate_valuables case
-        // this throws LogicException inside the action's DB transaction.
-        $message = app(NotificationHelper::class)->getNotificationMessage(
-            'irregular_dominion',
-            'repelled_spy_op',
-            [
-                'sourceDominionId' => $this->dominion->id,
-                'operationKey' => 'locate_valuables',
-                'unitsKilled' => '5 spies',
-            ]
-        );
-
-        $this->assertStringContainsString('searching our lands for valuables', $message);
-    }
-
-    public function testLocateValuables_Successful_CreatesValuable()
-    {
-        $this->markTestSkipped('Locate Valuables is disabled');
-
         global $mockRandomChance;
         $mockRandomChance = true;
 
-        $this->dominion->military_spies = 100000;
-        $this->target->military_spies = 0;
+        $this->dominion->military_spies = 5000;
+        $this->target->military_spies = 5000;
+        Relic::factory()->ownedBy($this->target)->bound()->create();
+        $strengthBefore = $this->dominion->spy_strength;
         $spiesBefore = $this->dominion->military_spies;
 
-        $result = $this->espionageActionService->performOperation($this->dominion, 'locate_valuables', $this->target);
+        $result = $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
 
         $this->assertTrue($result['success']);
-        $this->assertEquals(1, Valuable::where('source_dominion_id', $this->dominion->id)->count());
+        $this->assertEquals($strengthBefore - config('relics.steal.spy_strength_cost'), $this->dominion->spy_strength);
         $this->assertEquals($spiesBefore, $this->dominion->military_spies);
-
-        $tracking = ValuablesTracking::where('source_dominion_id', $this->dominion->id)->first();
-        $this->assertEquals(0, $tracking->progress);
-        $this->assertNotNull($tracking->last_discovered_at);
+        $this->assertEquals(0, $this->dominion->relics()->count());
+        Notification::assertSentTo($this->target, WebNotification::class);
     }
 
-    public function testLocateValuables_ZeroSpyRatio_ThrowsAndCostsNothing()
+    public function testStealRelic_Failed_CostsStrengthAndSpies()
     {
-        $this->markTestSkipped('Locate Valuables is disabled');
-
-        $this->dominion->military_spies = 0;
-        $this->dominion->military_assassins = 0;
-        $this->dominion->save();
+        $this->dominion->military_spies = 5000;
+        $this->target->military_spies = 50000;
+        $relic = Relic::factory()->ownedBy($this->target)->create();
         $strengthBefore = $this->dominion->spy_strength;
+        $spiesBefore = $this->dominion->military_spies;
+
+        $result = $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
+
+        $this->assertFalse($result['success']);
+        $this->assertEquals($strengthBefore - config('relics.steal.spy_strength_cost'), $this->dominion->spy_strength);
+        $this->assertLessThan($spiesBefore, $this->dominion->military_spies);
+        $this->assertEquals($this->target->id, $relic->refresh()->dominion_id);
+    }
+
+    public function testStealRelic_TargetOnHighAlert_ThrowsWithoutCost()
+    {
+        global $mockRandomChance;
+        $mockRandomChance = true;
+
+        $this->dominion->military_spies = 5000;
+        $this->target->military_spies = 5000;
+        Relic::factory()->ownedBy($this->target)->count(2)->create();
+
+        $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
+        $strengthAfterFirst = $this->dominion->spy_strength;
 
         try {
-            $this->espionageActionService->performOperation($this->dominion, 'locate_valuables', $this->target);
-            $this->fail('Expected a GameException for a zero spy ratio');
+            $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
+            $this->fail('Expected the high alert to block a second theft.');
         } catch (GameException $e) {
-            $this->assertStringContainsString('spy force is too weak', $e->getMessage());
+            $this->assertEquals($strengthAfterFirst, $this->dominion->spy_strength);
         }
 
-        $this->assertEquals($strengthBefore, $this->dominion->fresh()->spy_strength);
+        $this->assertEquals(1, $this->target->relics()->count());
+    }
+
+    public function testStealRelic_ThiefInventoryFull_ThrowsWithoutCost()
+    {
+        $this->dominion->military_spies = 5000;
+        Relic::factory()->ownedBy($this->dominion)->count(config('relics.inventory_cap'))->create();
+        Relic::factory()->ownedBy($this->target)->create();
+        $strengthBefore = $this->dominion->spy_strength;
+
+        $this->expectException(GameException::class);
+
+        try {
+            $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
+        } finally {
+            $this->assertEquals($strengthBefore, $this->dominion->spy_strength);
+        }
+    }
+
+    public function testStealRelic_BotTarget_Throws()
+    {
+        $this->dominion->military_spies = 5000;
+        $this->target->user_id = null;
+
+        $this->expectException(GameException::class);
+
+        $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
+    }
+
+    public function testStealRelic_DuringRoundLock_Throws()
+    {
+        $this->round->start_date = now()->subHours(48);
+        $this->round->save();
+        $this->dominion->military_spies = 5000;
+
+        $this->expectException(GameException::class);
+
+        $this->espionageActionService->performOperation($this->dominion, 'steal_relic', $this->target);
+    }
+
+    public function testInfoOp_Find_GrantsRelicAndResetsProgress()
+    {
+        global $mockRandomChance;
+        $mockRandomChance = true;
+
+        $this->dominion->military_spies = 5000;
+        $this->target->military_spies = 5000;
+        RelicTracking::create(['dominion_id' => $this->dominion->id, 'progress' => 10]);
+
+        $result = $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
+
+        $this->assertTrue($result['success']);
+        $relic = $this->dominion->relics()->first();
+        $this->assertNotNull($relic);
+        $this->assertEquals(Relic::SOURCE_INFO_OP, $relic->source);
+        $this->assertStringContainsString($relic->name, $result['message']);
+        $this->assertEquals(0, RelicTracking::where('dominion_id', $this->dominion->id)->value('progress'));
+    }
+
+    public function testInfoOp_RepeatOpOnFreshIntel_DoesNotRoll()
+    {
+        global $mockRandomChance;
+        $mockRandomChance = true;
+
+        $this->dominion->military_spies = 5000;
+        $this->target->military_spies = 5000;
+
+        $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
+        $this->espionageActionService->performOperation($this->dominion, 'barracks_spy', $this->target);
+
+        $this->assertEquals(1, $this->dominion->relics()->count());
     }
 
     public function testLocateValuables_Disabled_Throws()

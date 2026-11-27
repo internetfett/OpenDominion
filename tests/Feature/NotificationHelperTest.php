@@ -5,6 +5,7 @@ namespace OpenDominion\Tests\Feature;
 use Mockery;
 use OpenDominion\Helpers\NotificationHelper;
 use OpenDominion\Tests\AbstractTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class NotificationHelperTest extends AbstractTestCase
 {
@@ -93,5 +94,24 @@ class NotificationHelperTest extends AbstractTestCase
             ['email' => false, 'ingame' => true],
             $settings['hourly_dominion']['exploration_completed']
         );
+    }
+
+    public static function relicNotificationProvider(): array
+    {
+        return [
+            'search find' => ['hourly_dominion', 'relic_found', ['relicName' => 'Ashen Idol', 'rarity' => 'rare', 'category' => 'artifact', 'searchStopped' => true]],
+            'max value' => ['hourly_dominion', 'relic_max_value', ['relicNames' => ['Ashen Idol', 'Pale Ring']]],
+            'purchased' => ['irregular_dominion', 'relic_purchased', ['buyerDominionId' => null, 'relicName' => 'Ashen Idol', 'price' => 25000]],
+            'stolen, thief hidden' => ['irregular_dominion', 'relic_stolen', ['sourceDominionId' => null, 'relicName' => 'Ashen Idol', 'rarity' => 'rare']],
+            'theft repelled' => ['irregular_dominion', 'repelled_relic_theft', ['sourceDominionId' => null, 'unitsKilled' => '5 spies']],
+            'break-in' => ['irregular_dominion', 'relic_break_in', ['sourceDominionId' => null]],
+        ];
+    }
+
+    #[DataProvider('relicNotificationProvider')]
+    public function testRelicNotificationsRenderAndAreRegistered(string $category, string $type, array $data): void
+    {
+        $this->assertArrayHasKey($type, $this->notificationHelper->getNotificationCategories()[$category]);
+        $this->assertNotEmpty($this->notificationHelper->getNotificationMessage($category, $type, $data));
     }
 }

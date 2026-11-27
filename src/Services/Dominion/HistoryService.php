@@ -45,9 +45,10 @@ class HistoryService
     public const EVENT_ACTION_RAID_ACTION = 'raid action';
     public const EVENT_ACTION_RAID_ATTACKED = 'raid attacked';
     public const EVENT_ACTION_RAID_REWARD = 'raid reward';
-    public const EVENT_ACTION_SELL_VALUABLE = 'sell valuable';
-    public const EVENT_ACTION_TRANSFER_VALUABLE = 'transfer valuable';
-    public const EVENT_ACTION_PURCHASE_VALUABLE = 'purchase valuable';
+    public const EVENT_ACTION_SELL_RELIC = 'sell relic';
+    public const EVENT_ACTION_SALVAGE_RELIC = 'salvage relic';
+    public const EVENT_ACTION_TRANSFER_RELIC = 'transfer relic';
+    public const EVENT_ACTION_PURCHASE_RELIC = 'purchase relic';
 
     /**
      * Returns a cloned dominion instance with state at a certain time.

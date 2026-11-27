@@ -15,7 +15,7 @@ use OpenDominion\Helpers\MiscHelper;
 use OpenDominion\Helpers\NotificationHelper;
 use OpenDominion\Models\Bounty;
 use OpenDominion\Models\MessageBoard;
-use OpenDominion\Models\Valuable;
+use OpenDominion\Models\Relic;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Services\GameEventService;
@@ -138,33 +138,16 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $view->with('unseenGameEvents', $unreadGameEvents['events']);
             $view->with('unseenBotAttacks', $unreadGameEvents['botAttacks']);
 
-            // Valuables badges: discovered/transferred (actionable) + stolen (sellable).
-            // Excludes valuables the player has already listed for transfer themselves —
-            // they're awaiting a realmmate purchase, not waiting on the owner to act.
-            $valuablesDiscoveredCount = Valuable::query()
-                ->where('source_dominion_id', $selectedDominion->id)
-                ->where('is_listed', false)
-                ->whereIn('status', [
-                    Valuable::STATUS_DISCOVERED,
-                    Valuable::STATUS_LISTED_FOR_TRANSFER,
-                    Valuable::STATUS_TRANSFERRED,
-                ])
-                ->count();
-            $valuablesStolenCount = Valuable::query()
-                ->where('source_dominion_id', $selectedDominion->id)
-                ->where('status', Valuable::STATUS_STOLEN)
-                ->count();
-            $intelForSaleCount = Valuable::query()
+            // Relics badges: listings by realmmates, and your own relics that can be stolen.
+            $relicsForSaleCount = Relic::query()
+                ->listed()
                 ->where('round_id', $selectedDominion->round_id)
-                ->where('is_listed', true)
-                ->where('source_dominion_id', '!=', $selectedDominion->id)
-                ->whereHas('sourceDominion', function ($q) use ($selectedDominion) {
-                    $q->where('realm_id', $selectedDominion->realm_id);
-                })
+                ->where('dominion_id', '!=', $selectedDominion->id)
+                ->whereHas('owner', fn ($query) => $query->where('realm_id', $selectedDominion->realm_id))
                 ->count();
-            $view->with('valuablesDiscoveredCount', $valuablesDiscoveredCount);
-            $view->with('valuablesStolenCount', $valuablesStolenCount);
-            $view->with('intelForSaleCount', $intelForSaleCount);
+            $relicsStealableCount = $selectedDominion->relics()->stealable()->count();
+            $view->with('relicsForSaleCount', $relicsForSaleCount);
+            $view->with('relicsStealableCount', $relicsStealableCount);
         });
 
         view()->composer('partials.main-footer', function (View $view) {

@@ -9,6 +9,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\RelicCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Helpers\BuildingHelper;
@@ -16,6 +17,7 @@ use OpenDominion\Helpers\HeroHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Relic;
 use OpenDominion\Services\Dominion\QueueService;
 
 class InfoMapper
@@ -417,8 +419,36 @@ class InfoMapper
                 'bonus' => $this->heroCalculator->getPassiveBonus($dominion->hero, $currentPerkType),
                 'upgrades' => $dominion->hero->upgrades->pluck('name', 'key')->all(),
                 'inactive_classes' => $inactiveClasses,
+                'relics' => $this->mapRelics($dominion),
             ]
         ];
+    }
+
+    /**
+     * Every relic the dominion holds, for Disclosure and the realm advisor. Value is the
+     * current market value, or null for bound relics, which can't be sold.
+     *
+     * @return array<int, array{name: string, category: string, rarity: string, equipped: bool, listed: bool, bound: bool, value: int|null}>
+     */
+    public function mapRelics(Dominion $dominion): array
+    {
+        $relicCalculator = app(RelicCalculator::class);
+        $equippedKeys = (array) ($dominion->hero?->loadout['gear'] ?? []);
+
+        return $dominion->relics()
+            ->held()
+            ->orderByDesc('acquired_at')
+            ->get()
+            ->map(fn (Relic $relic) => [
+                'name' => $relic->name,
+                'category' => $relic->category,
+                'rarity' => $relic->rarity,
+                'equipped' => in_array($relic->loadoutKey(), $equippedKeys, true),
+                'listed' => $relic->is_listed,
+                'bound' => $relic->is_bound,
+                'value' => $relic->is_bound ? null : $relicCalculator->getMarketPrice($relic),
+            ])
+            ->all();
     }
 
     public function mapResources(Dominion $dominion): array

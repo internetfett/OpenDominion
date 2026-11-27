@@ -117,6 +117,18 @@ class NotificationHelper
                 'route' => route('dominion.advisors.production'),
                 'iconClass' => 'ra ra-tombstone text-red',
             ],
+            'relic_found' => [
+                'label' => sprintf('Search found a %s', strtolower(config('relics.name_singular'))),
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.relics'),
+                'iconClass' => 'ra ra-gem text-green',
+            ],
+            'relic_max_value' => [
+                'label' => sprintf('A %s reached its maximum value', strtolower(config('relics.name_singular'))),
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.relics'),
+                'iconClass' => 'ra ra-gold-bar text-green',
+            ],
         ];
     }
 
@@ -222,11 +234,27 @@ class NotificationHelper
                 'route' => route('dominion.raids'),
                 'iconClass' => 'ra ra-castle-flag text-green',
             ],
-            'valuable_purchased' => [
-                'label' => 'A realmie purchased one of your listed valuables',
+            'relic_purchased' => [
+                'label' => sprintf('A realmie purchased one of your listed %s', strtolower(config('relics.name_plural'))),
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.espionage'),
+                'route' => route('dominion.relics'),
                 'iconClass' => 'ra ra-gold-bar text-green',
+            ],
+            'relic_stolen' => [
+                'label' => sprintf('%s stolen', config('relics.name_singular')),
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.relics'),
+                'iconClass' => 'fa fa-user-secret text-orange',
+            ],
+            'repelled_relic_theft' => [
+                'label' => sprintf('%s theft repelled', config('relics.name_singular')),
+                'defaults' => ['email' => false, 'ingame' => true],
+                'iconClass' => 'fa fa-user-secret text-orange',
+            ],
+            'relic_break_in' => [
+                'label' => sprintf('Thieves broke in but found no %s', strtolower(config('relics.name_plural'))),
+                'defaults' => ['email' => false, 'ingame' => true],
+                'iconClass' => 'fa fa-user-secret text-orange',
             ],
 //            'scripted' => [
 //                'label' => 'Land you conquered got removed due to anti-cheating mechanics (scripted)',
@@ -374,6 +402,24 @@ class NotificationHelper
                     '%s harmful magic %s dissipated.',
                     number_format($effects),
                     Str::plural('effect', $effects)
+                );
+
+            case 'hourly_dominion.relic_found':
+                return sprintf(
+                    'Your spies have found %s: %s.%s',
+                    app(RelicHelper::class)->discoveryPhrase($data['rarity'], $data['category']),
+                    $data['relicName'],
+                    !empty($data['searchStopped']) ? ' Search has been turned off.' : ''
+                );
+
+            case 'hourly_dominion.relic_max_value':
+                $count = count($data['relicNames']);
+
+                return sprintf(
+                    '%s reached %s maximum value: %s.',
+                    $count === 1 ? 'One of your ' . strtolower(config('relics.name_plural')) : number_format($count) . ' of your ' . strtolower(config('relics.name_plural')),
+                    $count === 1 ? 'its' : 'their',
+                    implode(', ', $data['relicNames'])
                 );
 
             case 'hourly_dominion.starvation_occurred':
@@ -546,10 +592,6 @@ class NotificationHelper
 
                     case 'incite_chaos':
                         $where = 'attempting to incite chaos';
-                        break;
-
-                    case 'locate_valuables':
-                        $where = 'searching our lands for valuables';
                         break;
 
                     default:
@@ -797,15 +839,64 @@ class NotificationHelper
                     $data['spellName']
                 );
 
-            case 'irregular_dominion.valuable_purchased':
+            case 'irregular_dominion.relic_purchased':
                 $buyer = Dominion::with('realm')->find($data['buyerDominionId']);
                 $buyerName = $buyer ? sprintf('%s (#%s)', $buyer->name, $buyer->realm->number) : 'A realmie';
                 return sprintf(
                     '%s purchased your listing of %s for %s platinum.',
                     $buyerName,
-                    $data['valuableName'],
-                    number_format($data['transferPrice'])
+                    $data['relicName'],
+                    number_format($data['price'])
                 );
+
+            case 'irregular_dominion.relic_stolen':
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+
+                if ($sourceDominion) {
+                    return sprintf(
+                        'Our wizards have determined that spies from %s (#%s) stole %s!',
+                        $sourceDominion->name,
+                        $sourceDominion->realm->number,
+                        $data['relicName']
+                    );
+                }
+
+                return sprintf('Our spies discovered %s missing from our vaults!', $data['relicName']);
+
+            case 'irregular_dominion.repelled_relic_theft':
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                $where = sprintf('searching our vaults for %s', strtolower(config('relics.name_plural')));
+
+                if (!$sourceDominion) {
+                    return sprintf(
+                        'Spies were discovered %s! We managed to capture %s.',
+                        $where,
+                        $data['unitsKilled'] ?: 'none of them'
+                    );
+                }
+
+                return sprintf(
+                    'Spies from %s (#%s) were discovered %s! We managed to capture %s.',
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number,
+                    $where,
+                    $data['unitsKilled'] ?: 'none of them'
+                );
+
+            case 'irregular_dominion.relic_break_in':
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                $nothing = sprintf('but found no %s to take', strtolower(config('relics.name_plural')));
+
+                if ($sourceDominion) {
+                    return sprintf(
+                        'Our wizards have determined that spies from %s (#%s) broke into our vaults, %s.',
+                        $sourceDominion->name,
+                        $sourceDominion->realm->number,
+                        $nothing
+                    );
+                }
+
+                return sprintf('Thieves broke into our vaults, %s.', $nothing);
 
             case 'irregular_dominion.raid_rewards':
                 $participationAmount = number_format($data['participation_amount']);

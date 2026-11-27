@@ -21,6 +21,7 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\InvasionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\RelicService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\ValorService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -313,6 +314,18 @@ class InvadeActionService
             if ($warDeclared) {
                 $valorService = app(ValorService::class);
                 $valorService->awardValor($dominion, 'war_hit');
+            }
+
+            // Relics: plunder, in rounds with attack finds turned on
+            if ($this->invasionResult['result']['success']) {
+                $plunder = app(RelicService::class)->attemptPlunder($dominion, $target, $range);
+                if ($plunder !== null) {
+                    $this->invasionResult['attacker']['relicFound'] = [
+                        'name' => $plunder->name,
+                        'rarity' => $plunder->rarity,
+                        'category' => $plunder->category,
+                    ];
+                }
             }
 
             // Stat changes
