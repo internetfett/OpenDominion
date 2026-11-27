@@ -4,6 +4,7 @@ namespace OpenDominion\Models;
 
 use Cache;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
 use OpenDominion\Events\DominionSavedEvent;
@@ -37,6 +38,7 @@ use OpenDominion\Services\Dominion\SelectorService;
  * @property int $resilience
  * @property int $fireball_meter
  * @property int $lightning_bolt_meter
+ * @property float $relic_search_meter
  * @property bool $daily_platinum
  * @property bool $daily_land
  * @property int $daily_actions
@@ -147,6 +149,7 @@ class Dominion extends AbstractModel
         'racial_value' => 'float',
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
+        'relic_search_meter' => 'float',
         'spy_mastery' => 'integer',
         'wizard_mastery' => 'integer',
         'resilience' => 'integer',
@@ -302,6 +305,11 @@ class Dominion extends AbstractModel
     public function hero()
     {
         return $this->hasOne(Hero::class);
+    }
+
+    public function relics(): HasMany
+    {
+        return $this->hasMany(Relic::class);
     }
 
     public function heroes()

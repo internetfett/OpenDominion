@@ -1,0 +1,777 @@
+{
+  "generated": {
+    "artifact": {
+      "adjectives": [
+        "Shattered",
+        "Sacred",
+        "Forsaken",
+        "Ancient",
+        "Withered",
+        "Hallowed",
+        "Cursed",
+        "Pale",
+        "Sunken",
+        "Ashen",
+        "Twin",
+        "Bleeding",
+        "Whispering",
+        "Forgotten",
+        "Blackened",
+        "Gilded",
+        "Wrathful",
+        "Sorrowful",
+        "Bound",
+        "Splintered"
+      ],
+      "materials": [
+        "Obsidian",
+        "Ivory",
+        "Bronze",
+        "Bone",
+        "Onyx",
+        "Driftwood",
+        "Iron",
+        "Granite",
+        "Brass",
+        "Salt-Crusted",
+        "Petrified",
+        "Jade",
+        "Soapstone",
+        "Coral",
+        "Lacquered"
+      ],
+      "bases": [
+        "Idol",
+        "Reliquary",
+        "Censer",
+        "Effigy",
+        "Totem",
+        "Altarpiece",
+        "Skull",
+        "Urn",
+        "Sigil-Stone",
+        "Phylactery",
+        "Hand",
+        "Mask",
+        "Fetish",
+        "Cairn-Marker",
+        "Heart-Stone",
+        "Tablet",
+        "Charm",
+        "Talisman",
+        "Reliquary Box",
+        "Death-Mask"
+      ],
+      "places": [
+        "the Iron Court",
+        "the Vale of Rust",
+        "Karn-Drim",
+        "the Ember Hold",
+        "the Pale Reaches",
+        "Valdenmere",
+        "the Ashen Marches",
+        "Ostvik",
+        "the Shrouded Isle",
+        "the Quiet Tombs",
+        "Mor-Vethal",
+        "Thornwatch",
+        "the Sundered Steps",
+        "the Drowned Cathedral"
+      ],
+      "events": [
+        "Sundering",
+        "Last Crusade",
+        "Long Silence",
+        "Ember Wars",
+        "Black Solstice",
+        "Fall of Karn",
+        "Witch-Burnings",
+        "Hollowing",
+        "Rite of Coals",
+        "First Compact",
+        "Reaping Years",
+        "Pale Vigil"
+      ],
+      "possessives": [
+        "Vaelmorn's",
+        "The Prophet's",
+        "Saint Korven's",
+        "The Hollow King's",
+        "Thelara's",
+        "The Last Witch's",
+        "Ardmoor's",
+        "The Pale Father's",
+        "Sister Velka's",
+        "The Drowned Bishop's",
+        "Lord Threnn's",
+        "The Mournful Saint's"
+      ],
+      "epic": [
+        "The Bone Diadem of Karn",
+        "Reliquary of the Hollow King",
+        "Skull of the First Apostate",
+        "The Withered Hand of Vaelmorn",
+        "Censer of the Long Silence",
+        "Idol of the Drowned Cathedral",
+        "The Pale Father's Phylactery",
+        "Saint Korven's Splintered Mask",
+        "Thelara's Ashen Heart-Stone",
+        "The Twin Sigils of Ostvik"
+      ],
+      "legendary": [
+        "The Shattered Crown of Arendmoor",
+        "Reliquary of a Forgotten God",
+        "The Bleeding Idol of Mor-Vethal",
+        "Throne-Heart of the Sundering",
+        "The Last Apostle's Bound Skull",
+        "The Mourning Veil of Saint Velka",
+        "The Hollow King's Final Word",
+        "Censer of the Black Solstice"
+      ]
+    },
+    "jewelry": {
+      "adjectives": [
+        "Tarnished",
+        "Glimmering",
+        "Radiant",
+        "Shadow-Wrought",
+        "Frostbound",
+        "Pale",
+        "Flickering",
+        "Coiled",
+        "Singing",
+        "Inlaid",
+        "Gilded",
+        "Tear-Marked",
+        "Sunlit",
+        "Moon-Touched",
+        "Splintered",
+        "Ember-Lit",
+        "Dusk-Wrought",
+        "Hollow",
+        "Ribboned",
+        "Veiled"
+      ],
+      "materials": [
+        "Silver",
+        "Electrum",
+        "Mithril",
+        "Jet",
+        "Pearl",
+        "Amber",
+        "Emerald",
+        "Sapphire",
+        "Bronze",
+        "Platinum",
+        "Moonglass",
+        "Bloodstone",
+        "Sea-Glass",
+        "Cold-Iron",
+        "Whitegold"
+      ],
+      "bases": [
+        "Ring",
+        "Pendant",
+        "Circlet",
+        "Brooch",
+        "Chain",
+        "Amulet",
+        "Earring",
+        "Torc",
+        "Locket",
+        "Bracer",
+        "Diadem",
+        "Signet",
+        "Bangle",
+        "Tiara",
+        "Chaplet",
+        "Choker",
+        "Fillet",
+        "Anklet"
+      ],
+      "places": [
+        "the Sun Court",
+        "Valdenmere",
+        "the Moon Halls",
+        "Andelar",
+        "the Whispering Sea",
+        "Lyresse",
+        "the Glass Cities",
+        "Halendrin",
+        "the Pearl Coast",
+        "Sera-Vinnis",
+        "the Singing Vaults",
+        "Ithric"
+      ],
+      "events": [
+        "Solstice Pact",
+        "Bridal Truce",
+        "Pearl Wars",
+        "Long Vigil",
+        "Coronation of Halen",
+        "Quiet Years",
+        "Last Embassy",
+        "Twilight Accord",
+        "Glass Schism",
+        "Singing Court",
+        "Mourning Year",
+        "Flower Wars"
+      ],
+      "possessives": [
+        "Lady Halendra's",
+        "The Sun-Queen's",
+        "Ithric's",
+        "The Mourning Bride's",
+        "Princess Vaela's",
+        "The Glass Empress's",
+        "Sera's",
+        "The Pale Concubine's",
+        "Lady Threnna's",
+        "The Flower King's",
+        "Mistress Ond's",
+        "The Ember Court's"
+      ],
+      "epic": [
+        "Ithric's Singing Locket",
+        "The Sun-Queen's Inlaid Diadem",
+        "Pearl Choker of Halendrin",
+        "Lady Vaela's Frostbound Torc",
+        "The Glass Empress's Coiled Bangle",
+        "Bloodstone Signet of Sera-Vinnis",
+        "The Mourning Bride's Veiled Pendant",
+        "Moonglass Circlet of the Long Vigil"
+      ],
+      "legendary": [
+        "The Crown Jewel of Andelar",
+        "Halendra's Three-Tear Pendant",
+        "The Sun-Queen's Last Promise",
+        "Mithril Diadem of the Twilight Accord",
+        "The Empress's Hollow Heart",
+        "Singing Chaplet of the Glass Schism",
+        "The Bridal Torc of Lyresse"
+      ]
+    },
+    "artwork": {
+      "adjectives": [
+        "Faded",
+        "Vivid",
+        "Cracked",
+        "Lacquered",
+        "Half-Burnt",
+        "Painted",
+        "Carved",
+        "Etched",
+        "Sun-Bleached",
+        "Smoke-Stained",
+        "Gilt-Framed",
+        "Unfinished",
+        "Scarred",
+        "Restored",
+        "Forbidden",
+        "Whispered",
+        "Veiled",
+        "Forgotten",
+        "Storied",
+        "Mournful"
+      ],
+      "materials": [
+        "Marble",
+        "Ebony",
+        "Alabaster",
+        "Bronze",
+        "Ivory",
+        "Lacquer",
+        "Vellum",
+        "Walnut",
+        "Soapstone",
+        "Limestone",
+        "Cedar",
+        "Mosaic",
+        "Painted-Plaster",
+        "Cast-Iron",
+        "Carven-Bone"
+      ],
+      "bases": [
+        "Portrait",
+        "Bust",
+        "Statuette",
+        "Tapestry",
+        "Mosaic",
+        "Triptych",
+        "Frieze",
+        "Screen",
+        "Mural-Fragment",
+        "Frescoed Panel",
+        "Carved Plaque",
+        "Sketch",
+        "Diorama",
+        "Music-Box",
+        "Embroidery"
+      ],
+      "places": [
+        "the Old Court",
+        "Sera-Vinnis",
+        "the Marble Halls",
+        "Andelar",
+        "the Painters' Quarter",
+        "Halendrin",
+        "the Lacquer Coast",
+        "Ithric",
+        "the Twilight Studio",
+        "Mor-Vethal",
+        "the Quiet Atelier",
+        "Valdenmere"
+      ],
+      "events": [
+        "Patron's Year",
+        "Last Salon",
+        "Burning of the Studios",
+        "Long Commission",
+        "Marble Rebellion",
+        "First Exhibition",
+        "Twilight Schism",
+        "Court Mourning",
+        "Brush-Maker's Strike",
+        "Quiet Decade",
+        "Restoration Wars",
+        "Iconoclasm"
+      ],
+      "possessives": [
+        "Master Velorin's",
+        "The Court Painter's",
+        "Old Andra's",
+        "The Mad Sculptor's",
+        "Sister Avela's",
+        "The Drowning Apprentice's",
+        "Lord Cendrin's",
+        "The Last Iconist's",
+        "Threnna of Halendrin's",
+        "The Veiled Master's",
+        "Sera's",
+        "The Forgotten Apprentice's"
+      ],
+      "epic": [
+        "Master Velorin's Veiled Triptych",
+        "The Drowning Apprentice's Final Panel",
+        "Threnna's Sun-Bleached Mosaic",
+        "Bust of the Hollow King in Alabaster",
+        "The Court Painter's Forbidden Portrait",
+        "Carved Plaque of the Marble Rebellion",
+        "Mournful Death-Mask of Cendrin",
+        "Sister Avela's Embroidered Sky"
+      ],
+      "legendary": [
+        "The Lost Portrait of Andelar",
+        "Velorin's Final Triptych",
+        "The Iconoclast's Last Confession",
+        "Marble Bust of a Forgotten Empress",
+        "The Painted Sky of Halendrin",
+        "Tapestry of the Long Commission",
+        "The Mad Sculptor's Self-Portrait"
+      ]
+    },
+    "text": {
+      "adjectives": [
+        "Forbidden",
+        "Annotated",
+        "Unfinished",
+        "Heretical",
+        "Translated",
+        "Burned",
+        "Half-Lost",
+        "Whispered",
+        "Coded",
+        "Marginal",
+        "Pale",
+        "Recopied",
+        "Smudged",
+        "Annotated",
+        "Censored",
+        "Quiet",
+        "Splintered",
+        "Pressed",
+        "Inked",
+        "Final"
+      ],
+      "materials": [
+        "Vellum",
+        "Parchment",
+        "Onionskin",
+        "Birchbark",
+        "Linen-Paper",
+        "Silk-Bound",
+        "Iron-Inked",
+        "Wax-Sealed",
+        "Salt-Stained",
+        "Lead-Lined",
+        "Calfskin",
+        "Goatskin",
+        "Palm-Leaf",
+        "Pressed-Reed"
+      ],
+      "bases": [
+        "Codex",
+        "Tome",
+        "Folio",
+        "Manuscript",
+        "Ledger",
+        "Diary",
+        "Treatise",
+        "Almanac",
+        "Compendium",
+        "Scroll",
+        "Letter",
+        "Confession",
+        "Memoir",
+        "Bestiary",
+        "Cartograph",
+        "Roster",
+        "Cipher-Book",
+        "Field-Book"
+      ],
+      "places": [
+        "the Pale Library",
+        "Valdenmere",
+        "the Quiet Scriptorium",
+        "Andelar",
+        "the Burned Archive",
+        "Halendrin",
+        "the Margins of Karn",
+        "Ithric",
+        "the Forbidden Stacks",
+        "Sera-Vinnis",
+        "the Last Reading-Room",
+        "Ostvik"
+      ],
+      "events": [
+        "Burning of the Stacks",
+        "First Translation",
+        "Quiet Edict",
+        "Long Censorship",
+        "Margin Wars",
+        "Last Compendium",
+        "Iconoclast Year",
+        "Forbidden Decade",
+        "Heresy Trials",
+        "Restoration of the Texts",
+        "Drowning of Andelar",
+        "Vellum Famine"
+      ],
+      "possessives": [
+        "Brother Anselm's",
+        "The Pale Scribe's",
+        "Sister Velka's",
+        "The Heretic's",
+        "Mistress Ond's",
+        "The Last Translator's",
+        "Lord Cendrin's",
+        "The Burned Bishop's",
+        "Old Avela's",
+        "The Marginal Annotator's",
+        "Threnna's",
+        "The Quiet Confessor's"
+      ],
+      "epic": [
+        "Brother Anselm's Annotated Bestiary",
+        "The Pale Scribe's Forbidden Folio",
+        "Codex of the Burned Archive",
+        "Sister Velka's Censored Diary",
+        "The Last Translator's Final Letter",
+        "Cipher-Book of the Margin Wars",
+        "Mistress Ond's Heretical Treatise",
+        "The Marginal Annotator's Memoir"
+      ],
+      "legendary": [
+        "The Lost Compendium of Andelar",
+        "Anselm's Final Confession",
+        "The Heretic's Unburned Codex",
+        "The Pale Scribe's Twelfth Folio",
+        "Translator's Cipher of the Last Embassy",
+        "The Quiet Edict of Halendrin",
+        "Bishop Cendrin's Forbidden Memoir"
+      ]
+    }
+  },
+  "equipment": [
+    {
+      "key": "notched_bronze_shortsword",
+      "name": "Notched Bronze Shortsword",
+      "rarity": "common",
+      "icon": "ra-sword",
+      "stats": {
+        "attack": 1,
+        "evasion": -5
+      }
+    },
+    {
+      "key": "etched_cold_iron_broadsword",
+      "name": "Etched Cold-Iron Broadsword",
+      "rarity": "uncommon",
+      "icon": "ra-sword",
+      "stats": {
+        "attack": 2,
+        "evasion": -10
+      }
+    },
+    {
+      "key": "rune_cut_black_iron_greatsword",
+      "name": "Rune-Cut Black-Iron Greatsword",
+      "rarity": "rare",
+      "icon": "ra-sword",
+      "stats": {
+        "attack": 2,
+        "evasion": -7
+      }
+    },
+    {
+      "key": "sergeant_kaels_blooded_warblade",
+      "name": "Sergeant Kael's Blooded Warblade",
+      "rarity": "epic",
+      "icon": "ra-sword",
+      "stats": {
+        "attack": 3,
+        "evasion": -10
+      }
+    },
+    {
+      "key": "the_iron_legions_last_blade",
+      "name": "The Iron Legion's Last Blade",
+      "rarity": "legendary",
+      "icon": "ra-sword",
+      "stats": {
+        "attack": 3,
+        "evasion": -7
+      }
+    },
+    {
+      "key": "battered_bronze_cuirass",
+      "name": "Battered Bronze Cuirass",
+      "rarity": "common",
+      "icon": "ra-knight-helmet",
+      "stats": {
+        "defense": 1,
+        "evasion": -5
+      }
+    },
+    {
+      "key": "polished_cold_iron_half_plate",
+      "name": "Polished Cold-Iron Half-Plate",
+      "rarity": "uncommon",
+      "icon": "ra-knight-helmet",
+      "stats": {
+        "defense": 1,
+        "evasion": -3
+      }
+    },
+    {
+      "key": "etched_steel_chestplate_of_ostvik",
+      "name": "Etched-Steel Chestplate of Ostvik",
+      "rarity": "rare",
+      "icon": "ra-knight-helmet",
+      "stats": {
+        "defense": 1,
+        "evasion": -1
+      }
+    },
+    {
+      "key": "mithril_cuirass_of_the_black_wall",
+      "name": "Mithril Cuirass of the Black Wall",
+      "rarity": "epic",
+      "icon": "ra-knight-helmet",
+      "stats": {
+        "defense": 2,
+        "evasion": -4
+      }
+    },
+    {
+      "key": "the_last_plate_of_the_iron_legion",
+      "name": "The Last Plate of the Iron Legion",
+      "rarity": "legendary",
+      "icon": "ra-knight-helmet",
+      "stats": {
+        "defense": 2,
+        "evasion": -2
+      }
+    },
+    {
+      "key": "pitted_brass_buckler",
+      "name": "Pitted Brass Buckler",
+      "rarity": "common",
+      "icon": "ra-shield",
+      "stats": {
+        "counter": 3
+      }
+    },
+    {
+      "key": "field_worn_ironbark_targe",
+      "name": "Field-Worn Ironbark Targe",
+      "rarity": "uncommon",
+      "icon": "ra-shield",
+      "stats": {
+        "counter": 4
+      }
+    },
+    {
+      "key": "cold_iron_shield_of_the_long_march",
+      "name": "Cold-Iron Shield of the Long March",
+      "rarity": "rare",
+      "icon": "ra-shield",
+      "stats": {
+        "counter": 6
+      }
+    },
+    {
+      "key": "captain_vorens_notched_gauntlet",
+      "name": "Captain Voren's Notched Gauntlet",
+      "rarity": "epic",
+      "icon": "ra-shield",
+      "stats": {
+        "counter": 7
+      }
+    },
+    {
+      "key": "vorens_unbroken_shield",
+      "name": "Voren's Unbroken Shield",
+      "rarity": "legendary",
+      "icon": "ra-shield",
+      "stats": {
+        "counter": 9
+      }
+    },
+    {
+      "key": "salt_worn_travelers_cloak",
+      "name": "Salt-Worn Traveler's Cloak",
+      "rarity": "common",
+      "icon": "ra-hood",
+      "stats": {
+        "evasion": 5
+      }
+    },
+    {
+      "key": "frostbitten_scouts_mantle",
+      "name": "Frostbitten Scout's Mantle",
+      "rarity": "uncommon",
+      "icon": "ra-hood",
+      "stats": {
+        "evasion": 7
+      }
+    },
+    {
+      "key": "silvered_cloak_pin_of_threnwatch",
+      "name": "Silvered Cloak-Pin of Threnwatch",
+      "rarity": "rare",
+      "icon": "ra-hood",
+      "stats": {
+        "evasion": 10
+      }
+    },
+    {
+      "key": "the_free_companions_shadowed_hood",
+      "name": "The Free Companion's Shadowed Hood",
+      "rarity": "epic",
+      "icon": "ra-hood",
+      "stats": {
+        "evasion": 12
+      }
+    },
+    {
+      "key": "the_black_walls_standard_cloak_pin",
+      "name": "The Black Wall's Standard Cloak-Pin",
+      "rarity": "legendary",
+      "icon": "ra-hood",
+      "stats": {
+        "evasion": 15
+      }
+    },
+    {
+      "key": "lacquered_hardwood_wand",
+      "name": "Lacquered Hardwood Wand",
+      "rarity": "common",
+      "icon": "ra-crystal-wand",
+      "stats": {
+        "focus": 2
+      }
+    },
+    {
+      "key": "bone_inlaid_scrying_rod",
+      "name": "Bone-Inlaid Scrying Rod",
+      "rarity": "uncommon",
+      "icon": "ra-crystal-wand",
+      "stats": {
+        "focus": 3
+      }
+    },
+    {
+      "key": "gilded_rod_of_the_glass_citadel",
+      "name": "Gilded Rod of the Glass Citadel",
+      "rarity": "rare",
+      "icon": "ra-crystal-wand",
+      "stats": {
+        "focus": 5
+      }
+    },
+    {
+      "key": "the_ironbrands_rune_cut_focus",
+      "name": "The Ironbrand's Rune-Cut Focus",
+      "rarity": "epic",
+      "icon": "ra-crystal-wand",
+      "stats": {
+        "focus": 6
+      }
+    },
+    {
+      "key": "staff_of_the_scarlet_truce",
+      "name": "Staff of the Scarlet Truce",
+      "rarity": "legendary",
+      "icon": "ra-crystal-wand",
+      "stats": {
+        "focus": 7
+      }
+    },
+    {
+      "key": "patinaed_field_surcoat",
+      "name": "Patinaed Field Surcoat",
+      "rarity": "common",
+      "icon": "ra-robe",
+      "stats": {
+        "recover": 1
+      }
+    },
+    {
+      "key": "honored_bronze_war_belt",
+      "name": "Honored Bronze War-Belt",
+      "rarity": "uncommon",
+      "icon": "ra-robe",
+      "stats": {
+        "recover": 2
+      }
+    },
+    {
+      "key": "storied_vestments_of_valdenmere",
+      "name": "Storied Vestments of Valdenmere",
+      "rarity": "rare",
+      "icon": "ra-robe",
+      "stats": {
+        "recover": 3
+      }
+    },
+    {
+      "key": "old_hessians_mended_tabard",
+      "name": "Old Hessian's Mended Tabard",
+      "rarity": "epic",
+      "icon": "ra-robe",
+      "stats": {
+        "recover": 4
+      }
+    },
+    {
+      "key": "the_standard_bearers_blessed_mantle",
+      "name": "The Standard-Bearer's Blessed Mantle",
+      "rarity": "legendary",
+      "icon": "ra-robe",
+      "stats": {
+        "recover": 5
+      }
+    }
+  ]
+}

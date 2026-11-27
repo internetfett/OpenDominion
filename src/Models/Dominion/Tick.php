@@ -14,6 +14,7 @@ use OpenDominion\Models\AbstractModel;
  * @property int $morale
  * @property float $spy_strength
  * @property float $wizard_strength
+ * @property float $relic_search_meter
  * @property int $resource_platinum
  * @property int $resource_food
  * @property int $resource_lumber
@@ -69,6 +70,7 @@ class Tick extends AbstractModel
         'morale' => 'integer',
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
+        'relic_search_meter' => 'float',
         'resource_platinum' => 'integer',
         'resource_food' => 'integer',
         'resource_lumber' => 'integer',
