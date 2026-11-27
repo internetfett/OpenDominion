@@ -124,6 +124,13 @@ Hero XP and perk computation. (Battle stats and damage live in the hero combat e
 - `getExperienceGain()` from invasions, exploration, spying, magic
 - `getHeroPerkMultiplier()`, `getPassiveBonus()`
 - `INACTIVE_CLASS_PENALTY` = 0.5, `CLASS_CHANGE_COOLDOWN_HOURS` = 96
+- `getAvailableLoadoutOptions()` merges `getRelicLoadoutOptions()` (held, unlisted equipment relics as gear keyed `relic_{id}`) into the gear slot
+
+### RelicCalculator
+- `getMarketPrice()` — min→max over `relics.appreciation_hours`; `getRealmPrice()` = rarity min; `getSalvageValue()` = min × `salvage_ratio`
+- `getSearchDrain()` (0 when off, under protection, inside round lock, or strength below drain), `getSearchProgress()` = intensity × rate × max(0, SPA − threshold), `getHoursUntilFind()`
+- `getRarityScore()` / `getRarityForScore()` / `getFinderRarity()` / `getPlunderRarity()`
+- `isInventoryFull()`, `isRoundLocked()`, `isOnHighAlert()` (a relic stolen from the dominion within `relics.steal.high_alert_hours`)
 
 ### RangeCalculator
 Attack range for invasions.

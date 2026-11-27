@@ -15,12 +15,13 @@ The game tick (`php artisan game:tick`) runs every hour and is the core game eng
       - Land: plain, mountain, swamp, cavern, forest, hill, water
       - Buildings: 16+ types (home, farm, smithy, tower, etc.)
       - Status: prestige, morale, spy_strength, wizard_strength, resilience
-      - Meters: fireball_meter, lightning_bolt_meter
+      - Meters: fireball_meter, lightning_bolt_meter, relic_search_meter
       - Stats: production stats, networth, highest_land_achieved
    b. Decrement spell durations by 1
    c. Decrement queue hours by 1
    d. For each dominion:
       - performSpellEffects() — special spell conversions (burning→rejuvenation, cull the weak, etc.)
+      - processRelics() — resolve a full relic Search meter, queue relic_found / relic_max_value
       - cleanupActiveSpells() — delete expired spells, queue notifications
       - cleanupQueues() — apply completed queue resources, queue notifications
       - precalculateTick() — compute next hour's dominion_tick values + save history
@@ -198,6 +199,16 @@ Techniques, abilities and gear are separate from upgrades. Access is automatic: 
 
 ### Daily PvP Experience
 Off for now (`heroes.daily_pvp_experience`). When on: once per round day, finishing a PvP hero battle with time bank remaining grants a flat 25 experience (no multipliers), win or lose.
+
+## Relics
+Items a dominion owns the moment it finds them, then keeps, sells, lists to a realmmate or equips on its hero. Code always says Relics; display names, the data file and which sources are on come from `app/config/relics.php`, so a themed round can call them "Plunder". Names and equipment live in `app/data/relics.json`: generated pools for sale-only categories (artifact, jewelry, artwork, text) and a hand-written equipment list with fixed rarity and flat stat points.
+
+- **Sources** (all locked for the first 72h, never involve bots, blocked by the 8-relic inventory cap): info ops and info spells on fresh/stale intel (1% + 0.02% per miss, progress per dominion in `relic_tracking`); Search; plunder on successful invasions at 75%+ range (theme rounds only)
+- **Search**: a setting (`settings.relics.search_intensity` 1 or 2, `search_stop_on_find`). Precalc drains that much spy strength per hour (regen is capped at 100 before the drain, so a searcher at full strength settles at 98) and adds `intensity × 2.8 × max(0, SPA − 0.25)` to `relic_search_meter`. At 100 the tick grants a relic and carries the overflow. A full inventory turns Search off
+- **Value**: climbs from the rarity's min to max over 72h from `acquired_at`. Market sale only when unbound. Realm listings sell at the rarity min, and a purchase resets the clock
+- **Binding**: equipping an equipment relic in a gear slot binds it for good: it can't be sold, listed or stolen even after unequipping, only salvaged for 25% of its min
+- **Steal Relic** (theft op, 10% spy strength, theft success/loss formulas): takes one random unbound relic. A successful theft puts the target on high alert for 12h (worked out from the stolen relic's `previous_owner_dominion_id` and `acquired_at`)
+- **Visibility**: Disclosure and the realm advisor list held relics under each hero entry (`InfoMapper::mapRelics()`)
 
 ## Realm Assignment Algorithm
 

@@ -4,6 +4,20 @@ All notable changes relevant to players in this project will be documented in th
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). This project uses its own versioning system.
 
 ## [Unreleased]
+### Added
+- New Mechanic: Relics (replaces Valuables)
+  - Relics are yours the moment you find them: sell them, list them for realmmates, or equip them on your hero
+  - Info ops and info spells have a 1% chance to find a relic (chance rises with each miss)
+  - New Search setting: spend 1% or 2% spy strength each hour to search for relics, faster with a higher spy ratio
+  - Rarity is determined by your own land size and spy ratio, with a small chance to find something rarer
+  - Market value rises from the rarity's minimum to its maximum over 72 hours
+  - Realmmates can buy your listed relics at the rarity's minimum price
+  - Equipment relics can be equipped in your hero's gear slots, but equipping binds them: bound relics can't be sold or stolen, only salvaged
+  - You can hold up to 8 relics
+  - New Spy Operation: Steal Relic, takes a random unbound relic from the target (10% spy strength). Targets are on high alert for 12 hours after a successful theft
+
+### Removed
+- Valuables, investigations and intel transfers
 
 ## [1.52.4] - 2026-11-23
 ### Added

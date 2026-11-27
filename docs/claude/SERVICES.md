@@ -30,6 +30,7 @@ Every game action has a dedicated service class. All follow the same pattern:
 | `WonderActionService` | Wonder attacks | Units available, wonder exists |
 | `DailyBonusesActionService` | Claim daily bonus | Not already claimed today |
 | `RaidActionService` | Raid participation | Active raid, valid tactic |
+| `RelicActionService` | Sell, salvage, list, unlist, buy relics; Search settings | Owner holds it; sell/list only unbound; salvage only bound and unequipped; purchase from realmmate listing, free inventory slot, round lock |
 
 ### InvadeActionService (most complex)
 
@@ -116,6 +117,13 @@ Entry points for hero combat; the rules live in `src/HeroCombat` (see [HERO_COMB
 - `HeroBattleOutcomeService::finalize()` - per-team W/L/D, Elo vs opposing team average, tournament standings, daily flat PvP experience (off by config), raid contributions (one per controlling dominion)
 - Time bank 2h (`CombatantFactory::DEFAULT_TIME_BANK`), default strategy 'balanced'
 - Processed during hourly tick
+
+### RelicService
+The one path that creates relics and moves them between owners.
+- `grant()` — every find goes through it: human dominion, past `relics.round_lock_hours`, free inventory slot; rolls category, equipment item or generated name, and rarity (finder's land + offensive SPA, 5 bands, `rollUpgrade()` chance)
+- `attemptInfoOpFind()` (info ops and info spells on fresh/stale intel), `attemptPlunder()` (successful invasions at 75%+ range when `relics.sources.attacks` is on), `completeSearch()` (tick, meter at 100)
+- `transfer()` — purchase and theft: unbinds, unlists, resets `acquired_at`, sets `previous_owner_dominion_id`
+- `stopSearchIfFull()` — turns Search off once the inventory is full
 
 ### InfoOpService
 Manages espionage/magic intelligence results.

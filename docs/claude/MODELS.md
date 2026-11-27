@@ -109,6 +109,15 @@ Round-wide perks configured by admins (no perk-type table; `key` is a plain stri
 - **Key methods**: `isStale()` (older than current hour), `isInvalid()` (older than 12h)
 - **Dispatches**: InfoOpCreatingEvent (marks previous ops as non-latest)
 
+### Relic (`relics`)
+- An item a dominion found, bought or stole (see Relics in GAME_SYSTEMS.md). Rows stay after a market sale or salvage as history (`sold_at`, `sold_price`); `held()` scopes to `sold_at` null
+- `category` (equipment, artifact, jewelry, artwork, text), `rarity`, `name`, `item_key` (equipment only: key into the data file for stats), `source` (info_op, search, plunder, stolen, purchased, legacy), `acquired_at` (appreciation clock), `is_bound`, `is_listed`, `previous_owner_dominion_id`
+- Derived, not stored: equipped (`loadoutKey()` = `relic_{id}` is in `hero.loadout.gear`), salvaged (`wasSalvaged()`: sold while bound), stealable (`stealable()`: held and unbound)
+- **Relations**: `owner` (Dominion via `dominion_id`), `previousOwner`, `round`; `Dominion::relics()`. Has `RelicFactory` (`ownedBy()`, `equipment()`, `bound()`, `listed()`, `sold()`)
+
+### RelicTracking (`relic_tracking`)
+- One row per dominion: `progress` toward the next info-op relic find
+
 ## Hero & Combat Models
 
 ### Hero (`heroes`)
